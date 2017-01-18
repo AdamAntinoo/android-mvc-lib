@@ -57,6 +57,11 @@ public class RootPart extends AbstractPart {
 		return targets;
 	}
 
+	@Override
+	public IPart setRenderMode(final String renderMode) {
+		return this.setRenderMode(renderMode.hashCode());
+	}
+
 	public RootPart setSorting(final Comparator<? super IPart> sortComparator) {
 		if (null != sortComparator) {
 			partComparator = sortComparator;

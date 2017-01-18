@@ -53,6 +53,8 @@ public interface IPart extends PropertyChangeListener {
 	public void setParent(final IPart parent);
 
 	public IPart setRenderMode(final int renderMode);
+
+	public IPart setRenderMode(final String renderMode);
 }
 
 // - UNUSED CODE ............................................................................................

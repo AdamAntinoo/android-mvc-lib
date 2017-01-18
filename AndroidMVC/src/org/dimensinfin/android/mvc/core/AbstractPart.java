@@ -246,6 +246,12 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		// Get the list of model elements that collaborate to the Part model. This is the complex-simple model transformation.
 		INeoComNode partModel = (INeoComNode) this.getModel();
 		AbstractPart.logger.info("-- [AbstractEditPart.refreshChildren]> partModel: " + partModel);
+		// TODO There are cases where the partModel is null. Try to detect and stop that cases.
+		if (null == partModel) {
+			AbstractPart.logger
+					.info("-- [AbstractPart.refreshChildren]> Exception case: partModel is NULL: " + this.toString());
+			return;
+		}
 		ArrayList<AbstractComplexNode> modelObjects = partModel.collaborate2Model(this.getPartFactory().getVariant());
 		AbstractPart.logger.info("-- [AbstractEditPart.refreshChildren]> modelObjects: " + modelObjects);
 
@@ -330,8 +336,11 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 
 	public IPart setRenderMode(final int renderMode) {
 		this.renderMode = renderMode;
-		//		this.needsRedraw();
 		return this;
+	}
+
+	public IPart setRenderMode(final String renderMode) {
+		return this.setRenderMode(renderMode.hashCode());
 	}
 
 	public boolean toggleExpanded() {
