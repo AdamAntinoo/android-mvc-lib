@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import org.dimensinfin.android.model.Separator.ESeparatorType;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.part.SeparatorPart;
 
 import android.app.Activity;
@@ -23,7 +23,7 @@ import android.view.View;
 import android.widget.TextView;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class SeparatorRender extends AbstractHolder {
+public class SeparatorRender extends AbstractRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger	logger	= Logger.getLogger("SeparatorHolder");
 

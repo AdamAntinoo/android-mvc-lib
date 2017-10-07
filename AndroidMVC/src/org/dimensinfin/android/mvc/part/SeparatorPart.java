@@ -18,6 +18,7 @@ import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.render.SeparatorRender;
@@ -127,6 +128,11 @@ public class SeparatorPart extends AbstractAndroidPart {
 
 	@Override
 	protected AbstractHolder selectHolder() {
+		return this.selectRenderer();
+	}
+
+	@Override
+	protected AbstractRender selectRenderer() {
 		return new SeparatorRender(this, _activity);
 	}
 

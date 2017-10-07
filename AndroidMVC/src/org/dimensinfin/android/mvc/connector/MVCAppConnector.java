@@ -7,11 +7,11 @@
 //									the extended GEF model into the Android View to be used on ListViews.
 package org.dimensinfin.android.mvc.connector;
 
+import org.dimensinfin.android.connector.GenericAppConnector;
+
 // - CLASS IMPLEMENTATION ...................................................................................
-public class MVCAppConnector
-		/* extends GenericAppConnector */ implements IMVCAppConnector/* , IAndroidAppConnector */ {
+public class MVCAppConnector extends GenericAppConnector implements IMVCAppConnector {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	//	private static Logger						logger	= Logger.getLogger("MVCAppConnector");
 	private static MVCAppConnector _singleton = null;
 
 	public static MVCAppConnector getSingleton() {
@@ -25,11 +25,21 @@ public class MVCAppConnector
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public MVCAppConnector(final IMVCAppConnector application) {
+		super(application);
 		_connector = application;
 		MVCAppConnector._singleton = this;
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	//	@Override
+	//	public Context getApplicationContext() {
+	//		if (null == _connector)
+	//			throw new RuntimeException(
+	//					"RTEX [MVCAppConnector.getApplicationContext]> Application connection not defined. Functionality 'getApplicationContext' disabled.");
+	//		else
+	//			return _connector.getApplicationContext();
+	//	}
+
 	@Override
 	public Class<?> getFirstActivity() {
 		if (null == _connector)
@@ -38,6 +48,24 @@ public class MVCAppConnector
 		else
 			return _connector.getFirstActivity();
 	}
+	//
+	//	@Override
+	//	public Resources getResources() {
+	//		if (null == _connector)
+	//			throw new RuntimeException(
+	//					"RTEX [MVCAppConnector.getResources]> Application connection not defined. Functionality 'getResources' disabled.");
+	//		else
+	//			return _connector.getResources();
+	//	}
+	//
+	//	@Override
+	//	public Object getSystemService(final String name) {
+	//		if (null == _connector)
+	//			throw new RuntimeException(
+	//					"RTEX [MVCAppConnector.getSystemService]> Application connection not defined. Functionality 'getSystemService' disabled.");
+	//		else
+	//			return _connector.getSystemService(name);
+	//	}
 }
 
 // - UNUSED CODE ............................................................................................

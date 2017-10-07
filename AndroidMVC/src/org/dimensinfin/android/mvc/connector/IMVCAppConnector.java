@@ -7,8 +7,10 @@
 //									the extended GEF model into the Android View to be used on ListViews.
 package org.dimensinfin.android.mvc.connector;
 
+import org.dimensinfin.android.connector.IGenericAppConnector;
+
 // - CLASS IMPLEMENTATION ...................................................................................
-public interface IMVCAppConnector {
+public interface IMVCAppConnector extends IGenericAppConnector {
 	public Class<?> getFirstActivity();
 }
 
