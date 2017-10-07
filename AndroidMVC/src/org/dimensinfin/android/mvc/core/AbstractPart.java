@@ -14,9 +14,10 @@ import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.mvc.datasource.AbstractDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
-import org.dimensinfin.core.interfaces.INeoComNode;
+import org.dimensinfin.core.interfaces.IViewableNode;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.dimensinfin.core.model.RootNode;
@@ -244,7 +245,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		}
 
 		// Get the list of model elements that collaborate to the Part model. This is the complex-simple model transformation.
-		INeoComNode partModel = (INeoComNode) this.getModel();
+		IViewableNode partModel = (IViewableNode) this.getModel();
 		AbstractPart.logger.info("-- [AbstractEditPart.refreshChildren]> partModel: " + partModel);
 		// TODO There are cases where the partModel is null. Try to detect and stop that cases.
 		if (null == partModel) {

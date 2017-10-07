@@ -2,13 +2,14 @@
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
 //	COPYRIGHT:      (c) 2013-2014 by Dimensinfin Industries, all rights reserved.
 
-package org.dimensinfin.android.mvc.core;
+package org.dimensinfin.android.mvc.datasource;
 
 // - IMPORT SECTION .........................................................................................
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
