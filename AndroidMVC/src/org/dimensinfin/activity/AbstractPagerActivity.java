@@ -6,12 +6,15 @@
 //									for characters and corporations at Eve Online. The set is composed of some projects
 //									with implementation for Android and for an AngularJS web interface based on REST
 //									services on Sprint Boot Cloud.
-package org.dimensinfin.android.mvc.core;
+package org.dimensinfin.activity;
 
 import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.connector.MVCAppConnector;
+import org.dimensinfin.android.mvc.core.AbstractObsoletePagerFragment;
+import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.core.EvePagerAdapter;
 import org.dimensinfin.android.mvc.enumerated.EExtrasMVC;
 
 import com.viewpagerindicator.CirclePageIndicator;
@@ -45,7 +48,7 @@ public abstract class AbstractPagerActivity extends Activity {
 	protected ActionBar					_actionBar			= null;
 	private ViewPager						_pageContainer	= null;
 	private EvePagerAdapter			_pageAdapter		= null;
-	private final ImageView			_back						= null;
+	private ImageView						_back						= null;
 	private CirclePageIndicator	_indicator			= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
@@ -155,7 +158,7 @@ public abstract class AbstractPagerActivity extends Activity {
 
 			// Locate the elements of the page and store in global data.
 			_pageContainer = (ViewPager) this.findViewById(R.id.pager);
-			//			_back = (ImageView) this.findViewById(R.id.backgroundFrame);
+			_back = (ImageView) this.findViewById(R.id.backgroundFrame);
 			_indicator = (CirclePageIndicator) this.findViewById(R.id.indicator);
 			// Check page structure.
 			if (null == _pageContainer) {

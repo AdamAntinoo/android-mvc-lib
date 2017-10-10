@@ -32,7 +32,7 @@ import org.dimensinfin.core.model.RootNode;
  * 
  * @author Adam Antinoo
  */
-public abstract class SpecialDataSource extends AbstractDataSource implements IExtendedDataSource {
+public class SpecialDataSource extends AbstractDataSource implements IExtendedDataSource {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long							serialVersionUID	= -9083587546700227219L;
 	public static Logger									logger						= Logger.getLogger("SpecialDataSource");
