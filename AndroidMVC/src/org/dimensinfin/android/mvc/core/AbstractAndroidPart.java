@@ -95,7 +95,9 @@ public abstract class AbstractAndroidPart extends AbstractPart {
 	}
 
 	public void invalidate() {
-		if (null != _view) this.needsRedraw();
+		if (null != _view) {
+			this.needsRedraw();
+		}
 	}
 
 	public void needsRedraw() {
@@ -105,12 +107,15 @@ public abstract class AbstractAndroidPart extends AbstractPart {
 	public void setView(final View convertView) {
 		_view = convertView;
 	}
+
 	//	protected void removeChildVisual(final IEditPart child) {
 	//		this.invalidate();
 	//		_view = null;
 	//	}
-
+	@Deprecated
 	protected abstract AbstractHolder selectHolder();
+
+	protected abstract AbstractRender selectRenderer();
 }
 
 // - UNUSED CODE ............................................................................................
