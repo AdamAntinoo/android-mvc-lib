@@ -43,10 +43,6 @@ public class SeparatorPart extends AbstractAndroidPart {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public String get_counter() {
-		return SeparatorPart.qtyFormatter.format(this.getCastedModel().getContents().size());
-	}
-
 	public Separator getCastedModel() {
 		return (Separator) this.getModel();
 	}
@@ -66,6 +62,10 @@ public class SeparatorPart extends AbstractAndroidPart {
 
 	public String getTitle() {
 		return this.getCastedModel().getTitle();
+	}
+
+	public String getTransformedCounter() {
+		return SeparatorPart.qtyFormatter.format(this.getCastedModel().getContents().size());
 	}
 
 	/**
@@ -118,9 +118,10 @@ public class SeparatorPart extends AbstractAndroidPart {
 
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer("GroupPart [");
+		StringBuffer buffer = new StringBuffer("SeparatorPart [");
 		buffer.append(this.getTitle()).append(" ");
-		buffer.append(priority).append(" ");
+		buffer.append("pri: ").append(priority).append(" ");
+		buffer.append("type: ").append(this.getCastedModel().getType().name()).append(" ");
 		buffer.append("chCount: ").append(this.getChildren().size()).append(" ");
 		buffer.append("]");
 		return buffer.toString();

@@ -38,14 +38,15 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private Vector<IPart>				children		= new Vector<IPart>();
+	private Vector<IPart>				children					= new Vector<IPart>();
 	private AbstractComplexNode	model;
 	private IPart								parent;
 	/** Stores the user activation state. Usually becomes true when the users is interacting with the part. */
-	private boolean							active			= true;
-	private IPartFactory				_factory		= null;
-	private AbstractDataSource	_dataSource	= null;
-	protected int								renderMode	= 1000;
+	private boolean							active						= true;
+	private IPartFactory				_factory					= null;
+	private AbstractDataSource	_dataSource				= null;
+	protected int								renderMode				= 1000;
+	protected boolean						newImplementation	= false;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	//	public AbstractPart() {
@@ -131,7 +132,9 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 			// --- End of policies
 			for (IPart part : ch) {
 				if (part.isVisible()) if (part.isRenderWhenEmpty()) {
-					result.add(part);
+					if (!part.isNewImplemented()) {
+						result.add(part);
+					}
 				}
 				ArrayList<IPart> collaboration = part.collaborate2View();
 				result.addAll(collaboration);
@@ -182,6 +185,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 			return _factory;
 	}
 
+	@Deprecated
 	public int getRenderMode() {
 		return renderMode;
 	}
@@ -201,6 +205,10 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 
 	public boolean isExpanded() {
 		return model.isExpanded();
+	}
+
+	public boolean isNewImplemented() {
+		return newImplementation;
 	}
 
 	public boolean isRenderWhenEmpty() {

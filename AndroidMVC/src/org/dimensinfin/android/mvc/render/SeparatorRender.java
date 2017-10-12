@@ -8,10 +8,6 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.android.mvc.render;
 
-// - IMPORT SECTION .........................................................................................
-import java.util.logging.Logger;
-
-import org.dimensinfin.android.model.Separator.ESeparatorType;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
@@ -25,11 +21,10 @@ import android.widget.TextView;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class SeparatorRender extends AbstractRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger	logger	= Logger.getLogger("SeparatorHolder");
+	//	private static Logger	logger	= Logger.getLogger("SeparatorHolder");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private TextView			title		= null;
-	//	private TextView			content	= null;
+	private TextView title = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public SeparatorRender(final AbstractAndroidPart target, final Activity context) {
@@ -45,29 +40,67 @@ public class SeparatorRender extends AbstractRender {
 	@Override
 	public void initializeViews() {
 		title = (TextView) _convertView.findViewById(R.id.title);
-		//	content = (TextView) _convertView.findViewById(R.id.content);
 	}
 
 	@Override
 	public void updateContent() {
+		super.updateContent();
 		String tt = this.getPart().getTitle();
 		if (null != tt) {
 			title.setText(tt);
 			title.setVisibility(View.VISIBLE);
 		}
+		switch (this.getPart().getCastedModel().getType()) {
+			case LINE_RED:
+				title.setVisibility(View.GONE);
+				break;
+			case LINE_ORANGE:
+				title.setVisibility(View.GONE);
+				break;
+			case LINE_GREEN:
+				title.setVisibility(View.GONE);
+				break;
+			case EMPTY_SIGNAL:
+				// Set the predefined text.
+				title.setText("-EMPTY CONTENTS-");
+				title.setVisibility(View.VISIBLE);
+				break;
+		}
+		_convertView.invalidate();
 	}
 
 	@Override
 	protected void createView() {
 		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
 				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		// Separator can be rendered in many ways. Set the default and then calculate the right one depending on the Model type.
 		int renderer = R.layout.separatororangeline;
 		// Select the rendering depending on the Separator type.
-		if (this.getPart().getCastedModel().getType() == ESeparatorType.LINE_ORANGE) {
-			renderer = R.layout.separatororangeline;
-		}
-		if (this.getPart().getCastedModel().getType() == ESeparatorType.LINE_GREEN) {
-			renderer = R.layout.separatorgreenline;
+		switch (this.getPart().getCastedModel().getType()) {
+			case LINE_RED:
+				renderer = R.layout.separatorredline;
+				// Collapse the expansion.
+				this.getPart().getCastedModel().setExpanded(false);
+				break;
+			case LINE_ORANGE:
+				renderer = R.layout.separatororangeline;
+				// Collapse the expansion.
+				this.getPart().getCastedModel().setExpanded(false);
+				break;
+
+			case LINE_GREEN:
+				renderer = R.layout.separatorgreenline;
+				// Collapse the expansion.
+				this.getPart().getCastedModel().setExpanded(false);
+				break;
+			case EMPTY_SIGNAL:
+				renderer = R.layout.separatorredline;
+				// Collapse the expansion.
+				this.getPart().getCastedModel().setExpanded(false);
+				break;
+
+			default:
+				break;
 		}
 		_convertView = mInflater.inflate(renderer, null);
 		_convertView.setTag(this);

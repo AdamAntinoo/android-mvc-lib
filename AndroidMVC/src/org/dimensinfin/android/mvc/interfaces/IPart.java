@@ -38,6 +38,8 @@ public interface IPart extends PropertyChangeListener {
 
 	public boolean isExpanded();
 
+	public boolean isNewImplemented();
+
 	public boolean isRenderWhenEmpty();
 
 	public boolean isVisible();
