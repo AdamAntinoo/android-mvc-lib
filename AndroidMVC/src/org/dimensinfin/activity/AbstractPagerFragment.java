@@ -1,12 +1,11 @@
-//	PROJECT:        NeoCom.Android (NEOC.A)
+//	PROJECT:        NeoCom.MVC (NEOC.MVC)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
 //	COPYRIGHT:      (c) 2013-2016 by Dimensinfin Industries, all rights reserved.
 //	ENVIRONMENT:		Android API16.
-//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. The set is composed of some projects
-//									with implementation for Android and for an AngularJS web interface based on REST
-//									services on Sprint Boot Cloud.
-package org.dimensinfin.android.mvc.core;
+//	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
+//									on Android projects. Defines the Part factory and the Part core methods to manage
+//									the extended GEF model into the Android View to be used on ListViews.
+package org.dimensinfin.activity;
 
 // - IMPORT SECTION .........................................................................................
 import java.beans.PropertyChangeEvent;
@@ -16,11 +15,12 @@ import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.connector.MVCAppConnector;
+import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.interfaces.IExtendedDataSource;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
-import org.dimensinfin.android.mvc.interfaces.ITitledFragment;
 import org.dimensinfin.core.model.CEventModel.ECoreModelEvents;
 
 import android.app.Fragment;
@@ -41,7 +41,7 @@ import android.widget.Toast;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 // REFACTOR Used this dependency just to maintain more code compatible with the new model.
-public abstract class AbstractPagerFragment extends Fragment implements ITitledFragment {
+public abstract class AbstractPagerFragment extends Fragment {
 	//- CLASS IMPLEMENTATION ...................................................................................
 	protected class CreatePartsTask extends AsyncTask<AbstractPagerFragment, Void, Void> {
 

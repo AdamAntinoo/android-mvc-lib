@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.connector.MVCAppConnector;
 import org.dimensinfin.android.mvc.core.AbstractObsoletePagerFragment;
-import org.dimensinfin.android.mvc.core.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.EvePagerAdapter;
 import org.dimensinfin.android.mvc.enumerated.EExtrasMVC;
 
