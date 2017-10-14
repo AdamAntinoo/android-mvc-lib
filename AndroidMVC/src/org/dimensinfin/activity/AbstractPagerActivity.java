@@ -12,8 +12,6 @@ import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.connector.MVCAppConnector;
-import org.dimensinfin.android.mvc.core.AbstractObsoletePagerFragment;
-import org.dimensinfin.android.mvc.core.EvePagerAdapter;
 import org.dimensinfin.android.mvc.enumerated.EExtrasMVC;
 
 import com.viewpagerindicator.CirclePageIndicator;
@@ -41,14 +39,14 @@ import android.widget.ImageView;
  */
 public abstract class AbstractPagerActivity extends Activity {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	protected static Logger			logger					= Logger.getLogger("AbstractPagerActivity");
+	protected static Logger								logger					= Logger.getLogger("AbstractPagerActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	protected ActionBar					_actionBar			= null;
-	private ViewPager						_pageContainer	= null;
-	private EvePagerAdapter			_pageAdapter		= null;
-	private ImageView						_back						= null;
-	private CirclePageIndicator	_indicator			= null;
+	protected ActionBar										_actionBar			= null;
+	private ViewPager											_pageContainer	= null;
+	private AbstractFragmentPagerAdapter	_pageAdapter		= null;
+	private ImageView											_back						= null;
+	private CirclePageIndicator						_indicator			= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
@@ -102,22 +100,22 @@ public abstract class AbstractPagerActivity extends Activity {
 		}
 	}
 
-	protected void addPage(final AbstractObsoletePagerFragment newFrag, final int position) {
-		Log.i("NEOCOM", ">> AbstractPagerActivity.addPage"); //$NON-NLS-1$
-		final Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(position));
-		if (null == frag) {
-			_pageAdapter.addPage(newFrag);
-		} else {
-			_pageAdapter.addPage(frag);
-		}
-		// Check the number of pages to activate the indicator when more the
-		// one.
-		if (_pageAdapter.getCount() > 1) {
-			this.activateIndicator();
-		}
-		Log.i("NEOCOM", "<< AbstractPagerActivity.addPage"); //$NON-NLS-1$
-	}
-
+	//	protected void addPage(final AbstractObsoletePagerFragment newFrag, final int position) {
+	//		Log.i("NEOCOM", ">> AbstractPagerActivity.addPage"); //$NON-NLS-1$
+	//		final Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(position));
+	//		if (null == frag) {
+	//			_pageAdapter.addPage(newFrag);
+	//		} else {
+	//			_pageAdapter.addPage(frag);
+	//		}
+	//		// Check the number of pages to activate the indicator when more the
+	//		// one.
+	//		if (_pageAdapter.getCount() > 1) {
+	//			this.activateIndicator();
+	//		}
+	//		Log.i("NEOCOM", "<< AbstractPagerActivity.addPage"); //$NON-NLS-1$
+	//	}
+	//
 	protected void addPage(final AbstractPagerFragment newFrag, final int position) {
 		Log.i("NEOCOM", ">> AbstractPagerActivity.addPage"); //$NON-NLS-1$
 		final Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(position));
@@ -140,7 +138,7 @@ public abstract class AbstractPagerActivity extends Activity {
 		}
 	}
 
-	protected EvePagerAdapter getPageAdapter() {
+	protected AbstractFragmentPagerAdapter getPageAdapter() {
 		return _pageAdapter;
 	}
 
@@ -168,7 +166,7 @@ public abstract class AbstractPagerActivity extends Activity {
 			}
 
 			// Add the adapter for the page switching.
-			_pageAdapter = new EvePagerAdapter(this.getFragmentManager(), _pageContainer.getId());
+			_pageAdapter = new AbstractFragmentPagerAdapter(this.getFragmentManager(), _pageContainer.getId());
 			_pageContainer.setAdapter(_pageAdapter);
 			this.disableIndicator();
 		} catch (final Exception rtex) {
@@ -194,10 +192,7 @@ public abstract class AbstractPagerActivity extends Activity {
 
 	protected void updateInitialTitle() {
 		Fragment firstFragment = this.getPageAdapter().getInitialPage();
-		if (firstFragment instanceof AbstractObsoletePagerFragment) {
-			_actionBar.setTitle(((AbstractObsoletePagerFragment) firstFragment).getTitle());
-			_actionBar.setSubtitle(((AbstractObsoletePagerFragment) firstFragment).getSubtitle());
-		}
+		// REFACTOR This IF can be removed once this code works.
 		if (firstFragment instanceof AbstractPagerFragment) {
 			_actionBar.setTitle(((AbstractPagerFragment) firstFragment).getTitle());
 			_actionBar.setSubtitle(((AbstractPagerFragment) firstFragment).getSubtitle());

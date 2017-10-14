@@ -1,11 +1,10 @@
-//	PROJECT:        NeoCom.Android (NEOC.A)
+//	PROJECT:        NeoCom.MVC (NEOC.MVC)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
 //	COPYRIGHT:      (c) 2013-2016 by Dimensinfin Industries, all rights reserved.
 //	ENVIRONMENT:		Android API16.
-//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. The set is composed of some projects
-//									with implementation for Android and for an AngularJS web interface based on REST
-//									services on Sprint Boot Cloud.
+//	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
+//									on Android projects. Defines the Part factory and the Part core methods to manage
+//									the extended GEF model into the Android View to be used on ListViews.
 package org.dimensinfin.android.mvc.datasource;
 
 //- IMPORT SECTION .........................................................................................
@@ -19,7 +18,7 @@ import org.dimensinfin.android.interfaces.IModelGenerator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.RootPart;
-import org.dimensinfin.android.mvc.interfaces.IExtendedDataSource;
+import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.RootNode;
@@ -32,7 +31,7 @@ import org.dimensinfin.core.model.RootNode;
  * 
  * @author Adam Antinoo
  */
-public class SpecialDataSource extends AbstractDataSource implements IExtendedDataSource {
+public class SpecialDataSource extends AbstractDataSource implements IDataSource {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long							serialVersionUID	= -9083587546700227219L;
 	public static Logger									logger						= Logger.getLogger("SpecialDataSource");
@@ -55,7 +54,7 @@ public class SpecialDataSource extends AbstractDataSource implements IExtendedDa
 	protected ArrayList<IPart>						_bodyParts				= new ArrayList<IPart>();
 	/** The list of Parts to show on the header. */
 	protected ArrayList<IPart>						_headParts				= new ArrayList<IPart>();
-	private DataSourceManager							_dsManager;
+	//	private DataSourceManager							_dsManager;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public SpecialDataSource(final DataSourceLocator locator, final IPartFactory factory) {
@@ -101,10 +100,10 @@ public class SpecialDataSource extends AbstractDataSource implements IExtendedDa
 		return _dataModelRoot;
 	}
 
-	@Deprecated
-	public void connect(final DataSourceManager dataSourceManager) {
-		_dsManager = dataSourceManager;
-	}
+	//	@Deprecated
+	//	public void connect(final DataSourceManager dataSourceManager) {
+	//		_dsManager = dataSourceManager;
+	//	}
 
 	/**
 	 * After the model is created we have to transform it into the Part list expected by the DataSourceAdapter.
@@ -217,16 +216,18 @@ public class SpecialDataSource extends AbstractDataSource implements IExtendedDa
 	@Override
 	public void propertyChange(final PropertyChangeEvent event) {
 		// The expand/collapse state has changed.
-		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE)) {
+		if (SystemWideConstants.events
+				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE) {
 			_bodyParts = new ArrayList<IPart>();
 			_bodyParts.addAll(_partModelRoot.collaborate2View());
-			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
+			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 					event.getNewValue());
 			return;
 		}
 		// TODO Check if we should get this event and fire it again.
-		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES)) {
-			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES, event.getOldValue(),
+		if (SystemWideConstants.events
+				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES) {
+			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 					event.getNewValue());
 			return;
 		}

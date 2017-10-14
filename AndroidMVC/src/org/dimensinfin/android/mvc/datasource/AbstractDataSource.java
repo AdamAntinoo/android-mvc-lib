@@ -1,7 +1,10 @@
-//	PROJECT:        AndroidMVC
+//	PROJECT:        NeoCom.MVC (NEOC.MVC)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2014 by Dimensinfin Industries, all rights reserved.
-
+//	COPYRIGHT:      (c) 2013-2016 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:		Android API16.
+//	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
+//									on Android projects. Defines the Part factory and the Part core methods to manage
+//									the extended GEF model into the Android View to be used on ListViews.
 package org.dimensinfin.android.mvc.datasource;
 
 // - IMPORT SECTION .........................................................................................
@@ -45,8 +48,11 @@ public abstract class AbstractDataSource extends AbstractPropertyChanger impleme
 		for (AbstractAndroidPart part : _root) {
 			result.add(part);
 			// Check if the node is expanded. Then add its children.
-			if (part.isExpanded()) for (IPart child : part.collaborate2View())
-				result.add((AbstractAndroidPart) child);
+			if (part.isExpanded()) {
+				for (IPart child : part.collaborate2View()) {
+					result.add((AbstractAndroidPart) child);
+				}
+			}
 		}
 		_adapterData = result;
 		return result;
@@ -63,14 +69,18 @@ public abstract class AbstractDataSource extends AbstractPropertyChanger impleme
 	}
 
 	public void setArguments(final Bundle arguments) {
-		if (null != arguments) _arguments = arguments;
+		if (null != arguments) {
+			_arguments = arguments;
+		}
 	}
 
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer("AbstractDataSource [");
 		buffer.append("Parts:").append(_root.size()).append(" ");
-		if (null != _adapterData) buffer.append("Elements:").append(_adapterData.size()).append(" ");
+		if (null != _adapterData) {
+			buffer.append("Elements:").append(_adapterData.size()).append(" ");
+		}
 		buffer.append("]");
 		return buffer.toString();
 	}

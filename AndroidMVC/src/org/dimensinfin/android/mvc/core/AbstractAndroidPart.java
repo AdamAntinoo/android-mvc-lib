@@ -53,18 +53,18 @@ public abstract class AbstractAndroidPart extends AbstractPart {
 			throw new RuntimeException("Fragment object not available on access on a Part.");
 	}
 
-	@Deprecated
-	public AbstractHolder getHolder(final Activity activity) {
-		_activity = activity;
-		return this.selectHolder();
-	}
-
-	@Deprecated
-	public AbstractHolder getHolder(final Fragment fragment) {
-		_fragment = fragment;
-		_activity = fragment.getActivity();
-		return this.selectHolder();
-	}
+	//	@Deprecated
+	//	public AbstractHolder getHolder(final Activity activity) {
+	//		_activity = activity;
+	//		return this.selectHolder();
+	//	}
+	//
+	//	@Deprecated
+	//	public AbstractHolder getHolder(final Fragment fragment) {
+	//		_fragment = fragment;
+	//		_activity = fragment.getActivity();
+	//		return this.selectHolder();
+	//	}
 
 	/**
 	 * Returns a numeric identifier for this part model item that should be unique from all other system wide
@@ -81,13 +81,15 @@ public abstract class AbstractAndroidPart extends AbstractPart {
 	 * @param activity
 	 * @return
 	 */
-	@Deprecated
 	public AbstractHolder getRenderer(final Activity activity) {
-		return this.getHolder(activity);
+		_activity = activity;
+		return this.selectRenderer();
 	}
 
 	public AbstractHolder getRenderer(final Fragment fragment) {
-		return this.getHolder(fragment);
+		_fragment = fragment;
+		_activity = fragment.getActivity();
+		return this.selectRenderer();
 	}
 
 	public View getView() {
@@ -112,8 +114,8 @@ public abstract class AbstractAndroidPart extends AbstractPart {
 	//		this.invalidate();
 	//		_view = null;
 	//	}
-	@Deprecated
-	protected abstract AbstractHolder selectHolder();
+	//	@Deprecated
+	//	protected abstract AbstractHolder selectHolder();
 
 	protected abstract AbstractRender selectRenderer();
 }

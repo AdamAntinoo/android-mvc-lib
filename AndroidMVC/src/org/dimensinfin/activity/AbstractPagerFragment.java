@@ -18,7 +18,7 @@ import org.dimensinfin.android.mvc.connector.MVCAppConnector;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
-import org.dimensinfin.android.mvc.interfaces.IExtendedDataSource;
+import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.model.CEventModel.ECoreModelEvents;
@@ -170,7 +170,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	private String															_title						= "<TITLE>";
 	private String															_subtitle					= "";
 	private IPartFactory												_factory					= null;
-	protected IExtendedDataSource								_datasource				= null;
+	protected IDataSource								_datasource				= null;
 	protected DataSourceAdapter									_adapter					= null;
 	// REFACTOR Set back to private after the PagerFragment is removed
 	protected final Vector<AbstractAndroidPart>	_headerContents		= new Vector<AbstractAndroidPart>();
@@ -371,7 +371,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 		}
 	}
 
-	public void setDataSource(final IExtendedDataSource dataSource) {
+	public void setDataSource(final IDataSource dataSource) {
 		if (null != dataSource) {
 			_datasource = dataSource;
 		}
@@ -425,7 +425,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 			return false;
 	}
 
-	protected IExtendedDataSource getDataSource() {
+	protected IDataSource getDataSource() {
 		return _datasource;
 	}
 
@@ -454,7 +454,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	private void addViewtoHeader(final AbstractAndroidPart target) {
 		Log.i("NEOCOM", ">> AbstractPagerFragment.addViewtoHeader");
 		try {
-			final AbstractHolder holder = target.getHolder(this);
+			final AbstractHolder holder = target.getRenderer(this);
 			holder.initializeViews();
 			holder.updateContent();
 			final View hv = holder.getView();

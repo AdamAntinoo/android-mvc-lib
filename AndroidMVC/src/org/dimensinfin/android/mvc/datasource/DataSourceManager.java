@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import org.dimensinfin.android.datasource.DataSourceLocator;
-import org.dimensinfin.android.mvc.interfaces.IExtendedDataSource;
+import org.dimensinfin.android.mvc.interfaces.IDataSource;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 /**
@@ -26,7 +26,7 @@ import org.dimensinfin.android.mvc.interfaces.IExtendedDataSource;
 public class DataSourceManager /* implements IDataSourceConnector */ {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger																			logger			= Logger.getLogger("DataSourceManager");
-	private static final HashMap<String, IExtendedDataSource>	dataSources	= new HashMap<String, IExtendedDataSource>();
+	private static final HashMap<String, IDataSource>	dataSources	= new HashMap<String, IDataSource>();
 
 	/**
 	 * Registers this new DataSource on the Manager or returns the source located already on the cache if they
@@ -36,10 +36,10 @@ public class DataSourceManager /* implements IDataSourceConnector */ {
 	 *          - new DataSource to add to the Manager
 	 * @return the oldest DataSource with the same identifier.
 	 */
-	public static IExtendedDataSource registerDataSource(final IExtendedDataSource newSource) {
+	public static IDataSource registerDataSource(final IDataSource newSource) {
 		DataSourceLocator locator = newSource.getDataSourceLocator();
 		// Search for locator on cache.
-		IExtendedDataSource found = DataSourceManager.dataSources.get(locator.getIdentity());
+		IDataSource found = DataSourceManager.dataSources.get(locator.getIdentity());
 		// REFACTOR Do not return cached datasources.
 		found = null;
 		if (null == found) {

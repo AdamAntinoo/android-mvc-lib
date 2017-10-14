@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc.core;
+package org.dimensinfin.activity;
 
 import java.util.Vector;
 
@@ -9,7 +9,7 @@ import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class EvePagerAdapter extends FragmentPagerAdapter {
+public class AbstractFragmentPagerAdapter extends FragmentPagerAdapter {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -17,11 +17,11 @@ public class EvePagerAdapter extends FragmentPagerAdapter {
 	private int											_pagerid		= R.id.pager;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public EvePagerAdapter(final FragmentManager fm) {
+	public AbstractFragmentPagerAdapter(final FragmentManager fm) {
 		super(fm);
 	}
 
-	public EvePagerAdapter(final FragmentManager fm, final int pagerid) {
+	public AbstractFragmentPagerAdapter(final FragmentManager fm, final int pagerid) {
 		super(fm);
 		_pagerid = pagerid;
 	}
@@ -57,7 +57,7 @@ public class EvePagerAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public Fragment getItem(final int position) {
-		final Fragment frag = new DefaultPagerFragment();
+		final Fragment frag = new Fragment();
 		// Check if the requested position is available.
 		if (position >= this.getCount()) return frag;
 		return _fragments.get(position);
@@ -70,28 +70,5 @@ public class EvePagerAdapter extends FragmentPagerAdapter {
 	public String getTitle(final int position) {
 		return ((AbstractPagerFragment) this.getItem(position)).getTitle();
 	}
-}
-
-//- CLASS IMPLEMENTATION ...................................................................................
-final class DefaultPagerFragment extends AbstractPagerFragment {
-
-	@Override
-	public void createFactory() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void registerDataSource() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void setHeaderContents() {
-		// TODO Auto-generated method stub
-
-	}
-
 }
 // - UNUSED CODE ............................................................................................

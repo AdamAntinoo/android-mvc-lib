@@ -19,10 +19,10 @@ import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractHolder;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,16 +32,25 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 // - CLASS IMPLEMENTATION ...................................................................................
+/**
+ * This is the class that connects the ListView to a model list. If is an extension of the generic BaseAdapter
+ * and implements the methods to convert lists of Parts to a list of Renders to the linked to the View
+ * elements to be used by the ViewList.<br>
+ * The model connection is performed through the DataSource instance that also gets connected to the Event
+ * Listener chain.
+ * 
+ * @author Adam Antinoo
+ */
 public class DataSourceAdapter extends BaseAdapter implements PropertyChangeListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger													logger					= Logger.getLogger("DataSourceAdapter");
+	private static Logger													logger			= Logger.getLogger("DataSourceAdapter");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private Activity															_context				= null;
-	private IDataSource														_datasource			= null;
-	private final ArrayList<AbstractAndroidPart>	_hierarchy			= new ArrayList<AbstractAndroidPart>();
-	private Fragment															_fragment				= null;
-	private final SparseArray<View>								_hierarchyViews	= new SparseArray<View>();
+	private Activity															_context		= null;
+	private IDataSource														_datasource	= null;
+	private final ArrayList<AbstractAndroidPart>	_hierarchy	= new ArrayList<AbstractAndroidPart>();
+	private Fragment															_fragment		= null;
+	//	private final SparseArray<View>								_hierarchyViews	= new SparseArray<View>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	/**
@@ -104,6 +113,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * optimization to not create more views than the needed ones and the reduction of code line is s must that
 	 * will improve user response times.
 	 */
+	@SuppressLint("ViewHolder")
 	public View getView(final int position, View convertView, final ViewGroup parent) {
 		//		logger.info("-- Getting view [" + position + "]");
 		try {
@@ -111,25 +121,29 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			AbstractAndroidPart item = this.getCastedItem(position);
 			if (null == convertView) {
 				Log.i("DataSourceAdapter", "-- Getting view [" + position + "]");
-				AbstractHolder holder = this.getCastedItem(position).getHolder(this.getContext());
+				AbstractHolder holder = this.getCastedItem(position).getRenderer(this.getContext());
 				holder.initializeViews();
 				convertView = holder.getView();
 				convertView.setTag(item);
 				holder.updateContent();
 				// Store view on the Part.
-				if (SystemWideConstants.ENABLECACHE) item.setView(convertView);
+				if (SystemWideConstants.ENABLECACHE) {
+					item.setView(convertView);
+				}
 			} else {
 				View cachedView = item.getView();
 				if (null == cachedView) {
 					Log.i("DataSourceAdapter", "-- Getting view [" + position + "]");
 					// Recreate the view.
-					AbstractHolder holder = this.getCastedItem(position).getHolder(this.getContext());
+					AbstractHolder holder = this.getCastedItem(position).getRenderer(this.getContext());
 					holder.initializeViews();
 					convertView = holder.getView();
 					convertView.setTag(item);
 					holder.updateContent();
 					// Store view on the Part.
-					if (SystemWideConstants.ENABLECACHE) item.setView(convertView);
+					if (SystemWideConstants.ENABLECACHE) {
+						item.setView(convertView);
+					}
 				} else {
 					// Cached view found. Return new view.
 					convertView = cachedView;
@@ -152,13 +166,15 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			return convertView;
 		} catch (RuntimeException rtex) {
 			String message = rtex.getMessage();
-			if (null == message) message = "NullPointerException detected.";
+			if (null == message) {
+				message = "NullPointerException detected.";
+			}
 			DataSourceAdapter.logger.severe("R> Runtime Exception on DataSourceAdapter.getView." + message);
 			rtex.printStackTrace();
 			//DEBUG Add exception registration to the exception page.
 			final LayoutInflater mInflater = (LayoutInflater) this.getContext()
 					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-			// The view is a new view. We have to fill all the items
+			// UNder an exception we can replace the View item by this special layout with the Exception message.
 			convertView = mInflater.inflate(R.layout.exception_4list, null);
 			TextView exceptionMessage = (TextView) convertView.findViewById(R.id.exceptionMessage);
 			exceptionMessage.setText("X> EveBaseAdapter.getView] " + message);
@@ -187,8 +203,10 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * code.
 	 */
 	public void propertyChange(final PropertyChangeEvent event) {
-		if (event.getPropertyName().equalsIgnoreCase(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES))
+		if (SystemWideConstants.events
+				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES) {
 			this.notifyDataSetChanged();
+		}
 	}
 
 	protected Activity getContext() {
@@ -197,36 +215,37 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 
 	protected void setModel(final ArrayList<AbstractAndroidPart> partData) {
 		_hierarchy.clear();
-		_hierarchyViews.clear();
+		//		_hierarchyViews.clear();
 		_hierarchy.addAll(partData);
 	}
 
-	/**
-	 * This block optimizes the use of the views. Any structure update will clear the cache but any request that
-	 * matches the id of the content will be returned from this resource list instead always creating a new
-	 * resource.
-	 * 
-	 * @param convertView
-	 * @param position
-	 * @return
-	 */
-	private View searchCachedView(final int position, final View convertView) {
-		AbstractAndroidPart item = this.getCastedItem(position);
-		long modelid = item.getModelID();
-		View hit = _hierarchyViews.get(position);
-		if (null != hit) {
-			// Check that the view belongs to the same item.
-			Object tag = convertView.getTag();
-			if (tag instanceof AbstractAndroidPart) {
-				long viewModelid = ((AbstractAndroidPart) tag).getModelID();
-				if (modelid == viewModelid)
-					return hit;
-				else
-					// Clear this element on the cache because does not match.
-					_hierarchyViews.remove(position);
-			}
-		}
-		return null;
-	}
+	//	/**
+	//	 * This block optimizes the use of the views. Any structure update will clear the cache but any request that
+	//	 * matches the id of the content will be returned from this resource list instead always creating a new
+	//	 * resource.
+	//	 * 
+	//	 * @param convertView
+	//	 * @param position
+	//	 * @return
+	//	 */
+	//	private View searchCachedView(final int position, final View convertView) {
+	//		AbstractAndroidPart item = this.getCastedItem(position);
+	//		long modelid = item.getModelID();
+	//		View hit = _hierarchyViews.get(position);
+	//		if (null != hit) {
+	//			// Check that the view belongs to the same item.
+	//			Object tag = convertView.getTag();
+	//			if (tag instanceof AbstractAndroidPart) {
+	//				long viewModelid = ((AbstractAndroidPart) tag).getModelID();
+	//				if (modelid == viewModelid)
+	//					return hit;
+	//				else {
+	//					// Clear this element on the cache because does not match.
+	//					_hierarchyViews.remove(position);
+	//				}
+	//			}
+	//		}
+	//		return null;
+	//	}
 }
 // - UNUSED CODE ............................................................................................

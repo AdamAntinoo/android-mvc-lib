@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="org/dimensinfin/android/mvc/interfaces/ITitledFragment.java|org/dimensinfin/android/mvc/core/AbstractObsoletePagerFragment.java" kind="src" path="src"/>
+	<classpathentry excluding="org/dimensinfin/android/mvc/interfaces/ITitledFragment.java|org/dimensinfin/android/mvc/core/AbstractObsoletePagerFragment.java|org/dimensinfin/android/mvc/activity/SafeStopActivity.java|org/dimensinfin/android/mvc/datasource/DataSourceManager.java" kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
