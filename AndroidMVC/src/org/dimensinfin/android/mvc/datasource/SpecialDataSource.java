@@ -104,7 +104,6 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 	//	public void connect(final DataSourceManager dataSourceManager) {
 	//		_dsManager = dataSourceManager;
 	//	}
-
 	/**
 	 * After the model is created we have to transform it into the Part list expected by the DataSourceAdapter.
 	 * <br>
@@ -113,6 +112,7 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 	 * duplicated of the resulting Part model and we move already parts from the current model to the new model
 	 * or create new part and finally remove what is left and unused.
 	 */
+
 	@Override
 	public void createContentHierarchy() {
 		try {

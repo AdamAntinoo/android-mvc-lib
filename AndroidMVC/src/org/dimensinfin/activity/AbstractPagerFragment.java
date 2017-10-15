@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.connector.MVCAppConnector;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
@@ -454,7 +454,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	private void addViewtoHeader(final AbstractAndroidPart target) {
 		Log.i("NEOCOM", ">> AbstractPagerFragment.addViewtoHeader");
 		try {
-			final AbstractHolder holder = target.getRenderer(this);
+			final AbstractRender holder = target.getRenderer(this);
 			holder.initializeViews();
 			holder.updateContent();
 			final View hv = holder.getView();

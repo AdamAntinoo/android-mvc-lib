@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractHolder;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 
 import android.annotation.SuppressLint;
@@ -121,7 +121,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			AbstractAndroidPart item = this.getCastedItem(position);
 			if (null == convertView) {
 				Log.i("DataSourceAdapter", "-- Getting view [" + position + "]");
-				AbstractHolder holder = this.getCastedItem(position).getRenderer(this.getContext());
+				AbstractRender holder = this.getCastedItem(position).getRenderer(this.getContext());
 				holder.initializeViews();
 				convertView = holder.getView();
 				convertView.setTag(item);
@@ -135,7 +135,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 				if (null == cachedView) {
 					Log.i("DataSourceAdapter", "-- Getting view [" + position + "]");
 					// Recreate the view.
-					AbstractHolder holder = this.getCastedItem(position).getRenderer(this.getContext());
+					AbstractRender holder = this.getCastedItem(position).getRenderer(this.getContext());
 					holder.initializeViews();
 					convertView = holder.getView();
 					convertView.setTag(item);

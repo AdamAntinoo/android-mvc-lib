@@ -81,12 +81,12 @@ public abstract class AbstractAndroidPart extends AbstractPart {
 	 * @param activity
 	 * @return
 	 */
-	public AbstractHolder getRenderer(final Activity activity) {
+	public AbstractRender getRenderer(final Activity activity) {
 		_activity = activity;
 		return this.selectRenderer();
 	}
 
-	public AbstractHolder getRenderer(final Fragment fragment) {
+	public AbstractRender getRenderer(final Fragment fragment) {
 		_fragment = fragment;
 		_activity = fragment.getActivity();
 		return this.selectRenderer();
