@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.datasource.AbstractDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
@@ -24,18 +25,18 @@ import org.dimensinfin.core.model.RootNode;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class AbstractPart extends AbstractPropertyChanger implements IPart {
-	public enum EPARTEVENT {
-		ADD_CHILD, REMOVE_CHILD
-	}
+	//	public enum EPARTEVENT {
+	//		ADD_CHILD, REMOVE_CHILD
+	//	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static final long	serialVersionUID	= 7601587036153405892L;
-	public static Logger			logger						= Logger.getLogger("AbstractPart");
-	static {
-		// Register the event into the global event register
-		CEventPart.register(EPARTEVENT.ADD_CHILD.hashCode(), EPARTEVENT.ADD_CHILD.name());
-		CEventPart.register(EPARTEVENT.REMOVE_CHILD.hashCode(), EPARTEVENT.REMOVE_CHILD.name());
-	}
+	private static final long		serialVersionUID	= 7601587036153405892L;
+	public static Logger				logger						= Logger.getLogger("AbstractPart");
+	//	static {
+	//		// Register the event into the global event register
+	//		CEventPart.register(EPARTEVENT.ADD_CHILD.hashCode(), EPARTEVENT.ADD_CHILD.name());
+	//		CEventPart.register(EPARTEVENT.REMOVE_CHILD.hashCode(), EPARTEVENT.REMOVE_CHILD.name());
+	//	}
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private Vector<IPart>				children					= new Vector<IPart>();
@@ -110,7 +111,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 
 		children.add(index, child);
 		child.setParent(this);
-		this.fireChildAdded(child, index);
+		//		this.fireChildAdded(child, index);
 	}
 
 	public void clean() {
@@ -286,6 +287,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 			if (editPart != null) {
 				AbstractPart.logger.info("-- [AbstractEditPart.refreshChildren]> model found but out of order.");
 				this.reorderChild(editPart, i);
+				editPart.refreshChildren();
 			} else {
 				// An EditPart for this model doesn't exist yet. Create and insert one.
 				editPart = this.createChild(nodemodel);
@@ -407,7 +409,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		//		Assert.isNotNull(child);
 		int index = this.getChildren().indexOf(child);
 		if (index < 0) return;
-		this.fireRemovingChild(child, index);
+		//		this.fireRemovingChild(child, index);
 		child.setParent(null);
 		this.getChildren().remove(child);
 	}
@@ -427,11 +429,11 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	}
 
 	private void fireChildAdded(final IPart child, final int index) {
-		this.fireStructureChange(CEventPart.getName4Event(EPARTEVENT.ADD_CHILD.hashCode()), child, index);
+		this.fireStructureChange(SystemWideConstants.events.ADD_CHILD.name(), child, index);
 	}
 
 	private void fireRemovingChild(final IPart child, final int index) {
-		this.fireStructureChange(CEventPart.getName4Event(EPARTEVENT.REMOVE_CHILD.hashCode()), child, index);
+		this.fireStructureChange(SystemWideConstants.events.REMOVE_CHILD.name(), child, index);
 	}
 }
 

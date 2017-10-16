@@ -9,7 +9,7 @@ package org.dimensinfin.android.mvc.constants;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class SystemWideConstants {
 	public enum events {
-		EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE, EVENTADAPTER_REQUESTNOTIFYCHANGES
+		ADD_CHILD, REMOVE_CHILD, EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE, EVENTADAPTER_REQUESTNOTIFYCHANGES
 	}
 	// - F I R E D   E V E N T S
 	//	public static final class events {
