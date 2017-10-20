@@ -74,9 +74,9 @@ public abstract class AbstractRender {
 		// Control the arrow to be shown.
 		if (null != _rightArrow) {
 			if (this.getPart().isExpanded()) {
-				_rightArrow.setImageDrawable(this.getContext().getResources().getDrawable(R.drawable.arrowright));
+				_rightArrow.setImageDrawable(this.getContext().getResources().getDrawable(R.drawable.arrowdown));
 			} else {
-				_rightArrow.setImageDrawable(this.getContext().getResources().getDrawable(R.drawable.arrowleft));
+				_rightArrow.setImageDrawable(this.getContext().getResources().getDrawable(R.drawable.arrowright));
 			}
 		}
 		_convertView.invalidate();
