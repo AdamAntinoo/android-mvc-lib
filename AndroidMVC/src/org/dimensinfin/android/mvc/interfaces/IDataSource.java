@@ -18,21 +18,9 @@ import org.dimensinfin.core.model.RootNode;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public interface IDataSource extends PropertyChangeListener {
-	// - M E T H O D - S E C T I O N ..........................................................................
-	//	public RootNode collaborate2Model();
-
-	//	public RootNode getHeaderModel();
 	public void addPropertyChangeListener(final PropertyChangeListener newListener);
 
-	//	public void createContentHierarchy();
-
-	//	@Deprecated
-	//	public ArrayList<AbstractAndroidPart> getBodyParts();
-
 	public RootNode collaborate2Model();
-
-	//	@Deprecated
-	//	public void connect(DataSourceManager dataSourceManager);
 
 	public void createContentHierarchy();
 
@@ -42,10 +30,9 @@ public interface IDataSource extends PropertyChangeListener {
 
 	public ArrayList<AbstractAndroidPart> getHeaderParts();
 
-	//	@Deprecated
-	//	public ArrayList<AbstractAndroidPart> getHeaderParts();
-
 	public int getItemsCount();
+
+	public void updateContentHierarchy();
 }
 
 // - UNUSED CODE ............................................................................................

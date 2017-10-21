@@ -84,6 +84,11 @@ public abstract class AbstractDataSource extends AbstractPropertyChanger impleme
 		buffer.append("]");
 		return buffer.toString();
 	}
+
+	@Override
+	public void updateContentHierarchy() {
+		this.createContentHierarchy();
+	}
 }
 
 // - UNUSED CODE ............................................................................................

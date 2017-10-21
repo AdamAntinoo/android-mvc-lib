@@ -103,6 +103,63 @@ public abstract class AbstractPagerFragment extends Fragment {
 	}
 
 	//- CLASS IMPLEMENTATION ...................................................................................
+	protected class ExpandChangeTask extends AsyncTask<AbstractPagerFragment, Void, Void> {
+
+		// - F I E L D - S E C T I O N ............................................................................
+		private final AbstractPagerFragment _fragment;
+
+		// - C O N S T R U C T O R - S E C T I O N ................................................................
+		public ExpandChangeTask(final AbstractPagerFragment fragment) {
+			_fragment = fragment;
+		}
+
+		// - M E T H O D - S E C T I O N ..........................................................................
+		/**
+		 * The datasource is ready and the new hierarchy should be created from the current model. All the stages
+		 * are executed at this time both the model contents update and the list of parts to be used on the
+		 * ListView. First, the model is checked to be initialized and if not then it is created. Then the model
+		 * is run from start to end to create all the visible elements and from this list then we create the full
+		 * list of the parts with their right renders.<br>
+		 * This is the task executed every time a datasource gets its model modified and hides all the update time
+		 * from the main thread as it is recommended by Google.
+		 */
+		@Override
+		protected Void doInBackground(final AbstractPagerFragment... arg0) {
+			AbstractPagerFragment.logger.info(">> StructureChangeTask.doInBackground");
+			try {
+				// Create the hierarchy structure to be used on the Adapter.
+				_datasource.updateContentHierarchy();
+			} catch (final RuntimeException rtex) {
+				rtex.printStackTrace();
+			}
+			AbstractPagerFragment.logger.info("<< StructureChangeTask.doInBackground");
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(final Void result) {
+			AbstractPagerFragment.logger.info(">> StructureChangeTask.onPostExecute");
+			_progressLayout.setVisibility(View.GONE);
+			_modelContainer.setVisibility(View.VISIBLE);
+			_container.invalidate();
+			// Tell the adapter to refresh the contents.
+			_adapter.notifyDataSetChanged();
+
+			// Add the header parts once the display is initialized.
+			ArrayList<AbstractAndroidPart> headerContents = _datasource.getHeaderParts();
+			if (headerContents.size() > 0) {
+				_headerContainer.removeAllViews();
+				_headerContainer.invalidate();
+				for (final AbstractAndroidPart part : headerContents) {
+					_fragment.addViewtoHeader(part);
+				}
+			}
+			super.onPostExecute(result);
+			AbstractPagerFragment.logger.info("<< StructureChangeTask.onPostExecute");
+		}
+	}
+
+	//- CLASS IMPLEMENTATION ...................................................................................
 	protected class StructureChangeTask extends AsyncTask<AbstractPagerFragment, Void, Void> {
 
 		// - F I E L D - S E C T I O N ............................................................................
@@ -170,7 +227,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	private String															_title						= "<TITLE>";
 	private String															_subtitle					= "";
 	private IPartFactory												_factory					= null;
-	protected IDataSource								_datasource				= null;
+	protected IDataSource												_datasource				= null;
 	protected DataSourceAdapter									_adapter					= null;
 	// REFACTOR Set back to private after the PagerFragment is removed
 	protected final Vector<AbstractAndroidPart>	_headerContents		= new Vector<AbstractAndroidPart>();
@@ -366,8 +423,11 @@ public abstract class AbstractPagerFragment extends Fragment {
 	}
 
 	public void propertyChange(final PropertyChangeEvent event) {
+		//		if (event.getPropertyName().equalsIgnoreCase(ECoreModelEvents.EVENT_EXPANDCOLLAPSENODE.name())) {
+		//			new StructureChangeTask(this).execute();
+		//		}
 		if (event.getPropertyName().equalsIgnoreCase(ECoreModelEvents.EVENT_EXPANDCOLLAPSENODE.name())) {
-			new StructureChangeTask(this).execute();
+			new ExpandChangeTask(this).execute();
 		}
 	}
 

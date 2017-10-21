@@ -100,10 +100,6 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 		return _dataModelRoot;
 	}
 
-	//	@Deprecated
-	//	public void connect(final DataSourceManager dataSourceManager) {
-	//		_dsManager = dataSourceManager;
-	//	}
 	/**
 	 * After the model is created we have to transform it into the Part list expected by the DataSourceAdapter.
 	 * <br>
@@ -145,18 +141,6 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 		SpecialDataSource.logger.info("<< [SpecialDataSource.createContentHierarchy]");
 	}
 
-	//	/**
-	//	 * This is the method to initialize the copy of the model structures on the datasource. Every time this
-	//	 * method is called, the complete model is recreated. There are two ways to recreate it, comparing with the
-	//	 * old copy and inserting/deleting different nodes or recreating completely the new model copy. Once this
-	//	 * method is called we can create the depending part hierarchy. <br>
-	//	 * I have to search for a better name for this method. This is not clear and currently the
-	//	 * <code>initModel</code> is already on use by the class but can be reused later.
-	//	 */
-	//	@Deprecated
-	//	public void createPartsHierarchy() {
-	//	}
-
 	/**
 	 * Return just the list of viewable Parts. During the composition of the list we transform it of class
 	 * because we should change the final class level returned to the higher level possible and now for
@@ -194,15 +178,6 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 		}
 		return result;
 	}
-
-	//	@Override
-	//	@Deprecated
-	//	public ArrayList<AbstractAndroidPart> getPartHierarchy() {
-	//		ArrayList<AbstractAndroidPart> result = new ArrayList<AbstractAndroidPart>();
-	//		for (AbstractAndroidPart node : this.getBodyParts())
-	//			result.add(node);
-	//		return result;
-	//	}
 
 	public String getVariant() {
 		return _variant;
@@ -248,6 +223,38 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 		return this;
 	}
 
+	/**
+	 * When we receive update events we should optimize the tasks that should be performed again and simplify
+	 * the tasks to run.
+	 */
+	@Override
+	public void updateContentHierarchy() {
+		try {
+			SpecialDataSource.logger.info(">> [SpecialDataSource.updateContentHierarchy]");
+			// Check if we have already a Part model.
+			if (null == _partModelRoot) {
+				_partModelRoot = new RootPart(_dataModelRoot, _partFactory);
+				try {
+					_partModelRoot.refreshChildren();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			} else {
+				_partModelRoot.setModel(_dataModelRoot);
+			}
+
+			// Get the list of Parts that will be used for the ListView
+			_bodyParts = new ArrayList<IPart>();
+			// Select for the body contents only the viewable Parts from the Part model. Make it a list.
+			_bodyParts.addAll(_partModelRoot.collaborate2View());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		SpecialDataSource.logger
+				.info("-- [SpecialDataSource.updateContentHierarchy]> _bodyParts.size: " + _bodyParts.size());
+		SpecialDataSource.logger.info("<< [SpecialDataSource.updateContentHierarchy]");
+	}
+
 	protected int getParameterInteger(final String name) {
 		Object param = _parameters.get(name);
 		if (null != param) if (param instanceof Integer) return ((Integer) param).intValue();
@@ -268,19 +275,3 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 }
 
 // - UNUSED CODE ............................................................................................
-//[01]
-//	@Deprecated
-//	public void createPart4Node(final AbstractAndroidNode node) {
-//		if (node instanceof ShipLocation) {
-//			LocationIndustryPart locpart = new LocationIndustryPart(node);
-//			locpart.setContainerLocation(false);
-//			_bodyParts.add(locpart);
-//			return;
-//		}
-//		if (node instanceof Separator) {
-//			TerminatorPart gp = new TerminatorPart(node);
-//			gp.setRenderMode(getVersion());
-//			_bodyParts.add(gp);
-//			return;
-//		}
-//	}

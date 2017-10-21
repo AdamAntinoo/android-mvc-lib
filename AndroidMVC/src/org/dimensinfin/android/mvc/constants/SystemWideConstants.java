@@ -8,19 +8,10 @@ package org.dimensinfin.android.mvc.constants;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class SystemWideConstants {
-	public enum events {
-		ADD_CHILD, REMOVE_CHILD, EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE, EVENTADAPTER_REQUESTNOTIFYCHANGES
-	}
 	// - F I R E D   E V E N T S
-	//	public static final class events {
-	//		public static final String	EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE	= "EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE";
-	//		public static final String	EVENTADAPTER_REQUESTNOTIFYCHANGES		= "EVENTADAPTER_REQUESTNOTIFYCHANGES";
-	//	}
-
-	//	// - E X T R A S   M E S S A G E S
-	//	public static final class extras {
-	//		public static final String	EXTRA_EXCEPTIONMESSAGE	= "EXTRA_EXCEPTIONMESSAGE";
-	//	}
+	public enum events {
+		ADD_CHILD, REMOVE_CHILD, EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE, EVENTSTRUCTURE_DOWNLOADDATA, EVENTADAPTER_REQUESTNOTIFYCHANGES
+	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 	public static final boolean ENABLECACHE = true;
