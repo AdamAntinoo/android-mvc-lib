@@ -22,7 +22,6 @@ import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,7 +49,6 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	private IDataSource														_datasource	= null;
 	private final ArrayList<AbstractAndroidPart>	_hierarchy	= new ArrayList<AbstractAndroidPart>();
 	private Fragment															_fragment		= null;
-	//	private final SparseArray<View>								_hierarchyViews	= new SparseArray<View>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	/**
@@ -120,7 +118,8 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			// If the request is new we are sure this has to be created.
 			AbstractAndroidPart item = this.getCastedItem(position);
 			if (null == convertView) {
-				Log.i("DataSourceAdapter", "-- Getting view [" + position + "]");
+				DataSourceAdapter.logger.info(
+						"-- [DataSourceAdapter.getView]> Getting view [" + position + "] - " + item.getClass().getSimpleName());
 				AbstractRender holder = this.getCastedItem(position).getRenderer(this.getContext());
 				holder.initializeViews();
 				convertView = holder.getView();
@@ -133,7 +132,8 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			} else {
 				View cachedView = item.getView();
 				if (null == cachedView) {
-					Log.i("DataSourceAdapter", "-- Getting view [" + position + "]");
+					DataSourceAdapter.logger.info("-- [DataSourceAdapter.getView]> Getting view [" + position + "] - "
+							+ item.getClass().getSimpleName() + " RECREATE");
 					// Recreate the view.
 					AbstractRender holder = this.getCastedItem(position).getRenderer(this.getContext());
 					holder.initializeViews();
@@ -147,7 +147,8 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 				} else {
 					// Cached view found. Return new view.
 					convertView = cachedView;
-					Log.i("DataSourceAdapter", "-- Getting view [" + position + "] CACHED");
+					DataSourceAdapter.logger.info("-- [DataSourceAdapter.getView]> Getting view [" + position + "] - "
+							+ item.getClass().getSimpleName() + " CACHED");
 				}
 			}
 			// Activate listeners if the Part supports that feature.
