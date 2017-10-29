@@ -57,7 +57,13 @@ public class SeparatorRender extends AbstractRender {
 			case LINE_ORANGE:
 				title.setVisibility(View.GONE);
 				break;
+			case LINE_YELLOW:
+				title.setVisibility(View.GONE);
+				break;
 			case LINE_GREEN:
+				title.setVisibility(View.GONE);
+				break;
+			case LINE_BLUE:
 				title.setVisibility(View.GONE);
 				break;
 			case EMPTY_SIGNAL:
@@ -87,9 +93,18 @@ public class SeparatorRender extends AbstractRender {
 				// Collapse the expansion.
 				this.getPart().getCastedModel().setExpanded(false);
 				break;
-
+			case LINE_YELLOW:
+				renderer = R.layout.separatoryellowline;
+				// Collapse the expansion.
+				this.getPart().getCastedModel().setExpanded(false);
+				break;
 			case LINE_GREEN:
 				renderer = R.layout.separatorgreenline;
+				// Collapse the expansion.
+				this.getPart().getCastedModel().setExpanded(false);
+				break;
+			case LINE_BLUE:
+				renderer = R.layout.separatorblueline;
 				// Collapse the expansion.
 				this.getPart().getCastedModel().setExpanded(false);
 				break;
