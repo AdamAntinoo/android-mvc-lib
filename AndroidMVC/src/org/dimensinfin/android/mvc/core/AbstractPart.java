@@ -125,6 +125,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 * visible list.
 	 */
 	public ArrayList<IPart> collaborate2View() {
+		AbstractPart.logger.info(">< [AbstractPart.collaborate2View]> Collaborator: " + this.getClass().getSimpleName());
 		ArrayList<IPart> result = new ArrayList<IPart>();
 		// If the node is expanded then give the children the opportunity to also be added.
 		if (this.isExpanded()) {
@@ -255,7 +256,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 
 		// Get the list of model elements that collaborate to the Part model. This is the complex-simple model transformation.
 		IViewableNode partModel = (IViewableNode) this.getModel();
-		AbstractPart.logger.info("-- [AbstractEditPart.refreshChildren]> partModel: " + partModel);
+		AbstractPart.logger.info("-- [AbstractPart.refreshChildren]> partModel: " + partModel);
 		// TODO There are cases where the partModel is null. Try to detect and stop that cases.
 		if (null == partModel) {
 			AbstractPart.logger
@@ -263,7 +264,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 			return;
 		}
 		ArrayList<AbstractComplexNode> modelObjects = partModel.collaborate2Model(this.getPartFactory().getVariant());
-		AbstractPart.logger.info("-- [AbstractEditPart.refreshChildren]> modelObjects: " + modelObjects);
+		AbstractPart.logger.info("-- [AbstractPart.refreshChildren]> modelObjects: " + modelObjects);
 
 		// Process the list of model children for this Part.
 		int i = 0;
@@ -274,7 +275,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 			IPart editPart = modelToEditPart.get(nodemodel);
 			if ((i < selfChildren.size()) && (selfChildren.get(i).getModel() == nodemodel)) {
 				// But in any case try to update all the children
-				AbstractPart.logger.info("-- [AbstractEditPart.refreshChildren]> model matches. Refreshing children.");
+				AbstractPart.logger.info("-- [AbstractPart.refreshChildren]> model matches. Refreshing children.");
 				if (editPart != null) {
 					editPart.refreshChildren();
 				}
@@ -282,16 +283,16 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 			}
 
 			// Look to see if the EditPart is already around but in the wrong location
-			//			editPart = (AbstractEditPart) modelToEditPart.get(model);
+			//			editPart = (AbstractPart) modelToEditPart.get(model);
 
 			if (editPart != null) {
-				AbstractPart.logger.info("-- [AbstractEditPart.refreshChildren]> model found but out of order.");
+				AbstractPart.logger.info("-- [AbstractPart.refreshChildren]> model found but out of order.");
 				this.reorderChild(editPart, i);
 				editPart.refreshChildren();
 			} else {
 				// An EditPart for this model doesn't exist yet. Create and insert one.
 				editPart = this.createChild(nodemodel);
-				AbstractPart.logger.info("-- [AbstractEditPart.refreshChildren]> New Part: " + editPart);
+				AbstractPart.logger.info("-- [AbstractPart.refreshChildren]> New Part: " + editPart);
 				// If the factory is unable to create the Part then skip this element or wait to be replaced by a dummy
 				if (null != editPart) {
 					this.addChild(editPart, i);
@@ -312,6 +313,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 				this.removeChild(ep);
 			}
 		}
+		AbstractPart.logger.info("<< [AbstractPart.refreshChildren]> Content size: " + this.getChildren().size());
 	}
 
 	public abstract Vector<IPart> runPolicies(Vector<IPart> targets);

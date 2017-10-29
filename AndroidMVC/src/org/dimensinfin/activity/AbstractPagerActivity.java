@@ -117,7 +117,7 @@ public abstract class AbstractPagerActivity extends Activity {
 	//	}
 	//
 	protected void addPage(final AbstractPagerFragment newFrag, final int position) {
-		Log.i("NEOCOM", ">> AbstractPagerActivity.addPage"); //$NON-NLS-1$
+		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.addPage]"); //$NON-NLS-1$
 		final Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(position));
 		if (null == frag) {
 			_pageAdapter.addPage(newFrag);
@@ -129,7 +129,7 @@ public abstract class AbstractPagerActivity extends Activity {
 		if (_pageAdapter.getCount() > 1) {
 			this.activateIndicator();
 		}
-		Log.i("NEOCOM", "<< AbstractPagerActivity.addPage"); //$NON-NLS-1$
+		AbstractPagerActivity.logger.info("<< [AbstractPagerActivity.addPage]"); //$NON-NLS-1$
 	}
 
 	protected void disableIndicator() {
@@ -174,7 +174,7 @@ public abstract class AbstractPagerActivity extends Activity {
 			rtex.printStackTrace();
 			this.stopActivity(new RuntimeException("RTEX> AbstractPagerActivity.onCreate - " + rtex.getMessage()));
 		}
-		Log.i("EVEI", "<< AbstractPagerActivity.onCreate"); //$NON-NLS-1$
+		AbstractPagerActivity.logger.info("<< [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
 	}
 
 	/**
