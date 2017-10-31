@@ -100,28 +100,14 @@ public abstract class AbstractPagerActivity extends Activity {
 		}
 	}
 
-	//	protected void addPage(final AbstractObsoletePagerFragment newFrag, final int position) {
-	//		Log.i("NEOCOM", ">> AbstractPagerActivity.addPage"); //$NON-NLS-1$
-	//		final Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(position));
-	//		if (null == frag) {
-	//			_pageAdapter.addPage(newFrag);
-	//		} else {
-	//			_pageAdapter.addPage(frag);
-	//		}
-	//		// Check the number of pages to activate the indicator when more the
-	//		// one.
-	//		if (_pageAdapter.getCount() > 1) {
-	//			this.activateIndicator();
-	//		}
-	//		Log.i("NEOCOM", "<< AbstractPagerActivity.addPage"); //$NON-NLS-1$
-	//	}
-	//
 	protected void addPage(final AbstractPagerFragment newFrag, final int position) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.addPage]"); //$NON-NLS-1$
 		final Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(position));
 		if (null == frag) {
 			_pageAdapter.addPage(newFrag);
 		} else {
+			// Reuse a previous created Fragment. But watch some of the fields have been removed.
+			((AbstractPagerFragment) frag).setVariant(newFrag.getVariant());
 			_pageAdapter.addPage(frag);
 		}
 		// Check the number of pages to activate the indicator when more the

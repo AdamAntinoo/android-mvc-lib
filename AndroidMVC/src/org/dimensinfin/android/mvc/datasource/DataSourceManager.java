@@ -25,7 +25,7 @@ import org.dimensinfin.android.mvc.interfaces.IDataSource;
  */
 public class DataSourceManager /* implements IDataSourceConnector */ {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger																			logger			= Logger.getLogger("DataSourceManager");
+	private static Logger															logger			= Logger.getLogger("DataSourceManager");
 	private static final HashMap<String, IDataSource>	dataSources	= new HashMap<String, IDataSource>();
 
 	/**
@@ -41,7 +41,7 @@ public class DataSourceManager /* implements IDataSourceConnector */ {
 		// Search for locator on cache.
 		IDataSource found = DataSourceManager.dataSources.get(locator.getIdentity());
 		// REFACTOR Do not return cached datasources.
-		found = null;
+		//		found = null;
 		if (null == found) {
 			DataSourceManager.dataSources.put(locator.getIdentity(), newSource);
 			DataSourceManager.logger
