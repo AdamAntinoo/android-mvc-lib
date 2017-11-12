@@ -38,5 +38,6 @@
     <color name="separatororangeglow">#FFFFA500</color>
     <color name="separatoryellowglow">#FFFFFF33</color>
     <color name="separatorgreenglow">#A089DCAF</color>
+    <color name="separatorblueglow">#FF3333FF</color>
 
 </resources>
