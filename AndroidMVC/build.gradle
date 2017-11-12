@@ -3,8 +3,6 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 26
 
-
-
     defaultConfig {
         minSdkVersion 22
         targetSdkVersion 26
@@ -22,6 +20,9 @@ android {
         }
     }
 
+    sourceSets {
+        main.res.srcDirs += 'src/main/res-androidcommons'
+    }
 }
 
 dependencies {
