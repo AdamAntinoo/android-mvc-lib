@@ -1,1 +1,1 @@
-include ':app', ':androidmvc', ':viewpagerindicator-release'
+include ':app', ':androidmvc'
