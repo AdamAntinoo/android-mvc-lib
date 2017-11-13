@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/MVCTest.iml" filepath="$PROJECT_DIR$/MVCTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/AndroidMVC/androidmvc.iml" filepath="$PROJECT_DIR$/AndroidMVC/androidmvc.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/viewpagerindicator-release/viewpagerindicator-release.iml" filepath="$PROJECT_DIR$/viewpagerindicator-release/viewpagerindicator-release.iml" />
     </modules>
   </component>
 </project>

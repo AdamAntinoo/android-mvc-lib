@@ -31,9 +31,10 @@ dependencies {
     // A N D R O I D   S U P P O R T
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:support-v13:26.1.0'
-
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    // L O C A L   L I B R A R I E S
+    implementation files('libs/CoreBase.core-1.5.1.jar')
+    implementation project(':viewpagerindicator-release')
+    implementation 'joda-time:joda-time:2.3'
     // T E S T I N G
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

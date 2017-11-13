@@ -16,6 +16,7 @@ import android.widget.TextView;
 //- CLASS IMPLEMENTATION ...................................................................................
 public class SafeStopActivity extends Activity {
 	// - S T A T I C - S E C T I O N ..........................................................................
+	private static final String EXTRA_EXCEPTIONMESSAGE = "EXTRA_EXCEPTIONMESSAGE";
 
 	// - F I E L D - S E C T I O N ............................................................................
 
@@ -27,7 +28,7 @@ public class SafeStopActivity extends Activity {
 		setContentView(R.layout.activity_safestop);
 		TextView userMessage = (TextView) findViewById(R.id.userStopMessage);
 		Intent intent = getIntent();
-		String message = intent.getStringExtra(SystemWideConstants.extras.EXTRA_EXCEPTIONMESSAGE);
+		String message = intent.getStringExtra(EXTRA_EXCEPTIONMESSAGE);
 		userMessage.setText(message);
 	}
 }
