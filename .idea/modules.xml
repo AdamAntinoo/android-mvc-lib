@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidMVC.iml" filepath="$PROJECT_DIR$/AndroidMVC.iml" />
       <module fileurl="file://$PROJECT_DIR$/AndroidMVC/androidmvc.iml" filepath="$PROJECT_DIR$/AndroidMVC/androidmvc.iml" />
-      <module fileurl="file://D:\Development\Libraries Android\AndroidMVC 2.0.x\AndroidMVC\AndroidMVC\androidmvc.iml" filepath="D:\Development\Libraries Android\AndroidMVC 2.0.x\AndroidMVC\AndroidMVC\androidmvc.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://D:\Development\Libraries Android\AndroidMVC 2.0.x\AndroidMVC\viewpagerindicator-release\viewpagerindicator-release.iml" filepath="D:\Development\Libraries Android\AndroidMVC 2.0.x\AndroidMVC\viewpagerindicator-release\viewpagerindicator-release.iml" />
     </modules>

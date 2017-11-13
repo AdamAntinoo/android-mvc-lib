@@ -32,9 +32,9 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.0.0'
     implementation 'com.android.support:support-v13:27.0.0'
     // L O C A L   L I B R A R I E S
-    implementation files('libs/CoreBase.core-1.5.1.jar')
+    compileOnly files('libs/CoreBase.core-1.5.1.jar')
     implementation files('libs/viewpagerindicator-release.aar')
-    implementation 'joda-time:joda-time:2.3'
+    compileOnly 'joda-time:joda-time:2.3'
     // T E S T I N G
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
