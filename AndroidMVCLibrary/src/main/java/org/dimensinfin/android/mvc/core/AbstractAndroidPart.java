@@ -11,12 +11,9 @@ package org.dimensinfin.android.mvc.core;
 import java.util.logging.Logger;
 
 import org.dimensinfin.android.model.AbstractViewableNode;
-import org.dimensinfin.core.model.AbstractComplexNode;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
 
 // - CLASS IMPLEMENTATION ...................................................................................

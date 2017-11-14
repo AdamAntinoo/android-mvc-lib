@@ -21,10 +21,10 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IDownloadable;
+import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
-import org.dimensinfin.core.model.NewRootNode;
-import org.dimensinfin.eveonline.neocom.interfaces.IExpandable;
+import org.dimensinfin.core.model.RootNode;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class AbstractPart extends AbstractPropertyChanger implements IPart {

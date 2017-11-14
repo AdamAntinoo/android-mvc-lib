@@ -21,8 +21,6 @@ android {
     }
 
     sourceSets {
-//        main.java.srcDirs += 'src/main/java-newcore'
-//        main.java.srcDirs += 'src/main/java-android'
         main.java.srcDirs += 'src/main/java-androidcommons'
         main.res.srcDirs += 'src/main/res-androidcommons'
     }
@@ -35,7 +33,7 @@ dependencies {
     implementation 'com.android.support:design:27.0.0'
 
     // L O C A L   L I B R A R I E S
-//    compileOnly files('libs/CoreBase.core-1.5.1.jar')
+    implementation project(path: ':CoreBaseLibrary')
     compileOnly files('libs/viewpagerindicator-release.aar')
     compileOnly 'joda-time:joda-time:2.3'
 

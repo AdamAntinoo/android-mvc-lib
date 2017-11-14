@@ -3,9 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidMVC.iml" filepath="$PROJECT_DIR$/AndroidMVC.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AndroidMVCLibrary/AndroidMVCLibrary.iml" filepath="$PROJECT_DIR$/AndroidMVCLibrary/AndroidMVCLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../Libraries Base/Corebase 2.0.x/CoreBase/CoreBaseLibrary/CoreBaseLibrary.iml" filepath="$PROJECT_DIR$/../../../Libraries Base/Corebase 2.0.x/CoreBase/CoreBaseLibrary/CoreBaseLibrary.iml" />
-      <module fileurl="file://$PROJECT_DIR$/AndroidMVCLibrary/androidmvclibrary.iml" filepath="$PROJECT_DIR$/AndroidMVCLibrary/androidmvclibrary.iml" />
-      <module fileurl="file://D:\Development\Libraries Android\AndroidMVC 2.0.x\AndroidMVC\viewpagerindicator-release\viewpagerindicator-release.iml" filepath="D:\Development\Libraries Android\AndroidMVC 2.0.x\AndroidMVC\viewpagerindicator-release\viewpagerindicator-release.iml" />
     </modules>
   </component>
 </project>

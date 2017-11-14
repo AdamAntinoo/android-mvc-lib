@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
-import org.dimensinfin.core.model.NewRootNode;
 import org.dimensinfin.core.model.RootNode;
 
 // - CLASS IMPLEMENTATION ...................................................................................

@@ -21,7 +21,6 @@ import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
-import org.dimensinfin.core.model.NewRootNode;
 import org.dimensinfin.core.model.RootNode;
 
 // - CLASS IMPLEMENTATION ...................................................................................
