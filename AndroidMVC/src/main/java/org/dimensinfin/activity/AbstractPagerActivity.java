@@ -16,14 +16,26 @@ import org.dimensinfin.android.mvc.enumerated.EExtrasMVC;
 
 import com.viewpagerindicator.CirclePageIndicator;
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
-import android.content.Intent;
-import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+
+import android.app.ActionBar;
+import android.content.Intent;
+import android.util.Log;
 import android.widget.ImageView;
 
 //- CLASS IMPLEMENTATION ...................................................................................
@@ -37,16 +49,16 @@ import android.widget.ImageView;
  * 
  * @author Adam Antinoo
  */
-public abstract class AbstractPagerActivity extends Activity {
+public abstract class AbstractPagerActivity extends AppCompatActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	protected static Logger								logger					= Logger.getLogger("AbstractPagerActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	protected ActionBar										_actionBar			= null;
-	private ViewPager											_pageContainer	= null;
-	private AbstractFragmentPagerAdapter	_pageAdapter		= null;
-	private ImageView											_back						= null;
-	private CirclePageIndicator						_indicator			= null;
+	protected ViewPager											_pageContainer	= null;
+	protected AbstractFragmentPagerAdapter	_pageAdapter		= null;
+	protected ImageView											_back						= null;
+	protected CirclePageIndicator						_indicator			= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
@@ -102,7 +114,7 @@ public abstract class AbstractPagerActivity extends Activity {
 
 	protected void addPage(final AbstractPagerFragment newFrag, final int position) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.addPage]"); //$NON-NLS-1$
-		final Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(position));
+		final Fragment frag = this.getSupportFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(position));
 		if (null == frag) {
 			_pageAdapter.addPage(newFrag);
 		} else {
@@ -145,14 +157,14 @@ public abstract class AbstractPagerActivity extends Activity {
 			_indicator = (CirclePageIndicator) this.findViewById(R.id.indicator);
 			// Check page structure.
 			if (null == _pageContainer) {
-				this.stopActivity(new RuntimeException("UNXER. Expected UI element not found."));
+				this.stopActivity(new RuntimeException("RTEX> Expected UI element not found."));
 			}
 			if (null == _back) {
-				this.stopActivity(new RuntimeException("UNXER. Expected UI element not found."));
+				this.stopActivity(new RuntimeException("RTEX> Expected UI element not found."));
 			}
 
 			// Add the adapter for the page switching.
-			_pageAdapter = new AbstractFragmentPagerAdapter(this.getFragmentManager(), _pageContainer.getId());
+			_pageAdapter = new AbstractFragmentPagerAdapter(this.getSupportFragmentManager(), _pageContainer.getId());
 			_pageContainer.setAdapter(_pageAdapter);
 			this.disableIndicator();
 		} catch (final Exception rtex) {

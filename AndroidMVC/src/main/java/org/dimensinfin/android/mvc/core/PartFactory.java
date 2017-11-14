@@ -14,9 +14,12 @@ import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.android.mvc.part.SeparatorPart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 
+import java.util.logging.Logger;
+
 // - CLASS IMPLEMENTATION ...................................................................................
 public class PartFactory implements IPartFactory {
 	// - S T A T I C - S E C T I O N ..........................................................................
+	protected static Logger logger = Logger.getLogger("PartFactory");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private final String variant;
