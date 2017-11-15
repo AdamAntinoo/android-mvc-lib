@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import org.dimensinfin.android.mvc.R;
 
 import android.app.Activity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -80,6 +81,12 @@ public abstract class AbstractRender {
 			}
 		}
 		_convertView.invalidate();
+	}
+	protected LayoutInflater getInflater() {
+		return (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+	}
+	protected View inflateView(int layoutIdentifier) {
+		return getInflater().inflate(layoutIdentifier, null);
 	}
 
 	protected abstract void createView();

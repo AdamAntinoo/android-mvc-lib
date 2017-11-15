@@ -1,13 +1,16 @@
 apply plugin: 'com.android.library'
 
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
 android {
     compileSdkVersion 27
 
     defaultConfig {
         minSdkVersion 22
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode 20
+        versionName "2.0.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -34,7 +37,7 @@ dependencies {
 
     // L O C A L   L I B R A R I E S
     implementation project(path: ':CoreBaseLibrary')
-    compileOnly files('libs/viewpagerindicator-release.aar')
+    implementation files('libs/viewpagerindicator-release.aar')
     compileOnly 'joda-time:joda-time:2.3'
 
     // T E S T I N G
