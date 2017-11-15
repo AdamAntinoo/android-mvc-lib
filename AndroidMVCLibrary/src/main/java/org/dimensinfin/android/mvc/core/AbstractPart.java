@@ -9,6 +9,7 @@ package org.dimensinfin.android.mvc.core;
 
 //- IMPORT SECTION .........................................................................................
 
+import org.dimensinfin.android.model.AbstractViewableNode;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.datasource.AbstractDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
@@ -130,6 +131,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		if ( this.isExpanded() ) {
 			// ---This is the section that is different for any Part. This should be done calling the list of policies.
 			Vector<IPart> ch = this.runPolicies(this.getChildren());
+			AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaborator children: " + ch.size());
 			// --- End of policies
 			for (IPart part : ch) {
 				if ( part.isVisible() ) if ( part.isRenderWhenEmpty() ) {
@@ -138,6 +140,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 					}
 				}
 				ArrayList<IPart> collaboration = part.collaborate2View();
+				AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaboration parts: " + collaboration.size());
 				result.addAll(collaboration);
 			}
 		}
@@ -221,7 +224,14 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	public boolean isExpanded () {
 		if ( model instanceof IExpandable ) {
 			return ((IExpandable) model).isExpanded();
-		} else return false;
+		}
+		if ( model instanceof AbstractViewableNode ) {
+			return ((AbstractViewableNode) model).isExpanded();
+		}
+		if ( model instanceof AbstractComplexNode ) {
+			return ((AbstractComplexNode) model).isExpanded();
+		}
+		return false;
 	}
 
 	/**
@@ -243,7 +253,14 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	public boolean isRenderWhenEmpty () {
 		if ( model instanceof IExpandable ) {
 			return ((IExpandable) model).isRenderWhenEmpty();
-		}else return true;
+		}
+		if ( model instanceof AbstractViewableNode ) {
+			return ((AbstractViewableNode) model).isRenderWhenEmpty();
+		}
+		if ( model instanceof AbstractComplexNode ) {
+			return ((AbstractComplexNode) model).isRenderWhenEmpty();
+		}
+		return true;
 	}
 @Deprecated
 	public boolean isVisible () {
@@ -389,7 +406,14 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	public boolean toggleExpanded () {
 		if ( model instanceof IExpandable ) {
 			return ((IExpandable) model).toggleExpanded();
-		} else return true;
+		}
+		if ( model instanceof AbstractViewableNode ) {
+			return ((AbstractViewableNode) model).toggleExpanded();
+		}
+		if ( model instanceof AbstractComplexNode ) {
+			return ((AbstractComplexNode) model).toggleExpanded();
+		}
+		return true;
 	}
 
 //	public boolean toggleVisible () {

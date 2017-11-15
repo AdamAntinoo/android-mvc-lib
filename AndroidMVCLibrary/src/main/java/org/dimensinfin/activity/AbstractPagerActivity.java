@@ -28,6 +28,7 @@ import org.dimensinfin.android.mvc.enumerated.EExtrasMVC;
 import java.util.logging.Logger;
 
 //- CLASS IMPLEMENTATION ...................................................................................
+
 /**
  * This abstract Activity will collect all the common code that is being used on the new Activity pattern.
  * Most of the new activities change minor actions on some methods while sharing all the rest of the code.<br>
@@ -35,44 +36,44 @@ import java.util.logging.Logger;
  * show names only if the number of pages is more than 1. Current implementation ises a cicle indicator but
  * will be transistioned to a Titled indicator. The base code will take care of the menu and the Action tool
  * bar.
- * 
+ *
  * @author Adam Antinoo
  */
 public abstract class AbstractPagerActivity extends AppCompatActivity {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	protected static Logger								logger					= Logger.getLogger("AbstractPagerActivity");
+	protected static Logger logger = Logger.getLogger("AbstractPagerActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	protected Toolbar _actionBar			= null;
-	protected ViewPager											_pageContainer	= null;
-	protected AbstractFragmentPagerAdapter	_pageAdapter		= null;
-	protected ImageView											_back						= null;
-	protected CirclePageIndicator						_indicator			= null;
+	protected Toolbar _actionBar = null;
+	protected ViewPager _pageContainer = null;
+	protected AbstractFragmentPagerAdapter _pageAdapter = null;
+	protected ImageView _back = null;
+	protected CirclePageIndicator _indicator = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
-	public Activity getActivity() {
+	public Activity getActivity () {
 		return this;
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	protected void activateIndicator() {
+	protected void activateIndicator () {
 		// If the Indicator is active then set the listener.
-		if (null != _indicator) {
+		if ( null != _indicator ) {
 			_indicator.setVisibility(View.VISIBLE);
 			_indicator.setViewPager(_pageContainer);
 			_indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-				public void onPageScrolled(final int arg0, final float arg1, final int arg2) {
+				public void onPageScrolled (final int arg0, final float arg1, final int arg2) {
 				}
 
-				public void onPageScrollStateChanged(final int arg0) {
+				public void onPageScrollStateChanged (final int arg0) {
 				}
 
-				public void onPageSelected(final int position) {
+				public void onPageSelected (final int position) {
 					_actionBar.setTitle(_pageAdapter.getTitle(position));
 					// Clear empty subtitles.
-					if ("" == _pageAdapter.getSubTitle(position)) {
+					if ( "" == _pageAdapter.getSubTitle(position) ) {
 						_actionBar.setSubtitle(null);
 					} else {
 						_actionBar.setSubtitle(_pageAdapter.getSubTitle(position));
@@ -82,16 +83,16 @@ public abstract class AbstractPagerActivity extends AppCompatActivity {
 		} else {
 			_pageContainer.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-				public void onPageScrolled(final int arg0, final float arg1, final int arg2) {
+				public void onPageScrolled (final int arg0, final float arg1, final int arg2) {
 				}
 
-				public void onPageScrollStateChanged(final int arg0) {
+				public void onPageScrollStateChanged (final int arg0) {
 				}
 
-				public void onPageSelected(final int position) {
+				public void onPageSelected (final int position) {
 					_actionBar.setTitle(_pageAdapter.getTitle(position));
 					// Clear empty subtitles.
-					if ("" == _pageAdapter.getSubTitle(position)) {
+					if ( "" == _pageAdapter.getSubTitle(position) ) {
 						_actionBar.setSubtitle(null);
 					} else {
 						_actionBar.setSubtitle(_pageAdapter.getSubTitle(position));
@@ -101,10 +102,10 @@ public abstract class AbstractPagerActivity extends AppCompatActivity {
 		}
 	}
 
-	protected void addPage(final AbstractPagerFragment newFrag, final int position) {
+	protected void addPage (final AbstractPagerFragment newFrag, final int position) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.addPage]"); //$NON-NLS-1$
 		final Fragment frag = this.getSupportFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(position));
-		if (null == frag) {
+		if ( null == frag ) {
 			_pageAdapter.addPage(newFrag);
 		} else {
 			// Reuse a previous created Fragment. But watch some of the fields have been removed.
@@ -113,46 +114,52 @@ public abstract class AbstractPagerActivity extends AppCompatActivity {
 		}
 		// Check the number of pages to activate the indicator when more the
 		// one.
-		if (_pageAdapter.getCount() > 1) {
+		if ( _pageAdapter.getCount() > 1 ) {
 			this.activateIndicator();
 		}
 		AbstractPagerActivity.logger.info("<< [AbstractPagerActivity.addPage]"); //$NON-NLS-1$
 	}
 
-	protected void disableIndicator() {
-		if (null != _indicator) {
+	protected void disableIndicator () {
+		if ( null != _indicator ) {
 			_indicator.setVisibility(View.GONE);
 		}
 	}
 
-	protected AbstractFragmentPagerAdapter getPageAdapter() {
+	protected AbstractFragmentPagerAdapter getPageAdapter () {
 		return _pageAdapter;
 	}
 
 	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
+	protected void onCreate (final Bundle savedInstanceState) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_pager);
 		try {
 			// Gets the activity's default ActionBar
 			Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-			setSupportActionBar(toolbar);
-			_actionBar=toolbar;
-	//		_acti
-		//	_actionBar = this.getActionBar();
-		//	_actionBar.show();
-		//	_actionBar.setDisplayHomeAsUpEnabled(true);
+			_actionBar = toolbar;
+			try {
+				setSupportActionBar(toolbar);
+			} catch (final Exception rtex) {
+				logger.severe("RTEX> [AbstractPagerActivity.onCreate]> " + rtex.getMessage());
+	//			rtex.printStackTrace();
+				//			this.stopActivity(new RuntimeException("RTEX> AbstractPagerActivity.onCreate - " + rtex.getMessage()));
+			}
+			//		_acti
+			//	_actionBar = this.getActionBar();
+			//	_actionBar.show();
+			//	_actionBar.setDisplayHomeAsUpEnabled(true);
 
 			// Locate the elements of the page and store in global data.
 			_pageContainer = (ViewPager) this.findViewById(R.id.pager);
 			_back = (ImageView) this.findViewById(R.id.backgroundFrame);
 			_indicator = (CirclePageIndicator) this.findViewById(R.id.indicator);
 			// Check page structure.
-			if (null == _pageContainer) {
+			if ( null == _pageContainer ) {
 				this.stopActivity(new RuntimeException("RTEX> Expected UI element not found."));
 			}
-			if (null == _back) {
+			if ( null == _back ) {
 				this.stopActivity(new RuntimeException("RTEX> Expected UI element not found."));
 			}
 
@@ -171,20 +178,20 @@ public abstract class AbstractPagerActivity extends AppCompatActivity {
 	/**
 	 * For really unrecoverable or undefined exceptions the application should go to a safe spot. That spot is
 	 * defined by the application so this is another abstract method.
-	 * 
+	 *
 	 * @param exception
 	 */
-	protected void stopActivity(final Exception exception) {
+	protected void stopActivity (final Exception exception) {
 		final Intent intent = new Intent(this, MVCAppConnector.getSingleton().getFirstActivity());
 		// Pass the user message to the activity for display.
 		intent.putExtra(EExtrasMVC.EXTRA_EXCEPTIONMESSAGE.name(), exception.getMessage());
 		this.startActivity(intent);
 	}
 
-	protected void updateInitialTitle() {
+	protected void updateInitialTitle () {
 		Fragment firstFragment = this.getPageAdapter().getInitialPage();
 		// REFACTOR This IF can be removed once this code works.
-		if (firstFragment instanceof AbstractPagerFragment) {
+		if ( firstFragment instanceof AbstractPagerFragment ) {
 			_actionBar.setTitle(((AbstractPagerFragment) firstFragment).getTitle());
 			_actionBar.setSubtitle(((AbstractPagerFragment) firstFragment).getSubtitle());
 		}
