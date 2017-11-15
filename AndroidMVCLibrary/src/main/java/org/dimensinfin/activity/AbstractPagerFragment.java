@@ -8,20 +8,6 @@
 package org.dimensinfin.activity;
 
 // - IMPORT SECTION .........................................................................................
-import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
-import java.util.Vector;
-import java.util.logging.Logger;
-
-import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.connector.MVCAppConnector;
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
-import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
-import org.dimensinfin.android.mvc.interfaces.IPartFactory;
-import org.dimensinfin.core.model.CEventModel.ECoreModelEvents;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -38,6 +24,22 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import org.dimensinfin.android.mvc.R;
+import org.dimensinfin.android.mvc.connector.MVCAppConnector;
+import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
+import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
+import org.dimensinfin.android.mvc.interfaces.IDataSource;
+import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
+import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.core.model.CEventModel.ECoreModelEvents;
+
+import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
+import java.util.Vector;
+import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 // REFACTOR Used this dependency just to maintain more code compatible with the new model.
@@ -221,7 +223,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-	protected static Logger											logger						= Logger.getLogger("AbstractNewPagerFragment");
+	protected static Logger											logger						= Logger.getLogger("AbstractPagerFragment");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private String															_title						= "<TITLE>";
@@ -230,7 +232,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	protected IDataSource												_datasource				= null;
 	protected DataSourceAdapter									_adapter					= null;
 	// REFACTOR Set back to private after the PagerFragment is removed
-	protected final Vector<AbstractAndroidPart>	_headerContents		= new Vector<AbstractAndroidPart>();
+	protected final Vector<IAndroidPart>	_headerContents		= new Vector<IAndroidPart>();
 	private String															_variant					= null;
 
 	// - U I    F I E L D S
@@ -246,7 +248,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public void addtoHeader(final AbstractAndroidPart target) {
+	public void addtoHeader(final IAndroidPart target) {
 		AbstractPagerFragment.logger.info(">> [AbstractPagerFragment.addtoHeader]");
 		_headerContents.add(target);
 		AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.addtoHeader]");
@@ -318,7 +320,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 		// Check parameters to detect the item selected for menu target.
 		if (view == _headerContainer) {
 			//			 Check if this fragment has the callback configured
-			final AbstractAndroidPart part = _headerContents.firstElement();
+			final IAndroidPart part = _headerContents.firstElement();
 			if (part instanceof IMenuActionTarget) {
 				((IMenuActionTarget) part).onCreateContextMenu(menu, view, menuInfo);
 			}
@@ -409,7 +411,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 			// Add the header parts once the display is initialized.
 			if (_headerContents.size() > 0) {
 				_headerContainer.removeAllViews();
-				for (final AbstractAndroidPart part : _headerContents) {
+				for (final IAndroidPart part : _headerContents) {
 					this.addViewtoHeader(part);
 				}
 			}

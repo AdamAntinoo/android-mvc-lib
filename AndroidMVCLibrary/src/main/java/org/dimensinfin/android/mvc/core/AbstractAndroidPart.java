@@ -8,13 +8,15 @@
 package org.dimensinfin.android.mvc.core;
 
 //- IMPORT SECTION .........................................................................................
-import java.util.logging.Logger;
-
-import org.dimensinfin.android.model.AbstractViewableNode;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.view.View;
+
+import org.dimensinfin.android.model.AbstractViewableNode;
+import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
+
+import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 /**
@@ -24,7 +26,7 @@ import android.view.View;
  * 
  * @author Adam Antinoo
  */
-public abstract class AbstractAndroidPart extends AbstractPart {
+public abstract class AbstractAndroidPart extends AbstractPart implements IAndroidPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long	serialVersionUID	= 7467855028114565679L;
 	private static Logger			logger						= Logger.getLogger("AbstractAndroidPart");
@@ -39,14 +41,16 @@ public abstract class AbstractAndroidPart extends AbstractPart {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public Activity getActivity() {
+	@Override
+	public Activity getActivity () {
 		if (null == _fragment)
 			return _activity;
 		else
 			return this.getFragment().getActivity();
 	}
 
-	public Fragment getFragment() {
+	@Override
+	public Fragment getFragment () {
 		if (null != _fragment)
 			return _fragment;
 		else
@@ -67,46 +71,44 @@ public abstract class AbstractAndroidPart extends AbstractPart {
 	//	}
 
 	/**
-	 * Returns a numeric identifier for this part model item that should be unique from all other system wide
-	 * parts to allow for easy management of the corresponding parts and views.
-	 * 
-	 * @return <code>long</code> identifier with the model number.
-	 */
-	public abstract long getModelID();
-
-	/**
 	 * Activities should not use directly the adapter. They should always use the Fragments for future
 	 * compatibility.
 	 * 
 	 * @param activity
 	 * @return
 	 */
-	public AbstractRender getRenderer(final Activity activity) {
+	@Override
+	public AbstractRender getRenderer (final Activity activity) {
 		_activity = activity;
 		return this.selectRenderer();
 	}
 
-	public AbstractRender getRenderer(final Fragment fragment) {
+	@Override
+	public AbstractRender getRenderer (final Fragment fragment) {
 		_fragment = fragment;
 		_activity = fragment.getActivity();
 		return this.selectRenderer();
 	}
 
-	public View getView() {
+	@Override
+	public View getView () {
 		return _view;
 	}
 
-	public void invalidate() {
+	@Override
+	public void invalidate () {
 		if (null != _view) {
 			this.needsRedraw();
 		}
 	}
 
-	public void needsRedraw() {
+	@Override
+	public void needsRedraw () {
 		_view = null;
 	}
 
-	public void setView(final View convertView) {
+	@Override
+	public void setView (final View convertView) {
 		_view = convertView;
 	}
 
