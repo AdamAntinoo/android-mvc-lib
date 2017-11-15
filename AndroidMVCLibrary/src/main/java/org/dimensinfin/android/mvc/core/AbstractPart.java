@@ -9,12 +9,6 @@ package org.dimensinfin.android.mvc.core;
 
 //- IMPORT SECTION .........................................................................................
 
-import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Vector;
-import java.util.logging.Logger;
-
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.datasource.AbstractDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
@@ -25,6 +19,12 @@ import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.dimensinfin.core.model.RootNode;
+
+import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Vector;
+import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class AbstractPart extends AbstractPropertyChanger implements IPart {
@@ -382,6 +382,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	}
 
 	public IPart setRenderMode (final String renderMode) {
+		// TODO This code is to keep compatibility with the old number render codes.
 		return this.setRenderMode(renderMode.hashCode());
 	}
 

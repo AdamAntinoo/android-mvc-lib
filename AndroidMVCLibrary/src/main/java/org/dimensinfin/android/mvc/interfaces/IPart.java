@@ -8,13 +8,12 @@
 package org.dimensinfin.android.mvc.interfaces;
 
 // - IMPORT SECTION .........................................................................................
+import org.dimensinfin.android.mvc.core.RootPart;
+import org.dimensinfin.core.interfaces.ICollaboration;
+
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Vector;
-
-import org.dimensinfin.android.mvc.core.RootPart;
-import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.model.AbstractComplexNode;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public interface IPart extends PropertyChangeListener {

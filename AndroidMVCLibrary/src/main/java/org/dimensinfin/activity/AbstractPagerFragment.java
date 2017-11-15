@@ -513,7 +513,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	//		this.startActivity(intent);
 	//	}
 
-	private void addViewtoHeader(final AbstractAndroidPart target) {
+	private void addViewtoHeader(final IAndroidPart target) {
 		Log.i("NEOCOM", ">> AbstractPagerFragment.addViewtoHeader");
 		try {
 			final AbstractRender holder = target.getRenderer(this);
