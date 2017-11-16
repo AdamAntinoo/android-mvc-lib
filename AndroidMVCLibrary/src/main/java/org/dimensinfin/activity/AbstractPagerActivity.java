@@ -11,11 +11,11 @@ package org.dimensinfin.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -44,6 +44,7 @@ public abstract class AbstractPagerActivity extends AppCompatActivity {
 	protected static Logger logger = Logger.getLogger("AbstractPagerActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
+	private AppBarLayout _appBar =null;
 	protected Toolbar _actionBar = null;
 	protected ViewPager _pageContainer = null;
 	protected AbstractFragmentPagerAdapter _pageAdapter = null;
@@ -130,26 +131,30 @@ public abstract class AbstractPagerActivity extends AppCompatActivity {
 		return _pageAdapter;
 	}
 
+	protected void hideBar(){
+		if(null!=_appBar)_appBar.setVisibility(View.GONE);
+	}
+	protected void showBar(){
+		if(null!=_appBar)_appBar.setVisibility(View.VISIBLE);
+	}
 	@Override
 	protected void onCreate (final Bundle savedInstanceState) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.activity_pager);
+
+		// This section is the new AppCompat code that will anage the toolbat including it on the layout.
 		try {
-			// Gets the activity's default ActionBar
+			this.setContentView(R.layout.activity_pager);
 			Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-			_actionBar = toolbar;
+			_appBar=(AppBarLayout) findViewById(R.id.appbar);
+			showBar();
 			try {
 				setSupportActionBar(toolbar);
 			} catch (final Exception rtex) {
 				logger.severe("RTEX> [AbstractPagerActivity.onCreate]> " + rtex.getMessage());
-	//			rtex.printStackTrace();
-				//			this.stopActivity(new RuntimeException("RTEX> AbstractPagerActivity.onCreate - " + rtex.getMessage()));
 			}
-			//		_acti
-			//	_actionBar = this.getActionBar();
-			//	_actionBar.show();
-			//	_actionBar.setDisplayHomeAsUpEnabled(true);
+			// Gets the activity's default ActionBar
+			_actionBar = toolbar;
 
 			// Locate the elements of the page and store in global data.
 			_pageContainer = (ViewPager) this.findViewById(R.id.pager);
@@ -168,9 +173,9 @@ public abstract class AbstractPagerActivity extends AppCompatActivity {
 			_pageContainer.setAdapter(_pageAdapter);
 			this.disableIndicator();
 		} catch (final Exception rtex) {
-			Log.e("EVEI", "RTEX> AbstractPagerActivity.onCreate - " + rtex.getMessage());
+			logger.severe("RTEX> [AbstractPagerActivity.onCreate]> " + rtex.getMessage());
 			rtex.printStackTrace();
-			this.stopActivity(new RuntimeException("RTEX> AbstractPagerActivity.onCreate - " + rtex.getMessage()));
+			this.stopActivity(new RuntimeException("RTEX> [AbstractPagerActivity.onCreate]> " + rtex.getMessage()));
 		}
 		AbstractPagerActivity.logger.info("<< [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
 	}
