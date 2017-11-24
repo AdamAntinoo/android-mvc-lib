@@ -1,8 +1,5 @@
 apply plugin: 'com.android.library'
 
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
-
 android {
     compileSdkVersion 27
 
@@ -13,7 +10,6 @@ android {
         versionName "2.0.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {

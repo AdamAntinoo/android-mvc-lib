@@ -8,22 +8,9 @@
 package org.dimensinfin.android.mvc.datasource;
 
 // - IMPORT SECTION .........................................................................................
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.logging.Logger;
-
-import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,6 +18,17 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import org.dimensinfin.android.mvc.R;
+import org.dimensinfin.android.mvc.constants.SystemWideConstants;
+import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.interfaces.IDataSource;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 /**
@@ -172,15 +170,15 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			if (null == message) {
 				message = "NullPointerException detected.";
 			}
-			DataSourceAdapter.logger.severe("R> Runtime Exception on DataSourceAdapter.getView." + message);
+			DataSourceAdapter.logger.severe("RTEX [DataSourceAdapter.getView]> Runtime Exception: " + message);
 			rtex.printStackTrace();
 			//DEBUG Add exception registration to the exception page.
 			final LayoutInflater mInflater = (LayoutInflater) this.getContext()
 					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-			// UNder an exception we can replace the View item by this special layout with the Exception message.
+			// Under an exception we can replace the View item by this special layout with the Exception message.
 			convertView = mInflater.inflate(R.layout.exception_4list, null);
 			TextView exceptionMessage = (TextView) convertView.findViewById(R.id.exceptionMessage);
-			exceptionMessage.setText("X> EveBaseAdapter.getView] " + message);
+			exceptionMessage.setText("[DataSourceAdapter.getView]> RTEX > " + message);
 			return convertView;
 		}
 	}
@@ -216,7 +214,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 		return _context;
 	}
 
-	protected void setModel(final ArrayList<AbstractAndroidPart> partData) {
+	public void setModel (final ArrayList<AbstractAndroidPart> partData) {
 		_hierarchy.clear();
 		//		_hierarchyViews.clear();
 		_hierarchy.addAll(partData);

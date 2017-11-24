@@ -138,7 +138,7 @@ public abstract class AbstractPagerActivity extends AppCompatActivity {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 
-		// This section is the new AppCompat code that will anage the toolbat including it on the layout.
+		// This section is the new AppCompat code that will manage the standrd appcomapt toolbar.
 		try {
 			// Set the layout to the core activity that defines the background, the indicator and the fragment container.
 			this.setContentView(R.layout.activity_pager);

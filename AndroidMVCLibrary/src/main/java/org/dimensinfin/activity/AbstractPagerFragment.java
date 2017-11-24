@@ -69,9 +69,13 @@ public abstract class AbstractPagerFragment extends Fragment {
 		protected Void doInBackground(final AbstractPagerFragment... arg0) {
 			AbstractPagerFragment.logger.info(">> [AbstractPagerFragment.CreatePartsTask.doInBackground]");
 			try {
+				// Install the adapter as the first task so if the DataSource needs it it is ready.
+				_adapter = new DataSourceAdapter(_fragment, _datasource);
 				// Create the hierarchy structure to be used on the Adapter.
 				_datasource.collaborate2Model();
 				_datasource.createContentHierarchy();
+				// Fire again the population of the adapter after the model is initialized
+				_adapter.setModel(_datasource.getBodyParts());
 			} catch (final RuntimeException rtex) {
 				rtex.printStackTrace();
 			}
@@ -81,9 +85,9 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(final Void result) {
-			Log.i("NEOCOM", ">> CreatePartsTask.onPostExecute");
+			logger.info(">> [CreatePartsTask.onPostExecute]");
 			// Activate the display of the list to force a redraw. Stop user UI waiting.
-			_adapter = new DataSourceAdapter(_fragment, _datasource);
+	//		_adapter = new DataSourceAdapter(_fragment, _datasource);
 			_modelContainer.setAdapter(_adapter);
 
 			_progressLayout.setVisibility(View.GONE);
@@ -100,7 +104,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 				}
 			}
 			super.onPostExecute(result);
-			Log.i("NEOCOM", "<< CreatePartsTask.onPostExecute");
+			logger.info("<< [CreatePartsTask.onPostExecute]");
 		}
 	}
 
@@ -313,7 +317,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 	@Override
 	public void onCreateContextMenu(final ContextMenu menu, final View view, final ContextMenuInfo menuInfo) {
-		Log.i("NEOCOM", ">> PageFragment.onCreateContextMenu"); //$NON-NLS-1$
+		logger.info(">> [AbstractPagerFragment.onCreateContextMenu]"); //$NON-NLS-1$
 		// REFACTOR If we call the super then the fragment's parent activity gets called. So the listcallback and the Activity
 		// have not to be the same
 		super.onCreateContextMenu(menu, view, menuInfo);
@@ -334,7 +338,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 				((IMenuActionTarget) part).onCreateContextMenu(menu, view, menuInfo);
 			}
 		}
-		Log.i("NEOCOM", "<< PageFragment.onCreateContextMenu"); //$NON-NLS-1$
+		logger.info("<< [AbstractPagerFragment.onCreateContextMenu]"); //$NON-NLS-1$
 	}
 
 	/**
@@ -487,7 +491,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 			return false;
 	}
 
-	protected IDataSource getDataSource() {
+	public IDataSource getDataSource () {
 		return _datasource;
 	}
 
@@ -514,7 +518,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	//	}
 
 	private void addViewtoHeader(final IAndroidPart target) {
-		Log.i("NEOCOM", ">> AbstractPagerFragment.addViewtoHeader");
+		logger.info(">> [AbstractPagerFragment.addViewtoHeader]");
 		try {
 			final AbstractRender holder = target.getRenderer(this);
 			holder.initializeViews();
@@ -531,7 +535,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 			Log.e("PageFragment", "R> PageFragment.addViewtoHeader RuntimeException. " + rtex.getMessage());
 			rtex.printStackTrace();
 		}
-		Log.i("NEOCOM", "<< AbstractPagerFragment.addViewtoHeader");
+		logger.info("<< AbstractPagerFragment.addViewtoHeader");
 	}
 }
 
