@@ -428,7 +428,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 */
 	protected IPart createChild (final ICollaboration model) {
 		IPartFactory factory = this.getRoot().getPartFactory();
-		IPart part = factory.createPart((AbstractComplexNode) model);
+		IPart part = factory.createPart(model);
 		// If the factory is unable to create the Part then skip this element or wait to be replaced by a dummy
 		if ( null != part ) {
 			part.setParent(this);

@@ -69,7 +69,8 @@ public class AndroidMVCDemoFragment extends AbstractPagerFragment {
 	 */
 	@Override
 	protected void setHeaderContents () {
-		addHeaderModel(new DemoHeaderTitle(AndroidMVCAppSingleton.getSingleton().getResourceString(R.string.appname), AndroidMVCAppSingleton.getSingleton().getResourceString(R.string.appversion));
+		addHeaderModel(new DemoHeaderTitle(AndroidMVCAppSingleton.getSingleton().getResourceString(R.string.appname),
+				AndroidMVCAppSingleton.getSingleton().getResourceString(R.string.appversion)));
 	}
 }
 
@@ -145,18 +146,22 @@ final class DemoSeparatorGenerator extends AbstractGenerator implements IModelGe
 	 * of keys and from there to the set of characters.
 	 */
 	public RootNode collaborate2Model () {
-		AbstractGenerator.logger.info(">> [LoginListGenerator.collaborate2Model]");
+		AbstractGenerator.logger.info(">> [DemoSeparatorGenerator.collaborate2Model]");
 		// Initialize the Adapter data structures.
 		this.setDataModel(new RootNode());
-		// Add each Login to the list. They will expand to show the Character selection.
-		for (Login login : NeoComAppConnector.getSingleton().getModelStore().accessLoginList().values()) {
-			_dataModelRoot.addChild(login);
-			AbstractGenerator.logger
-					.info("-- [LoginListGenerator.collaborate2Model]> Adding '" + login.getName() + "' to the _dataModelRoot");
-		}
-		// Add the node to display the new New Login Button.
-		_dataModelRoot.addChild(new NewLoginAction());
-		AbstractGenerator.logger.info("<< [LoginListGenerator.collaborate2Model]");
+
+		// Add manually each of the demo model nodes.
+		Separator node = new Separator("RED-Line").setType(Separator.ESeparatorType.LINE_RED);
+		_dataModelRoot.addChild(node);
+		node = new Separator("ORANGE-Line").setType(Separator.ESeparatorType.LINE_ORANGE);
+		_dataModelRoot.addChild(node);
+		node = new Separator("YELLOW-Line").setType(Separator.ESeparatorType.LINE_YELLOW);
+		_dataModelRoot.addChild(node);
+		node = new Separator("GREEN-Line").setType(Separator.ESeparatorType.LINE_GREEN);
+		_dataModelRoot.addChild(node);
+
+
+		AbstractGenerator.logger.info("<< [DemoSeparatorGenerator.collaborate2Model]");
 		return _dataModelRoot;
 	}
 }

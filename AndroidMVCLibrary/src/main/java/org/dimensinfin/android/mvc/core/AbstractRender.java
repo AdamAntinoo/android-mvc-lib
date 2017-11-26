@@ -7,30 +7,30 @@
 //									the extended GEF model into the Android View to be used on ListViews.
 package org.dimensinfin.android.mvc.core;
 
-// - IMPORT SECTION .........................................................................................
-import java.util.HashMap;
-import java.util.logging.Logger;
-
-import org.dimensinfin.android.mvc.R;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
+import org.dimensinfin.android.mvc.R;
+
+import java.util.HashMap;
+import java.util.logging.Logger;
+
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class AbstractRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger									logger				= Logger.getLogger("AbstractHolder");
+	private static Logger logger				= Logger.getLogger("AbstractHolder");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	protected View												_convertView	= null;
-	private Activity											_context			= null;
+	protected View _convertView	= null;
+	private Activity _context			= null;
 	private AbstractPart									_part					= null;
-	private final HashMap<String, Object>	_extras				= new HashMap<String, Object>();
+	private final HashMap<String, Object> _extras				= new HashMap<String, Object>();
 
 	//- L A Y O U T   F I E L D S
-	protected ImageView										_rightArrow		= null;
+	protected ImageView _rightArrow		= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AbstractRender(final AbstractPart newPart, final Activity context) {
