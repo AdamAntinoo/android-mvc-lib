@@ -12,37 +12,38 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.view.View;
 
-import org.dimensinfin.android.model.AbstractViewableNode;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
+import org.dimensinfin.core.interfaces.ICollaboration;
 
 import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
+
 /**
  * Core code for any Android Part. Will have enough code to deal with the adaptation of a Part to the
  * DataSourceAdapter needs to connect the part with the view. Has the knowledge of the Render and how to
  * report tehm to the Adapter.
- * 
+ *
  * @author Adam Antinoo
  */
 public abstract class AbstractAndroidPart extends AbstractPart implements IAndroidPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static final long	serialVersionUID	= 7467855028114565679L;
-	private static Logger			logger						= Logger.getLogger("AbstractAndroidPart");
+	private static final long serialVersionUID = 7467855028114565679L;
+	protected static Logger logger = Logger.getLogger("AbstractAndroidPart");
 
-	protected Activity				_activity					= null;
-	protected Fragment				_fragment					= null;
-	private View _view							= null;
+	protected Activity _activity = null;
+	protected Fragment _fragment = null;
+	private View _view = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public AbstractAndroidPart(final AbstractViewableNode model) {
+	public AbstractAndroidPart (final ICollaboration model) {
 		super(model);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
 	public Activity getActivity () {
-		if (null == _fragment)
+		if ( null == _fragment )
 			return _activity;
 		else
 			return this.getFragment().getActivity();
@@ -50,29 +51,16 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 
 	@Override
 	public Fragment getFragment () {
-		if (null != _fragment)
+		if ( null != _fragment )
 			return _fragment;
 		else
 			throw new RuntimeException("Fragment object not available on access on a Part.");
 	}
 
-	//	@Deprecated
-	//	public AbstractHolder getHolder(final Activity activity) {
-	//		_activity = activity;
-	//		return this.selectHolder();
-	//	}
-	//
-	//	@Deprecated
-	//	public AbstractHolder getHolder(final Fragment fragment) {
-	//		_fragment = fragment;
-	//		_activity = fragment.getActivity();
-	//		return this.selectHolder();
-	//	}
-
 	/**
 	 * Activities should not use directly the adapter. They should always use the Fragments for future
 	 * compatibility.
-	 * 
+	 *
 	 * @param activity
 	 * @return
 	 */
@@ -96,7 +84,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 
 	@Override
 	public void invalidate () {
-		if (null != _view) {
+		if ( null != _view ) {
 			this.needsRedraw();
 		}
 	}
@@ -111,14 +99,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 		_view = convertView;
 	}
 
-	//	protected void removeChildVisual(final IEditPart child) {
-	//		this.invalidate();
-	//		_view = null;
-	//	}
-	//	@Deprecated
-	//	protected abstract AbstractHolder selectHolder();
-
-	protected abstract AbstractRender selectRenderer();
+	protected abstract AbstractRender selectRenderer ();
 }
 
 // - UNUSED CODE ............................................................................................

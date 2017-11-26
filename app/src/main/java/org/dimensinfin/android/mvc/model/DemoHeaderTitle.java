@@ -1,24 +1,17 @@
-//	PROJECT:        NeoCom.model (NEOC.M)
+//	PROJECT:        Android.MVC (A.MVC)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2016 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API16.
-//	DESCRIPTION:		Isolated model structures to access and manage Eve Online character data and their
-//									available databases.
-//									This version includes the access to the latest 6.x version of eveapi libraries to
-//									download ad parse the CCP XML API data.
-//									Code integration that is not dependent on any specific platform.
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:		Android API22.
+//	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
+//									on Android projects. Defines the Part factory and the Part core methods to manage
+//									a generic data graph into a Part hierarchy and finally on the Android View to be
+//                  used on ListViews.
 package org.dimensinfin.android.mvc.model;
 
-//- IMPORT SECTION .........................................................................................
-
-import org.dimensinfin.android.model.AbstractViewableNode;
-import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.AbstractComplexNode;
-import org.dimensinfin.core.model.IGEFNode;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class DemoHeaderTitle implements ICollaboration {

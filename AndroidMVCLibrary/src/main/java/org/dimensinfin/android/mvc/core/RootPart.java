@@ -20,7 +20,7 @@ import org.dimensinfin.core.model.RootNode;
 public class RootPart extends AbstractPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long					serialVersionUID	= -8085543451527813221L;
-	private static Logger							logger						= Logger.getLogger("SeparatorPart");
+	private static Logger							logger						= Logger.getLogger("GenericConfigurableIconPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private boolean										sort							= false;

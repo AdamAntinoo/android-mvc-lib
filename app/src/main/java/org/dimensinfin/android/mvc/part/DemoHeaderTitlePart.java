@@ -1,14 +1,20 @@
-//	PROJECT:        NeoCom.Android (NEOC.A)
+//	PROJECT:        Android.MVC (A.MVC)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2016 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API16.
-//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. The set is composed of some projects
-//									with implementation for Android and for an AngularJS web interface based on REST
-//									services on Sprint Boot Cloud.
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:		Android API22.
+//	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
+//									on Android projects. Defines the Part factory and the Part core methods to manage
+//									a generic data graph into a Part hierarchy and finally on the Android View to be
+//                  used on ListViews.
 package org.dimensinfin.android.mvc.part;
 
+import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.Collections;
 import java.util.GregorianCalendar;
@@ -23,101 +29,100 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class DemoHeaderTitlePart<T> extends AbstractAndroidPart {
+public class DemoHeaderTitlePart extends AbstractAndroidPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long	serialVersionUID	= -7103273035430243825L;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private int								priority					= 10;
-	private int								iconReference			= R.drawable.defaultitemicon;
-	private final String			renderModeName		= "-DEFAULT-RENDER-MODE-";
+	private int iconReference = R.drawable.defaulticonplaceholder;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public DemoHeaderTitlePart(final <T> node) {
+	public DemoHeaderTitlePart(final DemoHeaderTitle node) {
 		super(node);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public String get_counter() {
-		return EveAbstractPart.qtyFormatter.format(this.getChildren().size());
-	}
-
-	public Separator getCastedModel() {
-		return (Separator) this.getModel();
-	}
-
-	public int getChildrenCount() {
-		return this.getChildren().size();
+	public DemoHeaderTitle getCastedModel() {
+		return (DemoHeaderTitle) this.getModel();
 	}
 
 	public int getIconReference() {
 		return iconReference;
 	}
-
+	public DemoHeaderTitlePart setIconReference(final int resourceIdentifier) {
+		logger.info("-- [DemoHeaderTitlePart.setIconReference]> setting icon ref: " + resourceIdentifier);
+		iconReference = resourceIdentifier;
+		return this;
+	}
 	@Override
 	public long getModelID() {
 		return GregorianCalendar.getInstance().getTimeInMillis();
 	}
 
-	public String getTitle() {
-		return this.getCastedModel().getTitle();
-	}
-
-	/**
-	 * The default actions inside this method usually are the sorting of the children nodes. Sort the container
-	 * contents by name.
-	 */
 	@Override
-	public Vector<IPart> runPolicies(final Vector<IPart> targets) {
-		// Order the contents by alphabetical name.
-		Collections.sort(targets, NeoComApp.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
-		return targets;
-	}
-
-	public GroupPart setIconReference(final int ref) {
-		Log.i("REMOVE", "-- GroupPart.setIconReference - " + this.toString() + " change value to: " + ref);
-		iconReference = ref;
-		return this;
-	}
-
-	public EveAbstractPart setPriority(final int pri) {
-		priority = pri;
-		return this;
-	}
-
-	//	@Override
-	//	public IPart setRenderMode(int renderMode) {
-	//		if (null != renderMode) {
-	//			renderModeName = renderMode;
-	//		}
-	//		return this;
-	//	}
-
-	@Override
-	public String toString() {
-		StringBuffer buffer = new StringBuffer("GroupPart [");
-		buffer.append(this.getTitle()).append(" ");
-		buffer.append(priority).append(" ");
-		buffer.append("chCount: ").append(this.getChildren().size()).append(" ");
+	public String toString () {
+		StringBuffer buffer = new StringBuffer("DemoHeaderTitlePart [");
+		buffer.append("icon ref id: ").append(iconReference);
 		buffer.append("]");
 		return buffer.toString();
 	}
-
 	@Override
-	protected AbstractRender selectRenderer() {
-		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_GROUPMARKETSIDE)
-			return new MarketSideRender(this, _activity);
-		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_GROUPJOBSTATE)
-			return new JobStateRender(this, _activity);
-		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING)
-			return new ShipSlotRender(this, _activity);
-		if (this.getRenderModeName() == ESeparatorType.EMPTY_FITTINGLIST.name())
-			return new EmptySeparatorBoardRender(this, _activity);
-		return new IndustryGroupRender(this, _activity);
+	protected AbstractRender selectRenderer () {
+		return new DemoHeaderTitleRender(this, _activity);
+	}
+}
+// - CLASS IMPLEMENTATION ...................................................................................
+final class DemoHeaderTitleRender extends AbstractRender {
+	// - S T A T I C - S E C T I O N ..........................................................................
+
+	// - F I E L D - S E C T I O N ............................................................................
+	private ImageView nodeIcon = null;
+	private TextView title = null;
+
+	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	public DemoHeaderTitleRender (final AbstractAndroidPart target, final Activity context) {
+		super(target, context);
 	}
 
-	private String getRenderModeName() {
-		return renderModeName;
+	// - M E T H O D - S E C T I O N ..........................................................................
+	@Override
+	public DemoHeaderTitlePart getPart () {
+		return (DemoHeaderTitlePart) super.getPart();
+	}
+
+	@Override
+	public void initializeViews () {
+		super.initializeViews();
+		nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
+		title = (TextView) _convertView.findViewById(R.id.title);
+	}
+
+	@Override
+	public void updateContent () {
+		super.updateContent();
+		nodeIcon.setImageResource(getPart().getIconReference());
+		title.setText(getPart().getCastedModel().getName());
+		title.setVisibility(View.GONE);
+
+
+		String tt = getPart().getTitle();
+		count.setVisibility(View.GONE);
+		if ( null != tt ) {
+			title.setVisibility(View.VISIBLE);
+		}
+		int counter = getPart().getChildren().size();
+		if ( counter > 0 ) {
+			count.setText(getPart().get_counter());
+			count.setVisibility(View.INVISIBLE);
+		}
+		int resource = JobManager.getIconIdentifier(EIndustryGroup.decode(getPart().getTitle()));
+	}
+
+	@Override
+	protected void createView () {
+		final LayoutInflater mInflater = (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		_convertView = mInflater.inflate(R.layout.group4manufacture, null);
+		_convertView.setTag(this);
 	}
 }
 
