@@ -1,10 +1,10 @@
-//	PROJECT:        Core.Android (C.A)
+//	PROJECT:        NeoCom.MVC (NEOC.MVC)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2017-2018 by Dimensinfin Industries, all rights reserved.
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
 //	ENVIRONMENT:		Android API16.
-//	DESCRIPTION:		Library to define core interfaces and code for standard development of native Android
-//									applications. Will provide the contants and Decorators to isolate implementations
-//									and generate the request to implement the correct methods.
+//	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
+//									on Android projects. Defines the Part factory and the Part core methods to manage
+//									the extended GEF model into the Android View to be used on ListViews.
 package org.dimensinfin.android.connector;
 
 import android.content.Context;

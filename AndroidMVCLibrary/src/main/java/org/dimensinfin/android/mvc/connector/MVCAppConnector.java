@@ -31,15 +31,6 @@ public class MVCAppConnector extends AndroidAppConnector implements IMVCAppConne
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	//	@Override
-	//	public Context getApplicationContext() {
-	//		if (null == _connector)
-	//			throw new RuntimeException(
-	//					"RTEX [MVCAppConnector.getApplicationContext]> Application connection not defined. Functionality 'getApplicationContext' disabled.");
-	//		else
-	//			return _connector.getApplicationContext();
-	//	}
-
 	@Override
 	public Class<?> getFirstActivity() {
 		if (null == _connector)
@@ -48,24 +39,6 @@ public class MVCAppConnector extends AndroidAppConnector implements IMVCAppConne
 		else
 			return _connector.getFirstActivity();
 	}
-	//
-	//	@Override
-	//	public Resources getResources() {
-	//		if (null == _connector)
-	//			throw new RuntimeException(
-	//					"RTEX [MVCAppConnector.getResources]> Application connection not defined. Functionality 'getResources' disabled.");
-	//		else
-	//			return _connector.getResources();
-	//	}
-	//
-	//	@Override
-	//	public Object getSystemService(final String name) {
-	//		if (null == _connector)
-	//			throw new RuntimeException(
-	//					"RTEX [MVCAppConnector.getSystemService]> Application connection not defined. Functionality 'getSystemService' disabled.");
-	//		else
-	//			return _connector.getSystemService(name);
-	//	}
 }
 
 // - UNUSED CODE ............................................................................................

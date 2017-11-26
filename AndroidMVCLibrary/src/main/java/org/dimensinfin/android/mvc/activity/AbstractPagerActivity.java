@@ -1,25 +1,23 @@
-//	PROJECT:        NeoCom.Android (NEOC.A)
+//	PROJECT:        NeoCom.MVC (NEOC.MVC)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2016 by Dimensinfin Industries, all rights reserved.
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
 //	ENVIRONMENT:		Android API16.
-//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. The set is composed of some projects
-//									with implementation for Android and for an AngularJS web interface based on REST
-//									services on Sprint Boot Cloud.
-package org.dimensinfin.activity;
+//	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
+//									on Android projects. Defines the Part factory and the Part core methods to manage
+//									the extended GEF model into the Android View to be used on ListViews.
+package org.dimensinfin.android.mvc.activity;
 
 import java.util.logging.Logger;
 
+import org.dimensinfin.android.mvc.datasource.AbstractFragmentPagerAdapter;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.connector.MVCAppConnector;
-import org.dimensinfin.android.mvc.enumerated.EExtrasMVC;
 
 import com.viewpagerindicator.CirclePageIndicator;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -39,6 +37,10 @@ import android.widget.ImageView;
  * @author Adam Antinoo
  */
 public abstract class AbstractPagerActivity extends Activity {
+	public enum EExtrasMVC {
+		EXTRA_EXCEPTIONMESSAGE
+	}
+
 	// - S T A T I C - S E C T I O N ..........................................................................
 	protected static Logger logger = Logger.getLogger("AbstractPagerActivity");
 
