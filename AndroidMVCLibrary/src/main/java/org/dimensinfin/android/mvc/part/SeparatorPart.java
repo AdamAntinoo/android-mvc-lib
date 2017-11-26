@@ -32,7 +32,7 @@ public class SeparatorPart extends AbstractAndroidPart {
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private int											priority					= 10;
-	private int											iconReference			= R.drawable.defaultitemicon;
+	private int											iconReference			= R.drawable.defaulticonplaceholder;
 	private final String						renderModeName		= "-DEFAULT-RENDER-MODE-";
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................

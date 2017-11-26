@@ -176,7 +176,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			final LayoutInflater mInflater = (LayoutInflater) this.getContext()
 					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 			// Under an exception we can replace the View item by this special layout with the Exception message.
-			convertView = mInflater.inflate(R.layout.exception_4list, null);
+			convertView = mInflater.inflate(R.layout.exception4list, null);
 			TextView exceptionMessage = (TextView) convertView.findViewById(R.id.exceptionMessage);
 			exceptionMessage.setText("[DataSourceAdapter.getView]> RTEX > " + message);
 			return convertView;
