@@ -2,37 +2,104 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppTheme" parent="@android:style/Theme.Holo">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="AppBaseTheme" parent="android:Theme.Light"></style>
-
-    <style name="NeoComActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+    <style name="NeoComActionBar" parent="@android:style/Widget.Holo.ActionBar">
         <item name="android:background">@android:color/black</item>
         <item name="android:titleTextStyle">@style/AppTheme.ActionBar.TitleTextStyle</item>
     </style>
 
-    <style name="AppTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.StatusBar.Title">
-        <item name="android:textColor">@color/apporangemedium</item>
-        <item name="android:shadowColor">@color/apporangemedium</item>
+    <style name="AppTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/apporange</item>
+        <item name="android:shadowColor">@color/apporange</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">0</item>
         <item name="android:shadowRadius">10</item>
     </style>
 
+    <!-- Definition of the Application Theme Icons -->
+    <style name="AppTheme.ItemIcon">
+        <item name="android:layout_width">@dimen/itemIcon32</item>
+        <item name="android:layout_height">@dimen/itemIcon32</item>
+        <item name="android:contentDescription">@string/default_content_description</item>
+        <item name="android:src">@drawable/defaultitemicon</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginRight">3dp</item>
+        <item name="android:layout_marginLeft">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:background">@drawable/whiteborderbox</item>
+    </style>
+
+    <style name="AppTheme.ItemIcon.NoBorder">
+        <item name="android:layout_width">@dimen/itemIcon32</item>
+        <item name="android:layout_height">@dimen/itemIcon32</item>
+        <item name="android:contentDescription">@string/default_content_description</item>
+        <item name="android:src">@drawable/defaultitemicon</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginRight">3dp</item>
+        <item name="android:layout_marginLeft">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:background">#00000000</item>
+    </style>
+
+    <style name="AppTheme.Arrow">
+        <item name="android:layout_width">28dp</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:gravity">right</item>
+        <item name="android:layout_gravity">right</item>
+        <item name="android:visibility">visible</item>
+        <item name="android:src">@drawable/arrowleft</item>
+    </style>
+
+    <style name="AppTheme.Label">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">7sp</item>
+    </style>
+
+    <style name="AppTheme.Label.BottomLine">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bottomwhiteline</item>
+    </style>
+
+    <style name="AppTheme.Label.TopLine">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/topwhiteline</item>
+    </style>
+
+    <style name="AppTheme.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="AppTheme.TextView.Glow">
+        <item name="android:shadowColor">@android:color/white</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">10</item>
+    </style>
+
+    <style name="AppTheme.TextView.Glow.White">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:shadowColor">@android:color/white</item>
+    </style>
+
+    <!-- Definition of the Progress indicator -->
     <style name="Widget"></style>
 
     <style name="Widget.ProgressBar">

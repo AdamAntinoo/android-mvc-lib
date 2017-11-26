@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <!-- Android Common UI dimensions. Separators -->
-    <dimen name="separatorwidth">2dp</dimen>
-    <dimen name="separatorradius">2dp</dimen>
-
-</resources>

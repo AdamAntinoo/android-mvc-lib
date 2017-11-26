@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/separatorborderred">
+
+    <ImageView
+        android:id="@+id/nodeIcon"
+        style="@style/AppTheme.ItemIcon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="2dp"
+        android:src="@drawable/defaulticonplaceholder" />
+
+    <ImageView
+        android:id="@+id/rightArrow"
+        style="@style/AppTheme.Arrow"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:visibility="visible"
+        android:layout_alignParentRight="true" />
+
+    <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
+        android:id="@+id/title"
+        style="@style/AppTheme.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/nodeIcon"
+        android:text="@string/default_title"
+        android:textColor="@color/appwhite"
+        android:textSize="16sp" />
+
+    <org.dimensinfin.android.mvc.fonts.MonsOlympiaTextView
+        android:id="@+id/subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_toRightOf="@+id/nodeIcon"
+        android:text="-SUBTITLE-"
+        android:textColor="@android:color/white"
+        android:textSize="14dp" />
+</RelativeLayout>
