@@ -23,7 +23,7 @@
         <item name="android:layout_width">@dimen/itemIcon32</item>
         <item name="android:layout_height">@dimen/itemIcon32</item>
         <item name="android:contentDescription">@string/default_content_description</item>
-        <item name="android:src">@drawable/defaultitemicon</item>
+        <item name="android:src">@drawable/defaulticonplaceholder</item>
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:layout_alignParentTop">true</item>
         <item name="android:layout_marginRight">3dp</item>
@@ -37,7 +37,7 @@
         <item name="android:layout_width">@dimen/itemIcon32</item>
         <item name="android:layout_height">@dimen/itemIcon32</item>
         <item name="android:contentDescription">@string/default_content_description</item>
-        <item name="android:src">@drawable/defaultitemicon</item>
+        <item name="android:src">@drawable/defaulticonplaceholder</item>
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:layout_alignParentTop">true</item>
         <item name="android:layout_marginRight">3dp</item>

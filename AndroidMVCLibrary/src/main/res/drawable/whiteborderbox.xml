@@ -8,8 +8,9 @@
         android:top="1dip" />
 
     <solid android:color="@android:color/transparent" />
-    <stroke
+
+    <stroke
         android:width="2px"
-        android:color="@color/whitePrice" />
+        android:color="@color/appwhite" />
 
 </shape>
