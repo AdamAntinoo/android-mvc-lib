@@ -1,20 +1,19 @@
-//	PROJECT:        EVEIndustrialist (EVEI)
+//	PROJECT:        NeoCom.MVC (NEOC.MVC)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2014 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API11.
-//	DESCRIPTION:		Application helper for Eve Online Industrialists. Will help on Industry and Manufacture.
-
-package org.dimensinfin.eveonline.neocom.fonts;
-
-// - IMPORT SECTION .........................................................................................
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:		Android API16.
+//	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
+//									on Android projects. Defines the Part factory and the Part core methods to manage
+//									the extended GEF model into the Android View to be used on ListViews.
+package org.dimensinfin.android.mvc.fonts;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
+import android.widget.EditText;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class MonsOlympiaEditText extends AppCompatEditText {
+public class MonsOlympiaEditText extends EditText {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	protected static Typeface typefaceName = null;
 
