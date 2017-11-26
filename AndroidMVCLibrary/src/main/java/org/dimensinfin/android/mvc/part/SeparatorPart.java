@@ -1,131 +1,171 @@
-//	PROJECT:        NeoCom.Android (NEOC.A)
+//	PROJECT:        Android.MVC (A.MVC)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2016 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API16.
-//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. The set is composed of some projects
-//									with implementation for Android and for an AngularJS web interface based on REST
-//									services on Sprint Boot Cloud.
-package org.dimensinfin.eveonline.neocom.part;
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:		Android API22.
+//	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
+//									on Android projects. Defines the Part factory and the Part core methods to manage
+//									a generic data graph into a Part hierarchy and finally on the Android View to be
+//                  used on ListViews.
+package org.dimensinfin.android.mvc.part;
 
-import java.util.Collections;
-import java.util.GregorianCalendar;
-import java.util.Vector;
+import android.app.Activity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import org.dimensinfin.android.model.Separator;
-import org.dimensinfin.android.model.Separator.ESeparatorType;
+import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.eveonline.neocom.NeoComApp;
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
-import org.dimensinfin.eveonline.neocom.render.EmptySeparatorBoardRender;
-import org.dimensinfin.eveonline.neocom.render.IndustryGroupRender;
-import org.dimensinfin.eveonline.neocom.render.JobStateRender;
-import org.dimensinfin.eveonline.neocom.render.MarketSideRender;
-import org.dimensinfin.eveonline.neocom.render.ShipSlotRender;
 
-import android.util.Log;
+import java.util.GregorianCalendar;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class SeparatorPart extends AbstractAndroidPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static final long	serialVersionUID	= -7108273035430243825L;
+	private static final long serialVersionUID = -7108273035439243825L;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private int								priority					= 10;
-	private int								iconReference			= R.drawable.defaultitemicon;
-	private final String			renderModeName		= "-DEFAULT-RENDER-MODE-";
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public SeparatorPart(final Separator node) {
+	public SeparatorPart (final Separator node) {
 		super(node);
-		this.getCastedModel().setExpanded(true);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public String get_counter() {
-		return EveAbstractPart.qtyFormatter.format(this.getChildren().size());
-	}
-
-	public Separator getCastedModel() {
+	public Separator getCastedModel () {
 		return (Separator) this.getModel();
 	}
 
-	public int getChildrenCount() {
-		return this.getChildren().size();
-	}
-
-	public int getIconReference() {
-		return iconReference;
-	}
-
 	@Override
-	public long getModelID() {
+	public long getModelID () {
 		return GregorianCalendar.getInstance().getTimeInMillis();
 	}
 
-	public String getTitle() {
+	public String getTitle () {
 		return this.getCastedModel().getTitle();
 	}
 
-	/**
-	 * The default actions inside this method usually are the sorting of the children nodes. Sort the container
-	 * contents by name.
-	 */
 	@Override
-	public Vector<IPart> runPolicies(final Vector<IPart> targets) {
-		// Order the contents by alphabetical name.
-		Collections.sort(targets, NeoComApp.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
-		return targets;
-	}
-
-	public GroupPart setIconReference(final int ref) {
-		Log.i("REMOVE", "-- GroupPart.setIconReference - " + this.toString() + " change value to: " + ref);
-		iconReference = ref;
-		return this;
-	}
-
-	public EveAbstractPart setPriority(final int pri) {
-		priority = pri;
-		return this;
-	}
-
-	//	@Override
-	//	public IPart setRenderMode(int renderMode) {
-	//		if (null != renderMode) {
-	//			renderModeName = renderMode;
-	//		}
-	//		return this;
-	//	}
-
-	@Override
-	public String toString() {
-		StringBuffer buffer = new StringBuffer("GroupPart [");
-		buffer.append(this.getTitle()).append(" ");
-		buffer.append(priority).append(" ");
-		buffer.append("chCount: ").append(this.getChildren().size()).append(" ");
+	public String toString () {
+		StringBuffer buffer = new StringBuffer("SeparatorPart [");
+		buffer.append(getCastedModel().toString()).append(" ");
 		buffer.append("]");
 		return buffer.toString();
 	}
 
 	@Override
-	protected AbstractRender selectRenderer() {
-		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_GROUPMARKETSIDE)
-			return new MarketSideRender(this, _activity);
-		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_GROUPJOBSTATE)
-			return new JobStateRender(this, _activity);
-		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING)
-			return new ShipSlotRender(this, _activity);
-		if (this.getRenderModeName() == ESeparatorType.EMPTY_FITTINGLIST.name())
-			return new EmptySeparatorBoardRender(this, _activity);
-		return new IndustryGroupRender(this, _activity);
+	protected AbstractRender selectRenderer () {
+		return new SeparatorRender(this, _activity);
+	}
+}
+
+// - CLASS IMPLEMENTATION ...................................................................................
+final class SeparatorRender extends AbstractRender {
+	// - S T A T I C - S E C T I O N ..........................................................................
+
+	// - F I E L D - S E C T I O N ............................................................................
+	private TextView title = null;
+
+	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	public SeparatorRender (final AbstractAndroidPart target, final Activity context) {
+		super(target, context);
 	}
 
-	private String getRenderModeName() {
-		return renderModeName;
+	// - M E T H O D - S E C T I O N ..........................................................................
+	@Override
+	public SeparatorPart getPart () {
+		return (SeparatorPart) super.getPart();
+	}
+
+	@Override
+	public void initializeViews () {
+		super.initializeViews();
+		title = (TextView) _convertView.findViewById(R.id.title);
+	}
+
+	@Override
+	public void updateContent () {
+		super.updateContent();
+		String tt = this.getPart().getTitle();
+		switch (this.getPart().getCastedModel().getType()) {
+			case DEFAULT:
+				if ( null != tt ) {
+					title.setText(tt);
+					title.setVisibility(View.VISIBLE);
+				} else title.setVisibility(View.GONE);
+				break;
+			case LINE_RED:
+				title.setVisibility(View.GONE);
+				break;
+			case LINE_ORANGE:
+				title.setVisibility(View.GONE);
+				break;
+			case LINE_YELLOW:
+				title.setVisibility(View.GONE);
+				break;
+			case LINE_GREEN:
+				title.setVisibility(View.GONE);
+				break;
+			case LINE_BLUE:
+				title.setVisibility(View.GONE);
+				break;
+			case EMPTY_SIGNAL:
+				// Set the predefined text.
+				title.setText("-EMPTY CONTENTS-");
+				title.setVisibility(View.VISIBLE);
+				break;
+		}
+		_convertView.invalidate();
+	}
+
+	@Override
+	protected void createView () {
+		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
+		                                                      .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		// Separator can be rendered in many ways. Set the default and then calculate the right one depending on the Model type.
+		int renderer = R.layout.separatororangeline;
+		// Select the rendering depending on the Separator type.
+		switch (this.getPart().getCastedModel().getType()) {
+			case DEFAULT:
+				renderer = R.layout.separatororangeline;
+				break;
+			case LINE_RED:
+				renderer = R.layout.separatorredline;
+				// Collapse the expansion.
+				this.getPart().getCastedModel().setExpanded(false);
+				break;
+			case LINE_ORANGE:
+				renderer = R.layout.separatororangeline;
+				// Collapse the expansion.
+				this.getPart().getCastedModel().setExpanded(false);
+				break;
+			case LINE_YELLOW:
+				renderer = R.layout.separatoryellowline;
+				// Collapse the expansion.
+				this.getPart().getCastedModel().setExpanded(false);
+				break;
+			case LINE_GREEN:
+				renderer = R.layout.separatorgreenline;
+				// Collapse the expansion.
+				this.getPart().getCastedModel().setExpanded(false);
+				break;
+			case LINE_BLUE:
+				renderer = R.layout.separatorblueline;
+				// Collapse the expansion.
+				this.getPart().getCastedModel().setExpanded(false);
+				break;
+			case EMPTY_SIGNAL:
+				renderer = R.layout.separatorredline;
+				// Collapse the expansion.
+				this.getPart().getCastedModel().setExpanded(false);
+				break;
+
+			default:
+				break;
+		}
+		_convertView = mInflater.inflate(renderer, null);
+		_convertView.setTag(this);
 	}
 }
 

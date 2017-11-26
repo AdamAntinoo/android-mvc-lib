@@ -13,8 +13,10 @@ import android.app.Fragment;
 import android.view.View;
 
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
+import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
+import java.util.Vector;
 import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
@@ -56,6 +58,11 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 		else
 			throw new RuntimeException("Fragment object not available on access on a Part.");
 	}
+
+	public Vector<IPart> runPolicies (final Vector<IPart> targets) {
+		return targets;
+	}
+
 
 	/**
 	 * Activities should not use directly the adapter. They should always use the Fragments for future

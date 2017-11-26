@@ -1,11 +1,11 @@
-//	PROJECT:        NeoCom.Android (NEOC.A)
+//	PROJECT:        Android.MVC (A.MVC)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
 //	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API16.
-//	DESCRIPTION:		Application to get access to CCP api information and help manage industrial activities
-//									for characters and corporations at Eve Online. The set is composed of some projects
-//									with implementation for Android and for an AngularJS web interface based on REST
-//									services on Sprint Boot Cloud.
+//	ENVIRONMENT:		Android API22.
+//	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
+//									on Android projects. Defines the Part factory and the Part core methods to manage
+//									a generic data graph into a Part hierarchy and finally on the Android View to be
+//                  used on ListViews.
 package org.dimensinfin.android.mvc.activity;
 
 import org.dimensinfin.android.datasource.AbstractGenerator;
@@ -18,8 +18,10 @@ import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
+import org.dimensinfin.android.mvc.part.DemoDetailSeparatorPart;
 import org.dimensinfin.android.mvc.part.DemoHeaderTitlePart;
-import org.dimensinfin.core.model.AbstractComplexNode;
+import org.dimensinfin.android.mvc.part.SeparatorPart;
+import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.RootNode;
 
 //- CLASS IMPLEMENTATION ...................................................................................
@@ -67,7 +69,7 @@ public class AndroidMVCDemoFragment extends AbstractPagerFragment {
 	 */
 	@Override
 	protected void setHeaderContents () {
-		addHeaderModel(new DemoHeaderTitle(AndroidMVCAppSingleton.getSingleton().getResourceString(R.string.appname),AndroidMVCAppSingleton.getSingleton().getResourceString(R.string.appversion));
+		addHeaderModel(new DemoHeaderTitle(AndroidMVCAppSingleton.getSingleton().getResourceString(R.string.appname), AndroidMVCAppSingleton.getSingleton().getResourceString(R.string.appversion));
 	}
 }
 
@@ -89,57 +91,30 @@ final class DemoPartFactory extends PartFactory implements IPartFactory {
 	 * The method should create the matching part for the model received. We can use the variant to change at creation
 	 * time the matching part or to replace parts when required.
 	 */
-	@Override
-	public IPart createPart (final AbstractComplexNode node) {
+	public IPart createPart (final ICollaboration node) {
 		logger.info("-- [DemoPartFactory.createPart]> Node class: " + node.getClass().getName());
 		if ( node instanceof DemoHeaderTitle ) {
 			// These shows the selected Separator but with another rendering.
-			IPart		part = new DemoHeaderTitlePart((DemoHeaderTitle) node).setIconReference(R.drawable.filtericonhighslot)
-			                                                               .setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING).setFactory(this);
+			IPart part = new DemoHeaderTitlePart((DemoHeaderTitle) node).setIconReference(R.drawable.arrowleft)
+			                                                            .setRenderMode(getVariant())
+			                                                            .setFactory(this);
 			return part;
 		}
 		switch (AndroidMVCDemoActivity.EDemoVariants.valueOf(getVariant())) {
 			case DEMO_SEPARATOR_CATALOG:
 				if ( node instanceof Separator ) {
 					// These special separators can configure an specific icon.
-					IPart part = null;
-					switch (((Separator) node).getType()) {
-						case SHIPSECTION_HIGH:
-							part = new SeparatorPart((Separator) node).setIconReference(R.drawable.filtericonhighslot)
-							                                          .setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING).setFactory(this);
-							break;
-						case SHIPSECTION_MED:
-							part = new SeparatorPart((Separator) node).setIconReference(R.drawable.filtericonmediumslot)
-							                                      .setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING).setFactory(this);
-							break;
-						case SHIPSECTION_LOW:
-							part = new SeparatorPart((Separator) node).setIconReference(R.drawable.filtericonlowslot)
-							                                      .setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING).setFactory(this);
-							break;
-						case SHIPSECTION_RIGS:
-							part = new SeparatorPart((Separator) node).setIconReference(R.drawable.filtericonrigslot)
-							                                      .setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING).setFactory(this);
-							break;
-						case SHIPSECTION_DRONES:
-							part = new SeparatorPart((Separator) node).setIconReference(R.drawable.filtericondrones)
-							                                      .setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING).setFactory(this);
-							break;
-						case SHIPSECTION_CARGO:
-							part = new SeparatorPart((Separator) node).setIconReference(R.drawable.itemhangar)
-							                                      .setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING).setFactory(this);
-							break;
-						default:
-							part = new SeparatorPart((Separator) node).setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING)
-							                                      .setFactory(this);
-					}
+					IPart part = new SeparatorPart((Separator) node).setRenderMode(getVariant())
+					                                                .setFactory(this);
 					return part;
 				}
 				break;
 			case DEMO_SEPARATOR_DETAIL:
 				if ( node instanceof Separator ) {
 					// These shows the selected Separator but with another rendering.
-					IPart		part = new DemoDetailSeparatorPart((Separator) node).setIconReference(R.drawable.filtericonhighslot)
-							                                          .setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING).setFactory(this);
+					IPart part = new DemoDetailSeparatorPart((Separator) node).setIconReference(R.drawable.keyboard_close)
+					                                                          .setRenderMode(getVariant())
+					                                                          .setFactory(this);
 					return part;
 				}
 				break;
