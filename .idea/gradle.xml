@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/AndroidMVCLibrary" />
+            <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/../../../Libraries Base/Corebase 2.0.x/CoreBase/CoreBaseLibrary" />
           </set>
         </option>

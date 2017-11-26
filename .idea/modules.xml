@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/AndroidMVC.iml" filepath="$PROJECT_DIR$/AndroidMVC.iml" />
       <module fileurl="file://$PROJECT_DIR$/AndroidMVCLibrary/AndroidMVCLibrary.iml" filepath="$PROJECT_DIR$/AndroidMVCLibrary/AndroidMVCLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../Libraries Base/Corebase 2.0.x/CoreBase/CoreBaseLibrary/CoreBaseLibrary.iml" filepath="$PROJECT_DIR$/../../../Libraries Base/Corebase 2.0.x/CoreBase/CoreBaseLibrary/CoreBaseLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
 </project>
