@@ -1,19 +1,20 @@
 package org.dimensinfin.activity;
 
-import java.util.Vector;
+
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.support.v13.app.FragmentPagerAdapter;
 
 import org.dimensinfin.android.mvc.R;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import java.util.Vector;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AbstractFragmentPagerAdapter extends FragmentPagerAdapter {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private final Vector<Fragment>	_fragments	= new Vector<Fragment>();
+	private final Vector<Fragment> _fragments	= new Vector<Fragment>();
 	private int											_pagerid		= R.id.pager;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................

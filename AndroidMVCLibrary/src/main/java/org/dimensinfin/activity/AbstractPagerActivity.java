@@ -8,23 +8,23 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.activity;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.ImageView;
-
-import com.viewpagerindicator.CirclePageIndicator;
+import java.util.logging.Logger;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.connector.MVCAppConnector;
 import org.dimensinfin.android.mvc.enumerated.EExtrasMVC;
 
-import java.util.logging.Logger;
+import com.viewpagerindicator.CirclePageIndicator;
+
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.ImageView;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 
@@ -38,7 +38,7 @@ import java.util.logging.Logger;
  *
  * @author Adam Antinoo
  */
-public abstract class AbstractPagerActivity extends AppCompatActivity {
+public abstract class AbstractPagerActivity extends Activity {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	protected static Logger logger = Logger.getLogger("AbstractPagerActivity");
 
@@ -51,11 +51,11 @@ public abstract class AbstractPagerActivity extends AppCompatActivity {
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
+	// - M E T H O D - S E C T I O N ..........................................................................
 	public Activity getActivity () {
 		return this;
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
 	protected void activateIndicator () {
 		// If the Indicator is active then set the listener.
 		if ( null != _indicator ) {
@@ -107,7 +107,7 @@ public abstract class AbstractPagerActivity extends AppCompatActivity {
 
 	protected void addPage (final AbstractPagerFragment newFrag, final int position) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.addPage]"); //$NON-NLS-1$
-		final Fragment frag = this.getSupportFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(position));
+		Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(position));
 		if ( null == frag ) {
 			_pageAdapter.addPage(newFrag);
 		} else {
@@ -138,12 +138,14 @@ public abstract class AbstractPagerActivity extends AppCompatActivity {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 
-		// This section is the new AppCompat code that will manage the standrd appcomapt toolbar.
+		// This section is is back the core ActionBar that can be configured until a new configuration is tested.
 		try {
 			// Set the layout to the core activity that defines the background, the indicator and the fragment container.
 			this.setContentView(R.layout.activity_pager);
 			// Gets the activity's default ActionBar
-			_actionBar = getSupportActionBar();
+			_actionBar = this.getActionBar();
+			_actionBar.show();
+			_actionBar.setDisplayHomeAsUpEnabled(true);
 
 			// Locate the elements of the page and store in global data.
 			_pageContainer = (ViewPager) this.findViewById(R.id.pager);
@@ -158,7 +160,7 @@ public abstract class AbstractPagerActivity extends AppCompatActivity {
 			}
 
 			// Add the adapter for the page switching.
-			_pageAdapter = new AbstractFragmentPagerAdapter(this.getSupportFragmentManager(), _pageContainer.getId());
+			_pageAdapter = new AbstractFragmentPagerAdapter(this.getFragmentManager(), _pageContainer.getId());
 			_pageContainer.setAdapter(_pageAdapter);
 			this.disableIndicator();
 		} catch (final Exception rtex) {

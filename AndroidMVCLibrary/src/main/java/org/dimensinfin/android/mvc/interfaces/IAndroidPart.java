@@ -1,7 +1,7 @@
 package org.dimensinfin.android.mvc.interfaces;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.View;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;

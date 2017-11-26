@@ -10,7 +10,7 @@ package org.dimensinfin.android.mvc.datasource;
 // - IMPORT SECTION .........................................................................................
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,7 +48,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	private Activity															_context		= null;
 	private IDataSource														_datasource	= null;
 	private final ArrayList<AbstractAndroidPart>	_hierarchy	= new ArrayList<AbstractAndroidPart>();
-	private Fragment															_fragment		= null;
+	private Fragment _fragment		= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	/**
