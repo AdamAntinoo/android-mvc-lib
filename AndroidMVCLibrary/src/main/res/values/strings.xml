@@ -15,4 +15,7 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
+    <!-- D E F A U L T   V A L U E S   F O R   O T H E R   G U I -->
+    <string name="menu_action_settingslabel">SETTINGS</string>
+
 </resources>

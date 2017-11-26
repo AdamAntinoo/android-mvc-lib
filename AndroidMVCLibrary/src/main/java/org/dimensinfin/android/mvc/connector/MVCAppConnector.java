@@ -7,37 +7,55 @@
 //									the extended GEF model into the Android View to be used on ListViews.
 package org.dimensinfin.android.mvc.connector;
 
-import org.dimensinfin.android.connector.AndroidAppConnector;
+import android.view.Menu;
+
+import org.joda.time.Duration;
+import org.joda.time.Instant;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class MVCAppConnector extends AndroidAppConnector implements IMVCAppConnector {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static MVCAppConnector _singleton = null;
 
-	public static MVCAppConnector getSingleton() {
-		if (null == MVCAppConnector._singleton) throw new RuntimeException(
+	public static MVCAppConnector getSingleton () {
+		if ( null == MVCAppConnector._singleton ) throw new RuntimeException(
 				"RTEX [MVCAppConnector.getSingleton]> Application chain not initialized. All class functionalities disabled.");
 		return MVCAppConnector._singleton;
 	}
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private final IMVCAppConnector _connector;
+	private Instant chrono = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public MVCAppConnector(final IMVCAppConnector application) {
+	public MVCAppConnector (final IMVCAppConnector application) {
 		super(application);
 		_connector = application;
 		MVCAppConnector._singleton = this;
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	@Override
-	public Class<?> getFirstActivity() {
-		if (null == _connector)
+	public Menu getAppMenu () {
+		if ( null == _connector )
+			throw new RuntimeException(
+					"RTEX [MVCAppConnector.getAppMenu]> Application connection not defined. Functionality 'getAppMenu' disabled.");
+		else
+			return _connector.getAppMenu();
+	}
+	public Class<?> getFirstActivity () {
+		if ( null == _connector )
 			throw new RuntimeException(
 					"RTEX [MVCAppConnector.getFirstActivity]> Application connection not defined. Functionality 'getFirstActivity' disabled.");
 		else
 			return _connector.getFirstActivity();
+	}
+
+	public void startChrono () {
+		chrono = new Instant();
+	}
+
+	public Duration timeLapse () {
+		return new Duration(chrono, new Instant());
 	}
 }
 

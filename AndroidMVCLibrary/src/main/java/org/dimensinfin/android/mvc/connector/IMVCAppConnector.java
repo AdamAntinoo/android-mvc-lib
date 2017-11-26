@@ -7,11 +7,19 @@
 //									the extended GEF model into the Android View to be used on ListViews.
 package org.dimensinfin.android.mvc.connector;
 
-import org.dimensinfin.android.connector.IAndroidAppConnector;
+import android.view.Menu;
+
+import org.joda.time.Duration;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public interface IMVCAppConnector extends IAndroidAppConnector {
-	public Class<?> getFirstActivity();
+	public Class<?> getFirstActivity ();
+
+	public void startChrono ();
+
+	public Duration timeLapse ();
+
+	public Menu getAppMenu ();
 }
 
 // - UNUSED CODE ............................................................................................

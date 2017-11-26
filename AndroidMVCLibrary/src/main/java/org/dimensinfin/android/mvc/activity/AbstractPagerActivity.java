@@ -24,7 +24,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 
-//- CLASS IMPLEMENTATION ...................................................................................
+// - CLASS IMPLEMENTATION ...................................................................................
 
 /**
  * This abstract Activity will collect all the common code that is being used on the new Activity pattern.
