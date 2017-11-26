@@ -6,7 +6,9 @@
 //									for characters and corporations at Eve Online. The set is composed of some projects
 //									with implementation for Android and for an AngularJS web interface based on REST
 //									services on Sprint Boot Cloud.
-package org.dimensinfin.eveonline.neocom.part;
+package org.dimensinfin.android.mvc.part;
+
+import android.util.Log;
 
 import java.util.Collections;
 import java.util.GregorianCalendar;
@@ -14,25 +16,16 @@ import java.util.Vector;
 
 import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.model.Separator.ESeparatorType;
+import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.eveonline.neocom.NeoComApp;
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
-import org.dimensinfin.eveonline.neocom.render.EmptySeparatorBoardRender;
-import org.dimensinfin.eveonline.neocom.render.IndustryGroupRender;
-import org.dimensinfin.eveonline.neocom.render.JobStateRender;
-import org.dimensinfin.eveonline.neocom.render.MarketSideRender;
-import org.dimensinfin.eveonline.neocom.render.ShipSlotRender;
-
-import android.util.Log;
+import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class SeparatorPart extends AbstractAndroidPart {
+public class DemoHeaderTitlePart<T> extends AbstractAndroidPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static final long	serialVersionUID	= -7108273035430243825L;
+	private static final long	serialVersionUID	= -7103273035430243825L;
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private int								priority					= 10;
@@ -40,9 +33,8 @@ public class SeparatorPart extends AbstractAndroidPart {
 	private final String			renderModeName		= "-DEFAULT-RENDER-MODE-";
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public SeparatorPart(final Separator node) {
+	public DemoHeaderTitlePart(final <T> node) {
 		super(node);
-		this.getCastedModel().setExpanded(true);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................

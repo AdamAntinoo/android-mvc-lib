@@ -17,6 +17,8 @@ import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
+import org.dimensinfin.android.mvc.part.DemoHeaderTitlePart;
 import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.core.model.RootNode;
 
@@ -51,23 +53,12 @@ public class AndroidMVCDemoFragment extends AbstractPagerFragment {
 	 */
 	@Override
 	protected void registerDataSource () {
-		AbstractPagerFragment.logger.info(">> [LoginListFragment.registerDataSource]");
+		AbstractPagerFragment.logger.info(">> [AndroidMVCDemoFragment.registerDataSource]");
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant());
 		// Create a new Model Generator and register it onto the Fragment to use on request to generate the root model.
-		setGenerator(new LoginListGenerator(locator, this.getVariant()));
-
-
-		//		IModelGenerator generator = ModelGeneratorStore
-		//				.registerGenerator(new LoginListGenerator(locator, this.getVariant()));
-		//		// Register the datasource. If this same datasource is already at the manager we get it
-		//		// instead creating a new one.
-		//		SpecialDataSource ds = (SpecialDataSource) DataSourceManager
-		//				.registerDataSource(new NeoComDataSource(locator, this.getFactory(), generator));
-		//		ds.setVariant(this.getVariant());
-		//		ds.setCacheable(true);
-		//		this.setDataSource(ds);
-		AbstractPagerFragment.logger.info("<< [LoginListFragment.registerDataSource]");
+		setGenerator(new DemoSeparatorGenerator(locator, this.getVariant()));
+		AbstractPagerFragment.logger.info("<< [AndroidMVCDemoFragment.registerDataSource]");
 	}
 
 	/**
@@ -76,6 +67,7 @@ public class AndroidMVCDemoFragment extends AbstractPagerFragment {
 	 */
 	@Override
 	protected void setHeaderContents () {
+		addHeaderModel(new DemoHeaderTitle(AndroidMVCAppSingleton.getSingleton().getResourceString(R.string.appname),AndroidMVCAppSingleton.getSingleton().getResourceString(R.string.appversion));
 	}
 }
 
@@ -100,6 +92,12 @@ final class DemoPartFactory extends PartFactory implements IPartFactory {
 	@Override
 	public IPart createPart (final AbstractComplexNode node) {
 		logger.info("-- [DemoPartFactory.createPart]> Node class: " + node.getClass().getName());
+		if ( node instanceof DemoHeaderTitle ) {
+			// These shows the selected Separator but with another rendering.
+			IPart		part = new DemoHeaderTitlePart((DemoHeaderTitle) node).setIconReference(R.drawable.filtericonhighslot)
+			                                                               .setRenderMode(AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING).setFactory(this);
+			return part;
+		}
 		switch (AndroidMVCDemoActivity.EDemoVariants.valueOf(getVariant())) {
 			case DEMO_SEPARATOR_CATALOG:
 				if ( node instanceof Separator ) {
@@ -153,13 +151,13 @@ final class DemoPartFactory extends PartFactory implements IPartFactory {
 }
 
 //- CLASS IMPLEMENTATION ...................................................................................
-final class LoginListGenerator extends AbstractGenerator implements IModelGenerator {
+final class DemoSeparatorGenerator extends AbstractGenerator implements IModelGenerator {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public LoginListGenerator (final DataSourceLocator locator, final String variant) {
+	public DemoSeparatorGenerator (final DataSourceLocator locator, final String variant) {
 		super(locator, variant);
 	}
 

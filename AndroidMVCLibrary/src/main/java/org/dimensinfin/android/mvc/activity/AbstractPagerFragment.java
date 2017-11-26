@@ -23,16 +23,25 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.dimensinfin.android.datasource.ModelGeneratorStore;
+import org.dimensinfin.android.interfaces.IModelGenerator;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.connector.MVCAppConnector;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
+import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
+import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.core.model.CEventModel.ECoreModelEvents;
+import org.dimensinfin.core.model.IGEFNode;
+import org.dimensinfin.core.model.RootNode;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
@@ -228,6 +237,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	protected static Logger											logger						= Logger.getLogger("AbstractPagerFragment");
 
 	// - F I E L D - S E C T I O N ............................................................................
+	private Bundle															_extras						= new Bundle();
 	private String															_title						= "<TITLE>";
 	private String															_subtitle					= "";
 	private IPartFactory												_factory					= null;
@@ -236,6 +246,8 @@ public abstract class AbstractPagerFragment extends Fragment {
 	// REFACTOR Set back to private after the PagerFragment is removed
 	protected final Vector<IAndroidPart>	_headerContents		= new Vector<IAndroidPart>();
 	private String															_variant					= null;
+	protected IModelGenerator _generator = null;
+	protected ArrayList<ICollaboration> headerModelContents = new ArrayList<ICollaboration>();
 
 	// - U I    F I E L D S
 	protected ViewGroup													_container				= null;
@@ -245,7 +257,6 @@ public abstract class AbstractPagerFragment extends Fragment {
 	protected ListView													_modelContainer		= null;
 	protected ViewGroup													_progressLayout		= null;
 	protected IMenuActionTarget									_listCallback			= null;
-	private Bundle															_extras						= new Bundle();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
@@ -258,6 +269,39 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 	public void clearHeader() {
 		_headerContents.clear();
+	}
+	/**
+	 * This is the block of code to adapt the model items to the Part list. This code will finally be added to the final
+	 * core code.
+	 */
+	protected void addHeaderModel (ICollaboration node) {
+		if ( null != node ) headerModelContents.add(node);
+	}
+
+	protected void generateHeaderContents () {
+		logger.info(">> [AbstractPagerFragment.generateHeaderContents]");
+		try {
+			RootNode headerModel = new RootNode();
+			for (ICollaboration node : headerModelContents) {
+				if ( node instanceof AbstractComplexNode ) headerModel.addChild((IGEFNode) node);
+			}
+
+			// Do the same operations as in the body contents. Create a root, add to it the model elements and then
+			// recursively generate the Part list.
+			final RootPart partModelRoot = new RootPart(headerModel, getFactory());
+			partModelRoot.refreshChildren();
+			final ArrayList<IPart> bodyParts = new ArrayList<IPart>();
+			// Select for the body contents only the viewable Parts from the Part model. Make it a list.
+			bodyParts.addAll(partModelRoot.collaborate2View());
+
+			// Now do the old functionality by copying each of the resulting parts to the Header container.
+			for (IPart part : bodyParts) {
+				addtoHeader((IAndroidPart) part);
+			}
+		} catch (RuntimeException rtex) {
+			rtex.printStackTrace();
+		}
+		logger.info("<< [AbstractPagerFragment.generateHeaderContents]");
 	}
 
 	public abstract void createFactory();
@@ -456,6 +500,15 @@ public abstract class AbstractPagerFragment extends Fragment {
 		}
 	}
 
+	public void setGenerator (IModelGenerator fragmentModelGenerator) {
+		// Check if the generator already exists on the Cache. If so get the current one and discard the new.
+		_generator = ModelGeneratorStore.registerGenerator(fragmentModelGenerator);
+
+		// Generate the DataSource from the Generator and set it up on the Frgment.
+		MVCDataSource ds = new MVCDataSource(fragmentModelGenerator.getDataSourceLocator(), getFactory(), fragmentModelGenerator);
+		ds.setVariant(this.getVariant());
+		setDataSource(ds);
+	}
 	public void setSubtitle(final String subtitle) {
 		_subtitle = subtitle;
 	}

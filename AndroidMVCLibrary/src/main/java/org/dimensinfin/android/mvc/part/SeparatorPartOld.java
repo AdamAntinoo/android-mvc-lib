@@ -6,38 +6,34 @@
 //									for characters and corporations at Eve Online. The set is composed of some projects
 //									with implementation for Android and for an AngularJS web interface based on REST
 //									services on Sprint Boot Cloud.
-package org.dimensinfin.eveonline.neocom.part;
+package org.dimensinfin.android.mvc.part;
 
+import java.text.DecimalFormat;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.Vector;
 
 import org.dimensinfin.android.model.Separator;
-import org.dimensinfin.android.model.Separator.ESeparatorType;
+import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.interfaces.INamedPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.eveonline.neocom.NeoComApp;
-import org.dimensinfin.eveonline.neocom.R;
-import org.dimensinfin.eveonline.neocom.constant.AppWideConstants;
-import org.dimensinfin.eveonline.neocom.core.EveAbstractPart;
-import org.dimensinfin.eveonline.neocom.render.EmptySeparatorBoardRender;
-import org.dimensinfin.eveonline.neocom.render.IndustryGroupRender;
-import org.dimensinfin.eveonline.neocom.render.JobStateRender;
-import org.dimensinfin.eveonline.neocom.render.MarketSideRender;
-import org.dimensinfin.eveonline.neocom.render.ShipSlotRender;
+import org.dimensinfin.android.mvc.render.SeparatorRender;
 
 import android.util.Log;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class SeparatorPart extends AbstractAndroidPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static final long	serialVersionUID	= -7108273035430243825L;
+	private static final long				serialVersionUID	= -7108273035430243825L;
+	protected static DecimalFormat	qtyFormatter			= new DecimalFormat("###,##0");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private int								priority					= 10;
-	private int								iconReference			= R.drawable.defaultitemicon;
-	private final String			renderModeName		= "-DEFAULT-RENDER-MODE-";
+	private int											priority					= 10;
+	private int											iconReference			= R.drawable.defaulticonplaceholder;
+	private final String						renderModeName		= "-DEFAULT-RENDER-MODE-";
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public SeparatorPart(final Separator node) {
@@ -46,10 +42,6 @@ public class SeparatorPart extends AbstractAndroidPart {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public String get_counter() {
-		return EveAbstractPart.qtyFormatter.format(this.getChildren().size());
-	}
-
 	public Separator getCastedModel() {
 		return (Separator) this.getModel();
 	}
@@ -71,6 +63,10 @@ public class SeparatorPart extends AbstractAndroidPart {
 		return this.getCastedModel().getTitle();
 	}
 
+	public String getTransformedCounter() {
+		return SeparatorPart.qtyFormatter.format(this.getCastedModel().getContents().size());
+	}
+
 	/**
 	 * The default actions inside this method usually are the sorting of the children nodes. Sort the container
 	 * contents by name.
@@ -78,17 +74,35 @@ public class SeparatorPart extends AbstractAndroidPart {
 	@Override
 	public Vector<IPart> runPolicies(final Vector<IPart> targets) {
 		// Order the contents by alphabetical name.
-		Collections.sort(targets, NeoComApp.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
+		Comparator<IPart> comparator = new Comparator<IPart>() {
+			public int compare(final IPart left, final IPart right) {
+				String leftField = null;
+				String rightField = null;
+				if (left instanceof INamedPart) {
+					leftField = ((INamedPart) left).getName();
+				}
+				if (right instanceof INamedPart) {
+					rightField = ((INamedPart) right).getName();
+				}
+
+				if (null == leftField) return 1;
+				if (null == rightField) return -1;
+				if ("" == leftField) return 1;
+				if ("" == rightField) return -1;
+				return leftField.compareTo(rightField);
+			}
+		};
+		Collections.sort(targets, comparator);
 		return targets;
 	}
 
-	public GroupPart setIconReference(final int ref) {
+	public SeparatorPart setIconReference(final int ref) {
 		Log.i("REMOVE", "-- GroupPart.setIconReference - " + this.toString() + " change value to: " + ref);
 		iconReference = ref;
 		return this;
 	}
 
-	public EveAbstractPart setPriority(final int pri) {
+	public AbstractAndroidPart setPriority(final int pri) {
 		priority = pri;
 		return this;
 	}
@@ -103,30 +117,28 @@ public class SeparatorPart extends AbstractAndroidPart {
 
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer("GroupPart [");
+		StringBuffer buffer = new StringBuffer("SeparatorPart [");
 		buffer.append(this.getTitle()).append(" ");
-		buffer.append(priority).append(" ");
+		buffer.append("pri: ").append(priority).append(" ");
+		buffer.append("type: ").append(this.getCastedModel().getType().name()).append(" ");
 		buffer.append("chCount: ").append(this.getChildren().size()).append(" ");
 		buffer.append("]");
 		return buffer.toString();
 	}
 
+	//	@Override
+	//	protected AbstractHolder selectHolder() {
+	//		return this.selectRenderer();
+	//	}
+
 	@Override
 	protected AbstractRender selectRenderer() {
-		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_GROUPMARKETSIDE)
-			return new MarketSideRender(this, _activity);
-		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_GROUPJOBSTATE)
-			return new JobStateRender(this, _activity);
-		if (this.getRenderMode() == AppWideConstants.rendermodes.RENDER_GROUPSHIPFITTING)
-			return new ShipSlotRender(this, _activity);
-		if (this.getRenderModeName() == ESeparatorType.EMPTY_FITTINGLIST.name())
-			return new EmptySeparatorBoardRender(this, _activity);
-		return new IndustryGroupRender(this, _activity);
+		return new SeparatorRender(this, _activity);
 	}
 
-	private String getRenderModeName() {
-		return renderModeName;
-	}
+	//	private String getRenderModeName() {
+	//		return renderModeName;
+	//	}
 }
 
 // - UNUSED CODE ............................................................................................
