@@ -4,7 +4,7 @@
 //	ENVIRONMENT:		Android API11.
 //	DESCRIPTION:		Application helper for Eve Online Industrialists. Will help on Industry and Manufacture.
 
-package org.dimensinfin.android.mvc.fonts;
+package org.dimensinfin.eveonline.neocom.core;
 
 // - IMPORT SECTION .........................................................................................
 import android.content.Context;
