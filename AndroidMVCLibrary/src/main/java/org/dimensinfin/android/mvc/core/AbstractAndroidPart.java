@@ -10,7 +10,7 @@ package org.dimensinfin.android.mvc.core;
 //- IMPORT SECTION .........................................................................................
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.View;
 
 import org.dimensinfin.android.model.AbstractViewableNode;
@@ -33,7 +33,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 
 	protected Activity				_activity					= null;
 	protected Fragment				_fragment					= null;
-	private View							_view							= null;
+	private View _view							= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AbstractAndroidPart(final AbstractViewableNode model) {
