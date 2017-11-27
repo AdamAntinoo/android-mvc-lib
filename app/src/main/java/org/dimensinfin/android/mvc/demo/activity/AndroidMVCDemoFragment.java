@@ -6,15 +6,15 @@
 //									on Android projects. Defines the Part factory and the Part core methods to manage
 //									a generic data graph into a Part hierarchy and finally on the Android View to be
 //                  used on ListViews.
-package org.dimensinfin.android.mvc.activity;
+package org.dimensinfin.android.mvc.demo.activity;
 
 import org.dimensinfin.android.datasource.AbstractGenerator;
 import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.interfaces.IModelGenerator;
 import org.dimensinfin.android.model.Separator;
-import org.dimensinfin.android.mvc.AndroidMVCAppSingleton;
-import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.core.PartFactory;
+import org.dimensinfin.android.mvc.demo.AndroidMVCAppSingleton;
+import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;

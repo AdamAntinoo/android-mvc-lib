@@ -5,7 +5,7 @@
 //	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
 //									on Android projects. Defines the Part factory and the Part core methods to manage
 //									the extended GEF model into the Android View to be used on ListViews.
-package org.dimensinfin.android.mvc.activity;
+package org.dimensinfin.android.mvc.demo.activity;
 
 import java.util.logging.Logger;
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.dimensinfin.android.mvc"
+    package="org.dimensinfin.android.mvc.demo"
     android:versionCode="201"
     android:versionName="AndroidMVC v2.0.1">
 
@@ -25,7 +25,7 @@
 
         <!-- S T A R T U P    A C T I V I T Y -->
         <activity
-            android:name="org.dimensinfin.android.mvc.activity.AndroidMVCDemoActivity"
+            android:name=".activity.AndroidMVCDemoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:icon="@mipmap/ic_launcher_round"
             android:label="@string/activity_title_AndroidMVCDemoActivity"

@@ -9,12 +9,12 @@
 //                  rendering of the model data similar on all the platforms used.
 //                  Latest version adds support for ESI authentication since CREST and other sources will be
 //                  removed on 2018.
-package org.dimensinfin.android.mvc.activity;
+package org.dimensinfin.android.mvc.demo.activity;
 
 import android.os.Bundle;
 
-import org.dimensinfin.android.mvc.AndroidMVCAppSingleton;
-import org.dimensinfin.android.mvc.R;
+import org.dimensinfin.android.mvc.demo.AndroidMVCAppSingleton;
+import org.dimensinfin.android.mvc.demo.R;
 
 
 // - CLASS IMPLEMENTATION ...................................................................................

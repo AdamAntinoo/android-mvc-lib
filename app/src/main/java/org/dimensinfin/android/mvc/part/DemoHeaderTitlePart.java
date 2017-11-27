@@ -9,14 +9,13 @@
 package org.dimensinfin.android.mvc.part;
 
 import android.app.Activity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 
 import java.util.GregorianCalendar;

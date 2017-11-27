@@ -12,7 +12,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import org.dimensinfin.android.mvc.AndroidMVCAppSingleton;
+import org.dimensinfin.android.mvc.demo.AndroidMVCAppSingleton;
 
 import java.util.logging.Logger;
 
