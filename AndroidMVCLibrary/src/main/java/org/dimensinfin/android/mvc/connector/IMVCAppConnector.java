@@ -15,9 +15,9 @@ import org.joda.time.Duration;
 public interface IMVCAppConnector extends IAndroidAppConnector {
 	public Class<?> getFirstActivity ();
 
-	public void startChrono ();
-
-	public Duration timeLapse ();
+//	public void startChrono ();
+//
+//	public Duration timeLapse ();
 
 	public Menu getAppMenu ();
 }

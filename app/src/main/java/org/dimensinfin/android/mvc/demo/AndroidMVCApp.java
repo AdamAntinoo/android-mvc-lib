@@ -6,10 +6,10 @@
 //                  library. It will create a test Activity, fill it with all the Separator varians and show the
 //                  correct coding for collapse/expand and click listening with also the added code to show the item
 //                  contextual menu activation.
-package org.dimensinfin.android.mvc;
+package org.dimensinfin.android.mvc.demo;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
+import android.app.Application;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Typeface;
@@ -19,9 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import org.dimensinfin.android.mvc.activity.AndroidMVCDemoActivity;
-import org.dimensinfin.android.mvc.connector.IMVCAppConnector;
 import org.dimensinfin.android.mvc.connector.MVCAppConnector;
+import org.dimensinfin.android.mvc.demo.activity.AndroidMVCDemoActivity;
 import org.dimensinfin.android.mvc.service.TimeTickReceiver;
 
 import java.text.DecimalFormat;
@@ -36,24 +35,21 @@ import java.util.logging.Logger;
  * @author Adam Antinoo
  */
 
-public class AndroidMVCAppSingleton extends MVCAppConnector implements IMVCAppConnector {
+public class AndroidMVCApp extends Application implements IDemoAppConnector {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	protected static Logger logger = Logger.getLogger("AndroidMVCAppSingleton");
-	private static final AndroidMVCAppSingleton singleton = new AndroidMVCAppSingleton();
-	private static BroadcastReceiver timeTickReceiver = null;
-	private static final DecimalFormat pendingCounter = new DecimalFormat("0.0##");
+	protected static Logger logger = Logger.getLogger("AndroidMVCApp");
+	private static final AndroidMVCApp singleton = new AndroidMVCApp();
 
-	public static AndroidMVCAppSingleton getInstance () {
+	public static AndroidMVCApp getSingleton () {
 		return singleton;
 	}
 
-	public static AndroidMVCAppSingleton getSingleton () {
-		return singleton;
-	}
+	private static DecimalFormat pendingCounter = new DecimalFormat("0.0##");
 
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private AndroidMVCAppSingleton _appConnector = null;
+	private DemoAppConnector _appConnector = null;
+	private TimeTickReceiver timeTickReceiver = null;
 	private int topCounter = 0;
 	private int marketCounter = 0;
 	private Activity _activity = null;
@@ -61,13 +57,12 @@ public class AndroidMVCAppSingleton extends MVCAppConnector implements IMVCAppCo
 	private Class<?> _firstActivity = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	private AndroidMVCAppSingleton () {
-		super(singleton);
-		logger.info(">> [AndroidMVCAppSingleton.<contructor>]");
+	public AndroidMVCApp () {
+		logger.info(">> [AndroidMVCApp.<contructor>]");
 		// Setup the referencing structures that will serve as proxy and global references.
-		_appConnector = this;
+		_appConnector = new DemoAppConnector(this);
 		_firstActivity = AndroidMVCDemoActivity.class;
-		logger.info("<< [AndroidMVCAppSingleton.<consructor>]");
+		logger.info("<< [AndroidMVCApp.<consructor>]");
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -185,5 +180,10 @@ public class AndroidMVCAppSingleton extends MVCAppConnector implements IMVCAppCo
 
 	public void activateActivity (final Activity currentActivity) {
 		_activity = currentActivity;
+	}
+
+	@Override
+	public String getResourceString (final int referenceId) {
+		return getResources().getString(referenceId);
 	}
 }

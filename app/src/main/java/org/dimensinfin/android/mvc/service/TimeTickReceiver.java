@@ -12,7 +12,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import org.dimensinfin.android.mvc.demo.AndroidMVCAppSingleton;
+import org.dimensinfin.android.mvc.demo.AndroidMVCApp;
 
 import java.util.logging.Logger;
 
@@ -53,15 +53,15 @@ public class TimeTickReceiver extends BroadcastReceiver {
 	public void onReceive(final Context context, final Intent intent) {
 		TimeTickReceiver.logger.info(">> [TimeTickReceiver.onReceive]");
 		// This is a demo of the progress indidcator. Just increment the counters.
-		AndroidMVCAppSingleton.getSingleton().incrementMarketCounter();
-		final int mCounter = AndroidMVCAppSingleton.getSingleton().getMarketCounter();
+		AndroidMVCApp.getSingleton().incrementMarketCounter();
+		final int mCounter = AndroidMVCApp.getSingleton().getMarketCounter();
 		// Every 50 market add onw to top counter.
 		if(mCounter>50){
-			AndroidMVCAppSingleton.getSingleton().incrementTopCounter();
-			AndroidMVCAppSingleton.getSingleton().setMarketCounter(0);
+			AndroidMVCApp.getSingleton().incrementTopCounter();
+			AndroidMVCApp.getSingleton().setMarketCounter(0);
 		}
-		TimeTickReceiver.logger.info("<< [TimeTickReceiver.onReceive]> " + AndroidMVCAppSingleton.getSingleton().getTopCounter()
-				+ "/" + AndroidMVCAppSingleton.getSingleton().getMarketCounter() + "]");
+		TimeTickReceiver.logger.info("<< [TimeTickReceiver.onReceive]> " + AndroidMVCApp.getSingleton().getTopCounter()
+				+ "/" + AndroidMVCApp.getSingleton().getMarketCounter() + "]");
 	}
 }
 

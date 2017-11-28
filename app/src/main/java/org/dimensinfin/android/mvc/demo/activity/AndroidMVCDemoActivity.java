@@ -13,7 +13,7 @@ package org.dimensinfin.android.mvc.demo.activity;
 
 import android.os.Bundle;
 
-import org.dimensinfin.android.mvc.demo.AndroidMVCAppSingleton;
+import org.dimensinfin.android.mvc.demo.AndroidMVCApp;
 import org.dimensinfin.android.mvc.demo.R;
 
 
@@ -36,7 +36,7 @@ public class AndroidMVCDemoActivity extends AbstractPagerActivity {
 	 * @return
 	 */
 	public String getName () {
-		return AndroidMVCAppSingleton.getSingleton().getResourceString(R.string.activity_title_AndroidMVCDemoActivity);
+		return getApplicationContext().getResources().getString(R.string.activity_title_AndroidMVCDemoActivity);
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class AndroidMVCDemoActivity extends AbstractPagerActivity {
 			// Create the pages that form this Activity. Each page implemented by a Fragment.
 			int page = 0;
 			// Register this Activity as the current active Activity.
-			AndroidMVCAppSingleton.getSingleton().activateActivity(this);
+			AndroidMVCApp.getSingleton().activateActivity(this);
 			this.addPage(new AndroidMVCDemoFragment().setVariant(EDemoVariants.DEMO_SEPARATOR_CATALOG.name()), page++);
 		} catch (final Exception rtex) {
 			AbstractPagerActivity.logger.severe("RTEX [AndroidMVCDemoActivity.onCreate]> Runtime Exception." + rtex.getMessage());

@@ -22,7 +22,13 @@ import android.preference.PreferenceManager;
 // - CLASS IMPLEMENTATION ...................................................................................
 public class AndroidAppConnector implements IAndroidAppConnector {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	//	private static Logger								logger	= Logger.getLogger("AndroidAppDecorator");
+	private static AndroidAppConnector _singleton = null;
+
+	public static AndroidAppConnector getSingleton () {
+		if ( null == AndroidAppConnector._singleton ) throw new RuntimeException(
+				"RTEX [AndroidAppConnector.getSingleton]> Application chain not initialized. All class functionalities disabled.");
+		return AndroidAppConnector._singleton;
+	}
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private final IAndroidAppConnector _connector;
@@ -30,6 +36,7 @@ public class AndroidAppConnector implements IAndroidAppConnector {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AndroidAppConnector(final IAndroidAppConnector application) {
 		this._connector = application;
+		AndroidAppConnector._singleton = this;
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................

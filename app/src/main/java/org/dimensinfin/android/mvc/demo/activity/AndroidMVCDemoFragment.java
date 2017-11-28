@@ -13,7 +13,7 @@ import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.interfaces.IModelGenerator;
 import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.core.PartFactory;
-import org.dimensinfin.android.mvc.demo.AndroidMVCAppSingleton;
+import org.dimensinfin.android.mvc.demo.AndroidMVCApp;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
@@ -43,7 +43,7 @@ public class AndroidMVCDemoFragment extends AbstractPagerFragment {
 
 	@Override
 	public String getTitle () {
-		return AndroidMVCAppSingleton.getSingleton().getResourceString(R.string.activity_title_AndroidMVCDemoActivity);
+		return AndroidMVCApp.getSingleton().getResourceString(R.string.activity_title_AndroidMVCDemoActivity);
 	}
 
 	/**
@@ -69,8 +69,8 @@ public class AndroidMVCDemoFragment extends AbstractPagerFragment {
 	 */
 	@Override
 	protected void setHeaderContents () {
-		addHeaderModel(new DemoHeaderTitle(AndroidMVCAppSingleton.getSingleton().getResourceString(R.string.appname),
-				AndroidMVCAppSingleton.getSingleton().getResourceString(R.string.appversion)));
+		addHeaderModel(new DemoHeaderTitle(AndroidMVCApp.getSingleton().getResourceString(R.string.appname),
+				AndroidMVCApp.getSingleton().getResourceString(R.string.appversion)));
 	}
 }
 

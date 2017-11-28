@@ -13,6 +13,7 @@
         android:targetSdkVersion="27" />
 
     <application
+        android:name="org.dimensinfin.android.mvc.demo.AndroidMVCApp"
         android:allowBackup="true"
         android:description="@string/AppDescription"
         android:icon="@mipmap/ic_launcher_round"
