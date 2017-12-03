@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.dimensinfin.android.mvc.demo"
+    android:versionCode="201"
+    android:versionName="AndroidMVC v2.0.1">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-sdk
+        android:minSdkVersion="22"
+        android:targetSdkVersion="27" />
+
+    <application
+        android:name="org.dimensinfin.android.mvc.demo.AndroidMVCApp"
+        android:allowBackup="true"
+        android:description="@string/AppDescription"
+        android:icon="@mipmap/ic_launcher_round"
+        android:label="@string/appversionname"
+        android:largeHeap="true"
+        android:logo="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- S T A R T U P    A C T I V I T Y -->
+        <activity
+            android:name=".activity.AndroidMVCDemoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:icon="@mipmap/ic_launcher_round"
+            android:label="@string/activity_title_AndroidMVCDemoActivity"
+            android:screenOrientation="sensor">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- S E R V I C E S -->
+    </application>
+
+</manifest>

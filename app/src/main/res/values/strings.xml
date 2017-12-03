@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- A P P L I C A T I O N    C H A R A C T E R I S T I C S -->
+    <string name="appname">AndroidMVC</string>
+    <string name="appversion">v2.0.1</string>
+    <string name="appversionname">AndroidMVC v2.0.1</string>
+    <string name="appversionnumber">201</string>
+    <string name="AppDescription">"This sample application tests and shown the correct way to use the Android Model-View-Controller library. It will create a test Activity, fill it with all the Separator varians and show the correct coding for collapse/expand and click listening with also the added code to show the item contextual menu activation."</string>
+
+    <!-- A P P L I C A T I O N    R E S O U R C E S -->
+    <string name="activity_title_AndroidMVCDemoActivity">DEMO MVC</string>
+
+</resources>

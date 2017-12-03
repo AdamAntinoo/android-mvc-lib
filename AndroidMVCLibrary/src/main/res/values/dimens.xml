@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Core application dimensions. -->
+    <dimen name="app_bar_height">180dp</dimen>
+
+    <!-- Android Common UI dimensions. Separators -->
+    <dimen name="separatorwidth">2dp</dimen>
+    <dimen name="separatorradius">2dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dip</dimen>
+    <dimen name="activity_vertical_margin">16dip</dimen>
+    <dimen name="itemIcon48">48dip</dimen>
+    <dimen name="itemIcon32">32dip</dimen>
+    <dimen name="menuIconWidth">34dip</dimen>
+    <dimen name="menuIconHeight">32dip</dimen>
+
+</resources>
