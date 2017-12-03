@@ -13,6 +13,7 @@ import org.dimensinfin.android.mvc.connector.MVCAppConnector;
 import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
+
 /**
  * Decorator implementation to code the library requirements from the application. The dependencies are so reduced
  * that only a single method is required from the library.
@@ -24,6 +25,7 @@ public class DemoAppConnector extends MVCAppConnector implements IDemoAppConnect
 	// - S T A T I C - S E C T I O N ..........................................................................
 	protected static Logger logger = Logger.getLogger("DemoAppConnector");
 	private static DemoAppConnector _singleton = null;
+
 	public static DemoAppConnector getSingleton () {
 		if ( null == DemoAppConnector._singleton ) throw new RuntimeException(
 				"RTEX [DemoAppConnector.getSingleton]> Application chain not initialized. All class functionalities disabled.");
@@ -36,10 +38,11 @@ public class DemoAppConnector extends MVCAppConnector implements IDemoAppConnect
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public DemoAppConnector (IDemoAppConnector application) {
-				super(application);
+		super(application);
 		logger.info(">> [DemoAppConnector.<contructor>]");
 		// Setup the referencing structures that will serve as proxy and global references.
 		_appConnector = application;
+		_singleton = this;
 		logger.info("<< [DemoAppConnector.<consructor>]");
 	}
 

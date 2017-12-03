@@ -42,6 +42,7 @@ public class MVCAppConnector extends AndroidAppConnector implements IMVCAppConne
 		else
 			return _connector.getAppMenu();
 	}
+
 	public Class<?> getFirstActivity () {
 		if ( null == _connector )
 			throw new RuntimeException(

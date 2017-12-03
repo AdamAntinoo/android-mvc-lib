@@ -6,7 +6,7 @@
     android:minHeight="3dp"
     android:orientation="vertical">
 
-    <org.dimensinfin.android.mvc.fonts.ElementalEnd
+    <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

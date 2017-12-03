@@ -184,6 +184,11 @@ public class AndroidMVCApp extends Application implements IDemoAppConnector {
 
 	@Override
 	public String getResourceString (final int referenceId) {
-		return getResources().getString(referenceId);
+		try {
+			return getResources().getString(referenceId);
+		} catch (RuntimeException rtex) {
+			rtex.printStackTrace();
+			return "-STRING-";
+		}
 	}
 }

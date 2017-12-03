@@ -14,6 +14,7 @@ import org.dimensinfin.android.interfaces.IModelGenerator;
 import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.demo.AndroidMVCApp;
+import org.dimensinfin.android.mvc.demo.DemoAppConnector;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
@@ -43,7 +44,7 @@ public class AndroidMVCDemoFragment extends AbstractPagerFragment {
 
 	@Override
 	public String getTitle () {
-		return AndroidMVCApp.getSingleton().getResourceString(R.string.activity_title_AndroidMVCDemoActivity);
+		return DemoAppConnector.getSingleton().getResourceString(R.string.activity_title_AndroidMVCDemoActivity);
 	}
 
 	/**
@@ -69,8 +70,8 @@ public class AndroidMVCDemoFragment extends AbstractPagerFragment {
 	 */
 	@Override
 	protected void setHeaderContents () {
-		addHeaderModel(new DemoHeaderTitle(AndroidMVCApp.getSingleton().getResourceString(R.string.appname),
-				AndroidMVCApp.getSingleton().getResourceString(R.string.appversion)));
+		addHeaderModel(new DemoHeaderTitle(DemoAppConnector.getSingleton().getResourceString(R.string.appname),
+				DemoAppConnector.getSingleton().getResourceString(R.string.appversion)));
 	}
 }
 
@@ -151,7 +152,9 @@ final class DemoSeparatorGenerator extends AbstractGenerator implements IModelGe
 		this.setDataModel(new RootNode());
 
 		// Add manually each of the demo model nodes.
-		Separator node = new Separator("RED-Line").setType(Separator.ESeparatorType.LINE_RED);
+		Separator node = new Separator("RED-EMPTY").setType(Separator.ESeparatorType.EMPTY_SIGNAL);
+		_dataModelRoot.addChild(node);
+		 node = new Separator("RED-Line").setType(Separator.ESeparatorType.LINE_RED);
 		_dataModelRoot.addChild(node);
 		node = new Separator("ORANGE-Line").setType(Separator.ESeparatorType.LINE_ORANGE);
 		_dataModelRoot.addChild(node);
