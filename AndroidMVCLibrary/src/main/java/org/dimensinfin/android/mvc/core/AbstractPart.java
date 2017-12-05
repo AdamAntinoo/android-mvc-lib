@@ -8,7 +8,6 @@
 //                  used on ListViews.
 package org.dimensinfin.android.mvc.core;
 
-import org.dimensinfin.android.model.AbstractViewableNode;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.datasource.AbstractDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
@@ -16,13 +15,13 @@ import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IDownloadable;
 import org.dimensinfin.core.interfaces.IExpandable;
-import org.dimensinfin.core.model.AbstractComplexNode;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.dimensinfin.core.model.RootNode;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
 
@@ -44,6 +43,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	protected boolean newImplementation = false;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
+
 	/**
 	 * Parts are special elements. The root element that is a AbstractPropertyChanger is not responsible to
 	 * store the model but needs it as reference to set a parent for notifications. So do not forget to pass the
@@ -52,7 +52,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 * @param model the Data model linked to this part.
 	 */
 	public AbstractPart (final ICollaboration model) {
-//		super(this);
+		//		super(this);
 		this.model = model;
 		super.setParentChanger(this);
 	}
@@ -65,7 +65,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 * @param model the Data model linked to this part.
 	 */
 	public AbstractPart (final RootNode model, final IPartFactory factory) {
-//		super(model);
+		//		super(model);
 		this.model = model;
 		_factory = factory;
 		setParentChanger(this);
@@ -215,12 +215,6 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		if ( model instanceof IExpandable ) {
 			return ((IExpandable) model).isExpanded();
 		}
-		if ( model instanceof AbstractViewableNode ) {
-			return ((AbstractViewableNode) model).isExpanded();
-		}
-		if ( model instanceof AbstractComplexNode ) {
-			return ((AbstractComplexNode) model).isExpanded();
-		}
 		return false;
 	}
 
@@ -236,7 +230,8 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	}
 
 	/**
-	 * Expandable nodes can also have the proprrty to hide themselves if they are empty or that their collaboration to the model is empty.
+	 * Expandable nodes can also have the proprrty to hide themselves if they are empty or that their collaboration to the
+	 * model is empty.
 	 *
 	 * @return the model expand state when it applies. False if not expandable.
 	 */
@@ -244,15 +239,10 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		if ( model instanceof IExpandable ) {
 			return ((IExpandable) model).isRenderWhenEmpty();
 		}
-		if ( model instanceof AbstractViewableNode ) {
-			return ((AbstractViewableNode) model).isRenderWhenEmpty();
-		}
-		if ( model instanceof AbstractComplexNode ) {
-			return ((AbstractComplexNode) model).isRenderWhenEmpty();
-		}
 		return true;
 	}
-@Deprecated
+
+	@Deprecated
 	public boolean isVisible () {
 		return true;
 	}
@@ -299,7 +289,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 					.info("-- [AbstractPart.refreshChildren]> Exception case: partModel is NULL: " + this.toString());
 			return;
 		}
-		ArrayList<AbstractComplexNode> modelObjects = partModel.collaborate2Model(this.getPartFactory().getVariant());
+		final List<ICollaboration> modelObjects = partModel.collaborate2Model(this.getPartFactory().getVariant());
 		AbstractPart.logger.info("-- [AbstractPart.refreshChildren]> modelObjects: " + modelObjects);
 
 		// Process the list of model children for this Part.
@@ -395,21 +385,11 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 
 	public boolean toggleExpanded () {
 		if ( model instanceof IExpandable ) {
-			return ((IExpandable) model).toggleExpanded();
-		}
-		if ( model instanceof AbstractViewableNode ) {
-			return ((AbstractViewableNode) model).toggleExpanded();
-		}
-		if ( model instanceof AbstractComplexNode ) {
-			return ((AbstractComplexNode) model).toggleExpanded();
-		}
-		return true;
+			if ( ((IExpandable) model).isExpanded() ) ((IExpandable) model).collapse();
+			else ((IExpandable) model).expand();
+			return ((IExpandable) model).isExpanded();
+		} else return false;
 	}
-
-//	public boolean toggleVisible () {
-//		return model.toggleVisible();
-//	}
-
 	/**
 	 * Describes this EditPart for developmental debugging purposes.
 	 *
