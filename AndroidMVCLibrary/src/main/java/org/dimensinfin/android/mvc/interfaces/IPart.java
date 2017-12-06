@@ -8,6 +8,7 @@
 package org.dimensinfin.android.mvc.interfaces;
 
 // - IMPORT SECTION .........................................................................................
+
 import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
@@ -18,45 +19,47 @@ import java.util.Vector;
 // - CLASS IMPLEMENTATION ...................................................................................
 public interface IPart extends PropertyChangeListener {
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public ArrayList<IPart> collaborate2View();
+	public ArrayList<IPart> collaborate2View ();
 
-	public Vector<IPart> getChildren();
+	public Vector<IPart> getChildren ();
 
-	public ICollaboration getModel();
+	public ICollaboration getModel ();
 
-	public IPart getParentPart();
+	public IPart getParentPart ();
 
-	public IPartFactory getPartFactory();
+	public IPartFactory getPartFactory ();
 
-	public int getRenderMode();
+	public int getRenderMode ();
 
-	public RootPart getRoot();
+	public RootPart getRoot ();
 
-	public boolean isActive();
+	public boolean isActive ();
 
-	public boolean isDownloaded();
+	//	public boolean isDownloaded();
+	public boolean isEmpty ();
 
-	public boolean isExpanded();
+	public boolean isExpanded ();
 
-	public boolean isNewImplemented();
+	public boolean isNewImplemented ();
 
-	public boolean isRenderWhenEmpty();
+	public boolean isRenderWhenEmpty ();
 
-	public boolean isVisible();
+	@Deprecated
+	public boolean isVisible ();
 
-	public void refreshChildren();
+	public void refreshChildren ();
 
-	public Vector<IPart> runPolicies(Vector<IPart> targets);
+	public Vector<IPart> runPolicies (Vector<IPart> targets);
 
-	public IPart setFactory(final IPartFactory partFactory);
+	public IPart setFactory (final IPartFactory partFactory);
 
-	public void setModel(final ICollaboration model);
+	public void setModel (final ICollaboration model);
 
-	public void setParent(final IPart parent);
+	public void setParent (final IPart parent);
 
-	public IPart setRenderMode(final int renderMode);
+	public IPart setRenderMode (final int renderMode);
 
-	public IPart setRenderMode(final String renderMode);
+	public IPart setRenderMode (final String renderMode);
 }
 
 // - UNUSED CODE ............................................................................................

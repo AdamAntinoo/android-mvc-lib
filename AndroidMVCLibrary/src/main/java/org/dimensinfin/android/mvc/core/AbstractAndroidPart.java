@@ -95,6 +95,10 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 			this.needsRedraw();
 		}
 	}
+	public boolean isEmpty () {
+		if ( getChildren().size() > 0 ) return false;
+		else return true;
+	}
 
 	@Override
 	public void needsRedraw () {
