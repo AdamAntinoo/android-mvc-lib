@@ -7,21 +7,20 @@
 //									the extended GEF model into the Android View to be used on ListViews.
 package org.dimensinfin.android.mvc.datasource;
 
-//- IMPORT SECTION .........................................................................................
-import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.logging.Logger;
-
-import org.dimensinfin.android.datasource.DataSourceLocator;
-import org.dimensinfin.android.interfaces.IModelGenerator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.core.datasource.DataSourceLocator;
+import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
+
+import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 /**
@@ -34,16 +33,16 @@ import org.dimensinfin.core.model.RootNode;
 public class SpecialDataSource extends AbstractDataSource implements IDataSource {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long							serialVersionUID	= -9083587546700227219L;
-	public static Logger									logger						= Logger.getLogger("SpecialDataSource");
+	public static Logger logger						= Logger.getLogger("SpecialDataSource");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	/** The unique identifier of the DataSource */
-	private DataSourceLocator							_locator					= null;
+	private DataSourceLocator _locator					= null;
 	/** Reference to the Model Generator that will be the source point for the model hierarchy. */
-	protected IModelGenerator							_modelGenerator		= null;
+	protected IModelGenerator _modelGenerator		= null;
 	private String												_variant					= "DEFAULT_VARIANT";
 	private boolean												_cacheable				= true;
-	private final HashMap<String, Object>	_parameters				= new HashMap<String, Object>();
+	private final HashMap<String, Object> _parameters				= new HashMap<String, Object>();
 	protected IPartFactory								_partFactory			= null;
 
 	/** The initial node where to store the model. Model elements are children of this root. */
@@ -51,7 +50,7 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 	/** The root node for the Part hierarchy that matches the data model hierarchy. */
 	protected RootPart										_partModelRoot		= null;
 	/** The list of Parts to show on the viewer. This is the body section that is scrollable. */
-	protected ArrayList<IPart>						_bodyParts				= new ArrayList<IPart>();
+	protected ArrayList<IPart> _bodyParts				= new ArrayList<IPart>();
 	/** The list of Parts to show on the header. */
 	protected ArrayList<IPart>						_headParts				= new ArrayList<IPart>();
 	//	private DataSourceManager							_dsManager;
@@ -191,7 +190,7 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 	@Override
 	public void propertyChange(final PropertyChangeEvent event) {
 		// The expand/collapse state has changed.
-		if (SystemWideConstants.events
+		if ( SystemWideConstants.events
 				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE) {
 			_bodyParts = new ArrayList<IPart>();
 			_bodyParts.addAll(_partModelRoot.collaborate2View());

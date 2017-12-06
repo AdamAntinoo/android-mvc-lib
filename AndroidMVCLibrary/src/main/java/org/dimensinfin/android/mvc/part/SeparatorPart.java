@@ -13,10 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.core.model.Separator;
 
 import java.util.GregorianCalendar;
 
@@ -133,32 +133,32 @@ final class SeparatorRender extends AbstractRender {
 			case LINE_RED:
 				renderer = R.layout.separatorredline;
 				// Collapse the expansion.
-				this.getPart().getCastedModel().setExpanded(false);
+	//			this.getPart().getCastedModel().collapse();
 				break;
 			case LINE_ORANGE:
 				renderer = R.layout.separatororangeline;
 				// Collapse the expansion.
-				this.getPart().getCastedModel().setExpanded(false);
+//				this.getPart().getCastedModel().setExpanded(false);
 				break;
 			case LINE_YELLOW:
 				renderer = R.layout.separatoryellowline;
 				// Collapse the expansion.
-				this.getPart().getCastedModel().setExpanded(false);
+//				this.getPart().getCastedModel().setExpanded(false);
 				break;
 			case LINE_GREEN:
 				renderer = R.layout.separatorgreenline;
 				// Collapse the expansion.
-				this.getPart().getCastedModel().setExpanded(false);
+//				this.getPart().getCastedModel().setExpanded(false);
 				break;
 			case LINE_BLUE:
 				renderer = R.layout.separatorblueline;
 				// Collapse the expansion.
-				this.getPart().getCastedModel().setExpanded(false);
+//				this.getPart().getCastedModel().setExpanded(false);
 				break;
 			case EMPTY_SIGNAL:
 				renderer = R.layout.separatorredline;
 				// Collapse the expansion.
-				this.getPart().getCastedModel().setExpanded(false);
+//				this.getPart().getCastedModel().setExpanded(false);
 				break;
 
 			default:

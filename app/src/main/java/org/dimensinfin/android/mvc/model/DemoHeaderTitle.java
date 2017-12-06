@@ -9,9 +9,10 @@
 package org.dimensinfin.android.mvc.model;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.model.AbstractComplexNode;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class DemoHeaderTitle implements ICollaboration {
@@ -49,8 +50,8 @@ public class DemoHeaderTitle implements ICollaboration {
 	}
 
 	@Override
-	public ArrayList<AbstractComplexNode> collaborate2Model (final String variant) {
-		return new ArrayList<AbstractComplexNode>();
+	public List<ICollaboration> collaborate2Model (final String variant) {
+		return new Vector<ICollaboration>();
 	}
 	public String toString () {
 		StringBuffer buffer = new StringBuffer("DemoHeaderTitle [");

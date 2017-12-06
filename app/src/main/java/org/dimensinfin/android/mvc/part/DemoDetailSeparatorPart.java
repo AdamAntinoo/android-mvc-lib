@@ -13,10 +13,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.demo.R;
+import org.dimensinfin.core.model.Separator;
 
 import java.util.GregorianCalendar;
 

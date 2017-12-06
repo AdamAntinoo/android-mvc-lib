@@ -8,12 +8,7 @@
 //                  used on ListViews.
 package org.dimensinfin.android.mvc.demo.activity;
 
-import org.dimensinfin.android.datasource.AbstractGenerator;
-import org.dimensinfin.android.datasource.DataSourceLocator;
-import org.dimensinfin.android.interfaces.IModelGenerator;
-import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.core.PartFactory;
-import org.dimensinfin.android.mvc.demo.AndroidMVCApp;
 import org.dimensinfin.android.mvc.demo.DemoAppConnector;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.interfaces.IPart;
@@ -22,8 +17,12 @@ import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 import org.dimensinfin.android.mvc.part.DemoDetailSeparatorPart;
 import org.dimensinfin.android.mvc.part.DemoHeaderTitlePart;
 import org.dimensinfin.android.mvc.part.SeparatorPart;
+import org.dimensinfin.core.datasource.AbstractGenerator;
+import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
+import org.dimensinfin.core.model.Separator;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public class AndroidMVCDemoFragment extends AbstractPagerFragment {
@@ -154,7 +153,7 @@ final class DemoSeparatorGenerator extends AbstractGenerator implements IModelGe
 		// Add manually each of the demo model nodes.
 		Separator node = new Separator("RED-EMPTY").setType(Separator.ESeparatorType.EMPTY_SIGNAL);
 		_dataModelRoot.addChild(node);
-		 node = new Separator("RED-Line").setType(Separator.ESeparatorType.LINE_RED);
+		node = new Separator("RED-Line").setType(Separator.ESeparatorType.LINE_RED);
 		_dataModelRoot.addChild(node);
 		node = new Separator("ORANGE-Line").setType(Separator.ESeparatorType.LINE_ORANGE);
 		_dataModelRoot.addChild(node);

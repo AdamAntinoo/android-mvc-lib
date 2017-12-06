@@ -9,11 +9,10 @@
 package org.dimensinfin.android.mvc.interfaces;
 
 import java.beans.PropertyChangeListener;
-//- IMPORT SECTION .........................................................................................
 import java.util.ArrayList;
 
-import org.dimensinfin.android.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.model.RootNode;
 
 // - CLASS IMPLEMENTATION ...................................................................................

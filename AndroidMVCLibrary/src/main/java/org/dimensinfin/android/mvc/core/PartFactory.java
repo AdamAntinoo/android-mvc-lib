@@ -8,11 +8,11 @@
 //                  used on ListViews.
 package org.dimensinfin.android.mvc.core;
 
-import org.dimensinfin.android.model.Separator;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.android.mvc.part.SeparatorPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.model.Separator;
 
 import java.util.logging.Logger;
 

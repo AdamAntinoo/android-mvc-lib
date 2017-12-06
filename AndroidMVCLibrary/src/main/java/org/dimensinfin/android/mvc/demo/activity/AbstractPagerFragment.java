@@ -23,8 +23,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.dimensinfin.android.datasource.ModelGeneratorStore;
-import org.dimensinfin.android.interfaces.IModelGenerator;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.connector.MVCAppConnector;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
@@ -37,11 +35,12 @@ import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.core.datasource.ModelGeneratorStore;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.model.AbstractComplexNode;
-import org.dimensinfin.core.model.CEventModel.ECoreModelEvents;
-import org.dimensinfin.core.model.IGEFNode;
+import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
+import org.dimensinfin.gef.core.AbstractGEFNode;
+import org.dimensinfin.gef.core.IGEFNode;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
@@ -240,8 +239,8 @@ public abstract class AbstractPagerFragment extends Fragment {
 	private Bundle															_extras						= new Bundle();
 	private String															_title						= "<TITLE>";
 	private String															_subtitle					= "";
-	private IPartFactory												_factory					= null;
-	protected IDataSource												_datasource				= null;
+	private IPartFactory _factory					= null;
+	protected IDataSource _datasource				= null;
 	protected DataSourceAdapter									_adapter					= null;
 	// REFACTOR Set back to private after the PagerFragment is removed
 	protected final Vector<IAndroidPart>	_headerContents		= new Vector<IAndroidPart>();
@@ -256,7 +255,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	/** The view that represent the list view and the space managed though the adapter. */
 	protected ListView													_modelContainer		= null;
 	protected ViewGroup													_progressLayout		= null;
-	protected IMenuActionTarget									_listCallback			= null;
+	protected IMenuActionTarget _listCallback			= null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
@@ -283,7 +282,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 		try {
 			RootNode headerModel = new RootNode();
 			for (ICollaboration node : headerModelContents) {
-				if ( node instanceof AbstractComplexNode ) headerModel.addChild((IGEFNode) node);
+				headerModel.addChild( node);
 			}
 
 			// Do the same operations as in the body contents. Create a root, add to it the model elements and then
@@ -471,10 +470,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	}
 
 	public void propertyChange(final PropertyChangeEvent event) {
-		//		if (event.getPropertyName().equalsIgnoreCase(ECoreModelEvents.EVENT_EXPANDCOLLAPSENODE.name())) {
-		//			new StructureChangeTask(this).execute();
-		//		}
-		if (event.getPropertyName().equalsIgnoreCase(ECoreModelEvents.EVENT_EXPANDCOLLAPSENODE.name())) {
+		if (event.getPropertyName().equalsIgnoreCase(AbstractGEFNode.ECoreModelEvents.EVENT_EXPANDCOLLAPSENODE.name())) {
 			new ExpandChangeTask(this).execute();
 		}
 	}

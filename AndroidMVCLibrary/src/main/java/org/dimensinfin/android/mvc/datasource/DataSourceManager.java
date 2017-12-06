@@ -7,12 +7,11 @@
 //									the extended GEF model into the Android View to be used on ListViews.
 package org.dimensinfin.android.mvc.datasource;
 
-//- IMPORT SECTION .........................................................................................
+import org.dimensinfin.android.mvc.interfaces.IDataSource;
+import org.dimensinfin.core.datasource.DataSourceLocator;
+
 import java.util.HashMap;
 import java.util.logging.Logger;
-
-import org.dimensinfin.android.datasource.DataSourceLocator;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 /**
@@ -23,8 +22,8 @@ import org.dimensinfin.android.mvc.interfaces.IDataSource;
  */
 public class DataSourceManager /* implements IDataSourceConnector */ {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger															logger			= Logger.getLogger("DataSourceManager");
-	private static final HashMap<String, IDataSource>	dataSources	= new HashMap<String, IDataSource>();
+	private static Logger logger			= Logger.getLogger("DataSourceManager");
+	private static final HashMap<String, IDataSource> dataSources	= new HashMap<String, IDataSource>();
 
 	/**
 	 * Registers this new DataSource on the Manager or returns the source located already on the cache if they

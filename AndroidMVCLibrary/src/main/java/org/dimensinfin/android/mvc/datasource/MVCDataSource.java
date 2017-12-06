@@ -8,12 +8,12 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.android.mvc.datasource;
 
-import org.dimensinfin.android.datasource.DataSourceLocator;
-import org.dimensinfin.android.interfaces.IModelGenerator;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.core.datasource.DataSourceLocator;
+import org.dimensinfin.core.interfaces.IModelGenerator;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class MVCDataSource extends SpecialDataSource {
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public MVCDataSource(final DataSourceLocator locator, final IPartFactory partFactory,
-			final IModelGenerator generator) {
+	                     final IModelGenerator generator) {
 		super(locator, partFactory);
 		if (null == generator) throw new RuntimeException(
 				"RTEX [MVCDataSource.<initialize>]> The Model Generator should not be empty.");
