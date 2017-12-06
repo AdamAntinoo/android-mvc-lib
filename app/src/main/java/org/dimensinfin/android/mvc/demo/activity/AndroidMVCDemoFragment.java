@@ -8,6 +8,7 @@
 //                  used on ListViews.
 package org.dimensinfin.android.mvc.demo.activity;
 
+import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.demo.DemoAppConnector;
 import org.dimensinfin.android.mvc.demo.R;
@@ -21,6 +22,7 @@ import org.dimensinfin.core.datasource.AbstractGenerator;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IModelGenerator;
+import org.dimensinfin.core.model.Container;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.core.model.Separator;
 
@@ -162,6 +164,8 @@ final class DemoSeparatorGenerator extends AbstractGenerator implements IModelGe
 		node = new Separator("GREEN-Line").setType(Separator.ESeparatorType.LINE_GREEN);
 		_dataModelRoot.addChild(node);
 
+		final Separator expandable = new Container("-CONTAINER-").setType(Separator.ESeparatorType.LINE_WHITE);
+		_dataModelRoot.addChild(expandable);
 
 		AbstractGenerator.logger.info("<< [DemoSeparatorGenerator.collaborate2Model]");
 		return _dataModelRoot;

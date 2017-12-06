@@ -11,8 +11,8 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 
-import org.dimensinfin.android.mvc.demo.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.R;
+import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 
 import java.util.Vector;
 

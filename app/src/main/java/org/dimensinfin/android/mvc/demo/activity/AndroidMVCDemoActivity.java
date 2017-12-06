@@ -13,6 +13,7 @@ package org.dimensinfin.android.mvc.demo.activity;
 
 import android.os.Bundle;
 
+import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
 import org.dimensinfin.android.mvc.demo.AndroidMVCApp;
 import org.dimensinfin.android.mvc.demo.R;
 
