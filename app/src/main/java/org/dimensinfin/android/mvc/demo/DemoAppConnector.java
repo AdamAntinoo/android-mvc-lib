@@ -8,6 +8,8 @@
 //                  contextual menu activation.
 package org.dimensinfin.android.mvc.demo;
 
+import android.view.Menu;
+
 import org.dimensinfin.android.mvc.connector.MVCAppConnector;
 
 import java.util.logging.Logger;
@@ -47,4 +49,11 @@ public class DemoAppConnector extends MVCAppConnector implements IDemoAppConnect
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+		public Menu getAppMenu () {
+			if ( null == _appConnector )
+				throw new RuntimeException(
+						"RTEX [MVCAppConnector.getAppMenu]> Application connection not defined. Functionality 'getAppMenu' disabled.");
+			else
+				return _appConnector.getAppMenu();
+		}
 }

@@ -226,7 +226,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	@Deprecated
 	public boolean isNewImplemented () {
 		// TODO This methods should be removed after node rewrite.
-		return newImplementation;
+		return true;
 	}
 
 	/**

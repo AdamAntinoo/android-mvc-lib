@@ -9,8 +9,12 @@
 package org.dimensinfin.android.mvc.demo;
 
 
+import android.view.Menu;
+
 import org.dimensinfin.android.mvc.connector.IMVCAppConnector;
 
 public interface IDemoAppConnector extends IMVCAppConnector {
-	public String getResourceString(int referenceId);
+	public String getResourceString (int referenceId);
+
+	public Menu getAppMenu ();
 }

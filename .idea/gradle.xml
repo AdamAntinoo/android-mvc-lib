@@ -10,7 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/AndroidMVCLibrary" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/../../../Libraries/Java Libraries/corebase-libraries/org.dimensinfin.core" />
+            <option value="$PROJECT_DIR$/../../../Libraries Base/Corebase 2.0.x/org.dimensinfin.core" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

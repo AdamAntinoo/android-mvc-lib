@@ -109,7 +109,7 @@ public class AndroidMVCApp extends Application implements IDemoAppConnector {
 	 */
 	private void startProgress (final double countIndicator) {
 		// Activate menu icon of progress.
-		final Menu menu = MVCAppConnector.getSingleton().getAppMenu();
+		final Menu menu = DemoAppConnector.getSingleton().getAppMenu();
 		if ( null != menu ) {
 			final MenuItem updatingItem = menu.findItem(R.id.action_launchUpdate);
 			final LayoutInflater mInflater = (LayoutInflater) MVCAppConnector.getSingleton().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
@@ -137,7 +137,7 @@ public class AndroidMVCApp extends Application implements IDemoAppConnector {
 	 */
 	private void stopProgress () {
 		// Clear the update progress.
-		final Menu menu = MVCAppConnector.getSingleton().getAppMenu();
+		final Menu menu = DemoAppConnector.getSingleton().getAppMenu();
 		if ( null != menu ) {
 			final MenuItem updatingItem = menu.findItem(R.id.action_launchUpdate);
 			final LayoutInflater mInflater = (LayoutInflater) MVCAppConnector.getSingleton().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
