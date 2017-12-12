@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/nodeIcon"
-        style="@style/AppTheme.ItemIcon"
+        style="@style/AppTheme.NodeIcon"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_alignParentLeft="true"

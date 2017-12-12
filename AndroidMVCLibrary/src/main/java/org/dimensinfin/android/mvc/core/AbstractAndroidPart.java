@@ -16,7 +16,7 @@ import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
-import java.util.Vector;
+import java.util.List;
 import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
@@ -33,6 +33,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 	private static final long serialVersionUID = 7467855028114565679L;
 	protected static Logger logger = Logger.getLogger("AbstractAndroidPart");
 
+	// - F I E L D - S E C T I O N ............................................................................
 	protected Activity _activity = null;
 	protected Fragment _fragment = null;
 	private View _view = null;
@@ -59,10 +60,9 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 			throw new RuntimeException("Fragment object not available on access on a Part.");
 	}
 
-	public Vector<IPart> runPolicies (final Vector<IPart> targets) {
+	public List<IPart> runPolicies (final List<IPart> targets) {
 		return targets;
 	}
-
 
 	/**
 	 * Activities should not use directly the adapter. They should always use the Fragments for future

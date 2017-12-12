@@ -4,26 +4,21 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="@android:style/Theme.Holo">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <!--<item name="android:actionBarStyle">@style/MVCActionBar</item>-->
     </style>
 
-    <!--<style name="MVCActionBar" parent="@android:style/Widget.Holo.ActionBar">-->
-        <!--<item name="android:background">@android:color/black</item>-->
-        <!--<item name="android:titleTextStyle">@style/AppTheme.ActionBar.TitleTextStyle</item>-->
-    <!--</style>-->
-
-    <!--<style name="AppTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">-->
-        <!--<item name="android:textColor">@color/apporange</item>-->
-        <!--<item name="android:shadowColor">@color/apporange</item>-->
-        <!--<item name="android:shadowDx">0</item>-->
-        <!--<item name="android:shadowDy">0</item>-->
-        <!--<item name="android:shadowRadius">10</item>-->
-    <!--</style>-->
-
     <!-- Definition of the Application Theme Icons -->
-    <style name="AppTheme.ItemIcon">
-        <item name="android:layout_width">@dimen/itemIcon32</item>
-        <item name="android:layout_height">@dimen/itemIcon32</item>
+    <style name="AppTheme.ActivityBackground">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:background">#FF000000</item>
+        <item name="android:contentDescription">@string/default_content_description</item>
+        <item name="android:src">@drawable/blacktraslucent80</item>
+    </style>
+
+    <style name="AppTheme.NodeIcon">
+        <item name="android:layout_width">@dimen/nodeiconsize</item>
+        <item name="android:layout_height">@dimen/nodeiconsize</item>
         <item name="android:contentDescription">@string/default_content_description</item>
         <item name="android:src">@drawable/defaulticonplaceholder</item>
         <item name="android:layout_alignParentLeft">true</item>
@@ -35,9 +30,9 @@
         <item name="android:background">@drawable/whiteborderbox</item>
     </style>
 
-    <style name="AppTheme.ItemIcon.NoBorder">
-        <item name="android:layout_width">@dimen/itemIcon32</item>
-        <item name="android:layout_height">@dimen/itemIcon32</item>
+    <style name="AppTheme.NodeIcon.NoBorder">
+        <item name="android:layout_width">@dimen/nodeiconsize</item>
+        <item name="android:layout_height">@dimen/nodeiconsize</item>
         <item name="android:contentDescription">@string/default_content_description</item>
         <item name="android:src">@drawable/defaulticonplaceholder</item>
         <item name="android:layout_alignParentLeft">true</item>
@@ -50,8 +45,8 @@
     </style>
 
     <style name="AppTheme.Arrow">
-        <item name="android:layout_width">28dp</item>
-        <item name="android:layout_height">28dp</item>
+        <item name="android:layout_width">@dimen/arrowsize</item>
+        <item name="android:layout_height">@dimen/arrowsize</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:gravity">right</item>
@@ -90,6 +85,7 @@
     </style>
 
     <style name="AppTheme.TextView.Glow">
+        <item name="android:textColor">@android:color/white</item>
         <item name="android:shadowColor">@android:color/white</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">0</item>
@@ -106,6 +102,11 @@
         <item name="android:shadowColor">@color/apporange</item>
     </style>
 
+    <style name="AppTheme.TextView.Glow.Green">
+        <item name="android:textColor">@color/appgreen</item>
+        <item name="android:shadowColor">@color/appgreen</item>
+    </style>
+
     <!-- Definition of the Progress indicator -->
     <style name="Widget"></style>
 
@@ -113,25 +114,16 @@
         <item name="android:indeterminateOnly">true</item>
         <item name="android:indeterminateBehavior">repeat</item>
         <item name="android:indeterminateDuration">3500</item>
-        <item name="android:minWidth">48dip</item>
-        <item name="android:maxWidth">48dip</item>
-        <item name="android:minHeight">48dip</item>
-        <item name="android:maxHeight">48dip</item>
+        <item name="android:minWidth">@dimen/progressbarsize</item>
+        <item name="android:maxWidth">@dimen/progressbarsize</item>
+        <item name="android:minHeight">@dimen/progressbarsize</item>
+        <item name="android:maxHeight">@dimen/progressbarsize</item>
     </style>
 
     <style name="Widget.CirclePageIndicator" parent="Widget">
-        <item name="android:layout_marginLeft">6dp</item>
-        <item name="android:layout_marginRight">6dp</item>
-        <item name="android:radius">5dp</item>
-    </style>
-
-    <style name="AppTheme.ActivityBackground">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:scaleType">centerCrop</item>
-        <item name="android:background">#FF000000</item>
-        <item name="android:contentDescription">@string/default_content_description</item>
-        <item name="android:src">@drawable/blacktraslucent80</item>
+        <item name="android:layout_marginLeft">@dimen/circlemargin</item>
+        <item name="android:layout_marginRight">@dimen/circlemargin</item>
+        <item name="android:radius">@dimen/circleradius</item>
     </style>
 
 </resources>

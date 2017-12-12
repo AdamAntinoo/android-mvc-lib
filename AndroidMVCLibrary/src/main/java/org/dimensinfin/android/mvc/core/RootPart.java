@@ -1,10 +1,11 @@
-//	PROJECT:        NeoCom.MVC (NEOC.MVC)
+//	PROJECT:        Android.MVC (A.MVC)
 //	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
 //	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API16.
+//	ENVIRONMENT:		Android API22.
 //	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
 //									on Android projects. Defines the Part factory and the Part core methods to manage
-//									the extended GEF model into the Android View to be used on ListViews.
+//									a generic data graph into a Part hierarchy and finally on the Android View to be
+//                  used on ListViews.
 package org.dimensinfin.android.mvc.core;
 
 import org.dimensinfin.android.mvc.interfaces.IPart;
@@ -13,14 +14,13 @@ import org.dimensinfin.core.model.RootNode;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Vector;
-import java.util.logging.Logger;
+import java.util.List;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class RootPart extends AbstractPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = -8085543451527813221L;
-	private static Logger logger = Logger.getLogger("GenericConfigurableIconPart");
+//	private static Logger logger = Logger.getLogger("RootPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private boolean sort = false;
@@ -36,26 +36,21 @@ public class RootPart extends AbstractPart {
 		return this.getModel().getClass().hashCode();
 	}
 
-	@Override
 	public RootPart getRoot () {
 		return this;
 	}
 
-	@Override
 	public boolean isEmpty () {
 		if ( getChildren().size() > 0 ) return false;
 		else return true;
 	}
-
-	//	public void needsRedraw() {
-	//	}
 
 	/**
 	 * Most of root parts should order the result by alphabetical name but this should be configurable. If the
 	 * sort flag is active and the nodes are INamed then sort them.
 	 */
 	@Override
-	public Vector<IPart> runPolicies (final Vector<IPart> targets) {
+	public List<IPart> runPolicies (final List<IPart> targets) {
 		if ( this.doSort() ) {
 			Collections.sort(targets, partComparator);
 		}

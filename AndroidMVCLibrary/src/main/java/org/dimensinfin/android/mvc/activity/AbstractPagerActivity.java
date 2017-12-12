@@ -7,14 +7,6 @@
 //									the extended GEF model into the Android View to be used on ListViews.
 package org.dimensinfin.android.mvc.activity;
 
-import java.util.logging.Logger;
-
-import org.dimensinfin.android.mvc.datasource.AbstractFragmentPagerAdapter;
-import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.connector.MVCAppConnector;
-
-import com.viewpagerindicator.CirclePageIndicator;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -23,6 +15,14 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.viewpagerindicator.CirclePageIndicator;
+
+import org.dimensinfin.android.mvc.R;
+import org.dimensinfin.android.mvc.connector.MVCAppConnector;
+import org.dimensinfin.android.mvc.datasource.AbstractFragmentPagerAdapter;
+
+import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 
@@ -164,20 +164,20 @@ public abstract class AbstractPagerActivity extends Activity {
 			// Add the adapter for the page switching.
 			_pageAdapter = new AbstractFragmentPagerAdapter(this.getFragmentManager(), _pageContainer.getId());
 			_pageContainer.setAdapter(_pageAdapter);
+			// Cleat the indicator from the view until more than one page is added.
 			this.disableIndicator();
-		} catch (final Exception rtex) {
-			logger.severe("RTEX> [AbstractPagerActivity.onCreate]> " + rtex.getMessage());
+		} catch (final RuntimeException rtex) {
+			logger.severe("RTEX [AbstractPagerActivity.onCreate]> " + rtex.getMessage());
 			rtex.printStackTrace();
-			this.stopActivity(new RuntimeException("RTEX> [AbstractPagerActivity.onCreate]> " + rtex.getMessage()));
+			this.stopActivity(new RuntimeException("RTEX [AbstractPagerActivity.onCreate]> " + rtex.getMessage()));
 		}
 		AbstractPagerActivity.logger.info("<< [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
 	}
 
 	/**
 	 * For really unrecoverable or undefined exceptions the application should go to a safe spot. That spot is
-	 * defined by the application so this is another abstract method.
-	 *
-	 * @param exception
+	 * defined by the application so we use the delegate to runtime pattern to call the Application First Activity
+	 * whatever it is.
 	 */
 	protected void stopActivity (final Exception exception) {
 		final Intent intent = new Intent(this, MVCAppConnector.getSingleton().getFirstActivity());
@@ -197,5 +197,4 @@ public abstract class AbstractPagerActivity extends Activity {
 		}
 	}
 }
-// - UNUSED CODE
-// ............................................................................................
+// - UNUSED CODE ............................................................................................

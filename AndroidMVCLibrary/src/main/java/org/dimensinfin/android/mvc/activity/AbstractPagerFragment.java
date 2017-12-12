@@ -40,7 +40,6 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.gef.core.AbstractGEFNode;
-import org.dimensinfin.gef.core.IGEFNode;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
@@ -383,10 +382,14 @@ public abstract class AbstractPagerFragment extends Fragment {
 	}
 
 	/**
-	 * This is the code common to all fragments. Only registers the DataSource. In the case there are no
-	 * associated DataSource then we can supersede it calling the core code at the
-	 * <code>onCreateViewSuper</code> method so the mandatory onCreateViewSuper that should be called first will
-	 * use the latest <code>onCreateView</code>.
+	 * This is the code common to all fragments.
+	 * Besides the inflation of the layout and the connection to the graphical elements references that is performed at the <code>onCreateSuper()</code>
+	 * method the initialization has to setup all the rest of the structures that make the generic code work with any model. So we start
+	 * creating the Part from Model Factory to translate the model items to their Part counterparts, then connecting the DataSource
+	 * to the Adapter so the view lifecycle will trigger the Adapter flow to extract the view list from the DataSource.
+	 * Finally the setup of the Header contents that instead using a flow Adapter it is populated statically with new Fragment methods
+	 * that will also feed the header model into the header layout.
+	 * The 3 methods are abstract so they are the developer implementation for each Fragment variant.
 	 */
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -496,12 +499,22 @@ public abstract class AbstractPagerFragment extends Fragment {
 		}
 	}
 
-	public void setGenerator (IModelGenerator fragmentModelGenerator) {
+	/**
+	 * This method is a simplification from the original code where we do not use an additional DataSource but the common one
+	 * so we create a generic DataSource and feed it the specific Model Generator that can be obtained from the Model cache. Model generation
+	 * maybe a time consuming process so it is run out of the main thread.
+	 * If the developer does need to use another DataSource but the generic it should replicate this code and register the DataSource manually.
+	 *
+	 * @param modelGenerator the new proposed generator. May be replaced by a cached one if already initialized.
+	 */
+	public void setGenerator (IModelGenerator modelGenerator) {
 		// Check if the generator already exists on the Cache. If so get the current one and discard the new.
-		_generator = ModelGeneratorStore.registerGenerator(fragmentModelGenerator);
+		_generator = ModelGeneratorStore.registerGenerator(modelGenerator);
 
 		// Generate the DataSource from the Generator and set it up on the Frgment.
-		MVCDataSource ds = new MVCDataSource(fragmentModelGenerator.getDataSourceLocator(), getFactory(), fragmentModelGenerator);
+		AbstractPagerFragment.logger.info("-- [AbstractPagerFragment.setGenerator]> Creating generic DataSource MVCDataSource.class");
+		MVCDataSource ds = new MVCDataSource(modelGenerator.getDataSourceLocator(), getFactory(), modelGenerator);
+		AbstractPagerFragment.logger.info("-- [AbstractPagerFragment.setGenerator]> Using variant: "+this.getVariant());
 		ds.setVariant(this.getVariant());
 		setDataSource(ds);
 	}
@@ -579,7 +592,8 @@ public abstract class AbstractPagerFragment extends Fragment {
 			}
 			_headerContainer.setVisibility(View.VISIBLE);
 		} catch (final RuntimeException rtex) {
-			Log.e("PageFragment", "R> PageFragment.addViewtoHeader RuntimeException. " + rtex.getMessage());
+			logger.info("RTEX [AbstractPagerFragment.addViewtoHeader]> Problem generating view for: "+target.toString());
+			logger.info("RTEX [AbstractPagerFragment.addViewtoHeader]> RuntimeException. " + rtex.getMessage());
 			rtex.printStackTrace();
 		}
 		logger.info("<< AbstractPagerFragment.addViewtoHeader");

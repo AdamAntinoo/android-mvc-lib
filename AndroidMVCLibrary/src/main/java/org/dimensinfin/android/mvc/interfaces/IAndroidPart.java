@@ -1,3 +1,11 @@
+//	PROJECT:        Android.MVC (A.MVC)
+//	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
+//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
+//	ENVIRONMENT:		Android API22.
+//	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
+//									on Android projects. Defines the Part factory and the Part core methods to manage
+//									a generic data graph into a Part hierarchy and finally on the Android View to be
+//                  used on ListViews.
 package org.dimensinfin.android.mvc.interfaces;
 
 import android.app.Activity;
@@ -6,15 +14,12 @@ import android.view.View;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
 
-/**
- * Created by Adam on 15/11/2017.
- */
 
+// - CLASS IMPLEMENTATION ...................................................................................
 public interface IAndroidPart extends IPart {
-	// - M E T H O D - S E C T I O N ..........................................................................
-	Activity getActivity ();
+	public Activity getActivity ();
 
-	Fragment getFragment ();
+	public Fragment getFragment ();
 
 	/**
 	 * Returns a numeric identifier for this part model item that should be unique from all other system wide
@@ -22,17 +27,20 @@ public interface IAndroidPart extends IPart {
 	 *
 	 * @return <code>long</code> identifier with the model number.
 	 */
-	long getModelID ();
+	public long getModelID ();
 
-	AbstractRender getRenderer(Activity activity);
+	public AbstractRender getRenderer (Activity activity);
 
-	AbstractRender getRenderer(Fragment fragment);
+	public AbstractRender getRenderer (Fragment fragment);
 
-	View getView ();
+	public View getView ();
 
-	void invalidate ();
+	public void invalidate ();
 
-	void needsRedraw ();
+	public void needsRedraw ();
 
-	void setView(View convertView);
+	public void setView (View convertView);
 }
+
+// - UNUSED CODE ............................................................................................
+

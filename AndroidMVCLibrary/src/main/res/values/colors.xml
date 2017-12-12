@@ -17,7 +17,8 @@
     <color name="apporangemedium">#FFF2540C</color>
     <color name="appyellow">#FFFFFF33</color>
     <color name="appgreenalien">#FF6CC417</color>
-    <color name="appgreen">#FF66FF33</color>
+    <color name="appgreendark">#FF27AE60</color>
+    <color name="appgreen">#FF6CC417</color>
     <color name="appbluelight">#FF33CCFF</color>
     <color name="appblue">#FF3333FF</color>
     <color name="appbluepurple">#FF794DFF</color>
@@ -44,5 +45,13 @@
     <color name="separatoryellowglow">#FFFFFF33</color>
     <color name="separatorgreenglow">#FF6CC417</color>
     <color name="separatorblueglow">#FF3333FF</color>
+
+    <!-- Android Common UI colors. Progress indicator -->
+    <color name="blueBrightProgress">#FF3D78BA</color>
+    <color name="blueDarkProgress">#FF554EBA</color>
+
+    <!-- Circle Indicator colours -->
+    <color name="unselectedPage">#20808080</color>
+    <color name="activePage">#B0F0F0F0</color>
 
 </resources>
