@@ -115,7 +115,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 * Model behind the Part is expanded, in that case the children have the opportunity to be added to the
 	 * visible list.
 	 */
-	public ArrayList<IPart> collaborate2View () {
+	public List<IPart> collaborate2View () {
 		AbstractPart.logger.info(">< [AbstractPart.collaborate2View]> Collaborator: " + this.getClass().getSimpleName());
 		ArrayList<IPart> result = new ArrayList<IPart>();
 		// If the node is expanded then give the children the opportunity to also be added.
