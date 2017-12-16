@@ -125,15 +125,14 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 			AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaborator children: " + ch.size());
 			// --- End of policies
 			for (IPart part : ch) {
-				//	if ( part.isVisible() )
-				//			if ( part.isRenderWhenEmpty() ) {
-				//	if ( !part.isNewImplemented() ) {
-//				result.add(part);
-				//		}
-				//			}
 				final List<IPart> collaboration = part.collaborate2View();
 				AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaboration parts: " + collaboration.size());
 				result.addAll(collaboration);
+			}
+		} else {
+			// Check for items that will not shown when empty and not expanded.
+			if ( this.isRenderWhenEmpty() ) {
+				result.add(this);
 			}
 		}
 		return result;
@@ -152,19 +151,19 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		return parent;
 	}
 
-//	/**
-//	 * Returns the list of parts that are available for this node. If the node it is expanded then the list will
-//	 * include the children and any other grandchildren of this one. If the node is collapsed then the only
-//	 * result will be the node itself. <br>
-//	 * This method is being deprecated and replaced with the <code>collaborate2View</code>. The first change is
-//	 * to add myself only if not empty and the
-//	 *
-//	 * @return list of parts that are accessible for this node.
-//	 */
-//	@Deprecated
-//	public ArrayList<IPart> getPartChildren () {
-//		return this.collaborate2View();
-//	}
+	//	/**
+	//	 * Returns the list of parts that are available for this node. If the node it is expanded then the list will
+	//	 * include the children and any other grandchildren of this one. If the node is collapsed then the only
+	//	 * result will be the node itself. <br>
+	//	 * This method is being deprecated and replaced with the <code>collaborate2View</code>. The first change is
+	//	 * to add myself only if not empty and the
+	//	 *
+	//	 * @return list of parts that are accessible for this node.
+	//	 */
+	//	@Deprecated
+	//	public ArrayList<IPart> getPartChildren () {
+	//		return this.collaborate2View();
+	//	}
 
 	/**
 	 * The factory is set on the Root parts. Most of the other parts do not declare it or is not setup. To
@@ -188,21 +187,21 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		return this.getParentPart().getRoot();
 	}
 
-//	public boolean isActive () {
-//		return active;
-//	}
+	//	public boolean isActive () {
+	//		return active;
+	//	}
 
-//	/**
-//	 * This method does not apply to all models so first we check if the model implements the right interface before doing
-//	 * it. The default behavior is that nodes are always downloaded and available.
-//	 *
-//	 * @return the download state of lazy evaluated nodes.
-//	 */
-//	public boolean isDownloaded () {
-//		if ( model instanceof IDownloadable ) {
-//			return ((IDownloadable) model).isDownloaded();
-//		} else return true;
-//	}
+	//	/**
+	//	 * This method does not apply to all models so first we check if the model implements the right interface before doing
+	//	 * it. The default behavior is that nodes are always downloaded and available.
+	//	 *
+	//	 * @return the download state of lazy evaluated nodes.
+	//	 */
+	//	public boolean isDownloaded () {
+	//		if ( model instanceof IDownloadable ) {
+	//			return ((IDownloadable) model).isDownloaded();
+	//		} else return true;
+	//	}
 
 	/**
 	 * This method applies to a concrete set of nodes. Nodes can be of two classes. By itself final leaves or
@@ -217,16 +216,16 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		return false;
 	}
 
-//	/**
-//	 * This method should be removed when the new implementation changes all the model node classes.
-//	 *
-//	 * @return true if the node is already compatible with the new MVC implementation.
-//	 */
-//	@Deprecated
-//	public boolean isNewImplemented () {
-//		// TODO This methods should be removed after node rewrite.
-//		return true;
-//	}
+	//	/**
+	//	 * This method should be removed when the new implementation changes all the model node classes.
+	//	 *
+	//	 * @return true if the node is already compatible with the new MVC implementation.
+	//	 */
+	//	@Deprecated
+	//	public boolean isNewImplemented () {
+	//		// TODO This methods should be removed after node rewrite.
+	//		return true;
+	//	}
 
 	/**
 	 * Expandable nodes can also have the proprrty to hide themselves if they are empty or that their collaboration to the
@@ -241,10 +240,10 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		return true;
 	}
 
-//	@Deprecated
-//	public boolean isVisible () {
-//		return true;
-//	}
+	//	@Deprecated
+	//	public boolean isVisible () {
+	//		return true;
+	//	}
 
 	public void propertyChange (final PropertyChangeEvent evt) {
 	}
@@ -343,9 +342,9 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 
 	public abstract List<IPart> runPolicies (List<IPart> targets);
 
-//	public void setActive (final boolean active) {
-//		this.active = active;
-//	}
+	//	public void setActive (final boolean active) {
+	//		this.active = active;
+	//	}
 
 	public IPart setDataStore (final AbstractDataSource ds) {
 		_dataSource = ds;
@@ -377,10 +376,10 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		return this;
 	}
 
-//	public IPart setRenderMode (final String renderMode) {
-//		// TODO This code is to keep compatibility with the old number render codes.
-//		return this.setRenderMode(renderMode.hashCode());
-//	}
+	//	public IPart setRenderMode (final String renderMode) {
+	//		// TODO This code is to keep compatibility with the old number render codes.
+	//		return this.setRenderMode(renderMode.hashCode());
+	//	}
 
 	public boolean toggleExpanded () {
 		if ( model instanceof IExpandable ) {
@@ -389,7 +388,8 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 			return ((IExpandable) model).isExpanded();
 		} else return false;
 	}
-	public String toString() {
+
+	public String toString () {
 		StringBuffer buffer = new StringBuffer("AbstractPart [");
 		buffer.append(model.toString()).append(" ");
 		buffer.append("]");
@@ -446,13 +446,13 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		children.add(index, editpart);
 	}
 
-//	private void fireChildAdded (final IPart child, final int index) {
-//		this.fireStructureChange(SystemWideConstants.events.ADD_CHILD.name(), child, index);
-//	}
-//
-//	private void fireRemovingChild (final IPart child, final int index) {
-//		this.fireStructureChange(SystemWideConstants.events.REMOVE_CHILD.name(), child, index);
-//	}
+	//	private void fireChildAdded (final IPart child, final int index) {
+	//		this.fireStructureChange(SystemWideConstants.events.ADD_CHILD.name(), child, index);
+	//	}
+	//
+	//	private void fireRemovingChild (final IPart child, final int index) {
+	//		this.fireStructureChange(SystemWideConstants.events.REMOVE_CHILD.name(), child, index);
+	//	}
 }
 
 // - UNUSED CODE ............................................................................................

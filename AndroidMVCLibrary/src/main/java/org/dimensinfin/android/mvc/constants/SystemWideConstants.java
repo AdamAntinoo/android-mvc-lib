@@ -19,6 +19,12 @@ public class SystemWideConstants {
 	// - S T A T I C - S E C T I O N ..........................................................................
 /** This flag controls of the view adapter caches the generated views into the Part to optimize the code execution. */
 	public static final boolean ENABLECACHE = true;
+	public static final int HUNDRETH = 100;
+	public static final int ONESECOND = 10*HUNDRETH;
+	public static final int SECONDS5 = 5*ONESECOND;
+	public static final int ONEMINUTE = 60*ONESECOND;
+	public static final int ONEHOUR = 60*ONEMINUTE;
+	public static final int ONEDAY = 24*ONEHOUR;
 }
 
 // - UNUSED CODE ............................................................................................

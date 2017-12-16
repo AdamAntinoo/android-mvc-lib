@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class AbstractRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger				= Logger.getLogger("AbstractHolder");
+	protected static Logger logger				= Logger.getLogger("AbstractHolder");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	protected View _convertView	= null;
@@ -85,7 +85,7 @@ public abstract class AbstractRender {
 		}
 		_convertView.invalidate();
 	}
-	protected LayoutInflater getInflater() {
+	private LayoutInflater getInflater() {
 		return (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 	}
 	protected View inflateView(int layoutIdentifier) {

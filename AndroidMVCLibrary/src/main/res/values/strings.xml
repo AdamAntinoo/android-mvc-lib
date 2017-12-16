@@ -12,6 +12,7 @@
     <string name="default_number">50.32</string>
     <string name="default_smallnumber">1</string>
     <string name="default_bignumber">345,897.12</string>
+    <string name="default_duration">0m 32s</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 

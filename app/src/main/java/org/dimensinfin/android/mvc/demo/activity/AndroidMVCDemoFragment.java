@@ -9,6 +9,7 @@
 package org.dimensinfin.android.mvc.demo.activity;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.demo.DemoAppConnector;
 import org.dimensinfin.android.mvc.demo.R;
@@ -152,6 +153,11 @@ final class DemoSeparatorGenerator extends AbstractGenerator implements IModelGe
 		// Initialize the Adapter data structures.
 		this.setDataModel(new RootNode());
 
+		// Wait a delay of 6 seconds to allow to watch the counter.
+		try {
+			Thread.sleep(SystemWideConstants.ONESECOND*6);
+		} catch (InterruptedException ex) {
+		}
 		// Add manually each of the demo model nodes.
 		Separator node = new Separator("RED-EMPTY").setType(Separator.ESeparatorType.EMPTY_SIGNAL);
 		_dataModelRoot.addChild(node);
