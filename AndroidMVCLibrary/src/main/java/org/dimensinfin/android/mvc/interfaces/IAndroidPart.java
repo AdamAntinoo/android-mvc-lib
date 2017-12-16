@@ -40,6 +40,12 @@ public interface IAndroidPart extends IPart {
 	public void needsRedraw ();
 
 	public void setView (View convertView);
+
+	public boolean clickRunning ();
+
+	public boolean activateClick ();
+
+	public boolean completeClick ();
 }
 
 // - UNUSED CODE ............................................................................................

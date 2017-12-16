@@ -30,6 +30,9 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	protected static Logger logger = Logger.getLogger("AbstractPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
+	protected boolean _clickRunning = false;
+
+	// - F I E L D - S E C T I O N ............................................................................
 	/** List of children of the hierarchy. */
 	private Vector<IPart> children = new Vector<IPart>();
 	/** Tha parent element on the hierarchy chain. Null if this is the Parent and we are a root node. */
@@ -77,7 +80,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		children.add(child);
 	}
 
-	/*
+	/**
 	 * Adds a child <code>EditPart</code> to this EditPart. This method is called from
 	 * {@link #refreshChildren()}. The following events occur in the order listed:
 	 * <OL>
@@ -88,8 +91,6 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 *
 	 * @param child The <code>EditPart</code> to add
 	 * @param index The index
-	 * @see #removeChild(IEditPart)
-	 * @see #reorderChild(IEditPart, int)
 	 */
 	public void addChild (final IPart child, int index) {
 		//		Assert.isNotNull(child);
@@ -338,6 +339,18 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 			}
 		}
 		AbstractPart.logger.info("<< [AbstractPart.refreshChildren]> Content size: " + this.getChildren().size());
+	}
+
+	public boolean clickRunning () {
+		return _clickRunning;
+	}
+	public boolean activateClick () {
+		_clickRunning=true;
+		return _clickRunning;
+	}
+	public boolean completeClick () {
+		_clickRunning=false;
+		return _clickRunning;
 	}
 
 	public abstract List<IPart> runPolicies (List<IPart> targets);

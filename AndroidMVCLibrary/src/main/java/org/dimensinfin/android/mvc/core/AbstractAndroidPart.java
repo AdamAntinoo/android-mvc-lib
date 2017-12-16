@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.view.View;
 
+import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -35,7 +36,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 
 	// - F I E L D - S E C T I O N ............................................................................
 	protected Activity _activity = null;
-	protected Fragment _fragment = null;
+	protected AbstractPagerFragment _fragment = null;
 	private View _view = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
@@ -53,7 +54,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 	}
 
 	@Override
-	public Fragment getFragment () {
+	public AbstractPagerFragment getFragment () {
 		if ( null != _fragment )
 			return _fragment;
 		else
@@ -67,10 +68,8 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 	/**
 	 * Activities should not use directly the adapter. They should always use the Fragments for future
 	 * compatibility.
-	 *
-	 * @param activity
-	 * @return
 	 */
+	@Deprecated
 	@Override
 	public AbstractRender getRenderer (final Activity activity) {
 		_activity = activity;
@@ -79,7 +78,8 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 
 	@Override
 	public AbstractRender getRenderer (final Fragment fragment) {
-		_fragment = fragment;
+		if ( fragment instanceof AbstractPagerFragment ) _fragment = (AbstractPagerFragment) fragment;
+		else throw new RuntimeException("Using on MVC fragments that are not compatible.");
 		_activity = fragment.getActivity();
 		return this.selectRenderer();
 	}
@@ -95,6 +95,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 			this.needsRedraw();
 		}
 	}
+
 	public boolean isEmpty () {
 		if ( getChildren().size() > 0 ) return false;
 		else return true;

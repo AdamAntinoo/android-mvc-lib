@@ -27,10 +27,8 @@ import android.widget.Toast;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.connector.MVCAppConnector;
-import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.core.Chrono;
 import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
@@ -39,10 +37,12 @@ import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.core.constant.CoreConstants;
 import org.dimensinfin.core.datasource.ModelGeneratorStore;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
+import org.dimensinfin.core.util.Chrono;
 import org.dimensinfin.gef.core.AbstractGEFNode;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormatterBuilder;
@@ -92,7 +92,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 			} catch (final RuntimeException rtex) {
 				rtex.printStackTrace();
 			}
-			AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.CreatePartsTask.doInBackground]> Time Elapsed: " + chrono.printElapsed());
+			AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.CreatePartsTask.doInBackground]> Time Elapsed: " + chrono.printElapsed(Chrono.ChonoOptions.DEFAULT));
 			return null;
 		}
 
@@ -478,7 +478,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 			// Initialize and start the elapsed timer.
 			_progressElapsedCounter.setVisibility(View.VISIBLE);
 			_elapsedTimer = Instant.now();
-			_timer = new CountDownTimer(SystemWideConstants.ONEDAY, SystemWideConstants.HUNDRETH) {
+			_timer = new CountDownTimer(CoreConstants.ONEDAY, CoreConstants.HUNDRETH) {
 				@Override
 				public void onFinish () {
 					_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
@@ -489,6 +489,17 @@ public abstract class AbstractPagerFragment extends Fragment {
 				@Override
 				public void onTick (final long millisUntilFinished) {
 					logger.info("-- [AbstractPagerFragment.onStart.CountDownTimer.onTick]"); //$NON-NLS-1$
+					getActivity().runOnUiThread(
+							new Runnable() {
+								@Override
+								public void run () {
+									logger.info("-- [AbstractPagerFragment.onStart.CountDownTimer.onTick.run]"); //$NON-NLS-1$
+									_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
+									_progressElapsedCounter.invalidate();
+									_container.invalidate();
+								}
+							}
+					);
 					_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
 					_progressElapsedCounter.invalidate();
 					_container.invalidate();
@@ -522,10 +533,10 @@ public abstract class AbstractPagerFragment extends Fragment {
 		try {
 			final long elapsed = Instant.now().getMillis() - millis;
 			final DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
-			if ( elapsed > SystemWideConstants.ONEHOUR ) {
+			if ( elapsed > CoreConstants.ONEHOUR ) {
 				timeFormatter.appendHourOfDay(2).appendLiteral("h ");
 			}
-			if ( elapsed > SystemWideConstants.ONEMINUTE ) {
+			if ( elapsed > CoreConstants.ONEMINUTE ) {
 				timeFormatter.appendMinuteOfHour(2).appendLiteral("m ").appendSecondOfMinute(2).appendLiteral("s");
 			}
 			return timeFormatter.toFormatter().print(new Instant(elapsed));
