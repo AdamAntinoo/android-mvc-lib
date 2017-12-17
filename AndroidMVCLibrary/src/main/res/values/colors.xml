@@ -41,7 +41,7 @@
 
     <!-- Android Common UI colors. Separator colors -->
     <color name="separatorredglow">#FFF62217</color>
-    <color name="separatororangeglow">#FFFFA500</color>
+    <color name="separatororangeglow">#FFF2540C</color>
     <color name="separatoryellowglow">#FFFFFF33</color>
     <color name="separatorgreenglow">#FF6CC417</color>
     <color name="separatorblueglow">#FF3333FF</color>
