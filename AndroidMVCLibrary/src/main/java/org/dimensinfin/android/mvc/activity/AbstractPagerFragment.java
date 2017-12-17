@@ -7,6 +7,7 @@
 //									the extended GEF model into the Android View to be used on ListViews.
 package org.dimensinfin.android.mvc.activity;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -489,7 +490,8 @@ public abstract class AbstractPagerFragment extends Fragment {
 				@Override
 				public void onTick (final long millisUntilFinished) {
 					logger.info("-- [AbstractPagerFragment.onStart.CountDownTimer.onTick]"); //$NON-NLS-1$
-					getActivity().runOnUiThread(
+					final Activity activity = getActivity();
+					if ( null != activity ) activity.runOnUiThread(
 							new Runnable() {
 								@Override
 								public void run () {
@@ -500,9 +502,9 @@ public abstract class AbstractPagerFragment extends Fragment {
 								}
 							}
 					);
-					_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
-					_progressElapsedCounter.invalidate();
-					_container.invalidate();
+//					_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
+//					_progressElapsedCounter.invalidate();
+//					_container.invalidate();
 				}
 			}.start();
 

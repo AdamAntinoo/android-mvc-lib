@@ -12,6 +12,8 @@
     <string name="default_number">50.32</string>
     <string name="default_smallnumber">1</string>
     <string name="default_bignumber">345,897.12</string>
+    <string name="default_shortname">Short Name for Node Title</string>
+    <string name="default_longname">Long Name for Node Title that can expand the whole line</string>
     <string name="default_duration">0m 32s</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
