@@ -31,7 +31,7 @@
     <color name="panelbackgroundtintedyellow">#FF333300</color>
     <color name="panelbackgroundtintedgreen">#FF003300</color>
     <color name="panelbackgroundtintedblue">#FF000033</color>
-    <color name="panellinegrey">#FFCCCCCC</color>
+    <color name="panellinegrey">#FF333333</color>
     <color name="panellinered">#FFF62217</color>
     <color name="panellineorange">#FFF2540C</color>
     <color name="panellineyellow">#FFFFFF33</color>
