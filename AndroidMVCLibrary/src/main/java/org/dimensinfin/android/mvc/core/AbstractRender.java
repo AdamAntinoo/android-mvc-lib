@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class AbstractRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	protected static Logger logger = Logger.getLogger("AbstractHolder");
+	protected static Logger logger = Logger.getLogger("AbstractRender");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	protected View _convertView = null;
@@ -75,6 +75,17 @@ public abstract class AbstractRender {
 		_extras.put(key, integer);
 	}
 
+//	public void updateContent () {
+//		// Control the arrow to be shown.
+//		if ( null != _rightArrow ) {
+//			if ( this.getPart().isExpanded() ) {
+//				_rightArrow.setImageDrawable(this.getContext().getResources().getDrawable(R.drawable.arrowdown, getContext().getTheme()));
+//			} else {
+//				_rightArrow.setImageDrawable(this.getContext().getResources().getDrawable(R.drawable.arrowright, getContext().getTheme()));
+//			}
+//		}
+//		_convertView.invalidate();
+//	}
 	public void updateContent () {
 		// Control the arrow to be shown.
 		if ( null != _rightArrow ) {

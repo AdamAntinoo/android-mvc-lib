@@ -7,8 +7,6 @@
 //									the extended GEF model into the Android View to be used on ListViews.
 package org.dimensinfin.android.mvc.datasource;
 
-// - IMPORT SECTION .........................................................................................
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -25,6 +23,8 @@ import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
+import org.dimensinfin.core.util.Chrono;
+import org.dimensinfin.core.util.Chrono.ChonoOptions;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -53,25 +53,6 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	private AbstractPagerFragment _fragment = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	//	/**
-	//	 * The real separation of data sources requires that it is not tied to an Activity. So the base adapter has
-	//	 * to receive both parameters on construction to be able to get Pilot based information and connect to the
-	//	 * data source. At the same time there are two versions, one for Fragments and another for Activities.
-	//	 *
-	//	 * @param activity
-	//	 *          reference to the activity where this Adapter is tied for UI presentation.
-	//	 * @param datasource
-	//	 *          the source for the data to be represented on the view structures.
-	//	 */
-	//	@Deprecated
-	//	public DataSourceAdapter(final Activity activity, final IDataSource datasource) {
-	//		super();
-	//		_context = activity;
-	//		_datasource = datasource;
-	//		_datasource.addPropertyChangeListener(this);
-	//		this.setModel(_datasource.getBodyParts());
-	//	}
-
 	/**
 	 * The real separation of data sources requires that it is not tied to an Activity. So the base adapter has
 	 * to receive both parameters on construction to be able to get Pilot based information and connect to the
@@ -114,7 +95,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 */
 	@SuppressLint("ViewHolder")
 	public View getView (final int position, View convertView, final ViewGroup parent) {
-		//		logger.info("-- Getting view [" + position + "]");
+		Chrono chrono = new Chrono();
 		try {
 			// If the request is new we are sure this has to be created.
 			AbstractAndroidPart item = this.getCastedItem(position);
@@ -165,6 +146,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			}
 			// REFACTOR Add the DataSource as an event listener because that feature does not depend on the interfaces.
 			item.addPropertyChangeListener(_datasource);
+			logger.info("-- [DataSourceAdapter.getView]> Rendering time: "+chrono.printElapsed(ChonoOptions.SHOWMILLIS));
 			return convertView;
 		} catch (RuntimeException rtex) {
 			String message = rtex.getMessage();
