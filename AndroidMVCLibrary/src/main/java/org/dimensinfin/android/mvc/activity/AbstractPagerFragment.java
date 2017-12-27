@@ -7,6 +7,7 @@
 //									the extended GEF model into the Android View to be used on ListViews.
 package org.dimensinfin.android.mvc.activity;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -280,6 +281,12 @@ public abstract class AbstractPagerFragment extends Fragment {
 		AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.addtoHeader]");
 	}
 
+	public Activity getMetaActivity () {
+		final Activity act = super.getActivity();
+		if ( null == act ) return MVCAppConnector.getSingleton().getFirstActivity();
+		else return act;
+	}
+
 	public void clearHeader () {
 		_headerContents.clear();
 	}
@@ -349,8 +356,8 @@ public abstract class AbstractPagerFragment extends Fragment {
 	}
 
 	public void goFirstActivity (final RuntimeException rtex) {
-		Toast.makeText(this.getActivity(), rtex.getMessage(), Toast.LENGTH_LONG).show();
-		this.startActivity(new Intent(this.getActivity(), MVCAppConnector.getSingleton().getFirstActivity()));
+		Toast.makeText(this.getMetaActivity(), rtex.getMessage(), Toast.LENGTH_LONG).show();
+		this.startActivity(new Intent(this.getMetaActivity(), MVCAppConnector.getSingleton().getFirstActivity().getClass()));
 	}
 
 	public void notifyDataSetChanged () {
@@ -488,7 +495,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 				@Override
 				public void onTick (final long millisUntilFinished) {
-//					logger.info("-- [AbstractPagerFragment.onStart.CountDownTimer.onTick]"); //$NON-NLS-1$
+					//					logger.info("-- [AbstractPagerFragment.onStart.CountDownTimer.onTick]"); //$NON-NLS-1$
 /*
 					final Activity activity = getActivity();
 					if ( null != activity ) activity.runOnUiThread(
@@ -496,22 +503,22 @@ public abstract class AbstractPagerFragment extends Fragment {
 								@Override
 								public void run () {
 */
-//									logger.info("-- [AbstractPagerFragment.onStart.CountDownTimer.onTick.run]"); //$NON-NLS-1$
-									_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
-									_progressElapsedCounter.invalidate();
-									_container.invalidate();
-//								}
-//							}
-//					);
-//					_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
-//					_progressElapsedCounter.invalidate();
-//					_container.invalidate();
+					//									logger.info("-- [AbstractPagerFragment.onStart.CountDownTimer.onTick.run]"); //$NON-NLS-1$
+					_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
+					_progressElapsedCounter.invalidate();
+					_container.invalidate();
+					//								}
+					//							}
+					//					);
+					//					_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
+					//					_progressElapsedCounter.invalidate();
+					//					_container.invalidate();
 				}
 			}.start();
 
 			new CreatePartsTask(this).execute();
 			// Update the spinner counter on the actionbar.
-			this.getActivity().invalidateOptionsMenu();
+			this.getMetaActivity().invalidateOptionsMenu();
 			// Add the header parts once the display is initialized.
 			if ( _headerContents.size() > 0 ) {
 				_headerContainer.removeAllViews();

@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.connector.MVCAppConnector;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
@@ -47,28 +48,37 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	private static Logger logger = Logger.getLogger("DataSourceAdapter");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private Activity _context = null;
-	private IDataSource _datasource = null;
+	protected Activity _context = null;
+	protected IDataSource _datasource = null;
 	private final ArrayList<AbstractAndroidPart> _hierarchy = new ArrayList<AbstractAndroidPart>();
-	private AbstractPagerFragment _fragment = null;
+	protected AbstractPagerFragment _fragment = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
+/** Neutral creator for the initialization of the parent. */
+	public DataSourceAdapter () {
+		super();
+	}
+
 	/**
 	 * The real separation of data sources requires that it is not tied to an Activity. So the base adapter has
 	 * to receive both parameters on construction to be able to get Pilot based information and connect to the
 	 * data source. At the same time there are two versions, one for Fragments and another for Activities.
+	 * On some cases that we use the MVC on non Fragment developments the fragment may be null. Adapt the code
+	 * to get the context from another place.
 	 *
 	 * @param fragment   reference to the fragment to where this Adapter is tied.
 	 * @param datasource the source for the data to be represented on the view structures.
 	 */
 	public DataSourceAdapter (final AbstractPagerFragment fragment, final IDataSource datasource) {
-		super();
+		this();
 		_fragment = fragment;
 		_context = _fragment.getActivity();
+		if(null==_context)_context= MVCAppConnector.getSingleton().getFirstActivity();
 		_datasource = datasource;
 		_datasource.addPropertyChangeListener(this);
 		this.setModel(_datasource.getBodyParts());
 	}
+
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public AbstractAndroidPart getCastedItem (final int position) {
@@ -146,7 +156,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			}
 			// REFACTOR Add the DataSource as an event listener because that feature does not depend on the interfaces.
 			item.addPropertyChangeListener(_datasource);
-			logger.info("-- [DataSourceAdapter.getView]> Rendering time: "+chrono.printElapsed(ChonoOptions.SHOWMILLIS));
+			logger.info("-- [DataSourceAdapter.getView]> Rendering time: " + chrono.printElapsed(ChonoOptions.SHOWMILLIS));
 			return convertView;
 		} catch (RuntimeException rtex) {
 			String message = rtex.getMessage();
@@ -165,9 +175,11 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			return convertView;
 		}
 	}
-private AbstractPagerFragment getFragment(){
+
+	private AbstractPagerFragment getFragment () {
 		return _fragment;
-}
+	}
+
 	@Override
 	public boolean hasStableIds () {
 		return true;
@@ -204,34 +216,5 @@ private AbstractPagerFragment getFragment(){
 		//		_hierarchyViews.clear();
 		_hierarchy.addAll(partData);
 	}
-
-	//	/**
-	//	 * This block optimizes the use of the views. Any structure update will clear the cache but any request that
-	//	 * matches the id of the content will be returned from this resource list instead always creating a new
-	//	 * resource.
-	//	 * 
-	//	 * @param convertView
-	//	 * @param position
-	//	 * @return
-	//	 */
-	//	private View searchCachedView(final int position, final View convertView) {
-	//		AbstractAndroidPart item = this.getCastedItem(position);
-	//		long modelid = item.getModelID();
-	//		View hit = _hierarchyViews.get(position);
-	//		if (null != hit) {
-	//			// Check that the view belongs to the same item.
-	//			Object tag = convertView.getTag();
-	//			if (tag instanceof AbstractAndroidPart) {
-	//				long viewModelid = ((AbstractAndroidPart) tag).getModelID();
-	//				if (modelid == viewModelid)
-	//					return hit;
-	//				else {
-	//					// Clear this element on the cache because does not match.
-	//					_hierarchyViews.remove(position);
-	//				}
-	//			}
-	//		}
-	//		return null;
-	//	}
 }
 // - UNUSED CODE ............................................................................................

@@ -7,6 +7,8 @@
 //									the extended GEF model into the Android View to be used on ListViews.
 package org.dimensinfin.android.mvc.connector;
 
+import android.app.Activity;
+
 import org.joda.time.Duration;
 import org.joda.time.Instant;
 
@@ -33,15 +35,7 @@ public class MVCAppConnector extends AndroidAppConnector implements IMVCAppConne
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-//	public Menu getAppMenu () {
-//		if ( null == _connector )
-//			throw new RuntimeException(
-//					"RTEX [MVCAppConnector.getAppMenu]> Application connection not defined. Functionality 'getAppMenu' disabled.");
-//		else
-//			return _connector.getAppMenu();
-//	}
-
-	public Class<?> getFirstActivity () {
+	public Activity getFirstActivity () {
 		if ( null == _connector )
 			throw new RuntimeException(
 					"RTEX [MVCAppConnector.getFirstActivity]> Application connection not defined. Functionality 'getFirstActivity' disabled.");

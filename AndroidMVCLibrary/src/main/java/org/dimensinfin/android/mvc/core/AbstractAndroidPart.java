@@ -80,7 +80,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 	public AbstractRender getRenderer (final Fragment fragment) {
 		if ( fragment instanceof AbstractPagerFragment ) _fragment = (AbstractPagerFragment) fragment;
 		else throw new RuntimeException("Using on MVC fragments that are not compatible.");
-		_activity = fragment.getActivity();
+		_activity = ((AbstractPagerFragment)fragment).getMetaActivity();
 		return this.selectRenderer();
 	}
 
