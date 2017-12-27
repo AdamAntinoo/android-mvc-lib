@@ -54,14 +54,14 @@ public class AndroidMVCApp extends Application implements IDemoAppConnector {
 	private int marketCounter = 0;
 	private Activity _activity = null;
 	private Menu _appMenu = null;
-	private Class<?> _firstActivity = null;
+	private Activity _firstActivity = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AndroidMVCApp () {
 		logger.info(">> [AndroidMVCApp.<contructor>]");
 		// Setup the referencing structures that will serve as proxy and global references.
 		_appConnector = new DemoAppConnector(this);
-		_firstActivity = AndroidMVCDemoActivity.class;
+		_firstActivity = new AndroidMVCDemoActivity();
 		logger.info("<< [AndroidMVCApp.<consructor>]");
 	}
 
@@ -71,7 +71,7 @@ public class AndroidMVCApp extends Application implements IDemoAppConnector {
 		else throw new RuntimeException("RTEX [AndroidMVCAppSingleton.getAppMenu]> No menu defines and stored.");
 	}
 
-	public Class<?> getFirstActivity () {
+	public Activity getFirstActivity () {
 		if ( null != _firstActivity ) return _firstActivity;
 		else throw new RuntimeException(
 				"RTEX [AndroidMVCAppSingleton.getFirstActivity]> No target First Activity defined.");

@@ -4,10 +4,13 @@ android {
     compileSdkVersion 27
     buildToolsVersion "26.0.2"
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 15
         targetSdkVersion 27
         versionCode 20
         versionName "2.0.1"
+
+        project.archivesBaseName = "AndroidMVC"
+        project.version = android.defaultConfig.versionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -33,6 +36,13 @@ android {
     lintOptions {
         abortOnError false
         quiet true
+    }
+    libraryVariants.all { variant ->
+        variant.outputs.all { output ->
+            if (outputFile != null && outputFileName.endsWith('.aar')) {
+                outputFileName = "${archivesBaseName}-${version}.aar"
+            }
+        }
     }
 }
 

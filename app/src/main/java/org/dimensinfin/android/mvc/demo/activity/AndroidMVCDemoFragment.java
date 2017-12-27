@@ -19,6 +19,7 @@ import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 import org.dimensinfin.android.mvc.part.DemoDetailSeparatorPart;
 import org.dimensinfin.android.mvc.part.DemoHeaderTitlePart;
 import org.dimensinfin.android.mvc.part.SeparatorPart;
+import org.dimensinfin.core.constant.CoreConstants;
 import org.dimensinfin.core.datasource.AbstractGenerator;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -26,6 +27,7 @@ import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.Container;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.core.model.Separator;
+import org.dimensinfin.core.util.Chrono.ChonoOptions;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public class AndroidMVCDemoFragment extends AbstractPagerFragment {
@@ -155,7 +157,7 @@ final class DemoSeparatorGenerator extends AbstractGenerator implements IModelGe
 
 		// Wait a delay of 6 seconds to allow to watch the counter.
 		try {
-			Thread.sleep(SystemWideConstants.ONESECOND*6);
+			Thread.sleep(CoreConstants.ONESECOND*6);
 		} catch (InterruptedException ex) {
 		}
 		// Add manually each of the demo model nodes.

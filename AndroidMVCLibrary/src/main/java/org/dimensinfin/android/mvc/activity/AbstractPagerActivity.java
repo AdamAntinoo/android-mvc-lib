@@ -180,7 +180,7 @@ public abstract class AbstractPagerActivity extends Activity {
 	 * whatever it is.
 	 */
 	protected void stopActivity (final Exception exception) {
-		final Intent intent = new Intent(this, MVCAppConnector.getSingleton().getFirstActivity());
+		final Intent intent = new Intent(this, MVCAppConnector.getSingleton().getFirstActivity().getClass());
 		// Pass the user message to the activity for display.
 		intent.putExtra(EExtrasMVC.EXTRA_EXCEPTIONMESSAGE.name(), exception.getMessage());
 		this.startActivity(intent);

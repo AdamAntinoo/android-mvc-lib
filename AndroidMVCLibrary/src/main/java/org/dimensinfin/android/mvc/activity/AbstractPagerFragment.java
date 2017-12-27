@@ -259,6 +259,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	private String _variant = null;
 	protected IModelGenerator _generator = null;
 	protected ArrayList<ICollaboration> headerModelContents = new ArrayList<ICollaboration>();
+	private Activity _metaActivity;
 
 	// - U I    F I E L D S
 	protected ViewGroup _container = null;
@@ -283,8 +284,19 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 	public Activity getMetaActivity () {
 		final Activity act = super.getActivity();
-		if ( null == act ) return MVCAppConnector.getSingleton().getFirstActivity();
+		if ( null == act )
+			if ( null == _metaActivity )
+				return MVCAppConnector.getSingleton().getFirstActivity();
+			else return _metaActivity;
 		else return act;
+	}
+
+	/**
+	 * When using fake Fragments not connected to other activities we can replace the default activity by one
+	 * set by the developer.
+	 */
+	public void setMetaActivity (Activity fakeactivity) {
+		if ( null != fakeactivity ) _metaActivity = fakeactivity;
 	}
 
 	public void clearHeader () {

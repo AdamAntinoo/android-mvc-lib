@@ -54,7 +54,8 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	protected AbstractPagerFragment _fragment = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-/** Neutral creator for the initialization of the parent. */
+
+	/** Neutral creator for the initialization of the parent. */
 	public DataSourceAdapter () {
 		super();
 	}
@@ -73,7 +74,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 		this();
 		_fragment = fragment;
 		_context = _fragment.getActivity();
-		if(null==_context)_context= MVCAppConnector.getSingleton().getFirstActivity();
+		if ( null == _context ) _context = MVCAppConnector.getSingleton().getFirstActivity();
 		_datasource = datasource;
 		_datasource.addPropertyChangeListener(this);
 		this.setModel(_datasource.getBodyParts());
