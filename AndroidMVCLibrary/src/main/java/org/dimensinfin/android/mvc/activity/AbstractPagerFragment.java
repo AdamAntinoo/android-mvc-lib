@@ -47,11 +47,12 @@ import org.dimensinfin.core.util.Chrono;
 import org.dimensinfin.gef.core.AbstractGEFNode;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormatterBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Vector;
-import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 // REFACTOR Used this dependency just to maintain more code compatible with the new model.
@@ -245,7 +246,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-	protected static Logger logger = Logger.getLogger("AbstractPagerFragment");
+	protected static Logger logger = LoggerFactory.getLogger(AbstractPagerFragment.class);
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private Bundle _extras = new Bundle();
@@ -439,7 +440,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 			this.registerDataSource();
 			this.setHeaderContents();
 		} catch (final RuntimeException rtex) {
-			AbstractPagerFragment.logger.severe("RTEX [AbstractPagerFragment.onCreateView]> " + rtex.getMessage());
+			AbstractPagerFragment.logger.error("RTEX [AbstractPagerFragment.onCreateView]> " + rtex.getMessage());
 			rtex.printStackTrace();
 			// Instead blocking the application drop a toast and move to the First Activity.
 			this.goFirstActivity(rtex);
@@ -467,7 +468,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 			this.registerForContextMenu(_headerContainer);
 			this.registerForContextMenu(_modelContainer);
 		} catch (final RuntimeException rtex) {
-			AbstractPagerFragment.logger.severe("RTEX [AbstractPagerFragment.onCreateViewSuper]> " + rtex.getMessage());
+			AbstractPagerFragment.logger.error("RTEX [AbstractPagerFragment.onCreateViewSuper]> " + rtex.getMessage());
 			rtex.printStackTrace();
 			// Instead blocking the application drop a toast and move to the First Activity.
 			this.goFirstActivity(rtex);
@@ -539,7 +540,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 				}
 			}
 		} catch (final RuntimeException rtex) {
-			AbstractPagerFragment.logger.severe("RTEX [AbstractPagerFragment.onStart]> " + rtex.getMessage());
+			AbstractPagerFragment.logger.error("RTEX [AbstractPagerFragment.onStart]> " + rtex.getMessage());
 			rtex.printStackTrace();
 			// Instead blocking the application drop a toast and move to the First Activity.
 			this.goFirstActivity(rtex);

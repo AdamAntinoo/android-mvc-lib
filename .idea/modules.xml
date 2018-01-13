@@ -4,7 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidMVC.iml" filepath="$PROJECT_DIR$/AndroidMVC.iml" />
       <module fileurl="file://$PROJECT_DIR$/AndroidMVCLibrary/AndroidMVCLibrary.iml" filepath="$PROJECT_DIR$/AndroidMVCLibrary/AndroidMVCLibrary.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../../Libraries/Java Libraries/corebase-libraries/org.dimensinfin.core/CoreBaseLibrary.iml" filepath="$PROJECT_DIR$/../../../Libraries/Java Libraries/corebase-libraries/org.dimensinfin.core/CoreBaseLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../Libraries Base/Corebase 2.0.x/org.dimensinfin.core/CoreBaseLibrary.iml" filepath="$PROJECT_DIR$/../../../Libraries Base/Corebase 2.0.x/org.dimensinfin.core/CoreBaseLibrary.iml" />
+      <module fileurl="file://D:\Development\Libraries\Java Libraries\corebase-libraries\org.dimensinfin.core\CoreBaseLibrary.iml" filepath="D:\Development\Libraries\Java Libraries\corebase-libraries\org.dimensinfin.core\CoreBaseLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

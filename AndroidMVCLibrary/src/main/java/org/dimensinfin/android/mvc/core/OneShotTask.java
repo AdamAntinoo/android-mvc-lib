@@ -14,20 +14,20 @@ public abstract class OneShotTask<T> implements Runnable {
 	private static final long serialVersionUID = 7601587036153405892L;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private T part = null;
+	private T target = null;
 
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public OneShotTask (T sourcePart) {
-		part = sourcePart;
+	public OneShotTask (T source) {
+		target = source;
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public abstract void run ();
 
-	public T getTargetPart () {
-		return part;
+	public T getTarget () {
+		return target;
 	}
 }
 

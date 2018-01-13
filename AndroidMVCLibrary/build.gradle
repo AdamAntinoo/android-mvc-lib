@@ -27,7 +27,7 @@ android {
         }
     }
     sourceSets {
-//        main.java.srcDirs += 'src/main/java-androidcommons'
+        main.res.srcDirs += 'src/main/res-ui'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -47,20 +47,35 @@ android {
 }
 
 dependencies {
-    // A N D R O I D   S U P P O R T
+    // A N D R O I D    S U P P O R T
     implementation 'com.android.support:support-core-ui:27.0.1'
     implementation 'com.android.support:support-v13:27.0.1'
     implementation 'com.android.support:recyclerview-v7:27.0.1'
 
-    // L O C A L   L I B R A R I E S
+    // P R O J E C T    D E P E N D E N C I E S
     implementation project(path: ':CoreBaseLibrary')
-    implementation files('libs/viewpagerindicator-release.aar')
+//    implementation project(path: ':ApplicationCloudAdapter')
+//    implementation project(path: ':ApplicationCloudAndroidAdapter')
 
-    // D E P E N D E N C Y   L I B R A R I E S
-    implementation 'joda-time:joda-time:2.3'
+    // L O C A L    L I B R A R I E S
+    api files('libs/viewpagerindicator-release.aar')
+
+    // M O D U L E    D E P E N D E N C I E S
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+//    api 'joda-time:joda-time:2.3'
+//    implementation 'com.jakewharton:disklrucache:2.0.2'
+
+    // P L A T F O R M    D E P E N D E N C I E S
+
+    // D E P E N D E N C I E S    F R O M    M O D U L E S
+//    implementation 'joda-time:joda-time:2.3'
 
     // T E S T I N G
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    //SQLite -> Chrome (debug)
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.facebook.stetho:stetho-urlconnection:1.5.0'
 }

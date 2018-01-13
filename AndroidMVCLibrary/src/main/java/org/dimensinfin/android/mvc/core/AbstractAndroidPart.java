@@ -103,6 +103,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 
 	@Override
 	public void needsRedraw () {
+		_view.invalidate();
 		_view = null;
 	}
 
