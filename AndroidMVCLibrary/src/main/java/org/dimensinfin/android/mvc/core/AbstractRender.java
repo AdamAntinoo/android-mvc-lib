@@ -12,9 +12,6 @@ import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-
-import org.dimensinfin.android.mvc.R;
 
 import java.util.HashMap;
 import java.util.logging.Logger;
@@ -31,7 +28,7 @@ public abstract class AbstractRender {
 	private final HashMap<String, Object> _extras = new HashMap<String, Object>();
 
 	//- L A Y O U T   F I E L D S
-	protected ImageView _rightArrow = null;
+//	protected ImageView _rightArrow = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AbstractRender (final AbstractPart newPart, final Activity context) {
@@ -64,7 +61,7 @@ public abstract class AbstractRender {
 
 	public void initializeViews () {
 		// Get the view of the rightArrow if found.
-		_rightArrow = (ImageView) _convertView.findViewById(R.id.rightArrow);
+//		_rightArrow = (ImageView) _convertView.findViewById(R.id.rightArrow);
 	}
 
 	public void setContext (final Activity context) {
@@ -75,7 +72,7 @@ public abstract class AbstractRender {
 		_extras.put(key, integer);
 	}
 
-//	public void updateContent () {
+	public void updateContent () {
 //		// Control the arrow to be shown.
 //		if ( null != _rightArrow ) {
 //			if ( this.getPart().isExpanded() ) {
@@ -86,16 +83,16 @@ public abstract class AbstractRender {
 //		}
 //		_convertView.invalidate();
 //	}
-	public void updateContent () {
-		// Control the arrow to be shown.
-		if ( null != _rightArrow ) {
-			if ( this.getPart().isExpanded() ) {
-				_rightArrow.setImageDrawable(this.getContext().getResources().getDrawable(R.drawable.arrowdown, getContext().getTheme()));
-			} else {
-				_rightArrow.setImageDrawable(this.getContext().getResources().getDrawable(R.drawable.arrowright, getContext().getTheme()));
-			}
-		}
-		_convertView.invalidate();
+//	public void updateContent () {
+//		// Control the arrow to be shown.
+//		if ( null != _rightArrow ) {
+//			if ( this.getPart().isExpanded() ) {
+//				_rightArrow.setImageDrawable(this.getContext().getResources().getDrawable(R.drawable.arrowdown, getContext().getTheme()));
+//			} else {
+//				_rightArrow.setImageDrawable(this.getContext().getResources().getDrawable(R.drawable.arrowright, getContext().getTheme()));
+//			}
+//		}
+//		_convertView.invalidate();
 	}
 
 	private LayoutInflater getInflater () {

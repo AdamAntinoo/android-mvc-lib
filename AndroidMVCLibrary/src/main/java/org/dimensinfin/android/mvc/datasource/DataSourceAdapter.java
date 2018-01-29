@@ -107,12 +107,12 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	@SuppressLint("ViewHolder")
 	public View getView (final int position, View convertView, final ViewGroup parent) {
 		Chrono chrono = new Chrono();
+		String exitMessage = "";
 		try {
 			// If the request is new we are sure this has to be created.
 			AbstractAndroidPart item = this.getCastedItem(position);
 			if ( null == convertView ) {
-				DataSourceAdapter.logger.info(
-						"-- [DataSourceAdapter.getView]> Getting view [" + position + "] - " + item.getClass().getSimpleName());
+				exitMessage=						"-- [DataSourceAdapter.getView]> Getting view [" + position + "] - " + item.getClass().getSimpleName();
 				AbstractRender holder = item.getRenderer(this.getFragment());
 				holder.initializeViews();
 				convertView = holder.getView();
@@ -125,8 +125,8 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			} else {
 				View cachedView = item.getView();
 				if ( null == cachedView ) {
-					DataSourceAdapter.logger.info("-- [DataSourceAdapter.getView]> Getting view [" + position + "] - "
-							+ item.getClass().getSimpleName() + " RECREATE");
+					exitMessage="-- [DataSourceAdapter.getView]> Getting view [" + position + "] - "
+							+ item.getClass().getSimpleName() + " RECREATE";
 					// Recreate the view.
 					AbstractRender holder = this.getCastedItem(position).getRenderer(this.getFragment());
 					holder.initializeViews();
@@ -140,8 +140,8 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 				} else {
 					// Cached view found. Return new view.
 					convertView = cachedView;
-					DataSourceAdapter.logger.info("-- [DataSourceAdapter.getView]> Getting view [" + position + "] - "
-							+ item.getClass().getSimpleName() + " CACHED");
+					exitMessage="-- [DataSourceAdapter.getView]> Getting view [" + position + "] - "
+							+ item.getClass().getSimpleName() + " CACHED";
 				}
 			}
 			// Activate listeners if the Part supports that feature.
@@ -157,7 +157,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			}
 			// REFACTOR Add the DataSource as an event listener because that feature does not depend on the interfaces.
 			item.addPropertyChangeListener(_datasource);
-			logger.info("-- [DataSourceAdapter.getView]> Rendering time: " + chrono.printElapsed(ChonoOptions.SHOWMILLIS));
+			logger.info(exitMessage+" - Rendering time: " + chrono.printElapsed(ChonoOptions.SHOWMILLIS));
 			return convertView;
 		} catch (RuntimeException rtex) {
 			String message = rtex.getMessage();

@@ -344,17 +344,22 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	public boolean clickRunning () {
 		return _clickRunning;
 	}
+
 	public boolean activateClick () {
-		_clickRunning=true;
+		_clickRunning = true;
 		return _clickRunning;
 	}
+
 	public boolean completeClick () {
-		_clickRunning=false;
+		_clickRunning = false;
 		return _clickRunning;
 	}
 
 	public abstract List<IPart> runPolicies (List<IPart> targets);
 
+	public boolean runDependencies () {
+		return true;
+	}
 	//	public void setActive (final boolean active) {
 	//		this.active = active;
 	//	}
@@ -388,12 +393,6 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		this.renderMode = renderMode;
 		return this;
 	}
-
-	//	public IPart setRenderMode (final String renderMode) {
-	//		// TODO This code is to keep compatibility with the old number render codes.
-	//		return this.setRenderMode(renderMode.hashCode());
-	//	}
-
 	public boolean toggleExpanded () {
 		if ( model instanceof IExpandable ) {
 			if ( ((IExpandable) model).isExpanded() ) ((IExpandable) model).collapse();

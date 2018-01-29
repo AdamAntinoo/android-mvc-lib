@@ -46,6 +46,10 @@ public interface IAndroidPart extends IPart {
 	public boolean activateClick ();
 
 	public boolean completeClick ();
+
+//	public List<IPart> runPolicies (List<IPart> targets);
+//
+//	public boolean runDependencies ();
 }
 
 // - UNUSED CODE ............................................................................................
