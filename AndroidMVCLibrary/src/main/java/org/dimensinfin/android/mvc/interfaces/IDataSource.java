@@ -8,30 +8,30 @@
 //									services on Sprint Boot Cloud.
 package org.dimensinfin.android.mvc.interfaces;
 
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.model.RootNode;
+
+import java.beans.PropertyChangeListener;
+import java.util.List;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public interface IDataSource extends PropertyChangeListener {
-	public void addPropertyChangeListener(final PropertyChangeListener newListener);
+	public void addPropertyChangeListener (final PropertyChangeListener newListener);
 
-	public RootNode collaborate2Model();
+	public RootNode collaborate2Model ();
 
-	public void createContentHierarchy();
+	//	public void createContentHierarchy();
 
-	public ArrayList<AbstractAndroidPart> getBodyParts();
+	public List<IAndroidPart> getBodyParts ();
 
-	public DataSourceLocator getDataSourceLocator();
+	public IDataSource setVariant (final String variant);
 
-	public ArrayList<AbstractAndroidPart> getHeaderParts();
-
-	public int getItemsCount();
-
-	public void updateContentHierarchy();
+	//	public DataSourceLocator getDataSourceLocator();
+	//
+	//	public ArrayList<AbstractAndroidPart> getHeaderParts();
+	//
+	//	public int getItemsCount();
+	//
+	//	public void updateContentHierarchy();
 }
 
 // - UNUSED CODE ............................................................................................

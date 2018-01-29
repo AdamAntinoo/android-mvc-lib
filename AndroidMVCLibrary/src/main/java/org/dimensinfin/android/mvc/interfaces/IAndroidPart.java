@@ -14,9 +14,16 @@ import android.view.View;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
 
+import java.beans.PropertyChangeListener;
+import java.util.List;
+
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public interface IAndroidPart extends IPart {
+	public void addPropertyChangeListener (final PropertyChangeListener newListener);
+
+	public void collaborate2View (List<IAndroidPart> contentCollector);
+
 	public Activity getActivity ();
 
 	public Fragment getFragment ();
@@ -31,7 +38,7 @@ public interface IAndroidPart extends IPart {
 
 	public AbstractRender getRenderer (Activity activity);
 
-	public AbstractRender getRenderer (Fragment fragment);
+	//	public AbstractRender getRenderer (Fragment fragment);
 
 	public View getView ();
 
@@ -47,9 +54,10 @@ public interface IAndroidPart extends IPart {
 
 	public boolean completeClick ();
 
-//	public List<IPart> runPolicies (List<IPart> targets);
-//
-//	public boolean runDependencies ();
+
+	//	public List<IPart> runPolicies (List<IPart> targets);
+	//
+	//	public boolean runDependencies ();
 }
 
 // - UNUSED CODE ............................................................................................

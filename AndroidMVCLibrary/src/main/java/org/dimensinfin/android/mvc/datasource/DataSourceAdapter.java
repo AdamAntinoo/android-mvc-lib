@@ -21,8 +21,8 @@ import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.connector.MVCAppConnector;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.core.util.Chrono;
 import org.dimensinfin.core.util.Chrono.ChonoOptions;
@@ -48,10 +48,10 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	private static Logger logger = Logger.getLogger("DataSourceAdapter");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	protected Activity _context = null;
-	protected IDataSource _datasource = null;
-	private final ArrayList<AbstractAndroidPart> _hierarchy = new ArrayList<AbstractAndroidPart>();
-	protected AbstractPagerFragment _fragment = null;
+	private Activity _context = null;
+	private IDataSource _datasource = null;
+	private final ArrayList<IAndroidPart> _contentPartList = new ArrayList<IAndroidPart>();
+//	protected AbstractPagerFragment _fragment = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
@@ -61,42 +61,45 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	}
 
 	/**
-	 * The real separation of data sources requires that it is not tied to an Activity. So the base adapter has
-	 * to receive both parameters on construction to be able to get Pilot based information and connect to the
-	 * data source. At the same time there are two versions, one for Fragments and another for Activities.
-	 * On some cases that we use the MVC on non Fragment developments the fragment may be null. Adapt the code
-	 * to get the context from another place.
+	 * During the creation of the Adapter we setup the Fragment or the Activity that contains the layout with the
+	 * ListView to render the Model and the DataSource with the list of Parts to be rendered there. To make this
+	 * Adapter compatible with Fragment and Activities we should have two constructors and consolidate the reference to
+	 * the Context that is the only element really required for the constructions and connection of the views.
 	 *
-	 * @param fragment   reference to the fragment to where this Adapter is tied.
+	 * @param activity   reference to the Activity and the Context where we should connect the Views.
 	 * @param datasource the source for the data to be represented on the view structures.
 	 */
-	public DataSourceAdapter (final AbstractPagerFragment fragment, final IDataSource datasource) {
+	public DataSourceAdapter (final Activity activity, final IDataSource datasource) {
 		this();
-		_fragment = fragment;
-		_context = _fragment.getActivity();
+//		_fragment = fragment;
+		_context = activity;
 		if ( null == _context ) _context = MVCAppConnector.getSingleton().getFirstActivity();
 		_datasource = datasource;
 		_datasource.addPropertyChangeListener(this);
-		this.setModel(_datasource.getBodyParts());
+		//		this.setModel();
+		_contentPartList.clear();
+		_contentPartList.addAll(_datasource.getBodyParts());
+	}
+	public DataSourceAdapter (final AbstractPagerFragment fragment, final IDataSource datasource) {
+		this(fragment.getActivity(), datasource);
 	}
 
-
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public AbstractAndroidPart getCastedItem (final int position) {
-		return _hierarchy.get(position);
+	public IAndroidPart getCastedItem (final int position) {
+		return _contentPartList.get(position);
 	}
 
 	public int getCount () {
-		return _hierarchy.size();
+		return _contentPartList.size();
 	}
 
 	public Object getItem (final int position) {
-		return _hierarchy.get(position);
+		return _contentPartList.get(position);
 	}
 
 	@Override
 	public long getItemId (final int position) {
-		return _hierarchy.get(position).getModelID();
+		return _contentPartList.get(position).getModelID();
 	}
 
 	/**
@@ -110,10 +113,10 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 		String exitMessage = "";
 		try {
 			// If the request is new we are sure this has to be created.
-			AbstractAndroidPart item = this.getCastedItem(position);
+			IAndroidPart item = this.getCastedItem(position);
 			if ( null == convertView ) {
-				exitMessage=						"-- [DataSourceAdapter.getView]> Getting view [" + position + "] - " + item.getClass().getSimpleName();
-				AbstractRender holder = item.getRenderer(this.getFragment());
+				exitMessage = "-- [DataSourceAdapter.getView]> Getting view [" + position + "] - " + item.getClass().getSimpleName();
+				AbstractRender holder = item.getRenderer(_context);
 				holder.initializeViews();
 				convertView = holder.getView();
 				convertView.setTag(item);
@@ -125,10 +128,10 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			} else {
 				View cachedView = item.getView();
 				if ( null == cachedView ) {
-					exitMessage="-- [DataSourceAdapter.getView]> Getting view [" + position + "] - "
+					exitMessage = "-- [DataSourceAdapter.getView]> Getting view [" + position + "] - "
 							+ item.getClass().getSimpleName() + " RECREATE";
 					// Recreate the view.
-					AbstractRender holder = this.getCastedItem(position).getRenderer(this.getFragment());
+					AbstractRender holder = this.getCastedItem(position).getRenderer(_context);
 					holder.initializeViews();
 					convertView = holder.getView();
 					convertView.setTag(item);
@@ -140,7 +143,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 				} else {
 					// Cached view found. Return new view.
 					convertView = cachedView;
-					exitMessage="-- [DataSourceAdapter.getView]> Getting view [" + position + "] - "
+					exitMessage = "-- [DataSourceAdapter.getView]> Getting view [" + position + "] - "
 							+ item.getClass().getSimpleName() + " CACHED";
 				}
 			}
@@ -157,7 +160,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			}
 			// REFACTOR Add the DataSource as an event listener because that feature does not depend on the interfaces.
 			item.addPropertyChangeListener(_datasource);
-			logger.info(exitMessage+" - Rendering time: " + chrono.printElapsed(ChonoOptions.SHOWMILLIS));
+			logger.info(exitMessage + " - Rendering time: " + chrono.printElapsed(ChonoOptions.SHOWMILLIS));
 			return convertView;
 		} catch (RuntimeException rtex) {
 			String message = rtex.getMessage();
@@ -177,9 +180,9 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 		}
 	}
 
-	private AbstractPagerFragment getFragment () {
-		return _fragment;
-	}
+//	private AbstractPagerFragment getFragment () {
+//		return _fragment;
+//	}
 
 	@Override
 	public boolean hasStableIds () {
@@ -187,12 +190,14 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	}
 
 	/**
-	 * Update the Part list from the model. It should have been already updated by the detection of the
-	 * structure change.
+	 * Update the Part list to be used by the Adapter from the DataSource. This action should trigger the generation
+	 * of the list of parts to be used on the Adapter from the Part hierarchy generated from the Model.
 	 */
 	@Override
 	public void notifyDataSetChanged () {
-		this.setModel(_datasource.getBodyParts());
+		//		this.setModel(_datasource.getBodyParts());
+		_contentPartList.clear();
+		_contentPartList.addAll(_datasource.getBodyParts());
 		super.notifyDataSetChanged();
 	}
 
@@ -212,10 +217,14 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 		return _context;
 	}
 
-	public void setModel (final ArrayList<AbstractAndroidPart> partData) {
-		_hierarchy.clear();
-		//		_hierarchyViews.clear();
-		_hierarchy.addAll(partData);
-	}
+	//	/**
+	//	 * This method is the entry point where the external environment will feed in the data to be used by this adapter
+	//	 * to render the model into the ListView.
+	//	 * @param partData
+	//	 */
+	//	private void setModel (final ArrayList<AbstractAndroidPart> partData) {
+	//		_contentPartList.clear();
+	//		_contentPartList.addAll(partData);
+	//	}
 }
 // - UNUSED CODE ............................................................................................

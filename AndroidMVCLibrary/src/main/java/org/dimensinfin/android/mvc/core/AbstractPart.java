@@ -116,6 +116,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 * Model behind the Part is expanded, in that case the children have the opportunity to be added to the
 	 * visible list.
 	 */
+	@Deprecated
 	public List<IPart> collaborate2View () {
 		AbstractPart.logger.info(">< [AbstractPart.collaborate2View]> Collaborator: " + this.getClass().getSimpleName());
 		ArrayList<IPart> result = new ArrayList<IPart>();
@@ -355,14 +356,14 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		return _clickRunning;
 	}
 
-	public abstract List<IPart> runPolicies (List<IPart> targets);
+//	public abstract List<IPart> runPolicies (List<IPart> targets);
 
-	public boolean runDependencies () {
-		return true;
-	}
-	//	public void setActive (final boolean active) {
-	//		this.active = active;
-	//	}
+//	public boolean runDependencies () {
+//		return true;
+//	}
+//	//	public void setActive (final boolean active) {
+//	//		this.active = active;
+//	//	}
 
 	public IPart setDataStore (final AbstractDataSource ds) {
 		_dataSource = ds;

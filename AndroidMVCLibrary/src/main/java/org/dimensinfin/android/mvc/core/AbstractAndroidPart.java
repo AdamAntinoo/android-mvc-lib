@@ -9,7 +9,6 @@
 package org.dimensinfin.android.mvc.core;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.view.View;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
@@ -61,28 +60,52 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 			throw new RuntimeException("Fragment object not available on access on a Part.");
 	}
 
+	public void collaborate2View (List<IAndroidPart> contentCollector) {
+		AbstractPart.logger.info(">< [AbstractPart.collaborate2View]> Collaborator: " + this.getClass().getSimpleName());
+		//		ArrayList<IPart> result = new ArrayList<IPart>();
+		// If the node is expanded then give the children the opportunity to also be added.
+		if ( this.isExpanded() ) {
+			// ---This is the section that is different for any Part. This should be done calling the list of policies.
+			List<IPart> ch = this.runPolicies(this.getChildren());
+			AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaborator children: " + ch.size());
+			// --- End of policies
+			for (IPart part : ch) {
+				if ( part instanceof IAndroidPart )
+					((IAndroidPart) part).collaborate2View(contentCollector);
+				//				AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaboration parts: " + collaboration.size());
+				//				contentCollector.addAll(collaboration);
+			}
+		} else {
+			// Check for items that will not shown when empty and not expanded.
+			if ( this.isRenderWhenEmpty() ) {
+				contentCollector.add(this);
+			}
+		}
+		//		return contentCollector;
+	}
+
 	public List<IPart> runPolicies (final List<IPart> targets) {
 		return targets;
 	}
 
 	/**
-	 * Activities should not use directly the adapter. They should always use the Fragments for future
-	 * compatibility.
+	 * Activities are the preferred Context ot be used on the parts. That make them usable on any context and not
+	 * depending on the Pager implementation. This is the opposite from the initial implementation where we required
+	 * Fragment to be used on all the implementations.
 	 */
-	@Deprecated
 	@Override
 	public AbstractRender getRenderer (final Activity activity) {
 		_activity = activity;
 		return this.selectRenderer();
 	}
 
-	@Override
-	public AbstractRender getRenderer (final Fragment fragment) {
-		if ( fragment instanceof AbstractPagerFragment ) _fragment = (AbstractPagerFragment) fragment;
-		else throw new RuntimeException("Using on MVC fragments that are not compatible.");
-		_activity = ((AbstractPagerFragment)fragment).getMetaActivity();
-		return this.selectRenderer();
-	}
+	//	@Override
+	//	public AbstractRender getRenderer (final Fragment fragment) {
+	//		if ( fragment instanceof AbstractPagerFragment ) _fragment = (AbstractPagerFragment) fragment;
+	//		else throw new RuntimeException("Using on MVC fragments that are not compatible.");
+	//		_activity = ((AbstractPagerFragment)fragment).getMetaActivity();
+	//		return this.selectRenderer();
+	//	}
 
 	@Override
 	public View getView () {
