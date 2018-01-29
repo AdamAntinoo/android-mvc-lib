@@ -21,12 +21,13 @@ import android.view.View;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
+import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
-import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.dimensinfin.core.model.RootNode;
 import org.slf4j.Logger;
@@ -78,6 +79,11 @@ public abstract class NewMVCDataSource extends AbstractPropertyChanger implement
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public NewMVCDataSource () {
 		super();
+	}
+
+	public NewMVCDataSource (final IPartFactory factory) {
+		this();
+		_partFactory = factory;
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -179,7 +185,6 @@ public abstract class NewMVCDataSource extends AbstractPropertyChanger implement
 	}
 	// --- P R I V A T E
 
-
 	@Override
 	public String toString () {
 		StringBuffer buffer = new StringBuffer("NewMVCDataSource [");
@@ -197,7 +202,26 @@ public abstract class NewMVCDataSource extends AbstractPropertyChanger implement
 
 		@Override
 		public void collaborate2View (final List<IAndroidPart> contentCollector) {
-
+			AbstractPart.logger.info(">< [RootAndroidPart.collaborate2View]> Collaborator: " + this.getClass().getSimpleName());
+			//			ArrayList<IPart> result = new ArrayList<IPart>();
+			// If the node is expanded then give the children the opportunity to also be added.
+			if ( this.isExpanded() ) {
+				// ---This is the section that is different for any Part. This should be done calling the list of policies.
+				List<IPart> ch = this.runPolicies(this.getChildren());
+				AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaborator children: " + ch.size());
+				// --- End of policies
+				for (IPart part : ch) {
+					if ( part instanceof IAndroidPart )
+						((IAndroidPart)part).collaborate2View(contentCollector);
+					//						AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaboration parts: " + collaboration.size());
+					//						contentCollector.addAll(collaboration);
+				}
+			} else {
+				// Check for items that will not shown when empty and not expanded.
+				if ( this.isRenderWhenEmpty() ) {
+					contentCollector.add(this);
+				}
+			}
 		}
 
 		@Override

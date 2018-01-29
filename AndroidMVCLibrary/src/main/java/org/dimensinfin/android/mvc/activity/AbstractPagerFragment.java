@@ -50,6 +50,8 @@ import org.slf4j.LoggerFactory;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Vector;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 // REFACTOR Used this dependency just to maintain more code compatible with the new model.
@@ -84,10 +86,13 @@ public abstract class AbstractPagerFragment extends Fragment {
 				// Install the adapter as the first task so if the DataSource needs it it is ready.
 				_adapter = new DataSourceAdapter(_fragment, _datasource);
 				// Create the hierarchy structure to be used on the Adapter.
-				_datasource.collaborate2Model();
-				_datasource.createContentHierarchy();
+				// Do this on background so we can update the interface on real time
+				_uiExecutor.submit(() -> {
+					_datasource.collaborate2Model();
+				});
+				//				_datasource.createContentHierarchy();
 				// Fire again the population of the adapter after the model is initialized
-//				_adapter.setModel(_datasource.getBodyParts());
+				//				_adapter.setModel(_datasource.getBodyParts());
 			} catch (final RuntimeException rtex) {
 				rtex.printStackTrace();
 			}
@@ -123,127 +128,128 @@ public abstract class AbstractPagerFragment extends Fragment {
 	}
 
 	//- CLASS IMPLEMENTATION ...................................................................................
-//	protected class ExpandChangeTask extends AsyncTask<AbstractPagerFragment, Void, Void> {
-//
-//		// - F I E L D - S E C T I O N ............................................................................
-//		private final AbstractPagerFragment _fragment;
-//
-//		// - C O N S T R U C T O R - S E C T I O N ................................................................
-//		public ExpandChangeTask (final AbstractPagerFragment fragment) {
-//			_fragment = fragment;
-//		}
-//
-//		// - M E T H O D - S E C T I O N ..........................................................................
-//
-//		/**
-//		 * The datasource is ready and the new hierarchy should be created from the current model. All the stages
-//		 * are executed at this time both the model contents update and the list of parts to be used on the
-//		 * ListView. First, the model is checked to be initialized and if not then it is created. Then the model
-//		 * is run from start to end to create all the visible elements and from this list then we create the full
-//		 * list of the parts with their right renders.<br>
-//		 * This is the task executed every time a datasource gets its model modified and hides all the update time
-//		 * from the main thread as it is recommended by Google.
-//		 */
-//		@Override
-//		protected Void doInBackground (final AbstractPagerFragment... arg0) {
-//			AbstractPagerFragment.logger.info(">> StructureChangeTask.doInBackground");
-//			try {
-//				// Create the hierarchy structure to be used on the Adapter.
-//				_datasource.updateContentHierarchy();
-//			} catch (final RuntimeException rtex) {
-//				rtex.printStackTrace();
-//			}
-//			AbstractPagerFragment.logger.info("<< StructureChangeTask.doInBackground");
-//			return null;
-//		}
-//
-//		@Override
-//		protected void onPostExecute (final Void result) {
-//			AbstractPagerFragment.logger.info(">> StructureChangeTask.onPostExecute");
-//			_progressLayout.setVisibility(View.GONE);
-//			_modelContainer.setVisibility(View.VISIBLE);
-//			_container.invalidate();
-//			// Tell the adapter to refresh the contents.
-//			_adapter.notifyDataSetChanged();
-//
-//			// Add the header parts once the display is initialized.
-//			ArrayList<AbstractAndroidPart> headerContents = _datasource.getHeaderParts();
-//			if ( headerContents.size() > 0 ) {
-//				_headerContainer.removeAllViews();
-//				_headerContainer.invalidate();
-//				for (final AbstractAndroidPart part : headerContents) {
-//					_fragment.addViewtoHeader(part);
-//				}
-//			}
-//			super.onPostExecute(result);
-//			AbstractPagerFragment.logger.info("<< StructureChangeTask.onPostExecute");
-//		}
-//	}
-//
-//	//- CLASS IMPLEMENTATION ...................................................................................
-//	protected class StructureChangeTask extends AsyncTask<AbstractPagerFragment, Void, Void> {
-//
-//		// - F I E L D - S E C T I O N ............................................................................
-//		private final AbstractPagerFragment _fragment;
-//
-//		// - C O N S T R U C T O R - S E C T I O N ................................................................
-//		public StructureChangeTask (final AbstractPagerFragment fragment) {
-//			_fragment = fragment;
-//		}
-//
-//		// - M E T H O D - S E C T I O N ..........................................................................
-//
-//		/**
-//		 * The datasource is ready and the new hierarchy should be created from the current model. All the stages
-//		 * are executed at this time both the model contents update and the list of parts to be used on the
-//		 * ListView. First, the model is checked to be initialized and if not then it is created. Then the model
-//		 * is run from start to end to create all the visible elements and from this list then we create the full
-//		 * list of the parts with their right renders.<br>
-//		 * This is the task executed every time a datasource gets its model modified and hides all the update time
-//		 * from the main thread as it is recommended by Google.
-//		 */
-//		@Override
-//		protected Void doInBackground (final AbstractPagerFragment... arg0) {
-//			Log.i("NEOCOM", ">> StructureChangeTask.doInBackground");
-//			try {
-//				// Create the hierarchy structure to be used on the Adapter.
-//				_datasource.createContentHierarchy();
-//			} catch (final RuntimeException rtex) {
-//				rtex.printStackTrace();
-//			}
-//			Log.i("NEOCOM", "<< StructureChangeTask.doInBackground");
-//			return null;
-//		}
-//
-//		@Override
-//		protected void onPostExecute (final Void result) {
-//			Log.i("NEOCOM", ">> StructureChangeTask.onPostExecute");
-//			//
-//			//			AbstractPagerFragment.this._adapter = new DataSourceAdapter(this.fragment, AbstractPagerFragment.this._datasource);
-//			//			AbstractPagerFragment.this._modelContainer.setAdapter(AbstractPagerFragment.this._adapter);
-//
-//			_progressLayout.setVisibility(View.GONE);
-//			_modelContainer.setVisibility(View.VISIBLE);
-//			_container.invalidate();
-//			// Tell the adapter to refresh the contents.
-//			_adapter.notifyDataSetChanged();
-//
-//			// Add the header parts once the display is initialized.
-//			ArrayList<AbstractAndroidPart> headerContents = _datasource.getHeaderParts();
-//			if ( headerContents.size() > 0 ) {
-//				_headerContainer.removeAllViews();
-//				_headerContainer.invalidate();
-//				for (final AbstractAndroidPart part : headerContents) {
-//					_fragment.addViewtoHeader(part);
-//				}
-//			}
-//			super.onPostExecute(result);
-//			Log.i("NEOCOM", "<< StructureChangeTask.onPostExecute");
-//		}
-//	}
+	//	protected class ExpandChangeTask extends AsyncTask<AbstractPagerFragment, Void, Void> {
+	//
+	//		// - F I E L D - S E C T I O N ............................................................................
+	//		private final AbstractPagerFragment _fragment;
+	//
+	//		// - C O N S T R U C T O R - S E C T I O N ................................................................
+	//		public ExpandChangeTask (final AbstractPagerFragment fragment) {
+	//			_fragment = fragment;
+	//		}
+	//
+	//		// - M E T H O D - S E C T I O N ..........................................................................
+	//
+	//		/**
+	//		 * The datasource is ready and the new hierarchy should be created from the current model. All the stages
+	//		 * are executed at this time both the model contents update and the list of parts to be used on the
+	//		 * ListView. First, the model is checked to be initialized and if not then it is created. Then the model
+	//		 * is run from start to end to create all the visible elements and from this list then we create the full
+	//		 * list of the parts with their right renders.<br>
+	//		 * This is the task executed every time a datasource gets its model modified and hides all the update time
+	//		 * from the main thread as it is recommended by Google.
+	//		 */
+	//		@Override
+	//		protected Void doInBackground (final AbstractPagerFragment... arg0) {
+	//			AbstractPagerFragment.logger.info(">> StructureChangeTask.doInBackground");
+	//			try {
+	//				// Create the hierarchy structure to be used on the Adapter.
+	//				_datasource.updateContentHierarchy();
+	//			} catch (final RuntimeException rtex) {
+	//				rtex.printStackTrace();
+	//			}
+	//			AbstractPagerFragment.logger.info("<< StructureChangeTask.doInBackground");
+	//			return null;
+	//		}
+	//
+	//		@Override
+	//		protected void onPostExecute (final Void result) {
+	//			AbstractPagerFragment.logger.info(">> StructureChangeTask.onPostExecute");
+	//			_progressLayout.setVisibility(View.GONE);
+	//			_modelContainer.setVisibility(View.VISIBLE);
+	//			_container.invalidate();
+	//			// Tell the adapter to refresh the contents.
+	//			_adapter.notifyDataSetChanged();
+	//
+	//			// Add the header parts once the display is initialized.
+	//			ArrayList<AbstractAndroidPart> headerContents = _datasource.getHeaderParts();
+	//			if ( headerContents.size() > 0 ) {
+	//				_headerContainer.removeAllViews();
+	//				_headerContainer.invalidate();
+	//				for (final AbstractAndroidPart part : headerContents) {
+	//					_fragment.addViewtoHeader(part);
+	//				}
+	//			}
+	//			super.onPostExecute(result);
+	//			AbstractPagerFragment.logger.info("<< StructureChangeTask.onPostExecute");
+	//		}
+	//	}
+	//
+	//	//- CLASS IMPLEMENTATION ...................................................................................
+	//	protected class StructureChangeTask extends AsyncTask<AbstractPagerFragment, Void, Void> {
+	//
+	//		// - F I E L D - S E C T I O N ............................................................................
+	//		private final AbstractPagerFragment _fragment;
+	//
+	//		// - C O N S T R U C T O R - S E C T I O N ................................................................
+	//		public StructureChangeTask (final AbstractPagerFragment fragment) {
+	//			_fragment = fragment;
+	//		}
+	//
+	//		// - M E T H O D - S E C T I O N ..........................................................................
+	//
+	//		/**
+	//		 * The datasource is ready and the new hierarchy should be created from the current model. All the stages
+	//		 * are executed at this time both the model contents update and the list of parts to be used on the
+	//		 * ListView. First, the model is checked to be initialized and if not then it is created. Then the model
+	//		 * is run from start to end to create all the visible elements and from this list then we create the full
+	//		 * list of the parts with their right renders.<br>
+	//		 * This is the task executed every time a datasource gets its model modified and hides all the update time
+	//		 * from the main thread as it is recommended by Google.
+	//		 */
+	//		@Override
+	//		protected Void doInBackground (final AbstractPagerFragment... arg0) {
+	//			Log.i("NEOCOM", ">> StructureChangeTask.doInBackground");
+	//			try {
+	//				// Create the hierarchy structure to be used on the Adapter.
+	//				_datasource.createContentHierarchy();
+	//			} catch (final RuntimeException rtex) {
+	//				rtex.printStackTrace();
+	//			}
+	//			Log.i("NEOCOM", "<< StructureChangeTask.doInBackground");
+	//			return null;
+	//		}
+	//
+	//		@Override
+	//		protected void onPostExecute (final Void result) {
+	//			Log.i("NEOCOM", ">> StructureChangeTask.onPostExecute");
+	//			//
+	//			//			AbstractPagerFragment.this._adapter = new DataSourceAdapter(this.fragment, AbstractPagerFragment.this._datasource);
+	//			//			AbstractPagerFragment.this._modelContainer.setAdapter(AbstractPagerFragment.this._adapter);
+	//
+	//			_progressLayout.setVisibility(View.GONE);
+	//			_modelContainer.setVisibility(View.VISIBLE);
+	//			_container.invalidate();
+	//			// Tell the adapter to refresh the contents.
+	//			_adapter.notifyDataSetChanged();
+	//
+	//			// Add the header parts once the display is initialized.
+	//			ArrayList<AbstractAndroidPart> headerContents = _datasource.getHeaderParts();
+	//			if ( headerContents.size() > 0 ) {
+	//				_headerContainer.removeAllViews();
+	//				_headerContainer.invalidate();
+	//				for (final AbstractAndroidPart part : headerContents) {
+	//					_fragment.addViewtoHeader(part);
+	//				}
+	//			}
+	//			super.onPostExecute(result);
+	//			Log.i("NEOCOM", "<< StructureChangeTask.onPostExecute");
+	//		}
+	//	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 	protected static Logger logger = LoggerFactory.getLogger(AbstractPagerFragment.class);
+	public static final ExecutorService _uiExecutor = Executors.newSingleThreadExecutor();
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private Bundle _extras = new Bundle();
@@ -567,7 +573,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 	public void propertyChange (final PropertyChangeEvent event) {
 		if ( event.getPropertyName().equalsIgnoreCase(AbstractGEFNode.ECoreModelEvents.EVENT_EXPANDCOLLAPSENODE.name()) ) {
-//			new ExpandChangeTask(this).execute();
+			//			new ExpandChangeTask(this).execute();
 		}
 	}
 
@@ -592,28 +598,28 @@ public abstract class AbstractPagerFragment extends Fragment {
 		}
 	}
 
-//	/**
-//	 * This method is a simplification from the original code where we do not use an additional DataSource but the common
-//	 * one
-//	 * so we create a generic DataSource and feed it the specific Model Generator that can be obtained from the Model
-//	 * cache. Model generation
-//	 * maybe a time consuming process so it is run out of the main thread.
-//	 * If the developer does need to use another DataSource but the generic it should replicate this code and register the
-//	 * DataSource manually.
-//	 *
-//	 * @param modelGenerator the new proposed generator. May be replaced by a cached one if already initialized.
-//	 */
-//	public void setGenerator (IModelGenerator modelGenerator) {
-//		// Check if the generator already exists on the Cache. If so get the current one and discard the new.
-//		_generator = ModelGeneratorStore.registerGenerator(modelGenerator);
-//
-//		// Generate the DataSource from the Generator and set it up on the Frgment.
-//		AbstractPagerFragment.logger.info("-- [AbstractPagerFragment.setGenerator]> Creating generic DataSource MVCDataSource.class");
-//		MVCDataSource ds = new MVCDataSource(modelGenerator.getDataSourceLocator(), getFactory(), modelGenerator);
-//		AbstractPagerFragment.logger.info("-- [AbstractPagerFragment.setGenerator]> Using variant: " + this.getVariant());
-//		ds.setVariant(this.getVariant());
-//		setDataSource(ds);
-//	}
+	//	/**
+	//	 * This method is a simplification from the original code where we do not use an additional DataSource but the common
+	//	 * one
+	//	 * so we create a generic DataSource and feed it the specific Model Generator that can be obtained from the Model
+	//	 * cache. Model generation
+	//	 * maybe a time consuming process so it is run out of the main thread.
+	//	 * If the developer does need to use another DataSource but the generic it should replicate this code and register the
+	//	 * DataSource manually.
+	//	 *
+	//	 * @param modelGenerator the new proposed generator. May be replaced by a cached one if already initialized.
+	//	 */
+	//	public void setGenerator (IModelGenerator modelGenerator) {
+	//		// Check if the generator already exists on the Cache. If so get the current one and discard the new.
+	//		_generator = ModelGeneratorStore.registerGenerator(modelGenerator);
+	//
+	//		// Generate the DataSource from the Generator and set it up on the Frgment.
+	//		AbstractPagerFragment.logger.info("-- [AbstractPagerFragment.setGenerator]> Creating generic DataSource MVCDataSource.class");
+	//		MVCDataSource ds = new MVCDataSource(modelGenerator.getDataSourceLocator(), getFactory(), modelGenerator);
+	//		AbstractPagerFragment.logger.info("-- [AbstractPagerFragment.setGenerator]> Using variant: " + this.getVariant());
+	//		ds.setVariant(this.getVariant());
+	//		setDataSource(ds);
+	//	}
 
 	public void setSubtitle (final String subtitle) {
 		_subtitle = subtitle;
