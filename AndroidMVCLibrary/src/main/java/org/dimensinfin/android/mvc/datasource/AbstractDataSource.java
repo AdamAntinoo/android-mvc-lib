@@ -8,16 +8,15 @@
 package org.dimensinfin.android.mvc.datasource;
 
 // - IMPORT SECTION .........................................................................................
-import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
-import java.util.logging.Logger;
+import android.os.Bundle;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
-import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
 
-import android.os.Bundle;
+import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
+import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class AbstractDataSource extends AbstractPropertyChanger implements IDataSource {
@@ -43,20 +42,20 @@ public abstract class AbstractDataSource extends AbstractPropertyChanger impleme
 		_root.clear();
 	}
 
-	public ArrayList<AbstractAndroidPart> getBodyParts() {
-		ArrayList<AbstractAndroidPart> result = new ArrayList<AbstractAndroidPart>();
-		for (AbstractAndroidPart part : _root) {
-			result.add(part);
-			// Check if the node is expanded. Then add its children.
-			if (part.isExpanded()) {
-				for (IPart child : part.collaborate2View()) {
-					result.add((AbstractAndroidPart) child);
-				}
-			}
-		}
-		_adapterData = result;
-		return result;
-	}
+//	public ArrayList<AbstractAndroidPart> getBodyParts() {
+//		ArrayList<AbstractAndroidPart> result = new ArrayList<AbstractAndroidPart>();
+//		for (AbstractAndroidPart part : _root) {
+//			result.add(part);
+//			// Check if the node is expanded. Then add its children.
+//			if (part.isExpanded()) {
+//				for (IPart child : part.collaborate2View()) {
+//					result.add((AbstractAndroidPart) child);
+//				}
+//			}
+//		}
+//		_adapterData = result;
+//		return result;
+//	}
 
 	public int getItemsCount() {
 		if (null != _adapterData)
@@ -85,7 +84,6 @@ public abstract class AbstractDataSource extends AbstractPropertyChanger impleme
 		return buffer.toString();
 	}
 
-	@Override
 	public void updateContentHierarchy() {
 		this.createContentHierarchy();
 	}

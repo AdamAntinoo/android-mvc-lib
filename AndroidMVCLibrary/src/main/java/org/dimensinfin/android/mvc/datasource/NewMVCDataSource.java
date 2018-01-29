@@ -20,17 +20,20 @@ import android.app.Fragment;
 import android.view.View;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
+import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.dimensinfin.core.model.RootNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -83,10 +86,53 @@ public abstract class NewMVCDataSource extends AbstractPropertyChanger implement
 	public List<IAndroidPart> getBodyParts () {
 		return _bodyParts;
 	}
-	public IDataSource setVariant(final String variant) {
+
+	public IDataSource setVariant (final String variant) {
 		_variant = variant;
 		return this;
 	}
+
+	public ArrayList<AbstractAndroidPart> getHeaderParts () {
+		return new ArrayList<>();
+	}
+
+	/**
+	 * After the model is created we have to transform it into the Part list expected by the DataSourceAdapter.
+	 * The Part creation is performed by the corresponding PartFactory we got at the DataSource creation.<br>
+	 * We transform the model recursively and keeping the already available Part elements. We create a
+	 * duplicated of the resulting Part model and we move already parts from the current model to the new model
+	 * or create new part and finally remove what is left and unused.
+	 * This new implementation will use partial generation to split and speed up this phase.
+	 */
+	public void createContentHierarchy () {
+		//		try {
+		logger.info(">> [NewMVCDataSource.createContentHierarchy]");
+		// Check if we have already a Part model.
+		// But do not forget to associate the new Data model even if the old exists.
+		if ( null == _partModelRoot ) {
+			_partModelRoot = new RootAndroidPart(_dataModelRoot, _partFactory);
+		} else {
+			_partModelRoot.setModel(_dataModelRoot);
+		}
+
+		logger.info("-- [NewMVCDataSource.createContentHierarchy]> Initiating the refreshChildren() for the " +
+				"_partModelRoot");
+		// Intercept any exception on the creation of the model but do not cut the progress of the already added items
+		try {
+			_partModelRoot.refreshChildren();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		//			// Get the list of Parts that will be used for the ListView
+		//			_bodyParts = new ArrayList<IPart>();
+		//			// Select for the body contents only the viewable Parts from the Part model. Make it a list.
+		//			_bodyParts.addAll(_partModelRoot.collaborate2View());
+		//		} catch (Exception ex) {
+		//			ex.printStackTrace();
+		//		}
+		logger.info("<< [NewMVCDataSource.createContentHierarchy]> _bodyParts.size: {}", _bodyParts.size());
+	}
+
 	// --- P R O P E R T Y C H A N G E R
 
 	/**
@@ -133,42 +179,6 @@ public abstract class NewMVCDataSource extends AbstractPropertyChanger implement
 	}
 	// --- P R I V A T E
 
-	/**
-	 * After the model is created we have to transform it into the Part list expected by the DataSourceAdapter.
-	 * The Part creation is performed by the corresponding PartFactory we got at the DataSource creation.<br>
-	 * We transform the model recursively and keeping the already available Part elements. We create a
-	 * duplicated of the resulting Part model and we move already parts from the current model to the new model
-	 * or create new part and finally remove what is left and unused.
-	 * This new implementation will use partial generation to split and speed up this phase.
-	 */
-	private void createContentHierarchy () {
-		//		try {
-		logger.info(">> [NewMVCDataSource.createContentHierarchy]");
-		// Check if we have already a Part model.
-		// But do not forget to associate the new Data model even if the old exists.
-		if ( null == _partModelRoot ) {
-			_partModelRoot = new RootAndroidPart(_dataModelRoot, _partFactory);
-		} else {
-			_partModelRoot.setModel(_dataModelRoot);
-		}
-
-		logger.info("-- [NewMVCDataSource.createContentHierarchy]> Initiating the refreshChildren() for the " +
-				"_partModelRoot");
-		// Intercept any exception on the creation of the model but do not cut the progress of the already added items
-		try {
-			_partModelRoot.refreshChildren();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		//			// Get the list of Parts that will be used for the ListView
-		//			_bodyParts = new ArrayList<IPart>();
-		//			// Select for the body contents only the viewable Parts from the Part model. Make it a list.
-		//			_bodyParts.addAll(_partModelRoot.collaborate2View());
-		//		} catch (Exception ex) {
-		//			ex.printStackTrace();
-		//		}
-		logger.info("<< [NewMVCDataSource.createContentHierarchy]> _bodyParts.size: {}", _bodyParts.size());
-	}
 
 	@Override
 	public String toString () {
