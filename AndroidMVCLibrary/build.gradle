@@ -9,7 +9,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 20
-        versionName "2.0.2"
+        versionName "Dynamic"
 
         project.archivesBaseName = "AndroidMVC"
         project.version = android.defaultConfig.versionName
@@ -29,7 +29,9 @@ android {
         }
     }
     sourceSets {
-        main.res.srcDirs += 'src/main/res-ui'
+        main{
+            res.srcDirs += 'src/main/res-ui'
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -47,6 +49,33 @@ android {
         }
     }
 }
+task generateSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+task generateJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+generateJavadocs.dependsOn generateSourcesJar
+
+task generateJavadocsJar(type: Jar) {
+    classifier = 'javadoc'
+    from generateJavadocs.destinationDir
+}
+generateJavadocsJar.dependsOn generateJavadocs
+
+//artifacts {
+//    archives generateJavadocsJar
+//    archives generateSourcesJar
+//}
+// Add the sources to the end generated library aar
+//assemble.dependsOn 'propertyJar'
+//
+//task propertyJar(type: Jar) {
+//    archiveName  = "${archivesBaseName}-${version}.aar"
+//    from android.sourceSets.main.java.srcDirs
+//}
 
 dependencies {
     // A N D R O I D    S U P P O R T
@@ -55,11 +84,9 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.0.1'
 
     // P R O J E C T    D E P E N D E N C I E S
-    implementation project(path: ':CoreBaseLibrary')
-//    implementation project(path: ':ApplicationCloudAdapter')
-//    implementation project(path: ':ApplicationCloudAndroidAdapter')
 
     // L O C A L    L I B R A R I E S
+    implementation files('libs/CoreBase.core-2.0.2.jar')
     api files('libs/viewpagerindicator-release.aar')
 
     // M O D U L E    D E P E N D E N C I E S

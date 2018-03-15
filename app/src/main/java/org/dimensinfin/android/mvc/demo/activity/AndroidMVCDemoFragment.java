@@ -9,7 +9,6 @@
 package org.dimensinfin.android.mvc.demo.activity;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
-import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.demo.DemoAppConnector;
 import org.dimensinfin.android.mvc.demo.R;
@@ -27,7 +26,6 @@ import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.Container;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.core.model.Separator;
-import org.dimensinfin.core.util.Chrono.ChonoOptions;
 
 //- CLASS IMPLEMENTATION ...................................................................................
 public class AndroidMVCDemoFragment extends AbstractPagerFragment {
@@ -64,7 +62,7 @@ public class AndroidMVCDemoFragment extends AbstractPagerFragment {
 		// Create a unique identifier to locate this Model hierarchy and their matching DataSource.
 		DataSourceLocator locator = new DataSourceLocator().addIdentifier(this.getVariant());
 		// Create a new Model Generator and register it onto the Fragment to use on request to generate the root model.
-		setGenerator(new DemoSeparatorGenerator(locator, this.getVariant()));
+//		setGenerator(new DemoSeparatorGenerator(locator, this.getVariant()));
 		AbstractPagerFragment.logger.info("<< [AndroidMVCDemoFragment.registerDataSource]");
 	}
 

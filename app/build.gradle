@@ -43,9 +43,15 @@ dependencies {
     implementation 'com.android.support:support-v13:27.0.1'
     implementation 'com.android.support:recyclerview-v7:27.0.1'
 
-    // L O C A L   L I B R A R I E S
-    implementation project(path: ':CoreBaseLibrary')
+    // P R O J E C T    D E P E N D E N C I E S
     implementation project(path: ':AndroidMVCLibrary')
+
+    // L O C A L    L I B R A R I E S
+    implementation files('libs/CoreBase.core-2.0.2.jar')
+
+    // M O D U L E    D E P E N D E N C I E S
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+    implementation 'joda-time:joda-time:2.3'
 
     // T E S T I N G
     testImplementation 'junit:junit:4.12'
