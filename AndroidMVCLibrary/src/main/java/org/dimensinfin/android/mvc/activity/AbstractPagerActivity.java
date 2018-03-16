@@ -1,4 +1,4 @@
-//  PROJECT:     NeoCom.MVC (NEOC.MVC)
+//  PROJECT:     Android.MVC (A.MVC)
 //  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
 //  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
 //  ENVIRONMENT: Android API16.
@@ -11,7 +11,6 @@ package org.dimensinfin.android.mvc.activity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -20,7 +19,6 @@ import android.widget.ImageView;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.connector.MVCAppConnector;
 import org.dimensinfin.android.mvc.datasource.AbstractFragmentPagerAdapter;
 
 import java.util.logging.Logger;
@@ -37,7 +35,8 @@ import java.util.logging.Logger;
  * implementations, the Background and the ActionBar.
  * <p>
  * So at the creation step we only should have to generate the Fragments and add them to the pager. This is the functionality for
- * the <code>{@link addPage(ImageView)}</code> public method. Fragments share some characteristics to use the possibilities offered by the
+ * the <code>{@link addPage(ImageView)}</code> public method. Fragments share some characteristics to use the possibilities
+ * offered by the
  * ActionBar like the <b>Title</b> and the <b>SubTitle</b>.
  * @author Adam Antinoo
  * @since 1.0.0
@@ -45,18 +44,20 @@ import java.util.logging.Logger;
 @SuppressWarnings("JavadocReference")
 public abstract class AbstractPagerActivity extends Activity {
 	public enum EExtrasMVC {
-		EXTRA_EXCEPTIONMESSAGE
+		EXTRA_EXCEPTIONMESSAGE,EXTRA_VARIANT
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
 	protected static Logger logger = Logger.getLogger("AbstractPagerActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	protected ActionBar _actionBar = null;
-	protected ViewPager _pageContainer = null;
-	protected AbstractFragmentPagerAdapter _pageAdapter = null;
+	private Bundle _extras = null;
+	private ActionBar _actionBar = null;
+	private ViewPager _pageContainer = null;
+	private AbstractFragmentPagerAdapter _pageAdapter = null;
+	/** Image reference to the background layout item that can be replaced by the application implementation. */
 	protected ImageView background = null;
-	protected CirclePageIndicator _indicator = null;
+	private CirclePageIndicator _indicator = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
@@ -82,21 +83,22 @@ public abstract class AbstractPagerActivity extends Activity {
 	 */
 	public void addPage(final AbstractPagerFragment newFrag/*, final int position*/) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.addPage]"); //$NON-NLS-1$
-		// Before checking if we have already this grafment we should get its unique identifier.
+		// Before checking if we have already this fragment we should get its unique identifier.
 		Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextPosition()));
 		if (null == frag) {
 			_pageAdapter.addPage(newFrag);
 		} else {
 			// Reuse a previous created Fragment. But watch some of the fields have been removed.
 			((AbstractPagerFragment) frag).setVariant(newFrag.getVariant());
-			((AbstractPagerFragment) frag).setActivity(this);
 			// TODO Check next run so see if there are more fields to be initialized.
 			_pageAdapter.addPage(frag);
 		}
 		// Be sure the Fragment activity points to a valid activity.
-		if (frag instanceof AbstractPagerFragment)
-			((AbstractPagerFragment) frag).setActivity(getActivity());
-		else
+		if (frag instanceof AbstractPagerFragment) {
+			((AbstractPagerFragment) frag).setAppContext(getActivity());
+			// Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
+			((AbstractPagerFragment) frag).setExtras(this.getExtras());
+		} else
 			throw new RuntimeException("RTEX [AbstractPagerActivity.addPage]> The fragment located does not inherit the required functionality. Does not extend AbstractPagerFragment.");
 		// Check the number of pages to activate the indicator when more the one.
 		if (_pageAdapter.getCount() > 1) {
@@ -160,61 +162,76 @@ public abstract class AbstractPagerActivity extends Activity {
 		}
 	}
 
-	protected AbstractFragmentPagerAdapter getPageAdapter() {
-		return _pageAdapter;
+	private Bundle getExtras() {
+		return _extras;
 	}
+//	protected AbstractFragmentPagerAdapter getPageAdapter() {
+//		return _pageAdapter;
+//	}
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
-
-		// This section is is back the core ActionBar that can be configured until a new configuration is tested.
+		// Process the extras received by the intent so they can be shared to all the Fragments
 		try {
-			// Set the layout to the core activity that defines the background, the indicator and the fragment container.
-			this.setContentView(R.layout.activity_pager);
-			// Gets the activity's default ActionBar
-			_actionBar = this.getActionBar();
-			_actionBar.show();
-			_actionBar.setDisplayHomeAsUpEnabled(true);
-
-			// Locate the elements of the page and store in global data.
-			_pageContainer = (ViewPager) this.findViewById(R.id.pager);
-			background = (ImageView) this.findViewById(R.id.backgroundFrame);
-			_indicator = (CirclePageIndicator) this.findViewById(R.id.indicator);
-			// Check page structure.
-			if (null == _pageContainer) {
-				this.stopActivity(new RuntimeException("RTEX [AbstractPagerActivity.onCreate]> Expected UI element not found."));
+			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
+			if (null != savedInstanceState) {
+				_extras = savedInstanceState;
+			} else {
+				_extras = this.getIntent().getExtras();
 			}
-			if (null == background) {
-				this.stopActivity(new RuntimeException("RTEX [AbstractPagerActivity.onCreate]> Expected UI element not found."));
-			}
-
-			// Add the adapter for the page switching.
-			_pageAdapter = new AbstractFragmentPagerAdapter(this.getFragmentManager(), _pageContainer.getId());
-			_pageContainer.setAdapter(_pageAdapter);
-			// Cleat the indicator from the view until more than one page is added.
-			this.disableIndicator();
-		} catch (final RuntimeException rtex) {
-			logger.severe("RTEX [AbstractPagerActivity.onCreate]> " + rtex.getMessage());
-			rtex.printStackTrace();
-			this.stopActivity(new RuntimeException("RTEX [AbstractPagerActivity.onCreate]> " + rtex.getMessage()));
+		} catch (RuntimeException rtex) {
+			logger.warning("RTEX [AbstractPagerActivity.onCreate]> " + rtex.getMessage());
 		}
+
+
+		// TODO This section is back the core ActionBar that can be configured until a new configuration is tested.
+//		try {
+		// Set the layout to the core activity that defines the background, the indicator and the fragment container.
+		this.setContentView(R.layout.activity_pager);
+		// Gets the activity's default ActionBar
+		_actionBar = this.getActionBar();
+		_actionBar.show();
+		_actionBar.setDisplayHomeAsUpEnabled(true);
+
+		// Locate the elements of the page and store in global data.
+		_pageContainer = (ViewPager) this.findViewById(R.id.pager);
+		background = (ImageView) this.findViewById(R.id.backgroundFrame);
+		_indicator = (CirclePageIndicator) this.findViewById(R.id.indicator);
+		// Check page structure.
+		if (null == _pageContainer) {
+			throw new RuntimeException("RTEX [AbstractPagerActivity.onCreate]> Expected UI element not found.");
+		}
+		if (null == background) {
+			throw new RuntimeException("RTEX [AbstractPagerActivity.onCreate]> Expected UI element not found.");
+		}
+
+		// Add the adapter for the page switching.
+		_pageAdapter = new AbstractFragmentPagerAdapter(this.getFragmentManager(), _pageContainer.getId());
+		_pageContainer.setAdapter(_pageAdapter);
+		// Cleat the indicator from the view until more than one page is added.
+		this.disableIndicator();
+//		} catch (final RuntimeException rtex) {
+//			logger.severe("RTEX [AbstractPagerActivity.onCreate]> " + rtex.getMessage());
+//			rtex.printStackTrace();
+////			this.stopActivity(new RuntimeException("RTEX [AbstractPagerActivity.onCreate]> " + rtex.getMessage()));
+//		}
 		AbstractPagerActivity.logger.info("<< [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
 	}
 
-	/**
-	 * For really unrecoverable or undefined exceptions the application should go to a safe spot. That spot is
-	 * defined by the application so we use the delegate to runtime pattern to call the Application First Activity
-	 * whatever it is.
-	 * @param exception the exception detected and that requires an application restart to a safe point.
-	 */
-	protected void stopActivity(final Exception exception) {
-		final Intent intent = new Intent(this, MVCAppConnector.getSingleton().getFirstActivity().getClass());
-		// Pass the user message to the activity for display.
-		intent.putExtra(EExtrasMVC.EXTRA_EXCEPTIONMESSAGE.name(), exception.getMessage());
-		this.startActivity(intent);
-	}
+//	/**
+//	 * For really unrecoverable or undefined exceptions the application should go to a safe spot. That spot is
+//	 * defined by the application so we use the delegate to runtime pattern to call the Application First Activity
+//	 * whatever it is.
+//	 * @param exception the exception detected and that requires an application restart to a safe point.
+//	 */
+//	protected void stopActivity(final Exception exception) {
+//		final Intent intent = new Intent(this, MVCAppConnector.getSingleton().getFirstActivity().getClass());
+//		// Pass the user message to the activity for display.
+//		intent.putExtra(EExtrasMVC.EXTRA_EXCEPTIONMESSAGE.name(), exception.getMessage());
+//		this.startActivity(intent);
+//	}
 
 //	private void updateInitialTitle() {
 //		if (null != _actionBar) {

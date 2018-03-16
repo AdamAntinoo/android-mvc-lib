@@ -6,33 +6,33 @@
         </shape>
     </item>
     <item
-        android:left="@dimen/panelcornerlenght"
-        android:right="@dimen/panelcornerlenght">
+        android:left="@dimen/panelcornersize"
+        android:right="@dimen/panelcornersize">
         <shape android:shape="rectangle">
             <solid android:color="@color/uipanelborder" />
         </shape>
     </item>
     <item
         android:bottom="@dimen/panelborderwidth"
-        android:left="@dimen/panelcornerlenght"
-        android:right="@dimen/panelcornerlenght"
+        android:left="@dimen/panelcornersize"
+        android:right="@dimen/panelcornersize"
         android:top="@dimen/panelborderwidth">
         <shape android:shape="rectangle">
             <solid android:color="@color/uipaneldataareabackground" />
         </shape>
     </item>
     <item
-        android:bottom="@dimen/panelcornerlenght"
-        android:top="@dimen/panelcornerlenght">
+        android:bottom="@dimen/panelcornersize"
+        android:top="@dimen/panelcornersize">
         <shape android:shape="rectangle">
             <solid android:color="@color/uipanelborder" />
         </shape>
     </item>
     <item
-        android:bottom="@dimen/panelcornerlenght"
+        android:bottom="@dimen/panelcornersize"
         android:left="@dimen/panelborderwidth"
         android:right="@dimen/panelborderwidth"
-        android:top="@dimen/panelcornerlenght">
+        android:top="@dimen/panelcornersize">
         <shape android:shape="rectangle">
             <solid android:color="@color/uipaneldataareabackground" />
         </shape>
