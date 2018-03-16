@@ -197,7 +197,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	public IPartFactory getFactory() {
 		// Check if we have already a factory.
 		if (null == _factory) {
-			this.createFactory();
+			_factory=this.createFactory();
 		}
 		return _factory;
 	}
@@ -208,7 +208,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * This method should be implemented by all the application Fragments to set the <b>PartFactory</b> that will be used
 	 * during the model transformation processing to generate the <b>Parts</b> of the model to be used on this Fragment.
 	 */
-	public abstract void createFactory();
+	public abstract IPartFactory createFactory();
 
 	/**
 	 * Gets the text to set set at the subtitle slot on the <b>ActionBar</b>. This should be implemented by each new Fragment.

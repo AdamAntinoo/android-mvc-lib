@@ -1,22 +1,16 @@
-//  PROJECT:     NeoCom.Android (NEOC.A)
+//  PROJECT:     Android.MVC (A.MVC)
 //  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
 //  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
-//  ENVIRONMENT: Android API22.
-//  DESCRIPTION: Android Application related to the Eve Online game. The purpose is to download and organize
-//               the game data to help capsuleers organize and prioritize activities. The strong points are
-//               help at the Industry level tracking and calculating costs and benefits. Also the market
-//               information update service will help to identify best prices and locations.
-//               Planetary Interaction and Ship fittings are point under development.
-//               ESI authorization is a new addition that will give continuity and allow download game data
-//               from the new CCP data services.
-//               This is the Android application version but shares libraries and code with other application
-//               designed for Spring Boot Angular 4 platform.
-//               The model management is shown using a generic Model View Controller that allows make the
-//               rendering of the model data similar on all the platforms used.
+//  ENVIRONMENT: Android API16.
+//  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
+//               on Android projects. Defines the Part factory and the Part core methods to manage
+//               a generic converter from a Graph Model to a hierarchycal Part model that finally will
+//               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.datasource;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.view.View;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
@@ -28,6 +22,7 @@ import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.dimensinfin.core.model.RootNode;
 import org.slf4j.Logger;
@@ -46,18 +41,27 @@ import java.util.Vector;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class NewMVCDataSource extends AbstractPropertyChanger implements IDataSource {
+public abstract class MVCDataSource extends AbstractPropertyChanger implements IDataSource {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger(NewMVCDataSource.class);
+	private static Logger logger = LoggerFactory.getLogger("MVCDataSource");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	/** This is the Fragment or Activity code used to differentiate between different model genrations. */
-	private String _variant = "DEFAULT_VARIANT";
+	/** Unique DataSource string identifier to locate this instance on the <code>DataSourceManager</code> in case the instances
+	 * should be cached. */
+	private final DataSourceLocator _locator;
+	/** Copy of the extras bundle received by the Activity. */
+	private Bundle _extras = new Bundle();
+	/** This is the Fragment or Activity code used to differentiate between different model generations. */
+	private String _variant = "-DEFAULT-VARIANT-";
 	/**
 	 * Factory to be used on the hierarchy generation. Each part has a connection to this factory to create its
 	 * children from the model nodes.
 	 */
 	private IPartFactory _partFactory = null;
+	/** Flag to indicate if the model contents generated can be cached and we can avoid running the <code>collaborate2Model
+	 * ()</code> method on every fragment instantiation. If the model is suitable for caching we can speed up the turn of the
+	 * device because we have not to generate again the DataSource and its model sta structure. */
+	private boolean shouldBeCached=false;
 	/**
 	 * The initial node where to store the model. Model elements are children of this root. This version exports this
 	 * node to dynamically detect the changes and generate the missing hierarchy elements that are being added during
@@ -77,20 +81,20 @@ public abstract class NewMVCDataSource extends AbstractPropertyChanger implement
 	private final List<IAndroidPart> _bodyParts = new Vector<IAndroidPart>(100);
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public NewMVCDataSource () {
+//	public MVCDataSource(final IPartFactory factory) {
+//		super();
+//	}
+	public MVCDataSource (final DataSourceLocator locator, final String variant,final IPartFactory factory, final Bundle extras) {
 		super();
-	}
-
-	public NewMVCDataSource (final IPartFactory factory) {
-		this();
+		_locator = locator;
+		_variant = variant;
 		_partFactory = factory;
+		this._extras=extras;
 	}
-
 	// - M E T H O D - S E C T I O N ..........................................................................
 	// --- I D A T A S O U R C E
-	@Override
-	public List<IAndroidPart> getBodyParts () {
-		return _bodyParts;
+	public String getVariant() {
+		return _variant;
 	}
 
 	public IDataSource setVariant (final String variant) {
@@ -98,9 +102,12 @@ public abstract class NewMVCDataSource extends AbstractPropertyChanger implement
 		return this;
 	}
 
-	public ArrayList<AbstractAndroidPart> getHeaderParts () {
-		return new ArrayList<>();
+	@Override
+	public DataSourceLocator getDataSourceLocator() {
+		return null;
 	}
+
+	public abstract RootNode collaborate2Model();
 
 	/**
 	 * After the model is created we have to transform it into the Part list expected by the DataSourceAdapter.
@@ -112,7 +119,7 @@ public abstract class NewMVCDataSource extends AbstractPropertyChanger implement
 	 */
 	public void createContentHierarchy () {
 		//		try {
-		logger.info(">> [NewMVCDataSource.createContentHierarchy]");
+		logger.info(">> [MVCDataSource.createContentHierarchy]");
 		// Check if we have already a Part model.
 		// But do not forget to associate the new Data model even if the old exists.
 		if ( null == _partModelRoot ) {
@@ -121,7 +128,7 @@ public abstract class NewMVCDataSource extends AbstractPropertyChanger implement
 			_partModelRoot.setModel(_dataModelRoot);
 		}
 
-		logger.info("-- [NewMVCDataSource.createContentHierarchy]> Initiating the refreshChildren() for the " +
+		logger.info("-- [MVCDataSource.createContentHierarchy]> Initiating the refreshChildren() for the " +
 				"_partModelRoot");
 		// Intercept any exception on the creation of the model but do not cut the progress of the already added items
 		try {
@@ -136,8 +143,19 @@ public abstract class NewMVCDataSource extends AbstractPropertyChanger implement
 		//		} catch (Exception ex) {
 		//			ex.printStackTrace();
 		//		}
-		logger.info("<< [NewMVCDataSource.createContentHierarchy]> _bodyParts.size: {}", _bodyParts.size());
+		logger.info("<< [MVCDataSource.createContentHierarchy]> _bodyParts.size: {}", _bodyParts.size());
 	}
+//	@Override
+//	public List<IAndroidPart> getBodyParts () {
+//		return _bodyParts;
+//	}
+//	public MVCDataSource() {
+//		super();
+//	}
+//	public ArrayList<AbstractAndroidPart> getHeaderParts () {
+//		return new ArrayList<>();
+//	}
+
 
 	// --- P R O P E R T Y C H A N G E R
 
@@ -152,7 +170,7 @@ public abstract class NewMVCDataSource extends AbstractPropertyChanger implement
 	 */
 	@Override
 	public void propertyChange (final PropertyChangeEvent event) {
-		logger.info(">> [NewMVCDataSource.propertyChange]> Processing Event: {}" + event.getPropertyName());
+		logger.info(">> [MVCDataSource.propertyChange]> Processing Event: {}" + event.getPropertyName());
 		// The expand/collapse state has changed.
 		if ( SystemWideConstants.events
 				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE ) {
@@ -176,18 +194,16 @@ public abstract class NewMVCDataSource extends AbstractPropertyChanger implement
 				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES ) {
 			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 					event.getNewValue());
-			logger.info("<< [NewMVCDataSource.propertyChange]");
+			logger.info("<< [MVCDataSource.propertyChange]");
 			return;
 		}
 		//		super.propertyChange(event);
 		this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 				event.getNewValue());
 	}
-	// --- P R I V A T E
-
 	@Override
 	public String toString () {
-		StringBuffer buffer = new StringBuffer("NewMVCDataSource [");
+		StringBuffer buffer = new StringBuffer("MVCDataSource [");
 		buffer.append("name: ").append(0);
 		buffer.append("]");
 		//		buffer.append("->").append(super.toString());
