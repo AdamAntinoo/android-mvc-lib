@@ -197,7 +197,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	public IPartFactory getFactory() {
 		// Check if we have already a factory.
 		if (null == _factory) {
-			_factory=this.createFactory();
+			_factory = this.createFactory();
 		}
 		return _factory;
 	}
@@ -328,7 +328,9 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 			// Create the hierarchy structure to be used on the Adapter for the DataSection.
 			// Do this on background so we can update the interface on real time
-			_uiExecutor.submit(() -> {
+//			_uiExecutor.submit(() -> {
+//				_datasource.cleanup();
+			getAppContext().runOnUiThread(() -> {
 				_datasource.collaborate2Model();
 			});
 			//				_datasource.createContentHierarchy();
