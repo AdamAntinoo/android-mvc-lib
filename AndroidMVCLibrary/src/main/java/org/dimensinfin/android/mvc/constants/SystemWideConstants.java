@@ -13,11 +13,13 @@ package org.dimensinfin.android.mvc.constants;
 public class SystemWideConstants {
 	// - F I R E D   E V E N T S
 	public enum events {
-		ADD_CHILD, REMOVE_CHILD, EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE, EVENTSTRUCTURE_NEWDATA, EVENTSTRUCTURE_DOWNLOADDATA, EVENTADAPTER_REQUESTNOTIFYCHANGES
+		EVENTSTRUCTURE_NEWDATA, EVENTSTRUCTURE_DOWNLOADDATA, EVENTSTRUCTURE_DELETEDATA,
+		EVENTCONTENTS_ACTIONEXPANDCOLLAPSE,
+		EVENTADAPTER_REQUESTNOTIFYCHANGES
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-/** This flag controls of the view adapter caches the generated views into the Part to optimize the code execution. */
+	/** This flag controls of the view adapter caches the generated views into the Part to optimize the code execution. */
 	public static final boolean ENABLECACHE = false;
 }
 

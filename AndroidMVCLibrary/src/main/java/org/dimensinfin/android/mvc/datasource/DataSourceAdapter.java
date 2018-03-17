@@ -7,7 +7,6 @@
 //									the extended GEF model into the Android View to be used on ListViews.
 package org.dimensinfin.android.mvc.datasource;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,18 +18,18 @@ import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
-import org.dimensinfin.android.mvc.connector.MVCAppConnector;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.core.util.Chrono;
-import org.dimensinfin.core.util.Chrono.ChonoOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.logging.Logger;
+import java.util.List;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 
@@ -45,13 +44,15 @@ import java.util.logging.Logger;
  */
 public class DataSourceAdapter extends BaseAdapter implements PropertyChangeListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = Logger.getLogger("DataSourceAdapter");
+	private static Logger logger = LoggerFactory.getLogger("DataSourceAdapter");
 
 	// - F I E L D - S E C T I O N ............................................................................
+	/** The Activity where all this structures beong an that is used as the core display context. */
 	private Activity _context = null;
+	/** An instance for a source of data that will provide the list of <b>Parts</b> to be used to construct the Views. */
 	private IDataSource _datasource = null;
-	private final ArrayList<IAndroidPart> _contentPartList = new ArrayList<IAndroidPart>();
-//	protected AbstractPagerFragment _fragment = null;
+	/** The current list of Parts that is being displayed. */
+	private final List<IAndroidPart> _contentPartList = new ArrayList<IAndroidPart>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
@@ -71,43 +72,65 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 */
 	public DataSourceAdapter (final Activity activity, final IDataSource datasource) {
 		this();
-//		_fragment = fragment;
 		_context = activity;
-		if ( null == _context ) _context = MVCAppConnector.getSingleton().getFirstActivity();
 		_datasource = datasource;
 		_datasource.addPropertyChangeListener(this);
 		//		this.setModel();
-		_contentPartList.clear();
-		_contentPartList.addAll(_datasource.getBodyParts());
+//		_contentPartList.clear();
+//		_contentPartList.addAll(_datasource.getBodyParts());
 	}
 	public DataSourceAdapter (final AbstractPagerFragment fragment, final IDataSource datasource) {
-		this(fragment.getActivity(), datasource);
+		this(fragment.getAppContext(), datasource);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+
+	public Activity getContext () {
+		return _context;
+	}
+
 	public IAndroidPart getCastedItem (final int position) {
 		return _contentPartList.get(position);
 	}
 
-	public int getCount () {
-		return _contentPartList.size();
-	}
 
 	public Object getItem (final int position) {
 		return _contentPartList.get(position);
 	}
 
-	@Override
+	//--- B A S E   A D A P T E R   I M P L E M E N T A T I O N
+	public int getCount () {
+		return _contentPartList.size();
+	}
 	public long getItemId (final int position) {
 		return _contentPartList.get(position).getModelID();
 	}
+
+
+
+
+	public boolean areAllItemsEnabled() {
+		return true;
+	}
+
+	public boolean isEnabled(int position) {
+		return true;
+	}
+	public int getItemViewType(int position) {
+		return 0;
+	}
+
+	public int getViewTypeCount() {
+		return 1;
+	}
+
 
 	/**
 	 * This method is called so many times that represent the most consuming tasks on the Activity. The
 	 * optimization to not create more views than the needed ones and the reduction of code line is s must that
 	 * will improve user response times.
 	 */
-	@SuppressLint("ViewHolder")
+//	@SuppressLint("ViewHolder")
 	public View getView (final int position, View convertView, final ViewGroup parent) {
 		Chrono chrono = new Chrono();
 		String exitMessage = "";
@@ -160,14 +183,14 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			}
 			// REFACTOR Add the DataSource as an event listener because that feature does not depend on the interfaces.
 			item.addPropertyChangeListener(_datasource);
-			logger.info(exitMessage + " - Rendering time: " + chrono.printElapsed(ChonoOptions.SHOWMILLIS));
+			logger.info(exitMessage + " - Rendering time: " + chrono.printElapsed(Chrono.ChronoOptions.SHOWMILLIS));
 			return convertView;
 		} catch (RuntimeException rtex) {
 			String message = rtex.getMessage();
 			if ( null == message ) {
 				message = "NullPointerException detected.";
 			}
-			DataSourceAdapter.logger.severe("RTEX [DataSourceAdapter.getView]> Runtime Exception: " + message);
+			DataSourceAdapter.logger.error("RTEX [DataSourceAdapter.getView]> Runtime Exception: " + message);
 			rtex.printStackTrace();
 			//DEBUG Add exception registration to the exception page.
 			final LayoutInflater mInflater = (LayoutInflater) this.getContext()
@@ -179,28 +202,27 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			return convertView;
 		}
 	}
-
-//	private AbstractPagerFragment getFragment () {
-//		return _fragment;
-//	}
-
 	@Override
 	public boolean hasStableIds () {
 		return true;
 	}
 
 	/**
-	 * Update the Part list to be used by the Adapter from the DataSource. This action should trigger the generation
-	 * of the list of parts to be used on the Adapter from the Part hierarchy generated from the Model.
+	 * This method should be called when the model transformation has changed. The model may be the same but the instantiation of
+	 * the elements that should be rendered may have changed so the model should be run again and a new list part should be
+	 * generated to be adapted to the viewer contents.
+	 *
+	 * This action should trigger the display regeneration and the requests for new View instances to be used for the new ui
+	 * render contents.
 	 */
 	@Override
 	public void notifyDataSetChanged () {
-		//		this.setModel(_datasource.getBodyParts());
 		_contentPartList.clear();
 		_contentPartList.addAll(_datasource.getBodyParts());
 		super.notifyDataSetChanged();
 	}
 
+	//--- P R O P E R T Y C H A N G E L I S T E N E R   I N T E R F A C E
 	/**
 	 * Send messages to the parent activity that is the one that has code implemented for every different case.
 	 * This class is a generic class that must not be upgraded because we start then to replicate most of the
@@ -212,19 +234,18 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			this.notifyDataSetChanged();
 		}
 	}
-
-	protected Activity getContext () {
-		return _context;
-	}
-
-	//	/**
-	//	 * This method is the entry point where the external environment will feed in the data to be used by this adapter
-	//	 * to render the model into the ListView.
-	//	 * @param partData
-	//	 */
-	//	private void setModel (final ArrayList<AbstractAndroidPart> partData) {
-	//		_contentPartList.clear();
-	//		_contentPartList.addAll(partData);
-	//	}
 }
 // - UNUSED CODE ............................................................................................
+//	private AbstractPagerFragment getFragment () {
+//		return _fragment;
+//	}
+//	/**
+//	 * This method is the entry point where the external environment will feed in the data to be used by this adapter
+//	 * to render the model into the ListView.
+//	 * @param partData
+//	 */
+//	private void setModel (final ArrayList<AbstractAndroidPart> partData) {
+//		_contentPartList.clear();
+//		_contentPartList.addAll(partData);
+//	}
+

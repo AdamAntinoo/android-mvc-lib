@@ -12,10 +12,13 @@ package org.dimensinfin.android.mvc.datasource;
 //import android.app.Activity;
 //import android.app.Fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
+import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.core.RootPart;
@@ -23,14 +26,18 @@ import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.android.mvc.interfaces.IRootPart;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.dimensinfin.core.model.RootNode;
+import org.dimensinfin.core.model.Separator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -77,8 +84,10 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 * <code>final</code> from this field.
 	 */
 	protected final RootNode _dataModelRoot = new RootNode();
-	/** The root node for the Part hierarchy that matches the data model hierarchy. This field can be changed from the predefined
-	 *  instance to any developer needs that matches the IRootPart requirements. */
+	/**
+	 * The root node for the Part hierarchy that matches the data model hierarchy. This field can be changed from the predefined
+	 * instance to any developer needs that matches the IRootPart requirements.
+	 */
 	private IRootPart _partModelRoot = null;
 	/**
 	 * The list of Parts to show on the viewer. This is the body section that is scrollable. This instance is shared
@@ -166,11 +175,13 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 * Sets the cacheable state for this DataSource. By default the cache state is <code>false</code> so no sources are caches.
 	 * But in some cases the developer can speed up the model generation process and made it suitable for single
 	 * initialization and caching. Use this setter to set the right state.
-	 * @param cachestate new cache state for this data source. Affects at new source registrations with this same inique identifier.
+	 * @param cachestate new cache state for this data source. Affects at new source registrations with this same inique
+	 *                   identifier.
 	 * @return this same instance to allow functional programming.
 	 */
 	public IDataSource setCacheable(final boolean cachestate) {
 		this._shouldBeCached = cachestate;
+		return this;
 	}
 
 	public abstract RootNode collaborate2Model();
@@ -178,7 +189,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	/**
 	 * After the model is created we have to transform it into the Part list expected by the DataSourceAdapter.
 	 * The Part creation is performed by the corresponding PartFactory we got at the DataSource creation.
-	 *
+	 * <p>
 	 * We transform the model recursively and keeping the already available Part elements. We create a
 	 * duplicated of the resulting Part model and we move already available parts from the current model to the new model
 	 * or create new part and finally remove what is left and unused.
@@ -191,22 +202,16 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		if (null == _partModelRoot) {
 			_partModelRoot = createRootPart();
 		}
-			_partModelRoot.setRootModel(_dataModelRoot);
+		_partModelRoot.setRootModel(_dataModelRoot);
 
 		logger.info("-- [MVCDataSource.transformModel2Parts]> Initiating the refreshChildren() for the Model Root");
 		// Intercept any exception on the creation of the model but do not cut the progress of the already added items.
 		try {
+//			_dataSectionParts.clear();
 			_partModelRoot.refreshChildren();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		//			// Get the list of Parts that will be used for the ListView
-		//			_dataSectionParts = new ArrayList<IPart>();
-		//			// Select for the body contents only the viewable Parts from the Part model. Make it a list.
-		//			_dataSectionParts.addAll(_partModelRoot.collaborate2View());
-		//		} catch (Exception ex) {
-		//			ex.printStackTrace();
-		//		}
 		logger.info("<< [MVCDataSource.transformModel2Parts]> _dataSectionParts.size: {}", _dataSectionParts.size());
 	}
 
@@ -218,7 +223,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 * <code>@link{RootAndroidPart}</code> inatance that is suitable for most of developments.
 	 * @return a new instance of a <code>IRootPart</code> interface to be used as the root for the part hierarchy.
 	 */
-	public IRootPart createRootPart(){
+	public IRootPart createRootPart() {
 		return new RootAndroidPart(_dataModelRoot, _partFactory);
 	}
 //	@Override
@@ -241,13 +246,13 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 * transformations and <b>content</b> that can change the list of elements to be visible at this point in time but that do
 	 * not change the initial structure. The contents can happen from changes on the model data or by interactions on the Parts
 	 * that have some graphical impact.
-	 *
+	 * <p>
 	 * If the model structure changes we should recreate the Model -> Part transformation and generate another Part tree with
 	 * Parts matching the current model graph. At this transformation we can transform any data connected structure real or
 	 * virtual to a hierarchy graph with the standard parent-child structure. We use the <code>collaborate2Model()</code> as a
 	 * way to convert internal data structures to a hierarchy representation on a point in time. We isolate internal model ways to
 	 * deal with data and we can optimize for the Part hierarchy without compromising thet model flexibility.
-	 *
+	 * <p>
 	 * If the contents change we only should run over the Part tree to make the transformation to generate a new Part list for
 	 * all the new visible and renderable items. This is performed with the <code>collaborate2View()</code> method for any Part
 	 * that will then decide which of its internal children are going to be referenced for the collaborating list of Parts. This
@@ -280,6 +285,8 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 			_dataSectionParts.clear();
 			_partModelRoot.collaborate2View(_dataSectionParts);
 		}
+
+		//--- A D A P T E R   E V E N T S
 		if (SystemWideConstants.events
 				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES) {
 			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
@@ -287,7 +294,6 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 			logger.info("<< [MVCDataSource.propertyChange]");
 			return;
 		}
-		//		super.propertyChange(event);
 		this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 				event.getNewValue());
 	}
@@ -300,81 +306,190 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		//		buffer.append("->").append(super.toString());
 		return buffer.toString();
 	}
-public static interface IRootPart{
-	public void setRootModel (final RootNode rootNode);
 
 }
-	public static class RootAndroidPart extends RootPart implements IRootPart,IAndroidPart {
 
-		public RootAndroidPart(final RootNode node, final IPartFactory factory) {
-			super(node, factory);
-		}
 
-private RootNode _rootModelNode=null;
 
-		public void setRootModel (final RootNode rootNode){
-			_rootModelNode=rootNode;
-		}
+// - CLASS IMPLEMENTATION ...................................................................................
+final class RootAndroidPart extends RootPart implements IRootPart, IAndroidPart {
+	// - S T A T I C - S E C T I O N ..........................................................................
 
-		@Override
-		public void collaborate2View(final List<IAndroidPart> contentCollector) {
-			AbstractPart.logger.info(">< [RootAndroidPart.collaborate2View]> Collaborator: " + this.getClass().getSimpleName());
-			//			ArrayList<IPart> result = new ArrayList<IPart>();
-			// If the node is expanded then give the children the opportunity to also be added.
-			if (this.isExpanded()) {
-				// ---This is the section that is different for any Part. This should be done calling the list of policies.
-				List<IPart> ch = this.runPolicies(this.getChildren());
-				AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaborator children: " + ch.size());
-				// --- End of policies
-				for (IPart part : ch) {
-					if (part instanceof IAndroidPart)
-						((IAndroidPart) part).collaborate2View(contentCollector);
-					//						AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaboration parts: " + collaboration.size());
-					//						contentCollector.addAll(collaboration);
-				}
-			} else {
-				// Check for items that will not shown when empty and not expanded.
-				if (this.isRenderWhenEmpty()) {
-					contentCollector.add(this);
-				}
+	// - F I E L D - S E C T I O N ............................................................................
+	private RootNode _rootModelNode = null;
+
+	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	public RootAndroidPart(final RootNode node, final IPartFactory factory) {
+		super(node, factory);
+	}
+
+	// - M E T H O D - S E C T I O N ..........................................................................
+	public void setRootModel(final RootNode rootNode) {
+		_rootModelNode = rootNode;
+	}
+	/**
+	 * Create the Part for the model object received. We have then to have access to the Factory from the root
+	 * element and all the other parts should have a reference to the root to be able to do the same.
+	 */
+	protected IPart createNewPart(final ICollaboration model) {
+		IPart part = null;
+		IPartFactory factory = this.getRoot().getPartFactory();
+		if (null != factory) {
+			// If the factory is unable to create the Part then skip this element or wait to be replaced by a dummy
+			part = factory.createPart(model);
+			// Connect the new part to its parent.
+			if (null != part) {
+				part.setParent(this);
 			}
 		}
+		return part;
+	}
 
-		@Override
-		public Activity getActivity() {
-			return null;
+
+	//****************************************************************
+
+	/**
+	 * The refresh process should optimize the reuse of the already available Parts. We should check for model identity on the
+	 * already available parts to be able to reuse one of them. So once we have a model item we search on the list of available
+	 * parts for one of them containing as model this same instance. If found we reuse the Part. Otherwise we create a new Part
+	 * for this model node and continue the transformation process.
+	 * <p>
+	 * OBSOLETE: On Android is highly recommended that all
+	 * the model nodes that are used on the ListView adapters have a unique numeric identifier. In this library we use the
+	 * Parts as the source for that kind of adapters so they should adhere to that restriction. Using that unique identifier
+	 * obtained with the method <code>getModelId()</code> we can check if the Part is already available or we should create a
+	 * new one for the model we have at work.
+	 * <p>
+	 * It is a recursive process that it is repeated for each one of the nodes added to the already processing structure while
+	 * the nodes have any number of children.
+	 * <p>
+	 * The process gets the Model attached to the Part we are working with. Then finds the Model children to reconstruct their
+	 * parts if they do not have them already and match them to the current list of Parts already connected to the Part in the
+	 * work bench. Any discrepancies create or delete the required Parts. The we start again this process with the first of the
+	 * children until all the model nodes have been processed.
+	 * <p>
+	 * During the transformation process we use the <code>collaborate2Model(final String variant)</code> to generate a fresh
+	 * list of nodes from this model instance. We use the <b>Variant</b> to allow the model to generate different sets of new
+	 * model instances depending on that variable. The flexibility of this approach allows a single model object to generate
+	 * different outputs for each variant received and this value is set for each different Activity Page.
+	 */
+	public void refreshChildren() {
+		AbstractPart.logger.info(">> [AbstractPart.refreshChildren]");
+		// Create the new list of Parts for this node model contents if it have any collaboration.
+		ICollaboration partModel = this.getModel();
+		if (null == partModel) {
+			AbstractPart.logger.warn("WR [AbstractPart.refreshChildren]> Exception case: no Model defined for this Part. {}"
+					, this.toString());
+			return;
 		}
-
-		@Override
-		public Fragment getFragment() {
-			return null;
+		// Get the new list of children for this model node. Use the Variant for generation discrimination.
+		final List<ICollaboration> modelInstances = partModel.collaborate2Model(this.getPartFactory().getVariant());
+		if (modelInstances.size() > 0) {
+			AbstractPart.logger.info("-- [AbstractPart.refreshChildren]> modelInstances count: " + modelInstances.size());
+			// Check all the model instances have a matching Part instance.
+			final List<IPart> newPartChildren = new ArrayList<IPart>(modelInstances.size());
+			final List<IPart> currentPartChildren = this.getChildren();
+			for (ICollaboration modelNode : modelInstances) {
+				// Search for the model instance on the current part list.
+				IPart foundPart = null;
+				for (IPart currentPart : currentPartChildren)
+					if (currentPart.getModel().equals(modelNode)) {
+						foundPart = currentPart;
+						break;
+					}
+				if (null == foundPart) {
+					AbstractPart.logger.info("-- [AbstractPart.refreshChildren]> Part for Model not found. Generating a new one for: {}",
+							modelNode.getClass().getCanonicalName());
+					// Model not found on the current list of Parts. Needs a new one.
+					foundPart = createNewPart(modelNode);
+				}
+				// Add to the new list of parts.
+				newPartChildren.add(foundPart);
+				// Recursively process their children.
+				foundPart.refreshChildren();
+			}
+			// The new list part is complete. Discard the old list and set the new one as the current list of children.
+			clean();
+			for (IPart child : newPartChildren) addChild(child);
+		} else {
+			AbstractPart.logger.info("-- [AbstractPart.refreshChildren]> Processing model: {}"
+					, partModel.getClass().getCanonicalName());
+			// The part is already created for leave nodes. Terminate this leave.
+			return;
 		}
+		AbstractPart.logger.info("<< [AbstractPart.refreshChildren]> Content size: " + this.getChildren().size());
+	}
 
-		@Override
-		public AbstractRender getRenderer(final Activity activity) {
-			return null;
-		}
 
-		@Override
-		public View getView() {
-			return null;
-		}
-
-		@Override
-		public void invalidate() {
-
-		}
-
-		@Override
-		public void needsRedraw() {
-
-		}
-
-		@Override
-		public void setView(final View convertView) {
-
+	@Override
+	public void collaborate2View(final List<IAndroidPart> contentCollector) {
+		AbstractPart.logger.info(">< [RootAndroidPart.collaborate2View]> Collaborator: " + this.getClass().getSimpleName());
+		//			ArrayList<IPart> result = new ArrayList<IPart>();
+		// If the node is expanded then give the children the opportunity to also be added.
+		if (this.isExpanded()) {
+			// ---This is the section that is different for any Part. This should be done calling the list of policies.
+			List<IPart> ch = this.runPolicies(this.getChildren());
+			AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaborator children: " + ch.size());
+			// --- End of policies
+			for (IPart part : ch) {
+				if (part instanceof IAndroidPart)
+					((IAndroidPart) part).collaborate2View(contentCollector);
+				//						AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaboration parts: " + collaboration.size());
+				//						contentCollector.addAll(collaboration);
+			}
+		} else {
+			// Check for items that will not shown when empty and not expanded.
+			if (this.isRenderWhenEmpty()) {
+				contentCollector.add(this);
+			}
 		}
 	}
+
+	@Override
+	public Activity getActivity() {
+		return null;
+	}
+
+	@Override
+	public Fragment getFragment() {
+		return null;
+	}
+
+	@Override
+	public AbstractRender getRenderer(final Activity activity) {
+		return null;
+	}
+
+	@Override
+	public AbstractRender getRenderer(final Activity activity) {
+		return null;
+	}
+
+	@Override
+	public View getView() {
+		return null;
+	}
+
+	@Override
+	public void invalidate() {
+
+	}
+
+	@Override
+	public void needsRedraw() {
+
+	}
+
+	@Override
+	public void setView(final View convertView) {
+
+	}
+
+	@Override
+	public void setView(final View convertView) {
+
+	}
 }
+
 // - UNUSED CODE ............................................................................................
 //[01]
