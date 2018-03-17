@@ -1,11 +1,11 @@
-//	PROJECT:        Android.MVC (A.MVC)
-//	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API22.
-//	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
-//									on Android projects. Defines the Part factory and the Part core methods to manage
-//									a generic data graph into a Part hierarchy and finally on the Android View to be
-//                  used on ListViews.
+//  PROJECT:     Android.MVC (A.MVC)
+//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
+//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
+//  ENVIRONMENT: Android API16.
+//  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
+//               on Android projects. Defines the Part factory and the Part core methods to manage
+//               a generic converter from a Graph Model to a hierarchycal Part model that finally will
+//               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.core;
 
 import org.dimensinfin.android.mvc.interfaces.IPart;
@@ -20,7 +20,6 @@ import java.util.List;
 public class RootPart extends AbstractPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = -8085543451527813221L;
-	//	private static Logger logger = Logger.getLogger("RootPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private boolean sort = false;

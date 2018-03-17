@@ -111,7 +111,7 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 	@Override
 	public void createContentHierarchy() {
 		try {
-			SpecialDataSource.logger.info(">> [SpecialDataSource.createContentHierarchy]");
+			SpecialDataSource.logger.info(">> [SpecialDataSource.transformModel2Parts]");
 			// Check if we have already a Part model.
 			// But do not forget to associate the new Data model even of the old exists.
 			if (null == _partModelRoot) {
@@ -121,7 +121,7 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 			}
 
 			SpecialDataSource.logger.info(
-					"-- [SpecialDataSource.createContentHierarchy]> Initiating the refreshChildren() for the _partModelRoot");
+					"-- [SpecialDataSource.transformModel2Parts]> Initiating the refreshChildren() for the _partModelRoot");
 			// Intercept any exception on the creation of the model but do not cut the progress of the already added items
 			try {
 				_partModelRoot.refreshChildren();
@@ -136,8 +136,8 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 			e.printStackTrace();
 		}
 		SpecialDataSource.logger
-				.info("-- [SpecialDataSource.createContentHierarchy]> _bodyParts.size: " + _bodyParts.size());
-		SpecialDataSource.logger.info("<< [SpecialDataSource.createContentHierarchy]");
+				.info("-- [SpecialDataSource.transformModel2Parts]> _bodyParts.size: " + _bodyParts.size());
+		SpecialDataSource.logger.info("<< [SpecialDataSource.transformModel2Parts]");
 	}
 
 	/**
