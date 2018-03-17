@@ -9,6 +9,7 @@
     <string name="AppDescription">"This sample application tests and shown the correct way to use the Android Model-View-Controller library. It will create a test Activity, fill it with all the Separator varians and show the correct coding for collapse/expand and click listening with also the added code to show the item contextual menu activation."</string>
 
     <!-- A P P L I C A T I O N    R E S O U R C E S -->
+    <string name="activity_title_AndroidMVCDemoActivity">DEMO MVC</string>
     <string name="activity_title_DemoFragment">DEMO MVC</string>
     <string name="activity_subtitle_DemoFragment_Plants">PLANTS</string>
     <string name="activity_subtitle_DemoFragment_Animals">ANIMALS</string>

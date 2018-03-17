@@ -20,14 +20,7 @@ import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 import org.dimensinfin.android.mvc.part.DemoDetailSeparatorPart;
 import org.dimensinfin.android.mvc.part.DemoHeaderTitlePart;
-import org.dimensinfin.android.mvc.part.SeparatorPart;
-import org.dimensinfin.core.constant.CoreConstants;
-import org.dimensinfin.core.datasource.AbstractGenerator;
-import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.model.Container;
-import org.dimensinfin.core.model.RootNode;
-import org.dimensinfin.core.model.Separator;
 
 import java.util.ArrayList;
 import java.util.List;

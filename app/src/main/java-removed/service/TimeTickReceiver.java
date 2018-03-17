@@ -11,9 +11,6 @@ package org.dimensinfin.android.mvc.service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-
-import org.dimensinfin.android.mvc.demo.AndroidMVCApp;
-
 import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................

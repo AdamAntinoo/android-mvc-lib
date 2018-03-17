@@ -218,7 +218,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	@Override
 	public void notifyDataSetChanged () {
 		_contentPartList.clear();
-		_contentPartList.addAll(_datasource.getBodyParts());
+		_contentPartList.addAll(_datasource.getDataSectionContents());
 		super.notifyDataSetChanged();
 	}
 

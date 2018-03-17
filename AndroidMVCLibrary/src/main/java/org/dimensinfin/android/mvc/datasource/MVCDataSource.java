@@ -167,7 +167,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 * Get the current cache selected state. This is used internally to do some checks.
 	 * @return
 	 */
-	private boolean isCacheable() {
+	public boolean isCacheable() {
 		return _shouldBeCached;
 	}
 
@@ -185,6 +185,9 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	}
 
 	public abstract void collaborate2Model();
+	public List<IAndroidPart> getDataSectionContents(){
+		return _dataSectionParts;
+	}
 
 	/**
 	 * After the model is created we have to transform it into the Part list expected by the DataSourceAdapter.

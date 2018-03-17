@@ -8,6 +8,7 @@
 //                  used on ListViews.
 package org.dimensinfin.android.mvc.core;
 
+import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -42,7 +43,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	//	/** Stores the user activation state. Usually becomes true when the users is interacting with the part. */
 	//	private boolean active = true;
 	private IPartFactory _factory = null;
-	private AbstractDataSource _dataSource = null;
+	private IDataSource _dataSource = null;
 	protected String renderMode = "-DEFAULT-";
 	//	protected boolean newImplementation = false;
 
@@ -365,7 +366,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 //	//		this.active = active;
 //	//	}
 
-	public IPart setDataStore (final AbstractDataSource ds) {
+	public IPart setDataStore (final IDataSource ds) {
 		_dataSource = ds;
 		return this;
 	}

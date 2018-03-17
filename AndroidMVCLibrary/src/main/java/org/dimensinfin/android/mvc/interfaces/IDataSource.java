@@ -14,6 +14,7 @@ import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public interface IDataSource extends PropertyChangeListener {
@@ -35,13 +36,15 @@ public interface IDataSource extends PropertyChangeListener {
 
 	public IDataSource setCacheable(final boolean cachestate);
 
+	public boolean isCacheable();
+
 	public void collaborate2Model();
+
+	public List<IAndroidPart> getDataSectionContents();
 
 	//	public void transformModel2Parts ();
 //
 //	public List<IAndroidPart> getBodyParts ();
-
-//	public ArrayList<AbstractAndroidPart> getHeaderParts ();
 	//
 	//	public int getItemsCount();
 	//
