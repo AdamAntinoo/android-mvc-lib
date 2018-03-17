@@ -44,7 +44,7 @@ import java.util.logging.Logger;
 @SuppressWarnings("JavadocReference")
 public abstract class AbstractPagerActivity extends Activity {
 	public enum EExtrasMVC {
-		EXTRA_EXCEPTIONMESSAGE,EXTRA_VARIANT
+		EXTRA_EXCEPTIONMESSAGE, EXTRA_VARIANT
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
@@ -81,25 +81,26 @@ public abstract class AbstractPagerActivity extends Activity {
 	 *                fragments created and initialized at the <code>FragmentManager</code>. In such a case we discard the new
 	 *                received fragment and use the already instance at the <code>FragmentManager</code>.
 	 */
-	public void addPage(final AbstractPagerFragment newFrag/*, final int position*/) {
+	public void addPage(AbstractPagerFragment newFrag) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.addPage]"); //$NON-NLS-1$
 		// Before checking if we have already this fragment we should get its unique identifier.
 		Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextPosition()));
 		if (null == frag) {
 			_pageAdapter.addPage(newFrag);
 		} else {
-			// Reuse a previous created Fragment. But watch some of the fields have been removed.
-			((AbstractPagerFragment) frag).setVariant(newFrag.getVariant());
-			// TODO Check next run so see if there are more fields to be initialized.
-			_pageAdapter.addPage(frag);
+			if (frag instanceof AbstractPagerFragment) {
+				// Reuse a previous created Fragment. But watch some of the fields have been removed.
+				((AbstractPagerFragment) frag).setVariant(newFrag.getVariant());
+				newFrag = (AbstractPagerFragment) frag;
+				// TODO Check next run so see if there are more fields to be initialized.
+				_pageAdapter.addPage(newFrag);
+			} else
+				throw new RuntimeException("RTEX [AbstractPagerActivity.addPage]> The fragment located does not inherit the required functionality. Does not extend AbstractPagerFragment.");
 		}
 		// Be sure the Fragment activity points to a valid activity.
-		if (frag instanceof AbstractPagerFragment) {
-			((AbstractPagerFragment) frag).setAppContext(getActivity());
-			// Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
-			((AbstractPagerFragment) frag).setExtras(this.getExtras());
-		} else
-			throw new RuntimeException("RTEX [AbstractPagerActivity.addPage]> The fragment located does not inherit the required functionality. Does not extend AbstractPagerFragment.");
+		newFrag.setAppContext(getActivity());
+		// Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
+		newFrag.setExtras(this.getExtras());
 		// Check the number of pages to activate the indicator when more the one.
 		if (_pageAdapter.getCount() > 1) {
 			this.activateIndicator();
