@@ -10,7 +10,6 @@ package org.dimensinfin.android.mvc.activity;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
@@ -36,7 +34,6 @@ import org.dimensinfin.core.constant.CoreConstants;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
-import org.dimensinfin.core.util.Chrono;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormatterBuilder;
 import org.slf4j.Logger;
@@ -324,6 +321,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 		try {
 			// Create the hierarchy structure to be used on the Header. We have the model list and we should convert it to a view list.
 			getAppContext().runOnUiThread(() -> {
+				showProgressIndicator();
 				generateHeaderContents(_headersource);
 			});
 
@@ -457,6 +455,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 		_progressLayout.setVisibility(View.GONE);
 		_dataSectionContainer.setVisibility(View.VISIBLE);
 	}
+
 	/**
 	 * Displays an string in the format "nh nm ns" that is the number of seconds from the start point that is the value
 	 * received as the parameter and the current instant on time.

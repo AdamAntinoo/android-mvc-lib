@@ -180,21 +180,22 @@ final class PlantDataSource extends MVCDataSource implements IDataSource {
 		// Check if we should use the cached version.
 		if (!isCached()) {
 			final Container flowers = new Container("Flowers");
-			addModelContents(flowers);
-			threadWait(TimeUnit.SECONDS.toMillis(5));
 			flowers.addContent(new Container("Azuzena"));
 			threadWait(TimeUnit.SECONDS.toMillis(5));
 			flowers.addContent(new Container("Hortensia"));
 			threadWait(TimeUnit.SECONDS.toMillis(5));
 			flowers.addContent(new Container("Amarilis"));
 			threadWait(TimeUnit.SECONDS.toMillis(5));
-			final Container plants = new Container("Plants");
 			addModelContents(flowers);
 			threadWait(TimeUnit.SECONDS.toMillis(5));
+
+			final Container plants = new Container("Plants");
 			flowers.addContent(new Container("Patata"));
 			flowers.addContent(new Separator("YELLOW-Line").setType(Separator.ESeparatorType.LINE_YELLOW));
 			threadWait(TimeUnit.SECONDS.toMillis(5));
 			flowers.addContent(new Container("Tomate"));
+			threadWait(TimeUnit.SECONDS.toMillis(5));
+			addModelContents(flowers);
 			threadWait(TimeUnit.SECONDS.toMillis(5));
 		}
 		logger.info("<< [PlantDataSource.collaborate2Model]");

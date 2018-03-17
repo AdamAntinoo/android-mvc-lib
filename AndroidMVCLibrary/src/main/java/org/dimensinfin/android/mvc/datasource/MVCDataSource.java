@@ -12,15 +12,11 @@ package org.dimensinfin.android.mvc.datasource;
 //import android.app.Activity;
 //import android.app.Fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractPart;
-import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
@@ -31,13 +27,11 @@ import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.dimensinfin.core.model.RootNode;
-import org.dimensinfin.core.model.Separator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -52,6 +46,7 @@ import java.util.Vector;
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class MVCDataSource extends AbstractPropertyChanger implements IDataSource {
 	// - S T A T I C - S E C T I O N ..........................................................................
+	private static final long serialVersionUID = -9128905983909144873L;
 	public static Logger logger = LoggerFactory.getLogger("MVCDataSource");
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -153,12 +148,13 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 
 	/**
 	 * This method checks if the DataSource is compatible with caching and if this is the case checks if there are contents
-	 * already cached so we can avoid to regenerate the model again.
+	 * already cached so we can avoid to regenerate the model again. Use the counter of the children instead the
+	 * <code>isEmpty</code> because that function does not represent the content value for RootNodes. This is a reported BUG.
 	 * @return
 	 */
 	public boolean isCached() {
 		if (_shouldBeCached)
-			if (!_dataModelRoot.isEmpty())
+			if (_dataModelRoot.getChildren().size() > 0)
 				return true;
 		return false;
 	}
@@ -185,7 +181,8 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	}
 
 	public abstract void collaborate2Model();
-	public List<IAndroidPart> getDataSectionContents(){
+
+	public List<IAndroidPart> getDataSectionContents() {
 		return _dataSectionParts;
 	}
 
@@ -308,12 +305,12 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		buffer.append("]");
 		return buffer.toString();
 	}
+
 	// - CLASS IMPLEMENTATION ...................................................................................
 	public static class RootAndroidPart extends RootPart implements IRootPart {
 		// - S T A T I C - S E C T I O N ..........................................................................
 
 		// - F I E L D - S E C T I O N ............................................................................
-		private RootNode _rootModelNode = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
 		public RootAndroidPart(final RootNode node, final IPartFactory factory) {
@@ -322,8 +319,9 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 
 		// - M E T H O D - S E C T I O N ..........................................................................
 		public void setRootModel(final RootNode rootNode) {
-			_rootModelNode = rootNode;
+			setModel(rootNode);
 		}
+
 		/**
 		 * Create the Part for the model object received. We have then to have access to the Factory from the root
 		 * element and all the other parts should have a reference to the root to be able to do the same.
@@ -341,6 +339,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 			}
 			return part;
 		}
+
 		/**
 		 * The refresh process should optimize the reuse of the already available Parts. We should check for model identity on the
 		 * already available parts to be able to reuse one of them. So once we have a model item we search on the list of available
@@ -396,7 +395,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 						// Model not found on the current list of Parts. Needs a new one.
 						foundPart = createNewPart(modelNode);
 						// Check if the creation has failed. In that exceptional case skip this model and leave a warning.
-						if(null==foundPart){
+						if (null == foundPart) {
 							AbstractPart.logger.warn("WR [AbstractPart.refreshChildren]> Exception case: Factory failed to generate Part for " +
 											"model. {}"
 									, modelNode.toString());
@@ -423,7 +422,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		 * Optimized process to generate the list of Parts that should end on the render graphical process. While we are collecting
 		 * the data we are feeding it on the final collection list and making it available to the rendering if we decide to do so by
 		 * firing any graphical need for update method.
-		 *
+		 * <p>
 		 * Models should always return the same number of nodes not depending on presentation states. It is the Part that should
 		 * interpret the current vusual state to decide which nodes collaborate to the vien and in which order and presentation.
 		 * @param contentCollector the list where we are collecting the Parts for rendering.
@@ -452,6 +451,10 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 //		}
 		}
 
+		@Override
+		public boolean isExpanded() {
+			return true;
+		}
 //	@Override
 //	public Activity getActivity() {
 //		return null;
