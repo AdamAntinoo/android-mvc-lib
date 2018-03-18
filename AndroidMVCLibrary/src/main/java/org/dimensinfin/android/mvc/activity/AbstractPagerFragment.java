@@ -320,17 +320,20 @@ public abstract class AbstractPagerFragment extends Fragment {
 		super.onStart();
 		try {
 			// Create the hierarchy structure to be used on the Header. We have the model list and we should convert it to a view list.
-			getAppContext().runOnUiThread(() -> {
-				showProgressIndicator();
+//			getAppContext().runOnUiThread(() -> {
+			showProgressIndicator();
+			AbstractPagerFragment._uiExecutor.submit(() -> {
 				generateHeaderContents(_headersource);
 			});
 
 			// Create the hierarchy structure to be used on the Adapter for the DataSection.
 			// Do this on background so we can update the interface on real time
-			getAppContext().runOnUiThread(() -> {
-				showProgressIndicator();
+//					showProgressIndicator();
+			AbstractPagerFragment._uiExecutor.submit(() -> {
 				_datasource.collaborate2Model();
-				hideProgressIndicator();
+				getAppContext().runOnUiThread(() -> {
+					hideProgressIndicator();
+				});
 			});
 		} catch (final RuntimeException rtex) {
 			AbstractPagerFragment.logger.error("RTEX [AbstractPagerFragment.onStart]> {}.", rtex.getMessage());
@@ -386,10 +389,12 @@ public abstract class AbstractPagerFragment extends Fragment {
 			partModelRoot.collaborate2View(headerParts);
 
 			// Now do the old functionality by copying each of the resulting parts to the Header container.
-			_headerContainer.removeAllViews();
-			for (IPart part : headerParts) {
-				if (part instanceof IAndroidPart) addView2Header((IAndroidPart) part);
-			}
+			getAppContext().runOnUiThread(() -> {
+				_headerContainer.removeAllViews();
+				for (IPart part : headerParts) {
+					if (part instanceof IAndroidPart) addView2Header((IAndroidPart) part);
+				}
+			});
 		} catch (RuntimeException rtex) {
 			rtex.printStackTrace();
 		}

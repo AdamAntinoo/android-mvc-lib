@@ -8,10 +8,6 @@
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.datasource;
 
-//import android.app.Activity;
-//import android.app.Activity;
-//import android.app.Fragment;
-
 import android.os.Bundle;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
@@ -34,8 +30,6 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-
-//import android.view.View;
 
 /**
  * New complete core implementation for the DataSource that should be connected to the extended BaseAdapter to
@@ -92,9 +86,6 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	private final List<IAndroidPart> _dataSectionParts = new Vector<IAndroidPart>(100);
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-//	public MVCDataSource(final IPartFactory factory) {
-//		super();
-//	}
 	public MVCDataSource(final DataSourceLocator locator, final String variant, final IPartFactory factory, final Bundle extras) {
 		super();
 		_locator = locator;
@@ -226,17 +217,6 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	public IRootPart createRootPart() {
 		return new RootAndroidPart(_dataModelRoot, _partFactory);
 	}
-//	@Override
-//	public List<IAndroidPart> getBodyParts () {
-//		return _dataSectionParts;
-//	}
-//	public MVCDataSource() {
-//		super();
-//	}
-//	public ArrayList<AbstractAndroidPart> getHeaderParts () {
-//		return new ArrayList<>();
-//	}
-
 
 	// --- P R O P E R T Y C H A N G E R
 
@@ -259,6 +239,12 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 * is the right place where to set up programmatic filtering or sorting because at this point we can influence the output
 	 * representation for the model instance. We can also decorate the resulting Part list breaking the one to one relationship
 	 * between a model instance and a Part instance.
+	 *
+	 * After the models changes we should send a message to the <code>DataSourceAdapter</code> to refresh the graphical elements
+	 * and change the display. <code>DataSource</code> instances do not have a reference to the Adapter nor to the Fragment that
+	 * created them but during the creation process the Adapter installed a listener to get a copy of the events sent by all its
+	 * datasources. So we can sent that message by sending again another type of message related to the need for the display for
+	 * update, the <code>EVENTADAPTER_REQUESTNOTIFYCHANGES</code>
 	 * @param event the event to be processed. Event have a property name that is used as a selector.
 	 */
 	@Override
@@ -294,6 +280,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 			logger.info("<< [MVCDataSource.propertyChange]");
 			return;
 		}
+		// Send up the event to the DataSourceAdapter but be sure to run any display changes on the UI main thread.
 		this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 				event.getNewValue());
 	}
@@ -431,7 +418,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 			// TODO Check of the parent nodes get added to the contetn collector.
 			AbstractPart.logger.info(">< [RootAndroidPart.collaborate2View]> Collaborator: " + this.getClass().getSimpleName());
 			// If the node is expanded then give the children the opportunity to also be added.
-			if (this.isExpanded()) {
+//			if (this.isExpanded()) {
 				// ---This is the section that is different for any Part. This should be done calling the list of policies.
 				List<IPart> ch = this.runPolicies(this.getChildren());
 				AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaborator children: " + ch.size());
@@ -442,7 +429,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 					//						AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaboration parts: " + collaboration.size());
 					//						contentCollector.addAll(collaboration);
 				}
-			}
+//			}
 //		else {
 //			// Check for items that will not shown when empty and not expanded.
 //			if (this.isRenderWhenEmpty()) {

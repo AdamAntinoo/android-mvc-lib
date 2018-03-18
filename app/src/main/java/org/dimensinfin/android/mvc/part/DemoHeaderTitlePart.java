@@ -72,7 +72,7 @@ final class DemoHeaderTitleRender extends AbstractRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private ImageView nodeIcon = null;
+//	private ImageView nodeIcon = null;
 	private TextView applicationName = null;
 	private TextView applicationVersion = null;
 
@@ -90,7 +90,7 @@ final class DemoHeaderTitleRender extends AbstractRender {
 	@Override
 	public void initializeViews () {
 		super.initializeViews();
-		nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
+//		nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
 		applicationName = (TextView) _convertView.findViewById(R.id.applicationName);
 		applicationVersion = (TextView) _convertView.findViewById(R.id.applicationVersion);
 	}
@@ -98,7 +98,7 @@ final class DemoHeaderTitleRender extends AbstractRender {
 	@Override
 	public void updateContent () {
 		super.updateContent();
-		nodeIcon.setImageResource(getPart().getIconReference());
+//		nodeIcon.setImageResource(getPart().getIconReference());
 		applicationName.setText(getPart().getCastedModel().getName());
 		applicationName.setVisibility(View.GONE);
 		applicationVersion.setText(getPart().getCastedModel().getVersion());

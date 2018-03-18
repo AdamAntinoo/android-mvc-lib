@@ -190,12 +190,12 @@ final class PlantDataSource extends MVCDataSource implements IDataSource {
 			threadWait(TimeUnit.SECONDS.toMillis(5));
 
 			final Container plants = new Container("Plants");
-			flowers.addContent(new Container("Patata"));
-			flowers.addContent(new Separator("YELLOW-Line").setType(Separator.ESeparatorType.LINE_YELLOW));
+			plants.addContent(new Container("Patata"));
+			plants.addContent(new Separator("YELLOW-Line").setType(Separator.ESeparatorType.LINE_YELLOW));
 			threadWait(TimeUnit.SECONDS.toMillis(5));
-			flowers.addContent(new Container("Tomate"));
+			plants.addContent(new Container("Tomate"));
 			threadWait(TimeUnit.SECONDS.toMillis(5));
-			addModelContents(flowers);
+			addModelContents(plants);
 			threadWait(TimeUnit.SECONDS.toMillis(5));
 		}
 		logger.info("<< [PlantDataSource.collaborate2Model]");
