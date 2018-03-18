@@ -1,11 +1,11 @@
-//	PROJECT:        Android.MVC (A.MVC)
-//	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API22.
-//	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
-//									on Android projects. Defines the Part factory and the Part core methods to manage
-//									a generic data graph into a Part hierarchy and finally on the Android View to be
-//                  used on ListViews.
+//  PROJECT:     Android.MVC (A.MVC)
+//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
+//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
+//  ENVIRONMENT: Android API16.
+//  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
+//               on Android projects. Defines the Part factory and the Part core methods to manage
+//               a generic converter from a Graph Model to a hierarchical Part model that finally will
+//               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.part;
 
 import android.app.Activity;
@@ -72,7 +72,7 @@ final class DemoHeaderTitleRender extends AbstractRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-//	private ImageView nodeIcon = null;
+	private ImageView nodeIcon = null;
 	private TextView applicationName = null;
 	private TextView applicationVersion = null;
 
@@ -90,7 +90,7 @@ final class DemoHeaderTitleRender extends AbstractRender {
 	@Override
 	public void initializeViews () {
 		super.initializeViews();
-//		nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
+		nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
 		applicationName = (TextView) _convertView.findViewById(R.id.applicationName);
 		applicationVersion = (TextView) _convertView.findViewById(R.id.applicationVersion);
 	}
@@ -98,7 +98,7 @@ final class DemoHeaderTitleRender extends AbstractRender {
 	@Override
 	public void updateContent () {
 		super.updateContent();
-//		nodeIcon.setImageResource(getPart().getIconReference());
+		nodeIcon.setImageResource(getPart().getIconReference());
 		applicationName.setText(getPart().getCastedModel().getName());
 		applicationName.setVisibility(View.GONE);
 		applicationVersion.setText(getPart().getCastedModel().getVersion());

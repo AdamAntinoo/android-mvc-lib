@@ -4,7 +4,7 @@
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
 //               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchycal Part model that finally will
+//               a generic converter from a Graph Model to a hierarchical Part model that finally will
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.demo.activity;
 
@@ -126,7 +126,8 @@ final class DemoPartFactory extends PartFactory implements IPartFactory {
 		logger.info("-- [DemoPartFactory.createPart]> Node class: " + node.getClass().getSimpleName());
 		if (node instanceof DemoHeaderTitle) {
 			// These shows the selected Separator but with another rendering.
-			IPart part = new DemoHeaderTitlePart((DemoHeaderTitle) node).setIconReference(R.drawable.arrowleft)
+			IPart part = new DemoHeaderTitlePart((DemoHeaderTitle) node)
+					.setIconReference(R.drawable.arrowleft)
 					.setRenderMode(getVariant())
 					.setFactory(this);
 			return part;
