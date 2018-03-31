@@ -1,11 +1,11 @@
-//	PROJECT:        Android.MVC (A.MVC)
-//	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API22.
-//	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
-//									on Android projects. Defines the Part factory and the Part core methods to manage
-//									a generic data graph into a Part hierarchy and finally on the Android View to be
-//                  used on ListViews.
+//  PROJECT:     Android.MVC (A.MVC)
+//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
+//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
+//  ENVIRONMENT: Android API16.
+//  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
+//               on Android projects. Defines the Part factory and the Part core methods to manage
+//               a generic converter from a Graph Model to a hierarchical Part model that finally will
+//               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.part;
 
 import android.app.Activity;
@@ -82,8 +82,8 @@ final class DemoDetailSeparatorRender extends AbstractRender {
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
-	public DemoHeaderTitlePart getPart () {
-		return (DemoHeaderTitlePart) super.getPart();
+	public DemoDetailSeparatorPart getPart () {
+		return (DemoDetailSeparatorPart) super.getPart();
 	}
 
 	@Override
@@ -97,7 +97,7 @@ final class DemoDetailSeparatorRender extends AbstractRender {
 	public void updateContent () {
 		super.updateContent();
 		nodeIcon.setImageResource(getPart().getIconReference());
-		title.setText(getPart().getCastedModel().getName());
+		title.setText(getPart().getCastedModel().getTitle());
 		title.setVisibility(View.GONE);
 	}
 

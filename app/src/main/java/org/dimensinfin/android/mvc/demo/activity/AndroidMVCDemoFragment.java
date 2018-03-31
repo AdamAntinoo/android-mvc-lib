@@ -18,6 +18,7 @@ import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
+import org.dimensinfin.android.mvc.model.IconContainer;
 import org.dimensinfin.android.mvc.part.DemoDetailSeparatorPart;
 import org.dimensinfin.android.mvc.part.DemoHeaderTitlePart;
 import org.dimensinfin.android.mvc.part.SeparatorPart;
@@ -134,6 +135,14 @@ final class DemoPartFactory extends PartFactory implements IPartFactory {
 		}
 		switch (AndroidMVCDemoActivity.EDemoVariants.valueOf(getVariant())) {
 			case DEMO_PLANTS:
+				if (node instanceof IconContainer) {
+					// These special separators can configure an specific icon.
+					IPart part = new DemoDetailSeparatorPart((Container) node)
+							.setIconReference(((IconContainer) node).getIconReference())
+							.setRenderMode(getVariant())
+							.setFactory(this);
+					return part;
+				}
 				if (node instanceof Separator) {
 					// These special separators can configure an specific icon.
 					IPart part = new SeparatorPart((Separator) node).setRenderMode(getVariant())
@@ -180,22 +189,22 @@ final class PlantDataSource extends MVCDataSource implements IDataSource {
 		logger.info(">> [PlantDataSource.collaborate2Model]");
 		// Check if we should use the cached version.
 		if (!isCached()) {
-			final Container flowers = new Container("Flowers");
+			final IconContainer flowers = new IconContainer("Flowers").setIconReference(R.drawable.flower);
 			flowers.addContent(new Container("Azuzena"));
-			threadWait(TimeUnit.SECONDS.toMillis(5));
+//			threadWait(TimeUnit.SECONDS.toMillis(5));
 			flowers.addContent(new Container("Hortensia"));
-			threadWait(TimeUnit.SECONDS.toMillis(5));
+//			threadWait(TimeUnit.SECONDS.toMillis(5));
 			flowers.addContent(new Container("Amarilis"));
-			threadWait(TimeUnit.SECONDS.toMillis(5));
+//			threadWait(TimeUnit.SECONDS.toMillis(5));
 			addModelContents(flowers);
 			threadWait(TimeUnit.SECONDS.toMillis(5));
 
-			final Container plants = new Container("Plants");
+			final IconContainer plants = new IconContainer("Plants").setIconReference(R.drawable.plant);
 			plants.addContent(new Container("Patata"));
 			plants.addContent(new Separator("YELLOW-Line").setType(Separator.ESeparatorType.LINE_YELLOW));
-			threadWait(TimeUnit.SECONDS.toMillis(5));
+//			threadWait(TimeUnit.SECONDS.toMillis(5));
 			plants.addContent(new Container("Tomate"));
-			threadWait(TimeUnit.SECONDS.toMillis(5));
+//			threadWait(TimeUnit.SECONDS.toMillis(5));
 			addModelContents(plants);
 			threadWait(TimeUnit.SECONDS.toMillis(5));
 		}

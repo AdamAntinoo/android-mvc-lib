@@ -90,20 +90,20 @@ dependencies {
     api files('libs/viewpagerindicator-release.aar')
 
     // M O D U L E    D E P E N D E N C I E S
-    implementation 'org.slf4j:slf4j-api:1.7.25'
+    implementation 'org.slf4j:slf4j-android:1.7.25'
     implementation 'joda-time:joda-time:2.3'
-//    implementation 'com.jakewharton:disklrucache:2.0.2'
+    implementation 'org.apache.commons:commons-lang3:3.7'
 
     // P L A T F O R M    D E P E N D E N C I E S
 
     // D E P E N D E N C I E S    F R O M    M O D U L E S
-//    implementation 'joda-time:joda-time:2.3'
 
     // T E S T I N G
     testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+    testImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
     //SQLite -> Chrome (debug)
     implementation 'com.facebook.stetho:stetho:1.5.0'
     implementation 'com.facebook.stetho:stetho-urlconnection:1.5.0'

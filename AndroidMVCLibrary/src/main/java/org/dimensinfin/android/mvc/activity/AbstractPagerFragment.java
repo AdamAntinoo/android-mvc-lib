@@ -294,6 +294,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 			_datasource = DataSourceManager.registerDataSource(this.registerDataSource());
 			// Install the adapter before any data request or model generation.
 			_adapter = new DataSourceAdapter(this, _datasource);
+			_dataSectionContainer.setAdapter(_adapter);
 		} catch (final RuntimeException rtex) {
 			AbstractPagerFragment.logger.error("RTEX [AbstractPagerFragment.onCreateView]> {}.", rtex.getMessage());
 			rtex.printStackTrace();
@@ -331,6 +332,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 //					showProgressIndicator();
 			AbstractPagerFragment._uiExecutor.submit(() -> {
 				_datasource.collaborate2Model();
+				_dataSectionContainer.invalidate();
 				getAppContext().runOnUiThread(() -> {
 					hideProgressIndicator();
 				});

@@ -6,32 +6,49 @@
 //               on Android projects. Defines the Part factory and the Part core methods to manage
 //               a generic converter from a Graph Model to a hierarchical Part model that finally will
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
-#if (${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+package org.dimensinfin.android.mvc.model;
 
-import java.util.Hashtable;
-import java.util.Hashtable;
-import java.util.Hashtable;
-import org.joda.time.Instant;
+import org.dimensinfin.android.mvc.demo.R;
+import org.dimensinfin.core.model.Container;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-#parse("File Header.java")
+
+/**
+ * @author Adam Antinoo
+ */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-#if (${VISIBILITY} == "PUBLIC")public #end #if (${ABSTRACT} == "TRUE")abstract #end #if (${FINAL} == "TRUE")final #end class ${NAME} #if (${SUPERCLASS} != "")extends ${SUPERCLASS} #end #if (${INTERFACES} != "")implements ${INTERFACES} #end {
+public class IconContainer extends Container {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger(${NAME}.class);
+	private static Logger logger = LoggerFactory.getLogger("IconContainer");
 
 	// - F I E L D - S E C T I O N ............................................................................
+	private int iconReference = R.drawable.defaulticonplaceholder;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public ${NAME} () {
+	public IconContainer () {
 		super();
+		jsonClass="IconContainer";
+	}
+
+	public IconContainer (final String title) {
+		super(title);
+		jsonClass="IconContainer";
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	public int getIconReference () {
+		return iconReference;
+	}
+
+	public IconContainer setIconReference (final int iconReference) {
+		this.iconReference = iconReference;
+		return this;
+	}
+
 	@Override
-	public String toString() {
-		StringBuffer buffer = new StringBuffer("${NAME} [");
+	public String toString () {
+		StringBuffer buffer = new StringBuffer("IconContainer [");
 		buffer.append("name: ").append(0);
 		buffer.append("]");
 		buffer.append("->").append(super.toString());

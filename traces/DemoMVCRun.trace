@@ -1,0 +1,499 @@
+I/System.out: Debugger has connected
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/AndroidMVCDemoActivity: >> [AndroidMVCDemoActivity.onCreate]
+I/AbstractPagerActivity: >> [AbstractPagerActivity.onCreate]
+I/AbstractPagerActivity: << [AbstractPagerActivity.onCreate]
+I/AbstractPagerActivity: >> [AbstractPagerActivity.addPage]
+I/AbstractPagerActivity: << [AbstractPagerActivity.addPage]
+I/AbstractPagerActivity: >> [AbstractPagerActivity.addPage]
+I/AbstractPagerActivity: << [AbstractPagerActivity.addPage]
+I/AndroidMVCDemoActivity: << [AndroidMVCDemoActivity.onCreate]
+I/AbstractPagerFragment: >> [AbstractPagerFragment.onCreateView]
+I/AbstractPagerFragment: >> [AndroidMVCDemoFragment.registerDataSource]
+I/AbstractPagerFragment: << [AndroidMVCDemoFragment.registerDataSource]
+I/DataSourceManager: -- [DataSourceManager.registerDataSource]> Registering new DataSource: DEMO_PLANTS/DEMO/
+I/AbstractPagerFragment: << [AbstractPagerFragment.onCreateView]
+I/AbstractPagerFragment: >> [AbstractPagerFragment.onStart]
+I/AbstractPagerFragment: << [AbstractPagerFragment.onStart]
+I/AbstractPagerFragment: >> [AbstractPagerFragment.onCreateView]
+I/AbstractPagerFragment: >> [AbstractPagerFragment.generateHeaderContents]
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelInstances count: 1
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Part for Model not found. Generating a new one for: DemoHeaderTitle
+I/PartFactory: -- [DemoPartFactory.createPart]> Node class: DemoHeaderTitle
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: DemoHeaderTitle [AndroidMVC - v3.0.0 ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 1
+I/AbstractPart: >< [RootAndroidPart.collaborate2View]> Collaborator: RootAndroidPart
+I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaborator children: 1
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoHeaderTitlePart
+I/AbstractPagerFragment: << [AbstractPagerFragment.generateHeaderContents]
+I/MVCDataSource: >> [PlantDataSource.collaborate2Model]
+I/AbstractPagerFragment: >> [AndroidMVCDemoFragment.registerDataSource]
+I/AbstractPagerFragment: << [AndroidMVCDemoFragment.registerDataSource]
+I/AbstractPagerFragment: << [AbstractPagerFragment.onCreateView]
+I/AbstractPagerFragment: >> [AbstractPagerFragment.onStart]
+I/AbstractPagerFragment: << [AbstractPagerFragment.onStart]
+I/AbstractPagerFragment: >> [AbstractPagerFragment.addView2Header]
+I/AbstractPagerFragment: << AbstractPagerFragment.addView2Header
+I/MVCDataSource: << [PlantDataSource.collaborate2Model]
+I/AbstractPagerFragment: >> [AbstractPagerFragment.generateHeaderContents]
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelInstances count: 2
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Part for Model not found. Generating a new one for: Container
+I/PartFactory: -- [DemoPartFactory.createPart]> Node class: Container
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Container [Separator [Chordata  ] size: 0  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Part for Model not found. Generating a new one for: Container
+I/PartFactory: -- [DemoPartFactory.createPart]> Node class: Container
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Container [Separator [Animalario  ] size: 0  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 2
+I/AbstractPart: >< [RootAndroidPart.collaborate2View]> Collaborator: RootAndroidPart
+I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaborator children: 2
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPagerFragment: >> [AbstractPagerFragment.addView2Header]
+I/AbstractPagerFragment: << [AbstractPagerFragment.generateHeaderContents]
+I/MVCDataSource: >> [DemoSeparatorGenerator.collaborate2Model]
+I/MVCDataSource: << [DemoSeparatorGenerator.collaborate2Model]
+I/MVCDataSource: >> [MVCDataSource.propertyChange]> Processing Event: {}EVENTSTRUCTURE_NEWDATA
+I/MVCDataSource: >> [MVCDataSource.transformModel2Parts]
+I/MVCDataSource: -- [MVCDataSource.transformModel2Parts]> Initiating the refreshChildren() for the Model Root
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelInstances count: 2
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Part for Model not found. Generating a new one for: IconContainer
+I/PartFactory: -- [DemoPartFactory.createPart]> Node class: IconContainer
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: IconContainer [name: 0]->Container [Separator [Flowers  ] size: 3  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: [Container [Separator [Azuzena  ] size: 0  ], Container [Separator [Hortensia  ] size: 0  ], Container [Separator [Amarilis  ] size: 0  ]]
+I/PartFactory: -- [DemoPartFactory.createPart]> Node class: Container
+I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: SeparatorPart [Container [Separator [Azuzena  ] size: 0  ] ]
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Container [Separator [Azuzena  ] size: 0  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/PartFactory: -- [DemoPartFactory.createPart]> Node class: Container
+I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: SeparatorPart [Container [Separator [Hortensia  ] size: 0  ] ]
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Container [Separator [Hortensia  ] size: 0  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/PartFactory: -- [DemoPartFactory.createPart]> Node class: Container
+I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: SeparatorPart [Container [Separator [Amarilis  ] size: 0  ] ]
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Container [Separator [Amarilis  ] size: 0  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 3
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Part for Model not found. Generating a new one for: IconContainer
+I/PartFactory: -- [DemoPartFactory.createPart]> Node class: IconContainer
+I/AbstractAndroidPart: -- [DemoDetailSeparatorPart.setIconReference]> setting icon ref: 2131099765
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: IconContainer [name: 0]->Container [Separator [Plants  ] size: 3  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: [Container [Separator [Patata  ] size: 0  ], Separator [YELLOW-Line  ], Container [Separator [Tomate  ] size: 0  ]]
+I/PartFactory: -- [DemoPartFactory.createPart]> Node class: Container
+I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: SeparatorPart [Container [Separator [Patata  ] size: 0  ] ]
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Container [Separator [Patata  ] size: 0  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/PartFactory: -- [DemoPartFactory.createPart]> Node class: Separator
+I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: SeparatorPart [Separator [YELLOW-Line  ] ]
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [YELLOW-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/PartFactory: -- [DemoPartFactory.createPart]> Node class: Container
+I/AbstractPart: -- [AbstractPart.refreshChildren]> New Part: SeparatorPart [Container [Separator [Tomate  ] size: 0  ] ]
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Container [Separator [Tomate  ] size: 0  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 3
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 2
+I/MVCDataSource: << [MVCDataSource.transformModel2Parts]> _dataSectionParts.size: 0
+I/AbstractPart: >< [RootAndroidPart.collaborate2View]> Collaborator: RootAndroidPart
+I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaborator children: 2
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/model: -- [AbstractPropertyChanger.firePropertyChange]-> Property: EVENTADAPTER_REQUESTNOTIFYCHANGES on object: org.dimensinfin.android.mvc.demo.activity.PlantDataSource
+I/AbstractPagerFragment: << AbstractPagerFragment.addView2Header
+I/AbstractPagerFragment: >> [AbstractPagerFragment.addView2Header]
+I/MVCDataSource: >> [MVCDataSource.propertyChange]> Processing Event: {}EVENTSTRUCTURE_NEWDATA
+I/MVCDataSource: >> [MVCDataSource.transformModel2Parts]
+I/MVCDataSource: -- [MVCDataSource.transformModel2Parts]> Initiating the refreshChildren() for the Model Root
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelInstances count: 2
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 3
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: IconContainer [name: 0]->Container [Separator [Flowers  ] size: 3  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: [Container [Separator [Azuzena  ] size: 0  ], Container [Separator [Hortensia  ] size: 0  ], Container [Separator [Amarilis  ] size: 0  ]]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> model matches. Refreshing children.
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Container [Separator [Azuzena  ] size: 0  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> model matches. Refreshing children.
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Container [Separator [Hortensia  ] size: 0  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> model matches. Refreshing children.
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Container [Separator [Amarilis  ] size: 0  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 3
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 3
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: IconContainer [name: 0]->Container [Separator [Plants  ] size: 3  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: [Container [Separator [Patata  ] size: 0  ], Separator [YELLOW-Line  ], Container [Separator [Tomate  ] size: 0  ]]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> model matches. Refreshing children.
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Container [Separator [Patata  ] size: 0  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> model matches. Refreshing children.
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [YELLOW-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> model matches. Refreshing children.
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Container [Separator [Tomate  ] size: 0  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 3
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 2
+I/MVCDataSource: << [MVCDataSource.transformModel2Parts]> _dataSectionParts.size: 2
+I/AbstractPart: >< [RootAndroidPart.collaborate2View]> Collaborator: RootAndroidPart
+I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaborator children: 2
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/model: -- [AbstractPropertyChanger.firePropertyChange]-> Property: EVENTADAPTER_REQUESTNOTIFYCHANGES on object: org.dimensinfin.android.mvc.demo.activity.PlantDataSource
+I/MVCDataSource: >> [MVCDataSource.propertyChange]> Processing Event: {}EVENTSTRUCTURE_NEWDATA
+I/MVCDataSource: >> [MVCDataSource.transformModel2Parts]
+I/MVCDataSource: -- [MVCDataSource.transformModel2Parts]> Initiating the refreshChildren() for the Model Root
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelInstances count: 6
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Part for Model not found. Generating a new one for: Separator
+I/PartFactory: -- [DemoPartFactory.createPart]> Node class: Separator
+I/AbstractAndroidPart: -- [DemoDetailSeparatorPart.setIconReference]> setting icon ref: 2131099744
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [RED-EMPTY  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Part for Model not found. Generating a new one for: Separator
+I/PartFactory: -- [DemoPartFactory.createPart]> Node class: Separator
+I/AbstractAndroidPart: -- [DemoDetailSeparatorPart.setIconReference]> setting icon ref: 2131099744
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [RED-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Part for Model not found. Generating a new one for: Separator
+I/PartFactory: -- [DemoPartFactory.createPart]> Node class: Separator
+I/AbstractAndroidPart: -- [DemoDetailSeparatorPart.setIconReference]> setting icon ref: 2131099744
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [ORANGE-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Part for Model not found. Generating a new one for: Separator
+I/PartFactory: -- [DemoPartFactory.createPart]> Node class: Separator
+I/AbstractPagerFragment: << AbstractPagerFragment.addView2Header
+I/AbstractAndroidPart: -- [DemoDetailSeparatorPart.setIconReference]> setting icon ref: 2131099744
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [YELLOW-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Part for Model not found. Generating a new one for: Separator
+I/PartFactory: -- [DemoPartFactory.createPart]> Node class: Separator
+I/AbstractAndroidPart: -- [DemoDetailSeparatorPart.setIconReference]> setting icon ref: 2131099744
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [GREEN-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Part for Model not found. Generating a new one for: Container
+I/PartFactory: -- [DemoPartFactory.createPart]> Node class: Container
+I/AbstractAndroidPart: -- [DemoDetailSeparatorPart.setIconReference]> setting icon ref: 2131099744
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Container [Separator [-CONTAINER-  ] size: 0  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 6
+I/MVCDataSource: << [MVCDataSource.transformModel2Parts]> _dataSectionParts.size: 0
+I/AbstractPart: >< [RootAndroidPart.collaborate2View]> Collaborator: RootAndroidPart
+I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaborator children: 6
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/model: -- [AbstractPropertyChanger.firePropertyChange]-> Property: EVENTADAPTER_REQUESTNOTIFYCHANGES on object: org.dimensinfin.android.mvc.demo.activity.AnimalDataSource
+I/MVCDataSource: >> [MVCDataSource.propertyChange]> Processing Event: {}EVENTSTRUCTURE_NEWDATA
+I/MVCDataSource: >> [MVCDataSource.transformModel2Parts]
+I/MVCDataSource: -- [MVCDataSource.transformModel2Parts]> Initiating the refreshChildren() for the Model Root
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelInstances count: 6
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [RED-EMPTY  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [RED-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [ORANGE-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [YELLOW-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [GREEN-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Container [Separator [-CONTAINER-  ] size: 0  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 6
+I/MVCDataSource: << [MVCDataSource.transformModel2Parts]> _dataSectionParts.size: 6
+I/AbstractPart: >< [RootAndroidPart.collaborate2View]> Collaborator: RootAndroidPart
+I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaborator children: 6
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/model: -- [AbstractPropertyChanger.firePropertyChange]-> Property: EVENTADAPTER_REQUESTNOTIFYCHANGES on object: org.dimensinfin.android.mvc.demo.activity.AnimalDataSource
+I/MVCDataSource: >> [MVCDataSource.propertyChange]> Processing Event: {}EVENTSTRUCTURE_NEWDATA
+I/MVCDataSource: >> [MVCDataSource.transformModel2Parts]
+I/MVCDataSource: -- [MVCDataSource.transformModel2Parts]> Initiating the refreshChildren() for the Model Root
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelInstances count: 6
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [RED-EMPTY  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [RED-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [ORANGE-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [YELLOW-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [GREEN-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Container [Separator [-CONTAINER-  ] size: 0  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 6
+I/MVCDataSource: << [MVCDataSource.transformModel2Parts]> _dataSectionParts.size: 6
+I/AbstractPart: >< [RootAndroidPart.collaborate2View]> Collaborator: RootAndroidPart
+I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaborator children: 6
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/model: -- [AbstractPropertyChanger.firePropertyChange]-> Property: EVENTADAPTER_REQUESTNOTIFYCHANGES on object: org.dimensinfin.android.mvc.demo.activity.AnimalDataSource
+I/MVCDataSource: >> [MVCDataSource.propertyChange]> Processing Event: {}EVENTSTRUCTURE_NEWDATA
+I/MVCDataSource: >> [MVCDataSource.transformModel2Parts]
+I/MVCDataSource: -- [MVCDataSource.transformModel2Parts]> Initiating the refreshChildren() for the Model Root
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelInstances count: 6
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [RED-EMPTY  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [RED-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [ORANGE-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [YELLOW-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [GREEN-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Container [Separator [-CONTAINER-  ] size: 0  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 6
+I/MVCDataSource: << [MVCDataSource.transformModel2Parts]> _dataSectionParts.size: 6
+I/AbstractPart: >< [RootAndroidPart.collaborate2View]> Collaborator: RootAndroidPart
+I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaborator children: 6
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/model: -- [AbstractPropertyChanger.firePropertyChange]-> Property: EVENTADAPTER_REQUESTNOTIFYCHANGES on object: org.dimensinfin.android.mvc.demo.activity.AnimalDataSource
+I/MVCDataSource: >> [MVCDataSource.propertyChange]> Processing Event: {}EVENTSTRUCTURE_NEWDATA
+I/MVCDataSource: >> [MVCDataSource.transformModel2Parts]
+I/MVCDataSource: -- [MVCDataSource.transformModel2Parts]> Initiating the refreshChildren() for the Model Root
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelInstances count: 6
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [RED-EMPTY  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [RED-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [ORANGE-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [YELLOW-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [GREEN-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Container [Separator [-CONTAINER-  ] size: 0  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 6
+I/MVCDataSource: << [MVCDataSource.transformModel2Parts]> _dataSectionParts.size: 6
+I/AbstractPart: >< [RootAndroidPart.collaborate2View]> Collaborator: RootAndroidPart
+I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaborator children: 6
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/model: -- [AbstractPropertyChanger.firePropertyChange]-> Property: EVENTADAPTER_REQUESTNOTIFYCHANGES on object: org.dimensinfin.android.mvc.demo.activity.AnimalDataSource
+I/MVCDataSource: >> [MVCDataSource.propertyChange]> Processing Event: {}EVENTSTRUCTURE_NEWDATA
+I/MVCDataSource: >> [MVCDataSource.transformModel2Parts]
+I/MVCDataSource: -- [MVCDataSource.transformModel2Parts]> Initiating the refreshChildren() for the Model Root
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelInstances count: 6
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [RED-EMPTY  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [RED-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [ORANGE-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [YELLOW-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Separator [GREEN-Line  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: >> [AbstractPart.refreshChildren]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> Current children size: 0
+I/AbstractPart: -- [AbstractPart.refreshChildren]> partModel: Container [Separator [-CONTAINER-  ] size: 0  ]
+I/AbstractPart: -- [AbstractPart.refreshChildren]> modelObjects: []
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 0
+I/AbstractPart: << [AbstractPart.refreshChildren]> Content size: 6
+I/MVCDataSource: << [MVCDataSource.transformModel2Parts]> _dataSectionParts.size: 6
+I/AbstractPart: >< [RootAndroidPart.collaborate2View]> Collaborator: RootAndroidPart
+I/AbstractPart: -- [AbstractPart.collaborate2View]> Collaborator children: 6
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/AbstractPart: >< [AbstractPart.collaborate2View]> Collaborator: DemoDetailSeparatorPart
+I/model: -- [AbstractPropertyChanger.firePropertyChange]-> Property: EVENTADAPTER_REQUESTNOTIFYCHANGES on object: org.dimensinfin.android.mvc.demo.activity.AnimalDataSource
