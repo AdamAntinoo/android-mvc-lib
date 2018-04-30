@@ -305,7 +305,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 //			this.goFirstActivity(rtex);
 		}
 		AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.onCreateView]");
-		return theView;
+		return _container;
 	}
 //[03]
 

@@ -1,0 +1,5 @@
+-- FILES TO ADAPT TO DYNAMIC
+DataSourceAdapter
+NewMVCDataSource
+IAndroidPart
+IDataSource
