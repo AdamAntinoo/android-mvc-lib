@@ -18,37 +18,31 @@ import java.util.List;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public interface IDataSource extends PropertyChangeListener {
-	public DataSourceLocator getDataSourceLocator();
+	public String getVariant ();
 
-	public void addPropertyChangeListener(final PropertyChangeListener newListener);
+	public IDataSource setVariant ( final String variant );
 
-	public String getVariant();
+	public DataSourceLocator getDataSourceLocator ();
 
-	public IDataSource setVariant(final String variant);
+	public Bundle getExtras ();
 
-	public Bundle getExtras();
+	public void addPropertyChangeListener ( final PropertyChangeListener newListener );
 
-	public void cleanup();
+	public void cleanup ();
 
-	public IDataSource addModelContents(final ICollaboration newnode);
+	public boolean isCached ();
 
-	public boolean isCached();
+	public boolean isCacheable ();
 
-	public IDataSource setCacheable(final boolean cachestate);
+	public IDataSource setCacheable ( final boolean cachestate );
 
-	public boolean isCacheable();
+	public IDataSource addModelContents ( final ICollaboration newnode );
 
-	public void collaborate2Model();
+	public void collaborate2Model ();
 
-	public List<IAndroidPart> getDataSectionContents();
+	public List<IAndroidPart> getDataSectionContents ();
 
-	//	public void transformModel2Parts ();
-//
-//	public List<IAndroidPart> getBodyParts ();
-	//
-	//	public int getItemsCount();
-	//
-	//	public void updateContentHierarchy();
+	public IRootPart createRootPart ();
 }
 
 // - UNUSED CODE ............................................................................................

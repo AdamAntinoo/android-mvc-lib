@@ -1,11 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="org.dimensinfin.android.mvc"
-    android:versionCode="20"
-    android:versionName="2.0.1">
+    package="org.dimensinfin.android.mvc">
 
     <uses-sdk
-        android:minSdkVersion="15"
+        android:minSdkVersion="16"
         android:targetSdkVersion="27"
         tools:overrideLibrary="com.viewpagerindicator" />
 

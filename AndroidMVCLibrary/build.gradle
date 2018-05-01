@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-//apply plugin: 'kotlin-android'
 apply plugin: 'project-report'
 
 android {
@@ -8,9 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 20
-        versionName "Dynamic"
-
+        versionCode 30
+        versionName "3.0.0"
         project.archivesBaseName = "AndroidMVC"
         project.version = android.defaultConfig.versionName
 
@@ -65,18 +63,6 @@ task generateJavadocsJar(type: Jar) {
     from generateJavadocs.destinationDir
 }
 generateJavadocsJar.dependsOn generateJavadocs
-
-//artifacts {
-//    archives generateJavadocsJar
-//    archives generateSourcesJar
-//}
-// Add the sources to the end generated library aar
-//assemble.dependsOn 'propertyJar'
-//
-//task propertyJar(type: Jar) {
-//    archiveName  = "${archivesBaseName}-${version}.aar"
-//    from android.sourceSets.main.java.srcDirs
-//}
 
 dependencies {
     // A N D R O I D    S U P P O R T

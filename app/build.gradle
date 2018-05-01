@@ -7,8 +7,9 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 20
-        versionName "2.0.1"
+        multiDexEnabled true
+        versionCode 30
+        versionName "3.0.0"
         project.archivesBaseName = "DemoAndroidMVC-$versionName"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -16,15 +17,25 @@ android {
     buildTypes {
         debug {
             debuggable true
-//            minifyEnabled false
-//            useProguard false
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled false
+            useProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            resValue "string", "appname", "AndroidMVC"
+            resValue "string", "appversion", "v"+android.defaultConfig.versionName
+            resValue "string", "appversionname", "NeoCom" + android.defaultConfig.versionName
+            resValue "string", "appversionnumber", "\"" + android.defaultConfig.versionCode + "\""
         }
         release {
             debuggable false
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            resValue "string", "appname", "AndroidMVC"
+            resValue "string", "appversion", "v"+android.defaultConfig.versionName
+            resValue "string", "appversionname", "NeoCom" + android.defaultConfig.versionName
+            resValue "string", "appversionnumber", "\"" + android.defaultConfig.versionCode + "\""
         }
     }
     sourceSets {

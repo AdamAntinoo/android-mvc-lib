@@ -98,12 +98,10 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	// --- I D A T A S O U R C E
-	@Override
-	public DataSourceLocator getDataSourceLocator () {
-		return _locator;
-	}
 
+	//--- G E T T E R S   &   S E T T E R S
+
+	//--- I D A T A S O U R C E   I N T E R F A C E
 	public String getVariant () {
 		return _variant;
 	}
@@ -117,27 +115,13 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		return _extras;
 	}
 
-	public void cleanup () {
-		_dataModelRoot.clean();
+	@Override
+	public DataSourceLocator getDataSourceLocator () {
+		return _locator;
 	}
 
-	/**
-	 * This is the single way to add more content to the DataSource internal model representation. Encapsulating this
-	 * functionality on this method we make sure that the right events are generated and the model is properly updated and
-	 * the renderization process will work as expected.
-	 * @param newnode a new node to be added to the contents of the root point of the model.
-	 * @return this IDataSource instance to allow functional coding.
-	 */
-	public IDataSource addModelContents ( final ICollaboration newnode ) {
-		_dataModelRoot.addChild(newnode);
-		// Fire the model structure change event. This processing is done on the background and on the UI thread.
-		// TODO Check if this execution on this thread works or I should leave it on the UI thread.
-		AbstractPagerFragment._uiExecutor.submit(() -> {
-			// Notify the Adapter that the Root node has been modified to regenerate the collaboration2View.
-			propertyChange(new PropertyChangeEvent(this
-					, SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), newnode, _dataModelRoot));
-		});
-		return this;
+	public void cleanup () {
+		_dataModelRoot.clean();
 	}
 
 	/**
@@ -175,10 +159,41 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		return this;
 	}
 
+	/**
+	 * This is the single way to add more content to the DataSource internal model representation. Encapsulating this
+	 * functionality on this method we make sure that the right events are generated and the model is properly updated and
+	 * the renderization process will work as expected.
+	 * @param newnode a new node to be added to the contents of the root point of the model.
+	 * @return this IDataSource instance to allow functional coding.
+	 */
+	public IDataSource addModelContents ( final ICollaboration newnode ) {
+		_dataModelRoot.addChild(newnode);
+		// Fire the model structure change event. This processing is done on the background and on the UI thread.
+		// TODO Check if this execution on this thread works or I should leave it on the UI thread.
+		AbstractPagerFragment._uiExecutor.submit(() -> {
+			// Notify the Adapter that the Root node has been modified to regenerate the collaboration2View.
+			propertyChange(new PropertyChangeEvent(this
+					, SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), newnode, _dataModelRoot));
+		});
+		return this;
+	}
+
 	public abstract void collaborate2Model ();
 
 	public List<IAndroidPart> getDataSectionContents () {
 		return _dataSectionParts;
+	}
+
+	/**
+	 * This methods can be customized by developers to change the features implemented by the <code>IRootPart</code>. The
+	 * library provides an implementation but the code is open to make replacements at the key points to enhance
+	 * flexibility on the use of the library. This method is called whenever the root part container is still undefined
+	 * and calls any inherithed implementation that defines a new instance for this nose. The internal creation method
+	 * will generate a <code>@link{RootAndroidPart}</code> inatance that is suitable for most of developments.
+	 * @return a new instance of a <code>IRootPart</code> interface to be used as the root for the part hierarchy.
+	 */
+	public IRootPart createRootPart () {
+		return new RootAndroidPart(_dataModelRoot, _partFactory);
 	}
 
 	/**
@@ -210,19 +225,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		logger.info("<< [MVCDataSource.transformModel2Parts]> _dataSectionParts.size: {}", _dataSectionParts.size());
 	}
 
-	/**
-	 * This methods can be customized by developers to change the features imeplemented by the <code>IRootPart</code>. The
-	 * library provides an implementation but the code is open to make replacements at the key points to enhance
-	 * flexibility on the use of the library. This method is called whenever the root part container is still undefined
-	 * and calls any inherithed implementation that defines a new instance for this nose. The internal creation method
-	 * will generate a <code>@link{RootAndroidPart}</code> inatance that is suitable for most of developments.
-	 * @return a new instance of a <code>IRootPart</code> interface to be used as the root for the part hierarchy.
-	 */
-	public IRootPart createRootPart () {
-		return new RootAndroidPart(_dataModelRoot, _partFactory);
-	}
-
-	// --- P R O P E R T Y C H A N G E R
+	// --- P R O P E R T Y C H A N G E R   I N T E R F A C E
 
 	/**
 	 * This method is called whenever there is an event from any model change or any Part interaction. There are two
