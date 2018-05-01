@@ -106,6 +106,8 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 
 	//------------------------------
+//	private Instant _elapsedTimer = null;
+//	private CountDownTimer _timer = null;
 
 	//	private List<ICollaboration> headerModelContents = new ArrayList<ICollaboration>();
 
@@ -117,8 +119,6 @@ public abstract class AbstractPagerFragment extends Fragment {
 	private IModelGenerator _generator = null;
 
 
-	private Instant _elapsedTimer = null;
-	private CountDownTimer _timer = null;
 	private IMenuActionTarget _listCallback = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
@@ -275,6 +275,11 @@ public abstract class AbstractPagerFragment extends Fragment {
 			_dataSectionContainer = (ListView) _container.findViewById(R.id.listContainer);
 			_progressLayout = (ViewGroup) _container.findViewById(R.id.progressLayout);
 			_progressElapsedCounter = (TextView) _container.findViewById(R.id.progressCounter);
+
+			// Set the visual state of all items.
+			_progressLayout.setVisibility(View.GONE);
+			_dataSectionContainer.setVisibility(View.VISIBLE);
+			_progressElapsedCounter.setVisibility(View.GONE);
 			// Prepare the structures for the context menu.
 			// TODO Check if the menus can be tied to the Parts independently and not to the whole Header.
 			//			this.registerForContextMenu(_headerContainer);
@@ -288,10 +293,9 @@ public abstract class AbstractPagerFragment extends Fragment {
 					, Toast.LENGTH_LONG).show();
 			// Use a flag to signal that this Fragment is not properly initialized to no other methods should be called.
 			_properlyInitialized = false;
-			//			this.goFirstActivity(rtex);
 		}
 
-		// Section where we setup the data sources for the adapters.
+		// Section where we setup the data sources for the adapters. Only include no timing operations.
 		try {
 			// Entry point to generate the Header model.
 			_headersource = this.registerHeaderSource();
@@ -307,7 +311,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 			Toast.makeText(this.getAppContext()
 					, "RTEX [AbstractPagerFragment.onCreateView]> " + rtex.getMessage()
 					, Toast.LENGTH_LONG).show();
-			//			this.goFirstActivity(rtex);
+			_properlyInitialized = false;
 		}
 		AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.onCreateView]");
 		return _container;
@@ -326,21 +330,22 @@ public abstract class AbstractPagerFragment extends Fragment {
 		AbstractPagerFragment.logger.info(">> [AbstractPagerFragment.onStart]");
 		super.onStart();
 		try {
+			// The first action is to add a progress indicator to the contents.
+			// This way once we finish the configuration the display will refresh with the spinner on it.
+			// We remove the spinner from the display when the model generation ends.
+			_datasource.startOnLoadProcess();
 			// Create the hierarchy structure to be used on the Header. We have the model list and we should convert it to a view list.
-			//			getAppContext().runOnUiThread(() -> {
-			showProgressIndicator();
 			AbstractPagerFragment._uiExecutor.submit(() -> {
+				// Entry point to generate the Header model.
+				_headersource = this.registerHeaderSource();
 				generateHeaderContents(_headersource);
 			});
-
 			// Create the hierarchy structure to be used on the Adapter for the DataSection.
-			// Do this on background so we can update the interface on real time
-			//					showProgressIndicator();
+			// Do this on background so we can update the interface on real time.
 			AbstractPagerFragment._uiExecutor.submit(() -> {
 				_datasource.collaborate2Model();
-				_dataSectionContainer.invalidate();
 				getAppContext().runOnUiThread(() -> {
-					hideProgressIndicator();
+					_adapter.notifyDataSetChanged();
 				});
 			});
 		} catch (final RuntimeException rtex) {
@@ -439,35 +444,35 @@ public abstract class AbstractPagerFragment extends Fragment {
 		logger.info("<< AbstractPagerFragment.addView2Header");
 	}
 
-	private void showProgressIndicator () {
-		// Initialize and start the elapsed timer.
-		_progressLayout.setVisibility(View.VISIBLE);
-		_dataSectionContainer.setVisibility(View.GONE);
-		_progressElapsedCounter.setText("00s");
-		_progressElapsedCounter.setVisibility(View.VISIBLE);
-		_elapsedTimer = Instant.now();
-		_timer = new CountDownTimer(CoreConstants.ONEDAY, CoreConstants.HUNDRETH) {
-			@Override
-			public void onFinish () {
-				_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
-				_progressElapsedCounter.invalidate();
-				_container.invalidate();
-			}
-
-			@Override
-			public void onTick ( final long millisUntilFinished ) {
-				_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
-				_progressElapsedCounter.invalidate();
-			}
-		}.start();
-	}
-
-	private void hideProgressIndicator () {
-		// Stop the timer.
-		_timer.cancel();
-		_progressLayout.setVisibility(View.GONE);
-		_dataSectionContainer.setVisibility(View.VISIBLE);
-	}
+//	private void showProgressIndicator () {
+//		// Initialize and start the elapsed timer.
+//		_progressLayout.setVisibility(View.VISIBLE);
+//		_dataSectionContainer.setVisibility(View.GONE);
+//		_progressElapsedCounter.setText("00s");
+//		_progressElapsedCounter.setVisibility(View.VISIBLE);
+//		_elapsedTimer = Instant.now();
+//		_timer = new CountDownTimer(CoreConstants.ONEDAY, CoreConstants.HUNDRETH) {
+//			@Override
+//			public void onFinish () {
+//				_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
+//				_progressElapsedCounter.invalidate();
+//				_container.invalidate();
+//			}
+//
+//			@Override
+//			public void onTick ( final long millisUntilFinished ) {
+//				_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
+//				_progressElapsedCounter.invalidate();
+//			}
+//		}.start();
+//	}
+//
+//	private void hideProgressIndicator () {
+//		// Stop the timer.
+//		_timer.cancel();
+//		_progressLayout.setVisibility(View.GONE);
+//		_dataSectionContainer.setVisibility(View.VISIBLE);
+//	}
 
 	/**
 	 * Displays an string in the format "nh nm ns" that is the number of seconds from the start point that is the value

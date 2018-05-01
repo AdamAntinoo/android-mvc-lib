@@ -8,7 +8,6 @@
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.model;
 
-import org.dimensinfin.android.mvc.core.AndroidIconResource;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.interfaces.IIconReference;
 import org.slf4j.Logger;

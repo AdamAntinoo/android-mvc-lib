@@ -11,21 +11,34 @@
 //               real time while processing the model sources. This should allow for search and filtering.
 package org.dimensinfin.android.mvc.datasource;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
+import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.core.AbstractPart;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.android.mvc.interfaces.IRootPart;
+import org.dimensinfin.core.constant.CoreConstants;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.dimensinfin.core.model.RootNode;
+import org.dimensinfin.core.model.Separator;
+import org.joda.time.Instant;
+import org.joda.time.format.DateTimeFormatterBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -99,9 +112,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 
-	//--- G E T T E R S   &   S E T T E R S
-
-	//--- I D A T A S O U R C E   I N T E R F A C E
+	// --- I D A T A S O U R C E   I N T E R F A C E
 	public String getVariant () {
 		return _variant;
 	}
@@ -194,6 +205,17 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 */
 	public IRootPart createRootPart () {
 		return new RootAndroidPart(_dataModelRoot, _partFactory);
+	}
+
+	/**
+	 * Add an spinner at the first position on the Part list to signal that we are doing som processing. If the
+	 * datasource is cached it should not have any effect since the model is already generated and we should not have
+	 * to wait for it.
+	 */
+	public void startOnLoadProcess () {
+		if ( !isCached() ) {
+			_dataSectionParts.add(new OnLoadSpinnerPart(new Separator()));
+		}
 	}
 
 	/**
@@ -452,50 +474,92 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		public boolean isExpanded () {
 			return true;
 		}
-		//	@Override
-		//	public Activity getActivity() {
-		//		return null;
-		//	}
-		//
-		//	@Override
-		//	public Fragment getFragment() {
-		//		return null;
-		//	}
-		//
-		//	@Override
-		//	public AbstractRender getRenderer(final Activity activity) {
-		//		return null;
-		//	}
-		//
-		//	@Override
-		//	public AbstractRender getRenderer(final Activity activity) {
-		//		return null;
-		//	}
-		//
-		//	@Override
-		//	public View getView() {
-		//		return null;
-		//	}
-		//
-		//	@Override
-		//	public void invalidate() {
-		//
-		//	}
-		//
-		//	@Override
-		//	public void needsRedraw() {
-		//
-		//	}
-		//
-		//	@Override
-		//	public void setView(final View convertView) {
-		//
-		//	}
-		//
-		//	@Override
-		//	public void setView(final View convertView) {
-		//
-		//	}
+	}
+
+	public static class OnLoadSpinnerPart extends AbstractAndroidPart {
+
+		public OnLoadSpinnerPart ( final ICollaboration model ) {
+			super(model);
+		}
+
+		@Override
+		public long getModelId () {
+			return 0;
+		}
+
+		@Override
+		protected AbstractRender selectRenderer () {
+			return new OnLoadSpinnerRender(this, getActivity());
+		}
+	}
+
+	public static class OnLoadSpinnerRender extends AbstractRender {
+		private ProgressBar progress=null;
+		private TextView progressCounter = null;
+
+		private Instant _elapsedTimer = null;
+		private CountDownTimer _timer = null;
+
+		public OnLoadSpinnerRender ( final AbstractPart newPart, final Activity context ) {
+			super(newPart, context);
+		}
+
+		@Override
+		public void initializeViews () {
+			super.initializeViews();
+			progress=(ProgressBar)_convertView.findViewById(R.id.progress);
+//			progress.
+			progressCounter = (TextView) _convertView.findViewById(R.id.progressCounter);
+			_elapsedTimer = Instant.now();
+			_timer = new CountDownTimer(CoreConstants.ONEDAY, CoreConstants.HUNDRETH) {
+				@Override
+				public void onFinish () {
+					progressCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
+					progressCounter.invalidate();
+				}
+
+				@Override
+				public void onTick ( final long millisUntilFinished ) {
+					progressCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
+					progressCounter.invalidate();
+				}
+			}.start();
+		}
+
+		@Override
+		public void updateContent () {
+			super.updateContent();
+//			progressCounter.setText("10 sec");
+			Animation rotation = AnimationUtils.loadAnimation(getContext(), R.anim.clockwise_rotation);
+			rotation.setRepeatCount(Animation.INFINITE);
+			progress.startAnimation(rotation);
+		}
+
+		@Override
+		protected void createView () {
+			_convertView = inflateView(R.layout.onload_spinner);
+			_convertView.setTag(this);
+		}
+
+		/**
+		 * Displays an string in the format "nh nm ns" that is the number of seconds from the start point that is the value
+		 * received as the parameter and the current instant on time.
+		 */
+		protected String generateTimeString ( final long millis ) {
+			try {
+				final long elapsed = Instant.now().getMillis() - millis;
+				final DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
+				if ( elapsed > CoreConstants.ONEHOUR ) {
+					timeFormatter.appendHourOfDay(2).appendLiteral("h ");
+				}
+				if ( elapsed > CoreConstants.ONEMINUTE ) {
+					timeFormatter.appendMinuteOfHour(2).appendLiteral("m ").appendSecondOfMinute(2).appendLiteral("s");
+				} else timeFormatter.appendSecondOfMinute(2).appendLiteral("s");
+				return timeFormatter.toFormatter().print(new Instant(elapsed));
+			} catch (final RuntimeException rtex) {
+				return "0m 00s";
+			}
+		}
 	}
 }
 

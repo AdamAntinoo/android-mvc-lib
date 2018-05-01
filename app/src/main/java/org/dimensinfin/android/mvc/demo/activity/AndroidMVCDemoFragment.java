@@ -239,25 +239,6 @@ final class DemoPartFactory extends PartFactory implements IPartFactory {
 			                                                        .setFactory(this);
 			return part;
 		}
-		//		switch (AndroidMVCDemoActivity.EDemoVariants.valueOf(getVariant())) {
-		//			case DEMO_SEPARATOR_CATALOG:
-		//				if (node instanceof Separator) {
-		//					// These special separators can configure an specific icon.
-		//					IPart part = new SeparatorPart((Separator) node).setRenderMode(getVariant())
-		//					                                                .setFactory(this);
-		//					return part;
-		//				}
-		//				break;
-		//			case DEMO_SEPARATOR_DETAIL:
-		//				if (node instanceof Separator) {
-		//					// These shows the selected Separator but with another rendering.
-		//					IPart part = new DemoDetailSeparatorPart((Separator) node).setIconReference(R.drawable.keyboard_close)
-		//					                                                          .setRenderMode(getVariant())
-		//					                                                          .setFactory(this);
-		//					return part;
-		//				}
-		//				break;
-		//		}
 
 		// Demo classes and models
 		if (node instanceof DemoItem) {
@@ -306,7 +287,7 @@ final class DemoSeparatorGenerator extends AbstractGenerator implements IModelGe
 
 			// Wait a delay of 6 seconds to allow to watch the counter.
 			try {
-				Thread.sleep(TimeUnit.SECONDS.toMillis(2));
+				Thread.sleep(TimeUnit.SECONDS.toMillis(6));
 			} catch (InterruptedException ex) {
 			}
 			// Add manually each of the demo model nodes.

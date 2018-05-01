@@ -43,6 +43,7 @@ public interface IDataSource extends PropertyChangeListener {
 	public List<IAndroidPart> getDataSectionContents ();
 
 	public IRootPart createRootPart ();
+	public void startOnLoadProcess();
 }
 
 // - UNUSED CODE ............................................................................................
