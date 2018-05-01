@@ -49,7 +49,7 @@ public class DemoDetailSeparatorPart extends AbstractAndroidPart {
 	}
 
 	@Override
-	public long getModelID () {
+	public long getModelId () {
 		return GregorianCalendar.getInstance().getTimeInMillis();
 	}
 

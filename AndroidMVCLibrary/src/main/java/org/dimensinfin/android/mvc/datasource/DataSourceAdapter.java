@@ -103,7 +103,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	}
 
 	public long getItemId(final int position) {
-		return _contentPartList.get(position).getModelID();
+		return _contentPartList.get(position).getModelId();
 	}
 
 

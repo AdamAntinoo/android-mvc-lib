@@ -1,0 +1,29 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <ImageView
+        android:id="@+id/nodeIcon"
+        style="@style/AppTheme.NodeIcon"
+        android:layout_width="@dimen/nodeiconsize"
+        android:layout_height="@dimen/nodeiconsize"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/defaulticonplaceholder" />
+
+    <ImageView
+        android:id="@+id/rightArrow"
+        style="@style/AppTheme.Arrow"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignParentRight="true"
+        android:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/separator"
+        android:layout_width="10dp"
+        android:layout_height="1dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/rightArrow"
+        android:src="@color/panelbackgroundblack"
+        android:visibility="gone" />
+</merge>

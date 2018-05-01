@@ -4,5 +4,5 @@
     <!-- Android Common UI dimensions. Panel characteristics -->
     <dimen name="panelborderwidth">1px</dimen>
     <dimen name="panelcornerwidth">2px</dimen>
-    <dimen name="panelcornersize">8px</dimen>
+    <dimen name="panelcornersize">12px</dimen>
 </resources>

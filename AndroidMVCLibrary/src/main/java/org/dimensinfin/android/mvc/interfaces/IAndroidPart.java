@@ -34,7 +34,7 @@ public interface IAndroidPart extends IPart {
 	 *
 	 * @return <code>long</code> identifier with the model number.
 	 */
-	public long getModelID ();
+	public long getModelId ();
 
 	public AbstractRender getRenderer (Activity activity);
 
