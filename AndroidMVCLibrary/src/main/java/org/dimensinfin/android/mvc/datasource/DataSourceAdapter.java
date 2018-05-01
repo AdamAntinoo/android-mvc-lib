@@ -1,10 +1,14 @@
-//	PROJECT:        NeoCom.MVC (NEOC.MVC)
-//	AUTHORS:        Adam Antinoo - adamantinoo.git@gmail.com
-//	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
-//	ENVIRONMENT:		Android API16.
-//	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
-//									on Android projects. Defines the Part factory and the Part core methods to manage
-//									the extended GEF model into the Android View to be used on ListViews.
+//  PROJECT:     Android.MVC (A.MVC)
+//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
+//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
+//  ENVIRONMENT: Android API16.
+//  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
+//               on Android projects. Defines the Part factory and the Part core methods to manage
+//               a generic converter from a Graph Model to a hierarchical Part model that finally will
+//               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               The new implementation performs the model to list transformation on the fly each time
+//               a model change is detected so the population of the displayed view should be done in
+//               real time while processing the model sources. This should allow for search and filtering.
 package org.dimensinfin.android.mvc.datasource;
 
 import android.app.Activity;
@@ -56,7 +60,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	/** Neutral creator for the initialization of the parent. */
-	public DataSourceAdapter() {
+	public DataSourceAdapter () {
 		super();
 	}
 
@@ -68,58 +72,58 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * @param activity   reference to the Activity and the Context where we should connect the Views.
 	 * @param datasource the source for the data to be represented on the view structures.
 	 */
-	public DataSourceAdapter(final Activity activity, final IDataSource datasource) {
+	public DataSourceAdapter ( final Activity activity, final IDataSource datasource ) {
 		this();
 		_context = activity;
 		_datasource = datasource;
 		_datasource.addPropertyChangeListener(this);
 		//		this.setModel();
-//		_contentPartList.clear();
-//		_contentPartList.addAll(_datasource.getBodyParts());
+		//		_contentPartList.clear();
+		//		_contentPartList.addAll(_datasource.getBodyParts());
 	}
 
-	public DataSourceAdapter(final AbstractPagerFragment fragment, final IDataSource datasource) {
+	public DataSourceAdapter ( final AbstractPagerFragment fragment, final IDataSource datasource ) {
 		this(fragment.getAppContext(), datasource);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 
-	public Activity getContext() {
+	public Activity getContext () {
 		return _context;
 	}
 
-	public IAndroidPart getCastedItem(final int position) {
+	public IAndroidPart getCastedItem ( final int position ) {
 		return _contentPartList.get(position);
 	}
 
 
-	public Object getItem(final int position) {
+	public Object getItem ( final int position ) {
 		return _contentPartList.get(position);
 	}
 
 	//--- B A S E   A D A P T E R   I M P L E M E N T A T I O N
-	public int getCount() {
+	public int getCount () {
 		return _contentPartList.size();
 	}
 
-	public long getItemId(final int position) {
+	public long getItemId ( final int position ) {
 		return _contentPartList.get(position).getModelId();
 	}
 
 
-	public boolean areAllItemsEnabled() {
+	public boolean areAllItemsEnabled () {
 		return true;
 	}
 
-	public boolean isEnabled(int position) {
+	public boolean isEnabled ( int position ) {
 		return true;
 	}
 
-	public int getItemViewType(int position) {
+	public int getItemViewType ( int position ) {
 		return 0;
 	}
 
-	public int getViewTypeCount() {
+	public int getViewTypeCount () {
 		return 1;
 	}
 
@@ -129,14 +133,14 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * optimization to not create more views than the needed ones and the reduction of code line is s must that
 	 * will improve user response times.
 	 */
-//	@SuppressLint("ViewHolder")
-	public View getView(final int position, View convertView, final ViewGroup parent) {
+	//	@SuppressLint("ViewHolder")
+	public View getView ( final int position, View convertView, final ViewGroup parent ) {
 		Chrono chrono = new Chrono();
 		String exitMessage = "";
 		try {
 			// If the request is new we are sure this has to be created.
 			IAndroidPart item = this.getCastedItem(position);
-			if (null == convertView) {
+			if ( null == convertView ) {
 				exitMessage = "-- [DataSourceAdapter.getView]> Getting view [" + position + "] - " + item.getClass().getSimpleName();
 				AbstractRender holder = item.getRenderer(_context);
 				holder.initializeViews();
@@ -144,12 +148,12 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 				convertView.setTag(item);
 				holder.updateContent();
 				// Store view on the Part.
-				if (SystemWideConstants.ENABLECACHE) {
+				if ( SystemWideConstants.ENABLECACHE ) {
 					item.setView(convertView);
 				}
 			} else {
 				View cachedView = item.getView();
-				if (null == cachedView) {
+				if ( null == cachedView ) {
 					exitMessage = "-- [DataSourceAdapter.getView]> Getting view [" + position + "] - "
 							+ item.getClass().getSimpleName() + " RECREATE";
 					// Recreate the view.
@@ -159,7 +163,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 					convertView.setTag(item);
 					holder.updateContent();
 					// Store view on the Part.
-					if (SystemWideConstants.ENABLECACHE) {
+					if ( SystemWideConstants.ENABLECACHE ) {
 						item.setView(convertView);
 					}
 				} else {
@@ -172,11 +176,11 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			// Activate listeners if the Part supports that feature.
 			convertView.setClickable(false);
 			convertView.setLongClickable(true);
-			if (item instanceof OnClickListener) {
+			if ( item instanceof OnClickListener ) {
 				convertView.setClickable(true);
 				convertView.setOnClickListener((OnClickListener) item);
 			}
-			if (item instanceof OnLongClickListener) {
+			if ( item instanceof OnLongClickListener ) {
 				convertView.setClickable(true);
 				convertView.setOnLongClickListener((OnLongClickListener) item);
 			}
@@ -186,14 +190,14 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			return convertView;
 		} catch (RuntimeException rtex) {
 			String message = rtex.getMessage();
-			if (null == message) {
+			if ( null == message ) {
 				message = "NullPointerException detected.";
 			}
 			DataSourceAdapter.logger.error("RTEX [DataSourceAdapter.getView]> Runtime Exception: " + message);
 			rtex.printStackTrace();
 			//DEBUG Add exception registration to the exception page.
 			final LayoutInflater mInflater = (LayoutInflater) this.getContext()
-					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+			                                                      .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 			// Under an exception we can replace the View item by this special layout with the Exception message.
 			convertView = mInflater.inflate(R.layout.exception4list, null);
 			TextView exceptionMessage = (TextView) convertView.findViewById(R.id.exceptionMessage);
@@ -203,20 +207,20 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	}
 
 	@Override
-	public boolean hasStableIds() {
+	public boolean hasStableIds () {
 		return true;
 	}
 
 	/**
-	 * This method should be called when the model transformation has changed. The model may be the same but the instantiation of
-	 * the elements that should be rendered may have changed so the model should be run again and a new list part should be
-	 * generated to be adapted to the viewer contents.
+	 * This method should be called when the model transformation has changed. The model may be the same but the
+	 * instantiation of the elements that should be rendered may have changed so the model should be run again and a new
+	 * list part should be generated to be adapted to the viewer contents.
 	 * <p>
-	 * This action should trigger the display regeneration and the requests for new View instances to be used for the new ui
-	 * render contents.
+	 * This action should trigger the display regeneration and the requests for new View instances to be used for the new
+	 * ui render contents.
 	 */
 	@Override
-	public void notifyDataSetChanged() {
+	public void notifyDataSetChanged () {
 		_contentPartList.clear();
 		_contentPartList.addAll(_datasource.getDataSectionContents());
 		super.notifyDataSetChanged();
@@ -229,11 +233,11 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * This class is a generic class that must not be upgraded because we start then to replicate most of the
 	 * code.
 	 */
-	public void propertyChange(final PropertyChangeEvent event) {
+	public void propertyChange ( final PropertyChangeEvent event ) {
 		// Be sure to run graphical changes on the UI thread. If we alerady are on it this has no effect.
 		getContext().runOnUiThread(() -> {
-			if (SystemWideConstants.events.valueOf(event.getPropertyName()) ==
-					SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES) {
+			if ( SystemWideConstants.events.valueOf(event.getPropertyName()) ==
+					SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES ) {
 				this.notifyDataSetChanged();
 			}
 		});

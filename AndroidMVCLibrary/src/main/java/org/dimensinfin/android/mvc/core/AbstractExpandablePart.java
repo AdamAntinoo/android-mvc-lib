@@ -6,6 +6,9 @@
 //               on Android projects. Defines the Part factory and the Part core methods to manage
 //               a generic converter from a Graph Model to a hierarchical Part model that finally will
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               The new implementation performs the model to list transformation on the fly each time
+//               a model change is detected so the population of the displayed view should be done in
+//               real time while processing the model sources. This should allow for search and filtering.
 package org.dimensinfin.android.mvc.core;
 
 import android.os.Handler;
@@ -31,12 +34,12 @@ public abstract class AbstractExpandablePart extends AbstractAndroidPart impleme
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public AbstractExpandablePart(final ICollaboration model) {
+	public AbstractExpandablePart ( final ICollaboration model ) {
 		super(model);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public void onClick(final View view) {
+	public void onClick ( final View view ) {
 		logger.info(">> [AbstractExpandablePart.onClick]");
 		// Signal the action may take some time and launch it on the background.
 		activateClick();
@@ -44,10 +47,10 @@ public abstract class AbstractExpandablePart extends AbstractAndroidPart impleme
 		invalidate();
 
 		new Handler().postDelayed(new OneShotTask<AbstractExpandablePart>(this) {
-			public void run() {
+			public void run () {
 				getActivity().runOnUiThread(new Runnable() {
 					@Override
-					public void run() {
+					public void run () {
 						logger.info(">> [NeoComExpandablePart.onClick.OneShotTask.run]");
 						Chrono chrono = new Chrono();
 						getTarget().toggleExpanded();
@@ -60,17 +63,16 @@ public abstract class AbstractExpandablePart extends AbstractAndroidPart impleme
 				});
 			}
 		}, TimeUnit.MICROSECONDS.toMillis(500));
-		//		logger.info(">> [StructureWithContentsPart.onClick.OneShotTask.run]");
 		logger.info("<< [NeoComExpandablePart.onClick]");
 	}
 
-	private AbstractExpandablePart getTarget() {
+	private AbstractExpandablePart getTarget () {
 		return this;
 	}
 
 	//--- G E T T E R S   &   S E T T E R S
 	@Override
-	public String toString() {
+	public String toString () {
 		StringBuffer buffer = new StringBuffer("AbstractExpandablePart [ ");
 		buffer.append("name: ").append(0);
 		buffer.append("]");

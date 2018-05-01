@@ -6,6 +6,9 @@
 //               on Android projects. Defines the Part factory and the Part core methods to manage
 //               a generic converter from a Graph Model to a hierarchical Part model that finally will
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               The new implementation performs the model to list transformation on the fly each time
+//               a model change is detected so the population of the displayed view should be done in
+//               real time while processing the model sources. This should allow for search and filtering.
 package org.dimensinfin.android.mvc.core;
 
 import android.app.Activity;
@@ -43,7 +46,7 @@ public class AbstractExpandableRender extends AbstractRender {
 	protected TextView categoryLabel = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public AbstractExpandableRender (final AbstractAndroidPart target, final Activity context) {
+	public AbstractExpandableRender ( final AbstractAndroidPart target, final Activity context ) {
 		super(target, context);
 	}
 
@@ -62,6 +65,7 @@ public class AbstractExpandableRender extends AbstractRender {
 		classLabel = (TextView) _convertView.findViewById(R.id.classLabel);
 		categoryLabel = (TextView) _convertView.findViewById(R.id.categoryLabel);
 	}
+
 	/**
 	 * Check if the expandable nodes have a click active. During the click show the spinner until the action finishes
 	 * with a new <code>updateContent()</code>.
@@ -72,7 +76,7 @@ public class AbstractExpandableRender extends AbstractRender {
 		// Check if the model is expandable to show or hide the arrow.
 		final ICollaboration targetModel = getPart().getModel();
 		if ( null != _rightArrow ) {
-			if ( targetModel instanceof IExpandable) {
+			if ( targetModel instanceof IExpandable ) {
 				_rightArrow.setVisibility(View.VISIBLE);
 				if ( this.getPart().isExpanded() ) {
 					_rightArrow.setImageResource(R.drawable.arrowdown);
@@ -102,11 +106,11 @@ public class AbstractExpandableRender extends AbstractRender {
 
 	//--- D E L E G A T E D   M E T H O D S
 	@Override
-	public String toString() {
+	public String toString () {
 		StringBuffer buffer = new StringBuffer("AbstractExpandableRender [ ");
 		buffer.append("model: ").append(getPart().getModel().toString());
 		buffer.append("]");
-//		buffer.append("->").append(super.toString());
+		//		buffer.append("->").append(super.toString());
 		return buffer.toString();
 	}
 }

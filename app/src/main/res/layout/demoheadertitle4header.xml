@@ -42,15 +42,4 @@
         android:textColor="@color/appwhite"
         android:textSize="8sp"
         android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/nodeIcon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/copyright"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="2dp"
-        android:src="@drawable/defaulticonplaceholder" />
-
 </RelativeLayout>

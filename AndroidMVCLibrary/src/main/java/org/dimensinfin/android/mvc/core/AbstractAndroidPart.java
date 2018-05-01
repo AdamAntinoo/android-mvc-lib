@@ -6,6 +6,9 @@
 //               on Android projects. Defines the Part factory and the Part core methods to manage
 //               a generic converter from a Graph Model to a hierarchical Part model that finally will
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               The new implementation performs the model to list transformation on the fly each time
+//               a model change is detected so the population of the displayed view should be done in
+//               real time while processing the model sources. This should allow for search and filtering.
 package org.dimensinfin.android.mvc.core;
 
 import android.app.Activity;
@@ -25,7 +28,6 @@ import java.util.logging.Logger;
  * Core code for any Android Part. Will have enough code to deal with the adaptation of a Part to the
  * DataSourceAdapter needs to connect the part with the view. Has the knowledge of the Render and how to
  * report tehm to the Adapter.
- *
  * @author Adam Antinoo
  */
 public abstract class AbstractAndroidPart extends AbstractPart implements IAndroidPart {
@@ -39,7 +41,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 	private View _view = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public AbstractAndroidPart (final ICollaboration model) {
+	public AbstractAndroidPart ( final ICollaboration model ) {
 		super(model);
 	}
 
@@ -60,7 +62,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 			throw new RuntimeException("Fragment object not available on access on a Part.");
 	}
 
-	public void collaborate2View (List<IAndroidPart> contentCollector) {
+	public void collaborate2View ( List<IAndroidPart> contentCollector ) {
 		AbstractPart.logger.info(">< [AbstractPart.collaborate2View]> Collaborator: " + this.getClass().getSimpleName());
 		//		ArrayList<IPart> result = new ArrayList<IPart>();
 		// If the node is expanded then give the children the opportunity to also be added.
@@ -84,7 +86,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 		//		return contentCollector;
 	}
 
-	public List<IPart> runPolicies (final List<IPart> targets) {
+	public List<IPart> runPolicies ( final List<IPart> targets ) {
 		return targets;
 	}
 
@@ -94,7 +96,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 	 * Fragment to be used on all the implementations.
 	 */
 	@Override
-	public AbstractRender getRenderer (final Activity activity) {
+	public AbstractRender getRenderer ( final Activity activity ) {
 		_activity = activity;
 		return this.selectRenderer();
 	}
@@ -131,7 +133,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 	}
 
 	@Override
-	public void setView (final View convertView) {
+	public void setView ( final View convertView ) {
 		_view = convertView;
 	}
 

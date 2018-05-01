@@ -4,8 +4,11 @@
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
 //               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchycal Part model that finally will
+//               a generic converter from a Graph Model to a hierarchical Part model that finally will
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               The new implementation performs the model to list transformation on the fly each time
+//               a model change is detected so the population of the displayed view should be done in
+//               real time while processing the model sources. This should allow for search and filtering.
 package org.dimensinfin.android.mvc.core;
 
 import org.dimensinfin.android.mvc.interfaces.IPart;
@@ -26,7 +29,7 @@ public class RootPart extends AbstractPart {
 	private Comparator<? super IPart> partComparator = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public RootPart (final RootNode node, final IPartFactory factory) {
+	public RootPart ( final RootNode node, final IPartFactory factory ) {
 		super(node, factory);
 	}
 
@@ -49,7 +52,7 @@ public class RootPart extends AbstractPart {
 	 * sort flag is active and the nodes are INamed then sort them.
 	 */
 	@Override
-	public List<IPart> runPolicies (final List<IPart> targets) {
+	public List<IPart> runPolicies ( final List<IPart> targets ) {
 		if ( this.doSort() ) {
 			Collections.sort(targets, partComparator);
 		}
@@ -61,12 +64,12 @@ public class RootPart extends AbstractPart {
 	}
 
 	@Override
-	public IPart setRenderMode (final String renderMode) {
+	public IPart setRenderMode ( final String renderMode ) {
 		//		return this.setRenderMode(renderMode.hashCode());
 		return this.setRenderMode(renderMode);
 	}
 
-	public RootPart setSorting (final Comparator<? super IPart> sortComparator) {
+	public RootPart setSorting ( final Comparator<? super IPart> sortComparator ) {
 		if ( null != sortComparator ) {
 			partComparator = sortComparator;
 			sort = true;

@@ -1,11 +1,14 @@
-//  PROJECT:     NeoCom.MVC (NEOC.MVC)
+//  PROJECT:     Android.MVC (A.MVC)
 //  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
 //  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
 //               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchycal Part model that finally will
+//               a generic converter from a Graph Model to a hierarchical Part model that finally will
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               The new implementation performs the model to list transformation on the fly each time
+//               a model change is detected so the population of the displayed view should be done in
+//               real time while processing the model sources. This should allow for search and filtering.
 package org.dimensinfin.android.mvc.part;
 
 import android.app.Activity;
@@ -29,7 +32,7 @@ public class SeparatorPart extends AbstractAndroidPart {
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public SeparatorPart (final Separator node) {
+	public SeparatorPart ( final Separator node ) {
 		super(node);
 	}
 
@@ -54,7 +57,8 @@ public class SeparatorPart extends AbstractAndroidPart {
 		buffer.append("]");
 		return buffer.toString();
 	}
-	public IAndroidPart setRenderMode (final String renderMode) {
+
+	public IAndroidPart setRenderMode ( final String renderMode ) {
 		this.renderMode = renderMode;
 		return this;
 	}
@@ -73,7 +77,7 @@ final class SeparatorRender extends AbstractRender {
 	private TextView title = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public SeparatorRender (final AbstractAndroidPart target, final Activity context) {
+	public SeparatorRender ( final AbstractAndroidPart target, final Activity context ) {
 		super(target, context);
 	}
 
@@ -149,27 +153,27 @@ final class SeparatorRender extends AbstractRender {
 			case LINE_ORANGE:
 				renderer = R.layout.separatororangeline;
 				// Collapse the expansion.
-//				this.getPart().getCastedModel().setExpanded(false);
+				//				this.getPart().getCastedModel().setExpanded(false);
 				break;
 			case LINE_YELLOW:
 				renderer = R.layout.separatoryellowline;
 				// Collapse the expansion.
-//				this.getPart().getCastedModel().setExpanded(false);
+				//				this.getPart().getCastedModel().setExpanded(false);
 				break;
 			case LINE_GREEN:
 				renderer = R.layout.separatorgreenline;
 				// Collapse the expansion.
-//				this.getPart().getCastedModel().setExpanded(false);
+				//				this.getPart().getCastedModel().setExpanded(false);
 				break;
 			case LINE_BLUE:
 				renderer = R.layout.separatorblueline;
 				// Collapse the expansion.
-//				this.getPart().getCastedModel().setExpanded(false);
+				//				this.getPart().getCastedModel().setExpanded(false);
 				break;
 			case EMPTY_SIGNAL:
 				renderer = R.layout.separatorredline;
 				// Collapse the expansion.
-//				this.getPart().getCastedModel().setExpanded(false);
+				//				this.getPart().getCastedModel().setExpanded(false);
 				break;
 
 			default:

@@ -4,8 +4,11 @@
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
 //               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchycal Part model that finally will
+//               a generic converter from a Graph Model to a hierarchical Part model that finally will
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               The new implementation performs the model to list transformation on the fly each time
+//               a model change is detected so the population of the displayed view should be done in
+//               real time while processing the model sources. This should allow for search and filtering.
 package org.dimensinfin.android.mvc.datasource;
 
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
@@ -18,8 +21,8 @@ import java.util.HashMap;
 // - CLASS IMPLEMENTATION ...................................................................................
 
 /**
- * Controls and caches all DataSources in use that are allowed to be cacheable. Will use a single multifield Locator to store and
- * remember used DataSources and their state.
+ * Controls and caches all DataSources in use that are allowed to be cacheable. Will use a single multifield Locator to
+ * store and remember used DataSources and their state.
  * @author Adam Antinoo
  */
 public class DataSourceManager {
@@ -28,18 +31,19 @@ public class DataSourceManager {
 	private static final HashMap<String, IDataSource> dataSources = new HashMap<String, IDataSource>();
 
 	/**
-	 * Registers this new DataSource on the Manager or returns the source located already on the cache if they unique identifiers
-	 * match. This way I will get a cached and already prepared DataSource if I try to create another with the same identifier.
+	 * Registers this new DataSource on the Manager or returns the source located already on the cache if they unique
+	 * identifiers match. This way I will get a cached and already prepared DataSource if I try to create another with the
+	 * same identifier.
 	 * @param newSource new DataSource to add to the Manager
 	 * @return the oldest DataSource with the same identifier.
 	 */
-	public static IDataSource registerDataSource(final IDataSource newSource) {
+	public static IDataSource registerDataSource ( final IDataSource newSource ) {
 		// Check if the datasource is cacheable.
-		if (newSource.isCacheable()) {
+		if ( newSource.isCacheable() ) {
 			DataSourceLocator locator = newSource.getDataSourceLocator();
 			// Search for locator on cache.
 			IDataSource found = DataSourceManager.dataSources.get(locator.getIdentity());
-			if (null == found) {
+			if ( null == found ) {
 				DataSourceManager.dataSources.put(locator.getIdentity(), newSource);
 				DataSourceManager.logger
 						.info("-- [DataSourceManager.registerDataSource]> Registering new DataSource: " + locator.getIdentity());

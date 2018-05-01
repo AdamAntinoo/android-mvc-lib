@@ -4,8 +4,11 @@
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
 //               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchycal Part model that finally will
+//               a generic converter from a Graph Model to a hierarchical Part model that finally will
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               The new implementation performs the model to list transformation on the fly each time
+//               a model change is detected so the population of the displayed view should be done in
+//               real time while processing the model sources. This should allow for search and filtering.
 package org.dimensinfin.android.mvc.activity;
 
 import android.app.ActionBar;
@@ -26,18 +29,17 @@ import java.util.logging.Logger;
 // - CLASS IMPLEMENTATION ...................................................................................
 
 /**
- * This class extends the bare android Activity. Defines the ActionBar and instantiates the layout. The generic layout for any of
- * the MVC activities contains 3 key elements. A <b>Background</b> image container that defines the full background of the
- * activity, the <b>ActionBar</b> that is defined on the applications styles and that it is made visible by default and the
- * <b>ViewPager</b> container that will hold the fragments. This allows for a generic activity that will be able to
- * contain different pages and with the feature to allow to swipe to them without changing the activity. The different pages
- * will be shown by a circle page indicator if more that one page is present. Only two of them are accessible to other
- * implementations, the Background and the ActionBar.
+ * This class extends the bare android Activity. Defines the ActionBar and instantiates the layout. The generic layout
+ * for any of the MVC activities contains 3 key elements. A <b>Background</b> image container that defines the full
+ * background of the activity, the <b>ActionBar</b> that is defined on the applications styles and that it is made
+ * visible by default and the <b>ViewPager</b> container that will hold the fragments. This allows for a generic
+ * activity that will be able to contain different pages and with the feature to allow to swipe to them without changing
+ * the activity. The different pages will be shown by a circle page indicator if more that one page is present. Only two
+ * of them are accessible to other implementations, the Background and the ActionBar.
  * <p>
- * So at the creation step we only should have to generate the Fragments and add them to the pager. This is the functionality for
- * the <code>{@link addPage(ImageView)}</code> public method. Fragments share some characteristics to use the possibilities
- * offered by the
- * ActionBar like the <b>Title</b> and the <b>SubTitle</b>.
+ * So at the creation step we only should have to generate the Fragments and add them to the pager. This is the
+ * functionality for the <code>{@link addPage(ImageView)}</code> public method. Fragments share some characteristics to
+ * use the possibilities offered by the ActionBar like the <b>Title</b> and the <b>SubTitle</b>.
  * @author Adam Antinoo
  * @since 1.0.0
  */
@@ -62,7 +64,7 @@ public abstract class AbstractPagerActivity extends Activity {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public Activity getActivity() {
+	public Activity getActivity () {
 		return this;
 	}
 
@@ -70,25 +72,25 @@ public abstract class AbstractPagerActivity extends Activity {
 	 * Allows to change the activity background that covers the full size of the display
 	 * @param newbackground the new background image.
 	 */
-	public void setBackground(final ImageView newbackground) {
+	public void setBackground ( final ImageView newbackground ) {
 		this.background = newbackground;
 	}
 
 	/**
-	 * Adds a new <code>Fragment</code> to the list of fragments managed by the pager. The new fragment is added at the last
-	 * position of the list of fragments, positions are then relative and not set by the developer.
-	 * @param newFrag the new fragment to add to the pager. When the application is brought back to life we can have already the
-	 *                fragments created and initialized at the <code>FragmentManager</code>. In such a case we discard the new
-	 *                received fragment and use the already instance at the <code>FragmentManager</code>.
+	 * Adds a new <code>Fragment</code> to the list of fragments managed by the pager. The new fragment is added at the
+	 * last position of the list of fragments, positions are then relative and not set by the developer.
+	 * @param newFrag the new fragment to add to the pager. When the application is brought back to life we can have
+	 *                already the fragments created and initialized at the <code>FragmentManager</code>. In such a case we
+	 *                discard the new received fragment and use the already instance at the <code>FragmentManager</code>.
 	 */
-	public void addPage(AbstractPagerFragment newFrag) {
+	public void addPage ( AbstractPagerFragment newFrag ) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.addPage]"); //$NON-NLS-1$
 		// Before checking if we have already this fragment we should get its unique identifier.
 		Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextPosition()));
-		if (null == frag) {
+		if ( null == frag ) {
 			_pageAdapter.addPage(newFrag);
 		} else {
-			if (frag instanceof AbstractPagerFragment) {
+			if ( frag instanceof AbstractPagerFragment ) {
 				// Reuse a previous created Fragment. But watch some of the fields have been removed.
 				((AbstractPagerFragment) frag).setVariant(newFrag.getVariant());
 				newFrag = (AbstractPagerFragment) frag;
@@ -102,30 +104,30 @@ public abstract class AbstractPagerActivity extends Activity {
 		// Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
 		newFrag.setExtras(this.getExtras());
 		// Check the number of pages to activate the indicator when more the one.
-		if (_pageAdapter.getCount() > 1) {
+		if ( _pageAdapter.getCount() > 1 ) {
 			this.activateIndicator();
 		}
 		AbstractPagerActivity.logger.info("<< [AbstractPagerActivity.addPage]"); //$NON-NLS-1$
 	}
 
-	private void activateIndicator() {
+	private void activateIndicator () {
 		// If the Indicator is active then set the listener.
-		if (null != _indicator) {
+		if ( null != _indicator ) {
 			_indicator.setVisibility(View.VISIBLE);
 			_indicator.setViewPager(_pageContainer);
 			_indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-				public void onPageScrolled(final int arg0, final float arg1, final int arg2) {
+				public void onPageScrolled ( final int arg0, final float arg1, final int arg2 ) {
 				}
 
-				public void onPageScrollStateChanged(final int arg0) {
+				public void onPageScrollStateChanged ( final int arg0 ) {
 				}
 
-				public void onPageSelected(final int position) {
-					if (null != _actionBar) {
+				public void onPageSelected ( final int position ) {
+					if ( null != _actionBar ) {
 						_actionBar.setTitle(_pageAdapter.getTitle(position));
 						// Clear empty subtitles.
-						if ("" == _pageAdapter.getSubTitle(position)) {
+						if ( "" == _pageAdapter.getSubTitle(position) ) {
 							_actionBar.setSubtitle(null);
 						} else {
 							_actionBar.setSubtitle(_pageAdapter.getSubTitle(position));
@@ -136,17 +138,17 @@ public abstract class AbstractPagerActivity extends Activity {
 		} else {
 			_pageContainer.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-				public void onPageScrolled(final int arg0, final float arg1, final int arg2) {
+				public void onPageScrolled ( final int arg0, final float arg1, final int arg2 ) {
 				}
 
-				public void onPageScrollStateChanged(final int arg0) {
+				public void onPageScrollStateChanged ( final int arg0 ) {
 				}
 
-				public void onPageSelected(final int position) {
-					if (null != _actionBar) {
+				public void onPageSelected ( final int position ) {
+					if ( null != _actionBar ) {
 						_actionBar.setTitle(_pageAdapter.getTitle(position));
 						// Clear empty subtitles.
-						if ("" == _pageAdapter.getSubTitle(position)) {
+						if ( "" == _pageAdapter.getSubTitle(position) ) {
 							_actionBar.setSubtitle(null);
 						} else {
 							_actionBar.setSubtitle(_pageAdapter.getSubTitle(position));
@@ -157,27 +159,24 @@ public abstract class AbstractPagerActivity extends Activity {
 		}
 	}
 
-	private void disableIndicator() {
-		if (null != _indicator) {
+	private void disableIndicator () {
+		if ( null != _indicator ) {
 			_indicator.setVisibility(View.GONE);
 		}
 	}
 
-	private Bundle getExtras() {
+	private Bundle getExtras () {
 		return _extras;
 	}
-//	protected AbstractFragmentPagerAdapter getPageAdapter() {
-//		return _pageAdapter;
-//	}
 
 	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
+	protected void onCreate ( final Bundle savedInstanceState ) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		// Process the extras received by the intent so they can be shared to all the Fragments
 		try {
 			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
-			if (null != savedInstanceState) {
+			if ( null != savedInstanceState ) {
 				_extras = savedInstanceState;
 			} else {
 				_extras = this.getIntent().getExtras();
@@ -188,7 +187,6 @@ public abstract class AbstractPagerActivity extends Activity {
 
 
 		// TODO This section is back the core ActionBar that can be configured until a new configuration is tested.
-//		try {
 		// Set the layout to the core activity that defines the background, the indicator and the fragment container.
 		this.setContentView(R.layout.activity_pager);
 		// Gets the activity's default ActionBar
@@ -201,10 +199,10 @@ public abstract class AbstractPagerActivity extends Activity {
 		background = (ImageView) this.findViewById(R.id.backgroundFrame);
 		_indicator = (CirclePageIndicator) this.findViewById(R.id.indicator);
 		// Check page structure.
-		if (null == _pageContainer) {
+		if ( null == _pageContainer ) {
 			throw new RuntimeException("RTEX [AbstractPagerActivity.onCreate]> Expected UI element not found.");
 		}
-		if (null == background) {
+		if ( null == background ) {
 			throw new RuntimeException("RTEX [AbstractPagerActivity.onCreate]> Expected UI element not found.");
 		}
 
@@ -213,36 +211,27 @@ public abstract class AbstractPagerActivity extends Activity {
 		_pageContainer.setAdapter(_pageAdapter);
 		// Cleat the indicator from the view until more than one page is added.
 		this.disableIndicator();
-//		} catch (final RuntimeException rtex) {
-//			logger.severe("RTEX [AbstractPagerActivity.onCreate]> " + rtex.getMessage());
-//			rtex.printStackTrace();
-////			this.stopActivity(new RuntimeException("RTEX [AbstractPagerActivity.onCreate]> " + rtex.getMessage()));
-//		}
 		AbstractPagerActivity.logger.info("<< [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
 	}
 
-//	/**
-//	 * For really unrecoverable or undefined exceptions the application should go to a safe spot. That spot is
-//	 * defined by the application so we use the delegate to runtime pattern to call the Application First Activity
-//	 * whatever it is.
-//	 * @param exception the exception detected and that requires an application restart to a safe point.
-//	 */
-//	protected void stopActivity(final Exception exception) {
-//		final Intent intent = new Intent(this, MVCAppConnector.getSingleton().getFirstActivity().getClass());
-//		// Pass the user message to the activity for display.
-//		intent.putExtra(EExtrasMVC.EXTRA_EXCEPTIONMESSAGE.name(), exception.getMessage());
-//		this.startActivity(intent);
-//	}
+	private void updateInitialTitle () {
+		if ( null != _actionBar ) {
+			Fragment firstFragment = _pageAdapter.getInitialPage();
+			// REFACTOR This IF can be removed once this code works.
+			if ( firstFragment instanceof AbstractPagerFragment ) {
+				_actionBar.setTitle(((AbstractPagerFragment) firstFragment).getTitle());
+				_actionBar.setSubtitle(((AbstractPagerFragment) firstFragment).getSubtitle());
+			}
+		}
+	}
 
-//	private void updateInitialTitle() {
-//		if (null != _actionBar) {
-//			Fragment firstFragment = this.getPageAdapter().getInitialPage();
-//			// REFACTOR This IF can be removed once this code works.
-//			if (firstFragment instanceof AbstractPagerFragment) {
-//				_actionBar.setTitle(((AbstractPagerFragment) firstFragment).getTitle());
-//				_actionBar.setSubtitle(((AbstractPagerFragment) firstFragment).getSubtitle());
-//			}
-//		}
-//	}
+	//--- A C T I V I T Y   L I F E C Y C L E
+
+	@Override
+	protected void onStart () {
+		super.onStart();
+		// Update the menu for the first page.
+		updateInitialTitle();
+	}
 }
 // - UNUSED CODE ............................................................................................
