@@ -62,7 +62,7 @@ public class DemoDetailSeparatorPart extends AbstractAndroidPart {
 	}
 
 	@Override
-	protected AbstractRender selectRenderer () {
+	public AbstractRender selectRenderer () {
 		return new DemoDetailSeparatorRender(this, _activity);
 	}
 }

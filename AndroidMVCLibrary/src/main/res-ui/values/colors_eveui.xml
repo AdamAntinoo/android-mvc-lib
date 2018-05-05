@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="uipanelcornerwhite">#FFFFFFFF</color>
-    <color name="uipanelcornerdarkgrey">#FF333333</color>
-    <color name="uipanelcornergrey">#FF808080</color>
     <color name="uipanelcornerred">#FFF62217</color>
+    <color name="uipanelcornerrose">#FFFF4DFF</color>
     <color name="uipanelcornerorange">#FFF2540C</color>
     <color name="uipanelcorneryellow">#FFFFFF33</color>
     <color name="uipanelcornergreen">#FF6CC417</color>
-    <color name="uipanelcornerblue">#FF676096</color>
-    <color name="uipanelcornerrose">#FFFF4DFF</color>
+    <color name="uipanelcornerlightblue">#FF00BFFF</color>
+    <color name="uipanelcornerdarkblue">#FF3333CC</color>
+    <color name="uipanelcornerpurple">#FF8600B3</color>
+    <color name="uipanelcornergrey">#FF808080</color>
+    <color name="uipanelcornerdarkgrey">#FF333333</color>
+    <color name="uipanelcornerblack">#FF000000</color>
 
     <color name="uipanelbackground">#FF080808</color>
     <color name="uipaneldataareabackground">#FF151515</color>
@@ -21,4 +24,17 @@
     <color name="panelbackground">#FF303030</color>
     <color name="panelmainborder">#FF505050</color>
     <color name="panelcorner">#FFFFFFFF</color>
+
+    <!-- Android Common UI colors. Separator colors -->
+    <color name="separatorwhiteglow">#FFFFFFFF</color>
+    <color name="separatorredglow">#FFF62217</color>
+    <color name="separatorroseglow">#FFFF4DFF</color>
+    <color name="separatororangeglow">#FFF2540C</color>
+    <color name="separatoryellowglow">#FFFFFF33</color>
+    <color name="separatorgreenglow">#FF6CC417</color>
+    <color name="separatorlightblueglow">#FF00BFFF</color>
+    <color name="separatordarkblueglow">#FF8600B3</color>
+    <color name="separatorpurpleglow">#FF3333CC</color>
+    <color name="separatordarkgreyglow">#FF333333</color>
+    <color name="separatorblackglow">#FF000000</color>
 </resources>

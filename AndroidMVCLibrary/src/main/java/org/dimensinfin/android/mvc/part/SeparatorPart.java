@@ -64,7 +64,7 @@ public class SeparatorPart extends AbstractAndroidPart {
 	}
 
 	@Override
-	protected AbstractRender selectRenderer () {
+	public AbstractRender selectRenderer () {
 		return new SeparatorRender(this, _activity);
 	}
 }
@@ -119,7 +119,7 @@ final class SeparatorRender extends AbstractRender {
 			case LINE_GREEN:
 				title.setVisibility(View.GONE);
 				break;
-			case LINE_BLUE:
+			case LINE_DARKBLUE:
 				title.setVisibility(View.GONE);
 				break;
 			case EMPTY_SIGNAL:
@@ -165,8 +165,8 @@ final class SeparatorRender extends AbstractRender {
 				// Collapse the expansion.
 				//				this.getPart().getCastedModel().setExpanded(false);
 				break;
-			case LINE_BLUE:
-				renderer = R.layout.separatorblueline;
+			case LINE_DARKBLUE:
+				renderer = R.layout.separatordarkblueline;
 				// Collapse the expansion.
 				//				this.getPart().getCastedModel().setExpanded(false);
 				break;

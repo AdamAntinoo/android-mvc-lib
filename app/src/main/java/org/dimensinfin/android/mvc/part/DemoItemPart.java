@@ -48,7 +48,7 @@ public class DemoItemPart extends AbstractAndroidPart {
 	}
 
 	@Override
-	protected AbstractRender selectRenderer() {
+	public AbstractRender selectRenderer() {
 		if (getRenderMode() == "-LABEL-") return new DemoLabelRender(this, _activity);
 		if (getRenderMode() == "-ITEM-") return new DemoItemRender(this, _activity);
 		return new DemoLabelRender(this, _activity);

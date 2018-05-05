@@ -39,13 +39,6 @@
     <color name="panellineblue">#FF676096</color>
     <color name="panellinerose">#FFFF4DFF</color>
 
-    <!-- Android Common UI colors. Separator colors -->
-    <color name="separatorredglow">#FFF62217</color>
-    <color name="separatororangeglow">#FFF2540C</color>
-    <color name="separatoryellowglow">#FFFFFF33</color>
-    <color name="separatorgreenglow">#FF6CC417</color>
-    <color name="separatorblueglow">#FF3333FF</color>
-
     <!-- Android Common UI colors. Progress indicator -->
     <color name="blueBrightProgress">#FF3D78BA</color>
     <color name="blueDarkProgress">#FF554EBA</color>

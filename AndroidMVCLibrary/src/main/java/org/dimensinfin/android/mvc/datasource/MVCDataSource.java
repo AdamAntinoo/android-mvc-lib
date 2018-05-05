@@ -31,7 +31,6 @@ import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.android.mvc.interfaces.IRootPart;
-import org.dimensinfin.core.constant.CoreConstants;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
@@ -46,6 +45,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 
 /**
  * New complete core implementation for the DataSource that should be connected to the extended BaseAdapter to
@@ -294,6 +294,8 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 			this.transformModel2Parts();
 			_dataSectionParts.clear();
 			_partModelRoot.collaborate2View(_dataSectionParts);
+			// TODO - I think there is missing the action to update the listview. Trying with this messsage.
+			firePropertyChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(),null,null);
 		}
 		if ( SystemWideConstants.events.valueOf(event.getPropertyName()) ==
 				SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA ) {
@@ -488,7 +490,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		}
 
 		@Override
-		protected AbstractRender selectRenderer () {
+		public AbstractRender selectRenderer () {
 			return new OnLoadSpinnerRender(this, getActivity());
 		}
 	}
@@ -511,7 +513,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 //			progress.
 			progressCounter = (TextView) _convertView.findViewById(R.id.progressCounter);
 			_elapsedTimer = Instant.now();
-			_timer = new CountDownTimer(CoreConstants.ONEDAY, CoreConstants.HUNDRETH) {
+			_timer = new CountDownTimer(TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS.toMillis(10)) {
 				@Override
 				public void onFinish () {
 					progressCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
@@ -549,10 +551,10 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 			try {
 				final long elapsed = Instant.now().getMillis() - millis;
 				final DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
-				if ( elapsed > CoreConstants.ONEHOUR ) {
+				if ( elapsed > TimeUnit.HOURS.toMillis(1) ) {
 					timeFormatter.appendHourOfDay(2).appendLiteral("h ");
 				}
-				if ( elapsed > CoreConstants.ONEMINUTE ) {
+				if ( elapsed > TimeUnit.MINUTES.toMillis(1) ) {
 					timeFormatter.appendMinuteOfHour(2).appendLiteral("m ").appendSecondOfMinute(2).appendLiteral("s");
 				} else timeFormatter.appendSecondOfMinute(2).appendLiteral("s");
 				return timeFormatter.toFormatter().print(new Instant(elapsed));

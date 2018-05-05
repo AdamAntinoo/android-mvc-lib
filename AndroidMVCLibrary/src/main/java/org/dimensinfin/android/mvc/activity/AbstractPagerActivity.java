@@ -53,7 +53,7 @@ public abstract class AbstractPagerActivity extends Activity {
 	protected static Logger logger = Logger.getLogger("AbstractPagerActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private Bundle _extras = null;
+	protected Bundle _extras = null;
 	private ActionBar _actionBar = null;
 	private ViewPager _pageContainer = null;
 	private AbstractFragmentPagerAdapter _pageAdapter = null;

@@ -49,7 +49,7 @@ public class DemoContainerPart extends AbstractExpandablePart {
 	}
 
 	@Override
-	protected AbstractRender selectRenderer() {
+	public AbstractRender selectRenderer() {
 		return new DemoContainerRender(this, _activity);
 	}
 

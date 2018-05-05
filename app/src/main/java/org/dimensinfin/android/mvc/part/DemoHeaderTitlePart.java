@@ -66,7 +66,7 @@ public class DemoHeaderTitlePart extends AbstractAndroidPart implements IMenuAct
 	}
 
 	@Override
-	protected AbstractRender selectRenderer () {
+	public AbstractRender selectRenderer () {
 		return new DemoHeaderTitleRender(this, _activity);
 	}
 

@@ -1,2 +1,4 @@
 include ':app'
 include ':AndroidMVCLibrary'
+//include ':CoreBase'
+//project(':CoreBase').projectDir = new File('D:\\Development\\Libraries Base\\Corebase 2.0.x\\org.dimensinfin.core')

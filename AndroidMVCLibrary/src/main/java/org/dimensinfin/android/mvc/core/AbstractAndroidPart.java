@@ -18,9 +18,10 @@ import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 
@@ -33,7 +34,7 @@ import java.util.logging.Logger;
 public abstract class AbstractAndroidPart extends AbstractPart implements IAndroidPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = 7467855028114565679L;
-	protected static Logger logger = Logger.getLogger("AbstractAndroidPart");
+	protected static Logger logger = LoggerFactory.getLogger("AbstractAndroidPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	protected Activity _activity = null;
@@ -54,7 +55,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 			return this.getFragment().getActivity();
 	}
 
-	@Override
+//	@Override
 	public AbstractPagerFragment getFragment () {
 		if ( null != _fragment )
 			return _fragment;
@@ -109,7 +110,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 	//		return this.selectRenderer();
 	//	}
 
-	@Override
+//	@Override
 	public View getView () {
 		return _view;
 	}
@@ -132,12 +133,12 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 		_view = null;
 	}
 
-	@Override
+//	@Override
 	public void setView ( final View convertView ) {
 		_view = convertView;
 	}
 
-	protected abstract AbstractRender selectRenderer ();
+//	public abstract AbstractRender selectRenderer ();
 }
 
 // - UNUSED CODE ............................................................................................
