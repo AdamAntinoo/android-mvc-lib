@@ -13,18 +13,22 @@ package org.dimensinfin.android.mvc.core;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.core.model.Separator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public abstract class AbstractRender implements IRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	protected static Logger logger = Logger.getLogger("AbstractRender");
+	protected static Logger logger = LoggerFactory.getLogger("AbstractRender");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	protected View _convertView = null;
@@ -44,39 +48,10 @@ public abstract class AbstractRender implements IRender {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public Activity getContext () {
-		return _context;
-	}
-
-	public int getExtraInteger ( final String key ) {
-		final Object data = _extras.get(key);
-		if ( data instanceof Integer )
-			return ((Integer) data).intValue();
-		else
-			return 0;
-	}
-
-	public AbstractPart getPart () {
-		return _part;
-	}
-
-	public View getView () {
-		return _convertView;
-	}
-
 	public void initializeViews () {
 		// Get the view of the rightArrow if found.
 		//		_rightArrow = (ImageView) _convertView.findViewById(R.id.rightArrow);
 	}
-
-	public void setContext ( final Activity context ) {
-		_context = context;
-	}
-
-	public void setExtraInteger ( final String key, final Integer integer ) {
-		_extras.put(key, integer);
-	}
-
 	public void updateContent () {
 		//		// Control the arrow to be shown.
 		//		if ( null != _rightArrow ) {
@@ -99,6 +74,35 @@ public abstract class AbstractRender implements IRender {
 		//		}
 		//		_convertView.invalidate();
 	}
+	public Activity getContext () {
+		return _context;
+	}
+	public AbstractPart getPart () {
+		return _part;
+	}
+
+	public View getView () {
+		return _convertView;
+	}
+
+//	public int getExtraInteger ( final String key ) {
+//		final Object data = _extras.get(key);
+//		if ( data instanceof Integer )
+//			return ((Integer) data).intValue();
+//		else
+//			return 0;
+//	}
+
+
+
+	public void setContext ( final Activity context ) {
+		_context = context;
+	}
+
+//	public void setExtraInteger ( final String key, final Integer integer ) {
+//		_extras.put(key, integer);
+//	}
+
 
 	private LayoutInflater getInflater () {
 		return (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
@@ -111,7 +115,53 @@ public abstract class AbstractRender implements IRender {
 	protected abstract void createView ();
 
 	protected Drawable getDrawable ( final int resourceid ) {
-		return getContext().getResources().getDrawable(resourceid, getContext().getTheme());
+		if ( Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ) {
+			return getContext().getResources().getDrawable(resourceid);
+		} else return getContext().getResources().getDrawable(resourceid, getContext().getTheme());
+	}
+	protected void setPanelBorderColor (final Separator.ESeparatorType panelTheme) {
+		int themeColor = R.drawable.uipanelborderwhite;
+		switch (panelTheme){
+			case LINE_WHITE:
+				themeColor= R.drawable.uipanelborderwhite;
+				break;
+			case LINE_RED:
+				themeColor= R.drawable.uipanelborderred;
+				break;
+			case LINE_ROSE:
+				themeColor= R.drawable.uipanelborderrose;
+				break;
+			case LINE_ORANGE:
+				themeColor= R.drawable.uipanelborderorange;
+				break;
+			case LINE_YELLOW:
+				themeColor= R.drawable.uipanelborderyellow;
+				break;
+			case LINE_GREEN:
+				themeColor= R.drawable.uipanelbordergreen;
+				break;
+			case LINE_LIGHTBLUE:
+				themeColor= R.drawable.uipanelborderlightblue;
+				break;
+			case LINE_DARKBLUE:
+				themeColor= R.drawable.uipanelborderdarkblue;
+				break;
+			case LINE_PURPLE:
+				themeColor= R.drawable.uipanelborderpurple;
+				break;
+			case LINE_GREY:
+				themeColor= R.drawable.uipanelbordergrey;
+				break;
+			case LINE_BLACK:
+				themeColor= R.drawable.uipanelborderblack;
+				break;
+			default:
+				themeColor= R.drawable.uipanelborderwhite;
+				break;
+		}
+		if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
+			_convertView.setBackground(getContext().getResources().getDrawable(themeColor, getContext().getTheme()));
+		} else _convertView.setBackground(getContext().getResources().getDrawable(themeColor));
 	}
 }
 

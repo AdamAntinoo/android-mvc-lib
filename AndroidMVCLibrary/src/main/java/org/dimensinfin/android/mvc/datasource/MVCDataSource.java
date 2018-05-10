@@ -100,6 +100,8 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 * list during the generation process.
 	 */
 	private final List<IAndroidPart> _dataSectionParts = new Vector<IAndroidPart>(100);
+	/** Flag used to do not launch more update events when there is one pending. */
+	private boolean _pending = false;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public MVCDataSource ( final DataSourceLocator locator, final String variant, final IPartFactory factory, final Bundle extras ) {
@@ -179,14 +181,19 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 */
 	public IDataSource addModelContents ( final ICollaboration newnode ) {
 		_dataModelRoot.addChild(newnode);
-		// Fire the model structure change event. This processing is done on the background and on the UI thread.
-		// TODO Check if this execution on this thread works or I should leave it on the UI thread.
-		AbstractPagerFragment._uiExecutor.submit(() -> {
-			// Notify the Adapter that the Root node has been modified to regenerate the collaboration2View.
-			propertyChange(new PropertyChangeEvent(this
-					, SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), newnode, _dataModelRoot));
-		});
-		return this;
+		// Optimization - If the event is already launched and not processed do not launch it again.
+		if ( _pending ) return this;
+		else {
+			// Fire the model structure change event. This processing is done on the background and on the UI thread.
+			_pending = true;
+			AbstractPagerFragment._uiExecutor.submit(() -> {
+				// Notify the Adapter that the Root node has been modified to regenerate the collaboration2View.
+				propertyChange(new PropertyChangeEvent(this
+						, SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), newnode, _dataModelRoot));
+				_pending = false;
+			});
+			return this;
+		}
 	}
 
 	public abstract void collaborate2Model ();
@@ -295,7 +302,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 			_dataSectionParts.clear();
 			_partModelRoot.collaborate2View(_dataSectionParts);
 			// TODO - I think there is missing the action to update the listview. Trying with this messsage.
-			firePropertyChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(),null,null);
+			firePropertyChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), null, null);
 		}
 		if ( SystemWideConstants.events.valueOf(event.getPropertyName()) ==
 				SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA ) {
@@ -496,7 +503,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	}
 
 	public static class OnLoadSpinnerRender extends AbstractRender {
-		private ProgressBar progress=null;
+		private ProgressBar progress = null;
 		private TextView progressCounter = null;
 
 		private Instant _elapsedTimer = null;
@@ -509,8 +516,8 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		@Override
 		public void initializeViews () {
 			super.initializeViews();
-			progress=(ProgressBar)_convertView.findViewById(R.id.progress);
-//			progress.
+			progress = (ProgressBar) _convertView.findViewById(R.id.progress);
+			//			progress.
 			progressCounter = (TextView) _convertView.findViewById(R.id.progressCounter);
 			_elapsedTimer = Instant.now();
 			_timer = new CountDownTimer(TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS.toMillis(10)) {
@@ -531,7 +538,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		@Override
 		public void updateContent () {
 			super.updateContent();
-//			progressCounter.setText("10 sec");
+			//			progressCounter.setText("10 sec");
 			Animation rotation = AnimationUtils.loadAnimation(getContext(), R.anim.clockwise_rotation);
 			rotation.setRepeatCount(Animation.INFINITE);
 			progress.startAnimation(rotation);

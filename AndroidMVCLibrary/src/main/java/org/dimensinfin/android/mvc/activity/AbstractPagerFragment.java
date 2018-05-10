@@ -54,7 +54,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class AbstractPagerFragment extends Fragment {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	protected static Logger logger = LoggerFactory.getLogger("AbstractPagerFragment");
-	public static final ExecutorService _uiExecutor = Executors.newSingleThreadExecutor();
+	public static final ExecutorService _uiExecutor = Executors.newFixedThreadPool(4);
 
 	// - F I E L D - S E C T I O N ............................................................................
 	/**

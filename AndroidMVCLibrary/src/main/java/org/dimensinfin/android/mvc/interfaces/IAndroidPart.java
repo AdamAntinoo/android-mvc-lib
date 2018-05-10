@@ -9,7 +9,6 @@
 package org.dimensinfin.android.mvc.interfaces;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.view.View;
 
 import org.dimensinfin.android.mvc.core.AbstractRender;
@@ -26,33 +25,38 @@ public interface IAndroidPart extends IPart {
 
 	public Activity getActivity ();
 
-	public Fragment getFragment ();
+	// TODO - Alter the interface to force demanding a new part the unimplemented methods.
+	//	public Fragment getFragment ();
 
 	/**
 	 * Returns a numeric identifier for this part model item that should be unique from all other system wide
 	 * parts to allow for easy management of the corresponding parts and views.
-	 *
 	 * @return <code>long</code> identifier with the model number.
 	 */
 	public long getModelId ();
 
-	public AbstractRender getRenderer (Activity activity);
+	//	public AbstractRender getRenderer (Activity activity);
+	// TODO - Alter the interface to force demanding a new part the unimplemented methods.
+	public AbstractRender selectRenderer ();
 
 	//	public AbstractRender getRenderer (Fragment fragment);
+	public AbstractRender getRenderer (Activity context);
 
 	public View getView ();
+
+	public void setView (View convertView);
 
 	public void invalidate ();
 
 	public void needsRedraw ();
 
-	public void setView (View convertView);
 
-	public boolean clickRunning ();
-
-	public boolean activateClick ();
-
-	public boolean completeClick ();
+	// TODO - Alter the interface to force demanding a new part the unimplemented methods.
+	//	public boolean clickRunning ();
+	//
+	//	public boolean activateClick ();
+	//
+	//	public boolean completeClick ();
 
 
 	//	public List<IPart> runPolicies (List<IPart> targets);

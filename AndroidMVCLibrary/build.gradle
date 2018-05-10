@@ -48,21 +48,30 @@ android {
         }
     }
 }
-task generateSourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-task generateJavadocs(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-generateJavadocs.dependsOn generateSourcesJar
-
-task generateJavadocsJar(type: Jar) {
-    classifier = 'javadoc'
-    from generateJavadocs.destinationDir
-}
-generateJavadocsJar.dependsOn generateJavadocs
+//repositories {
+//    mavenCentral()
+//    google()
+//    jcenter()
+//    maven { url 'https://jitpack.io' }
+//    flatDir {
+//        dirs 'D:\\Development\\Libraries Base\\DevelopmentLibraries\\Dynamic'
+//    }
+//}
+//task generateSourcesJar(type: Jar) {
+//    from android.sourceSets.main.java.srcDirs
+//    classifier = 'sources'
+//}
+//task generateJavadocs(type: Javadoc) {
+//    source = android.sourceSets.main.java.srcDirs
+//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//}
+//generateJavadocs.dependsOn generateSourcesJar
+//
+//task generateJavadocsJar(type: Jar) {
+//    classifier = 'javadoc'
+//    from generateJavadocs.destinationDir
+//}
+//generateJavadocsJar.dependsOn generateJavadocs
 
 dependencies {
     // A N D R O I D    S U P P O R T
@@ -76,8 +85,8 @@ dependencies {
 //    implementation project(path: ':CoreBase')
 
     // L O C A L    L I B R A R I E S
-    implementation files('libs/CoreBase.core-2.0.3.jar')
     api files('libs/viewpagerindicator-release.aar')
+    compileOnly files('libs/CoreBase.core-2.0.3.jar')
 
     // M O D U L E    D E P E N D E N C I E S
     implementation 'org.slf4j:slf4j-android:1.7.25'
