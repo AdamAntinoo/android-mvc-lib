@@ -24,9 +24,8 @@ import com.viewpagerindicator.CirclePageIndicator;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.datasource.AbstractFragmentPagerAdapter;
 
-import java.util.logging.Logger;
-
-// - CLASS IMPLEMENTATION ...................................................................................
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class extends the bare android Activity. Defines the ActionBar and instantiates the layout. The generic layout
@@ -43,14 +42,14 @@ import java.util.logging.Logger;
  * @author Adam Antinoo
  * @since 1.0.0
  */
-@SuppressWarnings("JavadocReference")
+// - CLASS IMPLEMENTATION ...................................................................................
 public abstract class AbstractPagerActivity extends Activity {
 	public enum EExtrasMVC {
 		EXTRA_EXCEPTIONMESSAGE, EXTRA_VARIANT
 	}
 
 	// - S T A T I C - S E C T I O N ..........................................................................
-	protected static Logger logger = Logger.getLogger("AbstractPagerActivity");
+	protected static Logger logger = LoggerFactory.getLogger("AbstractPagerActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	protected Bundle _extras = null;
@@ -182,7 +181,7 @@ public abstract class AbstractPagerActivity extends Activity {
 				_extras = this.getIntent().getExtras();
 			}
 		} catch (RuntimeException rtex) {
-			logger.warning("RTEX [AbstractPagerActivity.onCreate]> " + rtex.getMessage());
+			logger.warn("RTEX [AbstractPagerActivity.onCreate]> " + rtex.getMessage());
 		}
 
 

@@ -3,8 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://D:\Development\Libraries Android\AndroidMVC\AndroidMVC Dynamic-Final\AndroidMVC Dynamic.iml" filepath="D:\Development\Libraries Android\AndroidMVC\AndroidMVC Dynamic-Final\AndroidMVC Dynamic.iml" />
-      <module fileurl="file://$PROJECT_DIR$/AndroidMVC Dynamic-Final.iml" filepath="$PROJECT_DIR$/AndroidMVC Dynamic-Final.iml" />
+      <module fileurl="file://D:\Development\Libraries Android\AndroidMVC\AndroidMVC-3.0.x\AndroidMVC Dynamic-Final.iml" filepath="D:\Development\Libraries Android\AndroidMVC\AndroidMVC-3.0.x\AndroidMVC Dynamic-Final.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AndroidMVC-3.0.x.iml" filepath="$PROJECT_DIR$/AndroidMVC-3.0.x.iml" />
       <module fileurl="file://$PROJECT_DIR$/AndroidMVCLibrary/AndroidMVCLibrary.iml" filepath="$PROJECT_DIR$/AndroidMVCLibrary/AndroidMVCLibrary.iml" />
+      <module fileurl="file://D:\Development\Libraries Android\AndroidMVC\AndroidMVC-3.0.x\AndroidMVCLibrary\AndroidMVCLibrary.iml" filepath="D:\Development\Libraries Android\AndroidMVC\AndroidMVC-3.0.x\AndroidMVCLibrary\AndroidMVCLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

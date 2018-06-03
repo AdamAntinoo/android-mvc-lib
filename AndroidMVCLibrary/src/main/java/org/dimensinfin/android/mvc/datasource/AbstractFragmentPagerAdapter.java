@@ -37,7 +37,7 @@ public class AbstractFragmentPagerAdapter extends FragmentPagerAdapter {
 	// - M E T H O D - S E C T I O N ..........................................................................
 
 	/**
-	 * Sdd a new fragment at the end of the list of already managed fragments. After the addition we notify the Adapter
+	 * Add a new fragment at the end of the list of already managed fragments. After the addition we notify the Adapter
 	 * that the source data has changed so it can update any UI element affected by this change like the indicator is the
 	 * number of pages is greater than one.
 	 * @param fragNew new fragment to all to the list of pages.

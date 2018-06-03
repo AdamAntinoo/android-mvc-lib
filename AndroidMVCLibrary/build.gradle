@@ -48,38 +48,38 @@ android {
         }
     }
 }
-//repositories {
-//    mavenCentral()
-//    google()
-//    jcenter()
-//    maven { url 'https://jitpack.io' }
-//    flatDir {
-//        dirs 'D:\\Development\\Libraries Base\\DevelopmentLibraries\\Dynamic'
-//    }
-//}
-//task generateSourcesJar(type: Jar) {
-//    from android.sourceSets.main.java.srcDirs
-//    classifier = 'sources'
-//}
-//task generateJavadocs(type: Javadoc) {
-//    source = android.sourceSets.main.java.srcDirs
-//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-//}
-//generateJavadocs.dependsOn generateSourcesJar
-//
-//task generateJavadocsJar(type: Jar) {
-//    classifier = 'javadoc'
-//    from generateJavadocs.destinationDir
-//}
-//generateJavadocsJar.dependsOn generateJavadocs
+
+// --- T A S K S   C O M P L E M E N T A R Y
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    failOnError false
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
 
 dependencies {
     // A N D R O I D    S U P P O R T
     implementation 'com.android.support:appcompat-v7:27.0.2'
     implementation 'com.android.support:support-core-ui:27.0.2'
     implementation 'com.android.support:support-core-utils:27.0.2'
+    implementation 'com.android.support:support-v4:27.0.2'
     implementation 'com.android.support:support-v13:27.0.2'
-    implementation 'com.android.support:recyclerview-v7:27.0.2'
+//    implementation 'com.android.support:support-annotations:27.0.2'
+//    implementation 'com.android.support:recyclerview-v7:27.0.2'
 
     // P R O J E C T    D E P E N D E N C I E S
 //    implementation project(path: ':CoreBase')

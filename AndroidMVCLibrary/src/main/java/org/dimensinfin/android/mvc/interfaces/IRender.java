@@ -4,35 +4,24 @@
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
 //               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchycal Part model that finally will
+//               a generic converter from a Graph Model to a hierarchical Part model that finally will
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               The new implementation performs the model to list transformation on the fly each time
+//               a model change is detected so the population of the displayed view should be done in
+//               real time while processing the model sources. This should allow for search and filtering.
 package org.dimensinfin.android.mvc.interfaces;
 
-import android.app.Activity;
 import android.view.View;
 
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.core.datasource.DataSourceLocator;
-import org.dimensinfin.core.model.RootNode;
-
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.List;
-
 // - CLASS IMPLEMENTATION ...................................................................................
-public interface IRender  {
-	public void initializeViews ();
-	public void updateContent ();
-	public View getView ();
+public interface IRender {
+	public void initializeViews();
 
-//	public void setContext (final Activity context) {
-//		_context = context;
-//	}
-//
-//	public void setExtraInteger (final String key, final Integer integer) {
-//		_extras.put(key, integer);
-//	}
+	public void updateContent();
 
+	public View getView();
+
+	public int accessLayoutReference();
 }
 
 // - UNUSED CODE ............................................................................................

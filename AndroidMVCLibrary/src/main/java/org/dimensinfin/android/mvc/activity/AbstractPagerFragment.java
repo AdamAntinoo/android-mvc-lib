@@ -131,7 +131,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * reconstructed.
 	 * @return the variant name assigned to this fragment instance.
 	 */
-	protected String getVariant () {
+	public String getVariant() {
 		return _variant;
 	}
 
