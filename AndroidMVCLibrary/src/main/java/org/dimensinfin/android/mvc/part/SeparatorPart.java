@@ -87,15 +87,16 @@ final class SeparatorRender extends AbstractRender {
 		return (SeparatorPart) super.getPart();
 	}
 
+	// --- I R E N D E R   I N T E R F A C E
 	@Override
 	public void initializeViews () {
-		super.initializeViews();
+//		super.initializeViews();
 		title = (TextView) _convertView.findViewById(R.id.title);
 	}
 
 	@Override
 	public void updateContent () {
-		super.updateContent();
+//		super.updateContent();
 		String tt = this.getPart().getTitle();
 		switch (this.getPart().getCastedModel().getType()) {
 			case DEFAULT:
@@ -129,6 +130,15 @@ final class SeparatorRender extends AbstractRender {
 				break;
 		}
 		_convertView.invalidate();
+	}
+
+	/**
+	 * Method not used because this Render implements a programatically generated layout reference.
+	 * @return
+	 */
+	@Override
+	public int accessLayoutReference() {
+		return R.layout.separatorwhiteline;
 	}
 
 	@Override

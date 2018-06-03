@@ -513,9 +513,10 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 			super(newPart, context);
 		}
 
+		// --- I R E N D E R   I N T E R F A C E
 		@Override
 		public void initializeViews () {
-			super.initializeViews();
+//			super.initializeViews();
 			progress = (ProgressBar) _convertView.findViewById(R.id.progress);
 			//			progress.
 			progressCounter = (TextView) _convertView.findViewById(R.id.progressCounter);
@@ -537,7 +538,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 
 		@Override
 		public void updateContent () {
-			super.updateContent();
+//			super.updateContent();
 			//			progressCounter.setText("10 sec");
 			Animation rotation = AnimationUtils.loadAnimation(getContext(), R.anim.clockwise_rotation);
 			rotation.setRepeatCount(Animation.INFINITE);
@@ -545,9 +546,8 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		}
 
 		@Override
-		protected void createView () {
-			_convertView = inflateView(R.layout.onload_spinner);
-			_convertView.setTag(this);
+		public int accessLayoutReference() {
+			return R.layout.onload_spinner;
 		}
 
 		/**

@@ -35,7 +35,7 @@ public class PartFactory implements IPartFactory {
 	// - M E T H O D - S E C T I O N ..........................................................................
 	public IPart createPart ( final ICollaboration node ) {
 		// If no part is trapped then result a NOT FOUND mark
-		return new SeparatorPart(new Separator("-NO Model-[" + node.getClass().getSimpleName() + "]-"));
+		return new SeparatorPart(new Separator("-NO Model-Part match-[" + node.getClass().getSimpleName() + "]-"));
 	}
 
 	public String getVariant () {

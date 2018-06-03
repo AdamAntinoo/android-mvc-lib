@@ -53,7 +53,7 @@ public class AbstractExpandableRender extends AbstractRender {
 	//--- G E T T E R S   &   S E T T E R S
 	@Override
 	public void initializeViews () {
-		super.initializeViews();
+//		super.initializeViews();
 		// Get the view of the rightArrow if found.
 		_rightArrow = (ImageView) _convertView.findViewById(R.id.rightArrow);
 
@@ -71,7 +71,7 @@ public class AbstractExpandableRender extends AbstractRender {
 	 */
 	@Override
 	public void updateContent () {
-		super.updateContent();
+//		super.updateContent();
 		// Check if the model is expandable to show or hide the arrow.
 		final ICollaboration targetModel = getPart().getModel();
 		if ( null != _rightArrow ) {
@@ -98,9 +98,8 @@ public class AbstractExpandableRender extends AbstractRender {
 	}
 
 	@Override
-	protected void createView () {
-		_convertView = inflateView(R.layout.baseexpandablenode);
-		_convertView.setTag(this);
+	public int accessLayoutReference() {
+		return R.layout.baseexpandablenode;
 	}
 
 	//--- D E L E G A T E D   M E T H O D S
