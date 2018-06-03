@@ -195,6 +195,18 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 			return this;
 		}
 	}
+	public IDataSource addModelContents ( final ICollaboration newnode , final boolean forceEvent) {
+		final IDataSource ds = addModelContents(newnode);
+		if (forceEvent)
+			if(_pending)
+				AbstractPagerFragment._uiExecutor.submit(() -> {
+					// Notify the Adapter that the Root node has been modified to regenerate the collaboration2View.
+					propertyChange(new PropertyChangeEvent(this
+							, SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), newnode, _dataModelRoot));
+					_pending = false;
+				});
+		return ds;
+	}
 
 	public abstract void collaborate2Model ();
 
@@ -286,7 +298,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 */
 	@Override
 	public void propertyChange ( final PropertyChangeEvent event ) {
-		logger.info(">> [MVCDataSource.propertyChange]> Processing Event: {}" + event.getPropertyName());
+		logger.info(">> [MVCDataSource.propertyChange]> Processing Event: {}", event.getPropertyName());
 		//--- C O N T E N T   E V E N T S
 		// The expand/collapse state has changed.
 		if ( SystemWideConstants.events.valueOf(event.getPropertyName()) ==
