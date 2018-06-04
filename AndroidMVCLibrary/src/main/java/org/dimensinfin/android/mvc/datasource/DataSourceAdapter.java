@@ -11,6 +11,11 @@
 //               real time while processing the model sources. This should allow for search and filtering.
 package org.dimensinfin.android.mvc.datasource;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +25,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
@@ -27,13 +35,6 @@ import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.core.util.Chrono;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.List;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 
@@ -48,6 +49,7 @@ import java.util.List;
 public class DataSourceAdapter extends BaseAdapter implements PropertyChangeListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("DataSourceAdapter");
+	private static boolean logAllowed = false;
 
 	// - F I E L D - S E C T I O N ............................................................................
 	/** The Activity where all this structures beong an that is used as the core display context. */
@@ -127,7 +129,6 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 		return 1;
 	}
 
-
 	/**
 	 * This method is called so many times that represent the most consuming tasks on the Activity. The
 	 * optimization to not create more views than the needed ones and the reduction of code line is s must that
@@ -186,7 +187,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			}
 			// REFACTOR Add the DataSource as an event listener because that feature does not depend on the interfaces.
 			item.addPropertyChangeListener(_datasource);
-			logger.info(exitMessage + " - Rendering time: " + chrono.printElapsed(Chrono.ChronoOptions.SHOWMILLIS));
+			if ( logAllowed )		logger.info(exitMessage + " - Rendering time: " + chrono.printElapsed(Chrono.ChronoOptions.SHOWMILLIS));
 			return convertView;
 		} catch (RuntimeException rtex) {
 			String message = rtex.getMessage();
