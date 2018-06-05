@@ -22,7 +22,8 @@
     <dimen name="menuIconWidth">34dip</dimen>
     <dimen name="menuIconHeight">32dip</dimen>
 
-    <!-- NeoCom default dimensions for UI objectsº. -->
+    <!-- NeoCom default dimensions for UI objects. -->
     <dimen name="pilotavatarsize">96dip</dimen>
+    <dimen name="topbottomlinemargin">-2px</dimen>
 
 </resources>

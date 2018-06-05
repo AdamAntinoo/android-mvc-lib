@@ -49,7 +49,7 @@ import org.dimensinfin.core.util.Chrono;
 public class DataSourceAdapter extends BaseAdapter implements PropertyChangeListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("DataSourceAdapter");
-	private static boolean logAllowed = false;
+	private static boolean logAllowed = true;
 
 	// - F I E L D - S E C T I O N ............................................................................
 	/** The Activity where all this structures beong an that is used as the core display context. */
@@ -62,7 +62,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	/** Neutral creator for the initialization of the parent. */
-	public DataSourceAdapter () {
+	public DataSourceAdapter() {
 		super();
 	}
 
@@ -74,7 +74,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * @param activity   reference to the Activity and the Context where we should connect the Views.
 	 * @param datasource the source for the data to be represented on the view structures.
 	 */
-	public DataSourceAdapter ( final Activity activity, final IDataSource datasource ) {
+	public DataSourceAdapter( final Activity activity, final IDataSource datasource ) {
 		this();
 		_context = activity;
 		_datasource = datasource;
@@ -84,48 +84,48 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 		//		_contentPartList.addAll(_datasource.getBodyParts());
 	}
 
-	public DataSourceAdapter ( final AbstractPagerFragment fragment, final IDataSource datasource ) {
+	public DataSourceAdapter( final AbstractPagerFragment fragment, final IDataSource datasource ) {
 		this(fragment.getAppContext(), datasource);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 
-	public Activity getContext () {
+	public Activity getContext() {
 		return _context;
 	}
 
-	public IAndroidPart getCastedItem ( final int position ) {
+	public IAndroidPart getCastedItem( final int position ) {
 		return _contentPartList.get(position);
 	}
 
 
-	public Object getItem ( final int position ) {
+	public Object getItem( final int position ) {
 		return _contentPartList.get(position);
 	}
 
 	//--- B A S E   A D A P T E R   I M P L E M E N T A T I O N
-	public int getCount () {
+	public int getCount() {
 		return _contentPartList.size();
 	}
 
-	public long getItemId ( final int position ) {
+	public long getItemId( final int position ) {
 		return _contentPartList.get(position).getModelId();
 	}
 
 
-	public boolean areAllItemsEnabled () {
+	public boolean areAllItemsEnabled() {
 		return true;
 	}
 
-	public boolean isEnabled ( int position ) {
+	public boolean isEnabled( int position ) {
 		return true;
 	}
 
-	public int getItemViewType ( int position ) {
+	public int getItemViewType( int position ) {
 		return 0;
 	}
 
-	public int getViewTypeCount () {
+	public int getViewTypeCount() {
 		return 1;
 	}
 
@@ -135,7 +135,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * will improve user response times.
 	 */
 	//	@SuppressLint("ViewHolder")
-	public View getView ( final int position, View convertView, final ViewGroup parent ) {
+	public View getView( final int position, View convertView, final ViewGroup parent ) {
 		Chrono chrono = new Chrono();
 		String exitMessage = "";
 		try {
@@ -187,7 +187,11 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			}
 			// REFACTOR Add the DataSource as an event listener because that feature does not depend on the interfaces.
 			item.addPropertyChangeListener(_datasource);
-			if ( logAllowed )		logger.info(exitMessage + " - Rendering time: " + chrono.printElapsed(Chrono.ChronoOptions.SHOWMILLIS));
+			if ( logAllowed ) {
+				// Filter out the spinner.
+				if ( !exitMessage.contains("OnLoadSpinnerPart") )
+					logger.info(exitMessage + " - Rendering time: " + chrono.printElapsed(Chrono.ChronoOptions.SHOWMILLIS));
+			}
 			return convertView;
 		} catch (RuntimeException rtex) {
 			String message = rtex.getMessage();
@@ -208,7 +212,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	}
 
 	@Override
-	public boolean hasStableIds () {
+	public boolean hasStableIds() {
 		return true;
 	}
 
@@ -221,7 +225,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * ui render contents.
 	 */
 	@Override
-	public void notifyDataSetChanged () {
+	public void notifyDataSetChanged() {
 		_contentPartList.clear();
 		_contentPartList.addAll(_datasource.getDataSectionContents());
 		super.notifyDataSetChanged();
@@ -234,7 +238,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * This class is a generic class that must not be upgraded because we start then to replicate most of the
 	 * code.
 	 */
-	public void propertyChange ( final PropertyChangeEvent event ) {
+	public void propertyChange( final PropertyChangeEvent event ) {
 		// Be sure to run graphical changes on the UI thread. If we alerady are on it this has no effect.
 		getContext().runOnUiThread(() -> {
 			if ( SystemWideConstants.events.valueOf(event.getPropertyName()) ==

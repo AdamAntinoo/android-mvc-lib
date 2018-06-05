@@ -9,51 +9,52 @@
 //               The new implementation performs the model to list transformation on the fly each time
 //               a model change is detected so the population of the displayed view should be done in
 //               real time while processing the model sources. This should allow for search and filtering.
-package org.dimensinfin.android.mvc.core;
+package org.dimensinfin.android.mvc.model;
 
-import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.android.mvc.interfaces.IPartFactory;
-import org.dimensinfin.android.mvc.model.PanelException;
-import org.dimensinfin.android.mvc.part.PanelExceptionPart;
-import org.dimensinfin.android.mvc.part.SeparatorPart;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.model.Separator;
 
-import java.util.logging.Logger;
+/**
+ * @author Adam Antinoo
+ */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class PartFactory implements IPartFactory {
+public class PanelException implements ICollaboration {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	protected static Logger logger = Logger.getLogger("PartFactory");
+	private static Logger logger = LoggerFactory.getLogger("PanelException");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private final String variant;
+	private Exception wrappedException = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public PartFactory ( final String selectedVariant ) {
-		variant = selectedVariant;
+	public PanelException( final Exception newexception ) {
+		super();
+		this.wrappedException = newexception;
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public IPart createPart ( final ICollaboration node ) {
-		// Associate the default classes defined at the MVC.
-		if ( node instanceof Separator ) {
-			IPart part = new SeparatorPart((Separator) node).setFactory(this)
-			                                                .setRenderMode(this.getVariant());
-			return part;
-		}
-		if ( node instanceof PanelException ) {
-			IPart part = new PanelExceptionPart((PanelException) node).setFactory(this)
-			                                                     .setRenderMode(this.getVariant());
-			return part;
-		}
-		// If no part is trapped then result a NOT FOUND mark
-		return new SeparatorPart(new Separator("-NO Model-Part match-[" + node.getClass().getSimpleName() + "]-"));
+	@Override
+	public List<ICollaboration> collaborate2Model( final String variation ) {
+		return new ArrayList<>();
 	}
 
-	public String getVariant () {
-		return variant;
+	public String getExceptionMessage() {
+		return wrappedException.getMessage();
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer("PanelException [ ");
+		if ( null != wrappedException ) buffer.append(wrappedException.getMessage()).append(" ");
+		buffer.append("]");
+		//		buffer.append("->").append(super.toString());
+		return buffer.toString();
 	}
 }
-
 // - UNUSED CODE ............................................................................................
+//[01]

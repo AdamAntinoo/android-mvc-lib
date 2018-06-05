@@ -7,9 +7,9 @@
         </shape>
     </item>
     <item
-        android:left="-2px"
-        android:right="-2px"
-        android:top="-2px">
+        android:left="@dimen/topbottomlinemargin"
+        android:right="@dimen/topbottomlinemargin"
+        android:top="@dimen/topbottomlinemargin">
         <shape>
             <solid android:color="@android:color/transparent" />
 
