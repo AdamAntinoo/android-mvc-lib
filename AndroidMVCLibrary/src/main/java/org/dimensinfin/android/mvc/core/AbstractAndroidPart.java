@@ -22,7 +22,9 @@ import org.slf4j.LoggerFactory;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
+import org.dimensinfin.android.mvc.part.SeparatorPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.model.Separator;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 
@@ -69,6 +71,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 		//		ArrayList<IPart> result = new ArrayList<IPart>();
 		// If the node is expanded then give the children the opportunity to also be added.
 		if ( this.isExpanded() ) {
+			contentCollector.add(this);
 			// ---This is the section that is different for any Part. This should be done calling the list of policies.
 			List<IPart> ch = this.runPolicies(this.getChildren());
 			AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaborator children: " + ch.size());

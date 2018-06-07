@@ -8,41 +8,42 @@
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.interfaces;
 
+import java.beans.PropertyChangeListener;
+import java.util.List;
+
 import android.os.Bundle;
 
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
-import java.beans.PropertyChangeListener;
-import java.util.List;
-
 // - CLASS IMPLEMENTATION ...................................................................................
 public interface IDataSource extends PropertyChangeListener {
-	public String getVariant ();
+	public String getVariant();
 
-	public IDataSource setVariant ( final String variant );
+	public IDataSource setVariant( final String variant );
 
-	public DataSourceLocator getDataSourceLocator ();
+	public DataSourceLocator getDataSourceLocator();
 
-	public Bundle getExtras ();
+	public Bundle getExtras();
 
-	public void addPropertyChangeListener ( final PropertyChangeListener newListener );
+	public void addPropertyChangeListener( final PropertyChangeListener newListener );
 
-	public void cleanup ();
+	public void cleanup();
 
-	public boolean isCached ();
+	public boolean isCached();
 
-	public boolean isCacheable ();
+	public boolean isCacheable();
 
-	public IDataSource setCacheable ( final boolean cachestate );
+	public IDataSource setCacheable( final boolean cachestate );
 
-	public IDataSource addModelContents ( final ICollaboration newnode );
+	public IDataSource addModelContents( final ICollaboration newnode );
 
-	public void collaborate2Model ();
+	public void collaborate2Model();
 
-	public List<IAndroidPart> getDataSectionContents ();
+	public List<IAndroidPart> getDataSectionContents();
 
-	public IRootPart createRootPart ();
+	public IRootPart createRootPart();
+
 	public void startOnLoadProcess();
 }
 

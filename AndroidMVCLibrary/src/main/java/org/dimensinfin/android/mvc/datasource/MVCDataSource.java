@@ -135,6 +135,9 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 
 	public void cleanup () {
 		_dataModelRoot.clean();
+		// And add back the initial spinner.
+		_dataSectionParts.clear();
+		_dataSectionParts.add(new OnLoadSpinnerPart(new Separator()));
 	}
 
 	/**

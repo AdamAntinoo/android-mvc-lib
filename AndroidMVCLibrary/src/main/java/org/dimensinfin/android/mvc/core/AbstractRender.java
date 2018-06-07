@@ -59,7 +59,7 @@ public abstract class AbstractRender implements IRender {
 
 
 	//	public int getExtraInteger ( final String key ) {
-	//		final Object data = _extras.get(key);
+	//		final Object data = extras.get(key);
 	//		if ( data instanceof Integer )
 	//			return ((Integer) data).intValue();
 	//		else
@@ -72,7 +72,7 @@ public abstract class AbstractRender implements IRender {
 	}
 
 	//	public void setExtraInteger ( final String key, final Integer integer ) {
-	//		_extras.put(key, integer);
+	//		extras.put(key, integer);
 	//	}
 
 

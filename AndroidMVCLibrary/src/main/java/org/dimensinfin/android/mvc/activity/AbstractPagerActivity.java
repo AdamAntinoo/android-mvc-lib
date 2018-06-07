@@ -52,7 +52,7 @@ public abstract class AbstractPagerActivity extends Activity {
 	protected static Logger logger = LoggerFactory.getLogger("AbstractPagerActivity");
 
 	// - F I E L D - S E C T I O N ............................................................................
-	protected Bundle _extras = null;
+	protected Bundle extras = null;
 	private ActionBar _actionBar = null;
 	private ViewPager _pageContainer = null;
 	private AbstractFragmentPagerAdapter _pageAdapter = null;
@@ -165,7 +165,7 @@ public abstract class AbstractPagerActivity extends Activity {
 	}
 
 	private Bundle getExtras () {
-		return _extras;
+		return extras;
 	}
 
 	@Override
@@ -176,9 +176,9 @@ public abstract class AbstractPagerActivity extends Activity {
 		try {
 			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
 			if ( null != savedInstanceState ) {
-				_extras = savedInstanceState;
+				extras = savedInstanceState;
 			} else {
-				_extras = this.getIntent().getExtras();
+				extras = this.getIntent().getExtras();
 			}
 		} catch (RuntimeException rtex) {
 			logger.warn("RTEX [AbstractPagerActivity.onCreate]> " + rtex.getMessage());
