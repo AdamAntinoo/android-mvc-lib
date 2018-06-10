@@ -58,7 +58,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 * reference up and store the model at the same time.
 	 * @param model the Data model linked to this part.
 	 */
-	public AbstractPart ( final ICollaboration model ) {
+	public AbstractPart( final ICollaboration model ) {
 		super();
 		this.model = model;
 		super.setParentChanger(this);
@@ -70,7 +70,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 * reference up and store the model at the same time.
 	 * @param model the Data model linked to this part.
 	 */
-	public AbstractPart ( final RootNode model, final IPartFactory factory ) {
+	public AbstractPart( final RootNode model, final IPartFactory factory ) {
 		this(model);
 		//		this.model = model;
 		_factory = factory;
@@ -78,7 +78,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public void addChild ( final IPart child ) {
+	public void addChild( final IPart child ) {
 		children.add(child);
 	}
 
@@ -93,21 +93,26 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 * @param child The <code>EditPart</code> to add
 	 * @param index The index
 	 */
-	public void addChild ( final IPart child, int index ) {
-		//		Assert.isNotNull(child);
-		if ( index == -1 ) {
+	public void addChild( final IPart child, int index ) {
+		if (index == -1) {
 			index = this.getChildren().size();
 		}
-		if ( children == null ) {
+		if (children == null) {
 			children = new Vector<IPart>(2);
 		}
 
 		children.add(index, child);
 		child.setParent(this);
-		//		this.fireChildAdded(child, index);
 	}
 
-	public void clean () {
+	//	public void clean () {
+	//		children.clear();
+	//	}
+	public void cleanLinks() {
+		for (IPart part : children) {
+			if (part.getModel() instanceof AbstractPropertyChanger)
+				((AbstractPropertyChanger) part.getModel()).removePropertyChangeListener(part);
+		}
 		children.clear();
 	}
 
@@ -118,11 +123,11 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 * visible list.
 	 */
 	@Deprecated
-	public List<IPart> collaborate2View () {
+	public List<IPart> collaborate2View() {
 		AbstractPart.logger.info(">< [AbstractPart.collaborate2View]> Collaborator: " + this.getClass().getSimpleName());
 		ArrayList<IPart> result = new ArrayList<IPart>();
 		// If the node is expanded then give the children the opportunity to also be added.
-		if ( this.isExpanded() ) {
+		if (this.isExpanded()) {
 			// ---This is the section that is different for any Part. This should be done calling the list of policies.
 			List<IPart> ch = this.runPolicies(this.getChildren());
 			AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaborator children: " + ch.size());
@@ -134,23 +139,23 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 			}
 		} else {
 			// Check for items that will not shown when empty and not expanded.
-			if ( this.isRenderWhenEmpty() ) {
+			if (this.isRenderWhenEmpty()) {
 				result.add(this);
 			}
 		}
 		return result;
 	}
 
-	public List<IPart> getChildren () {
-		if ( children == null ) return new Vector<IPart>(2);
+	public List<IPart> getChildren() {
+		if (children == null) return new Vector<IPart>(2);
 		return children;
 	}
 
-	public ICollaboration getModel () {
+	public ICollaboration getModel() {
 		return model;
 	}
 
-	public IPart getParentPart () {
+	public IPart getParentPart() {
 		return parent;
 	}
 
@@ -173,20 +178,20 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 * detect this problem and correct if if we detect the null we search for the parent until a factory is
 	 * found.
 	 */
-	public IPartFactory getPartFactory () {
-		if ( null == _factory )
+	public IPartFactory getPartFactory() {
+		if (null == _factory)
 			// Search for the factory at the parent. 
 			return this.getParentPart().getPartFactory();
 		else
 			return _factory;
 	}
 
-	public String getRenderMode () {
+	public String getRenderMode() {
 		return renderMode;
 	}
 
-	public RootPart getRoot () {
-		if ( this.getParentPart() == null ) return (RootPart) this;
+	public RootPart getRoot() {
+		if (this.getParentPart() == null) return (RootPart) this;
 		return this.getParentPart().getRoot();
 	}
 
@@ -211,8 +216,8 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 * expandable that can expand hierarchies. Expandable nodes also can collaborate to the MVC.
 	 * @return the model expand state when it applies. False if not expandable.
 	 */
-	public boolean isExpanded () {
-		if ( model instanceof IExpandable ) {
+	public boolean isExpanded() {
+		if (model instanceof IExpandable) {
 			return ((IExpandable) model).isExpanded();
 		}
 		return false;
@@ -234,8 +239,8 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 * model is empty.
 	 * @return the model expand state when it applies. False if not expandable.
 	 */
-	public boolean isRenderWhenEmpty () {
-		if ( model instanceof IExpandable ) {
+	public boolean isRenderWhenEmpty() {
+		if (model instanceof IExpandable) {
 			return ((IExpandable) model).isRenderWhenEmpty();
 		}
 		return true;
@@ -246,7 +251,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	//		return true;
 	//	}
 
-	public void propertyChange ( final PropertyChangeEvent evt ) {
+	public void propertyChange( final PropertyChangeEvent evt ) {
 	}
 
 	/*
@@ -264,7 +269,8 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 *
 	 * @see #getModelChildren()
 	 */
-	public void refreshChildren () {
+	@Deprecated
+	public void refreshChildren() {
 		AbstractPart.logger.info(">> [AbstractPart.refreshChildren]");
 		// Get the list of children for this Part.
 		List<IPart> selfChildren = this.getChildren();
@@ -272,7 +278,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		AbstractPart.logger.info("-- [AbstractPart.refreshChildren]> Current children size: " + size);
 		// This variable has the list of Parts pointed by their corresponding model.
 		HashMap<ICollaboration, IPart> modelToEditPart = new HashMap<ICollaboration, IPart>(size + 1);
-		if ( size > 0 ) {
+		if (size > 0) {
 			for (int i = 0; i < size; i++) {
 				IPart editPart = selfChildren.get(i);
 				modelToEditPart.put(editPart.getModel(), editPart);
@@ -283,7 +289,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		ICollaboration partModel = this.getModel();
 		AbstractPart.logger.info("-- [AbstractPart.refreshChildren]> partModel: " + partModel);
 		// TODO There are cases where the partModel is null. Try to detect and stop that cases.
-		if ( null == partModel ) {
+		if (null == partModel) {
 			AbstractPart.logger
 					.info("-- [AbstractPart.refreshChildren]> Exception case: partModel is NULL: " + this.toString());
 			return;
@@ -298,10 +304,10 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 
 			// Do a quick check to see if editPart[i] == model[i]
 			IPart editPart = modelToEditPart.get(nodemodel);
-			if ( (i < selfChildren.size()) && (selfChildren.get(i).getModel() == nodemodel) ) {
+			if ((i < selfChildren.size()) && (selfChildren.get(i).getModel() == nodemodel)) {
 				// But in any case try to update all the children
 				AbstractPart.logger.info("-- [AbstractPart.refreshChildren]> model matches. Refreshing children.");
-				if ( editPart != null ) {
+				if (editPart != null) {
 					editPart.refreshChildren();
 				}
 				continue;
@@ -310,7 +316,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 			// Look to see if the EditPart is already around but in the wrong location
 			//			editPart = (AbstractPart) modelToEditPart.get(model);
 
-			if ( editPart != null ) {
+			if (editPart != null) {
 				AbstractPart.logger.info("-- [AbstractPart.refreshChildren]> model found but out of order.");
 				this.reorderChild(editPart, i);
 				editPart.refreshChildren();
@@ -319,7 +325,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 				editPart = this.createChild(nodemodel);
 				AbstractPart.logger.info("-- [AbstractPart.refreshChildren]> New Part: " + editPart);
 				// If the factory is unable to create the Part then skip this element or wait to be replaced by a dummy
-				if ( null != editPart ) {
+				if (null != editPart) {
 					this.addChild(editPart, i);
 					editPart.refreshChildren();
 				}
@@ -328,7 +334,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 
 		// Remove the remaining EditParts
 		size = selfChildren.size();
-		if ( i < size ) {
+		if (i < size) {
 			Vector<IPart> trash = new Vector<IPart>(size - i);
 			for (; i < size; i++) {
 				trash.add(selfChildren.get(i));
@@ -341,16 +347,16 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		AbstractPart.logger.info("<< [AbstractPart.refreshChildren]> Content size: " + this.getChildren().size());
 	}
 
-	public boolean clickRunning () {
+	public boolean clickRunning() {
 		return _clickRunning;
 	}
 
-	public boolean activateClick () {
+	public boolean activateClick() {
 		_clickRunning = true;
 		return _clickRunning;
 	}
 
-	public boolean completeClick () {
+	public boolean completeClick() {
 		_clickRunning = false;
 		return _clickRunning;
 	}
@@ -364,12 +370,12 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	//	//		this.active = active;
 	//	//	}
 
-	public IPart setDataStore ( final IDataSource ds ) {
+	public IPart setDataStore( final IDataSource ds ) {
 		_dataSource = ds;
 		return this;
 	}
 
-	public IPart setFactory ( final IPartFactory partFactory ) {
+	public IPart setFactory( final IPartFactory partFactory ) {
 		_factory = partFactory;
 		return this;
 	}
@@ -378,31 +384,31 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 * Set the primary model object that this EditPart represents. This method is used by an
 	 * <code>EditPartFactory</code> when creating an EditPart.
 	 */
-	public void setModel ( final ICollaboration model ) {
+	public void setModel( final ICollaboration model ) {
 		this.model = model;
 	}
 
 	/**
 	 * Sets the parent EditPart. There is no reason to override this method.
 	 */
-	public void setParent ( final IPart parent ) {
+	public void setParent( final IPart parent ) {
 		this.parent = parent;
 	}
 
-	public IPart setRenderMode ( final String renderMode ) {
+	public IPart setRenderMode( final String renderMode ) {
 		this.renderMode = renderMode;
 		return this;
 	}
 
-	public boolean toggleExpanded () {
-		if ( model instanceof IExpandable ) {
-			if ( ((IExpandable) model).isExpanded() ) ((IExpandable) model).collapse();
+	public boolean toggleExpanded() {
+		if (model instanceof IExpandable) {
+			if (((IExpandable) model).isExpanded()) ((IExpandable) model).collapse();
 			else ((IExpandable) model).expand();
 			return ((IExpandable) model).isExpanded();
 		} else return false;
 	}
 
-	public String toString () {
+	public String toString() {
 		StringBuffer buffer = new StringBuffer("AbstractPart [");
 		buffer.append(model.toString()).append(" ");
 		buffer.append("]");
@@ -413,11 +419,11 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 * Create the Part for the model object received. We have then to have access to the Factory from the root
 	 * element and all the other parts should have a reference to the root to be able to do the same.
 	 */
-	protected IPart createChild ( final ICollaboration model ) {
+	protected IPart createChild( final ICollaboration model ) {
 		IPartFactory factory = this.getRoot().getPartFactory();
 		IPart part = factory.createPart(model);
 		// If the factory is unable to create the Part then skip this element or wait to be replaced by a dummy
-		if ( null != part ) {
+		if (null != part) {
 			part.setParent(this);
 		}
 		return part;
@@ -437,10 +443,10 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 * Subclasses should implement removeChildVisual(IEditPart).
 	 * @param child EditPart being removed
 	 */
-	protected void removeChild ( final IPart child ) {
+	protected void removeChild( final IPart child ) {
 		//		Assert.isNotNull(child);
 		int index = this.getChildren().indexOf(child);
-		if ( index < 0 ) return;
+		if (index < 0) return;
 		//		this.fireRemovingChild(child, index);
 		child.setParent(null);
 		this.getChildren().remove(child);
@@ -452,7 +458,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 * @param editpart the child being reordered
 	 * @param index    new index for the child
 	 */
-	protected void reorderChild ( final IPart editpart, final int index ) {
+	protected void reorderChild( final IPart editpart, final int index ) {
 		children.remove(editpart);
 		children.add(index, editpart);
 	}

@@ -11,20 +11,17 @@
 //               real time while processing the model sources. This should allow for search and filtering.
 package org.dimensinfin.android.mvc.core;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.view.View;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.android.mvc.part.SeparatorPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.model.Separator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 
@@ -52,7 +49,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
 	public Activity getActivity() {
-		if ( null == _fragment )
+		if (null == _fragment)
 			return _activity;
 		else
 			return this.getFragment().getActivity();
@@ -60,7 +57,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 
 	//	@Override
 	public AbstractPagerFragment getFragment() {
-		if ( null != _fragment )
+		if (null != _fragment)
 			return _fragment;
 		else
 			throw new RuntimeException("Fragment object not available on access on a Part.");
@@ -70,21 +67,21 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 		AbstractPart.logger.info(">< [AbstractPart.collaborate2View]> Collaborator: " + this.getClass().getSimpleName());
 		//		ArrayList<IPart> result = new ArrayList<IPart>();
 		// If the node is expanded then give the children the opportunity to also be added.
-		if ( this.isExpanded() ) {
+		if (this.isExpanded()) {
 			contentCollector.add(this);
 			// ---This is the section that is different for any Part. This should be done calling the list of policies.
 			List<IPart> ch = this.runPolicies(this.getChildren());
 			AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaborator children: " + ch.size());
 			// --- End of policies
 			for (IPart part : ch) {
-				if ( part instanceof IAndroidPart )
+				if (part instanceof IAndroidPart)
 					((IAndroidPart) part).collaborate2View(contentCollector);
 				//				AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaboration parts: " + collaboration.size());
 				//				contentCollector.addAll(collaboration);
 			}
 		} else {
 			// Check for items that will not shown when empty and not expanded.
-			if ( this.isRenderWhenEmpty() ) {
+			if (this.isRenderWhenEmpty()) {
 				runDependencies();
 				contentCollector.add(this);
 			}
@@ -102,7 +99,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 	 * any downloads and resolutions while we have already informed the used of a lengthy data processing under way.
 	 * @return
 	 */
-	public  boolean runDependencies(){
+	public boolean runDependencies() {
 		return false;
 	}
 
@@ -132,13 +129,13 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 
 	@Override
 	public void invalidate() {
-		if ( null != _view ) {
+		if (null != _view) {
 			this.needsRedraw();
 		}
 	}
 
 	public boolean isEmpty() {
-		if ( getChildren().size() > 0 ) return false;
+		if (getChildren().size() > 0) return false;
 		else return true;
 	}
 

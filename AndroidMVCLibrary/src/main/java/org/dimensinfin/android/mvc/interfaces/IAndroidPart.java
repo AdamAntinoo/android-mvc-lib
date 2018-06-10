@@ -19,46 +19,35 @@ import java.util.List;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public interface IAndroidPart extends IPart {
-	public void addPropertyChangeListener (final PropertyChangeListener newListener);
+	public void addPropertyChangeListener( final PropertyChangeListener newListener );
 
-	public void collaborate2View (List<IAndroidPart> contentCollector);
+//	public void removePropertyChangeListener( final PropertyChangeListener newListener );
 
-	public Activity getActivity ();
+	public void collaborate2View( List<IAndroidPart> contentCollector );
 
-	// TODO - Alter the interface to force demanding a new part the unimplemented methods.
-	//	public Fragment getFragment ();
+	public Activity getActivity();
 
 	/**
 	 * Returns a numeric identifier for this part model item that should be unique from all other system wide
 	 * parts to allow for easy management of the corresponding parts and views.
 	 * @return <code>long</code> identifier with the model number.
 	 */
-	public long getModelId ();
+	public long getModelId();
 
-	//	public AbstractRender getRenderer (Activity activity);
-	// TODO - Alter the interface to force demanding a new part the unimplemented methods.
-	public AbstractRender selectRenderer ();
+	public AbstractRender selectRenderer();
 
-	//	public AbstractRender getRenderer (Fragment fragment);
-	public AbstractRender getRenderer (Activity context);
+	public AbstractRender getRenderer( Activity context );
 
-	public View getView ();
+	public View getView();
 
-	public void setView (View convertView);
+	public void setView( View convertView );
 
-	public void invalidate ();
+	public void invalidate();
 
-	public void needsRedraw ();
+	public void needsRedraw();
 
 
 	// TODO - Alter the interface to force demanding a new part the unimplemented methods.
-	//	public boolean clickRunning ();
-	//
-	//	public boolean activateClick ();
-	//
-	//	public boolean completeClick ();
-
-
 	//	public List<IPart> runPolicies (List<IPart> targets);
 	//
 	//	public boolean runDependencies ();
