@@ -137,8 +137,8 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	public void cleanup() {
 		_dataModelRoot.clean();
 		// Clear the listener event link from the discarded Parts.
-		cleanLinks(_dataSectionParts);
-//		_dataSectionParts.clear();
+//		cleanLinks(_dataSectionParts);
+		_dataSectionParts.clear();
 		// And add back the initial spinner.
 		_dataSectionParts.add(new OnLoadSpinnerPart(new Separator()));
 	}
@@ -306,12 +306,13 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	@Override
 	public void propertyChange( final PropertyChangeEvent event ) {
 		logger.info(">> [MVCDataSource.propertyChange]> Processing Event: {}", event.getPropertyName());
+
 		//--- C O N T E N T   E V E N T S
 		// The expand/collapse state has changed.
 		if (SystemWideConstants.events.valueOf(event.getPropertyName()) ==
 				SystemWideConstants.events.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE) {
-			cleanLinks(_dataSectionParts);
-//			_dataSectionParts.clear();
+//			cleanLinks(_dataSectionParts);
+			_dataSectionParts.clear();
 			_partModelRoot.collaborate2View(_dataSectionParts);
 		}
 
@@ -319,8 +320,8 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		if (SystemWideConstants.events.valueOf(event.getPropertyName()) ==
 				SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA) {
 			this.transformModel2Parts();
-			cleanLinks(_dataSectionParts);
-//			_dataSectionParts.clear();
+//			cleanLinks(_dataSectionParts);
+			_dataSectionParts.clear();
 			_partModelRoot.collaborate2View(_dataSectionParts);
 			// TODO - I think there is missing the action to update the listview. Trying with this messsage.
 			firePropertyChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), null, null);
@@ -328,8 +329,18 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		if (SystemWideConstants.events.valueOf(event.getPropertyName()) ==
 				SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA) {
 			this.transformModel2Parts();
-			cleanLinks(_dataSectionParts);
-//			_dataSectionParts.clear();
+//			cleanLinks(_dataSectionParts);
+			_dataSectionParts.clear();
+			_partModelRoot.collaborate2View(_dataSectionParts);
+		}
+
+		//--- R E F R E S H   E V E N T S
+		if (SystemWideConstants.events.valueOf(event.getPropertyName()) ==
+				SystemWideConstants.events.EVENTSTRUCTURE_REFRESHDATA) {
+			collaborate2Model();
+			this.transformModel2Parts();
+			//			cleanLinks(_dataSectionParts);
+			_dataSectionParts.clear();
 			_partModelRoot.collaborate2View(_dataSectionParts);
 		}
 

@@ -11,16 +11,19 @@ package org.dimensinfin.android.mvc.activity;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.os.CountDownTimer;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.dimensinfin.android.mvc.R;
+import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
@@ -33,8 +36,6 @@ import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
-import org.joda.time.Instant;
-import org.joda.time.format.DateTimeFormatterBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +44,6 @@ import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Adam Antinoo
@@ -105,8 +105,8 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 
 	//------------------------------
-//	private Instant _elapsedTimer = null;
-//	private CountDownTimer _timer = null;
+	//	private Instant _elapsedTimer = null;
+	//	private CountDownTimer _timer = null;
 
 	//	private List<ICollaboration> headerModelContents = new ArrayList<ICollaboration>();
 
@@ -123,6 +123,11 @@ public abstract class AbstractPagerFragment extends Fragment {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	public void setListCallback( final IMenuActionTarget callback ) {
+		if (null != callback) {
+			_listCallback = callback;
+		}
+	}
 	//--- G E T T E R S   &   S E T T E R S
 
 	/**
@@ -142,7 +147,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * @param selectedVariant the new name to assign to this fragment instance.
 	 * @return
 	 */
-	public AbstractPagerFragment setVariant ( final String selectedVariant ) {
+	public AbstractPagerFragment setVariant( final String selectedVariant ) {
 		_variant = selectedVariant;
 		return this;
 	}
@@ -152,7 +157,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * stored data upon Application reactivation.
 	 * @return extras bundle.
 	 */
-	public Bundle getExtras () {
+	public Bundle getExtras() {
 		return _extras;
 	}
 
@@ -163,15 +168,15 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * @param extras new bundle of extrax to be tied to this Fragment instance.
 	 * @return this instance to allow for functional constructive statements.
 	 */
-	public AbstractPagerFragment setExtras ( final Bundle extras ) {
+	public AbstractPagerFragment setExtras( final Bundle extras ) {
 		_extras = extras;
 		return this;
 	}
 
-	public Activity getAppContext () {
+	public Activity getAppContext() {
 		final Activity act = getActivity();
-		if ( null == act )
-			if ( null == _appContext )
+		if (null == act)
+			if (null == _appContext)
 				throw new RuntimeException("RTEX [AbstractPagerFragment.getAppContext] There is no Context " +
 						"accesible. Application unexpected error.");
 			else return _appContext;
@@ -184,7 +189,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * @param newcontext the Activity where this Fragment is connected.
 	 * @return this instance to allow for functional constructive statements.
 	 */
-	public AbstractPagerFragment setAppContext ( final Activity newcontext ) {
+	public AbstractPagerFragment setAppContext( final Activity newcontext ) {
 		this._appContext = newcontext;
 		return this;
 	}
@@ -194,9 +199,9 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * method calls the creation method to get a fresh instance.
 	 * @return
 	 */
-	public IPartFactory getFactory () {
+	public IPartFactory getFactory() {
 		// Check if we have already a factory.
-		if ( null == _factory ) {
+		if (null == _factory) {
 			_factory = this.createFactory();
 		}
 		return _factory;
@@ -208,21 +213,21 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * This method should be implemented by all the application Fragments to set the <b>PartFactory</b> that will be used
 	 * during the model transformation processing to generate the <b>Parts</b> of the model to be used on this Fragment.
 	 */
-	public abstract IPartFactory createFactory ();
+	public abstract IPartFactory createFactory();
 
 	/**
 	 * Gets the text to set set at the subtitle slot on the <b>ActionBar</b>. This should be implemented by each new
 	 * Fragment.
 	 * @return subtitle string.
 	 */
-	public abstract String getSubtitle ();
+	public abstract String getSubtitle();
 
 	/**
 	 * Gets the text to set set at the title slot on the <b>ActionBar</b>. This should be implemented by each new
 	 * Fragment.
 	 * @return title string.
 	 */
-	public abstract String getTitle ();
+	public abstract String getTitle();
 
 	/**
 	 * This method that should be implemented at every fragment is responsible to generate a list of model data that
@@ -231,7 +236,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * the Header container and rendered. This is a simple list and not a so complex model as the <code>IDataSource</code>
 	 * used for the DataSection contents.
 	 */
-	protected abstract List<ICollaboration> registerHeaderSource ();
+	protected abstract List<ICollaboration> registerHeaderSource();
 
 	/**
 	 * This method that should be implemented at every fragment is responsible to instantiate, identify and initialize a
@@ -239,7 +244,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * or graphs.
 	 * @return an <code>IDataSource</code> instance that is ready to generate the model contents.
 	 */
-	protected abstract IDataSource registerDataSource ();
+	protected abstract IDataSource registerDataSource();
 
 
 	//--- F R A G M E N T   L I F E C Y C L E
@@ -262,7 +267,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * @return the view that represents the fragment ui layout structure.
 	 */
 	@Override
-	public View onCreateView ( final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState ) {
+	public View onCreateView( final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState ) {
 		logger.info(">> [AbstractPagerFragment.onCreateView]");
 		final View theView = super.onCreateView(inflater, container, savedInstanceState);
 		// TODO analyze what is returned by the savedInstanceState when recovering the application. That will help to recover the
@@ -282,7 +287,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 			// Prepare the structures for the context menu.
 			// TODO Check if the menus can be tied to the Parts independently and not to the whole Header.
 			//			this.registerForContextMenu(_headerContainer);
-			//			this.registerForContextMenu(_dataSectionContainer);
+			this.registerForContextMenu(_dataSectionContainer);
 		} catch (final RuntimeException rtex) {
 			AbstractPagerFragment.logger.error("RTEX [AbstractPagerFragment.onCreateView]> {}.", rtex.getMessage());
 			rtex.printStackTrace();
@@ -325,7 +330,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * moment we have something to show.
 	 */
 	@Override
-	public void onStart () {
+	public void onStart() {
 		AbstractPagerFragment.logger.info(">> [AbstractPagerFragment.onStart]");
 		super.onStart();
 		try {
@@ -358,15 +363,15 @@ public abstract class AbstractPagerFragment extends Fragment {
 	}
 
 	@Override
-	public void onViewStateRestored ( Bundle savedInstanceState ) {
+	public void onViewStateRestored( Bundle savedInstanceState ) {
 		// restore the variant name.
-		if ( null != savedInstanceState )
+		if (null != savedInstanceState)
 			setVariant(savedInstanceState.getString(AbstractPagerActivity.EExtrasMVC.EXTRA_VARIANT.name()));
 		super.onViewStateRestored(savedInstanceState);
 	}
 
 	@Override
-	public void onSaveInstanceState ( Bundle outState ) {
+	public void onSaveInstanceState( Bundle outState ) {
 		super.onSaveInstanceState(outState);
 		// Save the variant assigned to this fragment instance.
 		outState.putString(AbstractPagerActivity.EExtrasMVC.EXTRA_VARIANT.name(), getVariant());
@@ -383,7 +388,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * be rendered when expanded. Even the header contents are limited in interaction we can have expand/collapse
 	 * functionalities to calculate the final list of Views to render.
 	 */
-	protected void generateHeaderContents ( final List<ICollaboration> headerData ) {
+	protected void generateHeaderContents( final List<ICollaboration> headerData ) {
 		logger.info(">> [AbstractPagerFragment.generateHeaderContents]");
 		try {
 			// Create a fake root node where to connect the list. This wil
@@ -404,7 +409,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 			getAppContext().runOnUiThread(() -> {
 				_headerContainer.removeAllViews();
 				for (IPart part : headerParts) {
-					if ( part instanceof IAndroidPart ) addView2Header((IAndroidPart) part);
+					if (part instanceof IAndroidPart) addView2Header((IAndroidPart) part);
 				}
 			});
 		} catch (RuntimeException rtex) {
@@ -418,7 +423,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * inserted on the ui ViewGroup container.
 	 * @param target the Part to render to a View.
 	 */
-	private void addView2Header ( final IAndroidPart target ) {
+	private void addView2Header( final IAndroidPart target ) {
 		logger.info(">> [AbstractPagerFragment.addView2Header]");
 		try {
 			final IRender holder = target.getRenderer(this.getAppContext());
@@ -427,7 +432,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 			final View hv = holder.getView();
 			_headerContainer.addView(hv);
 			// Add the connection to the click listener
-			if ( target instanceof OnClickListener ) {
+			if (target instanceof OnClickListener) {
 				hv.setClickable(true);
 				hv.setOnClickListener((OnClickListener) target);
 			}
@@ -443,393 +448,81 @@ public abstract class AbstractPagerFragment extends Fragment {
 		logger.info("<< AbstractPagerFragment.addView2Header");
 	}
 
-//	private void showProgressIndicator () {
-//		// Initialize and start the elapsed timer.
-//		_progressLayout.setVisibility(View.VISIBLE);
-//		_dataSectionContainer.setVisibility(View.GONE);
-//		_progressElapsedCounter.setText("00s");
-//		_progressElapsedCounter.setVisibility(View.VISIBLE);
-//		_elapsedTimer = Instant.now();
-//		_timer = new CountDownTimer(CoreConstants.ONEDAY, CoreConstants.HUNDRETH) {
-//			@Override
-//			public void onFinish () {
-//				_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
-//				_progressElapsedCounter.invalidate();
-//				_container.invalidate();
-//			}
-//
-//			@Override
-//			public void onTick ( final long millisUntilFinished ) {
-//				_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
-//				_progressElapsedCounter.invalidate();
-//			}
-//		}.start();
-//	}
-//
-//	private void hideProgressIndicator () {
-//		// Stop the timer.
-//		_timer.cancel();
-//		_progressLayout.setVisibility(View.GONE);
-//		_dataSectionContainer.setVisibility(View.VISIBLE);
-//	}
-
-	/**
-	 * Displays an string in the format "nh nm ns" that is the number of seconds from the start point that is the value
-	 * received as the parameter and the current instant on time.
-	 */
-	protected String generateTimeString ( final long millis ) {
-		try {
-			final long elapsed = Instant.now().getMillis() - millis;
-			final DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
-			if ( elapsed > TimeUnit.HOURS.toMillis(1) ) {
-				timeFormatter.appendHourOfDay(2).appendLiteral("h ");
-			}
-			if ( elapsed > TimeUnit.MINUTES.toMillis(1) ) {
-				timeFormatter.appendMinuteOfHour(2).appendLiteral("m ").appendSecondOfMinute(2).appendLiteral("s");
-			} else timeFormatter.appendSecondOfMinute(2).appendLiteral("s");
-			return timeFormatter.toFormatter().print(new Instant(elapsed));
-		} catch (final RuntimeException rtex) {
-			return "0m 00s";
-		}
-	}
-
-	public void setListCallback ( final IMenuActionTarget callback ) {
-		if ( null != callback ) {
-			_listCallback = callback;
-		}
-	}
-
-	protected boolean checkDSState () {
-		if ( null == _datasource )
-			return true;
+	//--- CONTEXTUAL MENU FOR THE HEADER
+	@Override
+	public boolean onContextItemSelected( final MenuItem item ) {
+		logger.info(">> ManufactureContextFragment.onContextItemSelected");
+		final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+		final int menuItemIndex = item.getItemId();
+		final AbstractAndroidPart part = (AbstractAndroidPart) info.targetView.getTag();
+		if (part instanceof IMenuActionTarget)
+			return ((IMenuActionTarget) part).onContextItemSelected(item);
 		else
-			return false;
+			return true;
 	}
 
-	public IDataSource getDataSource () {
-		return _datasource;
+	@Override
+	public void onCreateContextMenu( final ContextMenu menu, final View view, final ContextMenu.ContextMenuInfo menuInfo ) {
+		logger.info(">> [AbstractPagerFragment.onCreateContextMenu]");
+		// REFACTOR If we call the super then the fragment's parent activity gets called. So the listcallback and the Activity
+		// have not to be the same
+		//			super.onCreateContextMenu(menu, view, menuInfo);
+		// Check parameters to detect the item selected for menu target.
+		//		if (view == _headerContainer) {
+		//			// Check if this fragment has the callback configured
+		//			final IAndroidPart part = _headerContents.firstElement();
+		//			if (part instanceof IMenuActionTarget) {
+		//				((IMenuActionTarget) part).onCreateContextMenu(menu, view, menuInfo);
+		//			}
+		//		}
+		//		if (view == _dataSectionContainer) {
+		// Now header and data section ave the same functionality.
+		// Get the tag assigned to the selected view and if implements the callback interface send it the message.
+		final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+		// Check if the selected item is suitable for menu and select it depending on item part class.
+		AbstractAndroidPart part = (AbstractAndroidPart) info.targetView.getTag();
+		if (part instanceof IMenuActionTarget) {
+			((IMenuActionTarget) part).onCreateContextMenu(menu, view, menuInfo);
+		}
+		//		}
+		logger.info("<< [AbstractPagerFragment.onCreateContextMenu]"); //$NON-NLS-1$
 	}
-
-	//	public void notifyDataSetChanged() {
-	//		if (null != _adapter) {
-	//			_adapter.notifyDataSetChanged();
+	//	/**
+	//	 * Displays an string in the format "nh nm ns" that is the number of seconds from the start point that is the value
+	//	 * received as the parameter and the current instant on time.
+	//	 */
+	//	protected String generateTimeString ( final long millis ) {
+	//		try {
+	//			final long elapsed = Instant.now().getMillis() - millis;
+	//			final DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
+	//			if ( elapsed > TimeUnit.HOURS.toMillis(1) ) {
+	//				timeFormatter.appendHourOfDay(2).appendLiteral("h ");
+	//			}
+	//			if ( elapsed > TimeUnit.MINUTES.toMillis(1) ) {
+	//				timeFormatter.appendMinuteOfHour(2).appendLiteral("m ").appendSecondOfMinute(2).appendLiteral("s");
+	//			} else timeFormatter.appendSecondOfMinute(2).appendLiteral("s");
+	//			return timeFormatter.toFormatter().print(new Instant(elapsed));
+	//		} catch (final RuntimeException rtex) {
+	//			return "0m 00s";
 	//		}
 	//	}
 
 
-	//	//- CLASS IMPLEMENTATION ...................................................................................
-	//	protected static class CreatePartsTask extends AsyncTask<AbstractPagerFragment, Void, Void> {
-	//
-	//		// - F I E L D - S E C T I O N ............................................................................
-	//		private AbstractPagerFragment _fragment = null;
-	//
-	//		// - C O N S T R U C T O R - S E C T I O N ................................................................
-	//		public CreatePartsTask(final AbstractPagerFragment fragment) {
-	//			_fragment = fragment;
-	//		}
-	//
-	//		// - M E T H O D - S E C T I O N ..........................................................................
-	//
-	//		/**
-	//		 * The datasource is ready and the new hierarchy should be created from the current model. All the stages
-	//		 * are executed at this time both the model contents update and the list of parts to be used on the
-	//		 * ListView. First, the model is checked to be initialized and if not then it is created. Then the model
-	//		 * is run from start to end to create all the visible elements and from this list then we create the full
-	//		 * list of the parts with their right renders.<br>
-	//		 * This is the task executed every time a datasource gets its model modified and hides all the update time
-	//		 * from the main thread as it is recommended by Google.
-	//		 */
-	//		@Override
-	//		protected Void doInBackground(final AbstractPagerFragment... arg0) {
-	//			AbstractPagerFragment.logger.info(">> [AbstractPagerFragment.CreatePartsTask.doInBackground]");
-	//			Chrono chrono = new Chrono();
-	//			try {
-	//				// Install the adapter as the first task so if the DataSource needs it it is ready.
-	//				_adapter = new DataSourceAdapter(_fragment, _datasource);
-	//				// Create the hierarchy structure to be used on the Adapter.
-	//				// Do this on background so we can update the interface on real time
-	//				_uiExecutor.submit(() -> {
-	//					_datasource.collaborate2Model();
-	//				});
-	//				//				_datasource.transformModel2Parts();
-	//				// Fire again the population of the adapter after the model is initialized
-	//				//				_adapter.setModel(_datasource.getBodyParts());
-	//			} catch (final RuntimeException rtex) {
-	//				rtex.printStackTrace();
-	//			}
-	//			AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.CreatePartsTask.doInBackground]> Time Elapsed: " + chrono.printElapsed(Chrono.ChronoOptions.DEFAULT));
-	//			return null;
-	//		}
-	//
-	//		@Override
-	//		protected void onPostExecute(final Void result) {
-	//			logger.info(">> [CreatePartsTask.onPostExecute]");
-	//			// Stop the timer.
-	//			_timer.cancel();
-	//			// Activate the display of the list to force a redraw. Stop user UI waiting.
-	//			//		_adapter = new DataSourceAdapter(_fragment, _datasource);
-	//			_dataSectionContainer.setAdapter(_adapter);
-	//
-	//			_progressLayout.setVisibility(View.GONE);
-	//			_dataSectionContainer.setVisibility(View.VISIBLE);
-	//			_container.invalidate();
-	//
-	//			// Add the header parts once the display is initialized.
-	//			ArrayList<AbstractAndroidPart> headerContents = _datasource.getHeaderParts();
-	//			if (headerContents.size() > 0) {
-	//				_headerContainer.removeAllViews();
-	//				_headerContainer.invalidate();
-	//				for (final AbstractAndroidPart part : headerContents) {
-	//					_fragment.addViewtoHeader(part);
-	//				}
-	//			}
-	//			super.onPostExecute(result);
-	//			logger.info("<< [CreatePartsTask.onPostExecute]");
-	//		}
+	//	protected boolean checkDSState () {
+	//		if ( null == _datasource )
+	//			return true;
+	//		else
+	//			return false;
+	//	}
+
+	//	public IDataSource getDataSource () {
+	//		return _datasource;
 	//	}
 }
 
 // - UNUSED CODE ............................................................................................
-//[01]
-//- CLASS IMPLEMENTATION ...................................................................................
-//	protected class ExpandChangeTask extends AsyncTask<AbstractPagerFragment, Void, Void> {
-//
-//		// - F I E L D - S E C T I O N ............................................................................
-//		private final AbstractPagerFragment _fragment;
-//
-//		// - C O N S T R U C T O R - S E C T I O N ................................................................
-//		public ExpandChangeTask (final AbstractPagerFragment fragment) {
-//			_fragment = fragment;
-//		}
-//
-//		// - M E T H O D - S E C T I O N ..........................................................................
-//
-//		/**
-//		 * The datasource is ready and the new hierarchy should be created from the current model. All the stages
-//		 * are executed at this time both the model contents update and the list of parts to be used on the
-//		 * ListView. First, the model is checked to be initialized and if not then it is created. Then the model
-//		 * is run from start to end to create all the visible elements and from this list then we create the full
-//		 * list of the parts with their right renders.<br>
-//		 * This is the task executed every time a datasource gets its model modified and hides all the update time
-//		 * from the main thread as it is recommended by Google.
-//		 */
-//		@Override
-//		protected Void doInBackground (final AbstractPagerFragment... arg0) {
-//			AbstractPagerFragment.logger.info(">> StructureChangeTask.doInBackground");
-//			try {
-//				// Create the hierarchy structure to be used on the Adapter.
-//				_datasource.updateContentHierarchy();
-//			} catch (final RuntimeException rtex) {
-//				rtex.printStackTrace();
-//			}
-//			AbstractPagerFragment.logger.info("<< StructureChangeTask.doInBackground");
-//			return null;
-//		}
-//
-//		@Override
-//		protected void onPostExecute (final Void result) {
-//			AbstractPagerFragment.logger.info(">> StructureChangeTask.onPostExecute");
-//			_progressLayout.setVisibility(View.GONE);
-//			_dataSectionContainer.setVisibility(View.VISIBLE);
-//			_container.invalidate();
-//			// Tell the adapter to refresh the contents.
-//			_adapter.notifyDataSetChanged();
-//
-//			// Add the header parts once the display is initialized.
-//			ArrayList<AbstractAndroidPart> headerContents = _datasource.getHeaderParts();
-//			if ( headerContents.size() > 0 ) {
-//				_headerContainer.removeAllViews();
-//				_headerContainer.invalidate();
-//				for (final AbstractAndroidPart part : headerContents) {
-//					_fragment.addViewtoHeader(part);
-//				}
-//			}
-//			super.onPostExecute(result);
-//			AbstractPagerFragment.logger.info("<< StructureChangeTask.onPostExecute");
-//		}
-//	}
-//
-//	//- CLASS IMPLEMENTATION ...................................................................................
-//	protected class StructureChangeTask extends AsyncTask<AbstractPagerFragment, Void, Void> {
-//
-//		// - F I E L D - S E C T I O N ............................................................................
-//		private final AbstractPagerFragment _fragment;
-//
-//		// - C O N S T R U C T O R - S E C T I O N ................................................................
-//		public StructureChangeTask (final AbstractPagerFragment fragment) {
-//			_fragment = fragment;
-//		}
-//
-//		// - M E T H O D - S E C T I O N ..........................................................................
-//
-//		/**
-//		 * The datasource is ready and the new hierarchy should be created from the current model. All the stages
-//		 * are executed at this time both the model contents update and the list of parts to be used on the
-//		 * ListView. First, the model is checked to be initialized and if not then it is created. Then the model
-//		 * is run from start to end to create all the visible elements and from this list then we create the full
-//		 * list of the parts with their right renders.<br>
-//		 * This is the task executed every time a datasource gets its model modified and hides all the update time
-//		 * from the main thread as it is recommended by Google.
-//		 */
-//		@Override
-//		protected Void doInBackground (final AbstractPagerFragment... arg0) {
-//			Log.i("NEOCOM", ">> StructureChangeTask.doInBackground");
-//			try {
-//				// Create the hierarchy structure to be used on the Adapter.
-//				_datasource.transformModel2Parts();
-//			} catch (final RuntimeException rtex) {
-//				rtex.printStackTrace();
-//			}
-//			Log.i("NEOCOM", "<< StructureChangeTask.doInBackground");
-//			return null;
-//		}
-//
-//		@Override
-//		protected void onPostExecute (final Void result) {
-//			Log.i("NEOCOM", ">> StructureChangeTask.onPostExecute");
-//			//
-//			//			AbstractPagerFragment.this._adapter = new DataSourceAdapter(this.fragment, AbstractPagerFragment.this._datasource);
-//			//			AbstractPagerFragment.this._dataSectionContainer.setAdapter(AbstractPagerFragment.this._adapter);
-//
-//			_progressLayout.setVisibility(View.GONE);
-//			_dataSectionContainer.setVisibility(View.VISIBLE);
-//			_container.invalidate();
-//			// Tell the adapter to refresh the contents.
-//			_adapter.notifyDataSetChanged();
-//
-//			// Add the header parts once the display is initialized.
-//			ArrayList<AbstractAndroidPart> headerContents = _datasource.getHeaderParts();
-//			if ( headerContents.size() > 0 ) {
-//				_headerContainer.removeAllViews();
-//				_headerContainer.invalidate();
-//				for (final AbstractAndroidPart part : headerContents) {
-//					_fragment.addViewtoHeader(part);
-//				}
-//			}
-//			super.onPostExecute(result);
-//			Log.i("NEOCOM", "<< StructureChangeTask.onPostExecute");
-//		}
-//	}
-
-//[02]
-//	/**
-//	 * When using fake Fragments not connected to other activities we can replace the default activity by one
-//	 * set by the developer.
-//	 */
-//	public void setMetaActivity(Activity fakeactivity) {
-//		if (null != fakeactivity) _appContext = fakeactivity;
-//	}
-//	public void setActivity(final Activity newactivity) {
-//		this._appContext = newactivity;
-//	}
-//	public NeoComCharacter getPilot() {
-//		return AppModelStore.getSingleton().getPilot();
-//	}
-//	public String getPilotName() {
-//		return this.getPilot().getName();
-//	}
-//	{
-//		return _subtitle;
-//	}
-//	{
-//		return _title;
-//	}
-//	/**
-//	 * This method is a simplification from the original code where we do not use an additional DataSource but the common
-//	 * one
-//	 * so we create a generic DataSource and feed it the specific Model Generator that can be obtained from the Model
-//	 * cache. Model generation
-//	 * maybe a time consuming process so it is run out of the main thread.
-//	 * If the developer does need to use another DataSource but the generic it should replicate this code and register the
-//	 * DataSource manually.
-//	 *
-//	 * @param modelGenerator the new proposed generator. May be replaced by a cached one if already initialized.
-//	 */
-//	public void setGenerator (IModelGenerator modelGenerator) {
-//		// Check if the generator already exists on the Cache. If so get the current one and discard the new.
-//		_generator = ModelGeneratorStore.registerGenerator(modelGenerator);
-//
-//		// Generate the DataSource from the Generator and set it up on the Frgment.
-//		AbstractPagerFragment.logger.info("-- [AbstractPagerFragment.setGenerator]> Creating generic DataSource MVCDataSource.class");
-//		MVCDataSource ds = new MVCDataSource(modelGenerator.getDataSourceLocator(), getFactory(), modelGenerator);
-//		AbstractPagerFragment.logger.info("-- [AbstractPagerFragment.setGenerator]> Using variant: " + this.getVariant());
-//		ds.setVariant(this.getVariant());
-//		setDataSource(ds);
-//	}
-
-//	public void setSubtitle(final String subtitle) {
-//		_subtitle = subtitle;
-//	}
-//
-//	public void setTitle(final String title) {
-//		_title = title;
-//	}
-
-//[03]
-//	/**
-//	 * Creates the structures when the fragment is about to be shown. We have to check that the parent Activity
-//	 * is compatible with this kind of fragment. So the fragment has to check of it has access to a valid pilot
-//	 * before returning any UI element.
-//	 */
-//	public View onCreateViewSuper(final int layout, final LayoutInflater inflater, final ViewGroup container,
-//	                              final Bundle savedInstanceState) {
-//		AbstractPagerFragment.logger.info(">> [AbstractPagerFragment.onCreateViewSuper]");
-//		super.onCreateView(inflater, container, savedInstanceState);
-//		try {
-//			_container = (ViewGroup) inflater.inflate(layout, container, false);
-//			_headerContainer = (ViewGroup) _container.findViewById(R.id.headerContainer);
-//			_dataSectionContainer = (ListView) _container.findViewById(R.id.listContainer);
-//			_progressLayout = (ViewGroup) _container.findViewById(R.id.progressLayout);
-//			_progressElapsedCounter = (TextView) _container.findViewById(R.id.progressCounter);
-//			// Prepare the structures for the context menu.
-//			this.registerForContextMenu(_headerContainer);
-//			this.registerForContextMenu(_dataSectionContainer);
-//		} catch (final RuntimeException rtex) {
-//			AbstractPagerFragment.logger.error("RTEX [AbstractPagerFragment.onCreateViewSuper]> " + rtex.getMessage());
-//			rtex.printStackTrace();
-//			// Instead blocking the application drop a toast and move to the First Activity.
-//			this.goFirstActivity(rtex);
-//		}
-//		AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.onCreateViewSuper]");
-//		return _container;
-//	}
-
 //[03]
 //--- HEADER
-//
-//	protected void addtoHeader(final IAndroidPart target) {
-//		AbstractPagerFragment.logger.info(">> [AbstractPagerFragment.addtoHeader]");
-//		_headerContents.add(target);
-//		AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.addtoHeader]");
-//	}
-
-
-//	public void clearHeader() {
-//		_headerContents.clear();
-//	}
-
-//	/**
-//	 * This is the block of code to adapt the model items to the Part list. This code will finally be added to the final
-//	 * core code.
-//	 */
-//	protected void addHeaderModel(ICollaboration node) {
-//		if (null != node) headerModelContents.add(node);
-//	}
-
-//	/**
-//	 * For really unrecoverable or undefined exceptions the application should go to a safe spot. That spot is
-//	 * defined by the application so this is another abstract method.
-//	 *
-//	 * @param exception
-//	 */
-//	protected void stopActivity(final Exception exception) {
-//		final Intent intent = new Intent(this.getActivity(), SafeStopActivity.class);
-//		// Pass the user message to the activity for display.
-//		intent.putExtra(SystemWideConstants.extras.EXTRA_EXCEPTIONMESSAGE, exception.getMessage());
-//		//		EVEDroidApp.getSingletonApp().init();
-//		this.startActivity(intent);
-//	}
-
 //[02]
 
 
@@ -838,44 +531,6 @@ public abstract class AbstractPagerFragment extends Fragment {
 //		this.startActivity(new Intent(this.getMetaActivity(), MVCAppConnector.getSingleton().getFirstActivity().getClass()));
 //	}
 
-//--- CONTEXTUAL MENU FOR THE HEADER
-//	@Override
-//	public boolean onContextItemSelected(final MenuItem item) {
-//		//		logger.info(">> ManufactureContextFragment.onContextItemSelected"); //$NON-NLS-1$
-//		final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-//		final int menuItemIndex = item.getItemId();
-//		final AbstractAndroidPart part = (AbstractAndroidPart) info.targetView.getTag();
-//		if (part instanceof IMenuActionTarget)
-//			return ((IMenuActionTarget) part).onContextItemSelected(item);
-//		else
-//			return true;
-//	}
-//
-//	@Override
-//	public void onCreateContextMenu(final ContextMenu menu, final View view, final ContextMenuInfo menuInfo) {
-//		logger.info(">> [AbstractPagerFragment.onCreateContextMenu]"); //$NON-NLS-1$
-//		// REFACTOR If we call the super then the fragment's parent activity gets called. So the listcallback and the Activity
-//		// have not to be the same
-//		super.onCreateContextMenu(menu, view, menuInfo);
-//		// Check parameters to detect the item selected for menu target.
-//		if (view == _headerContainer) {
-//			//			 Check if this fragment has the callback configured
-//			final IAndroidPart part = _headerContents.firstElement();
-//			if (part instanceof IMenuActionTarget) {
-//				((IMenuActionTarget) part).onCreateContextMenu(menu, view, menuInfo);
-//			}
-//		}
-//		if (view == _dataSectionContainer) {
-//			// Get the tag assigned to the selected view and if implements the callback interface send it the message.
-//			final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-//			// Check if the se4lected item is suitable for menu and select it depending on item part class.
-//			AbstractAndroidPart part = (AbstractAndroidPart) info.targetView.getTag();
-//			if (part instanceof IMenuActionTarget) {
-//				((IMenuActionTarget) part).onCreateContextMenu(menu, view, menuInfo);
-//			}
-//		}
-//		logger.info("<< [AbstractPagerFragment.onCreateContextMenu]"); //$NON-NLS-1$
-//	}
 
 //	public void propertyChange(final PropertyChangeEvent event) {
 //		if (event.getPropertyName().equalsIgnoreCase(AbstractGEFNode.ECoreModelEvents.EVENT_EXPANDCOLLAPSENODE.name())) {

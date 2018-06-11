@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -185,7 +186,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 				convertView.setClickable(true);
 				convertView.setOnLongClickListener((OnLongClickListener) item);
 			}
-			// REFACTOR Add the DataSource as an event listener because that feature does not depend on the interfaces.
+				// REFACTOR Add the DataSource as an event listener because that feature does not depend on the interfaces.
 			item.addPropertyChangeListener(_datasource);
 			if ( logAllowed ) {
 				// Filter out the spinner.
