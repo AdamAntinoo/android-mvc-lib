@@ -137,7 +137,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	public void cleanup() {
 		_dataModelRoot.clean();
 		// Clear the listener event link from the discarded Parts.
-//		cleanLinks(_dataSectionParts);
+		//		cleanLinks(_dataSectionParts);
 		_dataSectionParts.clear();
 		// And add back the initial spinner.
 		_dataSectionParts.add(new OnLoadSpinnerPart(new Separator()));
@@ -311,27 +311,33 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		// The expand/collapse state has changed.
 		if (SystemWideConstants.events.valueOf(event.getPropertyName()) ==
 				SystemWideConstants.events.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE) {
-//			cleanLinks(_dataSectionParts);
-			_dataSectionParts.clear();
-			_partModelRoot.collaborate2View(_dataSectionParts);
+			//			cleanLinks(_dataSectionParts);
+			synchronized (_dataSectionParts) {
+				_dataSectionParts.clear();
+				_partModelRoot.collaborate2View(_dataSectionParts);
+			}
 		}
 
 		//--- S T R U C T U R E   E V E N T S
 		if (SystemWideConstants.events.valueOf(event.getPropertyName()) ==
 				SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA) {
 			this.transformModel2Parts();
-//			cleanLinks(_dataSectionParts);
-			_dataSectionParts.clear();
-			_partModelRoot.collaborate2View(_dataSectionParts);
+			//			cleanLinks(_dataSectionParts);
+			synchronized (_dataSectionParts) {
+				_dataSectionParts.clear();
+				_partModelRoot.collaborate2View(_dataSectionParts);
+			}
 			// TODO - I think there is missing the action to update the listview. Trying with this messsage.
 			firePropertyChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), null, null);
 		}
 		if (SystemWideConstants.events.valueOf(event.getPropertyName()) ==
 				SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA) {
 			this.transformModel2Parts();
-//			cleanLinks(_dataSectionParts);
-			_dataSectionParts.clear();
-			_partModelRoot.collaborate2View(_dataSectionParts);
+			//			cleanLinks(_dataSectionParts);
+			synchronized (_dataSectionParts) {
+				_dataSectionParts.clear();
+				_partModelRoot.collaborate2View(_dataSectionParts);
+			}
 		}
 
 		//--- R E F R E S H   E V E N T S
@@ -340,8 +346,10 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 			collaborate2Model();
 			this.transformModel2Parts();
 			//			cleanLinks(_dataSectionParts);
-			_dataSectionParts.clear();
-			_partModelRoot.collaborate2View(_dataSectionParts);
+			synchronized (_dataSectionParts) {
+				_dataSectionParts.clear();
+				_partModelRoot.collaborate2View(_dataSectionParts);
+			}
 		}
 
 		//--- A D A P T E R   E V E N T S
@@ -403,7 +411,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 				if (null != part) {
 					part.setParent(this);
 					// Connect parts as listeners for fast objects. Watch this connections for Part destruction.
-					if(model instanceof IEventProjector)
+					if (model instanceof IEventProjector)
 						((IEventProjector) model).addPropertyChangeListener(this);
 				}
 			}
