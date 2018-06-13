@@ -27,15 +27,6 @@ public interface IAndroidPart extends IPart {
 
 	public Activity getActivity();
 
-	/**
-	 * Returns a numeric identifier for this part model item that should be unique from all other system wide
-	 * parts to allow for easy management of the corresponding parts and views.
-	 * @return <code>long</code> identifier with the model number.
-	 */
-	public long getModelId();
-
-	public AbstractRender selectRenderer();
-
 	public AbstractRender getRenderer( Activity context );
 
 	public View getView();
@@ -46,11 +37,17 @@ public interface IAndroidPart extends IPart {
 
 	public void needsRedraw();
 
-
 	// TODO - Alter the interface to force demanding a new part the unimplemented methods.
-	//	public List<IPart> runPolicies (List<IPart> targets);
-	//
 	//	public boolean runDependencies ();
+	// --- P U B L I C   M E T H O D S   T O   I MP L E M E N T
+	/**
+	 * Returns a numeric identifier for this part model item that should be unique from all other system wide
+	 * parts to allow for easy management of the corresponding parts and views.
+	 * @return <code>long</code> identifier with the model number.
+	 */
+	public long getModelId();
+
+	public AbstractRender selectRenderer();
 }
 
 // - UNUSED CODE ............................................................................................
