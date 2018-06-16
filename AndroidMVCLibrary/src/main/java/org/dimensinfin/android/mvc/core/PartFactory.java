@@ -18,13 +18,14 @@ import org.dimensinfin.android.mvc.part.PanelExceptionPart;
 import org.dimensinfin.android.mvc.part.SeparatorPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.logging.Logger;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public class PartFactory implements IPartFactory {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	protected static Logger logger = Logger.getLogger("PartFactory");
+	protected static Logger logger = LoggerFactory.getLogger("PartFactory");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	private final String variant;

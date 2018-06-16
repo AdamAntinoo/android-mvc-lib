@@ -304,7 +304,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 * @param event the event to be processed. Event have a property name that is used as a selector.
 	 */
 	@Override
-	public void propertyChange( final PropertyChangeEvent event ) {
+	public synchronized void propertyChange( final PropertyChangeEvent event ) {
 		logger.info(">> [MVCDataSource.propertyChange]> Processing Event: {}", event.getPropertyName());
 
 		//--- C O N T E N T   E V E N T S
@@ -353,13 +353,13 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		}
 
 		//--- A D A P T E R   E V E N T S
-		if (SystemWideConstants.events
-				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES) {
-			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
-					event.getNewValue());
-			logger.info("<< [MVCDataSource.propertyChange]");
-			return;
-		}
+//		if (SystemWideConstants.events
+//				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES) {
+////			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
+////					event.getNewValue());
+//			logger.info("<< [MVCDataSource.propertyChange]");
+//			return;
+//		}
 		// Send up the event to the DataSourceAdapter but be sure to run any display changes on the UI main thread.
 		this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 				event.getNewValue());
@@ -519,8 +519,6 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 			for (IPart part : ch) {
 				if (part instanceof IAndroidPart)
 					((IAndroidPart) part).collaborate2View(contentCollector);
-				//						AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaboration parts: " + collaboration.size());
-				//						contentCollector.addAll(collaboration);
 			}
 			//			}
 			//		else {

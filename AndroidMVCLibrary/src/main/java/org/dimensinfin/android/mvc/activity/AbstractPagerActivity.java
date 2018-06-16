@@ -16,6 +16,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -43,7 +44,7 @@ import org.slf4j.LoggerFactory;
  * @since 1.0.0
  */
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class AbstractPagerActivity extends Activity {
+public abstract class AbstractPagerActivity extends AppCompatActivity {
 	public enum EExtrasMVC {
 		EXTRA_EXCEPTIONMESSAGE, EXTRA_VARIANT
 	}

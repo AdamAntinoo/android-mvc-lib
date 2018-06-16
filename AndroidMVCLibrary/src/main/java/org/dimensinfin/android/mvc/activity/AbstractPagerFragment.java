@@ -104,15 +104,6 @@ public abstract class AbstractPagerFragment extends Fragment {
 	private TextView _progressElapsedCounter = null;
 
 
-	//------------------------------
-	//	private Instant _elapsedTimer = null;
-	//	private CountDownTimer _timer = null;
-
-	//	private List<ICollaboration> headerModelContents = new ArrayList<ICollaboration>();
-
-
-	//	private String _title = "<TITLE>";
-	//	private String _subtitle = "";
 	// TODO REFACTOR Set back to private after the PagerFragment is removed
 	private final Vector<IAndroidPart> _headerContents = new Vector<IAndroidPart>();
 	private IModelGenerator _generator = null;

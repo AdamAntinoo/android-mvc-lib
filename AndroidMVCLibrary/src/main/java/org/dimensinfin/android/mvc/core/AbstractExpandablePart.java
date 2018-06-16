@@ -74,9 +74,9 @@ public abstract class AbstractExpandablePart extends AbstractAndroidPart impleme
 	@Override
 	public String toString () {
 		StringBuffer buffer = new StringBuffer("AbstractExpandablePart [ ");
-		buffer.append("name: ").append(0);
+		buffer.append("model: ").append(this.getModel().toString());
 		buffer.append("]");
-		buffer.append("->").append(super.toString());
+//		buffer.append("->").append(super.toString());
 		return buffer.toString();
 	}
 }

@@ -16,7 +16,8 @@ import java.util.List;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public interface IPart extends PropertyChangeListener {
-//	public List<IPart> collaborate2View ();
+//	public void collaborate2View( List<IAndroidPart> contentCollector );
+	public List<IPart> collaborate2View ();
 
 	public List<IPart> getChildren ();
 
