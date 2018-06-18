@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
  * @since 1.0.0
  */
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class AbstractPagerActivity extends AppCompatActivity {
+public abstract class AbstractPagerActivity extends Activity {
 	public enum EExtrasMVC {
 		EXTRA_EXCEPTIONMESSAGE, EXTRA_VARIANT
 	}
@@ -54,12 +54,12 @@ public abstract class AbstractPagerActivity extends AppCompatActivity {
 
 	// - F I E L D - S E C T I O N ............................................................................
 	protected Bundle extras = null;
-	private ActionBar _actionBar = null;
-	private ViewPager _pageContainer = null;
-	private AbstractFragmentPagerAdapter _pageAdapter = null;
+	protected ActionBar _actionBar = null;
+	protected ViewPager _pageContainer = null;
+	protected AbstractFragmentPagerAdapter _pageAdapter = null;
 	/** Image reference to the background layout item that can be replaced by the application implementation. */
 	protected ImageView background = null;
-	private CirclePageIndicator _indicator = null;
+	protected CirclePageIndicator _indicator = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
@@ -110,7 +110,7 @@ public abstract class AbstractPagerActivity extends AppCompatActivity {
 		AbstractPagerActivity.logger.info("<< [AbstractPagerActivity.addPage]"); //$NON-NLS-1$
 	}
 
-	private void activateIndicator () {
+	protected void activateIndicator () {
 		// If the Indicator is active then set the listener.
 		if ( null != _indicator ) {
 			_indicator.setVisibility(View.VISIBLE);

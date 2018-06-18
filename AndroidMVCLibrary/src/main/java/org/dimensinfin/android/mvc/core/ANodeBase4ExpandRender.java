@@ -95,8 +95,8 @@ public class ANodeBase4ExpandRender extends AbstractRender {
 	//--- D E L E G A T E D   M E T H O D S
 	@Override
 	public String toString () {
-		StringBuffer buffer = new StringBuffer("AbstractExpandableRender [ ");
-		buffer.append("model: ").append(getPart().getModel().toString());
+		StringBuffer buffer = new StringBuffer("ANodeBase4ExpandRender [ ");
+		buffer.append("model: ").append(getPart().getModel().toString()).append(" ");
 		buffer.append("]");
 		//		buffer.append("->").append(super.toString());
 		return buffer.toString();

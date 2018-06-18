@@ -24,9 +24,9 @@ import android.widget.Toast;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
-import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
@@ -390,7 +390,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 			// Do the same operations as in the body contents. Create a root, add to it the model elements and then
 			// recursively generate the Part list.
-			final MVCDataSource.RootAndroidPart partModelRoot = new MVCDataSource.RootAndroidPart(headerModel, getFactory());
+			final RootPart partModelRoot = new RootPart(headerModel, getFactory());
 			partModelRoot.refreshChildren();
 			ArrayList<IAndroidPart> headerParts = new ArrayList<IAndroidPart>();
 			// Select for the body contents only the viewable Parts from the Part model. Make it a list.

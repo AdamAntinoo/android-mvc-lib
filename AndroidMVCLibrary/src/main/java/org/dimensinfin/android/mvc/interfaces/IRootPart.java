@@ -13,9 +13,9 @@ import org.dimensinfin.core.model.RootNode;
 import java.util.List;
 
 public interface IRootPart {
-	public void setRootModel(final RootNode rootNode);
+	public void setRootModel( final RootNode rootNode );
 
 	public void refreshChildren();
 
-	public void collaborate2View(final List<IAndroidPart> contentCollector);
+	public void collaborate2View( final List<IAndroidPart> contentCollector );
 }

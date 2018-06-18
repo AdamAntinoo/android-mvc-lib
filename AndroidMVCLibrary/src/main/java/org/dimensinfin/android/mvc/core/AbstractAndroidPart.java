@@ -63,45 +63,16 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 			throw new RuntimeException("Fragment object not available on access on a Part.");
 	}
 
-	public void collaborate2View( List<IAndroidPart> contentCollector ) {
-		AbstractPart.logger.info(">< [AbstractPart.collaborate2View]> Collaborator: " + this.getClass().getSimpleName());
-		//		ArrayList<IPart> result = new ArrayList<IPart>();
-		// If the node is expanded then give the children the opportunity to also be added.
-		if (this.isExpanded()) {
-			contentCollector.add(this);
-			// ---This is the section that is different for any Part. This should be done calling the list of policies.
-			List<IPart> ch = this.runPolicies(this.getChildren());
-			AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaborator children: " + ch.size());
-			// --- End of policies
-			for (IPart part : ch) {
-				if (part instanceof IAndroidPart)
-					((IAndroidPart) part).collaborate2View(contentCollector);
-				//				AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaboration parts: " + collaboration.size());
-				//				contentCollector.addAll(collaboration);
-			}
-		} else {
-			// Check for items that will not shown when empty and not expanded.
-			if (this.isRenderWhenEmpty()) {
-				runDependencies();
-				contentCollector.add(this);
-			}
-		}
-		//		return contentCollector;
-	}
 
-	public List<IPart> runPolicies( final List<IPart> targets ) {
-		return targets;
-	}
-
-	/**
-	 * Dependencies are when one model object contains or has references to other model instances. During rendering we cannot wait to do
-	 * each access and resolve it to their data so we can fire a dependency event when we are collaborating to the view so we can perform
-	 * any downloads and resolutions while we have already informed the used of a lengthy data processing under way.
-	 * @return
-	 */
-	public boolean runDependencies() {
-		return false;
-	}
+	//	/**
+	//	 * Dependencies are when one model object contains or has references to other model instances. During rendering we cannot wait to do
+	//	 * each access and resolve it to their data so we can fire a dependency event when we are collaborating to the view so we can perform
+	//	 * any downloads and resolutions while we have already informed the used of a lengthy data processing under way.
+	//	 * @return
+	//	 */
+	//	public boolean runDependencies() {
+	//		return false;
+	//	}
 
 	/**
 	 * Activities are the preferred Context ot be used on the parts. That make them usable on any context and not
@@ -151,6 +122,32 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 	}
 
 	//	public abstract AbstractRender selectRenderer ();
-}
+	// --- I P A R T   I N T E R F A C E
+	public List<IPart> runPolicies( final List<IPart> targets ) {
+		return targets;
+	}
 
+	public void collaborate2View( List<IAndroidPart> contentCollector ) {
+		AbstractPart.logger.info(">< [AbstractPart.collaborate2View]> Collaborator: {}", this.getClass().getSimpleName());
+		//		ArrayList<IPart> result = new ArrayList<IPart>();
+		// If the node is expanded then give the children the opportunity to also be added.
+		if (this.isExpanded()) {
+			contentCollector.add(this);
+			// ---This is the section that is different for any Part. This should be done calling the list of policies.
+			List<IPart> ch = this.runPolicies(this.getChildren());
+			AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaborator children: " + ch.size());
+			// --- End of policies
+			for (IPart part : ch) {
+				if (part instanceof IAndroidPart)
+					((IAndroidPart) part).collaborate2View(contentCollector);
+			}
+		} else {
+			// Check for items that will not shown when empty and not expanded.
+			if (this.isRenderWhenEmpty()) {
+				//				runDependencies();
+				contentCollector.add(this);
+			}
+		}
+	}
+}
 // - UNUSED CODE ............................................................................................

@@ -16,7 +16,7 @@
 
         <org.dimensinfin.android.mvc.fonts.MonsOlympiaBoldTextView
             android:id="@+id/name"
-            style="@style/AppTheme.TextView.Glow.Orange"
+            style="@style/AppTheme.TextView"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:text="@string/default_shortname"
