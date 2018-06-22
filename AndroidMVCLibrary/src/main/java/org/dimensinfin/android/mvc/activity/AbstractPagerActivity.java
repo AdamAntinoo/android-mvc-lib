@@ -16,7 +16,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -24,7 +23,6 @@ import com.viewpagerindicator.CirclePageIndicator;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.datasource.AbstractFragmentPagerAdapter;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,7 +62,7 @@ public abstract class AbstractPagerActivity extends Activity {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public Activity getActivity () {
+	public Activity getActivity() {
 		return this;
 	}
 
@@ -72,7 +70,7 @@ public abstract class AbstractPagerActivity extends Activity {
 	 * Allows to change the activity background that covers the full size of the display
 	 * @param newbackground the new background image.
 	 */
-	public void setBackground ( final ImageView newbackground ) {
+	public void setBackground( final ImageView newbackground ) {
 		this.background = newbackground;
 	}
 
@@ -83,14 +81,16 @@ public abstract class AbstractPagerActivity extends Activity {
 	 *                already the fragments created and initialized at the <code>FragmentManager</code>. In such a case we
 	 *                discard the new received fragment and use the already instance at the <code>FragmentManager</code>.
 	 */
-	public void addPage ( AbstractPagerFragment newFrag ) {
-		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.addPage]"); //$NON-NLS-1$
+	public void addPage( AbstractPagerFragment newFrag ) {
+		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.addPage]");
 		// Before checking if we have already this fragment we should get its unique identifier.
 		Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextPosition()));
 		if ( null == frag ) {
 			_pageAdapter.addPage(newFrag);
 		} else {
 			if ( frag instanceof AbstractPagerFragment ) {
+				AbstractPagerActivity.logger.info("-- [AbstractPagerActivity.addPage]> Reusing available fragment. {}"
+						,_pageAdapter.getFragmentId(_pageAdapter.getNextPosition()));
 				// Reuse a previous created Fragment. But watch some of the fields have been removed.
 				((AbstractPagerFragment) frag).setVariant(newFrag.getVariant());
 				newFrag = (AbstractPagerFragment) frag;
@@ -110,20 +110,20 @@ public abstract class AbstractPagerActivity extends Activity {
 		AbstractPagerActivity.logger.info("<< [AbstractPagerActivity.addPage]"); //$NON-NLS-1$
 	}
 
-	protected void activateIndicator () {
+	protected void activateIndicator() {
 		// If the Indicator is active then set the listener.
 		if ( null != _indicator ) {
 			_indicator.setVisibility(View.VISIBLE);
 			_indicator.setViewPager(_pageContainer);
 			_indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-				public void onPageScrolled ( final int arg0, final float arg1, final int arg2 ) {
+				public void onPageScrolled( final int arg0, final float arg1, final int arg2 ) {
 				}
 
-				public void onPageScrollStateChanged ( final int arg0 ) {
+				public void onPageScrollStateChanged( final int arg0 ) {
 				}
 
-				public void onPageSelected ( final int position ) {
+				public void onPageSelected( final int position ) {
 					if ( null != _actionBar ) {
 						_actionBar.setTitle(_pageAdapter.getTitle(position));
 						// Clear empty subtitles.
@@ -138,13 +138,13 @@ public abstract class AbstractPagerActivity extends Activity {
 		} else {
 			_pageContainer.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-				public void onPageScrolled ( final int arg0, final float arg1, final int arg2 ) {
+				public void onPageScrolled( final int arg0, final float arg1, final int arg2 ) {
 				}
 
-				public void onPageScrollStateChanged ( final int arg0 ) {
+				public void onPageScrollStateChanged( final int arg0 ) {
 				}
 
-				public void onPageSelected ( final int position ) {
+				public void onPageSelected( final int position ) {
 					if ( null != _actionBar ) {
 						_actionBar.setTitle(_pageAdapter.getTitle(position));
 						// Clear empty subtitles.
@@ -159,18 +159,18 @@ public abstract class AbstractPagerActivity extends Activity {
 		}
 	}
 
-	private void disableIndicator () {
+	private void disableIndicator() {
 		if ( null != _indicator ) {
 			_indicator.setVisibility(View.GONE);
 		}
 	}
 
-	private Bundle getExtras () {
+	private Bundle getExtras() {
 		return extras;
 	}
 
 	@Override
-	protected void onCreate ( final Bundle savedInstanceState ) {
+	protected void onCreate( final Bundle savedInstanceState ) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		// Process the extras received by the intent so they can be shared to all the Fragments
@@ -214,7 +214,7 @@ public abstract class AbstractPagerActivity extends Activity {
 		AbstractPagerActivity.logger.info("<< [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
 	}
 
-	private void updateInitialTitle () {
+	private void updateInitialTitle() {
 		if ( null != _actionBar ) {
 			Fragment firstFragment = _pageAdapter.getInitialPage();
 			// REFACTOR This IF can be removed once this code works.
@@ -228,7 +228,7 @@ public abstract class AbstractPagerActivity extends Activity {
 	//--- A C T I V I T Y   L I F E C Y C L E
 
 	@Override
-	protected void onStart () {
+	protected void onStart() {
 		super.onStart();
 		// Update the menu for the first page.
 		updateInitialTitle();

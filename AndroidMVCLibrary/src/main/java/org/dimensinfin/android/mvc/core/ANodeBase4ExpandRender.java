@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -43,9 +42,13 @@ public class ANodeBase4ExpandRender extends AbstractRender {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	public AbstractPart getPart() {
+		return _part;
+	}
+
 	//--- G E T T E R S   &   S E T T E R S
 	@Override
-	public void initializeViews () {
+	public void initializeViews() {
 		// Get the view of the rightArrow if found.
 		_rightArrow = (ImageView) _convertView.findViewById(R.id.rightArrow);
 		_separator = (ImageView) _convertView.findViewById(R.id.separator);
@@ -58,21 +61,21 @@ public class ANodeBase4ExpandRender extends AbstractRender {
 	 * with a new <code>updateContent()</code>.
 	 */
 	@Override
-	public void updateContent () {
+	public void updateContent() {
 		// Check if the model is expandable to show or hide the arrow.
 		final ICollaboration targetModel = getPart().getModel();
-		if ( null != _rightArrow ) {
-			if ( targetModel instanceof IExpandable ) {
+		if (null != _rightArrow) {
+			if (targetModel instanceof IExpandable) {
 				_rightArrow.setVisibility(View.VISIBLE);
-				if ( this.getPart().isExpanded() ) {
+				if (this.getPart().isExpanded()) {
 					_rightArrow.setImageResource(R.drawable.arrowdown);
 				} else {
 					_rightArrow.setImageResource(R.drawable.arrowright);
 				}
 
 				// Check if the click is running and then replace the right arrow by an spinner.
-				if ( getPart().clickRunning() ) {
-					if ( null != _rightArrow ) {
+				if (getPart().clickRunning()) {
+					if (null != _rightArrow) {
 						logger.info("-- [NeoComRender.updateContent]> Activating spinner animation.");
 						_rightArrow.setImageDrawable(getDrawable(R.drawable.progress_spinner_orange));
 						Animation rotation = AnimationUtils.loadAnimation(getContext(), R.anim.clockwise_rotation);
@@ -94,7 +97,7 @@ public class ANodeBase4ExpandRender extends AbstractRender {
 
 	//--- D E L E G A T E D   M E T H O D S
 	@Override
-	public String toString () {
+	public String toString() {
 		StringBuffer buffer = new StringBuffer("ANodeBase4ExpandRender [ ");
 		buffer.append("model: ").append(getPart().getModel().toString()).append(" ");
 		buffer.append("]");

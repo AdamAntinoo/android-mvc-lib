@@ -34,7 +34,7 @@ public abstract class AbstractRender implements IRender {
 	// - F I E L D - S E C T I O N ............................................................................
 	protected View _convertView = null;
 	private Activity _context = null;
-	private AbstractPart _part = null;
+	protected AbstractPart _part = null;
 	private final HashMap<String, Object> _extras = new HashMap<String, Object>();
 
 	//- L A Y O U T   F I E L D S

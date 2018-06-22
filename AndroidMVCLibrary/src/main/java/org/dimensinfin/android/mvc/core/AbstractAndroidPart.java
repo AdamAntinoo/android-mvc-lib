@@ -34,7 +34,7 @@ import java.util.List;
 public abstract class AbstractAndroidPart extends AbstractPart implements IAndroidPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = 7467855028114565679L;
-	protected static Logger logger = LoggerFactory.getLogger("AbstractAndroidPart");
+//	protected static Logger logger = LoggerFactory.getLogger("AbstractAndroidPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	protected Activity _activity = null;

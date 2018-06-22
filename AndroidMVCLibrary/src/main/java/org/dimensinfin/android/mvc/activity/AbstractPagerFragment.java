@@ -24,16 +24,22 @@ import android.widget.Toast;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractExpandablePart;
+import org.dimensinfin.android.mvc.core.AbstractPart;
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
+import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
 import org.slf4j.Logger;
@@ -296,6 +302,9 @@ public abstract class AbstractPagerFragment extends Fragment {
 			_headersource = this.registerHeaderSource();
 			// Entry point to generate the DataSection model.
 			_datasource = DataSourceManager.registerDataSource(this.registerDataSource());
+			// Check that the datasource is a valid data source.
+			if (null == _datasource) _datasource = new EmptyDataSource(new DataSourceLocator().addIdentifier("EMPTY")
+					, getVariant(), getFactory(), getExtras());
 			// Install the adapter before any data request or model generation.
 			_adapter = new DataSourceAdapter(this, _datasource);
 			_dataSectionContainer.setAdapter(_adapter);
@@ -478,78 +487,111 @@ public abstract class AbstractPagerFragment extends Fragment {
 		//		}
 		logger.info("<< [AbstractPagerFragment.onCreateContextMenu]"); //$NON-NLS-1$
 	}
-	//	/**
-	//	 * Displays an string in the format "nh nm ns" that is the number of seconds from the start point that is the value
-	//	 * received as the parameter and the current instant on time.
-	//	 */
-	//	protected String generateTimeString ( final long millis ) {
-	//		try {
-	//			final long elapsed = Instant.now().getMillis() - millis;
-	//			final DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
-	//			if ( elapsed > TimeUnit.HOURS.toMillis(1) ) {
-	//				timeFormatter.appendHourOfDay(2).appendLiteral("h ");
-	//			}
-	//			if ( elapsed > TimeUnit.MINUTES.toMillis(1) ) {
-	//				timeFormatter.appendMinuteOfHour(2).appendLiteral("m ").appendSecondOfMinute(2).appendLiteral("s");
-	//			} else timeFormatter.appendSecondOfMinute(2).appendLiteral("s");
-	//			return timeFormatter.toFormatter().print(new Instant(elapsed));
-	//		} catch (final RuntimeException rtex) {
-	//			return "0m 00s";
-	//		}
-	//	}
 
+	//- CLASS IMPLEMENTATION ...................................................................................
+	public static class EmptyDataSource extends MVCDataSource {
+		public EmptyDataSource( DataSourceLocator locator, String variant, IPartFactory factory, Bundle extras ) {
+			super(locator, variant, factory, extras);
+		}
 
-	//	protected boolean checkDSState () {
-	//		if ( null == _datasource )
-	//			return true;
-	//		else
-	//			return false;
-	//	}
+		@Override
+		public void collaborate2Model() {
+			// Create an empty list of items. This can be done by setting a model that if not rendered when empty.
+			this.addModelContents(new EmptyNotVisibleNode());
+		}
+	}
 
-	//	public IDataSource getDataSource () {
-	//		return _datasource;
-	//	}
+	public static class EmptyNotVisibleNode implements IExpandable {
+		public EmptyNotVisibleNode() {
+			super();
+			this.setRenderWhenEmpty(false);
+		}
+
+		@Override
+		public boolean collapse() {
+			return false;
+		}
+
+		@Override
+		public boolean expand() {
+			return false;
+		}
+
+		@Override
+		public boolean isEmpty() {
+			return true;
+		}
+
+		@Override
+		public boolean isExpanded() {
+			return false;
+		}
+
+		@Override
+		public boolean isRenderWhenEmpty() {
+			return false;
+		}
+
+		@Override
+		public IExpandable setRenderWhenEmpty( final boolean renderWhenEmpty ) {
+			return this;
+		}
+
+		@Override
+		public List<ICollaboration> collaborate2Model( final String variation ) {
+			return new ArrayList<>();
+		}
+	}
+
+	public static class EmptyPart extends AbstractExpandablePart {
+
+		public EmptyPart( final ICollaboration model ) {
+			super(model);
+		}
+
+		@Override
+		public long getModelId() {
+			return 0;
+		}
+
+		@Override
+		public AbstractRender selectRenderer() {
+			return new EmptyRender(this, this.getActivity());
+		}
+
+		@Override
+		public boolean isEmpty() {
+			return true;
+		}
+
+		@Override
+		public List<IPart> runPolicies( final List<IPart> targets ) {
+			return targets;
+		}
+
+	}
+
+	public static class EmptyRender extends AbstractRender {
+
+		public EmptyRender( final AbstractPart newPart, final Activity context ) {
+			super(newPart, context);
+		}
+
+		@Override
+		public void initializeViews() {
+
+		}
+
+		@Override
+		public void updateContent() {
+
+		}
+
+		@Override
+		public int accessLayoutReference() {
+			return R.layout.separatorgreenline;
+		}
+	}
 }
 
 // - UNUSED CODE ............................................................................................
-//[03]
-//--- HEADER
-//[02]
-
-
-//	public void goFirstActivity(final RuntimeException rtex) {
-//		Toast.makeText(this.getMetaActivity(), rtex.getMessage(), Toast.LENGTH_LONG).show();
-//		this.startActivity(new Intent(this.getMetaActivity(), MVCAppConnector.getSingleton().getFirstActivity().getClass()));
-//	}
-
-
-//	public void propertyChange(final PropertyChangeEvent event) {
-//		if (event.getPropertyName().equalsIgnoreCase(AbstractGEFNode.ECoreModelEvents.EVENT_EXPANDCOLLAPSENODE.name())) {
-//			//			new ExpandChangeTask(this).execute();
-//		}
-//	}
-
-//	public void setDataSource(final IDataSource dataSource) {
-//		if (null != dataSource) {
-//			_datasource = dataSource;
-//		}
-//	}
-
-
-//	public void setFactory(final IPartFactory factory) {
-//		_factory = factory;
-//	}
-
-//	protected void createParts() {
-//		try {
-//			// Check the validity of the data source.
-//			if (null == _datasource) throw new RuntimeException("Datasource not defined.");
-//			Log.i("NEOCOM", "-- AbstractNewPagerFragment.createParts - Launching CreatePartsTask");
-//			new CreatePartsTask(this).execute();
-//		} catch (final Exception rtex) {
-//			Log.e("NEOCOM", "RTEX> AbstractNewPagerFragment.createParts - " + rtex.getMessage());
-//			rtex.printStackTrace();
-//			this.stopActivity(new RuntimeException("RTEX> AbstractNewPagerFragment.createParts - " + rtex.getMessage()));
-//		}
-//	}
-

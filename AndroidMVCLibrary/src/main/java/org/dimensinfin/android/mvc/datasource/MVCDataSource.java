@@ -100,6 +100,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	private final List<IAndroidPart> _dataSectionParts = new Vector<IAndroidPart>(100);
 	/** Flag used to do not launch more update events when there is one pending. */
 	private boolean _pending = false;
+	protected int refreshTime = -1;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public MVCDataSource( final DataSourceLocator locator, final String variant, final IPartFactory factory, final Bundle extras ) {
@@ -175,6 +176,11 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		return this;
 	}
 
+	public IDataSource setRefreshTime( final int time ) {
+		this.refreshTime = time;
+		return this;
+	}
+
 	/**
 	 * This is the single way to add more content to the DataSource internal model representation. Encapsulating this
 	 * functionality on this method we make sure that the right events are generated and the model is properly updated and
@@ -228,6 +234,14 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 */
 	public IRootPart createRootPart() {
 		return new RootPart(_dataModelRoot, _partFactory);
+	}
+
+	public RootNode getRootModel() {
+		return this._dataModelRoot;
+	}
+
+	public IPartFactory getFactory() {
+		return this._partFactory;
 	}
 
 	/**

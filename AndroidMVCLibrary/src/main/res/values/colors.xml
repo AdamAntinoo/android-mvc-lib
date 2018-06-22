@@ -21,6 +21,7 @@
     <color name="appgreen">#FF6CC417</color>
     <color name="appbluelight">#FF33CCFF</color>
     <color name="appblue">#FF3333FF</color>
+    <color name="appbluedark">#FF303FC0</color>
     <color name="appbluepurple">#FF794DFF</color>
     <color name="approse">#FFFF4DFF</color>
 

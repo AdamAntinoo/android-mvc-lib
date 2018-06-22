@@ -37,13 +37,14 @@ public class DataSourceManager {
 	 * @param newSource new DataSource to add to the Manager
 	 * @return the oldest DataSource with the same identifier.
 	 */
-	public static IDataSource registerDataSource ( final IDataSource newSource ) {
+	public static IDataSource registerDataSource( final IDataSource newSource ) {
+		if (null == newSource) return newSource;
 		// Check if the datasource is cacheable.
-		if ( newSource.isCacheable() ) {
+		if (newSource.isCacheable()) {
 			DataSourceLocator locator = newSource.getDataSourceLocator();
 			// Search for locator on cache.
 			IDataSource found = DataSourceManager.dataSources.get(locator.getIdentity());
-			if ( null == found ) {
+			if (null == found) {
 				DataSourceManager.dataSources.put(locator.getIdentity(), newSource);
 				DataSourceManager.logger
 						.info("-- [DataSourceManager.registerDataSource]> Registering new DataSource: " + locator.getIdentity());

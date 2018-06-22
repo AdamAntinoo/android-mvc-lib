@@ -11,6 +11,7 @@
 //               real time while processing the model sources. This should allow for search and filtering.
 package org.dimensinfin.android.mvc.core;
 
+import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.android.mvc.model.PanelException;
@@ -45,7 +46,12 @@ public class PartFactory implements IPartFactory {
 		}
 		if ( node instanceof PanelException ) {
 			IPart part = new PanelExceptionPart((PanelException) node).setFactory(this)
-			                                                     .setRenderMode(this.getVariant());
+					.setRenderMode(this.getVariant());
+			return part;
+		}
+		if ( node instanceof AbstractPagerFragment.EmptyNotVisibleNode) {
+			IPart part = new AbstractPagerFragment.EmptyPart((AbstractPagerFragment.EmptyNotVisibleNode) node).setFactory(this)
+					.setRenderMode(this.getVariant());
 			return part;
 		}
 		// If no part is trapped then result a NOT FOUND mark
