@@ -3,7 +3,7 @@ apply plugin: 'project-report'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "26.0.2"
+//    buildToolsVersion "26.0.2"
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
@@ -50,11 +50,18 @@ android {
         quiet true
     }
 }
+//--- D E P E N D E N C Y   V E R S I O N S
+ext.supportLibraryVersion = '27.1.1'
 
 dependencies {
     // A N D R O I D    S U P P O R T
-    implementation 'com.android.support:appcompat-v7:27.0.2'
-    implementation 'com.android.support:support-core-utils:27.0.2'
+    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+    implementation "com.android.support:support-core-ui:$supportLibraryVersion"
+    implementation "com.android.support:support-core-utils:$supportLibraryVersion"
+    implementation "com.android.support:support-v4:$supportLibraryVersion"
+    implementation "com.android.support:support-v13:$supportLibraryVersion"
+    implementation "com.android.support:animated-vector-drawable:$supportLibraryVersion"
+    implementation "com.android.support:exifinterface:$supportLibraryVersion"
 
     // P R O J E C T    D E P E N D E N C I E S
     implementation project(path: ':AndroidMVCLibrary')
