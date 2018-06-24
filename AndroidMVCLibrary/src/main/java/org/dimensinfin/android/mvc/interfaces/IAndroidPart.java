@@ -35,9 +35,8 @@ public interface IAndroidPart extends IPart {
 
 	public void needsRedraw();
 
-	// TODO - Alter the interface to force demanding a new part the unimplemented methods.
-	//	public boolean runDependencies ();
-	// --- P U B L I C   M E T H O D S   T O   I MP L E M E N T
+	// --- P U B L I C   M E T H O D S   T O   I M P L E M E N T
+	public boolean runDependencies ();
 
 	/**
 	 * Returns a numeric identifier for this part model item that should be unique from all other system wide

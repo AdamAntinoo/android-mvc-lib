@@ -299,7 +299,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 		// Section where we setup the data sources for the adapters. Only include no timing operations.
 		try {
 			// Entry point to generate the Header model.
-			_headersource = this.registerHeaderSource();
+//			_headersource = this.registerHeaderSource();
 			// Entry point to generate the DataSection model.
 			_datasource = DataSourceManager.registerDataSource(this.registerDataSource());
 			// Check that the datasource is a valid data source.
@@ -559,6 +559,10 @@ public abstract class AbstractPagerFragment extends Fragment {
 			return new EmptyRender(this, this.getActivity());
 		}
 
+		@Override
+		public boolean runDependencies() {
+			return false;
+		}
 		@Override
 		public boolean isEmpty() {
 			return true;

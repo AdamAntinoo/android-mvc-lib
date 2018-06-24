@@ -18,8 +18,6 @@ import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -34,7 +32,7 @@ import java.util.List;
 public abstract class AbstractAndroidPart extends AbstractPart implements IAndroidPart {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = 7467855028114565679L;
-//	protected static Logger logger = LoggerFactory.getLogger("AbstractAndroidPart");
+	//	protected static Logger logger = LoggerFactory.getLogger("AbstractAndroidPart");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	protected Activity _activity = null;
@@ -82,16 +80,17 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 	@Override
 	public AbstractRender getRenderer( final Activity activity ) {
 		_activity = activity;
+		runDependencies();
 		return this.selectRenderer();
 	}
 
-	//	@Override
-	//	public AbstractRender getRenderer (final Fragment fragment) {
-	//		if ( fragment instanceof AbstractPagerFragment ) _fragment = (AbstractPagerFragment) fragment;
-	//		else throw new RuntimeException("Using on MVC fragments that are not compatible.");
-	//		_activity = ((AbstractPagerFragment)fragment).getMetaActivity();
-	//		return this.selectRenderer();
-	//	}
+	/**
+	 * This empty method removes the requirement of implementation for all parts but for the ones thart really need this special
+	 * initialization.
+	 */
+	public boolean runDependencies() {
+		return false;
+	}
 
 	//	@Override
 	public View getView() {
