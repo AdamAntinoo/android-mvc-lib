@@ -111,7 +111,7 @@ final class DemoHeaderTitleRender extends AbstractRender {
 
 	@Override
 	public void initializeViews () {
-		super.initializeViews();
+//		super.initializeViews();
 //		nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
 		applicationName = (TextView) _convertView.findViewById(R.id.applicationName);
 		applicationVersion = (TextView) _convertView.findViewById(R.id.applicationVersion);
@@ -119,7 +119,7 @@ final class DemoHeaderTitleRender extends AbstractRender {
 
 	@Override
 	public void updateContent () {
-		super.updateContent();
+//		super.updateContent();
 //		nodeIcon.setImageResource(getPart().getIconReference());
 		applicationName.setText(getPart().getCastedModel().getName());
 		applicationName.setVisibility(View.VISIBLE);
@@ -128,9 +128,8 @@ final class DemoHeaderTitleRender extends AbstractRender {
 	}
 
 	@Override
-	protected void createView () {
-		_convertView = inflateView(R.layout.demoheadertitle4header);
-		_convertView.setTag(this);
+	public int accessLayoutReference() {
+		return R.layout.demoheadertitle4header;
 	}
 }
 

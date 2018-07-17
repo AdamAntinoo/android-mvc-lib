@@ -19,3 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+#--- V I E W P A G E R I N D I C A T O R
+-keep public class com.viewpagerindicator.TitlePageIndicator
+-keepclassmembers com.viewpagerindicator.TitlePageIndicator {
+   protected *;
+}

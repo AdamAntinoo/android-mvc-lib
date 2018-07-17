@@ -131,21 +131,20 @@ public class DemoItemPart extends AbstractAndroidPart {
 
 		@Override
 		public void initializeViews() {
-			super.initializeViews();
+//			super.initializeViews();
 			nodeName = (TextView) _convertView.findViewById(R.id.nodeName);
 		}
 
 		@Override
 		public void updateContent() {
-			super.updateContent();
+//			super.updateContent();
 			nodeName.setText(getPart().getCastedModel().getTitle());
 			nodeName.setVisibility(View.VISIBLE);
 		}
 
 		@Override
-		protected void createView() {
-			_convertView = inflateView(R.layout.label4list);
-			_convertView.setTag(this);
+		public int accessLayoutReference() {
+			return R.layout.label4list;
 		}
 	}
 }

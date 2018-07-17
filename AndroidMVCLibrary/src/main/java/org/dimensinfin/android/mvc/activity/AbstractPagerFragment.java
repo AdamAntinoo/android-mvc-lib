@@ -338,6 +338,9 @@ public abstract class AbstractPagerFragment extends Fragment {
 			// This way once we finish the configuration the display will refresh with the spinner on it.
 			// We remove the spinner from the display when the model generation ends.
 			_datasource.startOnLoadProcess();
+			getAppContext().runOnUiThread(() -> {
+				_adapter.notifyDataSetChanged();
+			});
 			// Create the hierarchy structure to be used on the Header. We have the model list and we should convert it to a view list.
 			AbstractPagerFragment._uiExecutor.submit(() -> {
 				// Entry point to generate the Header model.

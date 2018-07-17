@@ -1,14 +1,15 @@
 apply plugin: 'com.android.library'
 apply plugin: 'project-report'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion 27
 //    buildToolsVersion "26.0.2"
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 27
-        versionCode 30
-        versionName "3.1.0"
+        targetSdkVersion 22
+        versionCode 320
+        versionName "3.2.0"
         project.archivesBaseName = "AndroidMVC"
         project.version = android.defaultConfig.versionName
 
@@ -22,7 +23,7 @@ android {
         }
         release {
             minifyEnabled false
-            useProguard false
+            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -66,23 +67,43 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
-artifacts {
-    archives sourcesJar
-    archives javadocJar
+//--- P U B L I S H I N G
+publishing {
+    publications {
+        bar(MavenPublication) {
+            groupId 'org.dimensinfin'
+            artifactId project.archivesBaseName
+            version android.defaultConfig.versionName
+            artifact(sourcesJar)
+            artifact(javadocJar)
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-${version}.aar")
+        }
+    }
+    repositories {
+        mavenLocal()
+        maven {
+            url "$buildDir/repo"
+        }
+    }
 }
+//assembleDebug << {
+//    publishing
+//}
+//publish.dependsOn assembleDebug
+
 //--- D E P E N D E N C Y   V E R S I O N S
 ext.supportLibraryVersion = '27.1.1'
 
 dependencies {
     // A N D R O I D    S U P P O R T
-    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
-    implementation "com.android.support:support-core-ui:$supportLibraryVersion"
-    implementation "com.android.support:support-core-utils:$supportLibraryVersion"
-    implementation "com.android.support:support-v4:$supportLibraryVersion"
-    implementation "com.android.support:support-v13:$supportLibraryVersion"
-    implementation "com.android.support:animated-vector-drawable:$supportLibraryVersion"
-    implementation "com.android.support:exifinterface:$supportLibraryVersion"
-//    implementation 'com.android.support:support-annotations:$supportLibraryVersion'
+    compileOnly "com.android.support:support-v4:$supportLibraryVersion"
+    compileOnly "com.android.support:support-v13:$supportLibraryVersion"
+    compileOnly "com.android.support:support-annotations:$supportLibraryVersion"
+//    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+//    implementation "com.android.support:support-core-ui:$supportLibraryVersion"
+//    implementation "com.android.support:support-core-utils:$supportLibraryVersion"
+//    implementation "com.android.support:animated-vector-drawable:$supportLibraryVersion"
+//    implementation "com.android.support:exifinterface:$supportLibraryVersion"
 //    implementation 'com.android.support:recyclerview-v7:$supportLibraryVersion'
 
     // P R O J E C T    D E P E N D E N C I E S
@@ -102,12 +123,21 @@ dependencies {
     // D E P E N D E N C I E S    F R O M    M O D U L E S
 
     // T E S T I N G
+    // - D E P E N D E N C I E S
+    testImplementation 'org.slf4j:slf4j-simple:1.7.25'
+    testImplementation 'org.slf4j:slf4j-android:1.7.25'
+    testImplementation 'joda-time:joda-time:2.3'
+    testImplementation 'org.apache.commons:commons-lang3:3.7'
+    testImplementation files('libs/viewpagerindicator-release.aar')
+    testImplementation files('libs/CoreBase.core-2.1.0.jar')
+
+    // - T E S T   U N I T
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:1.10.19'
     testImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     //SQLite -> Chrome (debug)
-    implementation 'com.facebook.stetho:stetho:1.5.0'
-    implementation 'com.facebook.stetho:stetho-urlconnection:1.5.0'
+//    implementation 'com.facebook.stetho:stetho:1.5.0'
+//    implementation 'com.facebook.stetho:stetho-urlconnection:1.5.0'
 }

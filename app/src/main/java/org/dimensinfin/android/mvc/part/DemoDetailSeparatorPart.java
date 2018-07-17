@@ -88,23 +88,22 @@ final class DemoDetailSeparatorRender extends AbstractRender {
 
 	@Override
 	public void initializeViews () {
-		super.initializeViews();
+//		super.initializeViews();
 		nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
 		title = (TextView) _convertView.findViewById(R.id.title);
 	}
 
 	@Override
 	public void updateContent () {
-		super.updateContent();
+//		super.updateContent();
 		nodeIcon.setImageResource(getPart().getIconReference());
 		title.setText(getPart().getCastedModel().getTitle());
 		title.setVisibility(View.GONE);
 	}
 
 	@Override
-	protected void createView () {
-		_convertView=inflateView(R.layout.demodetailseparator4activity);
-		_convertView.setTag(this);
+	public int accessLayoutReference() {
+		return R.layout.demodetailseparator4activity;
 	}
 }
 

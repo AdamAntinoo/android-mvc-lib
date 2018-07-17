@@ -45,7 +45,7 @@ public class AndroidMVCDemoActivity extends AbstractPagerActivity {
 			this.addPage(new AndroidMVCDemoFragment().setVariant(EDemoVariants.NON_EXPANDABLE_SECTION.name()));
 			this.addPage(new AndroidMVCDemoFragment().setVariant(EDemoVariants.EXPANDABLE_SECTION.name()));
 		} catch (final Exception rtex) {
-			AbstractPagerActivity.logger.severe("RTEX [AndroidMVCDemoActivity.onCreate]> Runtime Exception." + rtex.getMessage());
+			AbstractPagerActivity.logger.error("RTEX [AndroidMVCDemoActivity.onCreate]> Runtime Exception." + rtex.getMessage());
 			rtex.printStackTrace();
 		}
 		// Reinitialize the tile and subtitle from the first page.

@@ -4,24 +4,26 @@
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
 //               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchycal Part model that finally will
+//               a generic converter from a Graph Model to a hierarchical Part model that finally will
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
-package org.dimensinfin.android.mvc.testblock;
+//               The new implementation performs the model to list transformation on the fly each time
+//               a model change is detected so the population of the displayed view should be done in
+//               real time while processing the model sources. This should allow for search and filtering.
+package org.dimensinfin.android.mvc.datasource;
 
 import android.os.Bundle;
 
-import org.dimensinfin.android.mvc.core.PartFactory;
-import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
-import org.dimensinfin.android.mvc.interfaces.IPartFactory;
-import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.dimensinfin.android.mvc.core.PartFactory;
+import org.dimensinfin.android.mvc.interfaces.IDataSource;
+import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.core.datasource.DataSourceLocator;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -29,9 +31,9 @@ public class MVCDataSourceTestUnit {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("MVCDataSourceTestUnit");
 
-//	@BeforeClass
-//	public static void testOpenAndConnectGlobal() {
-//	}
+	//	@BeforeClass
+	//	public static void testOpenAndConnectGlobal() {
+	//	}
 
 	// - F I E L D - S E C T I O N ............................................................................
 
@@ -59,8 +61,8 @@ public class MVCDataSourceTestUnit {
 
 	public static class DemoDataSource extends MVCDataSource {
 
-		public DemoDataSource(final DataSourceLocator locator, final String variant, final IPartFactory factory, final Bundle
-				extras) {
+		public DemoDataSource( final DataSourceLocator locator, final String variant, final IPartFactory factory, final Bundle
+				extras ) {
 			super(locator, variant, factory, extras);
 		}
 
