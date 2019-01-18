@@ -92,6 +92,7 @@ dependencies {
     // P L A T F O R M    D E P E N D E N C I E S
     // D E P E N D E N C I E S    F R O M    M O D U L E S
     // T E S T I N G
+    testImplementation 'org.slf4j:slf4j-android:1.7.25'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:1.10.19'
     testImplementation group: 'org.powermock', name: 'powermock-api-mockito', version: '1.7.4'

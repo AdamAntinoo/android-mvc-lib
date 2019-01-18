@@ -55,14 +55,11 @@ import java.util.concurrent.Executors;
  * @author Adam Antinoo
  * @since 1.0.0
  */
-// - CLASS IMPLEMENTATION ...................................................................................
-// REFACTOR Used this dependency just to maintain more code compatible with the new model.
 public abstract class AbstractPagerFragment extends Fragment {
-	// - S T A T I C - S E C T I O N ..........................................................................
 	protected static Logger logger = LoggerFactory.getLogger("AbstractPagerFragment");
 	public static final ExecutorService _uiExecutor = Executors.newFixedThreadPool(1);
 
-	// - F I E L D - S E C T I O N ............................................................................
+	// - F I E L D - S E C T I O N
 	/**
 	 * The variant is an optional field that should be set by the developer. Because it will choose not to fill it should
 	 * have a valid default value.
@@ -117,9 +114,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 	private IMenuActionTarget _listCallback = null;
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
-
-	// - M E T H O D - S E C T I O N ..........................................................................
+	// - G E T T E R S   &   S E T T E R S
 	public IMenuActionTarget getListCallback() {
 		return this._listCallback;
 	}
@@ -129,7 +124,6 @@ public abstract class AbstractPagerFragment extends Fragment {
 			_listCallback = callback;
 		}
 	}
-	// - G E T T E R S   &   S E T T E R S
 
 	/**
 	 * Sets the variant code to differentiate this instance form any other Fragment instances. This field should be set on
@@ -208,8 +202,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 		return _factory;
 	}
 
-	//--- ABSTRACT METHODS TO BE IMPLEMENTED BY APP
-
+	// - ABSTRACT METHODS TO BE IMPLEMENTED BY APP
 	/**
 	 * This method should be implemented by all the application Fragments to set the <b>PartFactory</b> that will be used
 	 * during the model transformation processing to generate the <b>Parts</b> of the model to be used on this Fragment.
@@ -248,7 +241,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	protected abstract IDataSource registerDataSource();
 
 
-	//--- F R A G M E N T   L I F E C Y C L E
+	// - F R A G M E N T   L I F E C Y C L E
 
 	/**
 	 * During the creation process we connect the local fields to the UI graphical objects defined by the layout. We use a

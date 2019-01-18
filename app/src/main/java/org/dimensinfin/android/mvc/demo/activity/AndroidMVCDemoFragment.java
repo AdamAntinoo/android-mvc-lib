@@ -36,13 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-//- CLASS IMPLEMENTATION ...................................................................................
 public class AndroidMVCDemoFragment extends AbstractPagerFragment {
-	// - S T A T I C - S E C T I O N ..........................................................................
-
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
-
-	// - M E T H O D - S E C T I O N ..........................................................................
+	// - M E T H O D - S E C T I O N
 	@Override
 	public String getSubtitle() {
 		if (getVariant() == AndroidMVCDemoActivity.EDemoVariants.NON_EXPANDABLE_SECTION.name())
