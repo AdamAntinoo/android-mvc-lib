@@ -11,12 +11,11 @@
 //               real time while processing the model sources. This should allow for search and filtering.
 package org.dimensinfin.android.mvc.core;
 
-import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
+import org.dimensinfin.android.mvc.interfaces.IEventProjector;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.interfaces.IEventProjector;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.dimensinfin.core.model.RootNode;

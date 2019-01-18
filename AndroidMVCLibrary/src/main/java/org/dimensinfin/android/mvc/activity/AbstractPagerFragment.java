@@ -120,12 +120,16 @@ public abstract class AbstractPagerFragment extends Fragment {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	// - M E T H O D - S E C T I O N ..........................................................................
+	public IMenuActionTarget getListCallback() {
+		return this._listCallback;
+	}
+
 	public void setListCallback( final IMenuActionTarget callback ) {
 		if (null != callback) {
 			_listCallback = callback;
 		}
 	}
-	//--- G E T T E R S   &   S E T T E R S
+	// - G E T T E R S   &   S E T T E R S
 
 	/**
 	 * Sets the variant code to differentiate this instance form any other Fragment instances. This field should be set on

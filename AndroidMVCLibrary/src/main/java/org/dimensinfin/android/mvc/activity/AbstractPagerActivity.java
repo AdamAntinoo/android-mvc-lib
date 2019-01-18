@@ -22,7 +22,7 @@ import android.widget.ImageView;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.datasource.AbstractFragmentPagerAdapter;
+import org.dimensinfin.android.mvc.core.AbstractFragmentPagerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,17 +84,20 @@ public abstract class AbstractPagerActivity extends Activity {
 	public void addPage( AbstractPagerFragment newFrag ) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.addPage]");
 		// Before checking if we have already this fragment we should get its unique identifier.
-		Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextPosition()));
+		Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getCurrentPosition()));
 		if ( null == frag ) {
 			_pageAdapter.addPage(newFrag);
 		} else {
+			// We need to update the fragment cached on the Fragment Manager
 			if ( frag instanceof AbstractPagerFragment ) {
 				AbstractPagerActivity.logger.info("-- [AbstractPagerActivity.addPage]> Reusing available fragment. {}"
 						,_pageAdapter.getFragmentId(_pageAdapter.getNextPosition()));
-				// Reuse a previous created Fragment. But watch some of the fields have been removed.
-				((AbstractPagerFragment) frag).setVariant(newFrag.getVariant());
-				newFrag = (AbstractPagerFragment) frag;
-				// TODO Check next run so see if there are more fields to be initialized.
+				// Reuse a previous created Fragment. Copy all fields accesible.
+				((AbstractPagerFragment) frag)
+						.setVariant(newFrag.getVariant())
+						.setExtras(newFrag.getExtras())
+						.setAppContext(newFrag.getAppContext())
+						.setListCallback(newFrag.getListCallback());
 				_pageAdapter.addPage(newFrag);
 			} else
 				throw new RuntimeException("RTEX [AbstractPagerActivity.addPage]> The fragment located does not inherit the required functionality. Does not extend AbstractPagerFragment.");

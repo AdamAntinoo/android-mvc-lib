@@ -9,7 +9,7 @@
 //               The new implementation performs the model to list transformation on the fly each time
 //               a model change is detected so the population of the displayed view should be done in
 //               real time while processing the model sources. This should allow for search and filtering.
-package org.dimensinfin.android.mvc.datasource;
+package org.dimensinfin.android.mvc.core;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -18,6 +18,7 @@ import android.support.v13.app.FragmentPagerAdapter;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 
+import java.util.List;
 import java.util.Vector;
 
 // - CLASS IMPLEMENTATION ...................................................................................
@@ -25,8 +26,8 @@ public class AbstractFragmentPagerAdapter extends FragmentPagerAdapter {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private final Vector<Fragment> _fragments = new Vector<Fragment>();
-	private int _pagerid = R.id.pager;
+	private final List<Fragment> _fragments = new Vector<Fragment>();
+	private int _pagerid = R.id.pager; // This is the resource id for the pager layout.
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public AbstractFragmentPagerAdapter ( final FragmentManager fm, final int pagerid ) {
@@ -49,6 +50,9 @@ public class AbstractFragmentPagerAdapter extends FragmentPagerAdapter {
 		this.notifyDataSetChanged();
 	}
 
+	public int getCurrentPosition(){
+		return this._fragments.size();
+	}
 	public int getNextPosition () {
 		return _fragments.size();
 	}
