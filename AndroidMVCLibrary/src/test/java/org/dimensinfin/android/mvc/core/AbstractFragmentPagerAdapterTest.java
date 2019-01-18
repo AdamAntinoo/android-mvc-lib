@@ -16,7 +16,7 @@ public class AbstractFragmentPagerAdapterTest {
 		final AbstractFragmentPagerAdapter adapter = new AbstractFragmentPagerAdapter(fragmentManager, 0);
 
 		// Assert
-		assertEquals(0, adapter.getCurrentPosition());
+		assertEquals(0, adapter.getNextFreePosition());
 	}
 
 	@Test
@@ -33,7 +33,7 @@ public class AbstractFragmentPagerAdapterTest {
 		// Test
 		adapter.addPage(fragment);
 		// Assert
-		assertEquals(1, adapter.getCurrentPosition());
+		assertEquals(1, adapter.getNextFreePosition());
 	}
 
 	@Test
@@ -44,9 +44,9 @@ public class AbstractFragmentPagerAdapterTest {
 		final AbstractFragmentPagerAdapter adapter = new AbstractFragmentPagerAdapter(fragmentManager, pagerId);
 
 		// Test
-		final String obtained = adapter.getFragmentId(adapter.getCurrentPosition());
+		final String obtained = adapter.getFragmentId(adapter.getNextFreePosition());
 		// Assert
-		final String expected = "android:switcher:" + pagerId + ":" + adapter.getCurrentPosition();
+		final String expected = "android:switcher:" + pagerId + ":" + adapter.getNextFreePosition();
 		assertEquals(expected, obtained);
 	}
 
@@ -62,11 +62,11 @@ public class AbstractFragmentPagerAdapterTest {
 		};
 
 		// Assert initial conditions
-		assertEquals(0, adapter.getCurrentPosition());
+		assertEquals(0, adapter.getNextFreePosition());
 		// Test
 		adapter.addPage(fragment);
 		// Assert final conditions
-		assertEquals(1, adapter.getCurrentPosition());
+		assertEquals(1, adapter.getNextFreePosition());
 	}
 
 	@Test
@@ -81,16 +81,16 @@ public class AbstractFragmentPagerAdapterTest {
 		};
 
 		// Assert initial conditions
-		assertEquals(0, adapter.getCurrentPosition());
+		assertEquals(0, adapter.getNextFreePosition());
 		// Test
 		adapter.addPage(fragment);
 		adapter.addPage(fragment);
 		// Assert final conditions
-		assertEquals(2, adapter.getCurrentPosition());
+		assertEquals(2, adapter.getNextFreePosition());
 		// Test
 		adapter.addPage(null);
 		// Assert final conditions
-		assertEquals(2, adapter.getCurrentPosition());
+		assertEquals(2, adapter.getNextFreePosition());
 	}
 
 //	@Test

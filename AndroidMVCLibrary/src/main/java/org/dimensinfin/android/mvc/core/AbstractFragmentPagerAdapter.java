@@ -50,10 +50,10 @@ public class AbstractFragmentPagerAdapter extends FragmentPagerAdapter {
 		this.notifyDataSetChanged();
 	}
 
-	public int getCurrentPosition(){
-		return this._fragments.size();
-	}
-	public int getNextPosition () {
+//	public int getCurrentPosition(){
+//		return this._fragments.size();
+//	}
+	public int getNextFreePosition() {
 		return _fragments.size();
 	}
 

@@ -15,6 +15,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
@@ -81,17 +82,17 @@ public abstract class AbstractPagerActivity extends Activity {
 	 *                already the fragments created and initialized at the <code>FragmentManager</code>. In such a case we
 	 *                discard the new received fragment and use the already instance at the <code>FragmentManager</code>.
 	 */
-	public void addPage( AbstractPagerFragment newFrag ) {
+	public void addPage( @NonNull AbstractPagerFragment newFrag ) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.addPage]");
 		// Before checking if we have already this fragment we should get its unique identifier.
-		Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getCurrentPosition()));
+		Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
 		if ( null == frag ) {
 			_pageAdapter.addPage(newFrag);
 		} else {
 			// We need to update the fragment cached on the Fragment Manager
 			if ( frag instanceof AbstractPagerFragment ) {
 				AbstractPagerActivity.logger.info("-- [AbstractPagerActivity.addPage]> Reusing available fragment. {}"
-						,_pageAdapter.getFragmentId(_pageAdapter.getNextPosition()));
+						,_pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
 				// Reuse a previous created Fragment. Copy all fields accesible.
 				((AbstractPagerFragment) frag)
 						.setVariant(newFrag.getVariant())
@@ -176,6 +177,7 @@ public abstract class AbstractPagerActivity extends Activity {
 	protected void onCreate( final Bundle savedInstanceState ) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
+		Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this));
 		// Process the extras received by the intent so they can be shared to all the Fragments
 		try {
 			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
