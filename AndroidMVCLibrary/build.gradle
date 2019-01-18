@@ -1,15 +1,13 @@
 apply plugin: 'com.android.library'
 apply plugin: 'project-report'
-apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion 27
-//    buildToolsVersion "26.0.2"
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 22
-        versionCode 320
-        versionName "3.2.0"
+        targetSdkVersion 27
+        versionCode 30
+        versionName "3.0.0"
         project.archivesBaseName = "AndroidMVC"
         project.version = android.defaultConfig.versionName
 
@@ -23,7 +21,7 @@ android {
         }
         release {
             minifyEnabled false
-            useProguard true
+            useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -49,72 +47,48 @@ android {
         }
     }
 }
-
-// --- T A S K S   C O M P L E M E N T A R Y
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    failOnError false
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-//--- P U B L I S H I N G
-publishing {
-    publications {
-        bar(MavenPublication) {
-            groupId 'org.dimensinfin'
-            artifactId project.archivesBaseName
-            version android.defaultConfig.versionName
-            artifact(sourcesJar)
-            artifact(javadocJar)
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-${version}.aar")
-        }
-    }
-    repositories {
-        mavenLocal()
-        maven {
-            url "$buildDir/repo"
-        }
-    }
-}
-//assembleDebug << {
-//    publishing
+//repositories {
+//    mavenCentral()
+//    google()
+//    jcenter()
+//    maven { url 'https://jitpack.io' }
+//    flatDir {
+//        dirs 'D:\\Development\\Libraries Base\\DevelopmentLibraries\\Dynamic'
+//    }
 //}
-//publish.dependsOn assembleDebug
-
-//--- D E P E N D E N C Y   V E R S I O N S
-ext.supportLibraryVersion = '27.1.1'
+//task generateSourcesJar(type: Jar) {
+//    from android.sourceSets.main.java.srcDirs
+//    classifier = 'sources'
+//}
+//task generateJavadocs(type: Javadoc) {
+//    source = android.sourceSets.main.java.srcDirs
+//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//}
+//generateJavadocs.dependsOn generateSourcesJar
+//
+//task generateJavadocsJar(type: Jar) {
+//    classifier = 'javadoc'
+//    from generateJavadocs.destinationDir
+//}
+//generateJavadocsJar.dependsOn generateJavadocs
 
 dependencies {
     // A N D R O I D    S U P P O R T
-    compileOnly "com.android.support:support-v4:$supportLibraryVersion"
-    compileOnly "com.android.support:support-v13:$supportLibraryVersion"
-    compileOnly "com.android.support:support-annotations:$supportLibraryVersion"
-//    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
-//    implementation "com.android.support:support-core-ui:$supportLibraryVersion"
-//    implementation "com.android.support:support-core-utils:$supportLibraryVersion"
-//    implementation "com.android.support:animated-vector-drawable:$supportLibraryVersion"
-//    implementation "com.android.support:exifinterface:$supportLibraryVersion"
-//    implementation 'com.android.support:recyclerview-v7:$supportLibraryVersion'
+    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'com.android.support:support-core-ui:27.0.2'
+    implementation 'com.android.support:support-core-utils:27.0.2'
+    implementation 'com.android.support:support-v13:27.0.2'
+    implementation 'com.android.support:recyclerview-v7:27.0.2'
 
     // P R O J E C T    D E P E N D E N C I E S
 //    implementation project(path: ':CoreBase')
 
     // L O C A L    L I B R A R I E S
     api files('libs/viewpagerindicator-release.aar')
-    compileOnly files('libs/CoreBase.core-2.1.0.jar')
+    compileOnly files('libs/CoreBase.core-2.0.3.jar')
 
     // M O D U L E    D E P E N D E N C I E S
-    compileOnly 'org.slf4j:slf4j-android:1.7.25'
+    implementation 'org.slf4j:slf4j-android:1.7.25'
     implementation 'joda-time:joda-time:2.3'
     implementation 'org.apache.commons:commons-lang3:3.7'
 
@@ -123,21 +97,12 @@ dependencies {
     // D E P E N D E N C I E S    F R O M    M O D U L E S
 
     // T E S T I N G
-    // - D E P E N D E N C I E S
-    testImplementation 'org.slf4j:slf4j-simple:1.7.25'
-    testImplementation 'org.slf4j:slf4j-android:1.7.25'
-    testImplementation 'joda-time:joda-time:2.3'
-    testImplementation 'org.apache.commons:commons-lang3:3.7'
-    testImplementation files('libs/viewpagerindicator-release.aar')
-    testImplementation files('libs/CoreBase.core-2.1.0.jar')
-
-    // - T E S T   U N I T
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:1.10.19'
     testImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     //SQLite -> Chrome (debug)
-//    implementation 'com.facebook.stetho:stetho:1.5.0'
-//    implementation 'com.facebook.stetho:stetho-urlconnection:1.5.0'
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.facebook.stetho:stetho-urlconnection:1.5.0'
 }
