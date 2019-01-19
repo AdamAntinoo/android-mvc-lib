@@ -21,21 +21,18 @@ import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import java.util.List;
 import java.util.Vector;
 
-// - CLASS IMPLEMENTATION ...................................................................................
 public class AbstractFragmentPagerAdapter extends FragmentPagerAdapter {
-	// - S T A T I C - S E C T I O N ..........................................................................
-
-	// - F I E L D - S E C T I O N ............................................................................
+	// - F I E L D - S E C T I O N
 	private final List<Fragment> _fragments = new Vector<Fragment>();
-	private int _pagerid = R.id.pager; // This is the resource id for the pager layout.
+	private int _pagerid = R.id.pager; // This is the resource id for the pager layout viewer thst should be set.
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	// - C O N S T R U C T O R - S E C T I O N
 	public AbstractFragmentPagerAdapter ( final FragmentManager fm, final int pagerid ) {
 		super(fm);
 		_pagerid = pagerid;
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
+	// - M E T H O D - S E C T I O N
 
 	/**
 	 * Add a new fragment at the end of the list of already managed fragments. After the addition we notify the Adapter

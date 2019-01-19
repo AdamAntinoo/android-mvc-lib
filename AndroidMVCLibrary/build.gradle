@@ -39,6 +39,9 @@ android {
         abortOnError false
         quiet true
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 //    libraryVariants.all { variant ->
 //        variant.outputs.all { output ->
 //            if (outputFile != null && outputFileName.endsWith('.aar')) {
@@ -95,9 +98,10 @@ dependencies {
     testImplementation 'org.slf4j:slf4j-android:1.7.25'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:1.10.19'
-    testImplementation group: 'org.powermock', name: 'powermock-api-mockito', version: '1.7.4'
+    testImplementation files('libs/CoreBase.core-2.0.3.jar')
+//    testImplementation group: 'org.powermock', name: 'powermock-api-mockito', version: '1.7.4'
     // https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4
-    testImplementation group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.0'
+//    testImplementation group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.0'
 
     //    testImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'
     //    androidTestImplementation 'com.android.support.test:runner:1.0.1'

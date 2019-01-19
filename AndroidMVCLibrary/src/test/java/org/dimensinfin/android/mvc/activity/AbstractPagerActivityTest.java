@@ -1,59 +1,83 @@
 package org.dimensinfin.android.mvc.activity;
 
-import android.support.annotation.NonNull;
+import android.app.FragmentManager;
+import org.dimensinfin.android.mvc.core.AbstractFragmentPagerAdapter;
+import org.dimensinfin.android.mvc.interfaces.IDataSource;
+import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.core.interfaces.ICollaboration;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.List;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ AbstractPagerActivity.class, LoggerFactory.class})
+//@RunWith(PowerMockRunner.class)
+//@PrepareForTest({ AbstractPagerActivity.class, LoggerFactory.class})
 public class AbstractPagerActivityTest {
 	private class PagerActivityTest extends AbstractPagerActivity {
 //		@Override
 //		public void addPage( @NonNull AbstractPagerFragment newFrag ) {
 //		}
 	}
-	@Test
-	public void addPage_null(){
-		// Given
-		mockStatic(LoggerFactory.class);
-		Logger logger = mock(Logger.class);
-		when(LoggerFactory.getLogger(any(Class.class))).thenReturn(logger);
 
-//		final Logger logger = mock(Logger.class);
-//		final LoggerFactory loggerFactory = mock(LoggerFactory.class);
-//		final AbstractPagerActivity abstractPagerActivity = mock  ( AbstractPagerActivity.class);
+	private class TestingPagerFragment extends AbstractPagerFragment {
+		@Override
+		public IPartFactory createFactory() {
+			return null;
+		}
+
+		@Override
+		public String getSubtitle() {
+			return null;
+		}
+
+		@Override
+		public String getTitle() {
+			return null;
+		}
+
+		@Override
+		protected List<ICollaboration> registerHeaderSource() {
+			return null;
+		}
+
+		@Override
+		protected IDataSource registerDataSource() {
+			return null;
+		}
+//		@Override
+//		public void addPage( @NonNull AbstractPagerFragment newFrag ) {
+//		}
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void addPage_null() {
+		// Given
+		final FragmentManager fragmentManager = mock(FragmentManager.class);
+		final TestingPagerFragment fragment = mock(TestingPagerFragment.class);
+
+		// When
+		when(fragmentManager.findFragmentByTag(any(String.class))).thenReturn(fragment);
 
 		// Tests
 		final PagerActivityTest pagerActivityTest = new PagerActivityTest();
 		pagerActivityTest.addPage(null);
 
 	}
+
 	@Test
-	public void addPage_page(){
+	public void addPage_page() {
 		// Given
-		final Logger logger = mock(Logger.class);
-		final LoggerFactory loggerFactory = mock(LoggerFactory.class);
-//		final AbstractPagerActivity abstractPagerActivity = mock  ( AbstractPagerActivity.class);
+		final FragmentManager fragmentManager = mock(FragmentManager.class);
+		final TestingPagerFragment fragment = mock(TestingPagerFragment.class);
 		final AbstractPagerFragment abstractPagerFragment = mock(AbstractPagerFragment.class);
+		final AbstractFragmentPagerAdapter abstractFragmentPagerAdapter = mock(AbstractFragmentPagerAdapter.class);
+
+		// When
+		when(fragment.getFragmentManager()).thenReturn(fragmentManager);
+		when(fragmentManager.findFragmentByTag(any(String.class))).thenReturn(fragment);
 
 		// Tests
 		final PagerActivityTest pagerActivityTest = new PagerActivityTest();
