@@ -54,7 +54,8 @@ public abstract class AbstractPagerActivity extends Activity {
 	protected Bundle extras = null;
 	protected ActionBar _actionBar = null;
 	protected ViewPager _pageContainer = null;
-	protected AbstractFragmentPagerAdapter _pageAdapter = null;
+	private final AbstractFragmentPagerAdapter _pageAdapter = new AbstractFragmentPagerAdapter(this.getFragmentManager());
+
 	/** Image reference to the background layout item that can be replaced by the application implementation. */
 	protected ImageView background = null;
 	protected CirclePageIndicator _indicator = null;
@@ -213,7 +214,7 @@ public abstract class AbstractPagerActivity extends Activity {
 		}
 
 		// Add the adapter for the page switching.
-		_pageAdapter = new AbstractFragmentPagerAdapter(this.getFragmentManager(), _pageContainer.getId());
+//		_pageAdapter = new AbstractFragmentPagerAdapter(this.getFragmentManager(), _pageContainer.getId());
 		_pageContainer.setAdapter(_pageAdapter);
 		// Cleat the indicator from the view until more than one page is added.
 		this.disableIndicator();

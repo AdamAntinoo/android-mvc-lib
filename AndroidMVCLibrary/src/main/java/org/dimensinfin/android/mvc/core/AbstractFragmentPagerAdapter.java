@@ -24,9 +24,14 @@ import java.util.Vector;
 public class AbstractFragmentPagerAdapter extends FragmentPagerAdapter {
 	// - F I E L D - S E C T I O N
 	private final List<Fragment> _fragments = new Vector<Fragment>();
-	private int _pagerid = R.id.pager; // This is the resource id for the pager layout viewer thst should be set.
+	private int _pagerid = R.id.pager; // This is the resource id for the pager layout viewer that should be set.
 
 	// - C O N S T R U C T O R - S E C T I O N
+	public AbstractFragmentPagerAdapter ( final FragmentManager fm ) {
+		super(fm);
+//		_pagerid = pagerid;
+	}
+	@Deprecated
 	public AbstractFragmentPagerAdapter ( final FragmentManager fm, final int pagerid ) {
 		super(fm);
 		_pagerid = pagerid;

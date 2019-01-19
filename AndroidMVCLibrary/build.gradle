@@ -11,7 +11,7 @@ android {
         project.archivesBaseName = "AndroidMVC"
         project.version = android.defaultConfig.versionName
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         debug {
@@ -24,6 +24,11 @@ android {
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+//        unitTests {
+//            minifyEnabled false
+//            useProguard false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
     }
     sourceSets {
         main{
@@ -99,6 +104,22 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:1.10.19'
     testImplementation files('libs/CoreBase.core-2.0.3.jar')
+    // A N G U L A R   T E S T I N G
+//    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.robolectric:robolectric:3.0'
+//    testImplementation "org.mockito:mockito-core:1.10.8"
+    testImplementation ('com.squareup.assertj:assertj-android:1.0.0') {
+        exclude module: 'support-annotations'
+    }
+
+    // Required for local unit tests (JUnit 4 framework)
+//    testImplementation 'junit:junit:4.12'
+
+    // Required for instrumented tests
+    androidTestImplementation 'com.android.support:support-annotations:24.0.0'
+    androidTestImplementation 'com.android.support.test:runner:0.5'
+
+
 //    testImplementation group: 'org.powermock', name: 'powermock-api-mockito', version: '1.7.4'
     // https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4
 //    testImplementation group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.0'

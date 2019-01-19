@@ -1,11 +1,20 @@
 package org.dimensinfin.android.mvc.activity;
 
-import android.app.FragmentManager;
+import android.app.Application;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.test.ApplicationTestCase;
 import org.dimensinfin.android.mvc.core.AbstractFragmentPagerAdapter;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.util.List;
 
@@ -13,15 +22,11 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-//@RunWith(PowerMockRunner.class)
-//@PrepareForTest({ AbstractPagerActivity.class, LoggerFactory.class})
-public class AbstractPagerActivityTest {
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = 21)
+public class AbstractPagerActivityTest extends ApplicationTestCase<Application> {
 	private class PagerActivityTest extends AbstractPagerActivity {
-//		@Override
-//		public void addPage( @NonNull AbstractPagerFragment newFrag ) {
-//		}
 	}
-
 	private class TestingPagerFragment extends AbstractPagerFragment {
 		@Override
 		public IPartFactory createFactory() {
@@ -50,7 +55,36 @@ public class AbstractPagerActivityTest {
 //		@Override
 //		public void addPage( @NonNull AbstractPagerFragment newFrag ) {
 //		}
+//	public FragmentManager	getFragmentManager(){
+//
+//		}
 	}
+
+	public AbstractPagerActivityTest() {
+		super(Application.class);
+	}
+
+	PagerActivityTest mainActivity;
+	TestingPagerFragment mainActivityFragment;
+
+	@Before
+	public void setUp() {
+		mainActivity = Robolectric.setupActivity(PagerActivityTest.class);
+		mainActivityFragment = new TestingPagerFragment();
+		startFragment(mainActivityFragment);
+	}
+
+	private void startFragment(Fragment fragment) {
+		FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		fragmentTransaction.add(fragment, null);
+		fragmentTransaction.commit();
+	}
+//}
+////@RunWith(PowerMockRunner.class)
+////@PrepareForTest({ AbstractPagerActivity.class, LoggerFactory.class})
+//public class AbstractPagerActivityTest {
+
 
 	@Test(expected = RuntimeException.class)
 	public void addPage_null() {
