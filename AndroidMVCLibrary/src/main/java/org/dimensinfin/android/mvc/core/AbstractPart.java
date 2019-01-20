@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-public abstract class AbstractPart /*extends AbstractPropertyChanger */ implements IPart {
+public abstract class AbstractPart /*extends AbstractPropertyChanger */ extends BasePart implements IPart {
 	// - S T A T I C - S E C T I O N
 	private static final long serialVersionUID = 7601587036153405892L;
 	protected static Logger logger = LoggerFactory.getLogger(AbstractPart.class);
@@ -36,12 +36,6 @@ public abstract class AbstractPart /*extends AbstractPropertyChanger */ implemen
 	protected boolean _clickRunning = false;
 
 	// - F I E L D - S E C T I O N
-	/** List of children of the hierarchy. */
-	private List<IPart> children = new Vector<>();
-	/** The parent element on the hierarchy chain. Null if this is the Parent and we are a root node. */
-	private IPart parent;
-	/** Reference to the Model node. */
-	private ICollaboration model;
 	//	/** Stores the user activation state. Usually becomes true when the users is interacting with the part. */
 	//	private boolean active = true;
 	private IPartFactory _factory = null;
@@ -58,8 +52,7 @@ public abstract class AbstractPart /*extends AbstractPropertyChanger */ implemen
 	 * @param model the Data model linked to this part.
 	 */
 	public AbstractPart(final ICollaboration model) {
-		super();
-		this.model = model;
+		super(model);
 		// TODO This is a dependency to the removed inheritance for AbstractPropertyChanger
 //		super.setParentChanger(this);
 	}
@@ -78,14 +71,6 @@ public abstract class AbstractPart /*extends AbstractPropertyChanger */ implemen
 	}
 
 	// - M E T H O D - S E C T I O N
-
-	/**
-	 * Used to detect if the node is the root of a hierarchy because there is no more parent upwards.
-	 * @return true if the parent is null and then I am the root.
-	 */
-	public boolean isRoot() {
-		return (null == this.parent) ? true : false;
-	}
 
 	public void addChild(final IPart child) {
 		children.add(child);
@@ -106,9 +91,7 @@ public abstract class AbstractPart /*extends AbstractPropertyChanger */ implemen
 		if (index == -1) {
 			index = this.getChildren().size();
 		}
-		if (children == null) {
-			children = new Vector<IPart>(2);
-		}
+		children = getChildren();
 
 		children.add(index, child);
 		child.setParent(this);
@@ -125,19 +108,6 @@ public abstract class AbstractPart /*extends AbstractPropertyChanger */ implemen
 		children.clear();
 	}
 
-
-	public List<IPart> getChildren() {
-		if (children == null) return new Vector<IPart>(2);
-		return children;
-	}
-
-	public ICollaboration getModel() {
-		return model;
-	}
-
-	public IPart getParentPart() {
-		return parent;
-	}
 
 	//	/**
 	//	 * Returns the list of parts that are available for this node. If the node it is expanded then the list will
@@ -169,11 +139,6 @@ public abstract class AbstractPart /*extends AbstractPropertyChanger */ implemen
 		return renderMode;
 	}
 
-	public RootPart getRoot() {
-		if (this.getParentPart() == null) return (RootPart) this;
-		return this.getParentPart().getRoot();
-	}
-
 	//	public boolean isActive () {
 	//		return active;
 	//	}
@@ -196,8 +161,8 @@ public abstract class AbstractPart /*extends AbstractPropertyChanger */ implemen
 	 * @return the model expand state when it applies. False if not expandable.
 	 */
 	public boolean isExpanded() {
-		if (model instanceof IExpandable) {
-			return ((IExpandable) model).isExpanded();
+		if (getModel() instanceof IExpandable) {
+			return ((IExpandable) getModel()).isExpanded();
 		}
 		return false;
 	}
@@ -219,8 +184,8 @@ public abstract class AbstractPart /*extends AbstractPropertyChanger */ implemen
 	 * @return the model expand state when it applies. False if not expandable.
 	 */
 	public boolean isRenderWhenEmpty() {
-		if (model instanceof IExpandable) {
-			return ((IExpandable) model).isRenderWhenEmpty();
+		if (getModel() instanceof IExpandable) {
+			return ((IExpandable) getModel()).isRenderWhenEmpty();
 		}
 		return true;
 	}
@@ -267,37 +232,22 @@ public abstract class AbstractPart /*extends AbstractPropertyChanger */ implemen
 		return this;
 	}
 
-	/**
-	 * Set the primary model object that this EditPart represents. This method is used by an
-	 * <code>EditPartFactory</code> when creating an EditPart.
-	 */
-	public void setModel(final ICollaboration model) {
-		this.model = model;
-	}
-
-	/**
-	 * Sets the parent EditPart. There is no reason to override this method.
-	 */
-	public void setParent(final IPart parent) {
-		this.parent = parent;
-	}
-
 	public IPart setRenderMode(final String renderMode) {
 		this.renderMode = renderMode;
 		return this;
 	}
 
 	public boolean toggleExpanded() {
-		if (model instanceof IExpandable) {
-			if (((IExpandable) model).isExpanded()) ((IExpandable) model).collapse();
-			else ((IExpandable) model).expand();
-			return ((IExpandable) model).isExpanded();
+		if (getModel() instanceof IExpandable) {
+			if (((IExpandable) getModel()).isExpanded()) ((IExpandable) getModel()).collapse();
+			else ((IExpandable) getModel()).expand();
+			return ((IExpandable) getModel()).isExpanded();
 		} else return false;
 	}
 
 	public String toString() {
 		StringBuffer buffer = new StringBuffer("AbstractPart [");
-		buffer.append(model.toString()).append(" ");
+		buffer.append(getModel().toString()).append(" ");
 		buffer.append("]");
 		return buffer.toString();
 	}

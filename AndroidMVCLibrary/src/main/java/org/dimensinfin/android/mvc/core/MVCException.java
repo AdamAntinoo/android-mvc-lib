@@ -32,15 +32,9 @@ public class MVCException extends RuntimeException {
 		super();
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
-	@Override
-	public String toString() {
-		StringBuffer buffer = new StringBuffer("MVCException [");
-		buffer.append("name: ").append(0);
-		buffer.append("]");
-		buffer.append("->").append(super.toString());
-		return buffer.toString();
+	public MVCException(final String message) {
+		super(message);
 	}
+
+	// - M E T H O D - S E C T I O N ..........................................................................
 }
-// - UNUSED CODE ............................................................................................
-//[01]
