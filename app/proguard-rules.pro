@@ -19,3 +19,27 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+#-keep com.viewpagerindicator.TitlePageIndicator
+#-keep com.viewpagerindicator.TabPageIndicator
+#-keep org.joda.time.tz.NameProvider
+
+-printmapping app.map
+-optimizationpasses 3
+-overloadaggressively
+-repackageclasses ''
+-allowaccessmodification
+
+## Joda Time 2.3
+-dontwarn org.joda.convert.**
+-dontwarn org.joda.time.**
+-keep class org.joda.time.** { *; }
+-keep interface org.joda.time.** { *; }
+
+# View Pager Indicator
+-keep class com.viewpagerindicator.** { *; }
+
+# CoreBase
+-dontwarn org.dimensinfin.core.model.AbstractPropertyChanger
+-dontwarn org.dimensinfin.core.model.RootNode
+-dontwarn org.dimensinfin.gef.core.AbstractGEFNode

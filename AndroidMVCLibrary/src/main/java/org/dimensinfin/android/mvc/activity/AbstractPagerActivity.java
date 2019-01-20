@@ -82,10 +82,10 @@ public abstract class AbstractPagerActivity extends Activity {
 	 *                already the fragments created and initialized at the <code>FragmentManager</code>. In such a case we
 	 *                discard the new received fragment and use the already instance at the <code>FragmentManager</code>.
 	 */
-	public void addPage(@NonNull AbstractPagerFragment newFrag) {
+	public void addPage(@NonNull final AbstractPagerFragment newFrag) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.addPage]");
 		// Before checking if we have already this fragment we should get its unique identifier.
-		Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
+		final Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
 		if (null == frag) {
 			_pageAdapter.addPage(newFrag);
 		} else {
@@ -124,9 +124,11 @@ public abstract class AbstractPagerActivity extends Activity {
 			_indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
 				public void onPageScrolled(final int arg0, final float arg1, final int arg2) {
+					// Do nothing on scroll detection.
 				}
 
 				public void onPageScrollStateChanged(final int arg0) {
+					// Do nothing on scroll detection.
 				}
 
 				public void onPageSelected(final int position) {
@@ -142,12 +144,14 @@ public abstract class AbstractPagerActivity extends Activity {
 				}
 			});
 		} else {
-			_pageContainer.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+			_pageContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
 				public void onPageScrolled(final int arg0, final float arg1, final int arg2) {
+					// Do nothing on scroll detection.
 				}
 
 				public void onPageScrollStateChanged(final int arg0) {
+					// Do nothing on scroll detection.
 				}
 
 				public void onPageSelected(final int position) {
@@ -189,7 +193,7 @@ public abstract class AbstractPagerActivity extends Activity {
 				extras = this.getIntent().getExtras();
 			}
 		} catch (RuntimeException rtex) {
-			logger.warn("RTEX [AbstractPagerActivity.onCreate]> " + rtex.getMessage());
+			logger.warn("RTEX [AbstractPagerActivity.onCreate]> {}", rtex.getMessage());
 		}
 
 

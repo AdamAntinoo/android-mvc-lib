@@ -13,7 +13,7 @@ public class AbstractFragmentPagerAdapterTest {
 		// Requesting the position for an empty list of the first page should return 0.
 		// Given
 		final FragmentManager fragmentManager = mock(FragmentManager.class);
-		final AbstractFragmentPagerAdapter adapter = new AbstractFragmentPagerAdapter(fragmentManager, 0);
+		final AbstractFragmentPagerAdapter adapter = new AbstractFragmentPagerAdapter(fragmentManager);
 
 		// Assert
 		assertEquals(0, adapter.getNextFreePosition());
@@ -25,7 +25,7 @@ public class AbstractFragmentPagerAdapterTest {
 		// Given
 		final FragmentManager fragmentManager = mock(FragmentManager.class);
 		final Fragment fragment = mock(Fragment.class);
-		final AbstractFragmentPagerAdapter adapter = new AbstractFragmentPagerAdapter(fragmentManager, 0) {
+		final AbstractFragmentPagerAdapter adapter = new AbstractFragmentPagerAdapter(fragmentManager) {
 			public void notifyDataSetChanged() {
 			}
 		};
@@ -41,7 +41,7 @@ public class AbstractFragmentPagerAdapterTest {
 		// Given
 		final FragmentManager fragmentManager = mock(FragmentManager.class);
 		final int pagerId = 10;
-		final AbstractFragmentPagerAdapter adapter = new AbstractFragmentPagerAdapter(fragmentManager, pagerId);
+		final AbstractFragmentPagerAdapter adapter = new AbstractFragmentPagerAdapter(fragmentManager);
 
 		// Test
 		final String obtained = adapter.getFragmentId(adapter.getNextFreePosition());
@@ -56,7 +56,7 @@ public class AbstractFragmentPagerAdapterTest {
 		final FragmentManager fragmentManager = mock(FragmentManager.class);
 		final int pagerId = 10;
 		final Fragment fragment = mock(Fragment.class);
-		final AbstractFragmentPagerAdapter adapter = new AbstractFragmentPagerAdapter(fragmentManager, pagerId) {
+		final AbstractFragmentPagerAdapter adapter = new AbstractFragmentPagerAdapter(fragmentManager) {
 			public void notifyDataSetChanged() {
 			}
 		};
@@ -75,7 +75,7 @@ public class AbstractFragmentPagerAdapterTest {
 		final FragmentManager fragmentManager = mock(FragmentManager.class);
 		final int pagerId = 10;
 		final Fragment fragment = mock(Fragment.class);
-		final AbstractFragmentPagerAdapter adapter = new AbstractFragmentPagerAdapter(fragmentManager, pagerId) {
+		final AbstractFragmentPagerAdapter adapter = new AbstractFragmentPagerAdapter(fragmentManager) {
 			public void notifyDataSetChanged() {
 			}
 		};

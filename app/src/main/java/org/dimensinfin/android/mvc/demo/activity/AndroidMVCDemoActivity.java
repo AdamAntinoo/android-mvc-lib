@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AndroidMVCDemoActivity extends AbstractPagerActivity {
-	private static Logger logger = LoggerFactory.getLogger("AndroidMVCDemoActivity");
+	private static Logger logger = LoggerFactory.getLogger(AndroidMVCDemoActivity.class);
 
 	public enum EDemoVariants {
 		NON_EXPANDABLE_SECTION, EXPANDABLE_SECTION
