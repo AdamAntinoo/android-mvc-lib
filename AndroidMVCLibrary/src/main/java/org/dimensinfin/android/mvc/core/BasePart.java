@@ -6,33 +6,37 @@
 //               on Android projects. Defines the Part factory and the Part core methods to manage
 //               a generic converter from a Graph Model to a hierarchical Part model that finally will
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
-#if (${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+package org.dimensinfin.android.mvc.core;
 
 import java.util.Hashtable;
 import java.util.Hashtable;
 import java.util.Hashtable;
+
 import org.joda.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-#parse("File Header.java")
 
-#if (${VISIBILITY} == "PUBLIC")public #end #if (${ABSTRACT} == "TRUE")abstract #end #if (${FINAL} == "TRUE")final #end class ${NAME} #if (${SUPERCLASS} != "")extends ${SUPERCLASS} #end #if (${INTERFACES} != "")implements ${INTERFACES} #end {
-	private static Logger logger = LoggerFactory.getLogger(${NAME}.class);
+/**
+ * @author Adam Antinoo
+ */
+
+public class BasePart {
+	private static Logger logger = LoggerFactory.getLogger(BasePart.class);
 
 	// - F I E L D - S E C T I O N
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public ${NAME} () {
+	public BasePart() {
 		super();
 	}
 
 	// - M E T H O D - S E C T I O N
 	@Override
 	public String toString() {
-		return new StringBuilder("${NAME} [")
-		.append("name: ").append(0)
-		.append("]")
-		.append("->").append(super.toString())
-		.toString();
+		return new StringBuilder("BasePart [")
+				.append("name: ").append(0)
+				.append("]")
+				.append("->").append(super.toString())
+				.toString();
 	}
 }

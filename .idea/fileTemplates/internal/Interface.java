@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 #end
 #parse("File Header.java")
 
-// - INTERFACE IMPLEMENTATION ...............................................................................
 #if (${VISIBILITY} == "PUBLIC")public #end interface ${NAME} #if (${INTERFACES} != "")extends ${INTERFACES} #end {
 	public String toString();
 }

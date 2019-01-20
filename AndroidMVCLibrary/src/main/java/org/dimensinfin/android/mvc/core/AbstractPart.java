@@ -24,23 +24,21 @@ import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-// - CLASS IMPLEMENTATION ...................................................................................
-public abstract class AbstractPart extends AbstractPropertyChanger implements IPart {
-	// - S T A T I C - S E C T I O N ..........................................................................
+public abstract class AbstractPart /*extends AbstractPropertyChanger */ implements IPart {
+	// - S T A T I C - S E C T I O N
 	private static final long serialVersionUID = 7601587036153405892L;
-	protected static Logger logger = LoggerFactory.getLogger("AbstractPart");
+	protected static Logger logger = LoggerFactory.getLogger(AbstractPart.class);
 
-	// - F I E L D - S E C T I O N ............................................................................
+	// - F I E L D - S E C T I O N
 	protected boolean _clickRunning = false;
 
-	// - F I E L D - S E C T I O N ............................................................................
+	// - F I E L D - S E C T I O N
 	/** List of children of the hierarchy. */
-	private Vector<IPart> children = new Vector<IPart>();
-	/** Tha parent element on the hierarchy chain. Null if this is the Parent and we are a root node. */
+	private List<IPart> children = new Vector<>();
+	/** The parent element on the hierarchy chain. Null if this is the Parent and we are a root node. */
 	private IPart parent;
 	/** Reference to the Model node. */
 	private ICollaboration model;
@@ -51,41 +49,51 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	protected String renderMode = "-DEFAULT-";
 	//	protected boolean newImplementation = false;
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	// - C O N S T R U C T O R - S E C T I O N
 
 	/**
-	 * Parts are special elements. The root element that is a AbstractPropertyChanger is not responsible to
-	 * store the model but needs it as reference to set a parent for notifications. So do not forget to pass the
-	 * reference up and store the model at the same time.
+	 * Parts are special elements. The root element that is a AbstractPropertyChanger is not responsible to store the
+	 * model but needs it as reference to set a parent for notifications. So do not forget to pass the reference up and
+	 * store the model at the same time.
 	 * @param model the Data model linked to this part.
 	 */
-	public AbstractPart( final ICollaboration model ) {
+	public AbstractPart(final ICollaboration model) {
 		super();
 		this.model = model;
-		super.setParentChanger(this);
+		// TODO This is a dependency to the removed inheritance for AbstractPropertyChanger
+//		super.setParentChanger(this);
 	}
 
 	/**
-	 * Parts are special elements. The root element that is a AbstractPropertyChanger is not responsible to
-	 * store the model but needs it as reference to set a parent for notifications. So do not forget to pass the
-	 * reference up and store the model at the same time.
+	 * Parts are special elements. The root element that is a AbstractPropertyChanger is not responsible to store the
+	 * model but needs it as reference to set a parent for notifications. So do not forget to pass the reference up and
+	 * store the model at the same time.
 	 * @param model the Data model linked to this part.
 	 */
-	public AbstractPart( final RootNode model, final IPartFactory factory ) {
+	public AbstractPart(final RootNode model, final IPartFactory factory) {
 		this(model);
 		//		this.model = model;
 		_factory = factory;
 		//		setParentChanger(this);
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
-	public void addChild( final IPart child ) {
+	// - M E T H O D - S E C T I O N
+
+	/**
+	 * Used to detect if the node is the root of a hierarchy because there is no more parent upwards.
+	 * @return true if the parent is null and then I am the root.
+	 */
+	public boolean isRoot() {
+		return (null == this.parent) ? true : false;
+	}
+
+	public void addChild(final IPart child) {
 		children.add(child);
 	}
 
 	/**
-	 * Adds a child <code>EditPart</code> to this EditPart. This method is called from
-	 * {@link #refreshChildren()}. The following events occur in the order listed:
+	 * Adds a child <code>EditPart</code> to this EditPart. This method is called from {@link #refreshChildren()}. The
+	 * following events occur in the order listed:
 	 * <OL>
 	 * <LI>The child is added to the {@link #children} List, and its parent is set to <code>this</code>
 	 * <LI><code>EditPartListeners</code> are notified that the child has been added.
@@ -94,7 +102,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 * @param child The <code>EditPart</code> to add
 	 * @param index The index
 	 */
-	public void addChild( final IPart child, int index ) {
+	public void addChild(final IPart child, int index) {
 		if (index == -1) {
 			index = this.getChildren().size();
 		}
@@ -146,9 +154,8 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	//	}
 
 	/**
-	 * The factory is set on the Root parts. Most of the other parts do not declare it or is not setup. To
-	 * detect this problem and correct if if we detect the null we search for the parent until a factory is
-	 * found.
+	 * The factory is set on the Root parts. Most of the other parts do not declare it or is not setup. To detect this
+	 * problem and correct if if we detect the null we search for the parent until a factory is found.
 	 */
 	public IPartFactory getPartFactory() {
 		if (null == _factory)
@@ -184,8 +191,8 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	//	}
 
 	/**
-	 * This method applies to a concrete set of nodes. Nodes can be of two classes. By itself final leaves or
-	 * expandable that can expand hierarchies. Expandable nodes also can collaborate to the MVC.
+	 * This method applies to a concrete set of nodes. Nodes can be of two classes. By itself final leaves or expandable
+	 * that can expand hierarchies. Expandable nodes also can collaborate to the MVC.
 	 * @return the model expand state when it applies. False if not expandable.
 	 */
 	public boolean isExpanded() {
@@ -223,7 +230,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	//		return true;
 	//	}
 
-	public void propertyChange( final PropertyChangeEvent evt ) {
+	public void propertyChange(final PropertyChangeEvent evt) {
 	}
 
 
@@ -255,7 +262,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 //		return this;
 //	}
 
-	public IPart setFactory( final IPartFactory partFactory ) {
+	public IPart setFactory(final IPartFactory partFactory) {
 		_factory = partFactory;
 		return this;
 	}
@@ -264,18 +271,18 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	 * Set the primary model object that this EditPart represents. This method is used by an
 	 * <code>EditPartFactory</code> when creating an EditPart.
 	 */
-	public void setModel( final ICollaboration model ) {
+	public void setModel(final ICollaboration model) {
 		this.model = model;
 	}
 
 	/**
 	 * Sets the parent EditPart. There is no reason to override this method.
 	 */
-	public void setParent( final IPart parent ) {
+	public void setParent(final IPart parent) {
 		this.parent = parent;
 	}
 
-	public IPart setRenderMode( final String renderMode ) {
+	public IPart setRenderMode(final String renderMode) {
 		this.renderMode = renderMode;
 		return this;
 	}
@@ -344,12 +351,13 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 //	}
 
 	// --- I P A R T   I N T E R F A C E
-	public abstract List<IPart> runPolicies ( final List<IPart> targets );
+	public abstract List<IPart> runPolicies(final List<IPart> targets);
+
 	/**
-	 * Create the Part for the model object received. We have then to have access to the Factory from the root
-	 * element and all the other parts should have a reference to the root to be able to do the same.
+	 * Create the Part for the model object received. We have then to have access to the Factory from the root element and
+	 * all the other parts should have a reference to the root to be able to do the same.
 	 */
-	public IPart createNewPart( final ICollaboration model ) {
+	public IPart createNewPart(final ICollaboration model) {
 		IPart part = null;
 		IPartFactory factory = this.getRoot().getPartFactory();
 		if (null != factory) {
@@ -365,26 +373,27 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		}
 		return part;
 	}
+
 	/**
-	 * The refresh process should optimize the reuse of the already available Parts. We should check for model identity
-	 * on the already available parts to be able to reuse one of them. So once we have a model item we search on the
-	 * list of available parts for one of them containing as model this same instance. If found we reuse the Part.
-	 * Otherwise we create a new Part for this model node and continue the transformation process.
-	 *
+	 * The refresh process should optimize the reuse of the already available Parts. We should check for model identity on
+	 * the already available parts to be able to reuse one of them. So once we have a model item we search on the list of
+	 * available parts for one of them containing as model this same instance. If found we reuse the Part. Otherwise we
+	 * create a new Part for this model node and continue the transformation process.
+	 * <p>
 	 * OBSOLETE: On Android is highly recommended that all the model nodes that are used on the ListView adapters have a
-	 * unique numeric identifier. In this library we use the Parts as the source for that kind of adapters so they
-	 * should adhere to that restriction. Using that unique identifier obtained with the method
+	 * unique numeric identifier. In this library we use the Parts as the source for that kind of adapters so they should
+	 * adhere to that restriction. Using that unique identifier obtained with the method
 	 * <code>getModelId()</code> we can check if the Part is already available or we should create a new one for the
 	 * model we have at work.
-	 *
+	 * <p>
 	 * It is a recursive process that it is repeated for each one of the nodes added to the already processing structure
 	 * while the nodes have any number of children.
-	 *
+	 * <p>
 	 * The process gets the Model attached to the Part we are working with. Then finds the Model children to reconstruct
 	 * their parts if they do not have them already and match them to the current list of Parts already connected to the
-	 * Part in the work bench. Any discrepancies create or delete the required Parts. The we start again this process
-	 * with the first of the children until all the model nodes have been processed.
-	 *
+	 * Part in the work bench. Any discrepancies create or delete the required Parts. The we start again this process with
+	 * the first of the children until all the model nodes have been processed.
+	 * <p>
 	 * During the transformation process we use the <code>collaborate2Model(final String variant)</code> to generate a
 	 * fresh list of nodes from this model instance. We use the <b>Variant</b> to allow the model to generate different
 	 * sets of new model instances depending on that variable. The flexibility of this approach allows a single model

@@ -21,24 +21,22 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-// - CLASS IMPLEMENTATION ...................................................................................
 public class RootPart extends AbstractPart implements IRootPart {
-	// - S T A T I C - S E C T I O N ..........................................................................
 
-	// - F I E L D - S E C T I O N ............................................................................
+	// - F I E L D - S E C T I O N
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	// - C O N S T R U C T O R - S E C T I O N
 	public RootPart( final RootNode node, final IPartFactory factory ) {
 		super(node, factory);
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
+	// - M E T H O D - S E C T I O N
 	@Override
 	public boolean isExpanded() {
 		return true;
 	}
 
-	// --- I P A R T   I N T E R F A C E
+	// - I P A R T   I N T E R F A C E
 
 	/**
 	 * Most of root parts should order the result by alphabetical name but this should be configurable. If the
