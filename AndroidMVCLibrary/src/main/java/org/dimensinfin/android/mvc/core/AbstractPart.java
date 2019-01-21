@@ -17,15 +17,12 @@ import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
-import org.dimensinfin.core.model.AbstractPropertyChanger;
-import org.dimensinfin.core.model.RootNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public abstract class AbstractPart /*extends AbstractPropertyChanger */ extends BasePart implements IPart {
 	// - S T A T I C - S E C T I O N
@@ -38,12 +35,16 @@ public abstract class AbstractPart /*extends AbstractPropertyChanger */ extends 
 	// - F I E L D - S E C T I O N
 	//	/** Stores the user activation state. Usually becomes true when the users is interacting with the part. */
 	//	private boolean active = true;
-	private IPartFactory _factory = null;
+	private IPartFactory _factory = null; // This field caches the factory once the hierarchy is run and the factory searched.
 	private IDataSource _dataSource = null;
 	protected String renderMode = "-DEFAULT-";
 	//	protected boolean newImplementation = false;
 
 	// - C O N S T R U C T O R - S E C T I O N
+//	public AbstractPart(final T model) {
+////		super();
+//		this.model = model;
+//	}
 
 	/**
 	 * Parts are special elements. The root element that is a AbstractPropertyChanger is not responsible to store the
@@ -51,62 +52,43 @@ public abstract class AbstractPart /*extends AbstractPropertyChanger */ extends 
 	 * store the model at the same time.
 	 * @param model the Data model linked to this part.
 	 */
-	public AbstractPart(final ICollaboration model) {
-		super(model);
-		// TODO This is a dependency to the removed inheritance for AbstractPropertyChanger
-//		super.setParentChanger(this);
-	}
+//	public AbstractPart(final ICollaboration model) {
+//		super(model);
+//		// TODO This is a dependency to the removed inheritance for AbstractPropertyChanger
+////		super.setParentChanger(this);
+//	}
 
-	/**
-	 * Parts are special elements. The root element that is a AbstractPropertyChanger is not responsible to store the
-	 * model but needs it as reference to set a parent for notifications. So do not forget to pass the reference up and
-	 * store the model at the same time.
-	 * @param model the Data model linked to this part.
-	 */
-	public AbstractPart(final RootNode model, final IPartFactory factory) {
-		this(model);
-		//		this.model = model;
-		_factory = factory;
-		//		setParentChanger(this);
-	}
-
-	// - M E T H O D - S E C T I O N
-
-	public void addChild(final IPart child) {
-		children.add(child);
-	}
-
-	/**
-	 * Adds a child <code>EditPart</code> to this EditPart. This method is called from {@link #refreshChildren()}. The
-	 * following events occur in the order listed:
-	 * <OL>
-	 * <LI>The child is added to the {@link #children} List, and its parent is set to <code>this</code>
-	 * <LI><code>EditPartListeners</code> are notified that the child has been added.
-	 * </OL>
-	 * <p>
-	 * @param child The <code>EditPart</code> to add
-	 * @param index The index
-	 */
-	public void addChild(final IPart child, int index) {
-		if (index == -1) {
-			index = this.getChildren().size();
-		}
-		children = getChildren();
-
-		children.add(index, child);
-		child.setParent(this);
-	}
+//	/**
+//	 * Adds a child <code>EditPart</code> to this EditPart. This method is called from {@link #refreshChildren()}. The
+//	 * following events occur in the order listed:
+//	 * <OL>
+//	 * <LI>The child is added to the {@link #children} List, and its parent is set to <code>this</code>
+//	 * <LI><code>EditPartListeners</code> are notified that the child has been added.
+//	 * </OL>
+//	 * <p>
+//	 * @param child The <code>EditPart</code> to add
+//	 * @param index The index
+//	 */
+//	public void addChild(final IPart child, int index) {
+//		if (index == -1) {
+//			index = this.getChildren().size();
+//		}
+//		children = getChildren();
+//
+//		children.add(index, child);
+//		child.setParent(this);
+//	}
 
 	//	public void clean () {
 	//		children.clear();
 	//	}
-	public void cleanLinks() {
-		for (IPart part : children) {
-			if (part.getModel() instanceof AbstractPropertyChanger)
-				((AbstractPropertyChanger) part.getModel()).removePropertyChangeListener(part);
-		}
-		children.clear();
-	}
+//	public void cleanLinks() {
+//		for (IPart part : children) {
+//			if (part.getModel() instanceof AbstractPropertyChanger)
+//				((AbstractPropertyChanger) part.getModel()).removePropertyChangeListener(part);
+//		}
+//		children.clear();
+//	}
 
 
 	//	/**
@@ -124,15 +106,26 @@ public abstract class AbstractPart /*extends AbstractPropertyChanger */ extends 
 	//	}
 
 	/**
-	 * The factory is set on the Root parts. Most of the other parts do not declare it or is not setup. To detect this
-	 * problem and correct if if we detect the null we search for the parent until a factory is found.
+	 * The factory is set on the Root parts. Most of the other parts do not declare it or is not set. This method will
+	 * allow any part at any hierarchy level to run on the hierarchy to reach a root node and get the factory from that
+	 * node.
 	 */
 	public IPartFactory getPartFactory() {
 		if (null == _factory)
-			// Search for the factory at the parent. 
-			return this.getParentPart().getPartFactory();
+			// Search for the factory at the root.
+			return this.getRootPart().getPartFactory();
 		else
 			return _factory;
+	}
+
+	/**
+	 * Search for the RootPart up in the hierarchy until the serch runts into a node without parent. Then check for the
+	 * type and if it is the right type then get the Factory.
+	 * @return the hierarchy RootPart.
+	 */
+	public RootPart getRootPart() {
+		if (this instanceof RootPart) return (RootPart) this;
+		else return (RootPart) this.getParentPart().getRootPart();
 	}
 
 	public String getRenderMode() {
@@ -300,7 +293,7 @@ public abstract class AbstractPart /*extends AbstractPropertyChanger */ extends 
 //		children.add(index, editpart);
 //	}
 
-	// --- I P A R T   I N T E R F A C E
+	// - I P A R T   I N T E R F A C E
 	public abstract List<IPart> runPolicies(final List<IPart> targets);
 
 	/**

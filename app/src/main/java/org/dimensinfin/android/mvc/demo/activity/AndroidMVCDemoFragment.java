@@ -52,13 +52,14 @@ public class AndroidMVCDemoFragment extends AbstractPagerFragment {
 		return getAppContext().getResources().getString(R.string.activity_title_DemoFragment);
 	}
 
+	@Override
 	public IPartFactory createFactory() {
 		return new DemoPartFactory(this.getVariant());
 	}
 
 	/**
 	 * This should generate the list of model instances that should be rendered on the Header. We only use it for the
-	 * Non Expandable page.
+	 * Non Expandable page section.
 	 *
 	 * @return list of model data to be rendered on the Header of the page.
 	 */
@@ -76,7 +77,7 @@ public class AndroidMVCDemoFragment extends AbstractPagerFragment {
 	 * Because on this demo Fragment we use a single fragment class for all the code we should differentiate using the
 	 * variant to construct the right <code>IDataSource</code> for each page. We have a page with <b>DemoItems</b> but
 	 * one page can expand items where the other not. We are going to use the <b>variant</b> at all the levels to
-	 * redeuce the code. On this version we have removed the need for the ModelGenerators.
+	 * reduce the code. On this version we have removed the need for the ModelGenerators.
 	 * @return a DataSource instance able to generate the required model for each page variant.
 	 */
 	@Override

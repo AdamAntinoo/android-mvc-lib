@@ -31,16 +31,9 @@ public class AndroidMVCDemoActivity extends AbstractPagerActivity {
 	protected void onCreate(final Bundle savedInstanceState) {
 		logger.info(">> [AndroidMVCDemoActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
-//		try {
 		// Process the parameters into the context. This initial Activity is the only one with no parameters.
 		this.addPage(new AndroidMVCDemoFragment().setVariant(EDemoVariants.NON_EXPANDABLE_SECTION.name()));
 		this.addPage(new AndroidMVCDemoFragment().setVariant(EDemoVariants.EXPANDABLE_SECTION.name()));
-//		} catch (final Exception rtex) {
-//			AbstractPagerActivity.logger.error("RTEX [AndroidMVCDemoActivity.onCreate]> Runtime Exception." + rtex.getMessage());
-//			rtex.printStackTrace();
-//		}
-		// Reinitialize the tile and subtitle from the first page.
-//		this.updateInitialTitle();
 		logger.info("<< [AndroidMVCDemoActivity.onCreate]"); //$NON-NLS-1$
 	}
 }

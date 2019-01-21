@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import com.viewpagerindicator.CirclePageIndicator;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.core.AbstractFragmentPagerAdapter;
+import org.dimensinfin.android.mvc.core.MVCException;
 import org.dimensinfin.android.mvc.core.MVCExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -183,6 +184,7 @@ public abstract class AbstractPagerActivity extends Activity {
 	protected void onCreate(final Bundle savedInstanceState) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
+		// Install the default library exception interceptor to show lib exceptions.
 		Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this));
 		// Process the extras received by the intent so they can be shared to all the Fragments
 		try {
@@ -211,10 +213,10 @@ public abstract class AbstractPagerActivity extends Activity {
 		_indicator = (CirclePageIndicator) this.findViewById(R.id.indicator);
 		// Check page structure.
 		if (null == _pageContainer) {
-			throw new RuntimeException("RTEX [AbstractPagerActivity.onCreate]> Expected UI element not found.");
+			throw new MVCException("RTEX [AbstractPagerActivity.onCreate]> Expected UI element not found.");
 		}
 		if (null == background) {
-			throw new RuntimeException("RTEX [AbstractPagerActivity.onCreate]> Expected UI element not found.");
+			throw new MVCException("RTEX [AbstractPagerActivity.onCreate]> Expected UI element not found.");
 		}
 
 		// Add the adapter for the page switching.
