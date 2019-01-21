@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.view.View;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractExpandablePart;
 import org.dimensinfin.android.mvc.core.AbstractExpandableRender;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.model.DemoContainer;
@@ -25,20 +24,18 @@ import java.text.DecimalFormat;
  * @author Adam Antinoo
  */
 
-// - CLASS IMPLEMENTATION ...................................................................................
 public class DemoContainerPart extends AbstractExpandablePart {
-	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("DemoItemPart");
 	private static DecimalFormat itemCountFormatter = new DecimalFormat("###,##0");
 
-	// - F I E L D - S E C T I O N ............................................................................
+	// - F I E L D - S E C T I O N
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	// - C O N S T R U C T O R - S E C T I O N
 	public DemoContainerPart(final DemoContainer node) {
 		super(node);
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
+	// - M E T H O D - S E C T I O N
 	public DemoContainer getCastedModel() {
 		return (DemoContainer) this.getModel();
 	}
@@ -53,7 +50,7 @@ public class DemoContainerPart extends AbstractExpandablePart {
 		return new DemoContainerRender(this, _activity);
 	}
 
-	//--- G E T T E R S   &   S E T T E R S
+	// - G E T T E R S   &   S E T T E R S
 	public String getTContentCount() {
 		return itemCountFormatter.format(this.getCastedModel().getContentSize());
 	}

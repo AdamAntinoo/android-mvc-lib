@@ -9,16 +9,16 @@
 //               The new implementation performs the model to list transformation on the fly each time
 //               a model change is detected so the population of the displayed view should be done in
 //               real time while processing the model sources. This should allow for search and filtering.
-package org.dimensinfin.android.mvc.core;
+package org.dimensinfin.android.mvc.part;
 
 import android.os.Handler;
 import android.view.View;
 
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
+import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.OneShotTask;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.util.Chrono;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 
