@@ -33,6 +33,7 @@ public class BasePart<T> {
 	// - C O N S T R U C T O R - S E C T I O N
 	public BasePart(final T model) {
 //		super();
+		if ( null== model)throw new MVCException(ErrorInfo)
 		this.model = model;
 	}
 

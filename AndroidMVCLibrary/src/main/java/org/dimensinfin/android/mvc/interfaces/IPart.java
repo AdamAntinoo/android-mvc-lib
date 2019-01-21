@@ -16,37 +16,39 @@ import java.util.List;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public interface IPart extends PropertyChangeListener {
-	public IPart createNewPart( final ICollaboration model );
+	RootPart getRootPart();
 
-	public List<IPart> getChildren();
+	IPart createNewPart(final ICollaboration model);
 
-	public ICollaboration getModel();
+	List<IPart> getChildren();
 
-	public IPart getParentPart();
+	ICollaboration getModel();
 
-	public IPartFactory getPartFactory();
+	IPart getParentPart();
 
-	public String getRenderMode();
+	IPartFactory getPartFactory();
 
-	public RootPart getRoot();
+	String getRenderMode();
 
-	public boolean isEmpty();
+	RootPart getRoot();
 
-	public boolean isExpanded();
+	boolean isEmpty();
 
-	public boolean isRenderWhenEmpty();
+	boolean isExpanded();
 
-	public void refreshChildren();
+	boolean isRenderWhenEmpty();
 
-	public List<IPart> runPolicies( List<IPart> targets );
+	void refreshChildren();
 
-	public IPart setFactory( final IPartFactory partFactory );
+	List<IPart> runPolicies(List<IPart> targets);
 
-	public void setModel( final ICollaboration model );
+	IPart setFactory(final IPartFactory partFactory);
 
-	public void setParent( final IPart parent );
+	void setModel(final ICollaboration model);
 
-	public IPart setRenderMode( final String renderMode );
+	void setParent(final IPart parent);
+
+	IPart setRenderMode(final String renderMode);
 }
 
 // - UNUSED CODE ............................................................................................

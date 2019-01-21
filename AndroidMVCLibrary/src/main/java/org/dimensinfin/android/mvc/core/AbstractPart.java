@@ -30,7 +30,9 @@ public abstract class AbstractPart /*extends AbstractPropertyChanger */ extends 
 	protected static Logger logger = LoggerFactory.getLogger(AbstractPart.class);
 
 	// - F I E L D - S E C T I O N
-	protected boolean _clickRunning = false;
+	// - C O M P O S I T I O N S
+	private ClickSupporter clickSupporter = ClickSupporter.newSupporter(false);
+
 
 	// - F I E L D - S E C T I O N
 	//	/** Stores the user activation state. Usually becomes true when the users is interacting with the part. */
@@ -45,6 +47,15 @@ public abstract class AbstractPart /*extends AbstractPropertyChanger */ extends 
 ////		super();
 //		this.model = model;
 //	}
+
+	// - C L I C K S U P P O R T E R
+	public boolean isClickRunning() {
+		return clickSupporter.isClickRunning();
+	}
+
+	public void setClickRunning(final boolean clickRunning) {
+		clickSupporter.setClickRunning(clickRunning);
+	}
 
 	/**
 	 * Parts are special elements. The root element that is a AbstractPropertyChanger is not responsible to store the
