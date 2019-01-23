@@ -30,8 +30,6 @@ public abstract class AbstractPart /*extends AbstractPropertyChanger */ extends 
 	protected static Logger logger = LoggerFactory.getLogger(AbstractPart.class);
 
 	// - F I E L D - S E C T I O N
-	// - C O M P O S I T I O N S
-	private ClickSupporter clickSupporter = ClickSupporter.newSupporter(false);
 
 
 	// - F I E L D - S E C T I O N
@@ -48,14 +46,6 @@ public abstract class AbstractPart /*extends AbstractPropertyChanger */ extends 
 //		this.model = model;
 //	}
 
-	// - C L I C K S U P P O R T E R
-	public boolean isClickRunning() {
-		return clickSupporter.isClickRunning();
-	}
-
-	public void setClickRunning(final boolean clickRunning) {
-		clickSupporter.setClickRunning(clickRunning);
-	}
 
 	/**
 	 * Parts are special elements. The root element that is a AbstractPropertyChanger is not responsible to store the
@@ -122,15 +112,15 @@ public abstract class AbstractPart /*extends AbstractPropertyChanger */ extends 
 	 * node.
 	 */
 	public IPartFactory getPartFactory() {
-		if (null == _factory)
+		if (null == _factory) {
 			// Search for the factory at the root.
-			return this.getRootPart().getPartFactory();
-		else
-			return _factory;
+			this._factory = this.getRootPart().getPartFactory();
+		}
+		return _factory;
 	}
 
 	/**
-	 * Search for the RootPart up in the hierarchy until the serch runts into a node without parent. Then check for the
+	 * Search for the RootPart up in the hierarchy until the search runts into a node without parent. Then check for the
 	 * type and if it is the right type then get the Factory.
 	 * @return the hierarchy RootPart.
 	 */
@@ -203,19 +193,10 @@ public abstract class AbstractPart /*extends AbstractPropertyChanger */ extends 
 	}
 
 
-	public boolean clickRunning() {
-		return _clickRunning;
-	}
+//	public boolean clickRunning() {
+//		return _clickRunning;
+//	}
 
-	public boolean activateClick() {
-		_clickRunning = true;
-		return _clickRunning;
-	}
-
-	public boolean completeClick() {
-		_clickRunning = false;
-		return _clickRunning;
-	}
 
 	//	public abstract List<IPart> runPolicies (List<IPart> targets);
 

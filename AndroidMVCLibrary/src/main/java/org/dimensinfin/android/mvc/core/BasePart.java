@@ -33,7 +33,7 @@ public class BasePart<T> {
 	// - C O N S T R U C T O R - S E C T I O N
 	public BasePart(final T model) {
 //		super();
-		if ( null== model)throw new MVCException(ErrorInfo)
+		if (null == model) throw new NullPointerException("The model constructor field should not be null.");
 		this.model = model;
 	}
 
@@ -85,12 +85,12 @@ public class BasePart<T> {
 		this.parent = parent;
 	}
 
-	/**
-	 * Parts are special elements. The root element that is a AbstractPropertyChanger is not responsible to store the
-	 * model but needs it as reference to set a parent for notifications. So do not forget to pass the reference up and
-	 * store the model at the same time.
-	 * @param model the Data model linked to this part.
-	 */
+//	/**
+//	 * Parts are special elements. The root element that is a AbstractPropertyChanger is not responsible to store the
+//	 * model but needs it as reference to set a parent for notifications. So do not forget to pass the reference up and
+//	 * store the model at the same time.
+//	 * @param model the Data model linked to this part.
+//	 */
 //	public AbstractPart(final RootNode model, final IPartFactory factory) {
 //		this(model);
 //		//		this.model = model;
@@ -99,7 +99,6 @@ public class BasePart<T> {
 //	}
 
 	// - M E T H O D - S E C T I O N
-
 	public void addChild(final IPart child) {
 		children.add(child);
 	}

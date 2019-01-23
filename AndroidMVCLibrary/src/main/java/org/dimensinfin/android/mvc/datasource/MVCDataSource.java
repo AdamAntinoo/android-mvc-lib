@@ -18,7 +18,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
@@ -41,23 +40,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
 /**
- * New complete core implementation for the DataSource that should be connected to the extended BaseAdapter to
- * provide the Adapter with the list of Parts to be used for the rendering on the LitView.
+ * New complete core implementation for the DataSource that should be connected to the extended BaseAdapter to provide
+ * the Adapter with the list of Parts to be used for the rendering on the LitView.
  * @author Adam Antinoo
  */
 
-// - CLASS IMPLEMENTATION ...................................................................................
-public abstract class MVCDataSource extends AbstractPropertyChanger implements IDataSource {
-	// - S T A T I C - S E C T I O N ..........................................................................
+// - CLASS IMPLEMENTATION
+public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implements IDataSource {
+	// - S T A T I C - S E C T I O N
 	private static final long serialVersionUID = -9128905983909144873L;
-	public static Logger logger = LoggerFactory.getLogger("MVCDataSource");
+	private static final boolean isDebuggable = true;
+	public static final Logger logger = LoggerFactory.getLogger(MVCDataSource.class);
 
-	// - F I E L D - S E C T I O N ............................................................................
+	// - F I E L D - S E C T I O N
 	/**
 	 * Unique DataSource string identifier to locate this instance on the <code>DataSourceManager</code> in case the
 	 * instances should be cached.
@@ -65,45 +65,50 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	private final DataSourceLocator _locator;
 	/** Copy of the extras bundle received by the Activity. */
 	private Bundle _extras = new Bundle();
-	/** This is the Fragment or Activity code used to differentiate between different model generations. */
+	/**
+	 * This is the Fragment or Activity code used to differentiate between different model generations. It is stored on
+	 * the String format to be independent from any of the enumerated structures in the different modules. Anyway it
+	 * should be a conversion from closed list of values.
+	 */
 	private String _variant = "-DEFAULT-VARIANT-";
 	/**
-	 * Factory to be used on the hierarchy generation. Each part has a connection to this factory to create its
-	 * children from the model nodes.
+	 * Factory to be used on the Part hierarchy generation. Each Part has a connection to this factory to create its children
+	 * parts from the model nodes. This is a mandatory field that should be available at the creation because the DS cannot work without a Part Factory.
 	 */
 	private IPartFactory _partFactory = null;
 	/**
 	 * Flag to indicate if the model contents generated can be cached and we can avoid running the <code>collaborate2Model
 	 * ()</code> method on every fragment instantiation. If the model is suitable for caching we can speed up the turn of
-	 * the device because we have not to generate again the DataSource and its model sta structure.
+	 * the device because we have not to generate again the DataSource and its model data structure.
 	 */
 	private boolean _shouldBeCached = false;
 	/**
-	 * The initial node where to store the model. Model elements are children of this root. This version exports this
-	 * node to dynamically detect the changes and generate the missing hierarchy elements that are being added during
-	 * the Model generation.
-	 * There are only a variant for the RootNode so we can lock it to a predefined instance.
-	 * If we need to customize the Root nodes (for example to add special filtering) we should remove the
+	 * The initial node where to store the model. Model elements are children of this root. This version exports this node
+	 * to dynamically detect the changes and generate the missing hierarchy elements that are being added during the Model
+	 * generation. There are only a variant for the RootNode so we can lock it to a predefined instance. If we need to
+	 * customize the Root nodes (for example to add special filtering) we should remove the
 	 * <code>final</code> from this field.
 	 */
 	private final RootNode _dataModelRoot = new RootNode();
 	/**
-	 * The root node for the Part hierarchy that matches the data model hierarchy. This field can be changed from the
-	 * predefined instance to any developer needs that matches the IRootPart requirements.
+	 * The root node for the Part hierarchy that matches the data model hierarchy. YTHis is a special implementation of a Part. Cannot be changed
+	 * but has to define methods to customize its behavior to any need that suits the developer. For example sorting and filtering can
+	 * me changed by adding policies to this instance.
 	 */
-	private IRootPart _partModelRoot = null;
+	// TODO Initilization could not leave this field null. The initial setup should create the instance but not initialized.
+	private IRootPart _partModelRoot = new MVCRootPart(this._dataModelRoot,this.getDataSource());
 	/**
 	 * The list of Parts to show on the viewer. This is the body section that is scrollable. This instance is shared
 	 * during the <code>collaboration2View()</code> phase to use less memory and avoid copying references from list to
 	 * list during the generation process.
 	 */
-	private final List<IAndroidPart> _dataSectionParts = new Vector<IAndroidPart>(100);
+	private final List<IAndroidPart> _dataSectionParts = new ArrayList<>(100);
 	/** Flag used to do not launch more update events when there is one pending. */
 	private boolean _pending = false;
 	protected int refreshTime = -1;
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public MVCDataSource( final DataSourceLocator locator, final String variant, final IPartFactory factory, final Bundle extras ) {
+	// - C O N S T R U C T O R - S E C T I O N
+	public MVCDataSource(final DataSourceLocator locator, final String variant, final IPartFactory factory, final Bundle extras) {
 		super();
 		_locator = locator;
 		_variant = variant;
@@ -111,14 +116,17 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		this._extras = extras;
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
+	// - M E T H O D - S E C T I O N
+	private IDataSource getDataSource() {
+		return this;
+	}
 
-	// --- I D A T A S O U R C E   I N T E R F A C E
+	// - I D A T A S O U R C E   I N T E R F A C E
 	public String getVariant() {
 		return _variant;
 	}
 
-	public IDataSource setVariant( final String variant ) {
+	public IDataSource setVariant(final String variant) {
 		_variant = variant;
 		return this;
 	}
@@ -149,10 +157,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 * @return
 	 */
 	public boolean isCached() {
-		if (_shouldBeCached)
-			if (_dataModelRoot.getChildren().size() > 0)
-				return true;
-		return false;
+		return ((_shouldBeCached) && (_dataModelRoot.isEmpty())) ? true : false;
 	}
 
 	/**
@@ -171,12 +176,12 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 *                   identifier.
 	 * @return this same instance to allow functional programming.
 	 */
-	public IDataSource setCacheable( final boolean cachestate ) {
+	public IDataSource setCacheable(final boolean cachestate) {
 		this._shouldBeCached = cachestate;
 		return this;
 	}
 
-	public IDataSource setRefreshTime( final int time ) {
+	public IDataSource setRefreshTime(final int time) {
 		this.refreshTime = time;
 		return this;
 	}
@@ -184,11 +189,11 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	/**
 	 * This is the single way to add more content to the DataSource internal model representation. Encapsulating this
 	 * functionality on this method we make sure that the right events are generated and the model is properly updated and
-	 * the renderization process will work as expected.
+	 * the render process will work as expected.
 	 * @param newnode a new node to be added to the contents of the root point of the model.
 	 * @return this IDataSource instance to allow functional coding.
 	 */
-	public IDataSource addModelContents( final ICollaboration newnode ) {
+	public IDataSource addModelContents(final ICollaboration newnode) {
 		_dataModelRoot.addChild(newnode);
 		// Optimization - If the event is already launched and not processed do not launch it again.
 		if (_pending) return this;
@@ -205,10 +210,9 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		}
 	}
 
-	public IDataSource addModelContents( final ICollaboration newnode, final boolean forceEvent ) {
+	public IDataSource addModelContents(final ICollaboration newnode, final boolean forceEvent) {
 		_dataModelRoot.addChild(newnode);
 		if (forceEvent)
-			//			if(_pending)
 			AbstractPagerFragment._uiExecutor.submit(() -> {
 				// Notify the Adapter that the Root node has been modified to regenerate the collaboration2View.
 				propertyChange(new PropertyChangeEvent(this
@@ -218,8 +222,6 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		return this;
 	}
 
-	public abstract void collaborate2Model();
-
 	public List<IAndroidPart> getDataSectionContents() {
 		return _dataSectionParts;
 	}
@@ -228,8 +230,8 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 * This method can be customized by developers to change the features implemented by the <code>IRootPart</code>. The
 	 * library provides an implementation but the code is open to make replacements at the key points to enhance
 	 * flexibility on the use of the library. This method is called whenever the root part container is still undefined
-	 * and calls any inherited implementation that defines a new instance for this nose. The internal creation method
-	 * will generate a <code>@link{RootAndroidPart}</code> instance that is suitable for most of developments.
+	 * and calls any inherited implementation that defines a new instance for this nose. The internal creation method will
+	 * generate a <code>@link{RootAndroidPart}</code> instance that is suitable for most of developments.
 	 * @return a new instance of a <code>IRootPart</code> interface to be used as the root for the part hierarchy.
 	 */
 	public IRootPart createRootPart() {
@@ -245,9 +247,9 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	}
 
 	/**
-	 * Add an spinner at the first position on the Part list to signal that we are doing som processing. If the
-	 * datasource is cached it should not have any effect since the model is already generated and we should not have
-	 * to wait for it.
+	 * Add an spinner at the first position on the Part list to signal that we are doing som processing. If the datasource
+	 * is cached it should not have any effect since the model is already generated and we should not have to wait for
+	 * it.
 	 */
 	public void startOnLoadProcess() {
 		if (!isCached()) {
@@ -256,13 +258,13 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	}
 
 	/**
-	 * After the model is created we have to transform it into the Part list expected by the DataSourceAdapter.
-	 * The Part creation is performed by the corresponding PartFactory we got at the DataSource creation.
+	 * After the model is created we have to transform it into the Part list expected by the DataSourceAdapter. The Part
+	 * creation is performed by the corresponding PartFactory we got at the DataSource creation.
 	 * <p>
-	 * We transform the model recursively and keeping the already available Part elements. We create a
-	 * duplicated of the resulting Part model and we move already available parts from the current model to the new model
-	 * or create new part and finally remove what is left and unused.
-	 * This new implementation will use partial generation to split and speed up this phase.
+	 * We transform the model recursively and keeping the already available Part elements. We create a duplicated of the
+	 * resulting Part model and we move already available parts from the current model to the new model or create new part
+	 * and finally remove what is left and unused. This new implementation will use partial generation to split and speed
+	 * up this phase.
 	 */
 	private void transformModel2Parts() {
 		logger.info(">> [MVCDataSource.transformModel2Parts]");
@@ -279,12 +281,15 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 			//			_dataSectionParts.clear();
 			_partModelRoot.refreshChildren();
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			if (isDebuggable) {
+				// TODO Transform this into a toast or into a generic shutdown alert.
+				ex.printStackTrace();
+			}
 		}
 		logger.info("<< [MVCDataSource.transformModel2Parts]> _dataSectionParts.size: {}", _dataSectionParts.size());
 	}
 
-	// --- P R O P E R T Y C H A N G E R   I N T E R F A C E
+	// - P R O P E R T Y C H A N G E R   I N T E R F A C E
 
 	/**
 	 * This method is called whenever there is an event from any model change or any Part interaction. There are two
@@ -315,10 +320,10 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 * @param event the event to be processed. Event have a property name that is used as a selector.
 	 */
 	@Override
-	public synchronized void propertyChange( final PropertyChangeEvent event ) {
+	public synchronized void propertyChange(final PropertyChangeEvent event) {
 		logger.info(">> [MVCDataSource.propertyChange]> Processing Event: {}", event.getPropertyName());
 
-		//--- C O N T E N T   E V E N T S
+		// - C O N T E N T   E V E N T S
 		// The expand/collapse state has changed.
 		if (SystemWideConstants.events.valueOf(event.getPropertyName()) ==
 				SystemWideConstants.events.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE) {
@@ -329,7 +334,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 			}
 		}
 
-		//--- S T R U C T U R E   E V E N T S
+		// - S T R U C T U R E   E V E N T S
 		if (SystemWideConstants.events.valueOf(event.getPropertyName()) ==
 				SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA) {
 			this.transformModel2Parts();
@@ -351,7 +356,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 			}
 		}
 
-		//--- R E F R E S H   E V E N T S
+		// - R E F R E S H   E V E N T S
 		if (SystemWideConstants.events.valueOf(event.getPropertyName()) ==
 				SystemWideConstants.events.EVENTSTRUCTURE_REFRESHDATA) {
 			collaborate2Model();
@@ -363,20 +368,13 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 			}
 		}
 
-		//--- A D A P T E R   E V E N T S
-		//		if (SystemWideConstants.events
-		//				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES) {
-		////			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
-		////					event.getNewValue());
-		//			logger.info("<< [MVCDataSource.propertyChange]");
-		//			return;
-		//		}
+		// - A D A P T E R   E V E N T S
 		// Send up the event to the DataSourceAdapter but be sure to run any display changes on the UI main thread.
 		this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 				event.getNewValue());
 	}
 
-	protected void cleanLinks( final List<IAndroidPart> partList ) {
+	protected void cleanLinks(final List<IAndroidPart> partList) {
 		for (IAndroidPart part : partList) {
 			if (part.getModel() instanceof AbstractPropertyChanger)
 				((AbstractPropertyChanger) part.getModel()).removePropertyChangeListener(part);
@@ -386,16 +384,16 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer("MVCDataSource [");
-		buffer.append("Identifier: ").append(getDataSourceLocator().getIdentity());
-		buffer.append("]");
-		return buffer.toString();
+		return new StringBuilder("MVCDataSource [")
+				.append("Identifier: ").append(getDataSourceLocator().getIdentity())
+				.append("]")
+				.toString();
 	}
 
 
 	public static class OnLoadSpinnerPart extends AbstractAndroidPart {
 
-		public OnLoadSpinnerPart( final ICollaboration model ) {
+		public OnLoadSpinnerPart(final ICollaboration model) {
 			super(model);
 		}
 
@@ -415,21 +413,18 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		private TextView progressCounter = null;
 
 		private Instant _elapsedTimer = null;
-		private CountDownTimer _timer = null;
 
-		public OnLoadSpinnerRender( final AbstractPart newPart, final Activity context ) {
+		public OnLoadSpinnerRender(final AbstractPart newPart, final Activity context) {
 			super(newPart, context);
 		}
 
 		// --- I R E N D E R   I N T E R F A C E
 		@Override
 		public void initializeViews() {
-			//			super.initializeViews();
 			progress = (ProgressBar) _convertView.findViewById(R.id.progress);
-			//			progress.
 			progressCounter = (TextView) _convertView.findViewById(R.id.progressCounter);
 			_elapsedTimer = Instant.now();
-			_timer = new CountDownTimer(TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS.toMillis(10)) {
+			new CountDownTimer(TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS.toMillis(10)) {
 				@Override
 				public void onFinish() {
 					progressCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
@@ -437,7 +432,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 				}
 
 				@Override
-				public void onTick( final long millisUntilFinished ) {
+				public void onTick(final long millisUntilFinished) {
 					progressCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
 					progressCounter.invalidate();
 				}
@@ -446,8 +441,6 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 
 		@Override
 		public void updateContent() {
-			//			super.updateContent();
-			//			progressCounter.setText("10 sec");
 			Animation rotation = AnimationUtils.loadAnimation(getContext(), R.anim.clockwise_rotation);
 			rotation.setRepeatCount(Animation.INFINITE);
 			progress.startAnimation(rotation);
@@ -462,7 +455,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		 * Displays an string in the format "nh nm ns" that is the number of seconds from the start point that is the value
 		 * received as the parameter and the current instant on time.
 		 */
-		protected String generateTimeString( final long millis ) {
+		protected String generateTimeString(final long millis) {
 			try {
 				final long elapsed = Instant.now().getMillis() - millis;
 				final DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
