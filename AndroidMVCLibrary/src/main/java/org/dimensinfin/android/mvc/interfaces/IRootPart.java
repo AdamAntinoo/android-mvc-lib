@@ -8,14 +8,10 @@
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.interfaces;
 
-import org.dimensinfin.core.model.RootNode;
-
-import java.util.List;
-
 public interface IRootPart {
-//	public void setRootModel( final RootNode rootNode );
+	//	public void setRootModel( final RootNode rootNode );
 //
-//	public void refreshChildren();
+	void refreshChildren();
 //
 //	public void collaborate2View( final List<IAndroidPart> contentCollector );
 }

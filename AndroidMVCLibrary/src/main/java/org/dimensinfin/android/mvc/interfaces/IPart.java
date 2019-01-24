@@ -15,38 +15,38 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public interface IPart extends PropertyChangeListener {
+public interface IPart<T> extends PropertyChangeListener {
 	RootPart getRootPart();
 
 	IPart createNewPart(final ICollaboration model);
 
 	List<IPart> getChildren();
 
-	ICollaboration getModel();
+	T getModel();
 
 	IPart getParentPart();
 
 	IPartFactory getPartFactory();
 
-	String getRenderMode();
+//	String getRenderMode();
 
-	RootPart getRoot();
+//	RootPart getRoot();
 
-	boolean isEmpty();
+//	boolean isEmpty();
 
-	boolean isExpanded();
+//	boolean isExpanded();
 
-	boolean isRenderWhenEmpty();
+//	boolean isRenderWhenEmpty();
 
 	void refreshChildren();
 
-	List<IPart> runPolicies(List<IPart> targets);
+//	List<IPart> runPolicies(List<IPart> targets);
 
-	IPart setFactory(final IPartFactory partFactory);
+//	IPart setFactory(final IPartFactory partFactory);
 
-	void setModel(final ICollaboration model);
+//	void setModel(final ICollaboration model);
 
-	void setParent(final IPart parent);
+//	void setParent(final IPart parent);
 
 	IPart setRenderMode(final String renderMode);
 }

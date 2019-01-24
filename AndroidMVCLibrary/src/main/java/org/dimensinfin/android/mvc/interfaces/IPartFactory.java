@@ -13,9 +13,11 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 // - CLASS IMPLEMENTATION ...................................................................................
 public interface IPartFactory {
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public IPart createPart(ICollaboration model);
+	 IPart createPart(ICollaboration model);
 
-	public String getVariant();
+	 String getVariant();
+
+	void setRootPart(IRootPart partRoot);
 }
 
 // - UNUSED CODE ............................................................................................

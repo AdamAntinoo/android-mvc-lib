@@ -72,10 +72,11 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	 */
 	private String _variant = "-DEFAULT-VARIANT-";
 	/**
-	 * Factory to be used on the Part hierarchy generation. Each Part has a connection to this factory to create its children
-	 * parts from the model nodes. This is a mandatory field that should be available at the creation because the DS cannot work without a Part Factory.
+	 * Factory to be used on the Part hierarchy generation. Each Part has a connection to this factory to create its
+	 * children parts from the model nodes. This is a mandatory field that should be available at the creation because the
+	 * DS cannot work without a Part Factory.
 	 */
-	private IPartFactory _partFactory = null;
+	private IPartFactory partFactory = null;
 	/**
 	 * Flag to indicate if the model contents generated can be cached and we can avoid running the <code>collaborate2Model
 	 * ()</code> method on every fragment instantiation. If the model is suitable for caching we can speed up the turn of
@@ -91,12 +92,11 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	 */
 	private final RootNode _dataModelRoot = new RootNode();
 	/**
-	 * The root node for the Part hierarchy that matches the data model hierarchy. YTHis is a special implementation of a Part. Cannot be changed
-	 * but has to define methods to customize its behavior to any need that suits the developer. For example sorting and filtering can
-	 * me changed by adding policies to this instance.
+	 * The root node for the Part hierarchy that matches the data model hierarchy. YTHis is a special implementation of a
+	 * Part. Cannot be changed but has to define methods to customize its behavior to any need that suits the developer.
+	 * For example sorting and filtering can me changed by adding policies to this instance.
 	 */
-	// TODO Initilization could not leave this field null. The initial setup should create the instance but not initialized.
-	private IRootPart _partModelRoot = new MVCRootPart(this._dataModelRoot,this.getDataSource());
+	private IRootPart _partModelRoot = new MVCRootPart(this._dataModelRoot, this.getDataSource());
 	/**
 	 * The list of Parts to show on the viewer. This is the body section that is scrollable. This instance is shared
 	 * during the <code>collaboration2View()</code> phase to use less memory and avoid copying references from list to
@@ -110,10 +110,12 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	// - C O N S T R U C T O R - S E C T I O N
 	public MVCDataSource(final DataSourceLocator locator, final String variant, final IPartFactory factory, final Bundle extras) {
 		super();
-		_locator = locator;
-		_variant = variant;
-		_partFactory = factory;
+		this._locator = locator;
+		this._variant = variant;
+		this.partFactory = factory;
 		this._extras = extras;
+		// Initialize the factory with the root element for all the hierarchy.
+		this.partFactory.setRootPart(this._partModelRoot);
 	}
 
 	// - M E T H O D - S E C T I O N
@@ -122,14 +124,18 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	}
 
 	// - I D A T A S O U R C E   I N T E R F A C E
+	public IPartFactory getPartFactory() {
+		return this.partFactory;
+	}
+
 	public String getVariant() {
 		return _variant;
 	}
 
-	public IDataSource setVariant(final String variant) {
-		_variant = variant;
-		return this;
-	}
+//	public IDataSource setVariant(final String variant) {
+//		_variant = variant;
+//		return this;
+//	}
 
 	public Bundle getExtras() {
 		return _extras;
@@ -210,6 +216,9 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 		}
 	}
 
+	/**
+	 * Use the method variant to force the execution of the hierarchy update even in the case the process is already doing that update.
+	 */
 	public IDataSource addModelContents(final ICollaboration newnode, final boolean forceEvent) {
 		_dataModelRoot.addChild(newnode);
 		if (forceEvent)
@@ -226,28 +235,28 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 		return _dataSectionParts;
 	}
 
-	/**
-	 * This method can be customized by developers to change the features implemented by the <code>IRootPart</code>. The
-	 * library provides an implementation but the code is open to make replacements at the key points to enhance
-	 * flexibility on the use of the library. This method is called whenever the root part container is still undefined
-	 * and calls any inherited implementation that defines a new instance for this nose. The internal creation method will
-	 * generate a <code>@link{RootAndroidPart}</code> instance that is suitable for most of developments.
-	 * @return a new instance of a <code>IRootPart</code> interface to be used as the root for the part hierarchy.
-	 */
-	public IRootPart createRootPart() {
-		return new RootPart(_dataModelRoot, _partFactory);
-	}
+//	/**
+//	 * This method can be customized by developers to change the features implemented by the <code>IRootPart</code>. The
+//	 * library provides an implementation but the code is open to make replacements at the key points to enhance
+//	 * flexibility on the use of the library. This method is called whenever the root part container is still undefined
+//	 * and calls any inherited implementation that defines a new instance for this nose. The internal creation method will
+//	 * generate a <code>@link{RootAndroidPart}</code> instance that is suitable for most of developments.
+//	 * @return a new instance of a <code>IRootPart</code> interface to be used as the root for the part hierarchy.
+//	 */
+//	public IRootPart createRootPart() {
+//		return new RootPart(_dataModelRoot, partFactory);
+//	}
 
 	public RootNode getRootModel() {
 		return this._dataModelRoot;
 	}
 
-	public IPartFactory getFactory() {
-		return this._partFactory;
-	}
-
+//	public IPartFactory getFactory() {
+//		return this.partFactory;
+//	}
+//
 	/**
-	 * Add an spinner at the first position on the Part list to signal that we are doing som processing. If the datasource
+	 * Add an spinner at the first position on the Part list to signal that we are doing some processing. If the datasource
 	 * is cached it should not have any effect since the model is already generated and we should not have to wait for
 	 * it.
 	 */
@@ -270,10 +279,10 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 		logger.info(">> [MVCDataSource.transformModel2Parts]");
 		// Check if we have already a Part model.
 		// But do not forget to associate the new Data model even if the old exists.
-		if (null == _partModelRoot) {
-			_partModelRoot = createRootPart();
-		}
-		_partModelRoot.setRootModel(_dataModelRoot);
+//		if (null == _partModelRoot) {
+//			_partModelRoot = createRootPart();
+//		}
+//		_partModelRoot.setRootModel(_dataModelRoot);
 
 		logger.info("-- [MVCDataSource.transformModel2Parts]> Initiating the refreshChildren() for the Model Root");
 		// Intercept any exception on the creation of the model but do not cut the progress of the already added items.
