@@ -11,7 +11,7 @@ package org.dimensinfin.android.mvc.interfaces;
 import android.app.Activity;
 import android.view.View;
 
-import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.render.AbstractRender;
 
 import java.beans.PropertyChangeListener;
 import java.util.List;

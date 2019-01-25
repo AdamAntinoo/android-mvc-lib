@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
-import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.render.AbstractRender;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.core.model.Separator;
 
@@ -82,8 +82,8 @@ final class DemoDetailSeparatorRender extends AbstractRender {
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
-	public DemoDetailSeparatorAndroidController getPart () {
-		return (DemoDetailSeparatorAndroidController) super.getPart();
+	public DemoDetailSeparatorAndroidController getController() {
+		return (DemoDetailSeparatorAndroidController) super.getController();
 	}
 
 	@Override
@@ -96,8 +96,8 @@ final class DemoDetailSeparatorRender extends AbstractRender {
 	@Override
 	public void updateContent () {
 //		super.updateContent();
-		nodeIcon.setImageResource(getPart().getIconReference());
-		title.setText(getPart().getCastedModel().getTitle());
+		nodeIcon.setImageResource(getController().getIconReference());
+		title.setText(getController().getCastedModel().getTitle());
 		title.setVisibility(View.GONE);
 	}
 

@@ -18,6 +18,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import org.dimensinfin.android.mvc.R;
+import org.dimensinfin.android.mvc.render.AbstractRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 
@@ -42,7 +43,7 @@ public class ANodeBase4ExpandRender extends AbstractRender {
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public AbstractAndroidController getPart() {
+	public AbstractAndroidController getController() {
 		return _part;
 	}
 
@@ -63,18 +64,18 @@ public class ANodeBase4ExpandRender extends AbstractRender {
 	@Override
 	public void updateContent() {
 		// Check if the model is expandable to show or hide the arrow.
-		final ICollaboration targetModel = getPart().getModel();
+		final ICollaboration targetModel = getController().getModel();
 		if (null != _rightArrow) {
 			if (targetModel instanceof IExpandable) {
 				_rightArrow.setVisibility(View.VISIBLE);
-				if (this.getPart().isExpanded()) {
+				if (this.getController().isExpanded()) {
 					_rightArrow.setImageResource(R.drawable.arrowdown);
 				} else {
 					_rightArrow.setImageResource(R.drawable.arrowright);
 				}
 
 				// Check if the click is running and then replace the right arrow by an spinner.
-				if (getPart().clickRunning()) {
+				if (getController().clickRunning()) {
 					if (null != _rightArrow) {
 						logger.info("-- [NeoComRender.updateContent]> Activating spinner animation.");
 						_rightArrow.setImageDrawable(getDrawable(R.drawable.progress_spinner_orange));
@@ -99,7 +100,7 @@ public class ANodeBase4ExpandRender extends AbstractRender {
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer("ANodeBase4ExpandRender [ ");
-		buffer.append("model: ").append(getPart().getModel().toString()).append(" ");
+		buffer.append("model: ").append(getController().getModel().toString()).append(" ");
 		buffer.append("]");
 		//		buffer.append("->").append(super.toString());
 		return buffer.toString();

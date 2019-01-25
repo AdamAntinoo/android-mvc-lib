@@ -17,6 +17,7 @@ import android.view.View;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.interfaces.IAndroidAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
+import org.dimensinfin.android.mvc.render.AbstractRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
 import java.util.List;
@@ -78,7 +79,7 @@ public abstract class AbstractAndroidAndroidController extends AbstractAndroidCo
 	 * Fragment to be used on all the implementations.
 	 */
 	@Override
-	public AbstractRender getRenderer( final Activity activity ) {
+	public AbstractRender getRenderer(final Activity activity ) {
 		_activity = activity;
 		runDependencies();
 		return this.selectRenderer();

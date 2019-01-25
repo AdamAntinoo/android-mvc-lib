@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
-import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.render.AbstractRender;
 import org.dimensinfin.android.mvc.model.PanelException;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
@@ -66,8 +66,8 @@ private TextView exceptionMessage = null;
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
-		public PanelExceptionAndroidController getPart(){
-			return this.getPart();
+		public PanelExceptionAndroidController getController(){
+			return this.getController();
 		}
 		// --- I R E N D E R   I N T E R F A C E
 		@Override
@@ -77,7 +77,7 @@ private TextView exceptionMessage = null;
 
 		@Override
 		public void updateContent() {
-			exceptionMessage.setText(getPart().getCastedModel().getExceptionMessage());
+			exceptionMessage.setText(getController().getCastedModel().getExceptionMessage());
 		}
 
 		@Override

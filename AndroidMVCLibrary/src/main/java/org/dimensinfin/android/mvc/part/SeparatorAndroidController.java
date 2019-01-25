@@ -17,14 +17,10 @@ import lombok.Builder;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
-import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.core.AndroidController;
-import org.dimensinfin.android.mvc.interfaces.IAndroidAndroidController;
-import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.android.mvc.render.AbstractRender;
 import org.dimensinfin.core.model.Separator;
 import org.joda.time.Instant;
 
-import java.util.GregorianCalendar;
 @Builder
 public class SeparatorAndroidController extends AAndroidController<Separator,SeparatorRender> {
 	private static final long serialVersionUID = -7108273035439243825L;
@@ -77,8 +73,8 @@ final class SeparatorRender extends AbstractRender {
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
-	public SeparatorAndroidController getPart () {
-		return (SeparatorAndroidController) super.getPart();
+	public SeparatorAndroidController getController() {
+		return (SeparatorAndroidController) super.getController();
 	}
 
 	// --- I R E N D E R   I N T E R F A C E
@@ -91,8 +87,8 @@ final class SeparatorRender extends AbstractRender {
 	@Override
 	public void updateContent () {
 //		super.updateContent();
-		String tt = this.getPart().getTitle();
-		switch (this.getPart().getCastedModel().getType()) {
+		String tt = this.getController().getTitle();
+		switch (this.getController().getCastedModel().getType()) {
 			case DEFAULT:
 				if ( null != tt ) {
 					title.setText(tt);
@@ -142,7 +138,7 @@ final class SeparatorRender extends AbstractRender {
 		// Separator can be rendered in many ways. Set the default and then calculate the right one depending on the Model type.
 		int renderer = R.layout.separatororangeline;
 		// Select the rendering depending on the Separator type.
-		switch (this.getPart().getCastedModel().getType()) {
+		switch (this.getController().getCastedModel().getType()) {
 			case DEFAULT:
 				renderer = R.layout.separatororangeline;
 				break;
@@ -152,32 +148,32 @@ final class SeparatorRender extends AbstractRender {
 			case LINE_RED:
 				renderer = R.layout.separatorredline;
 				// Collapse the expansion.
-				//			this.getPart().getCastedModel().collapse();
+				//			this.getController().getCastedModel().collapse();
 				break;
 			case LINE_ORANGE:
 				renderer = R.layout.separatororangeline;
 				// Collapse the expansion.
-				//				this.getPart().getCastedModel().setExpanded(false);
+				//				this.getController().getCastedModel().setExpanded(false);
 				break;
 			case LINE_YELLOW:
 				renderer = R.layout.separatoryellowline;
 				// Collapse the expansion.
-				//				this.getPart().getCastedModel().setExpanded(false);
+				//				this.getController().getCastedModel().setExpanded(false);
 				break;
 			case LINE_GREEN:
 				renderer = R.layout.separatorgreenline;
 				// Collapse the expansion.
-				//				this.getPart().getCastedModel().setExpanded(false);
+				//				this.getController().getCastedModel().setExpanded(false);
 				break;
 			case LINE_DARKBLUE:
 				renderer = R.layout.separatordarkblueline;
 				// Collapse the expansion.
-				//				this.getPart().getCastedModel().setExpanded(false);
+				//				this.getController().getCastedModel().setExpanded(false);
 				break;
 			case EMPTY_SIGNAL:
 				renderer = R.layout.separatorredline;
 				// Collapse the expansion.
-				//				this.getPart().getCastedModel().setExpanded(false);
+				//				this.getController().getCastedModel().setExpanded(false);
 				break;
 
 			default:

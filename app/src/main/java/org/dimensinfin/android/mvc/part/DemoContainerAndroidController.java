@@ -13,7 +13,7 @@ import android.view.View;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
 import org.dimensinfin.android.mvc.core.AbstractExpandableRender;
-import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.render.AbstractRender;
 import org.dimensinfin.android.mvc.model.DemoContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,16 +78,16 @@ public class DemoContainerAndroidController extends AbstractExpandableAndroidCon
 
 		// - M E T H O D - S E C T I O N ..........................................................................
 		@Override
-		public DemoContainerAndroidController getPart() {
-			return (DemoContainerAndroidController) super.getPart();
+		public DemoContainerAndroidController getController() {
+			return (DemoContainerAndroidController) super.getController();
 		}
 
 		@Override
 		public void updateContent() {
 			super.updateContent();
-			name.setText(getPart().getCastedModel().getTitle());
+			name.setText(getController().getCastedModel().getTitle());
 			name.setVisibility(View.VISIBLE);
-			childCount.setText(this.getPart().getTContentCount());
+			childCount.setText(this.getController().getTContentCount());
 		}
 	}
 }

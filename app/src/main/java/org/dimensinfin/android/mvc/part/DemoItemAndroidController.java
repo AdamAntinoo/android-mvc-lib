@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
-import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.render.AbstractRender;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.model.DemoItem;
 import org.dimensinfin.android.mvc.model.DemoLabel;
@@ -85,8 +85,8 @@ public class DemoItemAndroidController extends AbstractAndroidAndroidController 
 
 		// - M E T H O D - S E C T I O N ..........................................................................
 		@Override
-		public DemoItemAndroidController getPart() {
-			return (DemoItemAndroidController) super.getPart();
+		public DemoItemAndroidController getController() {
+			return (DemoItemAndroidController) super.getController();
 		}
 
 		@Override
@@ -99,8 +99,8 @@ public class DemoItemAndroidController extends AbstractAndroidAndroidController 
 		@Override
 		public void updateContent() {
 			super.updateContent();
-			nodeIcon.setImageResource(getPart().getIconReference());
-//			nodeName.setText(getPart().getCastedModel().getName());
+			nodeIcon.setImageResource(getController().getIconReference());
+//			nodeName.setText(getController().getCastedModel().getName());
 //			nodeName.setVisibility(View.VISIBLE);
 		}
 
@@ -125,8 +125,8 @@ public class DemoItemAndroidController extends AbstractAndroidAndroidController 
 
 		// - M E T H O D - S E C T I O N ..........................................................................
 		@Override
-		public DemoItemAndroidController getPart() {
-			return (DemoItemAndroidController) super.getPart();
+		public DemoItemAndroidController getController() {
+			return (DemoItemAndroidController) super.getController();
 		}
 
 		@Override
@@ -138,7 +138,7 @@ public class DemoItemAndroidController extends AbstractAndroidAndroidController 
 		@Override
 		public void updateContent() {
 //			super.updateContent();
-			nodeName.setText(getPart().getCastedModel().getTitle());
+			nodeName.setText(getController().getCastedModel().getTitle());
 			nodeName.setVisibility(View.VISIBLE);
 		}
 

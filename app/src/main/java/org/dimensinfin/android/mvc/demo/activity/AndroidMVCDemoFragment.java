@@ -9,27 +9,46 @@
 package org.dimensinfin.android.mvc.demo.activity;
 
 import android.os.Bundle;
-
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.AndroidController;
-import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.demo.R;
+import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.model.DemoContainer;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 import org.dimensinfin.android.mvc.model.DemoItem;
 import org.dimensinfin.android.mvc.model.DemoLabel;
 import org.dimensinfin.android.mvc.part.DemoContainerAndroidController;
-import org.dimensinfin.android.mvc.part.DemoHeaderTitleAndroidController;
 import org.dimensinfin.android.mvc.part.DemoItemAndroidController;
 import org.dimensinfin.core.datasource.AbstractGenerator;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
+
+//import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
+//import org.dimensinfin.android.mvc.core.AndroidController;
+//import org.dimensinfin.android.mvc.factory.ControllerFactory;
+//import org.dimensinfin.android.mvc.datasource.MVCDataSource;
+//import org.dimensinfin.android.mvc.demo.R;
+//import org.dimensinfin.android.mvc.interfaces.IAndroidController;
+//import org.dimensinfin.android.mvc.interfaces.IDataSource;
+//import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+//import org.dimensinfin.android.mvc.model.DemoContainer;
+//import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
+//import org.dimensinfin.android.mvc.model.DemoItem;
+//import org.dimensinfin.android.mvc.model.DemoLabel;
+//import org.dimensinfin.android.mvc.part.DemoContainerAndroidController;
+//import org.dimensinfin.android.mvc.part.DemoHeaderTitleAndroidController;
+//import org.dimensinfin.android.mvc.part.DemoItemAndroidController;
+//import org.dimensinfin.core.datasource.AbstractGenerator;
+//import org.dimensinfin.core.datasource.DataSourceLocator;
+//import org.dimensinfin.core.interfaces.ICollaboration;
+//import org.dimensinfin.core.interfaces.IModelGenerator;
+//import org.dimensinfin.core.model.RootNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -218,6 +237,10 @@ final class DemoControllerFactory extends ControllerFactory implements IControll
 		logger.info("-- [DemoControllerFactory.createPart]> Node class: " + node.getClass().getSimpleName());
 		if (node instanceof DemoHeaderTitle) {
 			// These shows the selected Separator but with another rendering.
+			pr = DemoHeaderTitleAndroidController<DemoHeaderTitle, DemoHeaderTitleRender >.b
+
+
+
 			prt= AndroidController.<DemoHeaderTitle>builder().model((DemoHeaderTitle) node).build();
 
 
