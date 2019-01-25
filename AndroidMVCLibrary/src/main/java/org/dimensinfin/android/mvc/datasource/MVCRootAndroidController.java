@@ -9,8 +9,8 @@
 package org.dimensinfin.android.mvc.datasource;
 
 import org.dimensinfin.android.mvc.core.AndroidController;
+import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
-import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.android.mvc.interfaces.IRootPart;
 
 /**
@@ -24,7 +24,7 @@ public class MVCRootAndroidController<T> extends AndroidController<T> implements
 	private IDataSource ds;
 
 	// - C O N S T R U C T O R - S E C T I O N
-//	public MVCRootAndroidController(final RootNode node, final IPartFactory factory) {
+//	public MVCRootAndroidController(final RootNode node, final IControllerFactory factory) {
 //		super(node, factory);
 //	}
 
@@ -40,7 +40,7 @@ public class MVCRootAndroidController<T> extends AndroidController<T> implements
 	}
 
 	// - M E T H O D - S E C T I O N
-	public IPartFactory getPartFactory() {
+	public IControllerFactory getPartFactory() {
 		return this.ds.getPartFactory();
 	}
 

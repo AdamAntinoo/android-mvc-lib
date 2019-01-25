@@ -8,20 +8,13 @@
 //               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.interfaces;
 
-import java.util.List;
+import org.dimensinfin.core.interfaces.ICollaboration;
 
-public interface IAndroidController<T> /*extends PropertyChangeListener*/ {
-	List<IAndroidController> getChildren();
+public interface IControllerFactory {
+	 IAndroidController createController(ICollaboration model);
 
-	T getModel();
+	 String getVariant();
 
-	IControllerFactory getControllerFactory();
-
-	IAndroidController setRenderMode(final String renderMode);
-
-	void refreshChildren();
-
-	long getModelId();
+//	void setRootPart(IRootPart partRoot);
+//	IRootPart getRootPart();
 }
-
-// - UNUSED CODE ............................................................................................

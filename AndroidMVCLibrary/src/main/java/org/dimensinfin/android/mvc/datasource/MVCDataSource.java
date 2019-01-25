@@ -24,10 +24,7 @@ import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractAndroidController;
 import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.interfaces.IAndroidAndroidController;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
-import org.dimensinfin.android.mvc.interfaces.IPartFactory;
-import org.dimensinfin.android.mvc.interfaces.IRootPart;
+import org.dimensinfin.android.mvc.interfaces.*;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
@@ -75,7 +72,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	 * children parts from the model nodes. This is a mandatory field that should be available at the creation because the
 	 * DS cannot work without a AndroidController Factory.
 	 */
-	private IPartFactory partFactory = null;
+	private IControllerFactory partFactory = null;
 	/**
 	 * Flag to indicate if the model contents generated can be cached and we can avoid running the <code>collaborate2Model
 	 * ()</code> method on every fragment instantiation. If the model is suitable for caching we can speed up the turn of
@@ -107,7 +104,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	protected int refreshTime = -1;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public MVCDataSource(final DataSourceLocator locator, final String variant, final IPartFactory factory, final Bundle extras) {
+	public MVCDataSource(final DataSourceLocator locator, final String variant, final IControllerFactory factory, final Bundle extras) {
 		super();
 		this._locator = locator;
 		this._variant = variant;
@@ -123,7 +120,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	}
 
 	// - I D A T A S O U R C E   I N T E R F A C E
-	public IPartFactory getPartFactory() {
+	public IControllerFactory getPartFactory() {
 		return this.partFactory;
 	}
 
@@ -250,7 +247,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 		return this._dataModelRoot;
 	}
 
-//	public IPartFactory getFactory() {
+//	public IControllerFactory getFactory() {
 //		return this.partFactory;
 //	}
 //
@@ -267,7 +264,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 
 	/**
 	 * After the model is created we have to transform it into the AndroidController list expected by the DataSourceAdapter. The AndroidController
-	 * creation is performed by the corresponding PartFactory we got at the DataSource creation.
+	 * creation is performed by the corresponding ControllerFactory we got at the DataSource creation.
 	 * <p>
 	 * We transform the model recursively and keeping the already available AndroidController elements. We create a duplicated of the
 	 * resulting AndroidController model and we move already available parts from the current model to the new model or create new part
@@ -383,7 +380,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	}
 
 	protected void cleanLinks(final List<IAndroidAndroidController> partList) {
-		for (IAndroidAndroidController part : partList) {
+		for (IAndroidController part : partList) {
 			if (part.getModel() instanceof AbstractPropertyChanger)
 				((AbstractPropertyChanger) part.getModel()).removePropertyChangeListener(part);
 		}

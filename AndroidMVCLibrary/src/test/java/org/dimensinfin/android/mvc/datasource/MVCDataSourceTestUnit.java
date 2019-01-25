@@ -36,7 +36,7 @@ public class MVCDataSourceTestUnit {
 //		final DataSourceLocator locator = new DataSourceLocator()
 //				.addIdentifier(variant)
 //				.addIdentifier("TEST");
-////		IDataSource dstest = new DemoDataSource(locator, variant, new PartFactory(variant), null)
+////		IDataSource dstest = new DemoDataSource(locator, variant, new ControllerFactory(variant), null)
 ////				.setCacheable(true);
 ////		Assert.assertNotNull("-> Validating the DataSource is not empty...", dstest);
 ////		Assert.assertEquals("-> Checking the loaded fields [variant]..."
@@ -50,7 +50,7 @@ public class MVCDataSourceTestUnit {
 
 //	public static class DemoDataSource extends MVCDataSource {
 //
-//		public DemoDataSource( final DataSourceLocator locator, final String variant, final IPartFactory factory, final Bundle
+//		public DemoDataSource( final DataSourceLocator locator, final String variant, final IControllerFactory factory, final Bundle
 //				extras ) {
 //			super(locator, variant, factory, extras);
 //		}

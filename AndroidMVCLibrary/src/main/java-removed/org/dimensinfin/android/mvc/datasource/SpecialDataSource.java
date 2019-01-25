@@ -102,7 +102,7 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 	/**
 	 * After the model is created we have to transform it into the AndroidController list expected by the DataSourceAdapter.
 	 * <br>
-	 * The AndroidController creation is performed by the corresponding PartFactory we got at the DataSource creation.<br>
+	 * The AndroidController creation is performed by the corresponding ControllerFactory we got at the DataSource creation.<br>
 	 * We transform the model recursively and keeping the already available AndroidController elements. We create a
 	 * duplicated of the resulting AndroidController model and we move already parts from the current model to the new model
 	 * or create new part and finally remove what is left and unused.

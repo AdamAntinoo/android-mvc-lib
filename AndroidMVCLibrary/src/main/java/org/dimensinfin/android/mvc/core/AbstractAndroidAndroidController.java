@@ -29,7 +29,7 @@ import java.util.List;
  * report tehm to the Adapter.
  * @author Adam Antinoo
  */
-public abstract class AbstractAndroidAndroidController extends AbstractAndroidController implements IAndroidAndroidController {
+public abstract class AbstractAndroidAndroidController extends AbstractAndroidController implements IAndroidController {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = 7467855028114565679L;
 	//	protected static Logger logger = LoggerFactory.getLogger("AbstractAndroidAndroidController");
@@ -137,7 +137,7 @@ public abstract class AbstractAndroidAndroidController extends AbstractAndroidCo
 			AbstractAndroidController.logger.info("-- [AbstractAndroidController.collaborate2View]> Collaborator children: " + ch.size());
 			// --- End of policies
 			for (IAndroidController part : ch) {
-				if (part instanceof IAndroidAndroidController)
+				if (part instanceof IAndroidController)
 					((IAndroidAndroidController) part).collaborate2View(contentCollector);
 			}
 		} else {

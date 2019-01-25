@@ -12,12 +12,12 @@ import android.os.Bundle;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.AndroidController;
-import org.dimensinfin.android.mvc.core.PartFactory;
+import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
-import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.model.DemoContainer;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 import org.dimensinfin.android.mvc.model.DemoItem;
@@ -52,8 +52,8 @@ public class AndroidMVCDemoFragment extends AbstractPagerFragment {
 	}
 
 	@Override
-	public IPartFactory createFactory() {
-		return new DemoPartFactory(this.getVariant());
+	public IControllerFactory createFactory() {
+		return new DemoControllerFactory(this.getVariant());
 	}
 
 	/**
@@ -121,7 +121,7 @@ final class DemoDataSource extends MVCDataSource implements IDataSource {
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public DemoDataSource(DataSourceLocator locator, String variant, IPartFactory factory, Bundle extras) {
+	public DemoDataSource(DataSourceLocator locator, String variant, IControllerFactory factory, Bundle extras) {
 		super(locator, variant, factory, extras);
 	}
 
@@ -203,8 +203,8 @@ final class DemoDataSource extends MVCDataSource implements IDataSource {
 }
 
 // - CLASS IMPLEMENTATION ...................................................................................
-final class DemoPartFactory extends PartFactory implements IPartFactory {
-	public DemoPartFactory(final String variantSelected) {
+final class DemoControllerFactory extends ControllerFactory implements IControllerFactory {
+	public DemoControllerFactory(final String variantSelected) {
 		super(variantSelected);
 	}
 
@@ -214,8 +214,8 @@ final class DemoPartFactory extends PartFactory implements IPartFactory {
 	 * The method should create the matching part for the model received. We can use the variant to change at creation
 	 * time the matching part or to replace parts when required.
 	 */
-	public IAndroidController createPart(final ICollaboration node) {
-		logger.info("-- [DemoPartFactory.createPart]> Node class: " + node.getClass().getSimpleName());
+	public IAndroidController createController(final ICollaboration node) {
+		logger.info("-- [DemoControllerFactory.createPart]> Node class: " + node.getClass().getSimpleName());
 		if (node instanceof DemoHeaderTitle) {
 			// These shows the selected Separator but with another rendering.
 			prt= AndroidController.<DemoHeaderTitle>builder().model((DemoHeaderTitle) node).build();

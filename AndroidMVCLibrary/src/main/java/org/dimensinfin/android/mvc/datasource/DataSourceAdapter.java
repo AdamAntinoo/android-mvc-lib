@@ -26,6 +26,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.interfaces.IAndroidAndroidController;
+import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,7 +95,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 		return _context;
 	}
 
-	public IAndroidAndroidController getCastedItem(final int position ) {
+	public IAndroidController getCastedItem(final int position ) {
 		return _contentPartList.get(position);
 	}
 
@@ -140,7 +141,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 		String exitMessage = "";
 		try {
 			// If the request is new we are sure this has to be created.
-			IAndroidAndroidController item = this.getCastedItem(position);
+			IAndroidController item = this.getCastedItem(position);
 			if ( null == convertView ) {
 				exitMessage = "-- [DataSourceAdapter.getView]> Getting view [" + position + "] - " + item.getClass().getSimpleName();
 				AbstractRender holder = item.getRenderer(_context);

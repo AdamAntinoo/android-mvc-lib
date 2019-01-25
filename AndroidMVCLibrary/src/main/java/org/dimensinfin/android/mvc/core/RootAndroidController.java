@@ -23,7 +23,7 @@ public class RootAndroidController extends AbstractAndroidController implements 
 	// - F I E L D - S E C T I O N
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public RootAndroidController(final RootNode node, final IPartFactory factory ) {
+	public RootAndroidController(final RootNode node, final IControllerFactory factory ) {
 		super(node, factory);
 	}
 
@@ -68,8 +68,8 @@ public class RootAndroidController extends AbstractAndroidController implements 
 		AbstractAndroidController.logger.info("-- [AbstractAndroidController.collaborate2View]> Collaborator children: {}", ch.size());
 		// --- End of policies
 		for (IAndroidController part : ch) {
-			if (part instanceof IAndroidAndroidController)
-				((IAndroidAndroidController) part).collaborate2View(contentCollector);
+			if (part instanceof IAndroidController)
+				((IAndroidController) part).collaborate2View(contentCollector);
 		}
 	}
 

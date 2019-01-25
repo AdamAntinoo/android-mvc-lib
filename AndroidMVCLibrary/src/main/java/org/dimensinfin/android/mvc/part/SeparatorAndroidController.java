@@ -1,14 +1,11 @@
 //  PROJECT:     Android.MVC (A.MVC)
 //  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
-//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
+//  COPYRIGHT:   (c) 2013-2019 by Dimensinfin Industries, all rights reserved.
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
 //               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
 //               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
 //               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
-//               The new implementation performs the model to list transformation on the fly each time
-//               a model change is detected so the population of the displayed view should be done in
-//               real time while processing the model sources. This should allow for search and filtering.
 package org.dimensinfin.android.mvc.part;
 
 import android.app.Activity;
@@ -16,52 +13,49 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import lombok.Builder;
 import org.dimensinfin.android.mvc.R;
+import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
 import org.dimensinfin.android.mvc.core.AbstractRender;
+import org.dimensinfin.android.mvc.core.AndroidController;
 import org.dimensinfin.android.mvc.interfaces.IAndroidAndroidController;
+import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator;
+import org.joda.time.Instant;
 
 import java.util.GregorianCalendar;
-
-// - CLASS IMPLEMENTATION ...................................................................................
-public class SeparatorAndroidController extends AbstractAndroidAndroidController {
-	// - S T A T I C - S E C T I O N ..........................................................................
+@Builder
+public class SeparatorAndroidController extends AAndroidController<Separator,SeparatorRender> {
 	private static final long serialVersionUID = -7108273035439243825L;
 
-	// - F I E L D - S E C T I O N ............................................................................
+	// - F I E L D - S E C T I O N
+	// - C O N S T R U C T O R - S E C T I O N
+	// - M E T H O D - S E C T I O N
+//	public Separator getCastedModel () {
+//		return (Separator) this.getModel();
+//	}
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public SeparatorAndroidController(final Separator node ) {
-		super(node);
-	}
-
-	// - M E T H O D - S E C T I O N ..........................................................................
-	public Separator getCastedModel () {
-		return (Separator) this.getModel();
-	}
-
-	@Override
+	/**
+	 * This method is required by the Adapter to get a unique identifier for each node to be render on a Viewer.
+	 * @return a unique number identifier.
+	 */
 	public long getModelId () {
-		return GregorianCalendar.getInstance().getTimeInMillis();
+		return Instant.now().getMillis();
 	}
 
 	public String getTitle () {
-		return this.getCastedModel().getTitle();
+		return this.getModel().getTitle();
 	}
 
 	@Override
 	public String toString () {
 		StringBuffer buffer = new StringBuffer("SeparatorAndroidController [");
-		buffer.append(getCastedModel().toString()).append(" ");
+		buffer.append(getModel().toString()).append(" ");
 		buffer.append("]");
 		return buffer.toString();
 	}
 
-	public IAndroidAndroidController setRenderMode (final String renderMode ) {
-		this.renderMode = renderMode;
-		return this;
-	}
 
 	@Override
 	public AbstractRender selectRenderer () {

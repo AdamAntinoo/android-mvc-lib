@@ -13,10 +13,10 @@ package org.dimensinfin.android.mvc.datasource;
 
 import android.os.Bundle;
 
+import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.android.mvc.model.PanelException;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 
@@ -35,7 +35,7 @@ public class ExceptionDataSource extends MVCDataSource {
 	private Exception interceptedException = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public ExceptionDataSource( final DataSourceLocator locator, final String variant, final IPartFactory factory, final Bundle extras ) {
+	public ExceptionDataSource(final DataSourceLocator locator, final String variant, final IControllerFactory factory, final Bundle extras ) {
 		super(locator, variant, factory, extras);
 	}
 

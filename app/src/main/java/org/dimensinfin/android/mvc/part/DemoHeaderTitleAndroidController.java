@@ -91,7 +91,7 @@ public Activity getActivity(){
 	}
 
 //	public static class Builder<DemoHeaderTitle> extends AndroidController.Builder<Builder<DemoHeaderTitle>> {
-//		//		public Builder<DemoHeaderTitle>(final DemoHeaderTitle model, final IPartFactory factory) {
+//		//		public Builder<DemoHeaderTitle>(final DemoHeaderTitle model, final IControllerFactory factory) {
 ////			super(model, factory);
 ////		}
 //		@Override

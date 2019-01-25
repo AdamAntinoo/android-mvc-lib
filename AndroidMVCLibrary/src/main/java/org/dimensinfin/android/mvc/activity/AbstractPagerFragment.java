@@ -68,7 +68,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 */
 	private Activity _appContext;
 	/** Factory that will generate the specific <b>Parts</b> for this Fragment/Activity/Application. */
-	private IPartFactory _factory = null;
+	private IControllerFactory _factory = null;
 	/** This flag will help to detect when the creation process fails because of a rutime problem. */
 //	private boolean _properlyInitialized = true;
 	/** List of model elements that should be converted to views and inserted on the Header ui container. */
@@ -183,11 +183,11 @@ public abstract class AbstractPagerFragment extends Fragment {
 	}
 
 	/**
-	 * Returns the <b>PartFactory</b> associated with this Fragment instance. If the factory is still undefined then the
+	 * Returns the <b>ControllerFactory</b> associated with this Fragment instance. If the factory is still undefined then the
 	 * method calls the creation method to get a fresh instance.
 	 * @return
 	 */
-	public IPartFactory getFactory() {
+	public IControllerFactory getFactory() {
 		// Check if we have already a factory.
 		if (null == _factory) {
 			_factory = this.createFactory();
@@ -197,10 +197,10 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 	// - ABSTRACT METHODS TO BE IMPLEMENTED BY APP
 	/**
-	 * This method should be implemented by all the application Fragments to set the <b>PartFactory</b> that will be used
+	 * This method should be implemented by all the application Fragments to set the <b>ControllerFactory</b> that will be used
 	 * during the model transformation processing to generate the <b>Parts</b> of the model to be used on this Fragment.
 	 */
-	public abstract IPartFactory createFactory();
+	public abstract IControllerFactory createFactory();
 
 	/**
 	 * Gets the text to set set at the subtitle slot on the <b>ActionBar</b>. This should be implemented by each new
@@ -404,7 +404,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 			getAppContext().runOnUiThread(() -> {
 				_headerContainer.removeAllViews();
 				for (IAndroidController part : headerParts) {
-					if (part instanceof IAndroidAndroidController) addView2Header((IAndroidAndroidController) part);
+					if (part instanceof IAndroidController) addView2Header((IAndroidAndroidController) part);
 				}
 			});
 		} catch (RuntimeException rtex) {
@@ -418,7 +418,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * inserted on the ui ViewGroup container.
 	 * @param target the AndroidController to render to a View.
 	 */
-	private void addView2Header( final IAndroidAndroidController target ) {
+	private void addView2Header( final IAndroidController target ) {
 		logger.info(">> [AbstractPagerFragment.addView2Header]");
 		try {
 			final IRender holder = target.getRenderer(this.getAppContext());
@@ -485,7 +485,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 	//- CLASS IMPLEMENTATION ...................................................................................
 	public static class EmptyDataSource extends MVCDataSource {
-		public EmptyDataSource( DataSourceLocator locator, String variant, IPartFactory factory, Bundle extras ) {
+		public EmptyDataSource(DataSourceLocator locator, String variant, IControllerFactory factory, Bundle extras ) {
 			super(locator, variant, factory, extras);
 		}
 

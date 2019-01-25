@@ -14,7 +14,7 @@ package org.dimensinfin.android.mvc.core;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IEventProjector;
-import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public abstract class AbstractAndroidController /*extends AbstractPropertyChange
 	// - F I E L D - S E C T I O N
 	//	/** Stores the user activation state. Usually becomes true when the users is interacting with the part. */
 	//	private boolean active = true;
-//	private IPartFactory _factory = null; // This field caches the factory once the hierarchy is run and the factory searched.
+//	private IControllerFactory _factory = null; // This field caches the factory once the hierarchy is run and the factory searched.
 	private IDataSource _dataSource = null;
 	protected String renderMode = "-DEFAULT-";
 	//	protected boolean newImplementation = false;
@@ -111,7 +111,7 @@ public abstract class AbstractAndroidController /*extends AbstractPropertyChange
 //	 * allow any part at any hierarchy level to run on the hierarchy to reach a root node and get the factory from that
 //	 * node.
 //	 */
-//	public IPartFactory getPartFactory() {
+//	public IControllerFactory getPartFactory() {
 //		if (null == _factory) {
 //			// Search for the factory at the root.
 //			this._factory = this.getRootPart().getPartFactory();
@@ -212,7 +212,7 @@ public abstract class AbstractAndroidController /*extends AbstractPropertyChange
 //		return this;
 //	}
 
-//	public IAndroidController setFactory(final IPartFactory partFactory) {
+//	public IAndroidController setFactory(final IControllerFactory partFactory) {
 //		_factory = partFactory;
 //		return this;
 //	}
@@ -242,7 +242,7 @@ public abstract class AbstractAndroidController /*extends AbstractPropertyChange
 //	 * element and all the other parts should have a reference to the root to be able to do the same.
 //	 */
 //	protected IAndroidController createChild( final ICollaboration model ) {
-//		IPartFactory factory = this.getRoot().getPartFactory();
+//		IControllerFactory factory = this.getRoot().getPartFactory();
 //		IAndroidController part = factory.createPart(model);
 //		// If the factory is unable to create the AndroidController then skip this element or wait to be replaced by a dummy
 //		if (null != part) {
@@ -294,7 +294,7 @@ public abstract class AbstractAndroidController /*extends AbstractPropertyChange
 	 */
 	public IAndroidController createNewPart(final ICollaboration model) {
 		IAndroidController part = null;
-		IPartFactory factory = this.getRoot().getPartFactory();
+		IControllerFactory factory = this.getRoot().getPartFactory();
 		if (null != factory) {
 			// If the factory is unable to create the AndroidController then skip this element or wait to be replaced by a dummy
 			part = factory.createPart(model);

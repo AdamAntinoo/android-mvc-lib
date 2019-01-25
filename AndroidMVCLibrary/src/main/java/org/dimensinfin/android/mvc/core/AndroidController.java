@@ -12,7 +12,7 @@ import lombok.Builder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
-import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ import java.util.Vector;
  * @author Adam Antinoo
  */
 @Builder
-public class AndroidController<T extends ICollaboration> implements IAndroidController<T> {
+public abstract class AndroidController<T extends ICollaboration> implements IAndroidController<T> {
 	public static Logger logger = LoggerFactory.getLogger(AndroidController.class);
 
 	// - F I E L D - S E C T I O N
@@ -40,9 +40,9 @@ public class AndroidController<T extends ICollaboration> implements IAndroidCont
 //	private IRootPart root;
 	/** Reference to the Model node. */
 	/** This field caches the factory that is set during the construction. */
-	private IPartFactory factory = null;
+	private IControllerFactory factory = null;
 	private T model; // Holds the model node
-//	private IPartFactory factory = null; // This field caches the factory once the hierarchy is run and the factory searched.
+//	private IControllerFactory factory = null; // This field caches the factory once the hierarchy is run and the factory searched.
 
 	// - C O N S T R U C T O R - S E C T I O N
 //	public AndroidController( final T model) {
@@ -69,7 +69,7 @@ public class AndroidController<T extends ICollaboration> implements IAndroidCont
 	 * The factory is set on all the Parts during the creation time by the factory itself. This allows to construct any
 	 * Model supported by the factory from any AndroidController created by that Factory.
 	 */
-	public IPartFactory getPartFactory() {
+	public IControllerFactory getPartFactory() {
 		return this.factory;
 	}
 
@@ -111,15 +111,15 @@ public class AndroidController<T extends ICollaboration> implements IAndroidCont
 	 * the already available parts to be able to reuse one of them. So once we have a model item we search on the list of
 	 * available parts for one of them containing a model being that same instance. If found we reuse the AndroidController. Otherwise
 	 * we create a new AndroidController for this model node and continue the transformation process.
-	 * <p>
+	 *
 	 * It is a recursive process that it is repeated for each one of the nodes added to the already processing structure
 	 * while the nodes have any number of children.
-	 * <p>
+	 *
 	 * The process gets the Model attached to the AndroidController we are working with. Then finds the Model children to reconstruct
 	 * their parts if they do not have them already and match them to the current list of Parts already connected to the
 	 * AndroidController in the work bench. Any discrepancies create or delete the required Parts. Then we start again this process
 	 * with the first of the children until all the model nodes have been processed.
-	 * <p>
+	 *
 	 * During the transformation process we use the <code>collaborate2Model(final String variant)</code> to generate a
 	 * fresh list of nodes from the model instance. We use the <b>Variant</b> to allow the model to generate different
 	 * sets of new model instances depending on that parameter. The flexibility of this approach allows a single model
@@ -185,7 +185,7 @@ public class AndroidController<T extends ICollaboration> implements IAndroidCont
 //	 */
 //	public IAndroidController createNewPart(final ICollaboration model) {
 //		IAndroidController part = null;
-//		IPartFactory factory = this.getRootPart().getPartFactory();
+//		IControllerFactory factory = this.getRootPart().getPartFactory();
 //		if (null != factory) {
 //			// If the factory is unable to create the AndroidController then skip this element or wait to be replaced by a dummy
 //			part = factory.createPart(model);
@@ -236,11 +236,11 @@ public class AndroidController<T extends ICollaboration> implements IAndroidCont
 //	public static class Builder<T extends ICollaboration> {
 //		// Required parameters
 //		private T model;
-//		private IPartFactory factory;
+//		private IControllerFactory factory;
 ////		private IRootPart root;
 ////		private IAndroidController parent;
 //
-//		public Builder(final T model, final IPartFactory factory) {
+//		public Builder(final T model, final IControllerFactory factory) {
 //			this.model = model;
 //			this.factory = factory;
 //		}
@@ -250,7 +250,7 @@ public class AndroidController<T extends ICollaboration> implements IAndroidCont
 //			return this;
 //		}
 //
-//		public AndroidController.Builder withFactory(final IPartFactory factory) {
+//		public AndroidController.Builder withFactory(final IControllerFactory factory) {
 //			this.factory = factory;
 //			return this;
 //		}
@@ -279,7 +279,7 @@ public class AndroidController<T extends ICollaboration> implements IAndroidCont
 //	 * store the model at the same time.
 //	 * @param model the Data model linked to this part.
 //	 */
-//	public AbstractAndroidController(final RootNode model, final IPartFactory factory) {
+//	public AbstractAndroidController(final RootNode model, final IControllerFactory factory) {
 //		this(model);
 //		//		this.model = model;
 //		factory = factory;
