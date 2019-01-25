@@ -68,6 +68,8 @@ dependencies {
     implementation 'org.slf4j:slf4j-android:1.7.25'
     implementation 'joda-time:joda-time:2.3'
     implementation 'org.apache.commons:commons-lang3:3.7'
+    compileOnly 'org.projectlombok:lombok:1.18.4'
+    annotationProcessor 'org.projectlombok:lombok:1.18.4'
 
     // T E S T I N G
 //    testImplementation 'org.slf4j:slf4j-android:1.7.25'

@@ -3,9 +3,9 @@
 //  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchical Part model that finally will
-//               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
+//               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
+//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 //               The new implementation performs the model to list transformation on the fly each time
 //               a model change is detected so the population of the displayed view should be done in
 //               real time while processing the model sources. This should allow for search and filtering.
@@ -25,7 +25,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
+import org.dimensinfin.android.mvc.interfaces.IAndroidAndroidController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +33,6 @@ import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.core.util.Chrono;
 
@@ -58,7 +57,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	/** An instance for a source of data that will provide the list of <b>Parts</b> to be used to construct the Views. */
 	private IDataSource _datasource = null;
 	/** The current list of Parts that is being displayed. */
-	private final List<IAndroidPart> _contentPartList = new ArrayList<IAndroidPart>();
+	private final List<IAndroidAndroidController> _contentPartList = new ArrayList<IAndroidAndroidController>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
@@ -95,7 +94,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 		return _context;
 	}
 
-	public IAndroidPart getCastedItem( final int position ) {
+	public IAndroidAndroidController getCastedItem(final int position ) {
 		return _contentPartList.get(position);
 	}
 
@@ -141,7 +140,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 		String exitMessage = "";
 		try {
 			// If the request is new we are sure this has to be created.
-			IAndroidPart item = this.getCastedItem(position);
+			IAndroidAndroidController item = this.getCastedItem(position);
 			if ( null == convertView ) {
 				exitMessage = "-- [DataSourceAdapter.getView]> Getting view [" + position + "] - " + item.getClass().getSimpleName();
 				AbstractRender holder = item.getRenderer(_context);
@@ -149,7 +148,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 				convertView = holder.getView();
 				convertView.setTag(item);
 				holder.updateContent();
-				// Store view on the Part.
+				// Store view on the AndroidController.
 				if ( SystemWideConstants.ENABLECACHE ) {
 					item.setView(convertView);
 				}
@@ -164,7 +163,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 					convertView = holder.getView();
 					convertView.setTag(item);
 					holder.updateContent();
-					// Store view on the Part.
+					// Store view on the AndroidController.
 					if ( SystemWideConstants.ENABLECACHE ) {
 						item.setView(convertView);
 					}
@@ -175,7 +174,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 							+ item.getClass().getSimpleName() + " CACHED";
 				}
 			}
-			// Activate listeners if the Part supports that feature.
+			// Activate listeners if the AndroidController supports that feature.
 			convertView.setClickable(false);
 			convertView.setLongClickable(true);
 			if ( item instanceof OnClickListener ) {
@@ -190,7 +189,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			item.addPropertyChangeListener(_datasource);
 			if ( logAllowed ) {
 				// Filter out the spinner.
-				if ( !exitMessage.contains("OnLoadSpinnerPart") )
+				if ( !exitMessage.contains("OnLoadSpinnerAndroidController") )
 					logger.info(exitMessage + " - Rendering time: " + chrono.printElapsed(Chrono.ChronoOptions.SHOWMILLIS));
 			}
 			return convertView;
@@ -258,7 +257,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 //	 * to render the model into the ListView.
 //	 * @param partData
 //	 */
-//	private void setModel (final ArrayList<AbstractAndroidPart> partData) {
+//	private void setModel (final ArrayList<AbstractAndroidAndroidController> partData) {
 //		_contentPartList.clear();
 //		_contentPartList.addAll(partData);
 //	}

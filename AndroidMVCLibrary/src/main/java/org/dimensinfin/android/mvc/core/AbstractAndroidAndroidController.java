@@ -3,9 +3,9 @@
 //  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchical Part model that finally will
-//               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
+//               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
+//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 //               The new implementation performs the model to list transformation on the fly each time
 //               a model change is detected so the population of the displayed view should be done in
 //               real time while processing the model sources. This should allow for search and filtering.
@@ -15,8 +15,8 @@ import android.app.Activity;
 import android.view.View;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
-import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
-import org.dimensinfin.android.mvc.interfaces.IPart;
+import org.dimensinfin.android.mvc.interfaces.IAndroidAndroidController;
+import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
 import java.util.List;
@@ -24,15 +24,15 @@ import java.util.List;
 // - CLASS IMPLEMENTATION ...................................................................................
 
 /**
- * Core code for any Android Part. Will have enough code to deal with the adaptation of a Part to the
+ * Core code for any Android AndroidController. Will have enough code to deal with the adaptation of a AndroidController to the
  * DataSourceAdapter needs to connect the part with the view. Has the knowledge of the Render and how to
  * report tehm to the Adapter.
  * @author Adam Antinoo
  */
-public abstract class AbstractAndroidPart extends AbstractPart implements IAndroidPart {
+public abstract class AbstractAndroidAndroidController extends AbstractAndroidController implements IAndroidAndroidController {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = 7467855028114565679L;
-	//	protected static Logger logger = LoggerFactory.getLogger("AbstractAndroidPart");
+	//	protected static Logger logger = LoggerFactory.getLogger("AbstractAndroidAndroidController");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	protected Activity _activity = null;
@@ -40,7 +40,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 	private View _view = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public AbstractAndroidPart( final ICollaboration model ) {
+	public AbstractAndroidAndroidController(final ICollaboration model ) {
 		super(model);
 	}
 
@@ -58,7 +58,7 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 		if (null != _fragment)
 			return _fragment;
 		else
-			throw new RuntimeException("Fragment object not available on access on a Part.");
+			throw new RuntimeException("Fragment object not available on access on a AndroidController.");
 	}
 
 
@@ -122,23 +122,23 @@ public abstract class AbstractAndroidPart extends AbstractPart implements IAndro
 
 	//	public abstract AbstractRender selectRenderer ();
 	// --- I P A R T   I N T E R F A C E
-	public List<IPart> runPolicies( final List<IPart> targets ) {
+	public List<IAndroidController> runPolicies(final List<IAndroidController> targets ) {
 		return targets;
 	}
 
-	public void collaborate2View( List<IAndroidPart> contentCollector ) {
-		AbstractPart.logger.info(">< [AbstractPart.collaborate2View]> Collaborator: {}", this.getClass().getSimpleName());
-		//		ArrayList<IPart> result = new ArrayList<IPart>();
+	public void collaborate2View( List<IAndroidAndroidController> contentCollector ) {
+		AbstractAndroidController.logger.info(">< [AbstractAndroidController.collaborate2View]> Collaborator: {}", this.getClass().getSimpleName());
+		//		ArrayList<IAndroidController> result = new ArrayList<IAndroidController>();
 		// If the node is expanded then give the children the opportunity to also be added.
 		if (this.isExpanded()) {
 			contentCollector.add(this);
-			// ---This is the section that is different for any Part. This should be done calling the list of policies.
-			List<IPart> ch = this.runPolicies(this.getChildren());
-			AbstractPart.logger.info("-- [AbstractPart.collaborate2View]> Collaborator children: " + ch.size());
+			// ---This is the section that is different for any AndroidController. This should be done calling the list of policies.
+			List<IAndroidController> ch = this.runPolicies(this.getChildren());
+			AbstractAndroidController.logger.info("-- [AbstractAndroidController.collaborate2View]> Collaborator children: " + ch.size());
 			// --- End of policies
-			for (IPart part : ch) {
-				if (part instanceof IAndroidPart)
-					((IAndroidPart) part).collaborate2View(contentCollector);
+			for (IAndroidController part : ch) {
+				if (part instanceof IAndroidAndroidController)
+					((IAndroidAndroidController) part).collaborate2View(contentCollector);
 			}
 		} else {
 			// Check for items that will not shown when empty and not expanded.

@@ -3,8 +3,8 @@
 //	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
 //	ENVIRONMENT:		Android API22.
 //	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
-//									on Android projects. Defines the Part factory and the Part core methods to manage
-//									a generic data graph into a Part hierarchy and finally on the Android View to be
+//									on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
+//									a generic data graph into a AndroidController hierarchy and finally on the Android View to be
 //                  used on ListViews.
 package org.dimensinfin.android.mvc.interfaces;
 
@@ -18,10 +18,10 @@ import java.util.List;
 
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public interface IAndroidPart extends IPart {
+public interface IAndroidAndroidController extends IAndroidController {
 	public void addPropertyChangeListener( final PropertyChangeListener newListener );
 
-	public void collaborate2View( List<IAndroidPart> contentCollector );
+	public void collaborate2View( List<IAndroidAndroidController> contentCollector );
 
 	public Activity getActivity();
 

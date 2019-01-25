@@ -3,7 +3,7 @@
 //	COPYRIGHT:      (c) 2013-2016 by Dimensinfin Industries, all rights reserved.
 //	ENVIRONMENT:		Android API16.
 //	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
-//									on Android projects. Defines the Part factory and the Part core methods to manage
+//									on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
 //									the extended GEF model into the Android View to be used on ListViews.
 package org.dimensinfin.android.mvc.connector;
 

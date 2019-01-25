@@ -3,9 +3,9 @@
 //  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchical Part model that finally will
-//               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
+//               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
+//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 //               The new implementation performs the model to list transformation on the fly each time
 //               a model change is detected so the population of the displayed view should be done in
 //               real time while processing the model sources. This should allow for search and filtering.
@@ -21,11 +21,10 @@ import android.widget.TextView;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractPart;
+import org.dimensinfin.android.mvc.core.AbstractAndroidController;
+import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.core.RootPart;
-import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
+import org.dimensinfin.android.mvc.interfaces.IAndroidAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.android.mvc.interfaces.IRootPart;
@@ -72,9 +71,9 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	 */
 	private String _variant = "-DEFAULT-VARIANT-";
 	/**
-	 * Factory to be used on the Part hierarchy generation. Each Part has a connection to this factory to create its
+	 * Factory to be used on the AndroidController hierarchy generation. Each AndroidController has a connection to this factory to create its
 	 * children parts from the model nodes. This is a mandatory field that should be available at the creation because the
-	 * DS cannot work without a Part Factory.
+	 * DS cannot work without a AndroidController Factory.
 	 */
 	private IPartFactory partFactory = null;
 	/**
@@ -92,17 +91,17 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	 */
 	private final RootNode _dataModelRoot = new RootNode();
 	/**
-	 * The root node for the Part hierarchy that matches the data model hierarchy. YTHis is a special implementation of a
-	 * Part. Cannot be changed but has to define methods to customize its behavior to any need that suits the developer.
+	 * The root node for the AndroidController hierarchy that matches the data model hierarchy. YTHis is a special implementation of a
+	 * AndroidController. Cannot be changed but has to define methods to customize its behavior to any need that suits the developer.
 	 * For example sorting and filtering can me changed by adding policies to this instance.
 	 */
-	private IRootPart _partModelRoot = new MVCRootPart(this._dataModelRoot, this.getDataSource());
+	private IRootPart _partModelRoot = new MVCRootAndroidController(this._dataModelRoot, this.getDataSource());
 	/**
 	 * The list of Parts to show on the viewer. This is the body section that is scrollable. This instance is shared
 	 * during the <code>collaboration2View()</code> phase to use less memory and avoid copying references from list to
 	 * list during the generation process.
 	 */
-	private final List<IAndroidPart> _dataSectionParts = new ArrayList<>(100);
+	private final List<IAndroidAndroidController> _dataSectionParts = new ArrayList<>(100);
 	/** Flag used to do not launch more update events when there is one pending. */
 	private boolean _pending = false;
 	protected int refreshTime = -1;
@@ -152,7 +151,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 		//		cleanLinks(_dataSectionParts);
 		_dataSectionParts.clear();
 		// And add back the initial spinner.
-		_dataSectionParts.add(new OnLoadSpinnerPart(new Separator()));
+		_dataSectionParts.add(new OnLoadSpinnerAndroidController(new Separator()));
 	}
 
 	/**
@@ -231,7 +230,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 		return this;
 	}
 
-	public List<IAndroidPart> getDataSectionContents() {
+	public List<IAndroidAndroidController> getDataSectionContents() {
 		return _dataSectionParts;
 	}
 
@@ -244,7 +243,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 //	 * @return a new instance of a <code>IRootPart</code> interface to be used as the root for the part hierarchy.
 //	 */
 //	public IRootPart createRootPart() {
-//		return new RootPart(_dataModelRoot, partFactory);
+//		return new RootAndroidController(_dataModelRoot, partFactory);
 //	}
 
 	public RootNode getRootModel() {
@@ -256,28 +255,28 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 //	}
 //
 	/**
-	 * Add an spinner at the first position on the Part list to signal that we are doing some processing. If the datasource
+	 * Add an spinner at the first position on the AndroidController list to signal that we are doing some processing. If the datasource
 	 * is cached it should not have any effect since the model is already generated and we should not have to wait for
 	 * it.
 	 */
 	public void startOnLoadProcess() {
 		if (!isCached()) {
-			_dataSectionParts.add(new OnLoadSpinnerPart(new Separator()));
+			_dataSectionParts.add(new OnLoadSpinnerAndroidController(new Separator()));
 		}
 	}
 
 	/**
-	 * After the model is created we have to transform it into the Part list expected by the DataSourceAdapter. The Part
+	 * After the model is created we have to transform it into the AndroidController list expected by the DataSourceAdapter. The AndroidController
 	 * creation is performed by the corresponding PartFactory we got at the DataSource creation.
 	 * <p>
-	 * We transform the model recursively and keeping the already available Part elements. We create a duplicated of the
-	 * resulting Part model and we move already available parts from the current model to the new model or create new part
+	 * We transform the model recursively and keeping the already available AndroidController elements. We create a duplicated of the
+	 * resulting AndroidController model and we move already available parts from the current model to the new model or create new part
 	 * and finally remove what is left and unused. This new implementation will use partial generation to split and speed
 	 * up this phase.
 	 */
 	private void transformModel2Parts() {
 		logger.info(">> [MVCDataSource.transformModel2Parts]");
-		// Check if we have already a Part model.
+		// Check if we have already a AndroidController model.
 		// But do not forget to associate the new Data model even if the old exists.
 //		if (null == _partModelRoot) {
 //			_partModelRoot = createRootPart();
@@ -301,25 +300,25 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	// - P R O P E R T Y C H A N G E R   I N T E R F A C E
 
 	/**
-	 * This method is called whenever there is an event from any model change or any Part interaction. There are two
+	 * This method is called whenever there is an event from any model change or any AndroidController interaction. There are two
 	 * groups of events, <b>structural</b> that change the model structure and contents and that require a full
 	 * regeneration of all the transformations and <b>content</b> that can change the list of elements to be visible at
 	 * this point in time but that do not change the initial structure. The contents can happen from changes on the model
 	 * data or by interactions on the Parts that have some graphical impact.
 	 * <p>
-	 * If the model structure changes we should recreate the Model -> Part transformation and generate another Part tree
+	 * If the model structure changes we should recreate the Model -> AndroidController transformation and generate another AndroidController tree
 	 * with Parts matching the current model graph. At this transformation we can transform any data connected structure
 	 * real or virtual to a hierarchy graph with the standard parent-child structure. We use the
 	 * <code>collaborate2Model()</code> as a way to convert internal data structures to a hierarchy representation on a
-	 * point in time. We isolate internal model ways to deal with data and we can optimize for the Part hierarchy without
+	 * point in time. We isolate internal model ways to deal with data and we can optimize for the AndroidController hierarchy without
 	 * compromising thet model flexibility.
 	 * <p>
-	 * If the contents change we only should run over the Part tree to make the transformation to generate a new Part list
+	 * If the contents change we only should run over the AndroidController tree to make the transformation to generate a new AndroidController list
 	 * for all the new visible and renderable items. This is performed with the <code>collaborate2View()</code> method for
-	 * any Part that will then decide which of its internal children are going to be referenced for the collaborating list
+	 * any AndroidController that will then decide which of its internal children are going to be referenced for the collaborating list
 	 * of Parts. This is the right place where to set up programmatic filtering or sorting because at this point we can
-	 * influence the output representation for the model instance. We can also decorate the resulting Part list breaking
-	 * the one to one relationship between a model instance and a Part instance.
+	 * influence the output representation for the model instance. We can also decorate the resulting AndroidController list breaking
+	 * the one to one relationship between a model instance and a AndroidController instance.
 	 * <p>
 	 * After the models changes we should send a message to the <code>DataSourceAdapter</code> to refresh the graphical
 	 * elements and change the display. <code>DataSource</code> instances do not have a reference to the Adapter nor to
@@ -383,8 +382,8 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 				event.getNewValue());
 	}
 
-	protected void cleanLinks(final List<IAndroidPart> partList) {
-		for (IAndroidPart part : partList) {
+	protected void cleanLinks(final List<IAndroidAndroidController> partList) {
+		for (IAndroidAndroidController part : partList) {
 			if (part.getModel() instanceof AbstractPropertyChanger)
 				((AbstractPropertyChanger) part.getModel()).removePropertyChangeListener(part);
 		}
@@ -400,9 +399,9 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	}
 
 
-	public static class OnLoadSpinnerPart extends AbstractAndroidPart {
+	public static class OnLoadSpinnerAndroidController extends AbstractAndroidAndroidController {
 
-		public OnLoadSpinnerPart(final ICollaboration model) {
+		public OnLoadSpinnerAndroidController(final ICollaboration model) {
 			super(model);
 		}
 
@@ -423,7 +422,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 
 		private Instant _elapsedTimer = null;
 
-		public OnLoadSpinnerRender(final AbstractPart newPart, final Activity context) {
+		public OnLoadSpinnerRender(final AbstractAndroidController newPart, final Activity context) {
 			super(newPart, context);
 		}
 

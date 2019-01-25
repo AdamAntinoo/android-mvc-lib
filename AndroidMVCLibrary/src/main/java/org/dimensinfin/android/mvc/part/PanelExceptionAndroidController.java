@@ -3,9 +3,9 @@
 //  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchical Part model that finally will
-//               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
+//               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
+//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 //               The new implementation performs the model to list transformation on the fly each time
 //               a model change is detected so the population of the displayed view should be done in
 //               real time while processing the model sources. This should allow for search and filtering.
@@ -14,12 +14,12 @@ package org.dimensinfin.android.mvc.part;
 import android.app.Activity;
 import android.widget.TextView;
 
+import org.dimensinfin.android.mvc.core.AbstractAndroidController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractPart;
+import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.model.PanelException;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -29,14 +29,14 @@ import org.dimensinfin.core.interfaces.ICollaboration;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class PanelExceptionPart extends AbstractAndroidPart {
+public class PanelExceptionAndroidController extends AbstractAndroidAndroidController {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("PanelExceptionPart");
+	private static Logger logger = LoggerFactory.getLogger("PanelExceptionAndroidController");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public PanelExceptionPart( final ICollaboration model ) {
+	public PanelExceptionAndroidController(final ICollaboration model ) {
 		super(model);
 	}
 
@@ -61,12 +61,12 @@ public class PanelExceptionPart extends AbstractAndroidPart {
 private TextView exceptionMessage = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public PanelExceptionRender( final AbstractPart newPart, final Activity context ) {
+		public PanelExceptionRender(final AbstractAndroidController newPart, final Activity context ) {
 			super(newPart, context);
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
-		public PanelExceptionPart getPart(){
+		public PanelExceptionAndroidController getPart(){
 			return this.getPart();
 		}
 		// --- I R E N D E R   I N T E R F A C E

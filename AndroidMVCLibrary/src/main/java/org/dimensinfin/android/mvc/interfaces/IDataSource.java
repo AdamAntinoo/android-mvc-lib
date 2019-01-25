@@ -3,9 +3,9 @@
 //  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchycal Part model that finally will
-//               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
+//               a generic converter from a Graph Model to a hierarchycal AndroidController model that finally will
+//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.interfaces;
 
 import java.beans.PropertyChangeListener;
@@ -18,33 +18,35 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public interface IDataSource extends PropertyChangeListener {
-	public String getVariant();
+	 String getVariant();
 
-	public IDataSource setVariant( final String variant );
+//	 IDataSource setVariant( final String variant );
 
-	public DataSourceLocator getDataSourceLocator();
+	 DataSourceLocator getDataSourceLocator();
 
-	public Bundle getExtras();
+	 Bundle getExtras();
 
-	public void addPropertyChangeListener( final PropertyChangeListener newListener );
+	 void addPropertyChangeListener( final PropertyChangeListener newListener );
 
-	public void cleanup();
+	 void cleanup();
 
-	public boolean isCached();
+	 boolean isCached();
 
-	public boolean isCacheable();
+	 boolean isCacheable();
 
-	public IDataSource setCacheable( final boolean cachestate );
+	 IDataSource setCacheable( final boolean cachestate );
 
-	public IDataSource addModelContents( final ICollaboration newnode );
+	 IDataSource addModelContents( final ICollaboration newnode );
 
-	public void collaborate2Model();
+	 void collaborate2Model();
 
-	public List<IAndroidPart> getDataSectionContents();
+	 List<IAndroidAndroidController> getDataSectionContents();
 
-	public IRootPart createRootPart();
+//	 IRootPart createRootPart();
 
-	public void startOnLoadProcess();
+	 void startOnLoadProcess();
+
+	IPartFactory getPartFactory();
 }
 
 // - UNUSED CODE ............................................................................................

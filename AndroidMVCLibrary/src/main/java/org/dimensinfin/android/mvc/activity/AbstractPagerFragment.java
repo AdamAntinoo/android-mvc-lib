@@ -3,9 +3,9 @@
 //  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchycal Part model that finally will
-//               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
+//               a generic converter from a Graph Model to a hierarchycal AndroidController model that finally will
+//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.activity;
 
 import android.app.Activity;
@@ -23,20 +23,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
-import org.dimensinfin.android.mvc.core.AbstractExpandablePart;
-import org.dimensinfin.android.mvc.core.AbstractPart;
-import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.core.RootPart;
+import org.dimensinfin.android.mvc.core.*;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
-import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
-import org.dimensinfin.android.mvc.interfaces.IPart;
-import org.dimensinfin.android.mvc.interfaces.IPartFactory;
-import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.android.mvc.interfaces.*;
+import org.dimensinfin.android.mvc.interfaces.IAndroidController;
+import org.dimensinfin.android.mvc.part.AbstractExpandableAndroidController;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
@@ -56,7 +49,7 @@ import java.util.concurrent.Executors;
  * @since 1.0.0
  */
 public abstract class AbstractPagerFragment extends Fragment {
-	protected static Logger logger = LoggerFactory.getLogger("AbstractPagerFragment");
+	protected static Logger logger = LoggerFactory.getLogger(AbstractPagerFragment.class);
 	public static final ExecutorService _uiExecutor = Executors.newFixedThreadPool(1);
 
 	// - F I E L D - S E C T I O N
@@ -77,7 +70,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	/** Factory that will generate the specific <b>Parts</b> for this Fragment/Activity/Application. */
 	private IPartFactory _factory = null;
 	/** This flag will help to detect when the creation process fails because of a rutime problem. */
-	private boolean _properlyInitialized = true;
+//	private boolean _properlyInitialized = true;
 	/** List of model elements that should be converted to views and inserted on the Header ui container. */
 	private List<ICollaboration> _headersource = null;
 	/**
@@ -86,7 +79,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 */
 	private IDataSource _datasource = null;
 	/**
-	 * Evolved adapter to connect the source of data in the form of a <b>Part</b> list to the <code>ListView</code> that
+	 * Evolved adapter to connect the source of data in the form of a <b>AndroidController</b> list to the <code>ListView</code> that
 	 * contains the displayed render.
 	 */
 	private DataSourceAdapter _adapter = null;
@@ -108,7 +101,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 
 	// TODO REFACTOR Set back to private after the PagerFragment is removed
-	private final Vector<IAndroidPart> _headerContents = new Vector<IAndroidPart>();
+	private final Vector<IAndroidAndroidController> _headerContents = new Vector<IAndroidAndroidController>();
 	private IModelGenerator _generator = null;
 
 
@@ -263,11 +256,13 @@ public abstract class AbstractPagerFragment extends Fragment {
 	@Override
 	public View onCreateView( final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState ) {
 		logger.info(">> [AbstractPagerFragment.onCreateView]");
-		final View theView = super.onCreateView(inflater, container, savedInstanceState);
+		// Install the default library exception interceptor to show lib exceptions.
+		Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this.getAppContext()));
+		super.onCreateView(inflater, container, savedInstanceState);
 		// TODO analyze what is returned by the savedInstanceState when recovering the application. That will help to recover the
 		// functional state of the application.
 		// Section where we get access to the UI elements.
-		try {
+//		try {
 			_container = (ViewGroup) inflater.inflate(R.layout.fragment_base, container, false);
 			_headerContainer = (ViewGroup) _container.findViewById(R.id.headerContainer);
 			_dataSectionContainer = (ListView) _container.findViewById(R.id.listContainer);
@@ -282,19 +277,19 @@ public abstract class AbstractPagerFragment extends Fragment {
 			// TODO Check if the menus can be tied to the Parts independently and not to the whole Header.
 			//			this.registerForContextMenu(_headerContainer);
 			this.registerForContextMenu(_dataSectionContainer);
-		} catch (final RuntimeException rtex) {
-			AbstractPagerFragment.logger.error("RTEX [AbstractPagerFragment.onCreateView]> {}.", rtex.getMessage());
-			rtex.printStackTrace();
-			// Instead blocking the application drop a toast and move to the First Activity.
-			Toast.makeText(this.getAppContext()
-					, "RTEX [AbstractPagerFragment.onCreateView]> " + rtex.getMessage()
-					, Toast.LENGTH_LONG).show();
-			// Use a flag to signal that this Fragment is not properly initialized to no other methods should be called.
-			_properlyInitialized = false;
-		}
+//		} catch (final RuntimeException rtex) {
+//			AbstractPagerFragment.logger.error("RTEX [AbstractPagerFragment.onCreateView]> {}.", rtex.getMessage());
+//			rtex.printStackTrace();
+//			// Instead blocking the application drop a toast and move to the First Activity.
+//			Toast.makeText(this.getAppContext()
+//					, "RTEX [AbstractPagerFragment.onCreateView]> " + rtex.getMessage()
+//					, Toast.LENGTH_LONG).show();
+//			// Use a flag to signal that this Fragment is not properly initialized to no other methods should be called.
+////			_properlyInitialized = false;
+//		}
 
 		// Section where we setup the data sources for the adapters. Only include no timing operations.
-		try {
+//		try {
 			// Entry point to generate the Header model.
 //			_headersource = this.registerHeaderSource();
 			// Entry point to generate the DataSection model.
@@ -305,15 +300,15 @@ public abstract class AbstractPagerFragment extends Fragment {
 			// Install the adapter before any data request or model generation.
 			_adapter = new DataSourceAdapter(this, _datasource);
 			_dataSectionContainer.setAdapter(_adapter);
-		} catch (final RuntimeException rtex) {
-			AbstractPagerFragment.logger.error("RTEX [AbstractPagerFragment.onCreateView]> {}.", rtex.getMessage());
-			rtex.printStackTrace();
-			// Instead blocking the application drop a toast and move to the First Activity.
-			Toast.makeText(this.getAppContext()
-					, "RTEX [AbstractPagerFragment.onCreateView]> " + rtex.getMessage()
-					, Toast.LENGTH_LONG).show();
-			_properlyInitialized = false;
-		}
+//		} catch (final RuntimeException rtex) {
+//			AbstractPagerFragment.logger.error("RTEX [AbstractPagerFragment.onCreateView]> {}.", rtex.getMessage());
+//			rtex.printStackTrace();
+//			// Instead blocking the application drop a toast and move to the First Activity.
+//			Toast.makeText(this.getAppContext()
+//					, "RTEX [AbstractPagerFragment.onCreateView]> " + rtex.getMessage()
+//					, Toast.LENGTH_LONG).show();
+////			_properlyInitialized = false;
+//		}
 		AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.onCreateView]");
 		return _container;
 	}
@@ -382,7 +377,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	/**
 	 * This method is the way to transform the list of model data prepared for the Header to end on a list of Views inside
 	 * the Header container. We follow a similar mechanics that for the DataSection ListView but instead keeping the
-	 * intermediate Part model we go directly to the View output by the <b>Render</b> instance.
+	 * intermediate AndroidController model we go directly to the View output by the <b>Render</b> instance.
 	 * <p>
 	 * The use of a fake <code>@link{RootNode}</code> allows to also support model elements that have contents that should
 	 * be rendered when expanded. Even the header contents are limited in interaction we can have expand/collapse
@@ -398,18 +393,18 @@ public abstract class AbstractPagerFragment extends Fragment {
 			}
 
 			// Do the same operations as in the body contents. Create a root, add to it the model elements and then
-			// recursively generate the Part list.
-			final RootPart partModelRoot = new RootPart(headerModel, getFactory());
+			// recursively generate the AndroidController list.
+			final RootAndroidController partModelRoot = new RootAndroidController(headerModel, getFactory());
 			partModelRoot.refreshChildren();
-			ArrayList<IAndroidPart> headerParts = new ArrayList<IAndroidPart>();
-			// Select for the body contents only the viewable Parts from the Part model. Make it a list.
+			ArrayList<IAndroidAndroidController> headerParts = new ArrayList<IAndroidAndroidController>();
+			// Select for the body contents only the viewable Parts from the AndroidController model. Make it a list.
 			partModelRoot.collaborate2View(headerParts);
 
 			// Now do the old functionality by copying each of the resulting parts to the Header container.
 			getAppContext().runOnUiThread(() -> {
 				_headerContainer.removeAllViews();
-				for (IPart part : headerParts) {
-					if (part instanceof IAndroidPart) addView2Header((IAndroidPart) part);
+				for (IAndroidController part : headerParts) {
+					if (part instanceof IAndroidAndroidController) addView2Header((IAndroidAndroidController) part);
 				}
 			});
 		} catch (RuntimeException rtex) {
@@ -421,9 +416,9 @@ public abstract class AbstractPagerFragment extends Fragment {
 	/**
 	 * This method extract the view from the parameter part and generates the final View element that is able to be
 	 * inserted on the ui ViewGroup container.
-	 * @param target the Part to render to a View.
+	 * @param target the AndroidController to render to a View.
 	 */
-	private void addView2Header( final IAndroidPart target ) {
+	private void addView2Header( final IAndroidAndroidController target ) {
 		logger.info(">> [AbstractPagerFragment.addView2Header]");
 		try {
 			final IRender holder = target.getRenderer(this.getAppContext());
@@ -454,7 +449,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 		logger.info(">> ManufactureContextFragment.onContextItemSelected");
 		final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 		final int menuItemIndex = item.getItemId();
-		final AbstractAndroidPart part = (AbstractAndroidPart) info.targetView.getTag();
+		final AbstractAndroidAndroidController part = (AbstractAndroidAndroidController) info.targetView.getTag();
 		if (part instanceof IMenuActionTarget)
 			return ((IMenuActionTarget) part).onContextItemSelected(item);
 		else
@@ -470,7 +465,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 		// Check parameters to detect the item selected for menu target.
 		//		if (view == _headerContainer) {
 		//			// Check if this fragment has the callback configured
-		//			final IAndroidPart part = _headerContents.firstElement();
+		//			final IAndroidAndroidController part = _headerContents.firstElement();
 		//			if (part instanceof IMenuActionTarget) {
 		//				((IMenuActionTarget) part).onCreateContextMenu(menu, view, menuInfo);
 		//			}
@@ -480,7 +475,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 		// Get the tag assigned to the selected view and if implements the callback interface send it the message.
 		final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 		// Check if the selected item is suitable for menu and select it depending on item part class.
-		AbstractAndroidPart part = (AbstractAndroidPart) info.targetView.getTag();
+		AbstractAndroidAndroidController part = (AbstractAndroidAndroidController) info.targetView.getTag();
 		if (part instanceof IMenuActionTarget) {
 			((IMenuActionTarget) part).onCreateContextMenu(menu, view, menuInfo);
 		}
@@ -543,9 +538,9 @@ public abstract class AbstractPagerFragment extends Fragment {
 		}
 	}
 
-	public static class EmptyPart extends AbstractExpandablePart {
+	public static class EmptyAndroidController extends AbstractExpandableAndroidController {
 
-		public EmptyPart( final ICollaboration model ) {
+		public EmptyAndroidController(final ICollaboration model ) {
 			super(model);
 		}
 
@@ -569,7 +564,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 		}
 
 		@Override
-		public List<IPart> runPolicies( final List<IPart> targets ) {
+		public List<IAndroidController> runPolicies(final List<IAndroidController> targets ) {
 			return targets;
 		}
 
@@ -577,7 +572,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 	public static class EmptyRender extends AbstractRender {
 
-		public EmptyRender( final AbstractPart newPart, final Activity context ) {
+		public EmptyRender(final AbstractAndroidController newPart, final Activity context ) {
 			super(newPart, context);
 		}
 

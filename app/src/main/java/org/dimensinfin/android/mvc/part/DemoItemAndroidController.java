@@ -3,9 +3,9 @@
 //  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchical Part model that finally will
-//               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
+//               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
+//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.part;
 
 import android.app.Activity;
@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.model.DemoItem;
@@ -26,14 +26,14 @@ import org.slf4j.LoggerFactory;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class DemoItemPart extends AbstractAndroidPart {
+public class DemoItemAndroidController extends AbstractAndroidAndroidController {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("DemoItemPart");
+	private static Logger logger = LoggerFactory.getLogger("DemoItemAndroidController");
 
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public DemoItemPart(final DemoLabel node) {
+	public DemoItemAndroidController(final DemoLabel node) {
 		super(node);
 	}
 
@@ -63,7 +63,7 @@ public class DemoItemPart extends AbstractAndroidPart {
 
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer("DemoItemPart [ ");
+		StringBuffer buffer = new StringBuffer("DemoItemAndroidController [ ");
 		buffer.append("name: ").append(0);
 		buffer.append("]");
 		buffer.append("->").append(super.toString());
@@ -79,14 +79,14 @@ public class DemoItemPart extends AbstractAndroidPart {
 //		private TextView nodeName = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public DemoItemRender(final AbstractAndroidPart target, final Activity context) {
+		public DemoItemRender(final AbstractAndroidAndroidController target, final Activity context) {
 			super(target, context);
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
 		@Override
-		public DemoItemPart getPart() {
-			return (DemoItemPart) super.getPart();
+		public DemoItemAndroidController getPart() {
+			return (DemoItemAndroidController) super.getPart();
 		}
 
 		@Override
@@ -119,14 +119,14 @@ public class DemoItemPart extends AbstractAndroidPart {
 		private TextView nodeName = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public DemoLabelRender(final AbstractAndroidPart target, final Activity context) {
+		public DemoLabelRender(final AbstractAndroidAndroidController target, final Activity context) {
 			super(target, context);
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
 		@Override
-		public DemoItemPart getPart() {
-			return (DemoItemPart) super.getPart();
+		public DemoItemAndroidController getPart() {
+			return (DemoItemAndroidController) super.getPart();
 		}
 
 		@Override

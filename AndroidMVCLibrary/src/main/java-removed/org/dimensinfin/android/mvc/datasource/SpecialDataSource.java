@@ -3,7 +3,7 @@
 //	COPYRIGHT:      (c) 2013-2017 by Dimensinfin Industries, all rights reserved.
 //	ENVIRONMENT:		Android API16.
 //	DESCRIPTION:		Library that defines a generic Model View Controller core classes to be used
-//									on Android projects. Defines the Part factory and the Part core methods to manage
+//									on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
 //									the extended GEF model into the Android View to be used on ListViews.
 package org.dimensinfin.android.mvc.datasource;
 
@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 // - CLASS IMPLEMENTATION ...................................................................................
 /**
  * This class implements the most common code and flow for all DataSources to allow the best code
- * generalization. This class has the common code to make the model transformation to the Part hierarchy and
+ * generalization. This class has the common code to make the model transformation to the AndroidController hierarchy and
  * from it to the list of Parts used to renden the view.
  * 
  * @author Adam Antinoo
@@ -47,7 +47,7 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 
 	/** The initial node where to store the model. Model elements are children of this root. */
 	protected RootNode _dataModelRoot		= null;
-	/** The root node for the Part hierarchy that matches the data model hierarchy. */
+	/** The root node for the AndroidController hierarchy that matches the data model hierarchy. */
 	protected RootPart										_partModelRoot		= null;
 	/** The list of Parts to show on the viewer. This is the body section that is scrollable. */
 	protected ArrayList<IPart> _bodyParts				= new ArrayList<IPart>();
@@ -100,11 +100,11 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 	}
 
 	/**
-	 * After the model is created we have to transform it into the Part list expected by the DataSourceAdapter.
+	 * After the model is created we have to transform it into the AndroidController list expected by the DataSourceAdapter.
 	 * <br>
-	 * The Part creation is performed by the corresponding PartFactory we got at the DataSource creation.<br>
-	 * We transform the model recursively and keeping the already available Part elements. We create a
-	 * duplicated of the resulting Part model and we move already parts from the current model to the new model
+	 * The AndroidController creation is performed by the corresponding PartFactory we got at the DataSource creation.<br>
+	 * We transform the model recursively and keeping the already available AndroidController elements. We create a
+	 * duplicated of the resulting AndroidController model and we move already parts from the current model to the new model
 	 * or create new part and finally remove what is left and unused.
 	 */
 
@@ -112,7 +112,7 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 	public void createContentHierarchy() {
 		try {
 			SpecialDataSource.logger.info(">> [SpecialDataSource.createContentHierarchy]");
-			// Check if we have already a Part model.
+			// Check if we have already a AndroidController model.
 			// But do not forget to associate the new Data model even of the old exists.
 			if (null == _partModelRoot) {
 				_partModelRoot = new RootPart(_dataModelRoot, _partFactory);
@@ -130,7 +130,7 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 			}
 			// Get the list of Parts that will be used for the ListView
 			_bodyParts = new ArrayList<IPart>();
-			// Select for the body contents only the viewable Parts from the Part model. Make it a list.
+			// Select for the body contents only the viewable Parts from the AndroidController model. Make it a list.
 			_bodyParts.addAll(_partModelRoot.collaborate2View());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -143,7 +143,7 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 	/**
 	 * Return just the list of viewable Parts. During the composition of the list we transform it of class
 	 * because we should change the final class level returned to the higher level possible and now for
-	 * compatibility we keep the <code>AbstractAndroidPart</code>.
+	 * compatibility we keep the <code>AbstractAndroidAndroidController</code>.
 	 */
 	@Override
 	public ArrayList<AbstractAndroidPart> getBodyParts() {
@@ -165,7 +165,7 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 	}
 
 	/**
-	 * This method is also deprecated because the Part generation for the header is kept outside the DataSource.
+	 * This method is also deprecated because the AndroidController generation for the header is kept outside the DataSource.
 	 * The management of the header is now performed at the Fragment level and once it is changed to another
 	 * level we can check this code. This method is kept for backward compatibility.
 	 */
@@ -183,8 +183,8 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 	}
 
 	/**
-	 * This method is called whenever there is an event on any Part related to this DataSource. We just process
-	 * structure changes that need the DataSource to reconstruct the Part model from the new Model state. Wrong.
+	 * This method is called whenever there is an event on any AndroidController related to this DataSource. We just process
+	 * structure changes that need the DataSource to reconstruct the AndroidController model from the new Model state. Wrong.
 	 * The model does not change but the result from the collaborate2View transformation does.
 	 */
 	@Override
@@ -230,7 +230,7 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 	public void updateContentHierarchy() {
 		try {
 			SpecialDataSource.logger.info(">> [SpecialDataSource.updateContentHierarchy]");
-			// Check if we have already a Part model.
+			// Check if we have already a AndroidController model.
 			if (null == _partModelRoot) {
 				_partModelRoot = new RootPart(_dataModelRoot, _partFactory);
 				try {
@@ -244,7 +244,7 @@ public class SpecialDataSource extends AbstractDataSource implements IDataSource
 
 			// Get the list of Parts that will be used for the ListView
 			_bodyParts = new ArrayList<IPart>();
-			// Select for the body contents only the viewable Parts from the Part model. Make it a list.
+			// Select for the body contents only the viewable Parts from the AndroidController model. Make it a list.
 			_bodyParts.addAll(_partModelRoot.collaborate2View());
 		} catch (Exception ex) {
 			ex.printStackTrace();

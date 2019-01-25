@@ -3,9 +3,9 @@
 //  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchical Part model that finally will
-//               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
+//               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
+//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 //               The new implementation performs the model to list transformation on the fly each time
 //               a model change is detected so the population of the displayed view should be done in
 //               real time while processing the model sources. This should allow for search and filtering.
@@ -17,22 +17,22 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
 import org.dimensinfin.android.mvc.core.AbstractRender;
-import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
+import org.dimensinfin.android.mvc.interfaces.IAndroidAndroidController;
 import org.dimensinfin.core.model.Separator;
 
 import java.util.GregorianCalendar;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class SeparatorPart extends AbstractAndroidPart {
+public class SeparatorAndroidController extends AbstractAndroidAndroidController {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = -7108273035439243825L;
 
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public SeparatorPart ( final Separator node ) {
+	public SeparatorAndroidController(final Separator node ) {
 		super(node);
 	}
 
@@ -52,13 +52,13 @@ public class SeparatorPart extends AbstractAndroidPart {
 
 	@Override
 	public String toString () {
-		StringBuffer buffer = new StringBuffer("SeparatorPart [");
+		StringBuffer buffer = new StringBuffer("SeparatorAndroidController [");
 		buffer.append(getCastedModel().toString()).append(" ");
 		buffer.append("]");
 		return buffer.toString();
 	}
 
-	public IAndroidPart setRenderMode ( final String renderMode ) {
+	public IAndroidAndroidController setRenderMode (final String renderMode ) {
 		this.renderMode = renderMode;
 		return this;
 	}
@@ -77,14 +77,14 @@ final class SeparatorRender extends AbstractRender {
 	private TextView title = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public SeparatorRender ( final AbstractAndroidPart target, final Activity context ) {
+	public SeparatorRender (final AbstractAndroidAndroidController target, final Activity context ) {
 		super(target, context);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
-	public SeparatorPart getPart () {
-		return (SeparatorPart) super.getPart();
+	public SeparatorAndroidController getPart () {
+		return (SeparatorAndroidController) super.getPart();
 	}
 
 	// --- I R E N D E R   I N T E R F A C E

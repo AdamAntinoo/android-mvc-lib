@@ -66,7 +66,7 @@ public abstract class NewMVCDataSource extends AbstractPropertyChanger implement
 	 * <code>final</code> from this field.
 	 */
 	protected final RootNode _dataModelRoot = new RootNode();
-	/** The root node for the Part hierarchy that matches the data model hierarchy. */
+	/** The root node for the AndroidController hierarchy that matches the data model hierarchy. */
 	private RootAndroidPart _partModelRoot = null;
 	/**
 	 * The list of Parts to show on the viewer. This is the body section that is scrollable. This instance is shared
@@ -97,17 +97,17 @@ public abstract class NewMVCDataSource extends AbstractPropertyChanger implement
 	}
 
 	/**
-	 * After the model is created we have to transform it into the Part list expected by the DataSourceAdapter.
-	 * The Part creation is performed by the corresponding PartFactory we got at the DataSource creation.<br>
-	 * We transform the model recursively and keeping the already available Part elements. We create a
-	 * duplicated of the resulting Part model and we move already parts from the current model to the new model
+	 * After the model is created we have to transform it into the AndroidController list expected by the DataSourceAdapter.
+	 * The AndroidController creation is performed by the corresponding PartFactory we got at the DataSource creation.<br>
+	 * We transform the model recursively and keeping the already available AndroidController elements. We create a
+	 * duplicated of the resulting AndroidController model and we move already parts from the current model to the new model
 	 * or create new part and finally remove what is left and unused.
 	 * This new implementation will use partial generation to split and speed up this phase.
 	 */
 	public void createContentHierarchy () {
 		//		try {
 		logger.info(">> [NewMVCDataSource.createContentHierarchy]");
-		// Check if we have already a Part model.
+		// Check if we have already a AndroidController model.
 		// But do not forget to associate the new Data model even if the old exists.
 		if ( null == _partModelRoot ) {
 			_partModelRoot = new RootAndroidPart(_dataModelRoot, _partFactory);
@@ -124,8 +124,8 @@ public abstract class NewMVCDataSource extends AbstractPropertyChanger implement
 			ex.printStackTrace();
 		}
 		//			// Get the list of Parts that will be used for the ListView
-		//			_dataSectionParts = new ArrayList<IPart>();
-		//			// Select for the body contents only the viewable Parts from the Part model. Make it a list.
+		//			_dataSectionParts = new ArrayList<IAndroidController>();
+		//			// Select for the body contents only the viewable Parts from the AndroidController model. Make it a list.
 		//			_dataSectionParts.addAll(_partModelRoot.collaborate2View());
 		//		} catch (Exception ex) {
 		//			ex.printStackTrace();
@@ -136,12 +136,12 @@ public abstract class NewMVCDataSource extends AbstractPropertyChanger implement
 	// --- P R O P E R T Y C H A N G E R
 
 	/**
-	 * This method is called whenever there is an event on any Part related to this DataSource. We just process
-	 * structure changes that need the DataSource to reconstruct the Part model from the new Model state.
+	 * This method is called whenever there is an event on any AndroidController related to this DataSource. We just process
+	 * structure changes that need the DataSource to reconstruct the AndroidController model from the new Model state.
 	 * There are two states for the reconstruction. If the Model changes we should regenerate the art hierarchy and
-	 * from it the Part list that should be send to the Adapter. This is the <code>collaborate2Model</code> phase.
+	 * from it the AndroidController list that should be send to the Adapter. This is the <code>collaborate2Model</code> phase.
 	 * The other state only changes the list of Parts that should collaborate to the view because the model has not
-	 * changed on structure (it can be have changed on content) so the Part hierarchy should not be recreated, but the
+	 * changed on structure (it can be have changed on content) so the AndroidController hierarchy should not be recreated, but the
 	 * final list to be rendered on the View has to be reconstructed completely.
 	 */
 	@Override
@@ -150,7 +150,7 @@ public abstract class NewMVCDataSource extends AbstractPropertyChanger implement
 		// The expand/collapse state has changed.
 		if ( SystemWideConstants.events
 				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTSTRUCTURE_ACTIONEXPANDCOLLAPSE ) {
-			//			_dataSectionParts = new ArrayList<IPart>();
+			//			_dataSectionParts = new ArrayList<IAndroidController>();
 			_bodyParts.clear();
 			_partModelRoot.collaborate2View(_bodyParts);
 		}

@@ -1,6 +1,6 @@
 package org.dimensinfin.android.mvc.parts;
 
-import org.dimensinfin.android.mvc.core.Part;
+import org.dimensinfin.android.mvc.core.AndroidController;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ public class PartTest {
 	@Test
 	public void isRoot() {
 		// Test
-		final Part target = new Part(model);
+		final AndroidController target = new AndroidController(model);
 		final boolean obtained = target.isRoot();
 
 		// Assert
@@ -34,10 +34,10 @@ public class PartTest {
 	@Test
 	public void getChildren() {
 		// Given
-		final Part root = new Part(model);
-		root.addChild(new Part(model);
-		root.addChild(new Part(model);
-		root.addChild(new Part(model);
+		final AndroidController root = new AndroidController(model);
+		root.addChild(new AndroidController(model);
+		root.addChild(new AndroidController(model);
+		root.addChild(new AndroidController(model);
 
 		// Assert
 		assertEquals(3,root.getChildren().size());
@@ -46,13 +46,13 @@ public class PartTest {
 	@Test
 	public void getParentPart() {
 		// Given
-		final Part root = new Part(model);
-		root.addChild(new Part(model);
-		root.addChild(new Part(model);
-		root.addChild(new Part(model);
+		final AndroidController root = new AndroidController(model);
+		root.addChild(new AndroidController(model);
+		root.addChild(new AndroidController(model);
+		root.addChild(new AndroidController(model);
 
 		// Assert
-		assertEquals(root, ((Part) root.getChildren().get(1)).getParentPart());
+		assertEquals(root, ((AndroidController) root.getChildren().get(1)).getParentPart());
 	}
 
 	@Test

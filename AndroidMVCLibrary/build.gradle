@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'project-report'
-
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -90,21 +89,27 @@ dependencies {
 //    compileOnly 'com.android.support:support-annotations:28.0.0'
 //    // P R O J E C T    D E P E N D E N C I E S
 //    //    implementation project(path: ':CoreBase')
+
     // L O C A L    L I B R A R I E S
     api files('libs/viewpagerindicator-release.aar')
     compileOnly files('libs/CoreBase.core-2.0.3.jar')
     // M O D U L E    D E P E N D E N C I E S
     compileOnly 'org.slf4j:slf4j-android:1.7.25'
     implementation 'joda-time:joda-time:2.3'
-//    implementation 'org.apache.commons:commons-lang3:3.7'
+    implementation 'org.apache.commons:commons-lang3:3.7'
+    compileOnly 'org.projectlombok:lombok:1.18.4'
+    annotationProcessor 'org.projectlombok:lombok:1.18.4'
+
     // P L A T F O R M    D E P E N D E N C I E S
     // D E P E N D E N C I E S    F R O M    M O D U L E S
+
     // T E S T I N G
     testImplementation 'org.slf4j:slf4j-android:1.7.25'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.8.9'
     testImplementation files('libs/CoreBase.core-2.0.3.jar')
     testImplementation 'com.android.support:support-v13:27.1.1'
+
     // A N G U L A R   T E S T I N G
 //    testImplementation 'junit:junit:4.12'
     testImplementation 'org.robolectric:robolectric:3.0'

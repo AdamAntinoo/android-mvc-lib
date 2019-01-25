@@ -3,9 +3,9 @@
 //  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchical Part model that finally will
-//               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
+//               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
+//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.part;
 
 import android.app.Activity;
@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.core.model.Separator;
@@ -21,7 +21,7 @@ import org.dimensinfin.core.model.Separator;
 import java.util.GregorianCalendar;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class DemoDetailSeparatorPart extends AbstractAndroidPart {
+public class DemoDetailSeparatorAndroidController extends AbstractAndroidAndroidController {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = -7103273035430243825L;
 
@@ -29,7 +29,7 @@ public class DemoDetailSeparatorPart extends AbstractAndroidPart {
 	private int iconReference = R.drawable.defaulticonplaceholder;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public DemoDetailSeparatorPart (final Separator node) {
+	public DemoDetailSeparatorAndroidController(final Separator node) {
 		super(node);
 	}
 
@@ -42,8 +42,8 @@ public class DemoDetailSeparatorPart extends AbstractAndroidPart {
 		return iconReference;
 	}
 
-	public DemoDetailSeparatorPart setIconReference (final int resourceIdentifier) {
-		logger.info("-- [DemoDetailSeparatorPart.setIconReference]> setting icon ref: " + resourceIdentifier);
+	public DemoDetailSeparatorAndroidController setIconReference (final int resourceIdentifier) {
+		logger.info("-- [DemoDetailSeparatorAndroidController.setIconReference]> setting icon ref: " + resourceIdentifier);
 		iconReference = resourceIdentifier;
 		return this;
 	}
@@ -55,7 +55,7 @@ public class DemoDetailSeparatorPart extends AbstractAndroidPart {
 
 	@Override
 	public String toString () {
-		StringBuffer buffer = new StringBuffer("DemoDetailSeparatorPart [");
+		StringBuffer buffer = new StringBuffer("DemoDetailSeparatorAndroidController [");
 		buffer.append("icon ref id: ").append(iconReference);
 		buffer.append("]");
 		return buffer.toString();
@@ -76,14 +76,14 @@ final class DemoDetailSeparatorRender extends AbstractRender {
 	private TextView title = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public DemoDetailSeparatorRender (final AbstractAndroidPart target, final Activity context) {
+	public DemoDetailSeparatorRender (final AbstractAndroidAndroidController target, final Activity context) {
 		super(target, context);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 	@Override
-	public DemoDetailSeparatorPart getPart () {
-		return (DemoDetailSeparatorPart) super.getPart();
+	public DemoDetailSeparatorAndroidController getPart () {
+		return (DemoDetailSeparatorAndroidController) super.getPart();
 	}
 
 	@Override

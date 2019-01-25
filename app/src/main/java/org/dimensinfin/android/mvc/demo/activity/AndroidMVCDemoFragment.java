@@ -3,34 +3,33 @@
 //  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchical Part model that finally will
-//               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
+//               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
+//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.demo.activity;
 
 import android.os.Bundle;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.core.AndroidController;
 import org.dimensinfin.android.mvc.core.PartFactory;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.demo.R;
+import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
-import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.android.mvc.model.DemoContainer;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 import org.dimensinfin.android.mvc.model.DemoItem;
 import org.dimensinfin.android.mvc.model.DemoLabel;
-import org.dimensinfin.android.mvc.part.DemoContainerPart;
-import org.dimensinfin.android.mvc.part.DemoHeaderTitlePart;
-import org.dimensinfin.android.mvc.part.DemoItemPart;
+import org.dimensinfin.android.mvc.part.DemoContainerAndroidController;
+import org.dimensinfin.android.mvc.part.DemoHeaderTitleAndroidController;
+import org.dimensinfin.android.mvc.part.DemoItemAndroidController;
 import org.dimensinfin.core.datasource.AbstractGenerator;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IModelGenerator;
-import org.dimensinfin.core.model.Container;
 import org.dimensinfin.core.model.RootNode;
-import org.dimensinfin.core.model.Separator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -205,33 +204,34 @@ final class DemoDataSource extends MVCDataSource implements IDataSource {
 
 // - CLASS IMPLEMENTATION ...................................................................................
 final class DemoPartFactory extends PartFactory implements IPartFactory {
-	// - S T A T I C - S E C T I O N ..........................................................................
-
-	// - F I E L D - S E C T I O N ............................................................................
-
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public DemoPartFactory(final String variantSelected) {
 		super(variantSelected);
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
+	// - M E T H O D - S E C T I O N
 
 	/**
 	 * The method should create the matching part for the model received. We can use the variant to change at creation
 	 * time the matching part or to replace parts when required.
 	 */
-	public IPart createPart(final ICollaboration node) {
+	public IAndroidController createPart(final ICollaboration node) {
 		logger.info("-- [DemoPartFactory.createPart]> Node class: " + node.getClass().getSimpleName());
 		if (node instanceof DemoHeaderTitle) {
 			// These shows the selected Separator but with another rendering.
-			IPart part = new DemoHeaderTitlePart((DemoHeaderTitle) node).setIconReference(R.drawable.arrowleft)
+			prt= AndroidController.<DemoHeaderTitle>builder().model((DemoHeaderTitle) node).build();
+
+
+
+			final AndroidController newpart =  DemoHeaderTitleAndroidController.builder().build();    .Builder<DemoHeaderTitle>((DemoHeaderTitle) node, this.getRootPart())
+					.build();
+			IAndroidController part = new DemoHeaderTitleAndroidController((DemoHeaderTitle) node).setIconReference(R.drawable.arrowleft)
 			                                                            .setRenderMode(getVariant())
 			                                                            .setFactory(this);
 			return part;
 		}
 		if (node instanceof DemoContainer) {
 			// These shows the selected Separator but with another rendering.
-			IPart part = new DemoContainerPart((DemoContainer) node).setRenderMode(getVariant())
+			IAndroidController part = new DemoContainerAndroidController((DemoContainer) node).setRenderMode(getVariant())
 			                                                        .setFactory(this);
 			return part;
 		}
@@ -239,14 +239,14 @@ final class DemoPartFactory extends PartFactory implements IPartFactory {
 		// Demo classes and models
 		if (node instanceof DemoItem) {
 			// These shows the selected Separator but with another rendering.
-			IPart part = new DemoItemPart((DemoItem) node).setRenderMode("-ITEM-")
+			IAndroidController part = new DemoItemAndroidController((DemoItem) node).setRenderMode("-ITEM-")
 			                                              .setFactory(this);
 			return part;
 		}
 		// WARNING - When node classes have direct inheritance put the parent below their children.
 		if (node instanceof DemoLabel) {
 			// These shows the selected Separator but with another rendering.
-			IPart part = new DemoItemPart((DemoLabel) node).setRenderMode("-LABEL-")
+			IAndroidController part = new DemoItemAndroidController((DemoLabel) node).setRenderMode("-LABEL-")
 			                                               .setFactory(this);
 			return part;
 		}

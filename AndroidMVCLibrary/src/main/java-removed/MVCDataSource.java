@@ -36,13 +36,13 @@ public class MVCDataSource extends SpecialDataSource {
 
 	// - M E T H O D - S E C T I O N ..........................................................................
 //	/**
-//	 * Set the RootPart and the sort element for it.
+//	 * Set the RootAndroidController and the sort element for it.
 //	 */
 //	@Override
 //	public void createContentHierarchy() {
-//		// Do it only if the RootPart is not already set.
+//		// Do it only if the RootAndroidController is not already set.
 //		if (null == _partModelRoot) {
-//			_partModelRoot = new RootPart(_dataModelRoot, _partFactory)
+//			_partModelRoot = new RootAndroidController(_dataModelRoot, _partFactory)
 //					.setSorting(NeoComApp.createPartComparator(AppWideConstants.comparators.COMPARATOR_NAME));
 //		}
 //		super.createContentHierarchy();
@@ -54,8 +54,8 @@ public class MVCDataSource extends SpecialDataSource {
 	}
 
 	/**
-	 * This method is called whenever there is an event on any Part related to this DataSource. We just process
-	 * structure changes that need the DataSource to reconstruct the Part model from the new Model state. Wrong.
+	 * This method is called whenever there is an event on any AndroidController related to this DataSource. We just process
+	 * structure changes that need the DataSource to reconstruct the AndroidController model from the new Model state. Wrong.
 	 * The model does not change but the result from the collaborate2View transformation does.
 	 */
 	@Override

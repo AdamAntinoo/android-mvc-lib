@@ -3,15 +3,15 @@
 //  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchical Part model that finally will
-//               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
+//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
+//               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
+//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.part;
 
 import android.app.Activity;
 import android.view.View;
 
-import org.dimensinfin.android.mvc.core.AbstractAndroidPart;
+import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
 import org.dimensinfin.android.mvc.core.AbstractExpandableRender;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.model.DemoContainer;
@@ -24,14 +24,14 @@ import java.text.DecimalFormat;
  * @author Adam Antinoo
  */
 
-public class DemoContainerPart extends AbstractExpandablePart {
-	private static Logger logger = LoggerFactory.getLogger("DemoItemPart");
+public class DemoContainerAndroidController extends AbstractExpandableAndroidController {
+	private static Logger logger = LoggerFactory.getLogger("DemoItemAndroidController");
 	private static DecimalFormat itemCountFormatter = new DecimalFormat("###,##0");
 
 	// - F I E L D - S E C T I O N
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public DemoContainerPart(final DemoContainer node) {
+	public DemoContainerAndroidController(final DemoContainer node) {
 		super(node);
 	}
 
@@ -57,7 +57,7 @@ public class DemoContainerPart extends AbstractExpandablePart {
 
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer("DemoItemPart [ ");
+		StringBuffer buffer = new StringBuffer("DemoItemAndroidController [ ");
 		buffer.append("name: ").append(0);
 		buffer.append("]");
 		buffer.append("->").append(super.toString());
@@ -72,14 +72,14 @@ public class DemoContainerPart extends AbstractExpandablePart {
 		//		private TextView nodeName = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public DemoContainerRender(final AbstractAndroidPart target, final Activity context) {
+		public DemoContainerRender(final AbstractAndroidAndroidController target, final Activity context) {
 			super(target, context);
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
 		@Override
-		public DemoContainerPart getPart() {
-			return (DemoContainerPart) super.getPart();
+		public DemoContainerAndroidController getPart() {
+			return (DemoContainerAndroidController) super.getPart();
 		}
 
 		@Override
