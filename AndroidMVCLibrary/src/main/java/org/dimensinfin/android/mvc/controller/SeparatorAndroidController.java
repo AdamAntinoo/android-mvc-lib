@@ -6,46 +6,36 @@
 //               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
 //               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
 //               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
-package org.dimensinfin.android.mvc.part;
+package org.dimensinfin.android.mvc.controller;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
-import lombok.Builder;
 import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.controller.AAndroidController;
-import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
+import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.render.AbstractRender;
 import org.dimensinfin.core.model.Separator;
 import org.joda.time.Instant;
 
-@Builder
-public class SeparatorAndroidController extends AAndroidController<Separator,SeparatorRender> {
+import java.beans.PropertyChangeListener;
+
+public class SeparatorAndroidController extends AAndroidController<Separator> {
 	private static final long serialVersionUID = -7108273035439243825L;
 
 	// - F I E L D - S E C T I O N
 	// - C O N S T R U C T O R - S E C T I O N
 	// - M E T H O D - S E C T I O N
-//	public Separator getCastedModel () {
-//		return (Separator) this.getModel();
-//	}
 
-	/**
-	 * This method is required by the Adapter to get a unique identifier for each node to be render on a Viewer.
-	 * @return a unique number identifier.
-	 */
-	public long getModelId () {
-		return Instant.now().getMillis();
-	}
 
-	public String getTitle () {
+	public String getTitle() {
 		return this.getModel().getTitle();
 	}
 
+
 	@Override
-	public String toString () {
+	public String toString() {
 		StringBuffer buffer = new StringBuffer("SeparatorAndroidController [");
 		buffer.append(getModel().toString()).append(" ");
 		buffer.append("]");
@@ -53,44 +43,61 @@ public class SeparatorAndroidController extends AAndroidController<Separator,Sep
 	}
 
 
+//	@Override
+//	public AbstractRender selectRenderer () {
+
+	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
+
+	/**
+	 * This method is required by the Adapter to get a unique identifier for each node to be render on a Viewer.
+	 * @return a unique number identifier.
+	 */
 	@Override
-	public AbstractRender selectRenderer () {
-		return new SeparatorRender(this, _activity);
+	public long getModelId() {
+		return Instant.now().getMillis();
+	}
+
+	@Override
+	public IRender getRenderer(final Context context) {
+		final AbstractRender render = new SeparatorRender.Builder(this, context)
+				.controller(this)
+				.build();
+	}
+
+	@Override
+	public void addPropertyChangeListener(final PropertyChangeListener listener) {
+
 	}
 }
 
-// - CLASS IMPLEMENTATION ...................................................................................
 final class SeparatorRender extends AbstractRender {
-	// - S T A T I C - S E C T I O N ..........................................................................
-
-	// - F I E L D - S E C T I O N ............................................................................
+	// - F I E L D - S E C T I O N
 	private TextView title = null;
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public SeparatorRender (final AbstractAndroidAndroidController target, final Activity context ) {
-		super(target, context);
+	// - C O N S T R U C T O R - S E C T I O N
+	protected SeparatorRender(final SeparatorRender.Builder builder) {
+		super(builder);
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
+	@Override
+	protected void initializeViews() {
+		title = this.getView().findViewById(R.id.title);
+	}
+
+	// - M E T H O D - S E C T I O N
 	@Override
 	public SeparatorAndroidController getController() {
 		return (SeparatorAndroidController) super.getController();
 	}
 
-	// --- I R E N D E R   I N T E R F A C E
+	// - I R E N D E R   I N T E R F A C E
 	@Override
-	public void initializeViews () {
-//		super.initializeViews();
-		title = (TextView) _convertView.findViewById(R.id.title);
-	}
-
-	@Override
-	public void updateContent () {
+	public void updateContent() {
 //		super.updateContent();
 		String tt = this.getController().getTitle();
 		switch (this.getController().getCastedModel().getType()) {
 			case DEFAULT:
-				if ( null != tt ) {
+				if (null != tt) {
 					title.setText(tt);
 					title.setVisibility(View.VISIBLE);
 				} else title.setVisibility(View.GONE);
@@ -123,55 +130,49 @@ final class SeparatorRender extends AbstractRender {
 	}
 
 	/**
-	 * Method not used because this Render implements a programatically generated layout reference.
-	 * @return
+	 * Thia method is the responsible to return the layout to be used on the view inflation. On the separator particularly this
+	 * layout depends on the model contents so at this call we should access the Model and calculate the right layout to use.
+	 * @return the layout unique identifier to be used on the view genertion.
 	 */
 	@Override
-	public int accessLayoutReference() {
-		return R.layout.separatorwhiteline;
-	}
-
-	@Override
-	protected void createView () {
-		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
-		                                                      .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+	protected int accessLayoutReference() {
 		// Separator can be rendered in many ways. Set the default and then calculate the right one depending on the Model type.
-		int renderer = R.layout.separatororangeline;
+		int layoutRef = R.layout.separatororangeline;
 		// Select the rendering depending on the Separator type.
 		switch (this.getController().getCastedModel().getType()) {
 			case DEFAULT:
-				renderer = R.layout.separatororangeline;
+				layoutRef = R.layout.separatororangeline;
 				break;
 			case LINE_WHITE:
-				renderer = R.layout.separatorwhiteline;
+				layoutRef = R.layout.separatorwhiteline;
 				break;
 			case LINE_RED:
-				renderer = R.layout.separatorredline;
+				layoutRef = R.layout.separatorredline;
 				// Collapse the expansion.
 				//			this.getController().getCastedModel().collapse();
 				break;
 			case LINE_ORANGE:
-				renderer = R.layout.separatororangeline;
+				layoutRef = R.layout.separatororangeline;
 				// Collapse the expansion.
 				//				this.getController().getCastedModel().setExpanded(false);
 				break;
 			case LINE_YELLOW:
-				renderer = R.layout.separatoryellowline;
+				layoutRef = R.layout.separatoryellowline;
 				// Collapse the expansion.
 				//				this.getController().getCastedModel().setExpanded(false);
 				break;
 			case LINE_GREEN:
-				renderer = R.layout.separatorgreenline;
+				layoutRef = R.layout.separatorgreenline;
 				// Collapse the expansion.
 				//				this.getController().getCastedModel().setExpanded(false);
 				break;
 			case LINE_DARKBLUE:
-				renderer = R.layout.separatordarkblueline;
+				layoutRef = R.layout.separatordarkblueline;
 				// Collapse the expansion.
 				//				this.getController().getCastedModel().setExpanded(false);
 				break;
 			case EMPTY_SIGNAL:
-				renderer = R.layout.separatorredline;
+				layoutRef = R.layout.separatorredline;
 				// Collapse the expansion.
 				//				this.getController().getCastedModel().setExpanded(false);
 				break;
@@ -179,9 +180,25 @@ final class SeparatorRender extends AbstractRender {
 			default:
 				break;
 		}
+	}
+
+	@Override
+	protected void createView() {
+		final LayoutInflater mInflater = (LayoutInflater) this.getContext()
+				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		_convertView = mInflater.inflate(renderer, null);
 		_convertView.setTag(this);
 	}
-}
 
-// - UNUSED CODE ............................................................................................
+	// - B U I L D E R
+	public static class Builder extends AbstractRender.Builder<SeparatorAndroidController> {
+		public Builder(final SeparatorAndroidController controller, final Context context) {
+			super(controller, context);
+		}
+
+		public SeparatorRender build() {
+			return new SeparatorRender(this);
+		}
+	}
+
+}

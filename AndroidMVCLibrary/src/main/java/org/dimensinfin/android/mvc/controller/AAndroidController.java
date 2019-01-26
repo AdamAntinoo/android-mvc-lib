@@ -18,6 +18,7 @@ import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,6 +57,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	@Getter
 	@Setter
 	private View viewCache; // Caches the render generated view used to the Adapter so it can be reused multiple times.
+	private AbstractPropertyChanger eventController=new AbstractPropertyChanger();
 
 	// - C O N S T R U C T O R - S E C T I O N
 	protected AAndroidController(final AAndroidController.Builder<M> builder) {
@@ -84,10 +86,25 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	}
 
 	// - I A N D R I D C O N T R O L L E R   I N T E R F A C E
+
+	/**
+	 * This is the call that should create and inflate the render UI view. During all other processes the Context is not needed not used but
+	 * this is the right moment to get to the Android system and instantiate a new UI element. The Context can be discarded after this moment
+	 * since the view is going to be cached and if needed to be constructed again this call will be issued another time.
+	 * @param context
+	 * @return
+	 */
 	public abstract IRender getRenderer(final Context context);
 
 	// - I E V E N T E M I T T E R   I N T E R F A C E
-	public abstract void addPropertyChangeListener(PropertyChangeListener listener);
+
+	/**
+	 * Add a new listener to the list of listeners on the delegated listen and event processing node.
+	 * @param listener the new listener to connect to this instance messages.
+	 */
+	public void addPropertyChangeListener(final PropertyChangeListener listener){
+		this.eventController.addPropertyChangeListener(listener);
+	}
 
 	// - M E T H O D - S E C T I O N
 

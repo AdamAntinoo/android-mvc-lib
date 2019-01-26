@@ -15,13 +15,13 @@ import android.view.View;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public interface IRender {
-	public void initializeViews();
+//	public void initializeViews();
 
 	public void updateContent();
 
 	public View getView();
 
-	public int accessLayoutReference();
+//	protected int accessLayoutReference();
 }
 
 // - UNUSED CODE ............................................................................................

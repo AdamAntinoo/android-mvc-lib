@@ -9,25 +9,24 @@
 package org.dimensinfin.android.mvc.render;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
-import lombok.Builder;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.core.model.Separator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Builder
 public abstract class AbstractRender<C> implements IRender {
 	protected static Logger logger = LoggerFactory.getLogger(AbstractRender.class);
 
 	// - F I E L D - S E C T I O N
 	private C controller; // Holds the parent controller that is associated to this render. Used to access the model.
-	private Activity context; // Reference to the context. Usually the application singleton.
-	private View _convertView = null;
+	private Context context; // Reference to the context. Usually the application singleton.
+	private View convertView = null;
 //	private final HashMap<String, Object> _extras = new HashMap<String, Object>();
 
 	// - L A Y O U T   F I E L D S
@@ -36,11 +35,12 @@ public abstract class AbstractRender<C> implements IRender {
 		this.controller = builder.controller;
 		this.context = builder.context;
 		this.createView(); // Inflate the layout to have the containers ready for identification.
+		this.initializeViews(); // Connect the inflated fields to the render variables.
 	}
 
 	// - M E T H O D - S E C T I O N
 	// - G E T T E R S   &   S E T T E R S
-	public Activity getContext() {
+	public Context getContext() {
 		return context;
 	}
 
@@ -55,8 +55,8 @@ public abstract class AbstractRender<C> implements IRender {
 	 * to force developers to fill the gap on ne instances.
 	 */
 	private void createView() {
-		_convertView = inflateView(accessLayoutReference());
-		_convertView.setTag(this);
+		convertView = this.inflateView(this.accessLayoutReference());
+		convertView.setTag(this);
 	}
 
 	private LayoutInflater getInflater() {
@@ -114,27 +114,27 @@ public abstract class AbstractRender<C> implements IRender {
 				break;
 		}
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			_convertView.setBackground(getContext().getResources().getDrawable(themeColor, getContext().getTheme()));
-		} else _convertView.setBackground(getContext().getResources().getDrawable(themeColor));
+			convertView.setBackground(getContext().getResources().getDrawable(themeColor, getContext().getTheme()));
+		} else convertView.setBackground(getContext().getResources().getDrawable(themeColor));
 	}
+
+	protected abstract void initializeViews();
+	protected abstract int accessLayoutReference();
 
 	// - I R E N D E R   I N T E R F A C E
 	public View getView() {
-		return _convertView;
+		return convertView;
 	}
-
-	public abstract void initializeViews();
 
 	public abstract void updateContent();
 
-	public abstract int accessLayoutReference();
 
 	// -  B U I L D E R
 	public abstract static class Builder<C> {
 		private C controller;
-		private Activity context;
+		private Context context;
 
-		public Builder(final C controller, final Activity context) {
+		public Builder(final C controller, final Context context) {
 			this.controller = controller;
 			this.context = context;
 		}
@@ -144,7 +144,7 @@ public abstract class AbstractRender<C> implements IRender {
 			return this;
 		}
 
-		public Builder activity(final Activity context) {
+		public Builder context(final Context context) {
 			this.context = context;
 			return this;
 		}

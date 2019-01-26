@@ -11,13 +11,12 @@ package org.dimensinfin.android.mvc.factory;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.model.PanelException;
-import org.dimensinfin.android.mvc.part.PanelExceptionAndroidController;
-import org.dimensinfin.android.mvc.part.SeparatorAndroidController;
+import org.dimensinfin.android.mvc.controller.SeparatorAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 public class ControllerFactory implements IControllerFactory {
 	protected static Logger logger = LoggerFactory.getLogger(ControllerFactory.class);
 
@@ -25,19 +24,19 @@ public class ControllerFactory implements IControllerFactory {
 	private final String variant;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public ControllerFactory(final String selectedVariant ) {
+	public ControllerFactory(final String selectedVariant) {
 		variant = selectedVariant;
 	}
 
 	// - M E T H O D - S E C T I O N
-	public IAndroidController createPart (final ICollaboration node ) {
+	public IAndroidController createController(final ICollaboration node) {
 		// Associate the default classes defined at the MVC.
-		if ( node instanceof Separator ) {
-			 part =  SeparatorAndroidController   ((Separator) node).setFactory(this)
-			                                                .setRenderMode(this.getVariant());
+		if (node instanceof Separator) {
+			part = SeparatorAndroidController((Separator) node).setFactory(this)
+					.setRenderMode(this.getVariant());
 			return part;
 		}
-		if ( node instanceof AbstractPagerFragment.EmptyNotVisibleNode) {
+		if (node instanceof AbstractPagerFragment.EmptyNotVisibleNode) {
 			IAndroidController part = new AbstractPagerFragment.EmptyAndroidController((AbstractPagerFragment.EmptyNotVisibleNode) node).setFactory(this)
 					.setRenderMode(this.getVariant());
 			return part;
@@ -46,7 +45,8 @@ public class ControllerFactory implements IControllerFactory {
 		return new SeparatorAndroidController(new Separator("-NO Model-AndroidController match-[" + node.getClass().getSimpleName() + "]-"));
 	}
 
-	public String getVariant () {
+	// - G E T T E R S   &   S E T T E R S
+	public String getVariant() {
 		return variant;
 	}
 }

@@ -9,20 +9,21 @@
 package org.dimensinfin.android.mvc.interfaces;
 
 import android.content.Context;
+import android.view.View;
 
-public interface IAndroidController<T> /*extends PropertyChangeListener*/ {
-	T getModel();
+public interface IAndroidController<M> extends IEventEmitter {
+	M getModel();
 	void refreshChildren();
-	IRender getRender(final Context context);
+	IRender getRenderer(final Context context);
+	View getViewCache();
+	void setViewCache(final View targetView);
+	long getModelId();
 //	List<IAndroidController> getChildren();
 //
 //
 //	IControllerFactory getControllerFactory();
 //
 //	IAndroidController setRenderMode(final String renderMode);
-//
-//
-//	long getModelId();
 }
 
 // - UNUSED CODE ............................................................................................
