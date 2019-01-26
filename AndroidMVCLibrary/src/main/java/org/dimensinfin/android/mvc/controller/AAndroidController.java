@@ -8,13 +8,12 @@
 //               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.controller;
 
-import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.dimensinfin.android.mvc.interfaces.IAndroidAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,10 +34,9 @@ import java.util.Vector;
  * @since 4.0.0
  */
 
-@Builder
-public abstract class AAndroidController<T extends ICollaboration, Z extends IRender> {
+public abstract class AAndroidController<T extends ICollaboration> {
 	/** This is the public logger that should be used by all the Controllers. */
-	public static Logger logger = LoggerFactory.getLogger(AAndroidController.class);
+	public static final Logger logger = LoggerFactory.getLogger(AAndroidController.class);
 
 	// - F I E L D - S E C T I O N
 	/** List of children of the hierarchy. */
@@ -46,10 +44,20 @@ public abstract class AAndroidController<T extends ICollaboration, Z extends IRe
 	/** This field caches the factory that is set during the construction. */
 	private IControllerFactory factory = null;
 	/** Reference to the Model node. */
+	@Getter
 	private T model; // Holds the model node.
-	private Z render; // Holds the main render for the visible component of the model.
+	//	private IRender render; // Holds the main render for the visible component of the model.
+	@Getter
+	@Setter
+	private String renderMode; // Holds the type of the render to be used on this instance.
 
 	// - C O N S T R U C T O R - S E C T I O N
+	protected AAndroidController(final AAndroidController.Builder<T> builder) {
+		this.model = builder.model;
+		this.factory = builder.factory;
+		this.renderMode = builder.renderMode;
+	}
+
 	// - G E T T E R S   &   S E T T E R S
 
 	/**
@@ -65,17 +73,10 @@ public abstract class AAndroidController<T extends ICollaboration, Z extends IRe
 		return children;
 	}
 
-	public T getModel() {
-		return model;
-	}
-
-	public Z getRender() {
-		return render;
-	}
-	public IAndroidController setRenderMode (final String renderMode ) {
-		this.renderMode = renderMode;
-		return this;
-	}
+//	public AAndroidController setRenderMode(final String renderMode) {
+//		this.renderMode = renderMode;
+//		return this;
+//	}
 
 	public void addChild(final IAndroidController child) {
 		children.add(child);
@@ -163,21 +164,18 @@ public abstract class AAndroidController<T extends ICollaboration, Z extends IRe
 		if (!(o instanceof AAndroidController)) return false;
 		AAndroidController that = (AAndroidController) o;
 		return new EqualsBuilder()
-//				.append(this.root, that.root)
-//				.append(this.parent, that.parent)
 				.append(this.model, that.model)
-				.append(this.render, that.render)
 				.append(this.children, that.children)
+				.append(this.renderMode, that.renderMode)
 				.isEquals();
 	}
 
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder(19, 41)
-//				.append(this.root)
 				.append(this.model)
-				.append(this.render)
 				.append(this.children)
+				.append(this.renderMode)
 				.toHashCode();
 	}
 
@@ -186,8 +184,38 @@ public abstract class AAndroidController<T extends ICollaboration, Z extends IRe
 		return new StringBuilder("AAndroidController [")
 				.append("content count: ").append(this.getChildren().size())
 				.append("[ model-> ").append(this.getModel().toString()).append(" ]")
-				.append("[ render.type -> ").append(this.getRender().toString())
-				.append("] ]")
+				.append("render.type -> ").append(this.getRenderMode())
+				.append(" ]")
 				.toString();
+	}
+
+	// - B U I L D E R
+	public abstract static class Builder<T extends ICollaboration> {
+		private T model;
+		private IControllerFactory factory;
+		private String renderMode;
+
+		public Builder(){}
+		public Builder(final T model, final IControllerFactory factory) {
+			this.model = model;
+			this.factory = factory;
+		}
+
+		public Builder model(final T model) {
+			this.model = model;
+			return this;
+		}
+
+		public Builder factory(final IControllerFactory factory) {
+			this.factory = factory;
+			return this;
+		}
+
+		public Builder renderMode(final String renderMode) {
+			this.renderMode = renderMode;
+			return this;
+		}
+
+		public abstract AAndroidController build();
 	}
 }

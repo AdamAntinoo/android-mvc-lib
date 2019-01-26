@@ -20,54 +20,50 @@ import org.dimensinfin.core.model.Separator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-
 @Builder
-public abstract class AbstractRender<Z> implements IRender {
+public abstract class AbstractRender<C> implements IRender {
 	protected static Logger logger = LoggerFactory.getLogger(AbstractRender.class);
-//public static builder(final Z _controller, final Activity _context){
-//	controller = _controller;
-//	context = _context;
-//	createView(); // Inflate the layout to have the containers ready for identification.
-//}
-	// - F I E L D - S E C T I O N
-	private final Z controller; // Holds the parent controller that is associated to this render. used to access the model.
-	private final Activity context;
 
-	protected View _convertView = null;
-	private final HashMap<String, Object> _extras = new HashMap<String, Object>();
+	// - F I E L D - S E C T I O N
+	private C controller; // Holds the parent controller that is associated to this render. Used to access the model.
+	private Activity context; // Reference to the context. Usually the application singleton.
+	private View _convertView = null;
+//	private final HashMap<String, Object> _extras = new HashMap<String, Object>();
+
 
 	// - L A Y O U T   F I E L D S
 	//	protected ImageView _rightArrow = null;
 
 	// - C O N S T R U C T O R - S E C T I O N
-//	public AbstractRender(final Z _controller, final Activity _context) {
-//		super();
-//		this.controller = _controller;
-//		this.context = _context;
-//		this.createView(); // Inflate the layout to have the containers ready for identification.
-//	}
+	protected AbstractRender(final AbstractRender.Builder<C> builder) {
+		this.controller = builder.controller;
+		this.context = builder.context;
+		this.createView(); // Inflate the layout to have the containers ready for identification.
+	}
 
 	// - M E T H O D - S E C T I O N
-	public Activity getContext() {
-		return context;
-	}
-
-	public Z getController() {
-		return controller;
-	}
-
-	// - P R O T E C T E D   I N T E R F A C E
 
 	/**
 	 * The is the generic code all Renders can share. The only element missing and that should be provided by each Render
-	 * implementation is the layout identifier to be used on the inflation. This is not a new methos that is made abstract
+	 * implementation is the layout identifier to be used on the inflation. This is not a new method that is made abstract
 	 * to force developers to fill the gap on ne instances.
 	 */
 	private void createView() {
 		_convertView = inflateView(accessLayoutReference());
 		_convertView.setTag(this);
 	}
+
+	// - G E T T E R S   &   S E T T E R S
+	public Activity getContext() {
+		return context;
+	}
+
+	public C getController() {
+		return controller;
+	}
+
+	// - P R O T E C T E D   I N T E R F A C E
+
 
 	private LayoutInflater getInflater() {
 		return (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
@@ -131,12 +127,38 @@ public abstract class AbstractRender<Z> implements IRender {
 
 	// - I R E N D E R   I N T E R F A C E
 	public abstract void initializeViews();
+
 	public abstract void updateContent();
+
 	public View getView() {
 		return _convertView;
 	}
 
 	public abstract int accessLayoutReference();
+
+	// -  B U I L D E R
+	public static class Builder<C> {
+		private C controller;
+		private Activity context;
+
+		public Builder() {
+		}
+
+		public Builder(final C controller, final Activity context) {
+			this.controller = controller;
+			this.context = context;
+		}
+
+		public Builder controller(final C controller) {
+			this.controller = controller;
+			return this;
+		}
+
+		public Builder activity(final Activity context) {
+			this.context = context;
+			return this;
+		}
+	}
 }
 
 // - UNUSED CODE ............................................................................................

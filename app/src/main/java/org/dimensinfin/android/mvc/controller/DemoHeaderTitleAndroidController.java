@@ -8,35 +8,36 @@
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.controller;
 
-import java.util.Hashtable;
-import java.util.Hashtable;
-import java.util.Hashtable;
-
 import android.app.Activity;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-import lombok.Builder;
+import lombok.ToString;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
-import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
+import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.render.AbstractRender;
 import org.dimensinfin.android.mvc.render.DemoHeaderTitleRender;
-import org.joda.time.Instant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Adam Antinoo
  */
-@Builder
-public class DemoHeaderTitleAndroidController extends AAndroidController<DemoHeaderTitle, DemoHeaderTitleRender> implements IMenuActionTarget {
+@ToString
+public class DemoHeaderTitleAndroidController<DemoHeaderTitle> extends AAndroidController implements IMenuActionTarget {
 	// - F I E L D - S E C T I O N
+		private DemoHeaderTitleRender render; // Holds the main render for the visible component of the model.
 	private int iconReference = R.drawable.defaulticonplaceholder;
-	private Activity _activity;
+	private Activity activity;
 
 	// - C O N S T R U C T O R - S E C T I O N
+	protected DemoHeaderTitleAndroidController(final DemoHeaderTitleAndroidController.Builder<DemoHeaderTitle> builder) {
+		super(builder);
+		// Create the rendered from the renderer type.
+		this.render = new DemoHeaderTitleRender.Builder()
+				.
+	}
+
 	// - M E T H O D - S E C T I O N
 	public int getIconReference() {
 		return iconReference;
@@ -47,18 +48,11 @@ public class DemoHeaderTitleAndroidController extends AAndroidController<DemoHea
 		iconReference = resourceIdentifier;
 		return this;
 	}
-	@Override
-	public String toString() {
-		StringBuffer buffer = new StringBuffer("DemoHeaderTitleAndroidController [");
-		buffer.append("icon ref id: ").append(iconReference);
-		buffer.append("]");
-		return buffer.toString();
-	}
 
 	//	@Override
 	public AbstractRender selectRenderer() {
 		return null;
-//		return new DemoHeaderTitleRender(this, _activity);
+		return DemoHeaderTitleRender.builder(). (this, activity);
 	}
 
 	@Override
@@ -81,5 +75,17 @@ public class DemoHeaderTitleAndroidController extends AAndroidController<DemoHea
 		menu.add(0, v.getId(), 0, "Action 1");
 		menu.add(0, v.getId(), 0, "Action 2");
 		logger.info("<< [DemoHeaderTitleAndroidController.onCreateContextMenu]");
+	}
+
+	public static <DemoHeaderTitle> DemoHeaderTitleAndroidController<DemoHeaderTitle> builderDH() {
+		return new DemoHeaderTitleAndroidController<DemoHeaderTitle>();
+	}
+
+
+	// - B U I L D E R
+	public static class Builder<DemoHeaderTitle> extends AAndroidController.Builder {
+		public DemoHeaderTitleAndroidController build() {
+			return new DemoHeaderTitleAndroidController(this);
+		}
 	}
 }

@@ -24,11 +24,12 @@ public class DemoHeaderTitleRender extends AbstractRender<DemoHeaderTitleAndroid
 	private TextView applicationName = null;
 	private TextView applicationVersion = null;
 
-	DemoHeaderTitleRender(final DemoHeaderTitleAndroidController controller, final Activity context, final View _convertView) {
-		super(controller, context, _convertView);
-	}
 
 	// - C O N S T R U C T O R - S E C T I O N
+	protected DemoHeaderTitleRender(final DemoHeaderTitleRender.Builder<DemoHeaderTitleAndroidController> builder) {
+		super(builder);
+	}
+
 	// - M E T H O D - S E C T I O N
 //	@Override
 //	public DemoHeaderTitleAndroidController getController() {
@@ -52,5 +53,12 @@ public class DemoHeaderTitleRender extends AbstractRender<DemoHeaderTitleAndroid
 	@Override
 	public int accessLayoutReference() {
 		return R.layout.demoheadertitle4header;
+	}
+
+	// - B U I L D E R
+	public static class Builder<DemoHeaderTitleAndroidController> extends AbstractRender.Builder {
+		public DemoHeaderTitleRender build() {
+			return new DemoHeaderTitleRender(this);
+		}
 	}
 }
