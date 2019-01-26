@@ -21,10 +21,13 @@ import android.widget.TextView;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
-import org.dimensinfin.android.mvc.core.AbstractAndroidController;
-import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
+import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.interfaces.IAndroidAndroidController;
+import org.dimensinfin.android.mvc.interfaces.IAndroidController;
+import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.interfaces.IDataSource;
+import org.dimensinfin.android.mvc.interfaces.IRootPart;
 import org.dimensinfin.android.mvc.render.AbstractRender;
-import org.dimensinfin.android.mvc.interfaces.*;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
@@ -51,34 +54,34 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	// - S T A T I C - S E C T I O N
 	private static final long serialVersionUID = -9128905983909144873L;
 	private static final boolean isDebuggable = true;
-	public static final Logger logger = LoggerFactory.getLogger(MVCDataSource.class);
+	protected static final Logger logger = LoggerFactory.getLogger(MVCDataSource.class);
 
 	// - F I E L D - S E C T I O N
 	/**
 	 * Unique DataSource string identifier to locate this instance on the <code>DataSourceManager</code> in case the
 	 * instances should be cached.
 	 */
-	private final DataSourceLocator _locator;
+	private final DataSourceLocator locator;
 	/** Copy of the extras bundle received by the Activity. */
-	private Bundle _extras = new Bundle();
+	private Bundle extras = new Bundle();
 	/**
 	 * This is the Fragment or Activity code used to differentiate between different model generations. It is stored on
 	 * the String format to be independent from any of the enumerated structures in the different modules. Anyway it
 	 * should be a conversion from closed list of values.
 	 */
-	private String _variant = "-DEFAULT-VARIANT-";
+	private String variant = "-DEFAULT-VARIANT-";
 	/**
-	 * Factory to be used on the AndroidController hierarchy generation. Each AndroidController has a connection to this factory to create its
-	 * children parts from the model nodes. This is a mandatory field that should be available at the creation because the
-	 * DS cannot work without a AndroidController Factory.
+	 * Factory to be used on the AndroidController hierarchy generation. Each AndroidController has a connection to this
+	 * factory to create its children parts from the model nodes. This is a mandatory field that should be available at
+	 * the creation because the DS cannot work without a AndroidController Factory.
 	 */
-	private IControllerFactory partFactory = null;
+	private final IControllerFactory controllerFactory;
 	/**
 	 * Flag to indicate if the model contents generated can be cached and we can avoid running the <code>collaborate2Model
 	 * ()</code> method on every fragment instantiation. If the model is suitable for caching we can speed up the turn of
 	 * the device because we have not to generate again the DataSource and its model data structure.
 	 */
-	private boolean _shouldBeCached = false;
+	private boolean shouldBeCached = false;
 	/**
 	 * The initial node where to store the model. Model elements are children of this root. This version exports this node
 	 * to dynamically detect the changes and generate the missing hierarchy elements that are being added during the Model
@@ -88,11 +91,12 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	 */
 	private final RootNode _dataModelRoot = new RootNode();
 	/**
-	 * The root node for the AndroidController hierarchy that matches the data model hierarchy. YTHis is a special implementation of a
-	 * AndroidController. Cannot be changed but has to define methods to customize its behavior to any need that suits the developer.
-	 * For example sorting and filtering can me changed by adding policies to this instance.
+	 * The root node for the AndroidController hierarchy that matches the data model hierarchy. YTHis is a special
+	 * implementation of a AndroidController. Cannot be changed but has to define methods to customize its behavior to any
+	 * need that suits the developer. For example sorting and filtering can me changed by adding policies to this
+	 * instance.
 	 */
-	private IRootPart _partModelRoot = new MVCRootAndroidController(this._dataModelRoot, this.getDataSource());
+	private IRootPart _partModelRoot;
 	/**
 	 * The list of Parts to show on the viewer. This is the body section that is scrollable. This instance is shared
 	 * during the <code>collaboration2View()</code> phase to use less memory and avoid copying references from list to
@@ -101,17 +105,30 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	private final List<IAndroidAndroidController> _dataSectionParts = new ArrayList<>(100);
 	/** Flag used to do not launch more update events when there is one pending. */
 	private boolean _pending = false;
-	protected int refreshTime = -1;
+	private int refreshTime = -1;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public MVCDataSource(final DataSourceLocator locator, final String variant, final IControllerFactory factory, final Bundle extras) {
-		super();
-		this._locator = locator;
-		this._variant = variant;
-		this.partFactory = factory;
-		this._extras = extras;
-		// Initialize the factory with the root element for all the hierarchy.
-		this.partFactory.setRootPart(this._partModelRoot);
+//	private MVCDataSource(final DataSourceLocator locator, final String variant, final IControllerFactory factory, final Bundle extras) {
+//		super();
+//		this.locator = locator;
+//		this.variant = variant;
+//		this.controllerFactory = factory;
+//		this.extras = extras;
+//		// Initialize the factory with the root element for all the hierarchy.
+//		this.controllerFactory.setRootPart(this._partModelRoot);
+//	}
+
+	private MVCDataSource(final Builder builder) {
+		this.locator = builder.locator;
+		this.controllerFactory = builder.controllerFactory;
+		this.variant = builder.variant;
+		this.extras = builder.extras;
+		this.shouldBeCached = builder.shouldBeCached;
+		this.refreshTime=builder.refreshTime;
+		// Initialize other dependant fields.
+		_partModelRoot = new MVCRootAndroidController.Builder(this._dataModelRoot, this.controllerFactory)
+				.dataSource(this.getDataSource())
+				.build();
 	}
 
 	// - M E T H O D - S E C T I O N
@@ -120,26 +137,26 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	}
 
 	// - I D A T A S O U R C E   I N T E R F A C E
-	public IControllerFactory getPartFactory() {
-		return this.partFactory;
+	public IControllerFactory getControllerFactory() {
+		return this.controllerFactory;
 	}
 
 	public String getVariant() {
-		return _variant;
+		return variant;
 	}
 
 //	public IDataSource setVariant(final String variant) {
-//		_variant = variant;
+//		variant = variant;
 //		return this;
 //	}
 
 	public Bundle getExtras() {
-		return _extras;
+		return extras;
 	}
 
 	@Override
 	public DataSourceLocator getDataSourceLocator() {
-		return _locator;
+		return locator;
 	}
 
 	public void cleanup() {
@@ -159,7 +176,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	 * @return
 	 */
 	public boolean isCached() {
-		return ((_shouldBeCached) && (_dataModelRoot.isEmpty())) ? true : false;
+		return ((shouldBeCached) && (_dataModelRoot.isEmpty())) ? true : false;
 	}
 
 	/**
@@ -167,7 +184,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	 * @return
 	 */
 	public boolean isCacheable() {
-		return _shouldBeCached;
+		return shouldBeCached;
 	}
 
 	/**
@@ -179,7 +196,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	 * @return this same instance to allow functional programming.
 	 */
 	public IDataSource setCacheable(final boolean cachestate) {
-		this._shouldBeCached = cachestate;
+		this.shouldBeCached = cachestate;
 		return this;
 	}
 
@@ -213,7 +230,8 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	}
 
 	/**
-	 * Use the method variant to force the execution of the hierarchy update even in the case the process is already doing that update.
+	 * Use the method variant to force the execution of the hierarchy update even in the case the process is already doing
+	 * that update.
 	 */
 	public IDataSource addModelContents(final ICollaboration newnode, final boolean forceEvent) {
 		_dataModelRoot.addChild(newnode);
@@ -240,7 +258,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 //	 * @return a new instance of a <code>IRootPart</code> interface to be used as the root for the part hierarchy.
 //	 */
 //	public IRootPart createRootPart() {
-//		return new RootAndroidController(_dataModelRoot, partFactory);
+//		return new RootAndroidController(_dataModelRoot, controllerFactory);
 //	}
 
 	public RootNode getRootModel() {
@@ -248,13 +266,14 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	}
 
 //	public IControllerFactory getFactory() {
-//		return this.partFactory;
+//		return this.controllerFactory;
 //	}
 //
+
 	/**
-	 * Add an spinner at the first position on the AndroidController list to signal that we are doing some processing. If the datasource
-	 * is cached it should not have any effect since the model is already generated and we should not have to wait for
-	 * it.
+	 * Add an spinner at the first position on the AndroidController list to signal that we are doing some processing. If
+	 * the datasource is cached it should not have any effect since the model is already generated and we should not have
+	 * to wait for it.
 	 */
 	public void startOnLoadProcess() {
 		if (!isCached()) {
@@ -263,13 +282,14 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	}
 
 	/**
-	 * After the model is created we have to transform it into the AndroidController list expected by the DataSourceAdapter. The AndroidController
-	 * creation is performed by the corresponding ControllerFactory we got at the DataSource creation.
+	 * After the model is created we have to transform it into the AndroidController list expected by the
+	 * DataSourceAdapter. The AndroidController creation is performed by the corresponding ControllerFactory we got at the
+	 * DataSource creation.
 	 * <p>
-	 * We transform the model recursively and keeping the already available AndroidController elements. We create a duplicated of the
-	 * resulting AndroidController model and we move already available parts from the current model to the new model or create new part
-	 * and finally remove what is left and unused. This new implementation will use partial generation to split and speed
-	 * up this phase.
+	 * We transform the model recursively and keeping the already available AndroidController elements. We create a
+	 * duplicated of the resulting AndroidController model and we move already available parts from the current model to
+	 * the new model or create new part and finally remove what is left and unused. This new implementation will use
+	 * partial generation to split and speed up this phase.
 	 */
 	private void transformModel2Parts() {
 		logger.info(">> [MVCDataSource.transformModel2Parts]");
@@ -297,25 +317,27 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	// - P R O P E R T Y C H A N G E R   I N T E R F A C E
 
 	/**
-	 * This method is called whenever there is an event from any model change or any AndroidController interaction. There are two
-	 * groups of events, <b>structural</b> that change the model structure and contents and that require a full
+	 * This method is called whenever there is an event from any model change or any AndroidController interaction. There
+	 * are two groups of events, <b>structural</b> that change the model structure and contents and that require a full
 	 * regeneration of all the transformations and <b>content</b> that can change the list of elements to be visible at
 	 * this point in time but that do not change the initial structure. The contents can happen from changes on the model
 	 * data or by interactions on the Parts that have some graphical impact.
 	 * <p>
-	 * If the model structure changes we should recreate the Model -> AndroidController transformation and generate another AndroidController tree
-	 * with Parts matching the current model graph. At this transformation we can transform any data connected structure
-	 * real or virtual to a hierarchy graph with the standard parent-child structure. We use the
+	 * If the model structure changes we should recreate the Model -> AndroidController transformation and generate
+	 * another AndroidController tree with Parts matching the current model graph. At this transformation we can transform
+	 * any data connected structure real or virtual to a hierarchy graph with the standard parent-child structure. We use
+	 * the
 	 * <code>collaborate2Model()</code> as a way to convert internal data structures to a hierarchy representation on a
-	 * point in time. We isolate internal model ways to deal with data and we can optimize for the AndroidController hierarchy without
-	 * compromising thet model flexibility.
+	 * point in time. We isolate internal model ways to deal with data and we can optimize for the AndroidController
+	 * hierarchy without compromising thet model flexibility.
 	 * <p>
-	 * If the contents change we only should run over the AndroidController tree to make the transformation to generate a new AndroidController list
-	 * for all the new visible and renderable items. This is performed with the <code>collaborate2View()</code> method for
-	 * any AndroidController that will then decide which of its internal children are going to be referenced for the collaborating list
-	 * of Parts. This is the right place where to set up programmatic filtering or sorting because at this point we can
-	 * influence the output representation for the model instance. We can also decorate the resulting AndroidController list breaking
-	 * the one to one relationship between a model instance and a AndroidController instance.
+	 * If the contents change we only should run over the AndroidController tree to make the transformation to generate a
+	 * new AndroidController list for all the new visible and renderable items. This is performed with the
+	 * <code>collaborate2View()</code> method for any AndroidController that will then decide which of its internal
+	 * children are going to be referenced for the collaborating list of Parts. This is the right place where to set up
+	 * programmatic filtering or sorting because at this point we can influence the output representation for the model
+	 * instance. We can also decorate the resulting AndroidController list breaking the one to one relationship between a
+	 * model instance and a AndroidController instance.
 	 * <p>
 	 * After the models changes we should send a message to the <code>DataSourceAdapter</code> to refresh the graphical
 	 * elements and change the display. <code>DataSource</code> instances do not have a reference to the Adapter nor to
@@ -396,11 +418,18 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	}
 
 
-	public static class OnLoadSpinnerAndroidController extends AbstractAndroidAndroidController {
-
-		public OnLoadSpinnerAndroidController(final ICollaboration model) {
-			super(model);
+	public static class OnLoadSpinnerAndroidController extends AAndroidController<Separator> {
+		// - C O N S T R U C T O R - S E C T I O N
+		/**
+		 * This constructor connect the root part to the DS and then top the other initialization elements that define the DS
+		 * functionality but at a time that is not the creation time. Then the Factory and other data structures become
+		 * available to the part hierarchy without affecting any other AndroidController implementation.
+		 */
+		protected MVCRootAndroidController(final MVCRootAndroidController.Builder builder) {
+			super(builder);
+			this.ds = builder.dataSource;
 		}
+
 
 		@Override
 		public long getModelId() {
@@ -423,7 +452,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 			super(newPart, context);
 		}
 
-		// --- I R E N D E R   I N T E R F A C E
+		// - I R E N D E R   I N T E R F A C E
 		@Override
 		public void initializeViews() {
 			progress = (ProgressBar) _convertView.findViewById(R.id.progress);
@@ -476,7 +505,52 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 			}
 		}
 	}
-}
 
-// - UNUSED CODE ............................................................................................
-//[01]
+	// - B U I L D E R
+	public abstract static class Builder {
+		// Mandatory
+		private DataSourceLocator locator;
+		private IControllerFactory controllerFactory;
+		// Optional
+		private String variant = "-DEFAULT-VARIANT-";
+		private Bundle extras = new Bundle();
+		private boolean shouldBeCached = false;
+		private int refreshTime=1;
+
+		public Builder(final DataSourceLocator locator, final IControllerFactory controllerFactory) {
+			this.locator = locator;
+			this.controllerFactory = controllerFactory;
+		}
+
+		public Builder model(final DataSourceLocator locator) {
+			this.locator = locator;
+			return this;
+		}
+
+		public Builder controllerFactory(final IControllerFactory controllerFactory) {
+			this.controllerFactory = controllerFactory;
+			return this;
+		}
+
+		public Builder variant(final String variant) {
+			this.variant = variant;
+			return this;
+		}
+
+		public Builder extras(final Bundle extras) {
+			this.extras = extras;
+			return this;
+		}
+
+		public Builder shouldBeCached(final boolean shouldBeCached) {
+			this.shouldBeCached = shouldBeCached;
+			return this;
+		}
+		public Builder refreshTime(final int refreshTime) {
+			this.refreshTime = refreshTime;
+			return this;
+		}
+
+		public abstract MVCDataSource build();
+	}
+}

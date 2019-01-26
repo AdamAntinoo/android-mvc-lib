@@ -11,6 +11,7 @@
 //               real time while processing the model sources. This should allow for search and filtering.
 package org.dimensinfin.android.mvc.core;
 
+import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.interfaces.*;
 import org.dimensinfin.android.mvc.interfaces.IAndroidAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
@@ -18,7 +19,7 @@ import org.dimensinfin.core.model.RootNode;
 
 import java.util.List;
 
-public class RootAndroidController extends AbstractAndroidController implements IRootPart {
+public class RootAndroidController extends AAndroidController implements IRootPart {
 
 	// - F I E L D - S E C T I O N
 
@@ -61,11 +62,11 @@ public class RootAndroidController extends AbstractAndroidController implements 
 	 * @param contentCollector the list where we are collecting the Parts for rendering.
 	 */
 	public void collaborate2View( final List<IAndroidAndroidController> contentCollector ) {
-		AbstractAndroidController.logger.info(">< [RootAndroidPart.collaborate2View]> Collaborator: {}", this.getClass().getSimpleName());
+		AAndroidController.logger.info(">< [RootAndroidPart.collaborate2View]> Collaborator: {}", this.getClass().getSimpleName());
 		// If the node is expanded then give the children the opportunity to also be added.
 		// --- This is the section that is different for any AndroidController. This should be done calling the list of policies.
 		List<IAndroidController> ch = this.runPolicies(this.getChildren());
-		AbstractAndroidController.logger.info("-- [AbstractAndroidController.collaborate2View]> Collaborator children: {}", ch.size());
+		AAndroidController.logger.info("-- [AbstractAndroidController.collaborate2View]> Collaborator children: {}", ch.size());
 		// --- End of policies
 		for (IAndroidController part : ch) {
 			if (part instanceof IAndroidController)
@@ -78,7 +79,7 @@ public class RootAndroidController extends AbstractAndroidController implements 
 		else return true;
 	}
 
-	// --- I R O O T P A R T   I N T E R F A C E
+	// - I R O O T P A R T   I N T E R F A C E
 	public void setRootModel( final RootNode rootNode ) {
 		setModel(rootNode);
 	}

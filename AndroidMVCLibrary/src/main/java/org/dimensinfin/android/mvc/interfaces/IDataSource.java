@@ -46,7 +46,7 @@ public interface IDataSource extends PropertyChangeListener {
 
 	 void startOnLoadProcess();
 
-	IControllerFactory getPartFactory();
+	IControllerFactory getControllerFactory();
 }
 
 // - UNUSED CODE ............................................................................................

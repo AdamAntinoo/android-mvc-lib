@@ -42,7 +42,7 @@ import java.util.List;
  * the Event Listener chain.
  *
  * We can use the Activity as the Context to be used on view creation since the lifetime for this Adapter should be the
- * same as for the Activity and when the activity terminates the system should be able to recover the adapters and all
+ * same as for the Activity and when the context terminates the system should be able to recover the adapters and all
  * the views. But references for this Context should not live outside this instance to remove the problem to lock
  * references on uncontrolled places.
  * @author Adam Antinoo
@@ -178,7 +178,6 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 					logger.info("{} - Rendering time: {}", exitMessage, elapsedMs);
 				}
 			}
-			return convertView;
 		} catch (RuntimeException rtex) {
 			String message = rtex.getMessage();
 			if (null == message) {
@@ -193,15 +192,15 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			convertView = mInflater.inflate(R.layout.exception4list, parent);
 			TextView exceptionMessage = convertView.findViewById(R.id.exceptionMessage);
 			exceptionMessage.setText(new StringBuilder("[DataSourceAdapter.getView]> RTEX > {}").append(message).toString());
-			return convertView;
 		}
+		return convertView;
 	}
 
 	private View constructRender(final Context context, final IAndroidController controller) {
 		IRender render = controller.getRenderer(context);
-		render.initializeViews(); // Associate the fields to variables.
 		final View view = render.getView();
 		view.setTag(controller); // Piggyback the controller to the view to allow access.
+//		render.initializeViews(); // Associate the fields to variables.
 		render.updateContent(); // Set the initial value for the view fields.
 		// Store view on the AndroidController for cache.
 //		if (this.getContext().getResources().getBoolean(R.id.exceptionMessage)) {
@@ -238,7 +237,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	// - P R O P E R T Y C H A N G E L I S T E N E R   I N T E R F A C E
 
 	/**
-	 * Send messages to the parent activity that is the one that has code implemented for every different case. This class
+	 * Send messages to the parent context that is the one that has code implemented for every different case. This class
 	 * is a generic class that must not be upgraded because we start then to replicate most of the code.
 	 */
 	public void propertyChange(final PropertyChangeEvent event) {
