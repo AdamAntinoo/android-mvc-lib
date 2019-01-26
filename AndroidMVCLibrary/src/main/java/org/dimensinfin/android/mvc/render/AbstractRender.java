@@ -30,10 +30,7 @@ public abstract class AbstractRender<C> implements IRender {
 	private View _convertView = null;
 //	private final HashMap<String, Object> _extras = new HashMap<String, Object>();
 
-
 	// - L A Y O U T   F I E L D S
-	//	protected ImageView _rightArrow = null;
-
 	// - C O N S T R U C T O R - S E C T I O N
 	protected AbstractRender(final AbstractRender.Builder<C> builder) {
 		this.controller = builder.controller;
@@ -42,17 +39,6 @@ public abstract class AbstractRender<C> implements IRender {
 	}
 
 	// - M E T H O D - S E C T I O N
-
-	/**
-	 * The is the generic code all Renders can share. The only element missing and that should be provided by each Render
-	 * implementation is the layout identifier to be used on the inflation. This is not a new method that is made abstract
-	 * to force developers to fill the gap on ne instances.
-	 */
-	private void createView() {
-		_convertView = inflateView(accessLayoutReference());
-		_convertView.setTag(this);
-	}
-
 	// - G E T T E R S   &   S E T T E R S
 	public Activity getContext() {
 		return context;
@@ -63,16 +49,23 @@ public abstract class AbstractRender<C> implements IRender {
 	}
 
 	// - P R O T E C T E D   I N T E R F A C E
-
+	/**
+	 * The is the generic code all Renders can share. The only element missing and that should be provided by each Render
+	 * implementation is the layout identifier to be used on the inflation. This is not a new method that is made abstract
+	 * to force developers to fill the gap on ne instances.
+	 */
+	private void createView() {
+		_convertView = inflateView(accessLayoutReference());
+		_convertView.setTag(this);
+	}
 
 	private LayoutInflater getInflater() {
 		return (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 	}
 
-	private View inflateView(int layoutIdentifier) {
-		return getInflater().inflate(layoutIdentifier, null);
+	private View inflateView(final int _layoutIdentifier) {
+		return this.getInflater().inflate(_layoutIdentifier, null);
 	}
-
 
 	protected Drawable getDrawable(final int resourceid) {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -126,23 +119,20 @@ public abstract class AbstractRender<C> implements IRender {
 	}
 
 	// - I R E N D E R   I N T E R F A C E
-	public abstract void initializeViews();
-
-	public abstract void updateContent();
-
 	public View getView() {
 		return _convertView;
 	}
 
+	public abstract void initializeViews();
+
+	public abstract void updateContent();
+
 	public abstract int accessLayoutReference();
 
 	// -  B U I L D E R
-	public static class Builder<C> {
+	public abstract static class Builder<C> {
 		private C controller;
 		private Activity context;
-
-		public Builder() {
-		}
 
 		public Builder(final C controller, final Activity context) {
 			this.controller = controller;
@@ -158,7 +148,6 @@ public abstract class AbstractRender<C> implements IRender {
 			this.context = context;
 			return this;
 		}
+		public abstract AbstractRender<C> build();
 	}
 }
-
-// - UNUSED CODE ............................................................................................

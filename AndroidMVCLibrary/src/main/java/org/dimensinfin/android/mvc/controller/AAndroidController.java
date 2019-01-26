@@ -8,12 +8,14 @@
 //               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.controller;
 
+import android.content.Context;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +36,7 @@ import java.util.Vector;
  * @since 4.0.0
  */
 
-public abstract class AAndroidController<T extends ICollaboration> {
+public abstract class AAndroidController<M extends ICollaboration> {
 	/** This is the public logger that should be used by all the Controllers. */
 	public static final Logger logger = LoggerFactory.getLogger(AAndroidController.class);
 
@@ -45,21 +47,19 @@ public abstract class AAndroidController<T extends ICollaboration> {
 	private IControllerFactory factory = null;
 	/** Reference to the Model node. */
 	@Getter
-	private T model; // Holds the model node.
-	//	private IRender render; // Holds the main render for the visible component of the model.
+	private M model; // Holds the model node.
 	@Getter
 	@Setter
 	private String renderMode; // Holds the type of the render to be used on this instance.
 
 	// - C O N S T R U C T O R - S E C T I O N
-	protected AAndroidController(final AAndroidController.Builder<T> builder) {
+	protected AAndroidController(final AAndroidController.Builder<M> builder) {
 		this.model = builder.model;
 		this.factory = builder.factory;
 		this.renderMode = builder.renderMode;
 	}
 
 	// - G E T T E R S   &   S E T T E R S
-
 	/**
 	 * The factory is set on all the Parts during the creation time by the factory itself. This allows to construct any
 	 * Model supported by the factory from any AndroidController created by that Factory.
@@ -73,14 +73,12 @@ public abstract class AAndroidController<T extends ICollaboration> {
 		return children;
 	}
 
-//	public AAndroidController setRenderMode(final String renderMode) {
-//		this.renderMode = renderMode;
-//		return this;
-//	}
-
 	public void addChild(final IAndroidController child) {
 		children.add(child);
 	}
+
+	// - I A N D R I D C O N T R O L L E R   I N T E R F A C E
+	public abstract IRender getRender(final Context context);
 
 	// - M E T H O D - S E C T I O N
 
@@ -108,7 +106,7 @@ public abstract class AAndroidController<T extends ICollaboration> {
 	public void refreshChildren() {
 		logger.info(">> [AbstractAndroidController.refreshChildren]");
 		// Create the new list of Parts for this node model contents if it have any collaboration.
-		T partModel = this.getModel();
+		M partModel = this.getModel();
 		if (null == partModel) {
 			logger.warn("WR [AbstractAndroidController.refreshChildren]> Exception case: no Model defined for this AndroidController. {}"
 					, this.toString());
@@ -190,18 +188,18 @@ public abstract class AAndroidController<T extends ICollaboration> {
 	}
 
 	// - B U I L D E R
-	public abstract static class Builder<T extends ICollaboration> {
-		private T model;
+	public abstract static class Builder<M extends ICollaboration> {
+		private M model;
 		private IControllerFactory factory;
 		private String renderMode;
 
 		public Builder(){}
-		public Builder(final T model, final IControllerFactory factory) {
+		public Builder(final M model, final IControllerFactory factory) {
 			this.model = model;
 			this.factory = factory;
 		}
 
-		public Builder model(final T model) {
+		public Builder model(final M model) {
 			this.model = model;
 			return this;
 		}
