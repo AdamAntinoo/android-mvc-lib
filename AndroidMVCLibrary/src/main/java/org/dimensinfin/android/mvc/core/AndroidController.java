@@ -193,8 +193,8 @@ public abstract class AndroidController<T extends ICollaboration> implements IAn
 //			if (null != part) {
 //				part.setParent(this);
 //				// Connect parts as listeners for fast objects. Watch this connections for AndroidController destruction.
-//				if (model instanceof IEventProjector)
-//					((IEventProjector) model).addPropertyChangeListener(this);
+//				if (model instanceof IEventEmitter)
+//					((IEventEmitter) model).addPropertyChangeListener(this);
 //			}
 //		}
 //		return part;

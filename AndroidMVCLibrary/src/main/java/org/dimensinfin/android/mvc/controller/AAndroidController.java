@@ -9,6 +9,7 @@
 package org.dimensinfin.android.mvc.controller;
 
 import android.content.Context;
+import android.view.View;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -20,6 +21,7 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -36,7 +38,7 @@ import java.util.Vector;
  * @since 4.0.0
  */
 
-public abstract class AAndroidController<M extends ICollaboration> {
+public abstract class AAndroidController<M extends ICollaboration> implements IAndroidController<M> {
 	/** This is the public logger that should be used by all the Controllers. */
 	public static final Logger logger = LoggerFactory.getLogger(AAndroidController.class);
 
@@ -51,6 +53,9 @@ public abstract class AAndroidController<M extends ICollaboration> {
 	@Getter
 	@Setter
 	private String renderMode; // Holds the type of the render to be used on this instance.
+	@Getter
+	@Setter
+	private View viewCache; // Caches the render generated view used to the Adapter so it can be reused multiple times.
 
 	// - C O N S T R U C T O R - S E C T I O N
 	protected AAndroidController(final AAndroidController.Builder<M> builder) {
@@ -60,6 +65,7 @@ public abstract class AAndroidController<M extends ICollaboration> {
 	}
 
 	// - G E T T E R S   &   S E T T E R S
+
 	/**
 	 * The factory is set on all the Parts during the creation time by the factory itself. This allows to construct any
 	 * Model supported by the factory from any AndroidController created by that Factory.
@@ -78,7 +84,10 @@ public abstract class AAndroidController<M extends ICollaboration> {
 	}
 
 	// - I A N D R I D C O N T R O L L E R   I N T E R F A C E
-	public abstract IRender getRender(final Context context);
+	public abstract IRender getRenderer(final Context context);
+
+	// - I E V E N T E M I T T E R   I N T E R F A C E
+	public abstract void addPropertyChangeListener(PropertyChangeListener listener);
 
 	// - M E T H O D - S E C T I O N
 
@@ -193,7 +202,9 @@ public abstract class AAndroidController<M extends ICollaboration> {
 		private IControllerFactory factory;
 		private String renderMode;
 
-		public Builder(){}
+		public Builder() {
+		}
+
 		public Builder(final M model, final IControllerFactory factory) {
 			this.model = model;
 			this.factory = factory;

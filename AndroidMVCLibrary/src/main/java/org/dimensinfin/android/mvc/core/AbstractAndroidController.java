@@ -13,7 +13,7 @@ package org.dimensinfin.android.mvc.core;
 
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
-import org.dimensinfin.android.mvc.interfaces.IEventProjector;
+import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
@@ -302,8 +302,8 @@ public abstract class AbstractAndroidController /*extends AbstractPropertyChange
 			if (null != part) {
 				part.setParent(this);
 				// Connect parts as listeners for fast objects. Watch this connections for AndroidController destruction.
-				if (model instanceof IEventProjector)
-					((IEventProjector) model).addPropertyChangeListener(this);
+				if (model instanceof IEventEmitter)
+					((IEventEmitter) model).addPropertyChangeListener(this);
 			}
 		}
 		return part;

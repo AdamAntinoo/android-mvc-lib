@@ -24,27 +24,21 @@ public class DemoHeaderTitleRender extends AbstractRender<DemoHeaderTitleAndroid
 	private TextView applicationName = null;
 	private TextView applicationVersion = null;
 
-
 	// - C O N S T R U C T O R - S E C T I O N
-	protected DemoHeaderTitleRender(final DemoHeaderTitleRender.Builder<DemoHeaderTitleAndroidController> builder) {
+	protected DemoHeaderTitleRender(final DemoHeaderTitleRender.Builder builder) {
 		super(builder);
 	}
 
 	// - M E T H O D - S E C T I O N
-//	@Override
-//	public DemoHeaderTitleAndroidController getController() {
-//		return (DemoHeaderTitleAndroidController) super.getController();
-//	}
-
 	@Override
 	public void initializeViews() {
-		applicationName = (TextView) _convertView.findViewById(R.id.applicationName);
-		applicationVersion = (TextView) _convertView.findViewById(R.id.applicationVersion);
+		applicationName = (TextView) this.getView().findViewById(R.id.applicationName);
+		applicationVersion = (TextView) this.getView().findViewById(R.id.applicationVersion);
 	}
 
 	@Override
 	public void updateContent() {
-		applicationName.setText(getController().getModel().getName());
+		applicationName.setText(this.getController().getModel().getName());
 		applicationName.setVisibility(View.VISIBLE);
 		applicationVersion.setText(getController().getModel().getVersion());
 		applicationVersion.setVisibility(View.VISIBLE);
@@ -56,7 +50,10 @@ public class DemoHeaderTitleRender extends AbstractRender<DemoHeaderTitleAndroid
 	}
 
 	// - B U I L D E R
-	public static class Builder<DemoHeaderTitleAndroidController> extends AbstractRender.Builder {
+	public static class Builder extends AbstractRender.Builder<DemoHeaderTitleAndroidController> {
+		public Builder(final DemoHeaderTitleAndroidController controller, final Activity context) {
+			super(controller, context);
+		}
 		public DemoHeaderTitleRender build() {
 			return new DemoHeaderTitleRender(this);
 		}
