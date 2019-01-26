@@ -40,7 +40,7 @@ public interface IDataSource extends PropertyChangeListener {
 
 	 void collaborate2Model();
 
-	 List<IAndroidAndroidController> getDataSectionContents();
+	 List<IAndroidController> getDataSectionContents();
 
 //	 IRootPart createRootPart();
 

@@ -11,8 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import static org.junit.Assert.*;
-
 /**
  * @author Adam Antinoo
  */
@@ -26,7 +24,7 @@ private View testView ;
 		// Given
 		final Separator model = new Separator("Test Separator");
 		final ControllerFactory factory= Mockito.mock(ControllerFactory.class);
-		final SeparatorAndroidController controller = new SeparatorAndroidController.Builder(model, factory).build();
+		final SeparatorController controller = new SeparatorController.Builder(model, factory).build();
 		final SeparatorRender render = new SeparatorRender.Builder(controller, getContext()).build();
 		testView =  LayoutInflater.from(getContext())
 				.inflate(render.accessLayoutReference(), null);	}

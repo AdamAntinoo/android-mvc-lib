@@ -15,23 +15,30 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import org.dimensinfin.android.mvc.R;
+import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractRender<C> implements IRender {
+/**
+ * This class encapsulates the core definition for a component render. It is transparent to the Model type that is defined as a generic
+ * type. Renders are tied to model types but can be used and connected to the models through multiple controllers.
+ * @param <M> the model class type tht can be accessed through the controller.
+ */
+public abstract class AbstractRender<M extends ICollaboration> implements IRender {
 	protected static Logger logger = LoggerFactory.getLogger(AbstractRender.class);
 
 	// - F I E L D - S E C T I O N
-	private C controller; // Holds the parent controller that is associated to this render. Used to access the model.
+	private AAndroidController<M> controller; // Holds the parent controller that is associated to this render. Used to access the model.
 	private Context context; // Reference to the context. Usually the application singleton.
 	private View convertView = null;
 //	private final HashMap<String, Object> _extras = new HashMap<String, Object>();
 
 	// - L A Y O U T   F I E L D S
 	// - C O N S T R U C T O R - S E C T I O N
-	protected AbstractRender(final AbstractRender.Builder<C> builder) {
+	protected AbstractRender(final AbstractRender.Builder<M> builder) {
 		this.controller = builder.controller;
 		this.context = builder.context;
 		this.createView(); // Inflate the layout to have the containers ready for identification.
@@ -44,7 +51,7 @@ public abstract class AbstractRender<C> implements IRender {
 		return context;
 	}
 
-	public C getController() {
+	public AAndroidController<M> getController() {
 		return controller;
 	}
 
@@ -130,16 +137,16 @@ public abstract class AbstractRender<C> implements IRender {
 
 
 	// -  B U I L D E R
-	public abstract static class Builder<C> {
-		private C controller;
+	public abstract static class Builder<M extends ICollaboration> {
+		private AAndroidController<M> controller;
 		private Context context;
 
-		public Builder(final C controller, final Context context) {
+		public Builder(final AAndroidController<M> controller, final Context context) {
 			this.controller = controller;
 			this.context = context;
 		}
 
-		public Builder controller(final C controller) {
+		public Builder controller(final AAndroidController<M> controller) {
 			this.controller = controller;
 			return this;
 		}
@@ -148,6 +155,6 @@ public abstract class AbstractRender<C> implements IRender {
 			this.context = context;
 			return this;
 		}
-		public abstract AbstractRender<C> build();
+		public abstract AbstractRender<M> build();
 	}
 }

@@ -219,8 +219,8 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		private IControllerFactory factory;
 		private String renderMode;
 
-		public Builder() {
-		}
+//		public Builder() {
+//		}
 
 		public Builder(final M model, final IControllerFactory factory) {
 			this.model = model;

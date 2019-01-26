@@ -172,7 +172,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			item.addPropertyChangeListener(datasource);
 			if (LOG_ALLOWED) {
 				// Filter out the spinner.
-				if (!exitMessage.contains("OnLoadSpinnerAndroidController")) {
+				if (!exitMessage.contains("OnLoadSpinnerController")) {
 					final Period elapsedPeriod = new Period(chrono, Instant.now(), PeriodType.millis());
 					final String elapsedMs = MessageFormat.format("{0,number}ms", elapsedPeriod.getMillis());
 					logger.info("{} - Rendering time: {}", exitMessage, elapsedMs);

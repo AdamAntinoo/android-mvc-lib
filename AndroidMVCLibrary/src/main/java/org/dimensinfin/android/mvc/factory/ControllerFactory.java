@@ -9,9 +9,9 @@
 package org.dimensinfin.android.mvc.factory;
 
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.controller.SeparatorController;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.controller.SeparatorAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator;
 import org.slf4j.Logger;
@@ -32,8 +32,8 @@ public class ControllerFactory implements IControllerFactory {
 	public IAndroidController createController(final ICollaboration node) {
 		// Associate the default classes defined at the MVC.
 		if (node instanceof Separator) {
-			part = SeparatorAndroidController((Separator) node).setFactory(this)
-					.setRenderMode(this.getVariant());
+			return SeparatorController.Builder((Separator) node,this)
+					.(this.getVariant());
 			return part;
 		}
 		if (node instanceof AbstractPagerFragment.EmptyNotVisibleNode) {
@@ -42,7 +42,8 @@ public class ControllerFactory implements IControllerFactory {
 			return part;
 		}
 		// If no part is trapped then result a NOT FOUND mark
-		return new SeparatorAndroidController(new Separator("-NO Model-AndroidController match-[" + node.getClass().getSimpleName() + "]-"));
+		return new SeparatorController.Builder(new Separator("-NO Model-Controller match-[" + node.getClass().getSimpleName() + "]-")
+				,this).build();
 	}
 
 	// - G E T T E R S   &   S E T T E R S

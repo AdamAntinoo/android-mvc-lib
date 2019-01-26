@@ -12,6 +12,7 @@
 package org.dimensinfin.android.mvc.datasource;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.animation.Animation;
@@ -26,8 +27,10 @@ import org.dimensinfin.android.mvc.interfaces.IAndroidAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
+import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.interfaces.IRootPart;
 import org.dimensinfin.android.mvc.render.AbstractRender;
+import org.dimensinfin.android.mvc.render.SeparatorRender;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
@@ -102,7 +105,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	 * during the <code>collaboration2View()</code> phase to use less memory and avoid copying references from list to
 	 * list during the generation process.
 	 */
-	private final List<IAndroidAndroidController> _dataSectionParts = new ArrayList<>(100);
+	private final List<IAndroidController> _dataSectionParts = new ArrayList<>(100);
 	/** Flag used to do not launch more update events when there is one pending. */
 	private boolean _pending = false;
 	private int refreshTime = -1;
@@ -124,7 +127,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 		this.variant = builder.variant;
 		this.extras = builder.extras;
 		this.shouldBeCached = builder.shouldBeCached;
-		this.refreshTime=builder.refreshTime;
+		this.refreshTime = builder.refreshTime;
 		// Initialize other dependant fields.
 		_partModelRoot = new MVCRootAndroidController.Builder(this._dataModelRoot, this.controllerFactory)
 				.dataSource(this.getDataSource())
@@ -165,7 +168,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 		//		cleanLinks(_dataSectionParts);
 		_dataSectionParts.clear();
 		// And add back the initial spinner.
-		_dataSectionParts.add(new OnLoadSpinnerAndroidController(new Separator()));
+		_dataSectionParts.add(new OnLoadSpinnerController.Builder   (new Separator(), this.controllerFactory).build());
 	}
 
 	/**
@@ -245,7 +248,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 		return this;
 	}
 
-	public List<IAndroidAndroidController> getDataSectionContents() {
+	public List<IAndroidController> getDataSectionContents() {
 		return _dataSectionParts;
 	}
 
@@ -277,7 +280,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	 */
 	public void startOnLoadProcess() {
 		if (!isCached()) {
-			_dataSectionParts.add(new OnLoadSpinnerAndroidController(new Separator()));
+			_dataSectionParts.add(new OnLoadSpinnerController.Builder(new Separator(), this.controllerFactory).build());
 		}
 	}
 
@@ -322,7 +325,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	 * regeneration of all the transformations and <b>content</b> that can change the list of elements to be visible at
 	 * this point in time but that do not change the initial structure. The contents can happen from changes on the model
 	 * data or by interactions on the Parts that have some graphical impact.
-	 * <p>
+	 *
 	 * If the model structure changes we should recreate the Model -> AndroidController transformation and generate
 	 * another AndroidController tree with Parts matching the current model graph. At this transformation we can transform
 	 * any data connected structure real or virtual to a hierarchy graph with the standard parent-child structure. We use
@@ -330,7 +333,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	 * <code>collaborate2Model()</code> as a way to convert internal data structures to a hierarchy representation on a
 	 * point in time. We isolate internal model ways to deal with data and we can optimize for the AndroidController
 	 * hierarchy without compromising thet model flexibility.
-	 * <p>
+	 *
 	 * If the contents change we only should run over the AndroidController tree to make the transformation to generate a
 	 * new AndroidController list for all the new visible and renderable items. This is performed with the
 	 * <code>collaborate2View()</code> method for any AndroidController that will then decide which of its internal
@@ -338,7 +341,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	 * programmatic filtering or sorting because at this point we can influence the output representation for the model
 	 * instance. We can also decorate the resulting AndroidController list breaking the one to one relationship between a
 	 * model instance and a AndroidController instance.
-	 * <p>
+	 *
 	 * After the models changes we should send a message to the <code>DataSourceAdapter</code> to refresh the graphical
 	 * elements and change the display. <code>DataSource</code> instances do not have a reference to the Adapter nor to
 	 * the Fragment that created them but during the creation process the Adapter installed a listener to get a copy of
@@ -418,45 +421,62 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 	}
 
 
-	public static class OnLoadSpinnerAndroidController extends AAndroidController<Separator> {
+	public static class OnLoadSpinnerController extends AAndroidController<Separator> {
 		// - C O N S T R U C T O R - S E C T I O N
 		/**
-		 * This constructor connect the root part to the DS and then top the other initialization elements that define the DS
-		 * functionality but at a time that is not the creation time. Then the Factory and other data structures become
+		 * This constructor connect the root part to the DS and then top the other initialization elements that define the
+		 * DS functionality but at a time that is not the creation time. Then the Factory and other data structures become
 		 * available to the part hierarchy without affecting any other AndroidController implementation.
 		 */
-		protected MVCRootAndroidController(final MVCRootAndroidController.Builder builder) {
+		protected OnLoadSpinnerController(final OnLoadSpinnerController.Builder builder) {
 			super(builder);
-			this.ds = builder.dataSource;
 		}
 
-
+		/**
+		 * This method is required by the Adapter to get a unique identifier for each node to be render on a Viewer.
+		 * @return a unique number identifier.
+		 */
 		@Override
 		public long getModelId() {
-			return 0;
+			return Instant.now().getMillis();
 		}
 
 		@Override
-		public AbstractRender selectRenderer() {
-			return new OnLoadSpinnerRender(this, getActivity());
+		public IRender getRenderer(final Context context) {
+			return new SeparatorRender.Builder(this, context)
+					.controller(this)
+					.build();
+		}
+
+		// - B U I L D E R
+		public static class Builder extends AAndroidController.Builder<Separator> {
+			public Builder(final Separator model, final IControllerFactory factory) {
+				super(model, factory);
+			}
+
+			public OnLoadSpinnerController build() {
+				return new OnLoadSpinnerController(this);
+			}
 		}
 	}
 
-	public static class OnLoadSpinnerRender extends AbstractRender {
+	public static class OnLoadSpinnerRender extends AbstractRender<Separator> {
+		// - F I E L D - S E C T I O N
 		private ProgressBar progress = null;
 		private TextView progressCounter = null;
 
 		private Instant _elapsedTimer = null;
 
-		public OnLoadSpinnerRender(final AbstractAndroidController newPart, final Activity context) {
-			super(newPart, context);
+		// - C O N S T R U C T O R - S E C T I O N
+		protected OnLoadSpinnerRender(final OnLoadSpinnerRender.Builder builder) {
+			super(builder);
 		}
 
 		// - I R E N D E R   I N T E R F A C E
 		@Override
 		public void initializeViews() {
-			progress = (ProgressBar) _convertView.findViewById(R.id.progress);
-			progressCounter = (TextView) _convertView.findViewById(R.id.progressCounter);
+			progress = (ProgressBar) this.getView().findViewById(R.id.progress);
+			progressCounter = (TextView) this.getView().findViewById(R.id.progressCounter);
 			_elapsedTimer = Instant.now();
 			new CountDownTimer(TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS.toMillis(10)) {
 				@Override
@@ -504,6 +524,17 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 				return "0m 00s";
 			}
 		}
+
+		// - B U I L D E R
+		public static class Builder extends AbstractRender.Builder<Separator> {
+			public Builder(final AAndroidController<Separator> controller, final Context context) {
+				super(controller, context);
+			}
+
+			public OnLoadSpinnerRender build() {
+				return new OnLoadSpinnerRender(this);
+			}
+		}
 	}
 
 	// - B U I L D E R
@@ -515,7 +546,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 		private String variant = "-DEFAULT-VARIANT-";
 		private Bundle extras = new Bundle();
 		private boolean shouldBeCached = false;
-		private int refreshTime=1;
+		private int refreshTime = 1;
 
 		public Builder(final DataSourceLocator locator, final IControllerFactory controllerFactory) {
 			this.locator = locator;
@@ -546,6 +577,7 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 			this.shouldBeCached = shouldBeCached;
 			return this;
 		}
+
 		public Builder refreshTime(final int refreshTime) {
 			this.refreshTime = refreshTime;
 			return this;
