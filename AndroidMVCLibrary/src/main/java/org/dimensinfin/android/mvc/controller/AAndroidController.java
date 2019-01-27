@@ -41,7 +41,7 @@ import java.util.Vector;
 
 public abstract class AAndroidController<M extends ICollaboration> implements IAndroidController<M> {
 	/** This is the public logger that should be used by all the Controllers. */
-	public static final Logger logger = LoggerFactory.getLogger( AAndroidController.class );
+	protected static final Logger logger = LoggerFactory.getLogger( AAndroidController.class );
 
 	// - F I E L D - S E C T I O N
 	/** List of children of the hierarchy. */
@@ -60,10 +60,14 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	private AbstractPropertyChanger eventController = new AbstractPropertyChanger();
 
 	// - C O N S T R U C T O R - S E C T I O N
-	protected AAndroidController(final AAndroidController.Builder<M> builder) {
-		this.model = builder.model;
-		this.factory = builder.factory;
-		this.renderMode = builder.renderMode;
+//	protected AAndroidController(final AAndroidController.Builder<M> builder) {
+//		this.model = builder.model;
+//		this.factory = builder.factory;
+//		this.renderMode = builder.renderMode;
+//	}
+	public AAndroidController(final M model, final IControllerFactory factory) {
+		this.model = model;
+		this.factory = factory;
 	}
 
 	// - G E T T E R S   &   S E T T E R S
@@ -95,7 +99,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	 * @param context
 	 * @return
 	 */
-	public abstract IRender getRenderer(final Context context);
+	public abstract IRender buildRender(final Context context);
 
 	/**
 	 * Optimized process to generate the list of Parts that should end on the render graphical process. While we are
@@ -238,32 +242,32 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 				.toString();
 	}
 
-	// - B U I L D E R
-	public abstract static class Builder<M extends ICollaboration> {
-		private M model;
-		private IControllerFactory factory;
-		private String renderMode;
-
-		public Builder(final M model, final IControllerFactory factory) {
-			this.model = model;
-			this.factory = factory;
-		}
-
-		public Builder model(final M model) {
-			this.model = model;
-			return this;
-		}
-
-		public Builder factory(final IControllerFactory factory) {
-			this.factory = factory;
-			return this;
-		}
-
-		public Builder renderMode(final String renderMode) {
-			this.renderMode = renderMode;
-			return this;
-		}
-
-		public abstract AAndroidController build();
-	}
+//	// - B U I L D E R
+//	public abstract static class Builder<M extends ICollaboration> {
+//		private M model;
+//		private IControllerFactory factory;
+//		private String renderMode;
+//
+//		public Builder(final M model, final IControllerFactory factory) {
+//			this.model = model;
+//			this.factory = factory;
+//		}
+//
+//		public Builder model(final M model) {
+//			this.model = model;
+//			return this;
+//		}
+//
+//		public Builder factory(final IControllerFactory factory) {
+//			this.factory = factory;
+//			return this;
+//		}
+//
+//		public Builder renderMode(final String renderMode) {
+//			this.renderMode = renderMode;
+//			return this;
+//		}
+//
+//		public abstract AAndroidController build();
+//	}
 }
