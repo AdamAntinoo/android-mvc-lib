@@ -30,10 +30,10 @@ import org.slf4j.LoggerFactory;
 /**
  * This class extends the bare android Activity. Defines the ActionBar and instantiates the layout. The generic layout
  * for any of the MVC activities contains 3 key elements. A <b>Background</b> image container that defines the full
- * background of the activity, the <b>ActionBar</b> that is defined on the applications styles and that it is made
+ * background of the context, the <b>ActionBar</b> that is defined on the applications styles and that it is made
  * visible by default and the <b>ViewPager</b> container that will hold the fragments. This allows for a generic
- * activity that will be able to contain different pages and with the feature to allow to swipe to them without changing
- * the activity. The different pages will be shown by a circle page indicator if more that one page is present. Only two
+ * context that will be able to contain different pages and with the feature to allow to swipe to them without changing
+ * the context. The different pages will be shown by a circle page indicator if more that one page is present. Only two
  * of them are accessible to other implementations, the Background and the ActionBar.
  * <p>
  * So at the creation step we only should have to generate the Fragments and add them to the pager. This is the
@@ -69,7 +69,7 @@ public abstract class AbstractPagerActivity extends Activity {
 	}
 
 	/**
-	 * Allows to change the activity background that covers the full size of the display
+	 * Allows to change the context background that covers the full size of the display
 	 * @param newbackground the new background image.
 	 */
 	public void setBackground(final ImageView newbackground) {
@@ -106,7 +106,7 @@ public abstract class AbstractPagerActivity extends Activity {
 			} else
 				throw new RuntimeException("RTEX [AbstractPagerActivity.addPage]> The fragment located does not inherit the required functionality. Does not extend AbstractPagerFragment.");
 		}
-		// Be sure the Fragment activity points to a valid activity.
+		// Be sure the Fragment context points to a valid context.
 		newFrag.setAppContext(getActivity());
 		// Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
 		newFrag.setExtras(this.getExtras());
@@ -200,9 +200,9 @@ public abstract class AbstractPagerActivity extends Activity {
 
 
 		// TODO This section is back the core ActionBar that can be configured until a new configuration is tested.
-		// Set the layout to the core activity that defines the background, the indicator and the fragment container.
+		// Set the layout to the core context that defines the background, the indicator and the fragment container.
 		this.setContentView(R.layout.activity_pager);
-		// Gets the activity's default ActionBar
+		// Gets the context's default ActionBar
 		_actionBar = this.getActionBar();
 		_actionBar.show();
 		_actionBar.setDisplayHomeAsUpEnabled(true);

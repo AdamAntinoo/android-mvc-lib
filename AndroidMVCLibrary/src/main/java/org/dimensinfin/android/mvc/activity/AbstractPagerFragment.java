@@ -12,35 +12,40 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.*;
+import android.view.ContextMenu;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
-import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
 import org.dimensinfin.android.mvc.core.MVCExceptionHandler;
 import org.dimensinfin.android.mvc.core.RootAndroidController;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.android.mvc.interfaces.*;
+import org.dimensinfin.android.mvc.interfaces.IAndroidAndroidController;
+import org.dimensinfin.android.mvc.interfaces.IAndroidController;
+import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.interfaces.IDataSource;
+import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
+import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.render.AbstractRender;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
-import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.core.model.Separator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -100,9 +105,9 @@ public abstract class AbstractPagerFragment extends Fragment {
 	private TextView _progressElapsedCounter = null;
 
 
-	// TODO REFACTOR Set back to private after the PagerFragment is removed
-	private final Vector<IAndroidAndroidController> _headerContents = new Vector<IAndroidAndroidController>();
-	private IModelGenerator _generator = null;
+//	// TODO REFACTOR Set back to private after the PagerFragment is removed
+//	private final Vector<IAndroidAndroidController> _headerContents = new Vector<IAndroidAndroidController>();
+//	private IModelGenerator _generator = null;
 
 
 	private IMenuActionTarget _listCallback = null;
@@ -230,8 +235,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	/**
 	 * This method that should be implemented at every fragment is responsible to instantiate, identify and initialize a
 	 * <code>@link{IDataSource}</code> that is the class code that generates the model structures, be them list,
-	 * hierarchy
-	 * or graphs.
+	 * hierarchy or graphs.
 	 * @return an <code>IDataSource</code> instance that is ready to generate the model contents.
 	 */
 	protected abstract IDataSource registerDataSource();
@@ -333,9 +337,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 			// This way once we finish the configuration the display will refresh with the spinner on it.
 			// We remove the spinner from the display when the model generation ends.
 			_datasource.startOnLoadProcess();
-			getAppContext().runOnUiThread(() -> {
-				_adapter.notifyDataSetChanged();
-			});
+			getAppContext().runOnUiThread(() -> _adapter.notifyDataSetChanged());
 			// Create the hierarchy structure to be used on the Header. We have the model list and we should convert it to a view list.
 			AbstractPagerFragment._uiExecutor.submit(() -> {
 				// Entry point to generate the Header model.
@@ -375,7 +377,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 		outState.putString(AbstractPagerActivity.EExtrasMVC.EXTRA_VARIANT.name(), getVariant());
 	}
 
-	//--- H E A D E R   M A N A G E M E N T   S E C T I O N
+	// - H E A D E R   M A N A G E M E N T   S E C T I O N
 
 	/**
 	 * This method is the way to transform the list of model data prepared for the Header to end on a list of Views inside
@@ -425,7 +427,6 @@ public abstract class AbstractPagerFragment extends Fragment {
 		logger.info(">> [AbstractPagerFragment.addView2Header]");
 		try {
 			final IRender holder = target.getRenderer(this.getAppContext());
-//			holder.initializeViews();
 			holder.updateContent();
 			final View hv = holder.getView();
 			_headerContainer.addView(hv);
@@ -436,8 +437,8 @@ public abstract class AbstractPagerFragment extends Fragment {
 			}
 			_headerContainer.setVisibility(View.VISIBLE);
 		} catch (final RuntimeException rtex) {
-			logger.info("RTEX [AbstractPagerFragment.addView2Header]> Problem generating view for: " + target.getClass().getCanonicalName());
-			logger.info("RTEX [AbstractPagerFragment.addView2Header]> RuntimeException. " + rtex.getMessage());
+			logger.info("RTEX [AbstractPagerFragment.addView2Header]> Problem generating view for: {}", target.getClass().getCanonicalName());
+			logger.info("RTEX [AbstractPagerFragment.addView2Header]> RuntimeException. {}", rtex.getMessage());
 			rtex.printStackTrace();
 			Toast.makeText(this.getAppContext()
 					, "RTEX [AbstractPagerFragment.addView2Header]> RuntimeException. " + rtex.getMessage()
@@ -446,13 +447,13 @@ public abstract class AbstractPagerFragment extends Fragment {
 		logger.info("<< AbstractPagerFragment.addView2Header");
 	}
 
-	//--- CONTEXTUAL MENU FOR THE HEADER
+	// - CONTEXTUAL MENU FOR THE HEADER
 	@Override
 	public boolean onContextItemSelected(final MenuItem item) {
 		logger.info(">> ManufactureContextFragment.onContextItemSelected");
 		final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 		final int menuItemIndex = item.getItemId();
-		final AbstractAndroidAndroidController part = (AbstractAndroidAndroidController) info.targetView.getTag();
+		final AAndroidController part = (AAndroidController) info.targetView.getTag();
 		if (part instanceof IMenuActionTarget)
 			return ((IMenuActionTarget) part).onContextItemSelected(item);
 		else
@@ -478,7 +479,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 		// Get the tag assigned to the selected view and if implements the callback interface send it the message.
 		final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 		// Check if the selected item is suitable for menu and select it depending on item part class.
-		AbstractAndroidAndroidController part = (AbstractAndroidAndroidController) info.targetView.getTag();
+		AAndroidController part = (AAndroidController) info.targetView.getTag();
 		if (part instanceof IMenuActionTarget) {
 			((IMenuActionTarget) part).onCreateContextMenu(menu, view, menuInfo);
 		}
@@ -486,15 +487,9 @@ public abstract class AbstractPagerFragment extends Fragment {
 		logger.info("<< [AbstractPagerFragment.onCreateContextMenu]"); //$NON-NLS-1$
 	}
 
-	//- CLASS IMPLEMENTATION ...................................................................................
 	public static class EmptyDataSource extends MVCDataSource {
 		public EmptyDataSource(DataSourceLocator locator, String variant, IControllerFactory factory, Bundle extras) {
 			super(locator, variant, factory, extras);
-		}
-
-		@Override
-		public void addPropertyChangeListener(final PropertyChangeListener newListener) {
-
 		}
 
 		@Override
@@ -559,6 +554,17 @@ public abstract class AbstractPagerFragment extends Fragment {
 		@Override
 		public IRender getRenderer(final Context context) {
 			return null;
+		}
+
+		// - B U I L D E R
+		public static class Builder extends AAndroidController.Builder<Separator> {
+			public Builder(final Separator model, final IControllerFactory factory) {
+				super(model, factory);
+			}
+
+			public EmptyAndroidController build() {
+				return new EmptyAndroidController(this);
+			}
 		}
 	}
 

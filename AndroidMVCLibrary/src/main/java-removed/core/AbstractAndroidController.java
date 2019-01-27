@@ -111,10 +111,10 @@ public abstract class AbstractAndroidController /*extends AbstractPropertyChange
 //	 * allow any part at any hierarchy level to run on the hierarchy to reach a root node and get the factory from that
 //	 * node.
 //	 */
-//	public IControllerFactory getPartFactory() {
+//	public IControllerFactory getControllerFactory() {
 //		if (null == _factory) {
 //			// Search for the factory at the root.
-//			this._factory = this.getRootPart().getPartFactory();
+//			this._factory = this.getRootPart().getControllerFactory();
 //		}
 //		return _factory;
 //	}
@@ -242,7 +242,7 @@ public abstract class AbstractAndroidController /*extends AbstractPropertyChange
 //	 * element and all the other parts should have a reference to the root to be able to do the same.
 //	 */
 //	protected IAndroidController createChild( final ICollaboration model ) {
-//		IControllerFactory factory = this.getRoot().getPartFactory();
+//		IControllerFactory factory = this.getRoot().getControllerFactory();
 //		IAndroidController part = factory.createPart(model);
 //		// If the factory is unable to create the AndroidController then skip this element or wait to be replaced by a dummy
 //		if (null != part) {
@@ -422,7 +422,7 @@ public abstract class AbstractAndroidController /*extends AbstractPropertyChange
 //					.info("-- [AbstractAndroidController.refreshChildren]> Exception case: partModel is NULL: " + this.toString());
 //			return;
 //		}
-//		final List<ICollaboration> modelObjects = partModel.collaborate2Model(this.getPartFactory().getVariant());
+//		final List<ICollaboration> modelObjects = partModel.collaborate2Model(this.getControllerFactory().getVariant());
 //		AbstractAndroidController.logger.info("-- [AbstractAndroidController.refreshChildren]> modelObjects: " + modelObjects);
 //
 //		// Process the list of model children for this AndroidController.

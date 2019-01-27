@@ -13,37 +13,35 @@ package org.dimensinfin.android.mvc.part;
 
 import android.app.Activity;
 import android.widget.TextView;
-
-import org.dimensinfin.android.mvc.core.AbstractAndroidController;
+import org.dimensinfin.android.mvc.R;
+import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.model.PanelException;
+import org.dimensinfin.android.mvc.render.AbstractRender;
+import org.dimensinfin.core.interfaces.ICollaboration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
-import org.dimensinfin.android.mvc.render.AbstractRender;
-import org.dimensinfin.android.mvc.model.PanelException;
-import org.dimensinfin.core.interfaces.ICollaboration;
 
 /**
  * @author Adam Antinoo
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class PanelExceptionAndroidController extends AbstractAndroidAndroidController {
+public class PanelExceptionAndroidController extends AAndroidController {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("PanelExceptionAndroidController");
+	private static Logger logger = LoggerFactory.getLogger( "PanelExceptionAndroidController" );
 
 	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public PanelExceptionAndroidController(final ICollaboration model ) {
-		super(model);
+	public PanelExceptionAndroidController(final ICollaboration model) {
+		super( model );
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public PanelException getCastedModel(){
+	public PanelException getCastedModel() {
 		return (PanelException) this.getModel();
 	}
+
 	// --- I P A R T   I N T E R F A C E
 	@Override
 	public long getModelId() {
@@ -52,32 +50,33 @@ public class PanelExceptionAndroidController extends AbstractAndroidAndroidContr
 
 	@Override
 	public AbstractRender selectRenderer() {
-		return new PanelExceptionRender(this,getActivity());
+		return new PanelExceptionRender( this, getActivity() );
 	}
 
 	// - CLASS IMPLEMENTATION ...................................................................................
 	public static class PanelExceptionRender extends AbstractRender {
 		// - F I E L D - S E C T I O N ............................................................................
-private TextView exceptionMessage = null;
+		private TextView exceptionMessage = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public PanelExceptionRender(final AbstractAndroidController newPart, final Activity context ) {
-			super(newPart, context);
+		public PanelExceptionRender(final AAndroidController newPart, final Activity context) {
+			super( newPart, context );
 		}
 
 		// - M E T H O D - S E C T I O N ..........................................................................
-		public PanelExceptionAndroidController getController(){
+		public PanelExceptionAndroidController getController() {
 			return this.getController();
 		}
+
 		// --- I R E N D E R   I N T E R F A C E
 		@Override
 		public void initializeViews() {
-			exceptionMessage = (TextView) _convertView.findViewById(R.id.exceptionMessage);
+			exceptionMessage = (TextView) _convertView.findViewById( R.id.exceptionMessage );
 		}
 
 		@Override
 		public void updateContent() {
-			exceptionMessage.setText(getController().getCastedModel().getExceptionMessage());
+			exceptionMessage.setText( getController().getCastedModel().getExceptionMessage() );
 		}
 
 		@Override

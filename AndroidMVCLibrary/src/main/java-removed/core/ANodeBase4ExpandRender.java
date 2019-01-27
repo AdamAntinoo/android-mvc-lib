@@ -18,7 +18,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.render.AbstractRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
@@ -28,7 +27,7 @@ import org.dimensinfin.core.interfaces.IExpandable;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class ANodeBase4ExpandRender extends AbstractRender<C> {
+public class ANodeBase4ExpandRender extends AbstractRender {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -39,23 +38,23 @@ public abstract class ANodeBase4ExpandRender extends AbstractRender<C> {
 	protected ImageView nodeIcon = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public ANodeBase4ExpandRender(final AAndroidController target, final Activity context ) {
+	public ANodeBase4ExpandRender(final AbstractAndroidAndroidController target, final Activity context ) {
 		super(target, context);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public AAndroidController getController() {
+	public AbstractAndroidController getController() {
 		return _part;
 	}
 
-	// - G E T T E R S   &   S E T T E R S
+	//--- G E T T E R S   &   S E T T E R S
 	@Override
 	public void initializeViews() {
 		// Get the view of the rightArrow if found.
-		_rightArrow = (ImageView) this.getView().findViewById(R.id.rightArrow);
-		_separator = (ImageView) this.getView().findViewById(R.id.separator);
+		_rightArrow = (ImageView) _convertView.findViewById(R.id.rightArrow);
+		_separator = (ImageView) _convertView.findViewById(R.id.separator);
 
-		nodeIcon = (ImageView) this.getView().findViewById(R.id.nodeIcon);
+		nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
 	}
 
 	/**
@@ -97,7 +96,7 @@ public abstract class ANodeBase4ExpandRender extends AbstractRender<C> {
 		return R.layout.nodebase4expand;
 	}
 
-	// - D E L E G A T E D   M E T H O D S
+	//--- D E L E G A T E D   M E T H O D S
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer("ANodeBase4ExpandRender [ ");

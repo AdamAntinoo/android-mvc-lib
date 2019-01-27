@@ -10,10 +10,12 @@ package org.dimensinfin.android.mvc.demo.activity;
 
 import android.os.Bundle;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.controller.DemoHeaderTitleAndroidController;
 import org.dimensinfin.android.mvc.core.AndroidController;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
+import org.dimensinfin.android.mvc.factory.DemoControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
@@ -29,7 +31,7 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
 
-//import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
+//import org.dimensinfin.android.mvc.context.AbstractPagerFragment;
 //import org.dimensinfin.android.mvc.core.AndroidController;
 //import org.dimensinfin.android.mvc.factory.ControllerFactory;
 //import org.dimensinfin.android.mvc.datasource.MVCDataSource;
@@ -220,64 +222,6 @@ final class DemoDataSource extends MVCDataSource implements IDataSource {
 		}
 	}
 }
-
-// - CLASS IMPLEMENTATION ...................................................................................
-final class DemoControllerFactory extends ControllerFactory implements IControllerFactory {
-	public DemoControllerFactory(final String variantSelected) {
-		super(variantSelected);
-	}
-
-	// - M E T H O D - S E C T I O N
-
-	/**
-	 * The method should create the matching part for the model received. We can use the variant to change at creation
-	 * time the matching part or to replace parts when required.
-	 */
-	public IAndroidController createController(final ICollaboration node) {
-		logger.info("-- [DemoControllerFactory.createPart]> Node class: " + node.getClass().getSimpleName());
-		if (node instanceof DemoHeaderTitle) {
-			// These shows the selected Separator but with another rendering.
-			pr = DemoHeaderTitleAndroidController<DemoHeaderTitle, DemoHeaderTitleRender >.b
-
-
-
-			prt= AndroidController.<DemoHeaderTitle>builder().model((DemoHeaderTitle) node).build();
-
-
-
-			final AndroidController newpart =  DemoHeaderTitleAndroidController.builder().build();    .Builder<DemoHeaderTitle>((DemoHeaderTitle) node, this.getRootPart())
-					.build();
-			IAndroidController part = new DemoHeaderTitleAndroidController((DemoHeaderTitle) node).setIconReference(R.drawable.arrowleft)
-			                                                            .setRenderMode(getVariant())
-			                                                            .setFactory(this);
-			return part;
-		}
-		if (node instanceof DemoContainer) {
-			// These shows the selected Separator but with another rendering.
-			IAndroidController part = new DemoContainerAndroidController((DemoContainer) node).setRenderMode(getVariant())
-			                                                        .setFactory(this);
-			return part;
-		}
-
-		// Demo classes and models
-		if (node instanceof DemoItem) {
-			// These shows the selected Separator but with another rendering.
-			IAndroidController part = new DemoItemAndroidController((DemoItem) node).setRenderMode("-ITEM-")
-			                                              .setFactory(this);
-			return part;
-		}
-		// WARNING - When node classes have direct inheritance put the parent below their children.
-		if (node instanceof DemoLabel) {
-			// These shows the selected Separator but with another rendering.
-			IAndroidController part = new DemoItemAndroidController((DemoLabel) node).setRenderMode("-LABEL-")
-			                                               .setFactory(this);
-			return part;
-		}
-		// If no part is trapped then call the parent chain until one is found.
-		return super.createPart(node);
-	}
-}
-
 //- CLASS IMPLEMENTATION ...................................................................................
 final class DemoSeparatorGenerator extends AbstractGenerator implements IModelGenerator {
 	// - S T A T I C - S E C T I O N ..........................................................................

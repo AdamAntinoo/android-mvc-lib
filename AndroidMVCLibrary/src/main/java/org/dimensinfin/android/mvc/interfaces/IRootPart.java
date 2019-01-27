@@ -8,10 +8,9 @@
 //               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.interfaces;
 
+import java.util.List;
+
 public interface IRootPart {
-	//	public void setRootModel( final RootNode rootNode );
-//
 	void refreshChildren();
-//
-//	public void collaborate2View( final List<IAndroidAndroidController> contentCollector );
+	void collaborate2View(final List<IAndroidController> contentCollector);
 }

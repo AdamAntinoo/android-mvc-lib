@@ -9,53 +9,29 @@
 //               The new implementation performs the model to list transformation on the fly each time
 //               a model change is detected so the population of the displayed view should be done in
 //               real time while processing the model sources. This should allow for search and filtering.
-package org.dimensinfin.android.mvc.datasource;
-
-import android.os.Bundle;
-
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.dimensinfin.android.mvc.model.PanelException;
-import org.dimensinfin.core.datasource.DataSourceLocator;
-
-import java.beans.PropertyChangeListener;
-
-/**
- * This exceptional Data Source will accept an exception on construction to render a Exception Panel with the exception message and other
- * information.
- * @author Adam Antinoo
- */
+package org.dimensinfin.android.mvc.core;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class ExceptionDataSource extends MVCDataSource {
+public abstract class OneShotTask<T> implements Runnable {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("ExceptionDataSource");
+	private static final long serialVersionUID = 7601587036153405892L;
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private Exception interceptedException = null;
+	private T target = null;
+
+	// - F I E L D - S E C T I O N ............................................................................
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public ExceptionDataSource(final DataSourceLocator locator, final String variant, final IControllerFactory factory, final Bundle extras ) {
-		super(locator, variant, factory, extras);
+	public OneShotTask ( T source ) {
+		target = source;
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public ExceptionDataSource registerException( final Exception exception ) {
-		this.interceptedException = exception;
-		return this;
-	}
+	public abstract void run ();
 
-	@Override
-	public void addPropertyChangeListener(final PropertyChangeListener newListener) {
-
-	}
-
-	@Override
-	public void collaborate2Model() {
-		this.addModelContents(new PanelException(this.interceptedException));
+	public T getTarget () {
+		return target;
 	}
 }
+
 // - UNUSED CODE ............................................................................................
-//[01]

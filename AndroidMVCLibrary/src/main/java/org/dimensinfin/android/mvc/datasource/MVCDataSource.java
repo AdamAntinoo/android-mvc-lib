@@ -53,7 +53,7 @@ import java.util.concurrent.TimeUnit;
  */
 
 // - CLASS IMPLEMENTATION
-public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implements IDataSource {
+public abstract class MVCDataSource extends AbstractPropertyChanger implements IDataSource {
 	// - S T A T I C - S E C T I O N
 	private static final long serialVersionUID = -9128905983909144873L;
 	private static final boolean isDebuggable = true;
@@ -404,13 +404,13 @@ public abstract class MVCDataSource /*extends AbstractPropertyChanger*/ implemen
 				event.getNewValue());
 	}
 
-	protected void cleanLinks(final List<IAndroidAndroidController> partList) {
-		for (IAndroidController part : partList) {
-			if (part.getModel() instanceof AbstractPropertyChanger)
-				((AbstractPropertyChanger) part.getModel()).removePropertyChangeListener(part);
-		}
-		partList.clear();
-	}
+//	protected void cleanLinks(final List<IAndroidAndroidController> partList) {
+//		for (IAndroidController part : partList) {
+//			if (part.getModel() instanceof AbstractPropertyChanger)
+//				((AbstractPropertyChanger) part.getModel()).removePropertyChangeListener(part);
+//		}
+//		partList.clear();
+//	}
 
 	@Override
 	public String toString() {

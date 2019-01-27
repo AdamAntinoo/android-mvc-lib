@@ -11,6 +11,8 @@ package org.dimensinfin.android.mvc.interfaces;
 import android.content.Context;
 import android.view.View;
 
+import java.util.List;
+
 public interface IAndroidController<M> extends IEventEmitter {
 	M getModel();
 	void refreshChildren();
@@ -18,12 +20,5 @@ public interface IAndroidController<M> extends IEventEmitter {
 	View getViewCache();
 	void setViewCache(final View targetView);
 	long getModelId();
-//	List<IAndroidController> getChildren();
-//
-//
-//	IControllerFactory getControllerFactory();
-//
-//	IAndroidController setRenderMode(final String renderMode);
+	void collaborate2View(final List<IAndroidController> contentCollector);
 }
-
-// - UNUSED CODE ............................................................................................

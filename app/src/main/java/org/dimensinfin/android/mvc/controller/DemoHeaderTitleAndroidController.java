@@ -16,7 +16,7 @@ import android.widget.Toast;
 import lombok.ToString;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
-import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 import org.dimensinfin.android.mvc.render.AbstractRender;
 import org.dimensinfin.android.mvc.render.DemoHeaderTitleRender;
 
@@ -24,18 +24,17 @@ import org.dimensinfin.android.mvc.render.DemoHeaderTitleRender;
  * @author Adam Antinoo
  */
 @ToString
-public class DemoHeaderTitleAndroidController<DemoHeaderTitle> extends AAndroidController implements IMenuActionTarget {
+public class DemoHeaderTitleAndroidController extends AAndroidController<DemoHeaderTitle> implements IMenuActionTarget {
 	// - F I E L D - S E C T I O N
-		private DemoHeaderTitleRender render; // Holds the main render for the visible component of the model.
+	private DemoHeaderTitleRender render; // Holds the main render for the visible component of the model.
 	private int iconReference = R.drawable.defaulticonplaceholder;
 	private Activity activity;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	protected DemoHeaderTitleAndroidController(final DemoHeaderTitleAndroidController.Builder<DemoHeaderTitle> builder) {
+	protected DemoHeaderTitleAndroidController(final DemoHeaderTitleAndroidController.Builder builder) {
 		super(builder);
 		// Create the rendered from the renderer type.
-		this.render = new DemoHeaderTitleRender.Builder()
-				.
+		this.render = new DemoHeaderTitleRender.Builder(this, this.getActivity()).build();
 	}
 
 	// - M E T H O D - S E C T I O N
@@ -51,8 +50,8 @@ public class DemoHeaderTitleAndroidController<DemoHeaderTitle> extends AAndroidC
 
 	//	@Override
 	public AbstractRender selectRenderer() {
-		return null;
-		return DemoHeaderTitleRender.builder(). (this, activity);
+		if (null == this.render) this.render = new DemoHeaderTitleRender.Builder(this, this.getActivity()).build();
+		return this.render;
 	}
 
 	@Override
@@ -77,13 +76,12 @@ public class DemoHeaderTitleAndroidController<DemoHeaderTitle> extends AAndroidC
 		logger.info("<< [DemoHeaderTitleAndroidController.onCreateContextMenu]");
 	}
 
-	public static <DemoHeaderTitle> DemoHeaderTitleAndroidController<DemoHeaderTitle> builderDH() {
-		return new DemoHeaderTitleAndroidController<DemoHeaderTitle>();
-	}
-
+//	public static <DemoHeaderTitle> DemoHeaderTitleAndroidController<DemoHeaderTitle> builderDH() {
+//		return new DemoHeaderTitleAndroidController<DemoHeaderTitle>();
+//	}
 
 	// - B U I L D E R
-	public static class Builder<DemoHeaderTitle> extends AAndroidController.Builder {
+	public static class Builder extends AAndroidController.Builder<DemoHeaderTitle> {
 		public DemoHeaderTitleAndroidController build() {
 			return new DemoHeaderTitleAndroidController(this);
 		}

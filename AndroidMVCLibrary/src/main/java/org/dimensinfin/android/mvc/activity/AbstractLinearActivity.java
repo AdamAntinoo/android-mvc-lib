@@ -43,7 +43,7 @@ public class AbstractLinearActivity extends AbstractPagerActivity {
 		Fragment frag = this.getFragmentManager().findFragmentByTag(_linearAdapter.getFragmentId(_linearAdapter.getNextPosition()));
 		if ( null == frag ) {
 			_linearAdapter.addLinear(newFrag);
-			// Now add the configured fragment to the activity container layout.
+			// Now add the configured fragment to the context container layout.
 			// Begin the transaction
 			logger.info("-- [AbstractLinearActivity.addLinear]> Fragment: {}", newFrag.getClass().getSimpleName());
 			FragmentTransaction ft = this.getFragmentManager().beginTransaction();
@@ -58,7 +58,7 @@ public class AbstractLinearActivity extends AbstractPagerActivity {
 			} else
 				throw new RuntimeException("RTEX [AbstractLinearActivity.addLinear]> The fragment located does not inherit the required functionality. Does not extend AbstractPagerFragment.");
 		}
-		// Be sure the Fragment activity points to a valid activity.
+		// Be sure the Fragment context points to a valid context.
 		newFrag.setAppContext(this);
 		// Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
 		newFrag.setExtras(extras);
@@ -70,7 +70,7 @@ public class AbstractLinearActivity extends AbstractPagerActivity {
 	public void onCreate( @Nullable final Bundle savedInstanceState ) {
 		logger.info(">> [AbstractLinearActivity.onCreate]");
 		super.onCreate(savedInstanceState);
-		// Set the layout to the core activity that defines the background and the fragment container, this time one on top of another and
+		// Set the layout to the core context that defines the background and the fragment container, this time one on top of another and
 		// not in different pages.
 		try {
 			this.setContentView(R.layout.activity_linear);

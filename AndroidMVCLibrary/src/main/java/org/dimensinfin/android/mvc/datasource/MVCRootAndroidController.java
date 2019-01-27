@@ -77,9 +77,9 @@ public class MVCRootAndroidController extends AAndroidController<RootNode> imple
 	}
 }
 
-final class RootNodeRender extends AbstractRender<MVCRootAndroidController> {
+final class RootNodeRender extends AbstractRender<RootNode> {
 
-	protected RootNodeRender(final Builder<MVCRootAndroidController> builder) {
+	protected RootNodeRender(final Builder<RootNode> builder) {
 		super(builder);
 	}
 

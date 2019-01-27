@@ -41,7 +41,7 @@ import java.util.Vector;
 
 public abstract class AAndroidController<M extends ICollaboration> implements IAndroidController<M> {
 	/** This is the public logger that should be used by all the Controllers. */
-	public static final Logger logger = LoggerFactory.getLogger(AAndroidController.class);
+	public static final Logger logger = LoggerFactory.getLogger( AAndroidController.class );
 
 	// - F I E L D - S E C T I O N
 	/** List of children of the hierarchy. */
@@ -57,7 +57,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	@Getter
 	@Setter
 	private View viewCache; // Caches the render generated view used to the Adapter so it can be reused multiple times.
-	private AbstractPropertyChanger eventController=new AbstractPropertyChanger();
+	private AbstractPropertyChanger eventController = new AbstractPropertyChanger();
 
 	// - C O N S T R U C T O R - S E C T I O N
 	protected AAndroidController(final AAndroidController.Builder<M> builder) {
@@ -77,24 +77,49 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	}
 
 	public List<IAndroidController> getChildren() {
-		if (children == null) return new Vector<IAndroidController>(2);
+		if (children == null) return new Vector<IAndroidController>( 2 );
 		return children;
 	}
 
 	public void addChild(final IAndroidController child) {
-		children.add(child);
+		children.add( child );
 	}
 
-	// - I A N D R I D C O N T R O L L E R   I N T E R F A C E
+	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
 
 	/**
-	 * This is the call that should create and inflate the render UI view. During all other processes the Context is not needed not used but
-	 * this is the right moment to get to the Android system and instantiate a new UI element. The Context can be discarded after this moment
-	 * since the view is going to be cached and if needed to be constructed again this call will be issued another time.
+	 * This is the call that should create and inflate the render UI view. During all other processes the Context is not
+	 * needed not used but this is the right moment to get to the Android system and instantiate a new UI element. The
+	 * Context can be discarded after this moment since the view is going to be cached and if needed to be constructed
+	 * again this call will be issued another time.
 	 * @param context
 	 * @return
 	 */
 	public abstract IRender getRenderer(final Context context);
+
+	/**
+	 * Optimized process to generate the list of Parts that should end on the render graphical process. While we are
+	 * collecting the data we are feeding it on the final collection list and making it available to the rendering if we
+	 * decide to do so by firing any graphical need for update method.
+	 *
+	 * Models should always return the same number of nodes not depending on presentation states. It is the
+	 * AndroidController that should interpret the current visual state to decide which nodes collaborate to the vien and
+	 * in which order and presentation.
+	 * @param contentCollector the list where we are collecting the Parts for rendering.
+	 */
+	public void collaborate2View(final List<IAndroidController> contentCollector) {
+		logger.info( ">< [RootAndroidPart.collaborate2View]> Collaborator: {}", this.getClass().getSimpleName() );
+		// If the node is expanded then give the children the opportunity to also be added.
+		// --- This is the section that is different for any AndroidController. This should be done calling the list of policies.
+//		List<IAndroidController> ch = this.runPolicies(this.getChildren());
+		List<IAndroidController> ch = this.getChildren();
+		logger.info( "-- [AbstractAndroidController.collaborate2View]> Collaborator children: {}", ch.size() );
+		// --- End of policies
+		for (IAndroidController part : ch) {
+			if (part instanceof IAndroidController)
+				((IAndroidController) part).collaborate2View( contentCollector );
+		}
+	}
 
 	// - I E V E N T E M I T T E R   I N T E R F A C E
 
@@ -102,8 +127,8 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	 * Add a new listener to the list of listeners on the delegated listen and event processing node.
 	 * @param listener the new listener to connect to this instance messages.
 	 */
-	public void addPropertyChangeListener(final PropertyChangeListener listener){
-		this.eventController.addPropertyChangeListener(listener);
+	public void addPropertyChangeListener(final PropertyChangeListener listener) {
+		this.eventController.addPropertyChangeListener( listener );
 	}
 
 	// - M E T H O D - S E C T I O N
@@ -130,56 +155,56 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	 * Page.
 	 */
 	public void refreshChildren() {
-		logger.info(">> [AbstractAndroidController.refreshChildren]");
+		logger.info( ">> [AbstractAndroidController.refreshChildren]" );
 		// Create the new list of Parts for this node model contents if it have any collaboration.
 		M partModel = this.getModel();
 		if (null == partModel) {
-			logger.warn("WR [AbstractAndroidController.refreshChildren]> Exception case: no Model defined for this AndroidController. {}"
-					, this.toString());
+			logger.warn( "WR [AbstractAndroidController.refreshChildren]> Exception case: no Model defined for this AndroidController. {}"
+					, this.toString() );
 			return;
 		}
 		// Get the new list of children for this model node. Use the Variant for generation discrimination.
-		final List<ICollaboration> modelInstances = partModel.collaborate2Model(this.getControllerFactory().getVariant());
+		final List<ICollaboration> modelInstances = partModel.collaborate2Model( this.getControllerFactory().getVariant() );
 		if (modelInstances.size() > 0) {
-			logger.info("-- [AbstractAndroidController.refreshChildren]> modelInstances count: " + modelInstances.size());
+			logger.info( "-- [AbstractAndroidController.refreshChildren]> modelInstances count: " + modelInstances.size() );
 			// Check all the model instances have a matching AndroidController instance.
-			final List<IAndroidController> newPartChildren = new ArrayList<IAndroidController>(modelInstances.size());
+			final List<IAndroidController> newPartChildren = new ArrayList<IAndroidController>( modelInstances.size() );
 			final List<IAndroidController> currentPartChildren = this.getChildren();
 			for (ICollaboration modelNode : modelInstances) {
 				// Search for the model instance on the current part list.
 				IAndroidController foundPart = null;
 				for (IAndroidController currentPart : currentPartChildren)
-					if (currentPart.getModel().equals(modelNode)) {
+					if (currentPart.getModel().equals( modelNode )) {
 						foundPart = currentPart;
 						break;
 					}
 				if (null == foundPart) {
-					logger.info("-- [AbstractAndroidController.refreshChildren]> AndroidController for Model not found. Generating a new one for: {}",
-							modelNode.getClass().getSimpleName());
+					logger.info( "-- [AbstractAndroidController.refreshChildren]> AndroidController for Model not found. Generating a new one for: {}",
+							modelNode.getClass().getSimpleName() );
 					// Model not found on the current list of Parts. Needs a new one.
-					foundPart = this.factory.createController(modelNode);
+					foundPart = this.factory.createController( modelNode );
 					// Check if the creation has failed. In that exceptional case skip this model and leave a warning.
 					if (null == foundPart) {
-						logger.warn("WR [AbstractAndroidController.refreshChildren]> Exception case: Factory failed to generate AndroidController for " +
+						logger.warn( "WR [AbstractAndroidController.refreshChildren]> Exception case: Factory failed to generate AndroidController for " +
 										"model. {}"
-								, modelNode.toString());
+								, modelNode.toString() );
 					}
 				}
 				// Add to the new list of parts.
-				newPartChildren.add(foundPart);
+				newPartChildren.add( foundPart );
 				// Recursively process their children.
 				foundPart.refreshChildren();
 			}
 			// The new list part is complete. Discard the old list and set the new one as the current list of children.
 //			cleanLinks();
-			for (IAndroidController child : newPartChildren) addChild(child);
+			for (IAndroidController child : newPartChildren) addChild( child );
 		} else {
-			logger.info("-- [AbstractAndroidController.refreshChildren]> Processing model: {}"
-					, partModel.getClass().getSimpleName());
+			logger.info( "-- [AbstractAndroidController.refreshChildren]> Processing model: {}"
+					, partModel.getClass().getSimpleName() );
 			// The part is already created for leave nodes. Terminate this leave.
 			return;
 		}
-		logger.info("<< [AbstractAndroidController.refreshChildren]> Content size: {}", this.getChildren().size());
+		logger.info( "<< [AbstractAndroidController.refreshChildren]> Content size: {}", this.getChildren().size() );
 	}
 
 	@Override
@@ -188,28 +213,28 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		if (!(o instanceof AAndroidController)) return false;
 		AAndroidController that = (AAndroidController) o;
 		return new EqualsBuilder()
-				.append(this.model, that.model)
-				.append(this.children, that.children)
-				.append(this.renderMode, that.renderMode)
+				.append( this.model, that.model )
+				.append( this.children, that.children )
+				.append( this.renderMode, that.renderMode )
 				.isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder(19, 41)
-				.append(this.model)
-				.append(this.children)
-				.append(this.renderMode)
+		return new HashCodeBuilder( 19, 41 )
+				.append( this.model )
+				.append( this.children )
+				.append( this.renderMode )
 				.toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new StringBuilder("AAndroidController [")
-				.append("content count: ").append(this.getChildren().size())
-				.append("[ model-> ").append(this.getModel().toString()).append(" ]")
-				.append("render.type -> ").append(this.getRenderMode())
-				.append(" ]")
+		return new StringBuilder( "AAndroidController [" )
+				.append( "content count: " ).append( this.getChildren().size() )
+				.append( "[ model-> " ).append( this.getModel().toString() ).append( " ]" )
+				.append( "render.type -> " ).append( this.getRenderMode() )
+				.append( " ]" )
 				.toString();
 	}
 
@@ -218,9 +243,6 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		private M model;
 		private IControllerFactory factory;
 		private String renderMode;
-
-//		public Builder() {
-//		}
 
 		public Builder(final M model, final IControllerFactory factory) {
 			this.model = model;

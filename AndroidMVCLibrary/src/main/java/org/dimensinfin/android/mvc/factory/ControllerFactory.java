@@ -32,14 +32,14 @@ public class ControllerFactory implements IControllerFactory {
 	public IAndroidController createController(final ICollaboration node) {
 		// Associate the default classes defined at the MVC.
 		if (node instanceof Separator) {
-			return SeparatorController.Builder((Separator) node,this)
-					.(this.getVariant());
-			return part;
+			return new SeparatorController.Builder((Separator) node,this)
+					.renderMode(this.getVariant())
+					.build();
 		}
 		if (node instanceof AbstractPagerFragment.EmptyNotVisibleNode) {
-			IAndroidController part = new AbstractPagerFragment.EmptyAndroidController((AbstractPagerFragment.EmptyNotVisibleNode) node).setFactory(this)
-					.setRenderMode(this.getVariant());
-			return part;
+			return new AbstractPagerFragment.EmptyAndroidController.Builder((Separator) node,this)
+					.renderMode(this.getVariant())
+					.build();
 		}
 		// If no part is trapped then result a NOT FOUND mark
 		return new SeparatorController.Builder(new Separator("-NO Model-Controller match-[" + node.getClass().getSimpleName() + "]-")

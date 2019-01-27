@@ -48,4 +48,5 @@
     <color name="unselectedPage">#20808080</color>
     <color name="activePage">#B0F0F0F0</color>
 
+    <bool name="CACHE_MVC_VIEWS_ON_CONTROLLER">true</bool>
 </resources>
