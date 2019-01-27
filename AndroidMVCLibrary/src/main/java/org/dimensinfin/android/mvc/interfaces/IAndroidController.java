@@ -16,7 +16,7 @@ import java.util.List;
 public interface IAndroidController<M> extends IEventEmitter {
 	M getModel();
 	void refreshChildren();
-	IRender getRenderer(final Context context);
+	IRender buildRender(final Context context);
 	View getViewCache();
 	void setViewCache(final View targetView);
 	long getModelId();

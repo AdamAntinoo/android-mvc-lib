@@ -1,6 +1,6 @@
 //  PROJECT:     Android.MVC (A.MVC)
 //  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
-//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
+//  COPYRIGHT:   (c) 2013-2019 by Dimensinfin Industries, all rights reserved.
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
 //               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
@@ -10,47 +10,21 @@ package org.dimensinfin.android.mvc.demo.activity;
 
 import android.os.Bundle;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
-import org.dimensinfin.android.mvc.controller.DemoHeaderTitleAndroidController;
 import org.dimensinfin.android.mvc.core.AndroidController;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.demo.R;
-import org.dimensinfin.android.mvc.factory.ControllerFactory;
-import org.dimensinfin.android.mvc.factory.DemoControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.IAndroidController;
+import org.dimensinfin.android.mvc.demo.factory.DemoControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.model.DemoContainer;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 import org.dimensinfin.android.mvc.model.DemoItem;
 import org.dimensinfin.android.mvc.model.DemoLabel;
-import org.dimensinfin.android.mvc.part.DemoContainerAndroidController;
-import org.dimensinfin.android.mvc.part.DemoItemAndroidController;
 import org.dimensinfin.core.datasource.AbstractGenerator;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
-
-//import org.dimensinfin.android.mvc.context.AbstractPagerFragment;
-//import org.dimensinfin.android.mvc.core.AndroidController;
-//import org.dimensinfin.android.mvc.factory.ControllerFactory;
-//import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-//import org.dimensinfin.android.mvc.demo.R;
-//import org.dimensinfin.android.mvc.interfaces.IAndroidController;
-//import org.dimensinfin.android.mvc.interfaces.IDataSource;
-//import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-//import org.dimensinfin.android.mvc.model.DemoContainer;
-//import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
-//import org.dimensinfin.android.mvc.model.DemoItem;
-//import org.dimensinfin.android.mvc.model.DemoLabel;
-//import org.dimensinfin.android.mvc.part.DemoContainerAndroidController;
-//import org.dimensinfin.android.mvc.part.DemoHeaderTitleAndroidController;
-//import org.dimensinfin.android.mvc.part.DemoItemAndroidController;
-//import org.dimensinfin.core.datasource.AbstractGenerator;
-//import org.dimensinfin.core.datasource.DataSourceLocator;
-//import org.dimensinfin.core.interfaces.ICollaboration;
-//import org.dimensinfin.core.interfaces.IModelGenerator;
-//import org.dimensinfin.core.model.RootNode;
 
 import java.util.ArrayList;
 import java.util.List;

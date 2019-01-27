@@ -442,7 +442,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		}
 
 		@Override
-		public IRender getRenderer(final Context context) {
+		public IRender buildRender(final Context context) {
 			return new SeparatorRender.Builder(this, context)
 					.controller(this)
 					.build();

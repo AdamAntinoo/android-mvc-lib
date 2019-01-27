@@ -426,7 +426,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	private void addView2Header(final IAndroidController target) {
 		logger.info(">> [AbstractPagerFragment.addView2Header]");
 		try {
-			final IRender holder = target.getRenderer(this.getAppContext());
+			final IRender holder = target.buildRender(this.getAppContext());
 			holder.updateContent();
 			final View hv = holder.getView();
 			_headerContainer.addView(hv);
@@ -552,7 +552,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 		}
 
 		@Override
-		public IRender getRenderer(final Context context) {
+		public IRender buildRender(final Context context) {
 			return null;
 		}
 

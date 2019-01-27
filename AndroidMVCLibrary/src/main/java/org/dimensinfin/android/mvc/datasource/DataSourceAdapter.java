@@ -197,7 +197,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	}
 
 	private View constructRender(final Context context, final IAndroidController controller) {
-		IRender render = controller.getRenderer(context);
+		IRender render = controller.buildRender(context);
 		final View view = render.getView();
 		view.setTag(controller); // Piggyback the controller to the view to allow access.
 //		render.initializeViews(); // Associate the fields to variables.

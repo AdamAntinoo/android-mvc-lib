@@ -49,7 +49,7 @@ public class MVCRootAndroidController extends AAndroidController<RootNode> imple
 //	}
 
 	@Override
-	public IRender getRenderer(final Context context) {
+	public IRender buildRender(final Context context) {
 		return null;
 	}
 

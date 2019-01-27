@@ -283,7 +283,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/org/dimensinfin/android/mvc/demo/factory/DemoControllerFactory.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/org/dimensinfin/android/mvc/factory/DemoControllerFactory.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/org/dimensinfin/android/mvc/model/DemoHeaderTitle.java">
           <value>
             <set />
           </value>
