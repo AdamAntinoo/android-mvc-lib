@@ -8,20 +8,15 @@
 //               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.core;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Hashtable;
-import java.util.Hashtable;
-import java.util.Hashtable;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import org.dimensinfin.android.mvc.activity.ForceCloseActivity;
-import org.joda.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * @author Adam Antinoo
@@ -33,12 +28,12 @@ public class MVCExceptionHandler implements Thread.UncaughtExceptionHandler {
 	private static Logger logger = LoggerFactory.getLogger(MVCExceptionHandler.class);
 
 	// - F I E L D - S E C T I O N ............................................................................
-	private final Activity localContext;
+	private final Context localContext;
 	private final String LINE_SEPARATOR = "\n";
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public MVCExceptionHandler(Activity context) {
-		this.localContext=context;
+	public MVCExceptionHandler(Context context) {
+		this.localContext = context;
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................

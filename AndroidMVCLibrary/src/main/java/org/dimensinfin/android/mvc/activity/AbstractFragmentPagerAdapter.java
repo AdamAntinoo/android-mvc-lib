@@ -24,14 +24,7 @@ public class AbstractFragmentPagerAdapter extends FragmentPagerAdapter {
 	// - C O N S T R U C T O R - S E C T I O N
 	public AbstractFragmentPagerAdapter(final FragmentManager fm) {
 		super(fm);
-//		_pagerid = pagerid;
 	}
-
-//	@Deprecated
-//	public AbstractFragmentPagerAdapter(final FragmentManager fm, final int pagerid) {
-//		super(fm);
-//		_pagerid = pagerid;
-//	}
 
 	// - F R A G M E N T P A G E R A D A P T E R
 	@Override

@@ -32,7 +32,7 @@ public class AndroidMVCDemoActivity extends AbstractPagerActivity {
 		logger.info(">> [AndroidMVCDemoActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		// Process the parameters into the context. This initial Activity is the only one with no parameters.
-		this.addPage(new AndroidMVCDemoFragment().setVariant(EDemoVariants.NON_EXPANDABLE_SECTION.name()));
+		this.addPage(new AndroidMVCDemoFragment(this.getApplicationContext()).setVariant(EDemoVariants.NON_EXPANDABLE_SECTION.name()));
 //		this.addPage(new AndroidMVCDemoFragment().setVariant(EDemoVariants.EXPANDABLE_SECTION.name()));
 		logger.info("<< [AndroidMVCDemoActivity.onCreate]"); //$NON-NLS-1$
 	}

@@ -1,6 +1,6 @@
 //  PROJECT:     Android.MVC (A.MVC)
 //  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
-//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
+//  COPYRIGHT:   (c) 2013-2019 by Dimensinfin Industries, all rights reserved.
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
 //               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
@@ -13,27 +13,21 @@ import android.os.Bundle;
 import android.widget.TextView;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.core.MVCExceptionHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Adam Antinoo
  */
 
-// - CLASS IMPLEMENTATION ...................................................................................
 public class ForceCloseActivity extends Activity {
-	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger(ForceCloseActivity.class);
-
-	// - F I E L D - S E C T I O N ............................................................................
+	// - F I E L D - S E C T I O N
 	private TextView error;
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	// - C O N S T R U C T O R - S E C T I O
 	public ForceCloseActivity() {
 		super();
 	}
 
-	// - M E T H O D - S E C T I O N ......ø....................................................................
+	// - M E T H O D - S E C T I O N
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,5 +39,3 @@ public class ForceCloseActivity extends Activity {
 		error.setText(getIntent().getStringExtra("error"));
 	}
 }
-// - UNUSED CODE ............................................................................................
-//[01]

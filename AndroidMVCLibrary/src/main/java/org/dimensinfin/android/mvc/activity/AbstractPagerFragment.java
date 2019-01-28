@@ -11,6 +11,8 @@ package org.dimensinfin.android.mvc.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -23,7 +25,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.Fragment;
 import org.dimensinfin.android.mvc.R;
+import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.core.MVCExceptionHandler;
+import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
+import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
@@ -59,12 +65,12 @@ public abstract class AbstractPagerFragment extends Fragment {
 	/** Copy of the extras bundle received by the Activity. */
 	private Bundle _extras = new Bundle();
 	/**
-	 * The library will require access to a valid application context at any time. Usually the application is not
+	 * The library will require access to a valid application context at any time. Usually the activity is not
 	 * connected to the Fragment until the fragment is going to be used and then the life cycle is started. But if the
 	 * developed likes to use fragments not connected to real Activities we should be sure we can still have access to a
-	 * valid context.
+	 * valid context. We get a reference to the long term singletor for the Application context.
 	 */
-	private Activity _appContext;
+	private Context appContext;
 	/** Factory that will generate the specific <b>Parts</b> for this Fragment/Activity/Application. */
 	private IControllerFactory _factory = null;
 	/** This flag will help to detect when the creation process fails because of a rutime problem. */
@@ -104,6 +110,11 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 
 	private IMenuActionTarget _listCallback = null;
+
+	// - C O N S T R U C T O R - S E C T I O N
+	public AbstractPagerFragment(final Context applicationContext) {
+		super();
+	}
 
 	// - I T I T L E D F R A G M E N T   I N T E R F A C E
 	/**
@@ -174,26 +185,20 @@ public abstract class AbstractPagerFragment extends Fragment {
 		return this;
 	}
 
-	public Activity getAppContext() {
-		final Activity act = getActivity();
-		if (null == act)
-			if (null == _appContext)
-				throw new RuntimeException("RTEX [AbstractPagerFragment.getAppContext] There is no Context " +
-						"accesible. Application unexpected error.");
-			else return _appContext;
-		else return act;
+	public Context getAppContext() {
+		return this.appContext;
 	}
 
-	/**
-	 * During initialization of the Fragment we install an alternate way to access the Activity. By using this method we
-	 * make sure the context is ever accesible during the use of the Fragment, be it tied to an Activity or not.
-	 * @param newcontext the Activity where this Fragment is connected.
-	 * @return this instance to allow for functional constructive statements.
-	 */
-	public AbstractPagerFragment setAppContext(final Activity newcontext) {
-		this._appContext = newcontext;
-		return this;
-	}
+//	/**
+//	 * During initialization of the Fragment we install an alternate way to access the Activity. By using this method we
+//	 * make sure the context is ever accessible during the use of the Fragment, be it tied to an Activity or not.
+//	 * @param newContext the Activity where this Fragment is connected.
+//	 * @return this instance to allow for functional constructive statements.
+//	 */
+//	public AbstractPagerFragment setAppContext(final Activity newContext) {
+//		this.appContext = newContext;
+//		return this;
+//	}
 
 	/**
 	 * Returns the <b>ControllerFactory</b> associated with this Fragment instance. If the factory is still undefined then
@@ -326,12 +331,14 @@ public abstract class AbstractPagerFragment extends Fragment {
 	public void onStart() {
 		AbstractPagerFragment.logger.info(">> [AbstractPagerFragment.onStart]");
 		super.onStart();
+		final Handler handler = new Handler(Looper.getMainLooper());
 		try {
 			// The first action is to add a progress indicator to the contents.
 			// This way once we finish the configuration the display will refresh with the spinner on it.
 			// We remove the spinner from the display when the model generation ends.
 			_datasource.startOnLoadProcess();
-			getAppContext().runOnUiThread(() -> _adapter.notifyDataSetChanged());
+ // Do the execution on the UI by using an UI handler.
+			handler.post(() -> _adapter.notifyDataSetChanged());
 			// Create the hierarchy structure to be used on the Header. We have the model list and we should convert it to a view list.
 			AbstractPagerFragment._uiExecutor.submit(() -> {
 				// Entry point to generate the Header model.
@@ -342,7 +349,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 			// Do this on background so we can update the interface on real time.
 			AbstractPagerFragment._uiExecutor.submit(() -> {
 				_datasource.collaborate2Model();
-				getAppContext().runOnUiThread(() -> {
+				handler.post(() -> {
 					_adapter.notifyDataSetChanged();
 				});
 			});
@@ -481,7 +488,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 		logger.info("<< [AbstractPagerFragment.onCreateContextMenu]"); //$NON-NLS-1$
 	}
 
-	public static class EmptyDataSource extends MVCDataSource {
+	public static class EmptyDataSource extends AMVCDataSource {
 		public EmptyDataSource(DataSourceLocator locator, String variant, IControllerFactory factory, Bundle extras) {
 			super(locator, variant, factory, extras);
 		}
