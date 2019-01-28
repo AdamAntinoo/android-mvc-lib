@@ -34,13 +34,12 @@ public abstract class AbstractRender<M extends ICollaboration> implements IRende
 	private AAndroidController<M> controller; // Holds the parent controller that is associated to this render. Used to access the model.
 	private Context context; // Reference to the context. Usually the application singleton.
 	private View convertView = null;
-//	private final HashMap<String, Object> _extras = new HashMap<String, Object>();
 
 	// - L A Y O U T   F I E L D S
 	// - C O N S T R U C T O R - S E C T I O N
-	protected AbstractRender(final AbstractRender.Builder<M> builder) {
-		this.controller = builder.controller;
-		this.context = builder.context;
+	public AbstractRender(final AAndroidController<M> controller, final Context context) {
+		this.controller = controller;
+		this.context = context;
 		this.createView(); // Inflate the layout to have the containers ready for identification.
 		this.initializeViews(); // Connect the inflated fields to the render variables.
 	}
@@ -135,26 +134,25 @@ public abstract class AbstractRender<M extends ICollaboration> implements IRende
 
 	public abstract void updateContent();
 
-
-	// -  B U I L D E R
-	public abstract static class Builder<M extends ICollaboration> {
-		private AAndroidController<M> controller;
-		private Context context;
-
-		public Builder(final AAndroidController<M> controller, final Context context) {
-			this.controller = controller;
-			this.context = context;
-		}
-
-		public Builder controller(final AAndroidController<M> controller) {
-			this.controller = controller;
-			return this;
-		}
-
-		public Builder context(final Context context) {
-			this.context = context;
-			return this;
-		}
-		public abstract AbstractRender<M> build();
-	}
+//	// -  B U I L D E R
+//	public abstract static class Builder<M extends ICollaboration> {
+//		private AAndroidController<M> controller;
+//		private Context context;
+//
+//		public Builder(final AAndroidController<M> controller, final Context context) {
+//			this.controller = controller;
+//			this.context = context;
+//		}
+//
+//		public Builder controller(final AAndroidController<M> controller) {
+//			this.controller = controller;
+//			return this;
+//		}
+//
+//		public Builder context(final Context context) {
+//			this.context = context;
+//			return this;
+//		}
+//		public abstract AbstractRender<M> build();
+//	}
 }

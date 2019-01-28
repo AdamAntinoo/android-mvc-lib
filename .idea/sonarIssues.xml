@@ -13,6 +13,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/activity/AbstractFragmentPagerAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/activity/AbstractLinearActivity.java">
           <value>
             <set />
@@ -113,6 +118,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/datasource/AMVCDataSource.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/datasource/DataSourceAdapter.java">
           <value>
             <set />
@@ -179,6 +189,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/interfaces/IRootPart.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/interfaces/ITitledFragment.java">
           <value>
             <set />
           </value>
@@ -268,7 +283,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/org/dimensinfin/android/mvc/controller/DemoContainerController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/org/dimensinfin/android/mvc/controller/DemoHeaderTitleAndroidController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/org/dimensinfin/android/mvc/controller/DemoHeaderTitleController.java">
           <value>
             <set />
           </value>
@@ -294,6 +319,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/org/dimensinfin/android/mvc/model/DemoHeaderTitle.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/org/dimensinfin/android/mvc/part/DemoContainerController.java">
           <value>
             <set />
           </value>

@@ -8,25 +8,26 @@
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.render;
 
-import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 import lombok.Builder;
-import org.dimensinfin.android.mvc.controller.DemoHeaderTitleAndroidController;
+import org.dimensinfin.android.mvc.controller.DemoHeaderTitleController;
 import org.dimensinfin.android.mvc.demo.R;
+import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 
 /**
  * @author Adam Antinoo
  */
 @Builder
-public class DemoHeaderTitleRender extends AbstractRender<DemoHeaderTitleAndroidController> {
+public class DemoHeaderTitleRender extends AbstractRender<DemoHeaderTitle> {
 	// - F I E L D - S E C T I O N
 	private TextView applicationName = null;
 	private TextView applicationVersion = null;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	protected DemoHeaderTitleRender(final DemoHeaderTitleRender.Builder builder) {
-		super(builder);
+	public DemoHeaderTitleRender(final DemoHeaderTitleController controller, final Context context) {
+		super(controller, context);
 	}
 
 	// - M E T H O D - S E C T I O N
@@ -49,13 +50,13 @@ public class DemoHeaderTitleRender extends AbstractRender<DemoHeaderTitleAndroid
 		return R.layout.demoheadertitle4header;
 	}
 
-	// - B U I L D E R
-	public static class Builder extends AbstractRender.Builder<DemoHeaderTitleAndroidController> {
-		public Builder(final DemoHeaderTitleAndroidController controller, final Activity context) {
-			super(controller, context);
-		}
-		public DemoHeaderTitleRender build() {
-			return new DemoHeaderTitleRender(this);
-		}
-	}
+//	// - B U I L D E R
+//	public static class Builder extends AbstractRender.Builder<DemoHeaderTitleController> {
+//		public Builder(final DemoHeaderTitleController controller, final Activity context) {
+//			super(controller, context);
+//		}
+//		public DemoHeaderTitleRender build() {
+//			return new DemoHeaderTitleRender(this);
+//		}
+//	}
 }

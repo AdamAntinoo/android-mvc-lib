@@ -1,6 +1,6 @@
 //  PROJECT:     Android.MVC (A.MVC)
 //  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
-//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
+//  COPYRIGHT:   (c) 2013-2019 by Dimensinfin Industries, all rights reserved.
 //  ENVIRONMENT: Android API16.
 //  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
 //               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
@@ -9,7 +9,6 @@
 package org.dimensinfin.android.mvc.activity;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -22,20 +21,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v4.app.Fragment;
 import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.controller.AAndroidController;
-import org.dimensinfin.android.mvc.core.MVCExceptionHandler;
-import org.dimensinfin.android.mvc.core.RootAndroidController;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
-import org.dimensinfin.android.mvc.datasource.DataSourceManager;
-import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.android.mvc.interfaces.IAndroidAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.android.mvc.render.AbstractRender;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
@@ -111,6 +104,21 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 
 	private IMenuActionTarget _listCallback = null;
+
+	// - I T I T L E D F R A G M E N T   I N T E R F A C E
+	/**
+	 * Gets the text to set set at the subtitle slot on the <b>ActionBar</b>. This should be implemented by each new
+	 * Fragment.
+	 * @return subtitle string.
+	 */
+	public abstract String getSubtitle();
+
+	/**
+	 * Gets the text to set set at the title slot on the <b>ActionBar</b>. This should be implemented by each new
+	 * Fragment.
+	 * @return title string.
+	 */
+	public abstract String getTitle();
 
 	// - G E T T E R S   &   S E T T E R S
 	public IMenuActionTarget getListCallback() {
@@ -208,20 +216,6 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * Fragment.
 	 */
 	public abstract IControllerFactory createFactory();
-
-	/**
-	 * Gets the text to set set at the subtitle slot on the <b>ActionBar</b>. This should be implemented by each new
-	 * Fragment.
-	 * @return subtitle string.
-	 */
-	public abstract String getSubtitle();
-
-	/**
-	 * Gets the text to set set at the title slot on the <b>ActionBar</b>. This should be implemented by each new
-	 * Fragment.
-	 * @return title string.
-	 */
-	public abstract String getTitle();
 
 	/**
 	 * This method that should be implemented at every fragment is responsible to generate a list of model data that

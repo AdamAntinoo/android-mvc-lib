@@ -37,7 +37,6 @@
     </Objective-C-extensions>
     <codeStyleSettings language="JAVA">
       <option name="BLANK_LINES_AROUND_METHOD_IN_INTERFACE" value="0" />
-      <option name="SPACE_WITHIN_METHOD_CALL_PARENTHESES" value="true" />
       <option name="WRAP_COMMENTS" value="true" />
       <indentOptions>
         <option name="INDENT_SIZE" value="2" />

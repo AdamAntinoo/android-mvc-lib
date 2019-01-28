@@ -52,7 +52,6 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	@Getter
 	private M model; // Holds the model node.
 	@Getter
-	@Setter
 	private String renderMode; // Holds the type of the render to be used on this instance.
 	@Getter
 	@Setter
@@ -87,6 +86,11 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 
 	public void addChild(final IAndroidController child) {
 		children.add( child );
+	}
+
+	public AAndroidController<M> setRenderMode(final String renderMode) {
+		this.renderMode = renderMode;
+		return this;
 	}
 
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
