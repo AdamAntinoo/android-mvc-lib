@@ -58,7 +58,7 @@ public abstract class AndroidController<T extends ICollaboration> implements IAn
 //	 * run to check that we are not returning an invalid conversion. See the instanceOf.
 //	 * @return the root part of the hierarchy.
 //	 */
-//	public RootAndroidController getRootPart() {
+//	public RootController getRootPart() {
 //		if (this.isRoot()) return this;
 //		else return this.getParentPart().getRootPart();
 ////		if (null == this.getParentPart()) return (IAndroidController) this;
