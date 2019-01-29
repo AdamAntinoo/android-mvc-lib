@@ -6,11 +6,10 @@
 //               on Android projects. Defines the Part factory and the Part core methods to manage
 //               a generic converter from a Graph Model to a hierarchical Part model that finally will
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
-package org.dimensinfin.android.mvc.models;
+package org.dimensinfin.android.mvc.model;
 
 import lombok.EqualsAndHashCode;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.interfaces.IExpandable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

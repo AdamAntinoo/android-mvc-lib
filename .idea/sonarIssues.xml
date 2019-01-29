@@ -203,6 +203,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/interfaces/IRenderable.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/interfaces/IRenderableController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/interfaces/IRootPart.java">
           <value>
             <set />

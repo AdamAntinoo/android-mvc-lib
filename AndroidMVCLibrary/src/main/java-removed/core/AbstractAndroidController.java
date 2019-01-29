@@ -120,9 +120,9 @@ public abstract class AbstractAndroidController /*extends AbstractPropertyChange
 //	}
 
 	/**
-	 * Search for the RootAndroidController up in the hierarchy until the search runts into a node without parent. Then check for the
+	 * Search for the RootController up in the hierarchy until the search runts into a node without parent. Then check for the
 	 * type and if it is the right type then get the Factory.
-	 * @return the hierarchy RootAndroidController.
+	 * @return the hierarchy RootController.
 	 */
 	public RootAndroidController getRootPart() {
 		if (this instanceof RootAndroidController) return (RootAndroidController) this;

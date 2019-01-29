@@ -9,16 +9,15 @@
 package org.dimensinfin.android.mvc.activity;
 
 import android.app.ActionBar;
-import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import com.viewpagerindicator.CirclePageIndicator;
 import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.core.AbstractFragmentPagerAdapter;
 import org.dimensinfin.android.mvc.core.MVCException;
 import org.dimensinfin.android.mvc.core.MVCExceptionHandler;
 import org.slf4j.Logger;
@@ -28,10 +27,10 @@ import org.slf4j.LoggerFactory;
  * This class extends the bare android Activity. Defines the ActionBar and instantiates the layout. The generic layout
  * for any of the MVC activities contains 3 key elements. A <b>Background</b> image container that defines the full
  * background of the context, the <b>ActionBar</b> that is defined on the applications styles and that it is made
- * visible by default and the <b>ViewPager</b> container that will hold the fragments. This allows for a generic
- * context that will be able to contain different pages and with the feature to allow to swipe to them without changing
- * the context. The different pages will be shown by a circle page indicator if more that one page is present. Only two
- * of them are accessible to other implementations, the Background and the ActionBar.
+ * visible by default and the <b>ViewPager</b> container that will hold the fragments. This allows for a generic context
+ * that will be able to contain different pages and with the feature to allow to swipe to them without changing the
+ * context. The different pages will be shown by a circle page indicator if more that one page is present. Only two of
+ * them are accessible to other implementations, the Background and the ActionBar.
  * <p>
  * So at the creation step we only should have to generate the Fragments and add them to the pager. This is the
  * functionality for the <code>addPage(ImageView)</code> public method. Fragments share some characteristics to use the
@@ -39,38 +38,36 @@ import org.slf4j.LoggerFactory;
  * @author Adam Antinoo
  * @since 1.0.0
  */
-// - CLASS IMPLEMENTATION ...................................................................................
-public abstract class AbstractPagerActivity extends Activity {
+public abstract class AbstractPagerActivity extends FragmentActivity {
 	public enum EExtrasMVC {
 		EXTRA_EXCEPTIONMESSAGE, EXTRA_VARIANT
 	}
 
-	// - S T A T I C - S E C T I O N ..........................................................................
 	protected static Logger logger = LoggerFactory.getLogger(AbstractPagerActivity.class);
 
-	// - F I E L D - S E C T I O N ............................................................................
+	// - F I E L D - S E C T I O N
 	protected Bundle extras = null;
 	protected ActionBar _actionBar = null;
 	protected ViewPager _pageContainer = null;
-	private final AbstractFragmentPagerAdapter _pageAdapter = new AbstractFragmentPagerAdapter(this.getFragmentManager());
+	private final AbstractFragmentPagerAdapter _pageAdapter = new AbstractFragmentPagerAdapter(this.getSupportFragmentManager());
 
 	/** Image reference to the background layout item that can be replaced by the application implementation. */
 	protected ImageView background = null;
 	protected CirclePageIndicator _indicator = null;
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	// - C O N S T R U C T O R - S E C T I O N
 
-	// - M E T H O D - S E C T I O N ..........................................................................
-	public Activity getActivity() {
-		return this;
-	}
+	// - M E T H O D - S E C T I O N
+//	public Activity getActivity() {
+//		return this;
+//	}
 
 	/**
 	 * Allows to change the context background that covers the full size of the display
-	 * @param newbackground the new background image.
+	 * @param newBackground the new background image.
 	 */
-	public void setBackground(final ImageView newbackground) {
-		this.background = newbackground;
+	public void setBackground(final ImageView newBackground) {
+		this.background = newBackground;
 	}
 
 	/**
@@ -82,8 +79,10 @@ public abstract class AbstractPagerActivity extends Activity {
 	 */
 	public void addPage(@NonNull final AbstractPagerFragment newFrag) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.addPage]");
+		// Connect to the application context of not already done.
+		newFrag.setAppContext(this.getApplicationContext());
 		// Before checking if we have already this fragment we should get its unique identifier.
-		final Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
+		final Fragment frag = this.getSupportFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
 		if (null == frag) {
 			_pageAdapter.addPage(newFrag);
 		} else {
@@ -104,7 +103,7 @@ public abstract class AbstractPagerActivity extends Activity {
 				throw new RuntimeException("RTEX [AbstractPagerActivity.addPage]> The fragment located does not inherit the required functionality. Does not extend AbstractPagerFragment.");
 		}
 		// Be sure the Fragment context points to a valid context.
-		newFrag.setAppContext(getActivity());
+		newFrag.setAppContext(this.getApplicationContext());
 		// Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
 		newFrag.setExtras(this.getExtras());
 		// Check the number of pages to activate the indicator when more the one.

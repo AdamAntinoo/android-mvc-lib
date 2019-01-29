@@ -8,11 +8,11 @@
 //               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -23,10 +23,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.support.v4.app.Fragment;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.controller.RootController;
 import org.dimensinfin.android.mvc.core.MVCExceptionHandler;
+import org.dimensinfin.android.mvc.core.ToastExceptionHandler;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
@@ -35,10 +36,11 @@ import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.android.mvc.model.MVCRootNode;
+import org.dimensinfin.android.mvc.render.AbstractRender;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
-import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.core.model.Separator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,10 +67,10 @@ public abstract class AbstractPagerFragment extends Fragment {
 	/** Copy of the extras bundle received by the Activity. */
 	private Bundle _extras = new Bundle();
 	/**
-	 * The library will require access to a valid application context at any time. Usually the activity is not
-	 * connected to the Fragment until the fragment is going to be used and then the life cycle is started. But if the
-	 * developed likes to use fragments not connected to real Activities we should be sure we can still have access to a
-	 * valid context. We get a reference to the long term singletor for the Application context.
+	 * The library will require access to a valid application context at any time. Usually the activity is not connected
+	 * to the Fragment until the fragment is going to be used and then the life cycle is started. But if the developed
+	 * likes to use fragments not connected to real Activities we should be sure we can still have access to a valid
+	 * context. We get a reference to the long term singletor for the Application context.
 	 */
 	private Context appContext;
 	/** Factory that will generate the specific <b>Parts</b> for this Fragment/Activity/Application. */
@@ -112,11 +114,12 @@ public abstract class AbstractPagerFragment extends Fragment {
 	private IMenuActionTarget _listCallback = null;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public AbstractPagerFragment(final Context applicationContext) {
-		super();
-	}
+//	public AbstractPagerFragment(final Context applicationContext) {
+//		super();
+//	}
 
 	// - I T I T L E D F R A G M E N T   I N T E R F A C E
+
 	/**
 	 * Gets the text to set set at the subtitle slot on the <b>ActionBar</b>. This should be implemented by each new
 	 * Fragment.
@@ -189,16 +192,16 @@ public abstract class AbstractPagerFragment extends Fragment {
 		return this.appContext;
 	}
 
-//	/**
-//	 * During initialization of the Fragment we install an alternate way to access the Activity. By using this method we
-//	 * make sure the context is ever accessible during the use of the Fragment, be it tied to an Activity or not.
-//	 * @param newContext the Activity where this Fragment is connected.
-//	 * @return this instance to allow for functional constructive statements.
-//	 */
-//	public AbstractPagerFragment setAppContext(final Activity newContext) {
-//		this.appContext = newContext;
-//		return this;
-//	}
+	/**
+	 * During initialization of the Fragment we install the long term singleton for the Application context This is done
+	 * from the owner activity that connects the Fragment but also added when the fragment is reconnected..
+	 * @param appContext the Application singleton context.
+	 * @return this instance to allow for functional constructive statements.
+	 */
+	public AbstractPagerFragment setAppContext(final Context appContext) {
+		this.appContext = appContext;
+		return this;
+	}
 
 	/**
 	 * Returns the <b>ControllerFactory</b> associated with this Fragment instance. If the factory is still undefined then
@@ -300,9 +303,11 @@ public abstract class AbstractPagerFragment extends Fragment {
 //			_headersource = this.registerHeaderSource();
 		// Entry point to generate the DataSection model.
 		_datasource = DataSourceManager.registerDataSource(this.registerDataSource());
-		// Check that the datasource is a valid data source.
-		if (null == _datasource) _datasource = new EmptyDataSource(new DataSourceLocator().addIdentifier("EMPTY")
-				, getVariant(), getFactory(), getExtras());
+		// Check that the data source is a valid data source.
+		final DataSourceLocator locator = new DataSourceLocator().addIdentifier("EMPTY");
+		if (null == _datasource) _datasource = new EmptyDataSource(locator, getFactory())
+				.setVariant(this.getVariant())
+				.setExtras(this.getExtras());
 		// Install the adapter before any data request or model generation.
 		_adapter = new DataSourceAdapter(this, _datasource);
 		_dataSectionContainer.setAdapter(_adapter);
@@ -332,34 +337,35 @@ public abstract class AbstractPagerFragment extends Fragment {
 		AbstractPagerFragment.logger.info(">> [AbstractPagerFragment.onStart]");
 		super.onStart();
 		final Handler handler = new Handler(Looper.getMainLooper());
-		try {
-			// The first action is to add a progress indicator to the contents.
-			// This way once we finish the configuration the display will refresh with the spinner on it.
-			// We remove the spinner from the display when the model generation ends.
-			_datasource.startOnLoadProcess();
- // Do the execution on the UI by using an UI handler.
-			handler.post(() -> _adapter.notifyDataSetChanged());
-			// Create the hierarchy structure to be used on the Header. We have the model list and we should convert it to a view list.
-			AbstractPagerFragment._uiExecutor.submit(() -> {
-				// Entry point to generate the Header model.
-				_headersource = this.registerHeaderSource();
-				generateHeaderContents(_headersource);
+		Thread.setDefaultUncaughtExceptionHandler(new ToastExceptionHandler(this.getAppContext()));
+//		try {
+		// The first action is to add a progress indicator to the contents.
+		// This way once we finish the configuration the display will refresh with the spinner on it.
+		// We remove the spinner from the display when the model generation ends.
+		_datasource.startOnLoadProcess();
+		// Do the execution on the UI by using an UI handler.
+		handler.post(() -> _adapter.notifyDataSetChanged());
+		// Create the hierarchy structure to be used on the Header. We have the model list and we should convert it to a view list.
+		AbstractPagerFragment._uiExecutor.submit(() -> {
+			// Entry point to generate the Header model.
+			_headersource = this.registerHeaderSource();
+			generateHeaderContents(_headersource);
+		});
+		// Create the hierarchy structure to be used on the Adapter for the DataSection.
+		// Do this on background so we can update the interface on real time.
+		AbstractPagerFragment._uiExecutor.submit(() -> {
+			_datasource.collaborate2Model();
+			handler.post(() -> {
+				_adapter.notifyDataSetChanged();
 			});
-			// Create the hierarchy structure to be used on the Adapter for the DataSection.
-			// Do this on background so we can update the interface on real time.
-			AbstractPagerFragment._uiExecutor.submit(() -> {
-				_datasource.collaborate2Model();
-				handler.post(() -> {
-					_adapter.notifyDataSetChanged();
-				});
-			});
-		} catch (final RuntimeException rtex) {
-			AbstractPagerFragment.logger.error("RTEX [AbstractPagerFragment.onStart]> {}.", rtex.getMessage());
-			rtex.printStackTrace();
-			Toast.makeText(this.getAppContext()
-					, "RTEX [AbstractPagerFragment.onStart]> " + rtex.getMessage()
-					, Toast.LENGTH_LONG).show();
-		}
+		});
+//		} catch (final RuntimeException rtex) {
+//			AbstractPagerFragment.logger.error("RTEX [AbstractPagerFragment.onStart]> {}.", rtex.getMessage());
+//			rtex.printStackTrace();
+//			Toast.makeText(this.getAppContext()
+//					, "RTEX [AbstractPagerFragment.onStart]> " + rtex.getMessage()
+//					, Toast.LENGTH_LONG).show();
+//		}
 		AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.onStart]");
 	}
 
@@ -383,45 +389,46 @@ public abstract class AbstractPagerFragment extends Fragment {
 	/**
 	 * This method is the way to transform the list of model data prepared for the Header to end on a list of Views inside
 	 * the Header container. We follow a similar mechanics that for the DataSection ListView but instead keeping the
-	 * intermediate AndroidController model we go directly to the View output by the <b>Render</b> instance.
-	 * <p>
-	 * The use of a fake <code>@link{RootNode}</code> allows to also support model elements that have contents that should
-	 * be rendered when expanded. Even the header contents are limited in interaction we can have expand/collapse
-	 * functionalities to calculate the final list of Views to render.
+	 * intermediate AndroidController instances we go directly to the View output by the <b>Render</b> instance.
+	 *
+	 * The use of a fake <code>@link{MVCRootNode}</code> allows to also support model elements that have contents that
+	 * should be rendered when expanded. Even the header contents are limited in interaction we can have the
+	 * expand/collapse functionality to calculate the final list of Views to render.
 	 */
 	protected void generateHeaderContents(final List<ICollaboration> headerData) {
 		logger.info(">> [AbstractPagerFragment.generateHeaderContents]");
-		try {
-			// Create a fake root node where to connect the list. This wil
-			RootNode headerModel = new RootNode();
-			for (ICollaboration node : headerData) {
-				headerModel.addChild(node);
-			}
-
-			// Do the same operations as in the body contents. Create a root, add to it the model elements and then
-			// recursively generate the AndroidController list.
-			final RootAndroidController partModelRoot = new RootAndroidController(headerModel, getFactory());
-			partModelRoot.refreshChildren();
-			ArrayList<IAndroidAndroidController> headerParts = new ArrayList<IAndroidAndroidController>();
-			// Select for the body contents only the viewable Parts from the AndroidController model. Make it a list.
-			partModelRoot.collaborate2View(headerParts);
-
-			// Now do the old functionality by copying each of the resulting parts to the Header container.
-			getAppContext().runOnUiThread(() -> {
-				_headerContainer.removeAllViews();
-				for (IAndroidController part : headerParts) {
-					if (part instanceof IAndroidController) addView2Header((IAndroidAndroidController) part);
-				}
-			});
-		} catch (RuntimeException rtex) {
-			rtex.printStackTrace();
+//		try {
+		// Create a fake root node where to connect the list.
+		MVCRootNode headerModel = new MVCRootNode();
+		for (ICollaboration node : headerData) {
+			headerModel.addChild(node);
 		}
+
+		// Do the same operations as in the body contents. Create a root, add to it the model elements and then
+		// recursively generate the AndroidController list.
+		final RootController controllerRoot = new RootController(headerModel, this.getFactory());
+		controllerRoot.refreshChildren();
+		ArrayList<IAndroidController> headerParts = new ArrayList<IAndroidController>();
+		// Select for the body contents only the viewable Parts from the AndroidController model. Make it a list.
+		controllerRoot.collaborate2View(headerParts);
+
+		// Now do the old functionality by copying each of the resulting parts to the Header container.
+		final Handler handler = new Handler(Looper.getMainLooper());
+		handler.post(() -> {
+			_headerContainer.removeAllViews();
+			for (IAndroidController part : headerParts) {
+				if (part instanceof IAndroidController) addView2Header((IAndroidController) part);
+			}
+		});
+//		} catch (RuntimeException rtex) {
+//			rtex.printStackTrace();
+//		}
 		logger.info("<< [AbstractPagerFragment.generateHeaderContents]");
 	}
 
 	/**
-	 * This method extract the view from the parameter part and generates the final View element that is able to be
-	 * inserted on the ui ViewGroup container.
+	 * This method extracts the view from the parameter controller and generates the final View element that it is able to
+	 * be inserted on the ui ViewGroup container.
 	 * @param target the AndroidController to render to a View.
 	 */
 	private void addView2Header(final IAndroidController target) {
@@ -489,8 +496,8 @@ public abstract class AbstractPagerFragment extends Fragment {
 	}
 
 	public static class EmptyDataSource extends AMVCDataSource {
-		public EmptyDataSource(DataSourceLocator locator, String variant, IControllerFactory factory, Bundle extras) {
-			super(locator, variant, factory, extras);
+		public EmptyDataSource(DataSourceLocator locator, IControllerFactory factory) {
+			super(locator, factory);
 		}
 
 		@Override
@@ -543,8 +550,8 @@ public abstract class AbstractPagerFragment extends Fragment {
 	}
 
 	public static class EmptyAndroidController extends AAndroidController<Separator> {
-		protected EmptyAndroidController(final Builder builder) {
-			super(builder);
+		public EmptyAndroidController(final Separator model, final IControllerFactory factory) {
+			super(model, factory);
 		}
 
 		@Override
@@ -558,20 +565,20 @@ public abstract class AbstractPagerFragment extends Fragment {
 		}
 
 		// - B U I L D E R
-		public static class Builder extends AAndroidController.Builder<Separator> {
-			public Builder(final Separator model, final IControllerFactory factory) {
-				super(model, factory);
-			}
-
-			public EmptyAndroidController build() {
-				return new EmptyAndroidController(this);
-			}
-		}
+//		public static class Builder extends AAndroidController.Builder<Separator> {
+//			public Builder(final Separator model, final IControllerFactory factory) {
+//				super(model, factory);
+//			}
+//
+//			public EmptyAndroidController build() {
+//				return new EmptyAndroidController(this);
+//			}
+//		}
 	}
 
 	public static class EmptyRender extends AbstractRender<Separator> {
-		protected EmptyRender(final Builder<Separator> builder) {
-			super(builder);
+		public EmptyRender(final EmptyAndroidController controller, final Context context) {
+			super(controller, context);
 		}
 
 		@Override
