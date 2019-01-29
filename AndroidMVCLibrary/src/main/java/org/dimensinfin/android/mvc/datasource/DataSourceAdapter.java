@@ -19,7 +19,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
-import org.dimensinfin.android.mvc.constants.SystemWideConstants;
+import org.dimensinfin.android.mvc.core.EEvents;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IRender;
@@ -243,8 +243,8 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	public void propertyChange(final PropertyChangeEvent event) {
 		// Be sure to run graphical changes on the UI thread. If we already are on it this has no effect.
 		((Activity) this.getContext()).runOnUiThread(() -> {
-			if (SystemWideConstants.events.valueOf(event.getPropertyName()) ==
-					SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES) {
+			if (EEvents.valueOf(event.getPropertyName()) ==
+					EEvents.EVENTADAPTER_REQUESTNOTIFYCHANGES) {
 				this.notifyDataSetChanged();
 			}
 		});

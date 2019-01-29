@@ -22,21 +22,19 @@ import java.io.StringWriter;
  * @author Adam Antinoo
  */
 
-// - CLASS IMPLEMENTATION ...................................................................................
 public class MVCExceptionHandler implements Thread.UncaughtExceptionHandler {
-	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger(MVCExceptionHandler.class);
 
-	// - F I E L D - S E C T I O N ............................................................................
+	// - F I E L D - S E C T I O N
 	private final Context localContext;
 	private final String LINE_SEPARATOR = "\n";
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	// - C O N S T R U C T O R - S E C T I O N
 	public MVCExceptionHandler(Context context) {
 		this.localContext = context;
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
+	// - M E T H O D - S E C T I O N
 	public void uncaughtException(Thread thread, Throwable exception) {
 		StringWriter stackTrace = new StringWriter();
 		exception.printStackTrace(new PrintWriter(stackTrace));

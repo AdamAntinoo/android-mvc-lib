@@ -268,7 +268,7 @@ public abstract class AMVCDataSource implements IDataSource {
 //	 * @return a new instance of a <code>IRootPart</code> interface to be used as the root for the part hierarchy.
 //	 */
 //	public IRootPart createRootPart() {
-//		return new RootAndroidController(_dataModelRoot, controllerFactory);
+//		return new RootController(_dataModelRoot, controllerFactory);
 //	}
 
 //	public RootNode getRootModel() {
