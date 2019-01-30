@@ -1,5 +1,7 @@
 package org.dimensinfin.android.mvc.interfaces;
 
+import org.dimensinfin.android.mvc.core.EEvents;
+
 import java.beans.PropertyChangeListener;
 
 /**
@@ -8,4 +10,5 @@ import java.beans.PropertyChangeListener;
  */
 public interface IEventEmitter {
 	void addPropertyChangeListener(final PropertyChangeListener listener);
+	boolean sendChangeEvent(final String eventName);
 }

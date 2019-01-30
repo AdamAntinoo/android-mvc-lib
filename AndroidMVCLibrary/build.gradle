@@ -17,14 +17,13 @@ android {
             minifyEnabled false
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-            resValue "boolean", "CACHE_MVC_VIEWS_ON_CONTROLLER", "true"
+            resValue "bool", "CACHE_MVC_VIEWS_ON_CONTROLLER", "true"
         }
         release {
             minifyEnabled false
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "boolean", "CACHE_MVC_VIEWS_ON_CONTROLLER", "false"
+            resValue "bool", "CACHE_MVC_VIEWS_ON_CONTROLLER", "false"
         }
 //        unitTests {
 //            minifyEnabled false

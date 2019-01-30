@@ -24,8 +24,8 @@ public class SeparatorRender extends AbstractRender<Separator> {
 	private TextView title;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	protected SeparatorRender(final SeparatorRender.Builder builder) {
-		super(builder);
+	public SeparatorRender(final AAndroidController<Separator> controller, final Context context) {
+		super(controller, context);
 	}
 
 	@Override
@@ -118,13 +118,13 @@ public class SeparatorRender extends AbstractRender<Separator> {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends AbstractRender.Builder<Separator> {
-		public Builder(final AAndroidController<Separator> controller, final Context context) {
-			super(controller, context);
-		}
-
-		public SeparatorRender build() {
-			return new SeparatorRender(this);
-		}
-	}
+//	public static class Builder extends AbstractRender.Builder<Separator> {
+//		public Builder(final AAndroidController<Separator> controller, final Context context) {
+//			super(controller, context);
+//		}
+//
+//		public SeparatorRender build() {
+//			return new SeparatorRender(this);
+//		}
+//	}
 }

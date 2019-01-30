@@ -23,6 +23,7 @@ import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -139,8 +140,15 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	 * Add a new listener to the list of listeners on the delegated listen and event processing node.
 	 * @param listener the new listener to connect to this instance messages.
 	 */
+	@Override
 	public void addPropertyChangeListener(final PropertyChangeListener listener) {
 		this.eventController.addPropertyChangeListener(listener);
+	}
+
+	@Override
+	public boolean sendChangeEvent(final String eventName) {
+		this.eventController.firePropertyChange(new PropertyChangeEvent(this, eventName, null, null));
+		return true;
 	}
 
 	// - M E T H O D - S E C T I O N
@@ -178,7 +186,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		// Get the new list of children for this model node. Use the Variant for generation discrimination.
 		final List<ICollaboration> modelInstances = partModel.collaborate2Model(this.getControllerFactory().getVariant());
 		if (modelInstances.size() > 0) {
-			logger.info("-- [AbstractAndroidController.refreshChildren]> modelInstances count: {}" ,modelInstances.size());
+			logger.info("-- [AbstractAndroidController.refreshChildren]> modelInstances count: {}", modelInstances.size());
 			// Check all the model instances have a matching AndroidController instance.
 			final List<IAndroidController> newPartChildren = new ArrayList<IAndroidController>(modelInstances.size());
 			final List<IAndroidController> currentPartChildren = this.getChildren();

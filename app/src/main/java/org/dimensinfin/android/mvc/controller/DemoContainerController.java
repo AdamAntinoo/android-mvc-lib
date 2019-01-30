@@ -8,19 +8,12 @@
 //               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.controller;
 
-import android.app.Activity;
 import android.content.Context;
-import android.view.View;
-
 import lombok.EqualsAndHashCode;
-import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
-import org.dimensinfin.android.mvc.core.AbstractExpandableRender;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
-import org.dimensinfin.android.mvc.render.AbstractRender;
 import org.dimensinfin.android.mvc.model.DemoContainer;
-import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.android.mvc.render.AbstractRender;
 
 import java.text.DecimalFormat;
 
@@ -66,6 +59,10 @@ public class DemoContainerController extends AAndroidController<DemoContainer> {
 	public static class DemoContainerRender extends AbstractRender<DemoContainer> {
 		// - F I E L D - S E C T I O N
 		// - C O N S T R U C T O R - S E C T I O N
+		public DemoContainerRender(final AAndroidController<DemoContainer> controller, final Context context) {
+			super(controller, context);
+		}
+
 		// - M E T H O D - S E C T I O N
 		@Override
 		protected void initializeViews() {
@@ -73,10 +70,10 @@ public class DemoContainerController extends AAndroidController<DemoContainer> {
 		}
 		@Override
 		public void updateContent() {
-			super.updateContent();
-			name.setText(getController().getCastedModel().getTitle());
-			name.setVisibility(View.VISIBLE);
-			childCount.setText(this.getController().getTContentCount());
+//			super.updateContent();
+//			name.setText(getController().getCastedModel().getTitle());
+//			name.setVisibility(View.VISIBLE);
+//			childCount.setText(this.getController().getTContentCount());
 		}
 		@Override
 		protected int accessLayoutReference() {

@@ -32,18 +32,16 @@ public class ControllerFactory implements IControllerFactory {
 	public IAndroidController createController(final ICollaboration node) {
 		// Associate the default classes defined at the MVC.
 		if (node instanceof Separator) {
-			return new SeparatorController.Builder((Separator) node,this)
-					.renderMode(this.getVariant())
-					.build();
+			return new SeparatorController((Separator) node,this)
+					.setRenderMode(this.getVariant());
 		}
 		if (node instanceof AbstractPagerFragment.EmptyNotVisibleNode) {
-			return new AbstractPagerFragment.EmptyAndroidController.Builder((Separator) node,this)
-					.renderMode(this.getVariant())
-					.build();
+			return new AbstractPagerFragment.EmptyAndroidController((Separator) node,this)
+					.setRenderMode(this.getVariant());
 		}
 		// If no part is trapped then result a NOT FOUND mark
-		return new SeparatorController.Builder(new Separator("-NO Model-Controller match-[" + node.getClass().getSimpleName() + "]-")
-				,this).build();
+		return new SeparatorController(new Separator("-NO Model-Controller match-[" + node.getClass().getSimpleName() + "]-")
+				,this);
 	}
 
 	// - G E T T E R S   &   S E T T E R S

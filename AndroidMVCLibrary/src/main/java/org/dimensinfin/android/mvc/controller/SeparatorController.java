@@ -18,8 +18,8 @@ import org.joda.time.Instant;
 public class SeparatorController extends AAndroidController<Separator> {
 	// - F I E L D - S E C T I O N
 	// - C O N S T R U C T O R - S E C T I O N
-	protected SeparatorController(final SeparatorController.Builder builder) {
-		super(builder);
+	public SeparatorController(final Separator model, final IControllerFactory factory) {
+		super(model, factory);
 	}
 
 	// - M E T H O D - S E C T I O N
@@ -48,19 +48,17 @@ public class SeparatorController extends AAndroidController<Separator> {
 
 	@Override
 	public IRender buildRender(final Context context) {
-		return new SeparatorRender.Builder(this, context)
-				.controller(this)
-				.build();
+		return new SeparatorRender(this, context);
 	}
 
 	// - B U I L D E R
-	public static class Builder extends AAndroidController.Builder<Separator> {
-		public Builder(final Separator model, final IControllerFactory factory) {
-			super(model, factory);
-		}
-
-		public SeparatorController build() {
-			return new SeparatorController(this);
-		}
-	}
+//	public static class Builder extends AAndroidController.Builder<Separator> {
+//		public Builder(final Separator model, final IControllerFactory factory) {
+//			super(model, factory);
+//		}
+//
+//		public SeparatorController build() {
+//			return new SeparatorController(this);
+//		}
+//	}
 }

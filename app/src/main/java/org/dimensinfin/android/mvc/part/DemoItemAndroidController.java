@@ -8,36 +8,31 @@
 //               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.part;
 
-import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
-import org.dimensinfin.android.mvc.render.AbstractRender;
+import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.demo.R;
+import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.model.DemoItem;
 import org.dimensinfin.android.mvc.model.DemoLabel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.dimensinfin.android.mvc.render.AbstractRender;
 
 /**
  * @author Adam Antinoo
  */
 
-// - CLASS IMPLEMENTATION ...................................................................................
-public class DemoItemAndroidController extends AbstractAndroidAndroidController {
-	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("DemoItemAndroidController");
+public class DemoItemAndroidController extends AAndroidController<DemoLabel> {
+	// - F I E L D - S E C T I O N
 
-	// - F I E L D - S E C T I O N ............................................................................
-
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public DemoItemAndroidController(final DemoLabel node) {
-		super(node);
+	// - C O N S T R U C T O R - S E C T I O N
+	public DemoItemAndroidController(final DemoLabel model, final IControllerFactory factory) {
+		super(model, factory);
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
+	// - M E T H O D - S E C T I O N
 	public DemoLabel getCastedModel() {
 		return (DemoLabel) this.getModel();
 	}
@@ -47,18 +42,18 @@ public class DemoItemAndroidController extends AbstractAndroidAndroidController 
 		return getCastedModel().getTitle().hashCode();
 	}
 
-	@Override
-	public AbstractRender selectRenderer() {
-		if (getRenderMode() == "-LABEL-") return new DemoLabelRender(this, _activity);
-		if (getRenderMode() == "-ITEM-") return new DemoItemRender(this, _activity);
-		return new DemoLabelRender(this, _activity);
+	// - G E T T E R S   &   S E T T E R S
+	public int getIconReference() {
+		if (getModel() instanceof DemoItem)
+			return ((DemoItem) getModel()).getIconIdentifier();
+		return R.drawable.defaulticonplaceholder;
 	}
 
-	//--- G E T T E R S   &   S E T T E R S
-	public int getIconReference(){
-		if(getModel() instanceof DemoItem)
-			return ((DemoItem)getModel()).getIconIdentifier();
-		return R.drawable.defaulticonplaceholder;
+	@Override
+	public IRender buildRender(final Context context) {
+		if (getRenderMode() == "-LABEL-") return new DemoLabelRender(this, context);
+		if (getRenderMode() == "-ITEM-") return new DemoItemRender(this, context);
+		return new DemoLabelRender(this, context);
 	}
 
 	@Override
@@ -70,7 +65,6 @@ public class DemoItemAndroidController extends AbstractAndroidAndroidController 
 		return buffer.toString();
 	}
 
-	// - CLASS IMPLEMENTATION ...................................................................................
 	public static class DemoItemRender extends DemoLabelRender {
 		// - S T A T I C - S E C T I O N ..........................................................................
 
@@ -79,7 +73,7 @@ public class DemoItemAndroidController extends AbstractAndroidAndroidController 
 //		private TextView nodeName = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public DemoItemRender(final AbstractAndroidAndroidController target, final Activity context) {
+		public DemoItemRender(final AAndroidController target, final Context context) {
 			super(target, context);
 		}
 
@@ -92,8 +86,8 @@ public class DemoItemAndroidController extends AbstractAndroidAndroidController 
 		@Override
 		public void initializeViews() {
 			super.initializeViews();
-			nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
-//			nodeName = (TextView) _convertView.findViewById(R.id.applicationName);
+			nodeIcon = (ImageView) this.getView().findViewById(R.id.nodeIcon);
+//			nodeName = (TextView) this.getView().findViewById(R.id.applicationName);
 		}
 
 		@Override
@@ -103,23 +97,17 @@ public class DemoItemAndroidController extends AbstractAndroidAndroidController 
 //			nodeName.setText(getController().getCastedModel().getName());
 //			nodeName.setVisibility(View.VISIBLE);
 		}
-
-		@Override
-		protected void createView() {
-			_convertView = inflateView(R.layout.item4list);
-			_convertView.setTag(this);
-		}
 	}
 
 	// - CLASS IMPLEMENTATION ...................................................................................
-	public static class DemoLabelRender extends AbstractRender {
+	public static class DemoLabelRender extends AbstractRender<DemoLabel> {
 		// - S T A T I C - S E C T I O N ..........................................................................
 
 		// - F I E L D - S E C T I O N ............................................................................
 		private TextView nodeName = null;
 
 		// - C O N S T R U C T O R - S E C T I O N ................................................................
-		public DemoLabelRender(final AbstractAndroidAndroidController target, final Activity context) {
+		public DemoLabelRender(final AAndroidController target, final Context context) {
 			super(target, context);
 		}
 
@@ -132,7 +120,7 @@ public class DemoItemAndroidController extends AbstractAndroidAndroidController 
 		@Override
 		public void initializeViews() {
 //			super.initializeViews();
-			nodeName = (TextView) _convertView.findViewById(R.id.nodeName);
+			nodeName = (TextView) this.getView().findViewById(R.id.nodeName);
 		}
 
 		@Override

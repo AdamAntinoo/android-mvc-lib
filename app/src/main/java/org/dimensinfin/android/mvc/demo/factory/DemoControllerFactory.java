@@ -10,6 +10,7 @@ package org.dimensinfin.android.mvc.demo.factory;
 
 import lombok.Builder;
 import lombok.NonNull;
+import org.dimensinfin.android.mvc.controller.DemoContainerController;
 import org.dimensinfin.android.mvc.controller.DemoHeaderTitleController;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
@@ -19,14 +20,12 @@ import org.dimensinfin.android.mvc.model.DemoContainer;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 import org.dimensinfin.android.mvc.model.DemoItem;
 import org.dimensinfin.android.mvc.model.DemoLabel;
-import org.dimensinfin.android.mvc.controller.DemoContainerController;
 import org.dimensinfin.android.mvc.part.DemoItemAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
 /**
  * @author Adam Antinoo
  */
-@Builder
 public class DemoControllerFactory extends ControllerFactory implements IControllerFactory {
 	// - F I E L D - S E C T I O N
 
@@ -59,13 +58,13 @@ public class DemoControllerFactory extends ControllerFactory implements IControl
 		// Demo classes and models
 		if (node instanceof DemoItem) {
 			// These shows the selected Separator but with another rendering.
-			IAndroidController part = new DemoItemAndroidController((DemoItem) node).setRenderMode("-ITEM-");
+			IAndroidController part = new DemoItemAndroidController((DemoItem) node, this).setRenderMode("-ITEM-");
 			return part;
 		}
 		// WARNING - When node classes have direct inheritance put the parent below their children.
 		if (node instanceof DemoLabel) {
 			// These shows the selected Separator but with another rendering.
-			IAndroidController part = new DemoItemAndroidController((DemoLabel) node).setRenderMode("-LABEL-");
+			IAndroidController part = new DemoItemAndroidController((DemoLabel) node, this).setRenderMode("-LABEL-");
 			return part;
 		}
 		// If no part is trapped then call the parent chain until one is found.

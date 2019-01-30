@@ -363,12 +363,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/org/dimensinfin/android/mvc/part/DemoDetailSeparatorAndroidController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/org/dimensinfin/android/mvc/part/DemoHeaderTitleAndroidController.java">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/org/dimensinfin/android/mvc/part/DemoHeaderTitlePart.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/org/dimensinfin/android/mvc/part/DemoItemAndroidController.java">
           <value>
             <set />
           </value>

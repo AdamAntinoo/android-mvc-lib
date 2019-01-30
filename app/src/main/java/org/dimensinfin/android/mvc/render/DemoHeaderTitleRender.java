@@ -19,7 +19,6 @@ import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 /**
  * @author Adam Antinoo
  */
-@Builder
 public class DemoHeaderTitleRender extends AbstractRender<DemoHeaderTitle> {
 	// - F I E L D - S E C T I O N
 	private TextView applicationName = null;

@@ -8,20 +8,21 @@
 //               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.part;
 
-import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.dimensinfin.android.mvc.core.AbstractAndroidAndroidController;
-import org.dimensinfin.android.mvc.render.AbstractRender;
+import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.demo.R;
+import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.android.mvc.render.AbstractRender;
 import org.dimensinfin.core.model.Separator;
 
 import java.util.GregorianCalendar;
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class DemoDetailSeparatorAndroidController extends AbstractAndroidAndroidController {
+public class DemoDetailSeparatorAndroidController extends AAndroidController<Separator> {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = -7103273035430243825L;
 
@@ -29,8 +30,8 @@ public class DemoDetailSeparatorAndroidController extends AbstractAndroidAndroid
 	private int iconReference = R.drawable.defaulticonplaceholder;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public DemoDetailSeparatorAndroidController(final Separator node) {
-		super(node);
+	public DemoDetailSeparatorAndroidController(final Separator model, final IControllerFactory factory) {
+		super(model, factory);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................
@@ -54,21 +55,21 @@ public class DemoDetailSeparatorAndroidController extends AbstractAndroidAndroid
 	}
 
 	@Override
+	public IRender buildRender(final Context context) {
+		return new DemoDetailSeparatorRender(this, context);
+	}
+
+	@Override
 	public String toString () {
 		StringBuffer buffer = new StringBuffer("DemoDetailSeparatorAndroidController [");
 		buffer.append("icon ref id: ").append(iconReference);
 		buffer.append("]");
 		return buffer.toString();
 	}
-
-	@Override
-	public AbstractRender selectRenderer () {
-		return new DemoDetailSeparatorRender(this, _activity);
-	}
 }
 
 // - CLASS IMPLEMENTATION ...................................................................................
-final class DemoDetailSeparatorRender extends AbstractRender {
+final class DemoDetailSeparatorRender extends AbstractRender<Separator> {
 	// - S T A T I C - S E C T I O N ..........................................................................
 
 	// - F I E L D - S E C T I O N ............................................................................
@@ -76,7 +77,7 @@ final class DemoDetailSeparatorRender extends AbstractRender {
 	private TextView title = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public DemoDetailSeparatorRender (final AbstractAndroidAndroidController target, final Activity context) {
+	public DemoDetailSeparatorRender (final AAndroidController<Separator> target, final Context context) {
 		super(target, context);
 	}
 
@@ -89,15 +90,15 @@ final class DemoDetailSeparatorRender extends AbstractRender {
 	@Override
 	public void initializeViews () {
 //		super.initializeViews();
-		nodeIcon = (ImageView) _convertView.findViewById(R.id.nodeIcon);
-		title = (TextView) _convertView.findViewById(R.id.title);
+		nodeIcon = (ImageView) this.getView().findViewById(R.id.nodeIcon);
+		title = (TextView) this.getView().findViewById(R.id.title);
 	}
 
 	@Override
 	public void updateContent () {
 //		super.updateContent();
-		nodeIcon.setImageResource(getController().getIconReference());
-		title.setText(getController().getCastedModel().getTitle());
+		nodeIcon.setImageResource(this.getController().getIconReference());
+		title.setText(this.getController().getCastedModel().getTitle());
 		title.setVisibility(View.GONE);
 	}
 

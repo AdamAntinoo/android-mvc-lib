@@ -76,13 +76,14 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * @param activity   reference to the Activity and the Context where we should connect the Views.
 	 * @param datasource the source for the data to be represented on the view structures.
 	 */
-	public DataSourceAdapter(final Activity activity, final IDataSource datasource) {
+	public DataSourceAdapter(final Context activity, final IDataSource datasource) {
 		this();
 		context = activity;
 		this.datasource = datasource;
 		this.datasource.addPropertyChangeListener(this); // Connect the listener to the data source events.
 	}
 
+	@Deprecated
 	public DataSourceAdapter(final AbstractPagerFragment fragment, final IDataSource datasource) {
 		this(fragment.getAppContext(), datasource);
 	}

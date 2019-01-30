@@ -17,19 +17,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
-import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.controller.RootController;
+import org.dimensinfin.android.mvc.core.EEvents;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
+import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.android.mvc.interfaces.IRootPart;
+import org.dimensinfin.android.mvc.model.MVCRootNode;
 import org.dimensinfin.android.mvc.render.AbstractRender;
 import org.dimensinfin.android.mvc.render.SeparatorRender;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
-import org.dimensinfin.core.model.RootNode;
 import org.dimensinfin.core.model.Separator;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormatterBuilder;
@@ -44,12 +45,12 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * New complete core implementation for the DataSource that should be connected to the extended BaseAdapter to provide
- * the Adapter with the list of Parts to be used for the rendering on the LitView.
+ * the Adapter with the list of Controllers to be used for the rendering on the LisView.
  * @author Adam Antinoo
  */
 
 // - CLASS IMPLEMENTATION
-public abstract class AMVCDataSource implements IDataSource {
+public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	protected static final Logger logger = LoggerFactory.getLogger(AMVCDataSource.class);
 	private static final boolean isDebuggable = true;
 
@@ -97,14 +98,14 @@ public abstract class AMVCDataSource implements IDataSource {
 	 * customize the Root nodes (for example to add special filtering) we should remove the
 	 * <code>final</code> from this field.
 	 */
-	private final RootNode _dataModelRoot = new RootNode();
+	private final MVCRootNode dataModelRoot = new MVCRootNode();
 	/**
 	 * The root node for the AndroidController hierarchy that matches the data model hierarchy. YTHis is a special
 	 * implementation of a AndroidController. Cannot be changed but has to define methods to customize its behavior to any
 	 * need that suits the developer. For example sorting and filtering can me changed by adding policies to this
 	 * instance.
 	 */
-	private IRootPart _partModelRoot;
+	private RootController controllerRoot;
 	/**
 	 * The list of Parts to show on the viewer. This is the body section that is scrollable. This instance is shared
 	 * during the <code>collaboration2View()</code> phase to use less memory and avoid copying references from list to
@@ -119,9 +120,7 @@ public abstract class AMVCDataSource implements IDataSource {
 		this.locator = locator;
 		this.controllerFactory = controllerFactory;
 		// Initialize other dependant fields.
-		_partModelRoot = new MVCRootAndroidController.Builder(this._dataModelRoot, this.controllerFactory)
-				.dataSource(this.getDataSource())
-				.build();
+		controllerRoot = new RootController(this.dataModelRoot, this.controllerFactory);
 	}
 
 	// - M E T H O D - S E C T I O N
@@ -170,12 +169,12 @@ public abstract class AMVCDataSource implements IDataSource {
 
 	// - I D A T A S O U R C E   I N T E R F A C E
 	public void cleanup() {
-		_dataModelRoot.clean();
+		dataModelRoot.clean();
 		// Clear the listener event link from the discarded Parts.
 		//		cleanLinks(_dataSectionParts);
 		_dataSectionParts.clear();
 		// And add back the initial spinner.
-		_dataSectionParts.add(new OnLoadSpinnerController.Builder(new Separator(), this.controllerFactory).build());
+		_dataSectionParts.add(new OnLoadSpinnerController(new Separator(), this.controllerFactory));
 	}
 
 	/**
@@ -186,7 +185,7 @@ public abstract class AMVCDataSource implements IDataSource {
 	 * @return
 	 */
 	public boolean isCached() {
-		return ((shouldBeCached) && (_dataModelRoot.isEmpty())) ? true : false;
+		return ((shouldBeCached) && (dataModelRoot.getChildren().isEmpty())) ? true : false;
 	}
 
 	/**
@@ -223,7 +222,7 @@ public abstract class AMVCDataSource implements IDataSource {
 	 * @return this IDataSource instance to allow functional coding.
 	 */
 	public IDataSource addModelContents(final ICollaboration newnode) {
-		_dataModelRoot.addChild(newnode);
+		dataModelRoot.addChild(newnode);
 		// Optimization - If the event is already launched and not processed do not launch it again.
 		if (_pending) return this;
 		else {
@@ -232,7 +231,7 @@ public abstract class AMVCDataSource implements IDataSource {
 			AbstractPagerFragment._uiExecutor.submit(() -> {
 				// Notify the Adapter that the Root node has been modified to regenerate the collaboration2View.
 				propertyChange(new PropertyChangeEvent(this
-						, SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), newnode, _dataModelRoot));
+						, EEvents.EVENTSTRUCTURE_NEWDATA.name(), newnode, dataModelRoot));
 				_pending = false;
 			});
 			return this;
@@ -244,12 +243,12 @@ public abstract class AMVCDataSource implements IDataSource {
 	 * that update.
 	 */
 	public IDataSource addModelContents(final ICollaboration newnode, final boolean forceEvent) {
-		_dataModelRoot.addChild(newnode);
+		dataModelRoot.addChild(newnode);
 		if (forceEvent)
 			AbstractPagerFragment._uiExecutor.submit(() -> {
 				// Notify the Adapter that the Root node has been modified to regenerate the collaboration2View.
 				propertyChange(new PropertyChangeEvent(this
-						, SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA.name(), newnode, _dataModelRoot));
+						, EEvents.EVENTSTRUCTURE_NEWDATA.name(), newnode, dataModelRoot));
 				_pending = false;
 			});
 		return this;
@@ -268,11 +267,11 @@ public abstract class AMVCDataSource implements IDataSource {
 //	 * @return a new instance of a <code>IRootPart</code> interface to be used as the root for the part hierarchy.
 //	 */
 //	public IRootPart createRootPart() {
-//		return new RootController(_dataModelRoot, controllerFactory);
+//		return new RootController(dataModelRoot, controllerFactory);
 //	}
 
 //	public RootNode getRootModel() {
-//		return this._dataModelRoot;
+//		return this.dataModelRoot;
 //	}
 
 //	public IControllerFactory getFactory() {
@@ -287,7 +286,7 @@ public abstract class AMVCDataSource implements IDataSource {
 	 */
 	public void startOnLoadProcess() {
 		if (!isCached()) {
-			_dataSectionParts.add(new OnLoadSpinnerController.Builder(new Separator(), this.controllerFactory).build());
+			_dataSectionParts.add(new OnLoadSpinnerController(new Separator(), this.controllerFactory));
 		}
 	}
 
@@ -305,16 +304,16 @@ public abstract class AMVCDataSource implements IDataSource {
 		logger.info(">> [MVCDataSource.transformModel2Parts]");
 		// Check if we have already a AndroidController model.
 		// But do not forget to associate the new Data model even if the old exists.
-//		if (null == _partModelRoot) {
-//			_partModelRoot = createRootPart();
+//		if (null == controllerRoot) {
+//			controllerRoot = createRootPart();
 //		}
-//		_partModelRoot.setRootModel(_dataModelRoot);
+//		controllerRoot.setRootModel(dataModelRoot);
 
 		logger.info("-- [MVCDataSource.transformModel2Parts]> Initiating the refreshChildren() for the Model Root");
 		// Intercept any exception on the creation of the model but do not cut the progress of the already added items.
 		try {
 			//			_dataSectionParts.clear();
-			_partModelRoot.refreshChildren();
+			controllerRoot.refreshChildren();
 		} catch (Exception ex) {
 			if (isDebuggable) {
 				// TODO Transform this into a toast or into a generic shutdown alert.
@@ -323,9 +322,15 @@ public abstract class AMVCDataSource implements IDataSource {
 		}
 		logger.info("<< [MVCDataSource.transformModel2Parts]> _dataSectionParts.size: {}", _dataSectionParts.size());
 	}
-	// - P R O P E R T Y C H A N G E L I S T E N E R   I N T E R F A C E
-	public void addPropertyChangeListener( final PropertyChangeListener newListener ){
+
+	// - I E V E N T E M I T T E R   I N T E R F A C E
+	public void addPropertyChangeListener(final PropertyChangeListener newListener) {
 		this.eventController.addPropertyChangeListener(newListener);
+	}
+
+	public boolean sendChangeEvent(final String eventName) {
+		this.eventController.firePropertyChange(new PropertyChangeEvent(this, eventName, null, null));
+		return true;
 	}
 
 	// - P R O P E R T Y C H A N G E R   I N T E R F A C E
@@ -343,10 +348,10 @@ public abstract class AMVCDataSource implements IDataSource {
 	 * the
 	 * <code>collaborate2Model()</code> as a way to convert internal data structures to a hierarchy representation on a
 	 * point in time. We isolate internal model ways to deal with data and we can optimize for the AndroidController
-	 * hierarchy without compromising thet model flexibility.
+	 * hierarchy without compromising the model flexibility.
 	 *
 	 * If the contents change we only should run over the AndroidController tree to make the transformation to generate a
-	 * new AndroidController list for all the new visible and renderable items. This is performed with the
+	 * new AndroidController list for all the new visible and render items. This is performed with the
 	 * <code>collaborate2View()</code> method for any AndroidController that will then decide which of its internal
 	 * children are going to be referenced for the collaborating list of Parts. This is the right place where to set up
 	 * programmatic filtering or sorting because at this point we can influence the output representation for the model
@@ -356,7 +361,7 @@ public abstract class AMVCDataSource implements IDataSource {
 	 * After the models changes we should send a message to the <code>DataSourceAdapter</code> to refresh the graphical
 	 * elements and change the display. <code>DataSource</code> instances do not have a reference to the Adapter nor to
 	 * the Fragment that created them but during the creation process the Adapter installed a listener to get a copy of
-	 * the events sent by all its datasources. So we can sent that message by sending again another type of message
+	 * the events sent by all its data sources. So we can sent that message by sending again another type of message
 	 * related to the need for the display for update, the <code>EVENTADAPTER_REQUESTNOTIFYCHANGES</code>
 	 * @param event the event to be processed. Event have a property name that is used as a selector.
 	 */
@@ -366,53 +371,52 @@ public abstract class AMVCDataSource implements IDataSource {
 
 		// - C O N T E N T   E V E N T S
 		// The expand/collapse state has changed.
-		if (SystemWideConstants.events.valueOf(event.getPropertyName()) ==
-				SystemWideConstants.events.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE) {
+		if (EEvents.valueOf(event.getPropertyName()) ==
+				EEvents.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE) {
 			//			cleanLinks(_dataSectionParts);
 			synchronized (_dataSectionParts) {
 				_dataSectionParts.clear();
-				_partModelRoot.collaborate2View(_dataSectionParts);
+				controllerRoot.collaborate2View(_dataSectionParts);
 			}
 		}
 
 		// - S T R U C T U R E   E V E N T S
-		if (SystemWideConstants.events.valueOf(event.getPropertyName()) ==
-				SystemWideConstants.events.EVENTSTRUCTURE_NEWDATA) {
+		if (EEvents.valueOf(event.getPropertyName()) ==
+				EEvents.EVENTSTRUCTURE_NEWDATA) {
 			this.transformModel2Parts();
 			//			cleanLinks(_dataSectionParts);
 			synchronized (_dataSectionParts) {
 				_dataSectionParts.clear();
-				_partModelRoot.collaborate2View(_dataSectionParts);
+				controllerRoot.collaborate2View(_dataSectionParts);
 			}
 			// TODO - I think there is missing the action to update the listview. Trying with this messsage.
-			firePropertyChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), null, null);
+			this.sendChangeEvent(EEvents.EVENTADAPTER_REQUESTNOTIFYCHANGES.name());
 		}
-		if (SystemWideConstants.events.valueOf(event.getPropertyName()) ==
-				SystemWideConstants.events.EVENTSTRUCTURE_DOWNLOADDATA) {
+		if (EEvents.valueOf(event.getPropertyName()) ==
+				EEvents.EVENTSTRUCTURE_DOWNLOADDATA) {
 			this.transformModel2Parts();
 			//			cleanLinks(_dataSectionParts);
 			synchronized (_dataSectionParts) {
 				_dataSectionParts.clear();
-				_partModelRoot.collaborate2View(_dataSectionParts);
+				controllerRoot.collaborate2View(_dataSectionParts);
 			}
 		}
 
 		// - R E F R E S H   E V E N T S
-		if (SystemWideConstants.events.valueOf(event.getPropertyName()) ==
-				SystemWideConstants.events.EVENTSTRUCTURE_REFRESHDATA) {
+		if (EEvents.valueOf(event.getPropertyName()) ==
+				EEvents.EVENTSTRUCTURE_REFRESHDATA) {
 			collaborate2Model();
 			this.transformModel2Parts();
 			//			cleanLinks(_dataSectionParts);
 			synchronized (_dataSectionParts) {
 				_dataSectionParts.clear();
-				_partModelRoot.collaborate2View(_dataSectionParts);
+				controllerRoot.collaborate2View(_dataSectionParts);
 			}
 		}
 
 		// - A D A P T E R   E V E N T S
 		// Send up the event to the DataSourceAdapter but be sure to run any display changes on the UI main thread.
-		this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
-				event.getNewValue());
+		this.sendChangeEvent(EEvents.EVENTADAPTER_REQUESTNOTIFYCHANGES.name());
 	}
 
 //	protected void cleanLinks(final List<IAndroidAndroidController> partList) {
@@ -440,8 +444,8 @@ public abstract class AMVCDataSource implements IDataSource {
 		 * DS functionality but at a time that is not the creation time. Then the Factory and other data structures become
 		 * available to the part hierarchy without affecting any other AndroidController implementation.
 		 */
-		protected OnLoadSpinnerController(final OnLoadSpinnerController.Builder builder) {
-			super(builder);
+		public OnLoadSpinnerController(final Separator model, final IControllerFactory factory) {
+			super(model, factory);
 		}
 
 		/**
@@ -455,20 +459,7 @@ public abstract class AMVCDataSource implements IDataSource {
 
 		@Override
 		public IRender buildRender(final Context context) {
-			return new SeparatorRender.Builder(this, context)
-					.controller(this)
-					.build();
-		}
-
-		// - B U I L D E R
-		public static class Builder extends AAndroidController.Builder<Separator> {
-			public Builder(final Separator model, final IControllerFactory factory) {
-				super(model, factory);
-			}
-
-			public OnLoadSpinnerController build() {
-				return new OnLoadSpinnerController(this);
-			}
+			return new SeparatorRender(this, context);
 		}
 	}
 
@@ -480,8 +471,8 @@ public abstract class AMVCDataSource implements IDataSource {
 		private Instant _elapsedTimer = null;
 
 		// - C O N S T R U C T O R - S E C T I O N
-		protected OnLoadSpinnerRender(final OnLoadSpinnerRender.Builder builder) {
-			super(builder);
+		public OnLoadSpinnerRender(final AAndroidController<Separator> controller, final Context context) {
+			super(controller, context);
 		}
 
 		// - I R E N D E R   I N T E R F A C E
@@ -538,15 +529,15 @@ public abstract class AMVCDataSource implements IDataSource {
 		}
 
 		// - B U I L D E R
-		public static class Builder extends AbstractRender.Builder<Separator> {
-			public Builder(final AAndroidController<Separator> controller, final Context context) {
-				super(controller, context);
-			}
-
-			public OnLoadSpinnerRender build() {
-				return new OnLoadSpinnerRender(this);
-			}
-		}
+//		public static class Builder extends AbstractRender.Builder<Separator> {
+//			public Builder(final AAndroidController<Separator> controller, final Context context) {
+//				super(controller, context);
+//			}
+//
+//			public OnLoadSpinnerRender build() {
+//				return new OnLoadSpinnerRender(this);
+//			}
+//		}
 	}
 
 //	// - B U I L D E R
