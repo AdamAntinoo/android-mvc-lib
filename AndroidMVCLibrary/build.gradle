@@ -1,3 +1,6 @@
+plugins {
+    id "org.sonarqube" version "2.6"
+}
 apply plugin: 'com.android.library'
 apply plugin: 'project-report'
 android {
@@ -111,6 +114,9 @@ dependencies {
     testImplementation 'org.slf4j:slf4j-android:1.7.25'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.8.9'
+    testImplementation 'com.openpojo:openpojo:0.8.12'
+
+
     testImplementation files('libs/CoreBase.core-2.0.3.jar')
     testImplementation 'com.android.support:support-v13:27.1.1'
 

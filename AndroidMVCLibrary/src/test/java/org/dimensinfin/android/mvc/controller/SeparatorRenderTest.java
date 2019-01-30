@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.TextView;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
+import org.dimensinfin.android.mvc.render.SeparatorRender;
 import org.dimensinfin.core.model.Separator;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -15,19 +15,20 @@ import org.mockito.Mockito;
  * @author Adam Antinoo
  */
 public class SeparatorRenderTest extends AndroidTestCase {
-private View testView ;
+	private View testView;
 
 
-	@Before
+	//	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		// Given
 		final Separator model = new Separator("Test Separator");
-		final ControllerFactory factory= Mockito.mock(ControllerFactory.class);
-		final SeparatorController controller = new SeparatorController.Builder(model, factory).build();
-		final SeparatorRender render = new SeparatorRender.Builder(controller, getContext()).build();
-		testView =  LayoutInflater.from(getContext())
-				.inflate(render.accessLayoutReference(), null);	}
+		final ControllerFactory factory = Mockito.mock(ControllerFactory.class);
+		final SeparatorController controller = new SeparatorController(model, factory);
+		final SeparatorRender render = new SeparatorRender(controller, getContext());
+		testView = LayoutInflater.from(getContext())
+				.inflate(R.layout.exception4list, null);
+	}
 
 	@Test
 	public void getController() {

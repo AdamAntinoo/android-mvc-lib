@@ -124,9 +124,9 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	}
 
 	// - M E T H O D - S E C T I O N
-	private IDataSource getDataSource() {
-		return this;
-	}
+//	private IDataSource getDataSource() {
+//		return this;
+//	}
 
 	// - G E T T E R S   &   S E T T E R S
 	public DataSourceLocator getDataSourceLocator() {
@@ -148,9 +148,9 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 		return controllerFactory;
 	}
 
-	public boolean isShouldBeCached() {
-		return shouldBeCached;
-	}
+//	public boolean isShouldBeCached() {
+//		return shouldBeCached;
+//	}
 
 	public AMVCDataSource setExtras(final Bundle extras) {
 		this.extras = extras;
@@ -177,24 +177,24 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 		_dataSectionParts.add(new OnLoadSpinnerController(new Separator(), this.controllerFactory));
 	}
 
-	/**
-	 * This method checks if the DataSource is compatible with caching and if this is the case checks if there are
-	 * contents already cached so we can avoid to regenerate the model again. Use the counter of the children instead the
-	 * <code>isEmpty</code> because that function does not represent the content value for RootNodes. This is a reported
-	 * BUG.
-	 * @return
-	 */
-	public boolean isCached() {
-		return ((shouldBeCached) && (dataModelRoot.getChildren().isEmpty())) ? true : false;
-	}
-
-	/**
-	 * Get the current cache selected state. This is used internally to do some checks.
-	 * @return
-	 */
-	public boolean isCacheable() {
-		return shouldBeCached;
-	}
+//	/**
+//	 * This method checks if the DataSource is compatible with caching and if this is the case checks if there are
+//	 * contents already cached so we can avoid to regenerate the model again. Use the counter of the children instead the
+//	 * <code>isEmpty</code> because that function does not represent the content value for RootNodes. This is a reported
+//	 * BUG.
+//	 * @return
+//	 */
+//	public boolean isCached() {
+//		return ((shouldBeCached) && (dataModelRoot.getChildren().isEmpty())) ? true : false;
+//	}
+//
+//	/**
+//	 * Get the current cache selected state. This is used internally to do some checks.
+//	 * @return
+//	 */
+//	public boolean isCacheable() {
+//		return shouldBeCached;
+//	}
 
 	/**
 	 * Sets the cacheable state for this DataSource. By default the cache state is <code>false</code> so no sources are

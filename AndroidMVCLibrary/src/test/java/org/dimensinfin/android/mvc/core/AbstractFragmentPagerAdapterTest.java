@@ -1,11 +1,14 @@
 package org.dimensinfin.android.mvc.core;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import org.dimensinfin.android.mvc.activity.AbstractFragmentPagerAdapter;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class AbstractFragmentPagerAdapterTest {
 	@Test
@@ -93,7 +96,7 @@ public class AbstractFragmentPagerAdapterTest {
 		assertEquals(2, adapter.getNextFreePosition());
 	}
 
-//	@Test
+	//	@Test
 	public void addPage_notify() {
 		// Given
 		final Fragment fragment = mock(Fragment.class);

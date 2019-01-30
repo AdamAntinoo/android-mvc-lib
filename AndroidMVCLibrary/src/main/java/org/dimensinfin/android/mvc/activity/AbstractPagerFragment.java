@@ -501,6 +501,16 @@ public abstract class AbstractPagerFragment extends Fragment {
 		}
 
 		@Override
+		public boolean isCached() {
+			return false;
+		}
+
+		@Override
+		public boolean isCacheable() {
+			return false;
+		}
+
+		@Override
 		public void collaborate2Model() {
 			// Create an empty list of items. This can be done by setting a model that if not rendered when empty.
 			this.addModelContents(new EmptyNotVisibleNode());

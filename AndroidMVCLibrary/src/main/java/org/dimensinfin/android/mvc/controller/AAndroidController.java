@@ -40,7 +40,7 @@ import java.util.Vector;
  * @author Adam Antinoo
  * @since 4.0.0
  */
-@EqualsAndHashCode
+//@EqualsAndHashCode
 public abstract class AAndroidController<M extends ICollaboration> implements IAndroidController<M> {
 	/** This is the public logger that should be used by all the Controllers. */
 	protected static final Logger logger = LoggerFactory.getLogger(AAndroidController.class);
