@@ -20,6 +20,7 @@ import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.controller.RootController;
 import org.dimensinfin.android.mvc.core.EEvents;
+import org.dimensinfin.android.mvc.core.UIGlobalExecutor;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
@@ -218,20 +219,23 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	 * This is the single way to add more content to the DataSource internal model representation. Encapsulating this
 	 * functionality on this method we make sure that the right events are generated and the model is properly updated and
 	 * the render process will work as expected.
-	 * @param newnode a new node to be added to the contents of the root point of the model.
+	 * Even this method should be compatible with nos dynamic Fragments. Anyway the launch for the update is done when the thread the generated this
+	 * additions completes and at that time the data source should also fire a final update event that is the mandatory event used by
+	 * non dynamic Fragments.
+	 * @param newNode a new node to be added to the contents of the root point of the model.
 	 * @return this IDataSource instance to allow functional coding.
 	 */
-	public IDataSource addModelContents(final ICollaboration newnode) {
-		dataModelRoot.addChild(newnode);
+	public IDataSource addModelContents(final ICollaboration newNode) {
+		dataModelRoot.addChild(newNode);
 		// Optimization - If the event is already launched and not processed do not launch it again.
 		if (_pending) return this;
 		else {
 			// Fire the model structure change event. This processing is done on the background and on the UI thread.
 			_pending = true;
-			AbstractPagerFragment._uiExecutor.submit(() -> {
+			UIGlobalExecutor.submit(() -> {
 				// Notify the Adapter that the Root node has been modified to regenerate the collaboration2View.
-				propertyChange(new PropertyChangeEvent(this
-						, EEvents.EVENTSTRUCTURE_NEWDATA.name(), newnode, dataModelRoot));
+				this.propertyChange(new PropertyChangeEvent(this
+						, EEvents.EVENTSTRUCTURE_NEWDATA.name(), newNode, dataModelRoot));
 				_pending = false;
 			});
 			return this;

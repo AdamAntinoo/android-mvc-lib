@@ -133,6 +133,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/core/UIGlobalExecutor.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/datasource/AMVCDataSource.java">
           <value>
             <set />
