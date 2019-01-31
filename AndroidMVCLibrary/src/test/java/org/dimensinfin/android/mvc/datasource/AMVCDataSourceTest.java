@@ -1,106 +1,73 @@
 package org.dimensinfin.android.mvc.datasource;
 
+import org.dimensinfin.android.mvc.controller.SeparatorController;
 import org.dimensinfin.android.mvc.core.UIGlobalExecutor;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
+import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.utils.PojoTestUtils;
+import org.dimensinfin.android.mvc.utils.TestControllerFactory;
+import org.dimensinfin.android.mvc.utils.TestDataSource;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator;
 import org.junit.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Adam Antinoo
  */
 public class AMVCDataSourceTest {
+	private static final DataSourceLocator locator = new DataSourceLocator().addIdentifier("TEST");
+	private static final ControllerFactory factory = new TestControllerFactory("TEST");
 	private static final ICollaboration node = new Separator("TEST");
 
-	public static class TestDataSource extends AMVCDataSource {
+	public static class TestNode extends Separator {
+		private List<ICollaboration> children = new ArrayList<>();
 
-		public TestDataSource(final DataSourceLocator locator, final IControllerFactory controllerFactory) {
-			super(locator, controllerFactory);
-		}
-
-//		@Override
-//		public boolean isCached() {
-//			return false;
-//		}
-
-		@Override
-		public boolean isCacheable() {
-			return false;
+		public void addChild(final ICollaboration child) {
+			this.children.add(child);
 		}
 
 		@Override
-		public void collaborate2Model() {
-
+		public List<ICollaboration> collaborate2Model(final String variant) {
+			return new ArrayList<ICollaboration>(this.children);
 		}
 	}
-
-//	@Before
-//	public void setUp() throws Exception {
-//	}
 
 	@Test
 	public void testAccesors() {
 		PojoTestUtils.validateAccessors(TestDataSource.class);
-	}
-@Test
-public void transformModel2Parts(){
-
-}
-	@Test
-	public void cleanup() {
+		PojoTestUtils.validateAccessors(AMVCDataSource.class);
 	}
 
 	@Test
-	public void isCached() {
+	public void addModelContents() {
+		// Mocks
+		final AMVCDataSource amvcds = Mockito.mock(AMVCDataSource.class);
+		final UIGlobalExecutor executor = Mockito.mock(UIGlobalExecutor.class);
+
+		// Given
+		final TestDataSource ds = new TestDataSource(locator, factory);
+
+		// Test
+		ds.addModelContents(node);
+
+		// Asserts
+		Mockito.verify(executor, Mockito.times(1)).submit(() -> {
+			int i = 0;
+		});
 	}
 
 //	@Test
-	public void addModelContents() {
-		// Given
-		final DataSourceLocator locator = new DataSourceLocator().addIdentifier("TEST");
-		final ControllerFactory factory = Mockito.mock(ControllerFactory.class);
-		final TestDataSource ds = new TestDataSource(locator, factory);
-//		final AbstractPagerFragment apf = Mockito.mock(AbstractPagerFragment.class);
-		final AMVCDataSource amvcds = Mockito.mock(AMVCDataSource.class);
-		final UIGlobalExecutor executor = Mockito.mock(UIGlobalExecutor.class);
-//		final Waiter waiter = new Waiter();
-		// When
-//		Mockito.when(AMVCDataSource.propertyChange(ArgumentMatchers.any(PropertyChangeEvent)).then
-
-		// Test
-//		ds.addModelContents(node);
-//		UIGlobalExecutor.submit(() -> {
-//			// Use alternate thread to load the event on the thread.
-//			ds.addModelContents(node);
-//			// End this thread and resume with other executions.
-//			waiter.resume();
-//		});
-//		final List<IAndroidController> controllers = ds.getDataSectionContents();
-
-		// Asserts
-//		Assert.assertNotNull(controllers);
-//		Assert.assertEquals(1, controllers.size());
-//		Mockito.verify(executor, Mockito.times(1)).submit(ArgumentMatchers.any(Runnable.class));
-	}
-
-	@Test
-	public void getDataSectionContents() {
-	}
-
-	@Test
-	public void addPropertyChangeListener() {
-	}
-
-	@Test
-	public void sendChangeEvent() {
-	}
-
-	@Test
-	public void propertyChange() {
-	}
+//	public void transformModel2Parts() {
+//		// Given
+//		final TestDataSource ds = new TestDataSource(locator, factory);
+// // Test
+//		ds.transformModel2Parts();
+//
+//	}
 }

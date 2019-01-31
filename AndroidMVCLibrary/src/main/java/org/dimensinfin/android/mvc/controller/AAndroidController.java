@@ -12,6 +12,7 @@ import android.content.Context;
 import android.view.View;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -26,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
@@ -66,7 +68,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 //		this.factory = builder.factory;
 //		this.renderMode = builder.renderMode;
 //	}
-	public AAndroidController(final M model, final IControllerFactory factory) {
+	public AAndroidController(@NonNull final M model, @NonNull final IControllerFactory factory) {
 		this.model = model;
 		this.factory = factory;
 	}
@@ -124,6 +126,8 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		List<IAndroidController> ch = this.runPolicies(this.getChildren());
 		logger.info("-- [AAndroidController.collaborate2View]> Collaborator children: {}", ch.size());
 		// --- End of policies
+		// Add this node to the list of.
+		contentCollector.add(this);
 		for (IAndroidController part : ch) {
 			if (part instanceof IAndroidController)
 				part.collaborate2View(contentCollector);
@@ -176,53 +180,29 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	 */
 	public void refreshChildren() {
 		logger.info(">> [AbstractAndroidController.refreshChildren]");
-		// Create the new list of Parts for this node model contents if it have any collaboration.
-		M partModel = this.getModel();
-		if (null == partModel) {
-			logger.warn("WR [AbstractAndroidController.refreshChildren]> Exception case: no Model defined for this AndroidController. {}"
-					, this.toString());
-			return;
-		}
 		// Get the new list of children for this model node. Use the Variant for generation discrimination.
-		final List<ICollaboration> modelInstances = partModel.collaborate2Model(this.getControllerFactory().getVariant());
-		if (modelInstances.size() > 0) {
-			logger.info("-- [AbstractAndroidController.refreshChildren]> modelInstances count: {}", modelInstances.size());
-			// Check all the model instances have a matching AndroidController instance.
-			final List<IAndroidController> newPartChildren = new ArrayList<IAndroidController>(modelInstances.size());
-			final List<IAndroidController> currentPartChildren = this.getChildren();
-			for (ICollaboration modelNode : modelInstances) {
-				// Search for the model instance on the current part list.
-				IAndroidController foundPart = null;
-				for (IAndroidController currentPart : currentPartChildren)
-					if (currentPart.getModel().equals(modelNode)) {
-						foundPart = currentPart;
-						break;
-					}
-				if (null == foundPart) {
-					logger.info("-- [AbstractAndroidController.refreshChildren]> AndroidController for Model not found. Generating a new one for: {}",
-							modelNode.getClass().getSimpleName());
-					// Model not found on the current list of Parts. Needs a new one.
-					foundPart = this.factory.createController(modelNode);
-					// Check if the creation has failed. In that exceptional case skip this model and leave a warning.
-					if (null == foundPart) {
-						logger.warn("WR [AbstractAndroidController.refreshChildren]> Exception case: Factory failed to generate AndroidController for " +
-										"model. {}"
-								, modelNode.toString());
-					}
-				}
-				// Add to the new list of parts.
-				newPartChildren.add(foundPart);
-				// Recursively process their children.
-				foundPart.refreshChildren();
+		final List<ICollaboration> firstLevelNodes = this.getModel().collaborate2Model(this.getControllerFactory().getVariant());
+		if (firstLevelNodes.isEmpty()) return;
+		logger.info("-- [AbstractAndroidController.refreshChildren]> firstLevelNodes count: {}", firstLevelNodes.size());
+		// Create the model-controller current map to check the elements missing.
+		final Hashtable<ICollaboration,IAndroidController> currentMap = new Hashtable<>(firstLevelNodes.size());
+		for ( IAndroidController control : this.getChildren()){
+			currentMap.put(control.getModel(),control);
+		}
+		// Check all the model instances have a matching AndroidController instance.
+		final List<IAndroidController> newControllerChildren = new ArrayList<IAndroidController>(firstLevelNodes.size());
+		final List<IAndroidController> currentControllerChildren = this.getChildren();
+		for (ICollaboration modelNode : firstLevelNodes) {
+			// Search for the model instance on the current controller map.
+			if( currentMap.containsKey(modelNode)) currentMap.get(modelNode).refreshChildren();
+			else {
+				// The controller is non existent for this model node. Create a new one from the factory.
+				logger.info("-- [RootController.refreshChildren]> New AndroidController for Model: {}",
+						modelNode.getClass().getSimpleName());
+				final IAndroidController newController = this.getControllerFactory().createController(modelNode);
+				this.addChild(newController);
+				newController.refreshChildren();
 			}
-			// The new list part is complete. Discard the old list and set the new one as the current list of children.
-//			cleanLinks();
-			for (IAndroidController child : newPartChildren) addChild(child);
-		} else {
-			logger.info("-- [AbstractAndroidController.refreshChildren]> Processing model: {}"
-					, partModel.getClass().getSimpleName());
-			// The part is already created for leave nodes. Terminate this leave.
-			return;
 		}
 		logger.info("<< [AbstractAndroidController.refreshChildren]> Content size: {}", this.getChildren().size());
 	}

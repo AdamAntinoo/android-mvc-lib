@@ -233,6 +233,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/model/MVCRootNode.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/models/MVCRootNode.java">
           <value>
             <set />
@@ -313,7 +318,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/test/java/org/dimensinfin/android/mvc/utils/PojoGenericTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/test/java/org/dimensinfin/android/mvc/utils/PojoTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/test/java/org/dimensinfin/android/mvc/utils/TestControllerFactory.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/test/java/org/dimensinfin/android/mvc/utils/TestDataSource.java">
           <value>
             <set />
           </value>

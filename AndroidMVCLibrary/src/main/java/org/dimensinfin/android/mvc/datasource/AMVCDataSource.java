@@ -16,11 +16,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.controller.RootController;
 import org.dimensinfin.android.mvc.core.EEvents;
-import org.dimensinfin.android.mvc.core.ToastExceptionHandler;
 import org.dimensinfin.android.mvc.core.UIGlobalExecutor;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
@@ -113,7 +111,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	 * during the <code>collaboration2View()</code> phase to use less memory and avoid copying references from list to
 	 * list during the generation process.
 	 */
-	private final List<IAndroidController> _dataSectionParts = new ArrayList<>(100);
+	private final List<IAndroidController> dataSectionControllers = new ArrayList<>(100);
 	/** Flag used to do not launch more update events when there is one pending. */
 	private boolean _pending = false;
 
@@ -173,10 +171,10 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	public void cleanup() {
 		dataModelRoot.clean();
 		// Clear the listener event link from the discarded Parts.
-		//		cleanLinks(_dataSectionParts);
-		_dataSectionParts.clear();
+		//		cleanLinks(dataSectionControllers);
+		dataSectionControllers.clear();
 		// And add back the initial spinner.
-		_dataSectionParts.add(new OnLoadSpinnerController(new Separator(), this.controllerFactory));
+		dataSectionControllers.add(new OnLoadSpinnerController(new Separator(), this.controllerFactory));
 	}
 
 //	/**
@@ -243,24 +241,24 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 		}
 	}
 
-	/**
-	 * Use the method variant to force the execution of the hierarchy update even in the case the process is already doing
-	 * that update.
-	 */
-	public IDataSource addModelContents(final ICollaboration newnode, final boolean forceEvent) {
-		dataModelRoot.addChild(newnode);
-		if (forceEvent)
-			AbstractPagerFragment._uiExecutor.submit(() -> {
-				// Notify the Adapter that the Root node has been modified to regenerate the collaboration2View.
-				propertyChange(new PropertyChangeEvent(this
-						, EEvents.EVENTSTRUCTURE_NEWDATA.name(), newnode, dataModelRoot));
-				_pending = false;
-			});
-		return this;
-	}
+//	/**
+//	 * Use the method variant to force the execution of the hierarchy update even in the case the process is already doing
+//	 * that update.
+//	 */
+//	public IDataSource addModelContents(final ICollaboration newNode, final boolean forceEvent) {
+//		dataModelRoot.addChild(newNode);
+//		if (forceEvent)
+//			AbstractPagerFragment._uiExecutor.submit(() -> {
+//				// Notify the Adapter that the Root node has been modified to regenerate the collaboration2View.
+//				propertyChange(new PropertyChangeEvent(this
+//						, EEvents.EVENTSTRUCTURE_NEWDATA.name(), newNode, dataModelRoot));
+//				_pending = false;
+//			});
+//		return this;
+//	}
 
 	public List<IAndroidController> getDataSectionContents() {
-		return _dataSectionParts;
+		return dataSectionControllers;
 	}
 
 //	/**
@@ -291,7 +289,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	 */
 	public void startOnLoadProcess() {
 //		if (!isCached()) {
-			_dataSectionParts.add(new OnLoadSpinnerController(new Separator(), this.controllerFactory));
+			dataSectionControllers.add(new OnLoadSpinnerController(new Separator(), this.controllerFactory));
 //		}
 	}
 
@@ -321,7 +319,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 				ex.printStackTrace();
 //			}
 		}
-		logger.info("<< [MVCDataSource.transformModel2Parts]> _dataSectionParts.size: {}", _dataSectionParts.size());
+		logger.info("<< [MVCDataSource.transformModel2Parts]> dataSectionControllers.size: {}", dataSectionControllers.size());
 	}
 
 	// - I E V E N T E M I T T E R   I N T E R F A C E
@@ -374,9 +372,9 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 		// The expand/collapse state has changed.
 		if (EEvents.valueOf(event.getPropertyName()) ==
 				EEvents.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE) {
-			synchronized (_dataSectionParts) {
-				_dataSectionParts.clear();
-				controllerRoot.collaborate2View(_dataSectionParts);
+			synchronized (dataSectionControllers) {
+				dataSectionControllers.clear();
+				controllerRoot.collaborate2View(dataSectionControllers);
 			}
 		}
 
@@ -384,9 +382,9 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 		if (EEvents.valueOf(event.getPropertyName()) ==
 				EEvents.EVENTSTRUCTURE_NEWDATA) {
 			this.transformModel2Parts();
-			synchronized (_dataSectionParts) {
-				_dataSectionParts.clear();
-				controllerRoot.collaborate2View(_dataSectionParts);
+			synchronized (dataSectionControllers) {
+				dataSectionControllers.clear();
+				controllerRoot.collaborate2View(dataSectionControllers);
 			}
 			// TODO - I think there is missing the action to update the listview. Trying with this messsage.
 			this.sendChangeEvent(EEvents.EVENTADAPTER_REQUESTNOTIFYCHANGES.name());
@@ -394,10 +392,10 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 		if (EEvents.valueOf(event.getPropertyName()) ==
 				EEvents.EVENTSTRUCTURE_DOWNLOADDATA) {
 			this.transformModel2Parts();
-			//			cleanLinks(_dataSectionParts);
-			synchronized (_dataSectionParts) {
-				_dataSectionParts.clear();
-				controllerRoot.collaborate2View(_dataSectionParts);
+			//			cleanLinks(dataSectionControllers);
+			synchronized (dataSectionControllers) {
+				dataSectionControllers.clear();
+				controllerRoot.collaborate2View(dataSectionControllers);
 			}
 		}
 
@@ -406,10 +404,10 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 				EEvents.EVENTSTRUCTURE_REFRESHDATA) {
 			collaborate2Model();
 			this.transformModel2Parts();
-			//			cleanLinks(_dataSectionParts);
-			synchronized (_dataSectionParts) {
-				_dataSectionParts.clear();
-				controllerRoot.collaborate2View(_dataSectionParts);
+			//			cleanLinks(dataSectionControllers);
+			synchronized (dataSectionControllers) {
+				dataSectionControllers.clear();
+				controllerRoot.collaborate2View(dataSectionControllers);
 			}
 		}
 

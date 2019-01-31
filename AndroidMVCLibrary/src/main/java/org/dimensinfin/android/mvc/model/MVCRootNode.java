@@ -13,8 +13,8 @@ import org.dimensinfin.core.interfaces.ICollaboration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 /**
  * This is an special node that is set on the root of a graph or hierarchy. It will collaborate its contents that are
@@ -25,11 +25,10 @@ import java.util.Vector;
  */
 @EqualsAndHashCode
 public class MVCRootNode implements ICollaboration {
-	private static final long serialVersionUID = 297128593703416475L;
 	private static Logger logger = LoggerFactory.getLogger(MVCRootNode.class);
 
 	// - F I E L D - S E C T I O N
-	private List<ICollaboration> children = new Vector<ICollaboration>();
+	private List<ICollaboration> children = new ArrayList<>();
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public MVCRootNode() {
@@ -37,14 +36,12 @@ public class MVCRootNode implements ICollaboration {
 	}
 
 	// - I C O L L A B O R A T I O N   I N T E R F A C E
+
 	/**
 	 * This special node collaborates with their children but not itself.
 	 */
 	public List<ICollaboration> collaborate2Model(final String variant) {
-		final Vector<ICollaboration> results = new Vector<ICollaboration>();
-		for (ICollaboration node : this.getChildren())
-			results.add(node);
-		return results;
+		return new ArrayList<>(this.getChildren());
 	}
 
 	// - G E T T E R S   &   S E T T E R S
@@ -59,20 +56,18 @@ public class MVCRootNode implements ICollaboration {
 			children.add(child);
 		}
 	}
+
 	public void addChildren(final List<ICollaboration> modelList) {
 		for (ICollaboration node : modelList)
 			this.addChild(node);
 	}
+
 	public void clean() {
 		this.getChildren().clear();
 	}
 
 	@Override
 	public String toString() {
-		return new StringBuilder("MVCRootNode [")
-				.append("count: ").append(this.getChildren().size()).append(" ")
-				.append(" ]")
-				.toString();
+		return "MVCRootNode [count: " + this.getChildren().size() + " ]";
 	}
-
 }
