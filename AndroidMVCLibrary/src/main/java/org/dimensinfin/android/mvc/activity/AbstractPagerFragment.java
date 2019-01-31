@@ -500,10 +500,10 @@ public abstract class AbstractPagerFragment extends Fragment {
 			super(locator, factory);
 		}
 
-		@Override
-		public boolean isCached() {
-			return false;
-		}
+//		@Override
+//		public boolean isCached() {
+//			return false;
+//		}
 
 		@Override
 		public boolean isCacheable() {

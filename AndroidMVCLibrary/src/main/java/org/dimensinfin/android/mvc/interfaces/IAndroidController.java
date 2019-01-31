@@ -10,10 +10,11 @@ package org.dimensinfin.android.mvc.interfaces;
 
 import android.content.Context;
 import android.view.View;
+import org.dimensinfin.core.interfaces.ICollaboration;
 
 import java.util.List;
 
-public interface IAndroidController<M> extends IEventEmitter {
+public interface IAndroidController<M extends ICollaboration> extends IEventEmitter {
 	M getModel();
 	void refreshChildren();
 	IRender buildRender(final Context context);

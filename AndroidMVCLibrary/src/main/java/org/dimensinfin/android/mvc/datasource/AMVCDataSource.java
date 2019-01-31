@@ -20,6 +20,7 @@ import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.controller.RootController;
 import org.dimensinfin.android.mvc.core.EEvents;
+import org.dimensinfin.android.mvc.core.ToastExceptionHandler;
 import org.dimensinfin.android.mvc.core.UIGlobalExecutor;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
@@ -189,13 +190,13 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 //		return ((shouldBeCached) && (dataModelRoot.getChildren().isEmpty())) ? true : false;
 //	}
 //
-//	/**
-//	 * Get the current cache selected state. This is used internally to do some checks.
-//	 * @return
-//	 */
-//	public boolean isCacheable() {
-//		return shouldBeCached;
-//	}
+	/**
+	 * Get the current cache selected state. This is used internally to do some checks.
+	 * @return
+	 */
+	public boolean isCacheable() {
+		return shouldBeCached;
+	}
 
 	/**
 	 * Sets the cacheable state for this DataSource. By default the cache state is <code>false</code> so no sources are
@@ -289,40 +290,36 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	 * to wait for it.
 	 */
 	public void startOnLoadProcess() {
-		if (!isCached()) {
+//		if (!isCached()) {
 			_dataSectionParts.add(new OnLoadSpinnerController(new Separator(), this.controllerFactory));
-		}
+//		}
 	}
 
 	/**
 	 * After the model is created we have to transform it into the AndroidController list expected by the
 	 * DataSourceAdapter. The AndroidController creation is performed by the corresponding ControllerFactory we got at the
 	 * DataSource creation.
-	 * <p>
-	 * We transform the model recursively and keeping the already available AndroidController elements. We create a
+	 *
+	 * We transform the model recursively and keeping the already available AndroidController instances if present. We create a
 	 * duplicated of the resulting AndroidController model and we move already available parts from the current model to
 	 * the new model or create new part and finally remove what is left and unused. This new implementation will use
 	 * partial generation to split and speed up this phase.
+	 *
+	 * Next version will user sorted model instances so the search for already available controllers with be a sinple check on the
+	 * first element queue.
 	 */
 	private void transformModel2Parts() {
 		logger.info(">> [MVCDataSource.transformModel2Parts]");
-		// Check if we have already a AndroidController model.
-		// But do not forget to associate the new Data model even if the old exists.
-//		if (null == controllerRoot) {
-//			controllerRoot = createRootPart();
-//		}
-//		controllerRoot.setRootModel(dataModelRoot);
-
 		logger.info("-- [MVCDataSource.transformModel2Parts]> Initiating the refreshChildren() for the Model Root");
 		// Intercept any exception on the creation of the model but do not cut the progress of the already added items.
 		try {
-			//			_dataSectionParts.clear();
 			controllerRoot.refreshChildren();
 		} catch (Exception ex) {
-			if (isDebuggable) {
+//			new ToastExceptionHandler(this.getAppContext());
+//			if (isDebuggable) {
 				// TODO Transform this into a toast or into a generic shutdown alert.
 				ex.printStackTrace();
-			}
+//			}
 		}
 		logger.info("<< [MVCDataSource.transformModel2Parts]> _dataSectionParts.size: {}", _dataSectionParts.size());
 	}
@@ -377,7 +374,6 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 		// The expand/collapse state has changed.
 		if (EEvents.valueOf(event.getPropertyName()) ==
 				EEvents.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE) {
-			//			cleanLinks(_dataSectionParts);
 			synchronized (_dataSectionParts) {
 				_dataSectionParts.clear();
 				controllerRoot.collaborate2View(_dataSectionParts);
@@ -388,7 +384,6 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 		if (EEvents.valueOf(event.getPropertyName()) ==
 				EEvents.EVENTSTRUCTURE_NEWDATA) {
 			this.transformModel2Parts();
-			//			cleanLinks(_dataSectionParts);
 			synchronized (_dataSectionParts) {
 				_dataSectionParts.clear();
 				controllerRoot.collaborate2View(_dataSectionParts);

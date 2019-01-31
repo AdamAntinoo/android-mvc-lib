@@ -1,6 +1,39 @@
-plugins {
-    id "org.sonarqube" version "2.6"
+// - G R A D L E - M E T R I C S
+apply plugin: 'checkstyle'
+apply plugin: 'pmd'
+
+checkstyle {
+    toolVersion = '8.1' // optionally specify tool version
 }
+
+pmd {
+    toolVersion = '5.8.1' // optionally specify tool version
+}
+
+tasks.withType(Checkstyle) {
+    ignoreFailures = true // REQUIRED because the plugin will report only up to the point the first issue if this is not set
+    showViolations = false
+
+    reports {
+        xml.enabled = true  // REQUIRED the plugin parses xml reports so this is essential
+        html.enabled = true
+        html.stylesheet = resources.text.fromFile('config/xsl/checkstyle-custom.xsl')
+    }
+
+    include '**/*.java'
+}
+
+tasks.withType(Pmd) {
+    ignoreFailures = true // REQUIRED because the plugin will report only up to the point the first issue if this is not set
+
+    reports {
+        xml.enabled = true  // REQUIRED the plugin parses xml reports so this is essential
+    }
+
+    include '**/*.java'
+}
+
+// - A N D R O I D
 apply plugin: 'com.android.library'
 apply plugin: 'project-report'
 android {
@@ -8,8 +41,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 30
-        versionName "3.0.0"
+        versionCode 31
+        versionName "4.0.0"
         project.archivesBaseName = "AndroidMVC"
         project.version = android.defaultConfig.versionName
 
@@ -28,11 +61,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "bool", "CACHE_MVC_VIEWS_ON_CONTROLLER", "false"
         }
-//        unitTests {
-//            minifyEnabled false
-//            useProguard false
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//        }
     }
     sourceSets {
         main{
@@ -51,55 +79,23 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
-//    libraryVariants.all { variant ->
-//        variant.outputs.all { output ->
-//            if (outputFile != null && outputFileName.endsWith('.aar')) {
-//                outputFileName = "${archivesBaseName}-${version}.aar"
-//            }
-//        }
-//    }
+    libraryVariants.all { variant ->
+        variant.outputs.all { output ->
+            if (outputFile != null && outputFileName.endsWith('.aar')) {
+                outputFileName = "${archivesBaseName}-${version}.aar"
+            }
+        }
+    }
 }
-//repositories {
-//    mavenCentral()
-//    google()
-//    jcenter()
-//    maven { url 'https://jitpack.io' }
-//    flatDir {
-//        dirs 'D:\\Development\\Libraries Base\\DevelopmentLibraries\\Dynamic'
-//    }
-//}
-//task generateSourcesJar(type: Jar) {
-//    from android.sourceSets.main.java.srcDirs
-//    classifier = 'sources'
-//}
-//task generateJavadocs(type: Javadoc) {
-//    source = android.sourceSets.main.java.srcDirs
-//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-//}
-//generateJavadocs.dependsOn generateSourcesJar
-//
-//task generateJavadocsJar(type: Jar) {
-//    classifier = 'javadoc'
-//    from generateJavadocs.destinationDir
-//}
-//generateJavadocsJar.dependsOn generateJavadocs
 
 dependencies {
     // A N D R O I D    S U P P O R T
-//    compileOnly 'com.android.support:appcompat-v7:27.1.1'
-//    compileOnly 'com.android.support:support-core-ui:27.1.1'
-//    compileOnly 'com.android.support:support-core-utils:27.1.1'
     compileOnly 'com.android.support:support-fragment:27.1.1'
-//    compileOnly 'com.android.support:support-fragment:27.1.1'
-//    compileOnly 'com.android.support:support-v4:27.1.1'
-//    compileOnly 'com.android.support:recyclerview-v7:27.1.1'
-//    compileOnly 'com.android.support:support-annotations:28.0.0'
-//    // P R O J E C T    D E P E N D E N C I E S
-//    //    implementation project(path: ':CoreBase')
 
     // L O C A L    L I B R A R I E S
     api files('libs/viewpagerindicator-release.aar')
     compileOnly files('libs/CoreBase.core-2.0.3.jar')
+
     // M O D U L E    D E P E N D E N C I E S
     compileOnly 'org.slf4j:slf4j-android:1.7.25'
     implementation 'joda-time:joda-time:2.3'
@@ -117,20 +113,14 @@ dependencies {
     testImplementation 'com.openpojo:openpojo:0.8.12'
     testImplementation 'net.jodah:concurrentunit:0.4.0'
 
-
     testImplementation files('libs/CoreBase.core-2.0.3.jar')
     testImplementation 'com.android.support:support-v13:27.1.1'
 
     // A N G U L A R   T E S T I N G
-//    testImplementation 'junit:junit:4.12'
     testImplementation 'org.robolectric:robolectric:3.0'
-//    testImplementation "org.mockito:mockito-core:1.10.8"
     testImplementation ('com.squareup.assertj:assertj-android:1.0.0') {
         exclude module: 'support-annotations'
     }
-
-    // Required for local unit tests (JUnit 4 framework)
-//    testImplementation 'junit:junit:4.12'
 
     // Required for instrumented tests
     androidTestImplementation 'com.android.support:support-annotations:24.0.0'

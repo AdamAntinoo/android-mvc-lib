@@ -107,7 +107,7 @@ final class DemoDataSource extends AMVCDataSource {
 	public void collaborate2Model() {
 		AMVCDataSource.logger.info(">> [DemoDataSource.collaborate2Model]");
 		// Check if we should use the cached version.
-		if (!isCached()) {
+//		if (!isCached()) {
 			if (getVariant() == AndroidMVCDemoActivity.EDemoVariants.NON_EXPANDABLE_SECTION.name()) {
 				// Initialize the Adapter data structures.
 //				this.setDataModel(new RootNode());
@@ -161,7 +161,7 @@ final class DemoDataSource extends AMVCDataSource {
 						.setTitle("Stop"));
 				addModelContents(container);
 			}
-		}
+//		}
 		logger.info("<< [PlantDataSource.collaborate2Model]");
 	}
 

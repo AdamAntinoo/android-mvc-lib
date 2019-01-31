@@ -30,11 +30,11 @@ public interface IDataSource extends PropertyChangeListener {
 
 	 void cleanup();
 
-	 boolean isCached();
-
+//	 boolean isCached();
+//
 	 boolean isCacheable();
 
-	 IDataSource setCacheable( final boolean cachestate );
+//	 IDataSource setCacheable( final boolean cachestate );
 
 	 IDataSource addModelContents( final ICollaboration newnode );
 

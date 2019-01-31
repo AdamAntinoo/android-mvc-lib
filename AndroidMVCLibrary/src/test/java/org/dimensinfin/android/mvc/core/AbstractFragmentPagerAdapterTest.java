@@ -2,6 +2,7 @@ package org.dimensinfin.android.mvc.core;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.AbstractFragmentPagerAdapter;
 import org.junit.Test;
 
@@ -43,7 +44,7 @@ public class AbstractFragmentPagerAdapterTest {
 	public void getFragmentId_default() {
 		// Given
 		final FragmentManager fragmentManager = mock(FragmentManager.class);
-		final int pagerId = 10;
+		final int pagerId = R.id.pager;
 		final AbstractFragmentPagerAdapter adapter = new AbstractFragmentPagerAdapter(fragmentManager);
 
 		// Test
