@@ -266,7 +266,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 		logger.info(">> [AbstractPagerFragment.onCreateView]");
 		// Install the default library exception interceptor to show lib exceptions.
-		Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this.getAppContext()));
+//		Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this.getAppContext()));
 		super.onCreateView(inflater, container, savedInstanceState);
 		// TODO analyze what is returned by the savedInstanceState when recovering the application. That will help to recover the
 		// functional state of the application.

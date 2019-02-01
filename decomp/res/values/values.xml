@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="activePage">#B0F0F0F0</color>
+    <color name="appblack">#FF000000</color>
+    <color name="appblue">#FF3333FF</color>
+    <color name="appbluedark">#FF303FC0</color>
+    <color name="appbluelight">#FF33CCFF</color>
+    <color name="appbluepurple">#FF794DFF</color>
+    <color name="appgreen">#FF6CC417</color>
+    <color name="appgreenalien">#FF6CC417</color>
+    <color name="appgreendark">#FF27AE60</color>
+    <color name="appgreydark">#FF333333</color>
+    <color name="appgreylight">#FFCCCCCC</color>
+    <color name="apporange">#FFF2540C</color>
+    <color name="apporangebrilliant">#FFFFA500</color>
+    <color name="apporangelight">#FFFF9933</color>
+    <color name="apporangemedium">#FFF2540C</color>
+    <color name="appred">#FFF62217</color>
+    <color name="approse">#FFFF4DFF</color>
+    <color name="appwhite">#FFFFFFFF</color>
+    <color name="appyellow">#FFFFFF33</color>
+    <color name="blueBrightProgress">#FF3D78BA</color>
+    <color name="blueDarkProgress">#FF554EBA</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="panelbackground">#FF303030</color>
+    <color name="panelbackgroundblack">#FF000000</color>
+    <color name="panelbackgroundtintedblue">#FF000033</color>
+    <color name="panelbackgroundtintedgreen">#FF003300</color>
+    <color name="panelbackgroundtintedorange">#FF4D1F00</color>
+    <color name="panelbackgroundtintedred">#FF330000</color>
+    <color name="panelbackgroundtintedyellow">#FF333300</color>
+    <color name="panelcorner">#FFFFFFFF</color>
+    <color name="panellineblue">#FF676096</color>
+    <color name="panellinegreen">#FF6CC417</color>
+    <color name="panellinegrey">#FF333333</color>
+    <color name="panellineorange">#FFF2540C</color>
+    <color name="panellinered">#FFF62217</color>
+    <color name="panellinerose">#FFFF4DFF</color>
+    <color name="panellineyellow">#FFFFFF33</color>
+    <color name="panelmainborder">#FF505050</color>
+    <color name="separatorblackglow">#FF000000</color>
+    <color name="separatordarkblueglow">#FF8600B3</color>
+    <color name="separatordarkgreyglow">#FF333333</color>
+    <color name="separatorgreenglow">#FF6CC417</color>
+    <color name="separatorlightblueglow">#FF00BFFF</color>
+    <color name="separatororangeglow">#FFF2540C</color>
+    <color name="separatorpurpleglow">#FF3333CC</color>
+    <color name="separatorredglow">#FFF62217</color>
+    <color name="separatorroseglow">#FFFF4DFF</color>
+    <color name="separatorwhiteglow">#FFFFFFFF</color>
+    <color name="separatoryellowglow">#FFFFFF33</color>
+    <color name="uipanelbackground">#FF080808</color>
+    <color name="uipanelborder">#FF505050</color>
+    <color name="uipanelcorner">#FFFFFFFF</color>
+    <color name="uipanelcornerblack">#FF000000</color>
+    <color name="uipanelcornerdarkblue">#FF3333CC</color>
+    <color name="uipanelcornerdarkgrey">#FF333333</color>
+    <color name="uipanelcornergreen">#FF6CC417</color>
+    <color name="uipanelcornergrey">#FF808080</color>
+    <color name="uipanelcornerlightblue">#FF00BFFF</color>
+    <color name="uipanelcornerorange">#FFF2540C</color>
+    <color name="uipanelcornerpurple">#FF8600B3</color>
+    <color name="uipanelcornerred">#FFF62217</color>
+    <color name="uipanelcornerrose">#FFFF4DFF</color>
+    <color name="uipanelcornerwhite">#FFFFFFFF</color>
+    <color name="uipanelcorneryellow">#FFFFFF33</color>
+    <color name="uipaneldataareabackground">#FF151515</color>
+    <color name="uipanelrowselectedbackground">#FF2A2A2A</color>
+    <color name="uititlebarbackground">#FF000000</color>
+    <color name="unselectedPage">#20808080</color>
+    <dimen name="activity_horizontal_margin">16dip</dimen>
+    <dimen name="activity_vertical_margin">16dip</dimen>
+    <dimen name="arrowsize">28dp</dimen>
+    <dimen name="circlemargin">6dp</dimen>
+    <dimen name="circleradius">5dp</dimen>
+    <dimen name="menuIconHeight">32dip</dimen>
+    <dimen name="menuIconWidth">34dip</dimen>
+    <dimen name="nodeiconsize">36dp</dimen>
+    <dimen name="panelborderwidth">1px</dimen>
+    <dimen name="panelcornersize">12px</dimen>
+    <dimen name="panelcornerwidth">2px</dimen>
+    <dimen name="pilotavatarsize">96dip</dimen>
+    <dimen name="progressbarsize">48dp</dimen>
+    <dimen name="separatorradius">2dp</dimen>
+    <dimen name="separatorwidth">2dp</dimen>
+    <dimen name="topbottomlinemargin">-2px</dimen>
+    <string name="app_name">AndroidMVC</string>
+    <string name="default_bignumber">345,897.12</string>
+    <string name="default_content_description">ImageView Content Description</string>
+    <string name="default_description">ImageView Content Description</string>
+    <string name="default_duration">0m 32s</string>
+    <string name="default_exceptionMessage">RTEX [Class.Method]> Default Exception Message</string>
+    <string name="default_longname">Long Name for Node Title that can expand the whole line</string>
+    <string name="default_number">50.32</string>
+    <string name="default_shortname">Short Name for Node Title</string>
+    <string name="default_smallnumber">1</string>
+    <string name="default_title">-SEPARATOR TITLE-</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="menu_action_settingslabel">SETTINGS</string>
+    <style name="AppTheme" parent="@android:style/Theme.Holo">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    <style name="AppTheme.ActivityBackground">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:background">@android:color/black</item>
+        <item name="android:contentDescription">@string/default_content_description</item>
+        <item name="android:src">@drawable/blacktraslucent80</item>
+    </style>
+    <style name="AppTheme.Arrow">
+        <item name="android:layout_width">@dimen/arrowsize</item>
+        <item name="android:layout_height">@dimen/arrowsize</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:gravity">right</item>
+        <item name="android:layout_gravity">right</item>
+        <item name="android:visibility">visible</item>
+        <item name="android:src">@drawable/arrowleft</item>
+    </style>
+    <style name="AppTheme.Label">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">7sp</item>
+    </style>
+    <style name="AppTheme.Label.BottomLine">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bottomwhiteline</item>
+    </style>
+    <style name="AppTheme.Label.TopLine">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/topwhiteline</item>
+    </style>
+    <style name="AppTheme.NodeClass">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/appwhite</item>
+        <item name="android:gravity">right</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+    <style name="AppTheme.NodeIcon">
+        <item name="android:layout_width">@dimen/nodeiconsize</item>
+        <item name="android:layout_height">@dimen/nodeiconsize</item>
+        <item name="android:contentDescription">@string/default_content_description</item>
+        <item name="android:src">@drawable/defaulticonplaceholder</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginRight">3dp</item>
+        <item name="android:layout_marginLeft">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:background">@drawable/whiteborderbox</item>
+    </style>
+    <style name="AppTheme.NodeIcon.NoBorder">
+        <item name="android:layout_width">@dimen/nodeiconsize</item>
+        <item name="android:layout_height">@dimen/nodeiconsize</item>
+        <item name="android:contentDescription">@string/default_content_description</item>
+        <item name="android:src">@drawable/defaulticonplaceholder</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginRight">3dp</item>
+        <item name="android:layout_marginLeft">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:background">#00000000</item>
+    </style>
+    <style name="AppTheme.Progress">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/appwhite</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <style name="AppTheme.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="AppTheme.TextView.Glow">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:shadowColor">@android:color/white</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">10</item>
+    </style>
+    <style name="AppTheme.TextView.Glow.Green">
+        <item name="android:textColor">@color/appgreen</item>
+        <item name="android:shadowColor">@color/appgreen</item>
+    </style>
+    <style name="AppTheme.TextView.Glow.Orange">
+        <item name="android:textColor">@color/apporange</item>
+        <item name="android:shadowColor">@color/apporange</item>
+    </style>
+    <style name="AppTheme.TextView.Glow.White">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:shadowColor">@android:color/white</item>
+    </style>
+    <style name="Widget"/>
+    <style name="Widget.CirclePageIndicator" parent="Widget">
+        <item name="android:layout_marginLeft">@dimen/circlemargin</item>
+        <item name="android:layout_marginRight">@dimen/circlemargin</item>
+        <item name="android:radius">@dimen/circleradius</item>
+    </style>
+    <style name="Widget.ProgressBar">
+        <item name="android:indeterminateOnly">true</item>
+        <item name="android:indeterminateBehavior">repeat</item>
+        <item name="android:indeterminateDuration">3500</item>
+        <item name="android:minWidth">@dimen/progressbarsize</item>
+        <item name="android:maxWidth">@dimen/progressbarsize</item>
+        <item name="android:minHeight">@dimen/progressbarsize</item>
+        <item name="android:maxHeight">@dimen/progressbarsize</item>
+    </style>
+</resources>

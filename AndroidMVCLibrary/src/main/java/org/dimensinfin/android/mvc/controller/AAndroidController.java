@@ -10,7 +10,6 @@ package org.dimensinfin.android.mvc.controller;
 
 import android.content.Context;
 import android.view.View;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -27,9 +26,8 @@ import org.slf4j.LoggerFactory;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
 
 /**
  * This class will implement the core Android interaction controller on the classic pattern Model-View-Controller
@@ -42,14 +40,13 @@ import java.util.Vector;
  * @author Adam Antinoo
  * @since 4.0.0
  */
-//@EqualsAndHashCode
 public abstract class AAndroidController<M extends ICollaboration> implements IAndroidController<M> {
 	/** This is the public logger that should be used by all the Controllers. */
 	protected static final Logger logger = LoggerFactory.getLogger(AAndroidController.class);
 
 	// - F I E L D - S E C T I O N
 	/** List of children of the hierarchy. */
-	private List<IAndroidController> children = new Vector<>();
+	private List<IAndroidController> children = new ArrayList<>();
 	/** This field caches the factory that is set during the construction. */
 	private IControllerFactory factory = null;
 	/** Reference to the Model node. */
@@ -63,11 +60,6 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	private AbstractPropertyChanger eventController = new AbstractPropertyChanger();
 
 	// - C O N S T R U C T O R - S E C T I O N
-//	protected AAndroidController(final AAndroidController.Builder<M> builder) {
-//		this.model = builder.model;
-//		this.factory = builder.factory;
-//		this.renderMode = builder.renderMode;
-//	}
 	public AAndroidController(@NonNull final M model, @NonNull final IControllerFactory factory) {
 		this.model = model;
 		this.factory = factory;
@@ -84,12 +76,21 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	}
 
 	public List<IAndroidController> getChildren() {
-		if (children == null) this.children = new Vector<IAndroidController>(2);
+		if (children == null) this.children = new ArrayList<>(2);
 		return children;
 	}
 
 	public void addChild(final IAndroidController child) {
 		this.getChildren().add(child);
+	}
+
+	public void addChildren(final List<IAndroidController> modelList) {
+		for (IAndroidController node : modelList)
+			this.addChild(node);
+	}
+
+	public void clean() {
+		this.getChildren().clear();
 	}
 
 	public AAndroidController<M> setRenderMode(final String renderMode) {
@@ -129,8 +130,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		// Add this node to the list of.
 		contentCollector.add(this);
 		for (IAndroidController part : ch) {
-			if (part instanceof IAndroidController)
-				part.collaborate2View(contentCollector);
+			part.collaborate2View(contentCollector);
 		}
 	}
 
@@ -185,25 +185,30 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		if (firstLevelNodes.isEmpty()) return;
 		logger.info("-- [AbstractAndroidController.refreshChildren]> firstLevelNodes count: {}", firstLevelNodes.size());
 		// Create the model-controller current map to check the elements missing.
-		final Hashtable<ICollaboration,IAndroidController> currentMap = new Hashtable<>(firstLevelNodes.size());
-		for ( IAndroidController control : this.getChildren()){
-			currentMap.put(control.getModel(),control);
+		final HashMap<ICollaboration, IAndroidController> currentMap = new HashMap<>(firstLevelNodes.size());
+		for (IAndroidController control : this.getChildren()) {
+			currentMap.put(control.getModel(), control);
 		}
+		// Create the new children list ot be able to delete nodes.
+		final List<IAndroidController> newChildrenList = new ArrayList<>(firstLevelNodes.size());
 		// Check all the model instances have a matching AndroidController instance.
-		final List<IAndroidController> newControllerChildren = new ArrayList<IAndroidController>(firstLevelNodes.size());
-		final List<IAndroidController> currentControllerChildren = this.getChildren();
 		for (ICollaboration modelNode : firstLevelNodes) {
 			// Search for the model instance on the current controller map.
-			if( currentMap.containsKey(modelNode)) currentMap.get(modelNode).refreshChildren();
-			else {
+			if (currentMap.containsKey(modelNode)) {
+				currentMap.get(modelNode).refreshChildren();
+				newChildrenList.add(currentMap.get(modelNode));
+			} else {
 				// The controller is non existent for this model node. Create a new one from the factory.
 				logger.info("-- [RootController.refreshChildren]> New AndroidController for Model: {}",
 						modelNode.getClass().getSimpleName());
 				final IAndroidController newController = this.getControllerFactory().createController(modelNode);
-				this.addChild(newController);
 				newController.refreshChildren();
+				newChildrenList.add(newController);
 			}
 		}
+		// Replace the new children list.
+		this.clean();
+		this.addChildren(newChildrenList);
 		logger.info("<< [AbstractAndroidController.refreshChildren]> Content size: {}", this.getChildren().size());
 	}
 
@@ -230,40 +235,8 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 
 	@Override
 	public String toString() {
-		return new StringBuilder("AAndroidController [")
-				.append("content count: ").append(this.getChildren().size())
-				.append("[ model-> ").append(this.getModel().toString()).append(" ]")
-				.append("render.type -> ").append(this.getRenderMode())
-				.append(" ]")
-				.toString();
+		return "AAndroidController [content count: " + this.getChildren().size()
+				+ "[ model-> " + this.getModel().toString() + " ]"
+				+ "render.type -> " + this.getRenderMode() + " ]";
 	}
-
-//	// - B U I L D E R
-//	public abstract static class Builder<M extends ICollaboration> {
-//		private M model;
-//		private IControllerFactory factory;
-//		private String renderMode;
-//
-//		public Builder(final M model, final IControllerFactory factory) {
-//			this.model = model;
-//			this.factory = factory;
-//		}
-//
-//		public Builder model(final M model) {
-//			this.model = model;
-//			return this;
-//		}
-//
-//		public Builder factory(final IControllerFactory factory) {
-//			this.factory = factory;
-//			return this;
-//		}
-//
-//		public Builder renderMode(final String renderMode) {
-//			this.renderMode = renderMode;
-//			return this;
-//		}
-//
-//		public abstract AAndroidController build();
-//	}
 }
