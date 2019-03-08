@@ -11,7 +11,7 @@ package org.dimensinfin.android.mvc.render;
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
-import lombok.Builder;
+import lombok.NonNull;
 import org.dimensinfin.android.mvc.controller.DemoHeaderTitleController;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
@@ -21,8 +21,8 @@ import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
  */
 public class DemoHeaderTitleRender extends AbstractRender<DemoHeaderTitle> {
 	// - F I E L D - S E C T I O N
-	private TextView applicationName = null;
-	private TextView applicationVersion = null;
+	private TextView applicationName ;
+	private TextView applicationVersion ;
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public DemoHeaderTitleRender(final DemoHeaderTitleController controller, final Context context) {
@@ -32,8 +32,10 @@ public class DemoHeaderTitleRender extends AbstractRender<DemoHeaderTitle> {
 	// - M E T H O D - S E C T I O N
 	@Override
 	public void initializeViews() {
-		applicationName = (TextView) this.getView().findViewById(R.id.applicationName);
-		applicationVersion = (TextView) this.getView().findViewById(R.id.applicationVersion);
+		applicationName =  this.getView().findViewById(R.id.applicationName);
+		applicationVersion =  this.getView().findViewById(R.id.applicationVersion);
+		assert (applicationName!=null);
+		assert (applicationVersion!=null);
 	}
 
 	@Override
@@ -48,14 +50,4 @@ public class DemoHeaderTitleRender extends AbstractRender<DemoHeaderTitle> {
 	public int accessLayoutReference() {
 		return R.layout.demoheadertitle4header;
 	}
-
-//	// - B U I L D E R
-//	public static class Builder extends AbstractRender.Builder<DemoHeaderTitleController> {
-//		public Builder(final DemoHeaderTitleController controller, final Activity context) {
-//			super(controller, context);
-//		}
-//		public DemoHeaderTitleRender build() {
-//			return new DemoHeaderTitleRender(this);
-//		}
-//	}
 }

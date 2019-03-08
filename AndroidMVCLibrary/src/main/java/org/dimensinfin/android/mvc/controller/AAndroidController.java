@@ -179,11 +179,11 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	 * Page.
 	 */
 	public void refreshChildren() {
-		logger.info(">> [AbstractAndroidController.refreshChildren]");
+		logger.info(">> [AAndroidController.refreshChildren]");
 		// Get the new list of children for this model node. Use the Variant for generation discrimination.
 		final List<ICollaboration> firstLevelNodes = this.getModel().collaborate2Model(this.getControllerFactory().getVariant());
 		if (firstLevelNodes.isEmpty()) return;
-		logger.info("-- [AbstractAndroidController.refreshChildren]> firstLevelNodes count: {}", firstLevelNodes.size());
+		logger.info("-- [AAndroidController.refreshChildren]> firstLevelNodes count: {}", firstLevelNodes.size());
 		// Create the model-controller current map to check the elements missing.
 		final HashMap<ICollaboration, IAndroidController> currentMap = new HashMap<>(firstLevelNodes.size());
 		for (IAndroidController control : this.getChildren()) {
@@ -199,7 +199,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 				newChildrenList.add(currentMap.get(modelNode));
 			} else {
 				// The controller is non existent for this model node. Create a new one from the factory.
-				logger.info("-- [RootController.refreshChildren]> New AndroidController for Model: {}",
+				logger.info("-- [AAndroidController.refreshChildren]> New AndroidController for Model: {}",
 						modelNode.getClass().getSimpleName());
 				final IAndroidController newController = this.getControllerFactory().createController(modelNode);
 				newController.refreshChildren();
@@ -209,7 +209,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		// Replace the new children list.
 		this.clean();
 		this.addChildren(newChildrenList);
-		logger.info("<< [AbstractAndroidController.refreshChildren]> Content size: {}", this.getChildren().size());
+		logger.info("<< [AAndroidController.refreshChildren]> Content size: {}", this.getChildren().size());
 	}
 
 	@Override

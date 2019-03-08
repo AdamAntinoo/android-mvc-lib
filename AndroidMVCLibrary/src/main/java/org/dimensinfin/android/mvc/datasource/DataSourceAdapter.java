@@ -73,19 +73,13 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * to render the Model and the DataSource with the list of Controllers to be rendered there. To make this Adapter
 	 * compatible with Fragment and Activities we should have two constructors and consolidate the reference to the
 	 * Context that is the only element really required for the constructions and connection of the views.
-	 * @param activity   reference to the Activity and the Context where we should connect the Views.
+	 * @param fragment   The fragment source for this adapter contents.
 	 * @param datasource the source for the data to be represented on the view structures.
 	 */
-	public DataSourceAdapter(final Context activity, final IDataSource datasource) {
-		this();
-		context = activity;
+	public DataSourceAdapter(final AbstractPagerFragment fragment, final IDataSource datasource) {
+		this.context = fragment.getAppContext();
 		this.datasource = datasource;
 		this.datasource.addPropertyChangeListener(this); // Connect the listener to the data source events.
-	}
-
-	@Deprecated
-	public DataSourceAdapter(final AbstractPagerFragment fragment, final IDataSource datasource) {
-		this(fragment.getAppContext(), datasource);
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................

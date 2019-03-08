@@ -8,3 +8,6 @@
 /captures
 .externalNativeBuild
 *.odt#
+
+# - C O D E   C O V E R A G E
+/Documentation/Reports

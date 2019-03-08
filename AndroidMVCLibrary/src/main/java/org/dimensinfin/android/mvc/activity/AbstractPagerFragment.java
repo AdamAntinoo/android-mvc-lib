@@ -247,14 +247,14 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 	/**
 	 * During the creation process we connect the local fields to the UI graphical objects defined by the layout. We use a
-	 * generic layout that defines the 4 items that compose all the displays for the MVC fragments. The <b>Header</b>
-	 * ViewGroup container, the <b>DataSection</b> implemented by a ListView and the loading progress indicator that will
+	 * generic layout that defines the two items that compose all the displays for the MVC fragments. The <b>Header</b>
+	 * ViewGroup container, the <b>Data Section</b> implemented by a ListView and the loading progress indicator that will
 	 * be present on the DataSection display are while the model is generated and transformed into the View list. At that
 	 * point the progress will be removed to show the view list for this time instant model.
-	 * <p>
+	 *
 	 * The method has two sections. The first section will find and reference the ui graphical elements where to render
 	 * the data while the second section will instantiate and initialize the application specific code to generate the
-	 * specific models for this fragment instance.
+	 * models for this fragment instance.
 	 * @param inflater           <code>LayoutInflater</code> received from the context to create the layout from the XML
 	 *                           definition file.
 	 * @param container          container where this layout is displayed.
@@ -266,17 +266,16 @@ public abstract class AbstractPagerFragment extends Fragment {
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 		logger.info(">> [AbstractPagerFragment.onCreateView]");
 		// Install the default library exception interceptor to show lib exceptions.
-//		Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this.getAppContext()));
+		Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this.getAppContext()));
 		super.onCreateView(inflater, container, savedInstanceState);
 		// TODO analyze what is returned by the savedInstanceState when recovering the application. That will help to recover the
 		// functional state of the application.
-		// Section where we get access to the UI elements.
-//		try {
+		// - S E C T I O N   1. where we get access to the UI elements.
 		_container = (ViewGroup) inflater.inflate(R.layout.fragment_base, container, false);
-		_headerContainer = (ViewGroup) _container.findViewById(R.id.headerContainer);
-		_dataSectionContainer = (ListView) _container.findViewById(R.id.listContainer);
-		_progressLayout = (ViewGroup) _container.findViewById(R.id.progressLayout);
-		_progressElapsedCounter = (TextView) _container.findViewById(R.id.progressCounter);
+		_headerContainer = this.assertNotNull(_container.findViewById(R.id.headerContainer));
+		_dataSectionContainer = this.assertNotNull(_container.findViewById(R.id.listContainer));
+		_progressLayout = this.assertNotNull(_container.findViewById(R.id.progressLayout));
+		_progressElapsedCounter = this.assertNotNull(_container.findViewById(R.id.progressCounter));
 
 		// Set the visual state of all items.
 		_progressLayout.setVisibility(View.GONE);
@@ -286,40 +285,18 @@ public abstract class AbstractPagerFragment extends Fragment {
 		// TODO Check if the menus can be tied to the Parts independently and not to the whole Header.
 		//			this.registerForContextMenu(_headerContainer);
 		this.registerForContextMenu(_dataSectionContainer);
-//		} catch (final RuntimeException rtex) {
-//			AbstractPagerFragment.logger.error("RTEX [AbstractPagerFragment.onCreateView]> {}.", rtex.getMessage());
-//			rtex.printStackTrace();
-//			// Instead blocking the application drop a toast and move to the First Activity.
-//			Toast.makeText(this.getAppContext()
-//					, "RTEX [AbstractPagerFragment.onCreateView]> " + rtex.getMessage()
-//					, Toast.LENGTH_LONG).show();
-//			// Use a flag to signal that this Fragment is not properly initialized to no other methods should be called.
-////			_properlyInitialized = false;
-//		}
 
-		// Section where we setup the data sources for the adapters. Only include no timing operations.
-//		try {
-		// Entry point to generate the Header model.
-//			_headersource = this.registerHeaderSource();
+		// - S E C T I O N   2. where we setup the data sources for the adapters. Only include no timing operations.
 		// Entry point to generate the DataSection model.
 		_datasource = DataSourceManager.registerDataSource(this.registerDataSource());
 		// Check that the data source is a valid data source.
-		final DataSourceLocator locator = new DataSourceLocator().addIdentifier("EMPTY");
-		if (null == _datasource) _datasource = new EmptyDataSource(locator, getFactory())
+		if (null == _datasource) _datasource = new EmptyDataSource(new DataSourceLocator().addIdentifier("EMPTY"), getFactory())
 				.setVariant(this.getVariant())
 				.setExtras(this.getExtras());
 		// Install the adapter before any data request or model generation.
 		_adapter = new DataSourceAdapter(this, _datasource);
 		_dataSectionContainer.setAdapter(_adapter);
-//		} catch (final RuntimeException rtex) {
-//			AbstractPagerFragment.logger.error("RTEX [AbstractPagerFragment.onCreateView]> {}.", rtex.getMessage());
-//			rtex.printStackTrace();
-//			// Instead blocking the application drop a toast and move to the First Activity.
-//			Toast.makeText(this.getAppContext()
-//					, "RTEX [AbstractPagerFragment.onCreateView]> " + rtex.getMessage()
-//					, Toast.LENGTH_LONG).show();
-////			_properlyInitialized = false;
-//		}
+
 		AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.onCreateView]");
 		return _container;
 	}
@@ -397,7 +374,6 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 */
 	protected void generateHeaderContents(final List<ICollaboration> headerData) {
 		logger.info(">> [AbstractPagerFragment.generateHeaderContents]");
-//		try {
 		// Create a fake root node where to connect the list.
 		MVCRootNode headerModel = new MVCRootNode();
 		for (ICollaboration node : headerData) {
@@ -420,9 +396,6 @@ public abstract class AbstractPagerFragment extends Fragment {
 				if (part instanceof IAndroidController) addView2Header((IAndroidController) part);
 			}
 		});
-//		} catch (RuntimeException rtex) {
-//			rtex.printStackTrace();
-//		}
 		logger.info("<< [AbstractPagerFragment.generateHeaderContents]");
 	}
 
@@ -495,15 +468,16 @@ public abstract class AbstractPagerFragment extends Fragment {
 		logger.info("<< [AbstractPagerFragment.onCreateContextMenu]"); //$NON-NLS-1$
 	}
 
+	// - U T I L I T I E S
+	private <T> T assertNotNull(final T target) {
+		assert (target != null);
+		return target;
+	}
+
 	public static class EmptyDataSource extends AMVCDataSource {
 		public EmptyDataSource(DataSourceLocator locator, IControllerFactory factory) {
 			super(locator, factory);
 		}
-
-//		@Override
-//		public boolean isCached() {
-//			return false;
-//		}
 
 		@Override
 		public boolean isCacheable() {
@@ -605,5 +579,3 @@ public abstract class AbstractPagerFragment extends Fragment {
 		}
 	}
 }
-
-// - UNUSED CODE ............................................................................................

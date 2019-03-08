@@ -8,7 +8,6 @@
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.demo.factory;
 
-import lombok.Builder;
 import lombok.NonNull;
 import org.dimensinfin.android.mvc.controller.DemoContainerController;
 import org.dimensinfin.android.mvc.controller.DemoHeaderTitleController;
@@ -64,8 +63,7 @@ public class DemoControllerFactory extends ControllerFactory implements IControl
 		// WARNING - When node classes have direct inheritance put the parent below their children.
 		if (node instanceof DemoLabel) {
 			// These shows the selected Separator but with another rendering.
-			IAndroidController part = new DemoItemAndroidController((DemoLabel) node, this).setRenderMode("-LABEL-");
-			return part;
+			return new DemoItemAndroidController((DemoLabel) node, this).setRenderMode("-LABEL-");
 		}
 		// If no part is trapped then call the parent chain until one is found.
 		return super.createController(node);
