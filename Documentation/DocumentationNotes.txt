@@ -1,0 +1,4 @@
+-- notes removed from documetnation but to keep on the model generation
+	 * Models should always return the same number of nodes not depending on presentation states. It is the
+	 * AndroidController who should interpret the current visual state to decide which nodes collaborate to the view and
+	 * in which order and presentation flavour.

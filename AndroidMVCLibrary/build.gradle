@@ -11,7 +11,8 @@ pmd {
 }
 
 tasks.withType(Checkstyle) {
-    ignoreFailures = true // REQUIRED because the plugin will report only up to the point the first issue if this is not set
+    ignoreFailures = true
+    // REQUIRED because the plugin will report only up to the point the first issue if this is not set
     showViolations = false
 
     reports {
@@ -24,7 +25,8 @@ tasks.withType(Checkstyle) {
 }
 
 tasks.withType(Pmd) {
-    ignoreFailures = true // REQUIRED because the plugin will report only up to the point the first issue if this is not set
+    ignoreFailures = true
+    // REQUIRED because the plugin will report only up to the point the first issue if this is not set
 
     reports {
         xml.enabled = true  // REQUIRED the plugin parses xml reports so this is essential
@@ -45,8 +47,7 @@ android {
         versionName "4.0.0"
         project.archivesBaseName = "AndroidMVC"
         project.version = android.defaultConfig.versionName
-
-//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         debug {
@@ -63,14 +64,14 @@ android {
         }
     }
     sourceSets {
-        main{
+        main {
             res.srcDirs += 'src/main/res-ui'
             res.srcDirs += 'src/main/res-dynamic'
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     lintOptions {
         abortOnError false
@@ -79,13 +80,13 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
-    libraryVariants.all { variant ->
-        variant.outputs.all { output ->
-            if (outputFile != null && outputFileName.endsWith('.aar')) {
-                outputFileName = "${archivesBaseName}-${version}.aar"
-            }
-        }
-    }
+//    libraryVariants.all { variant ->
+//        variant.outputs.all { output ->
+//            if (outputFile != null && outputFileName.endsWith('.aar')) {
+//                outputFileName = "${archivesBaseName}-${version}.aar"
+//            }
+//        }
+//    }
 }
 
 dependencies {
@@ -100,8 +101,8 @@ dependencies {
     compileOnly 'org.slf4j:slf4j-android:1.7.25'
     implementation 'joda-time:joda-time:2.3'
     implementation 'org.apache.commons:commons-lang3:3.7'
-    compileOnly 'org.projectlombok:lombok:1.18.4'
-    annotationProcessor 'org.projectlombok:lombok:1.18.4'
+    compileOnly 'org.projectlombok:lombok:1.18.6'
+    annotationProcessor 'org.projectlombok:lombok:1.18.6'
 
     // P L A T F O R M    D E P E N D E N C I E S
     // D E P E N D E N C I E S    F R O M    M O D U L E S
@@ -109,33 +110,21 @@ dependencies {
     // T E S T I N G
     testImplementation 'org.slf4j:slf4j-android:1.7.25'
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.8.9'
+    testImplementation 'org.mockito:mockito-core:2.23.4'
     testImplementation 'com.openpojo:openpojo:0.8.12'
     testImplementation 'net.jodah:concurrentunit:0.4.0'
-    testImplementation 'nl.jqno.equalsverifier:equalsverifier:3.1.4'
+    testImplementation 'nl.jqno.equalsverifier:equalsverifier:3.1.5'
 
     testImplementation files('libs/CoreBase.core-2.0.3.jar')
     testImplementation 'com.android.support:support-v13:27.1.1'
 
     // A N G U L A R   T E S T I N G
     testImplementation 'org.robolectric:robolectric:3.0'
-    testImplementation ('com.squareup.assertj:assertj-android:1.0.0') {
+    testImplementation('com.squareup.assertj:assertj-android:1.0.0') {
         exclude module: 'support-annotations'
     }
 
     // Required for instrumented tests
-    androidTestImplementation 'com.android.support:support-annotations:24.0.0'
-    androidTestImplementation 'com.android.support.test:runner:0.5'
-
-
-//    testImplementation group: 'org.powermock', name: 'powermock-api-mockito', version: '1.7.4'
-    // https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4
-//    testImplementation group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.0'
-
-    //    testImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'
-    //    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    //    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    //SQLite -> Chrome (debug)
-    //    implementation 'com.facebook.stetho:stetho:1.5.0'
-    //    implementation 'com.facebook.stetho:stetho-urlconnection:1.5.0'
+    androidTestImplementation 'com.android.support:support-annotations:28.0.0'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
 }

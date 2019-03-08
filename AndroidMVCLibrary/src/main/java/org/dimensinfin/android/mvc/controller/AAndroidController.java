@@ -1,11 +1,3 @@
-//  PROJECT:     Android.MVC (A.MVC)
-//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
-//  COPYRIGHT:   (c) 2013-2019 by Dimensinfin Industries, all rights reserved.
-//  ENVIRONMENT: Android API16.
-//  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
-//               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
-//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.controller;
 
 import android.content.Context;
@@ -16,9 +8,9 @@ import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
+import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,11 +40,15 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	// - F I E L D - S E C T I O N
 	/** List of children of the hierarchy. */
 	private List<IAndroidController> children = new ArrayList<>();
-	/** This field caches the factory that is set during the construction. */
-	private IControllerFactory factory = null;
 	/** Reference to the Model node. */
 	@Getter
-	private M model; // Holds the model node.
+	private final M model; // Holds the model node.
+	/** This field caches the factory that is set during the construction. */
+	private final IControllerFactory factory;
+	@Getter
+	@Setter
+	private boolean orderedActive = false; // If the contents should be returned ordered or not
+
 	@Getter
 	private String renderMode; // Holds the type of the render to be used on this instance.
 	@Getter
@@ -68,8 +65,8 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	// - G E T T E R S   &   S E T T E R S
 
 	/**
-	 * The factory is set on all the Parts during the creation time by the factory itself. This allows to construct any
-	 * Model supported by the factory from any AndroidController created by that Factory.
+	 * The factory is set on all the Controllers during the creation time by the factory itself. This allows to construct
+	 * any Model supported by the factory from any Controller created by that Factory.
 	 */
 	public IControllerFactory getControllerFactory() {
 		return this.factory;
@@ -78,6 +75,11 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	public List<IAndroidController> getChildren() {
 		if (children == null) this.children = new ArrayList<>(2);
 		return children;
+	}
+
+	public AAndroidController<M> setRenderMode(final String renderMode) {
+		this.renderMode = renderMode;
+		return this;
 	}
 
 	public void addChild(final IAndroidController child) {
@@ -93,11 +95,6 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		this.getChildren().clear();
 	}
 
-	public AAndroidController<M> setRenderMode(final String renderMode) {
-		this.renderMode = renderMode;
-		return this;
-	}
-
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
 
 	/**
@@ -111,32 +108,51 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	public abstract IRender buildRender(final Context context);
 
 	/**
-	 * Optimized process to generate the list of Parts that should end on the render graphical process. While we are
-	 * collecting the data we are feeding it on the final collection list and making it available to the rendering if we
-	 * decide to do so by firing any graphical need for update method.
+	 * Optimized process to generate the list of Controllers that should end on the render graphical process. While we are
+	 * collecting the data we are feeding it on the final collection list so at the end we have the data required by the
+	 * adapter to be render on the device screen.
 	 *
-	 * Models should always return the same number of nodes not depending on presentation states. It is the
-	 * AndroidController that should interpret the current visual state to decide which nodes collaborate to the vien and
-	 * in which order and presentation.
-	 * @param contentCollector the list where we are collecting the Parts for rendering.
+	 * There are configuration operations over the result of the children nodes of a controller. The first one is the
+	 * ordering of the results that can be controlled by the use of the <code>Comparable</code> interface to set a default
+	 * ordering. Ordering then can be activated with a flag on each of the controllers and the code is kept simple and
+	 * with no dependencies.
+	 *
+	 * The second configurable operation is the filtering. This comes from the UI requirement and should trim out any node
+	 * not matching the filter restrictions. Filtering is a such complex task that will require a complete
+	 * reimplementation for this method and the search for a pattern algorithm suitable for empty node trimming while not
+	 * removing intermediate nodes not matching the filter.
+	 * @param contentCollector the list where we are collecting the Controllers visible for rendering.
 	 */
 	public void collaborate2View(final List<IAndroidController> contentCollector) {
 		logger.info(">< [AAndroidController.collaborate2View]> Collaborator: {}", this.getClass().getSimpleName());
 		// If the node is expanded then give the children the opportunity to also be added.
 		// --- This is the section that is different for any AndroidController. This should be done calling the list of policies.
-		List<IAndroidController> ch = this.runPolicies(this.getChildren());
+		List<IAndroidController> ch = this.orderingFeature(this.getChildren());
 		logger.info("-- [AAndroidController.collaborate2View]> Collaborator children: {}", ch.size());
 		// --- End of policies
-		// Add this node to the list of.
-		contentCollector.add(this);
-		for (IAndroidController part : ch) {
-			part.collaborate2View(contentCollector);
+		// Add this node to the list of controllers only if it should be visible.
+		if (this.isVisible()) contentCollector.add(this);
+		for (IAndroidController controller : ch) {
+			controller.collaborate2View(contentCollector);
 		}
 	}
 
-	public List<IAndroidController> runPolicies(final List<IAndroidController> targets) {
-		return targets;
+	/**
+	 * If the ordering flag is set then order the children and use the final ordered list to continue the rendering of the
+	 * nodes to the list container.
+	 * @param children the list of elements to be sorted if the flag is set to true.
+	 * @return
+	 */
+	public List<IAndroidController> orderingFeature(final List<IAndroidController> children) {
+		if (this.isOrderedActive()) Collections.sort(children);
+		return children;
 	}
+
+	public abstract boolean isVisible();
+
+//	public List<IAndroidController> runPolicies(final List<IAndroidController> targets) {
+//		return targets;
+//	}
 
 	// - I E V E N T E M I T T E R   I N T E R F A C E
 
@@ -213,30 +229,40 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	}
 
 	@Override
-	public boolean equals(Object o) {
+	public boolean equals(final Object o) {
 		if (this == o) return true;
-		if (!(o instanceof AAndroidController)) return false;
-		AAndroidController that = (AAndroidController) o;
+
+		if (o == null || getClass() != o.getClass()) return false;
+
+		final AAndroidController<?> that = (AAndroidController<?>) o;
+
 		return new EqualsBuilder()
-				.append(this.model, that.model)
-				.append(this.children, that.children)
-				.append(this.renderMode, that.renderMode)
+				.append(orderedActive, that.orderedActive)
+				.append(children, that.children)
+				.append(model, that.model)
+				.append(factory, that.factory)
+				.append(renderMode, that.renderMode)
 				.isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder(19, 41)
-				.append(this.model)
-				.append(this.children)
-				.append(this.renderMode)
+		return new HashCodeBuilder(17, 37)
+				.append(children)
+				.append(model)
+				.append(factory)
+				.append(orderedActive)
+				.append(renderMode)
 				.toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return "AAndroidController [content count: " + this.getChildren().size()
-				+ "[ model-> " + this.getModel().toString() + " ]"
-				+ "render.type -> " + this.getRenderMode() + " ]";
+		return "AAndroidController{" +
+				"model=" + model +
+				", factory=" + factory +
+				", orderedActive=" + orderedActive +
+				", renderMode='" + renderMode + '\'' +
+				'}';
 	}
 }
