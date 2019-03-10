@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc.utils;
+package org.dimensinfin.android.mvc.support;
 
 import org.dimensinfin.android.mvc.controller.RootControllerTest;
 import org.dimensinfin.android.mvc.controller.SeparatorController;

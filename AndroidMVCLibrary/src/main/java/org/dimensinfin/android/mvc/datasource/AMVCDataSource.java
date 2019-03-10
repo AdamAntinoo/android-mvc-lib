@@ -21,17 +21,15 @@ import org.dimensinfin.android.mvc.controller.RootController;
 import org.dimensinfin.android.mvc.core.EEvents;
 import org.dimensinfin.android.mvc.core.UIGlobalExecutor;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
+import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.model.MVCRootNode;
+import org.dimensinfin.android.mvc.model.Separator;
 import org.dimensinfin.android.mvc.render.AbstractRender;
 import org.dimensinfin.android.mvc.render.SeparatorRender;
-import org.dimensinfin.core.datasource.DataSourceLocator;
-import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.model.AbstractPropertyChanger;
-import org.dimensinfin.core.model.Separator;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormatterBuilder;
 import org.slf4j.Logger;
@@ -90,7 +88,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	 * Controller will be also detected and sent along with model changes to the DataSource that will command the
 	 * visualization changes by relaying the events to the DataSourceAdapter listener.
 	 */
-	private AbstractPropertyChanger eventController = new AbstractPropertyChanger();
+	private IEventEmitter eventController = new AbstractPropertyChanger();
 	/**
 	 * The initial node where to store the model. Model elements are children of this root. This version exports this node
 	 * to dynamically detect the changes and generate the missing hierarchy elements that are being added during the Model

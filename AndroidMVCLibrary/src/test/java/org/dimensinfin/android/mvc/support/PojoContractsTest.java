@@ -6,8 +6,9 @@
 //               on Android projects. Defines the Part factory and the Part core methods to manage
 //               a generic converter from a Graph Model to a hierarchical Part model that finally will
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
-package org.dimensinfin.android.mvc.utils;
+package org.dimensinfin.android.mvc.support;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.controller.RootController;
 import org.dimensinfin.android.mvc.controller.SeparatorController;
@@ -23,7 +24,7 @@ import org.junit.Test;
  * @author Adam Antinoo
  */
 
-public class PojoGenericTest {
+public class PojoContractsTest {
 
 	@Test
 	public void accessorContract() {
@@ -36,7 +37,7 @@ public class PojoGenericTest {
 	//	@Test
 	public void equalsContract() {
 //		EqualsVerifier.forClass(AMVCDataSource.class).verify();
-//		EqualsVerifier.forClass(AAndroidController.class).verify();
+		EqualsVerifier.forClass(AAndroidController.class).verify();
 //		EqualsVerifier.forClass(RootController.class).verify();
 //		EqualsVerifier.forClass(SeparatorController.class).verify();
 	}

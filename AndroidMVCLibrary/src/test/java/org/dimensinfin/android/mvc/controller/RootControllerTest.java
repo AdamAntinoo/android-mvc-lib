@@ -3,12 +3,11 @@ package org.dimensinfin.android.mvc.controller;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.model.MVCRootNode;
-import org.dimensinfin.android.mvc.utils.TestControllerFactory;
+import org.dimensinfin.android.mvc.support.TestControllerFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;

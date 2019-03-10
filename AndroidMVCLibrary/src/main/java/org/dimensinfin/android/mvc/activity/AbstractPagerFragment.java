@@ -12,6 +12,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -30,18 +31,17 @@ import org.dimensinfin.android.mvc.core.MVCExceptionHandler;
 import org.dimensinfin.android.mvc.core.ToastExceptionHandler;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
+import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
+import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.model.MVCRootNode;
+import org.dimensinfin.android.mvc.model.Separator;
 import org.dimensinfin.android.mvc.render.AbstractRender;
-import org.dimensinfin.core.datasource.DataSourceLocator;
-import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.interfaces.IExpandable;
-import org.dimensinfin.core.model.Separator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -491,41 +491,41 @@ public abstract class AbstractPagerFragment extends Fragment {
 		}
 	}
 
-	public static class EmptyNotVisibleNode implements IExpandable {
+	public static class EmptyNotVisibleNode  {
 		public EmptyNotVisibleNode() {
 			super();
 			this.setRenderWhenEmpty(false);
 		}
 
-		@Override
-		public boolean collapse() {
-			return false;
-		}
+//		@Override
+//		public boolean collapse() {
+//			return false;
+//		}
+//
+//		@Override
+//		public boolean expand() {
+//			return false;
+//		}
+//
+//		@Override
+//		public boolean isEmpty() {
+//			return true;
+//		}
+//
+//		@Override
+//		public boolean isExpanded() {
+//			return false;
+//		}
+//
+//		@Override
+//		public boolean isRenderWhenEmpty() {
+//			return false;
+//		}
 
-		@Override
-		public boolean expand() {
-			return false;
-		}
-
-		@Override
-		public boolean isEmpty() {
-			return true;
-		}
-
-		@Override
-		public boolean isExpanded() {
-			return false;
-		}
-
-		@Override
-		public boolean isRenderWhenEmpty() {
-			return false;
-		}
-
-		@Override
-		public IExpandable setRenderWhenEmpty(final boolean renderWhenEmpty) {
-			return this;
-		}
+//		@Override
+//		public IExpandable setRenderWhenEmpty(final boolean renderWhenEmpty) {
+//			return this;
+//		}
 
 		@Override
 		public List<ICollaboration> collaborate2Model(final String variation) {
@@ -548,16 +548,10 @@ public abstract class AbstractPagerFragment extends Fragment {
 			return null;
 		}
 
-		// - B U I L D E R
-//		public static class Builder extends AAndroidController.Builder<Separator> {
-//			public Builder(final Separator model, final IControllerFactory factory) {
-//				super(model, factory);
-//			}
-//
-//			public EmptyAndroidController build() {
-//				return new EmptyAndroidController(this);
-//			}
-//		}
+		@Override
+		public int compareTo(@NonNull final Separator o) {
+			return 0;
+		}
 	}
 
 	public static class EmptyRender extends AbstractRender<Separator> {

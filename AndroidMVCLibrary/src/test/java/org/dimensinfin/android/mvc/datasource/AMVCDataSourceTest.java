@@ -1,13 +1,10 @@
 package org.dimensinfin.android.mvc.datasource;
 
-import org.dimensinfin.android.mvc.controller.SeparatorController;
 import org.dimensinfin.android.mvc.core.UIGlobalExecutor;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.IAndroidController;
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.utils.PojoTestUtils;
-import org.dimensinfin.android.mvc.utils.TestControllerFactory;
-import org.dimensinfin.android.mvc.utils.TestDataSource;
+import org.dimensinfin.android.mvc.support.PojoTestUtils;
+import org.dimensinfin.android.mvc.support.TestControllerFactory;
+import org.dimensinfin.android.mvc.support.TestDataSource;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator;

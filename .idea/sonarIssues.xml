@@ -153,6 +153,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/datasource/DataSourceLocator.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/datasource/DataSourceManager.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/datasource/ExceptionDataSource.java">
           <value>
             <set />
@@ -243,7 +253,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/model/EmptyNode.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/model/MVCRootNode.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/model/Separator.java">
           <value>
             <set />
           </value>
@@ -298,6 +318,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/test/java/org/dimensinfin/android/mvc/controller/AAndroidControllerTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/test/java/org/dimensinfin/android/mvc/controller/RootControllerTest.java">
           <value>
             <set />
@@ -324,6 +349,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/test/java/org/dimensinfin/android/mvc/parts/PartTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/test/java/org/dimensinfin/android/mvc/support/PojoContractsTest.java">
           <value>
             <set />
           </value>

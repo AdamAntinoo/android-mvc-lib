@@ -11,9 +11,9 @@ package org.dimensinfin.android.mvc.factory;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.controller.SeparatorController;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
+import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.model.Separator;
+import org.dimensinfin.android.mvc.model.Separator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

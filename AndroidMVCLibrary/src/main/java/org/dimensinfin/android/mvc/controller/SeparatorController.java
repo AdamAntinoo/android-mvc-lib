@@ -9,10 +9,11 @@
 package org.dimensinfin.android.mvc.controller;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.android.mvc.model.Separator;
 import org.dimensinfin.android.mvc.render.SeparatorRender;
-import org.dimensinfin.core.model.Separator;
 import org.joda.time.Instant;
 
 public class SeparatorController extends AAndroidController<Separator> {
@@ -51,7 +52,11 @@ public class SeparatorController extends AAndroidController<Separator> {
 		return new SeparatorRender(this, context);
 	}
 
-	// - B U I L D E R
+	@Override
+	public int compareTo(@NonNull final Separator other) {
+		return this.getTitle().compareTo(other.getTitle());
+	}
+// - B U I L D E R
 //	public static class Builder extends AAndroidController.Builder<Separator> {
 //		public Builder(final Separator model, final IControllerFactory factory) {
 //			super(model, factory);

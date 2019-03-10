@@ -12,11 +12,9 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import android.os.Bundle;
+import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
 
-import org.dimensinfin.core.datasource.DataSourceLocator;
-import org.dimensinfin.core.interfaces.ICollaboration;
-
-// - CLASS IMPLEMENTATION ...................................................................................
+// - CLASS IMPLEMENTATION
 public interface IDataSource extends PropertyChangeListener {
 	 String getVariant();
 
@@ -48,5 +46,3 @@ public interface IDataSource extends PropertyChangeListener {
 
 	IControllerFactory getControllerFactory();
 }
-
-// - UNUSED CODE ............................................................................................

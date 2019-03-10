@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc.utils;
+package org.dimensinfin.android.mvc.support;
 
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
