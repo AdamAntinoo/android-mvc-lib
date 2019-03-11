@@ -10,6 +10,7 @@ package org.dimensinfin.android.mvc.datasource;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -76,7 +77,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * @param fragment   The fragment source for this adapter contents.
 	 * @param datasource the source for the data to be represented on the view structures.
 	 */
-	public DataSourceAdapter(final AbstractPagerFragment fragment, final IDataSource datasource) {
+	public DataSourceAdapter(@NonNull final AbstractPagerFragment fragment, @NonNull final IDataSource datasource) {
 		this.context = fragment.getAppContext();
 		this.datasource = datasource;
 		this.datasource.addPropertyChangeListener(this); // Connect the listener to the data source events.
@@ -92,24 +93,34 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	}
 
 	// - B A S E   A D A P T E R   I M P L E M E N T A T I O N
+	@Override
 	public int getCount() {
 		return contentControllerList.size();
 	}
 
+	@Override
 	public long getItemId(final int position) {
 		return contentControllerList.get(position).getModelId();
 	}
 
+	@Override
 	public boolean areAllItemsEnabled() {
 		return true;
 	}
 
+	@Override
 	public boolean isEnabled(int position) {
 		return true;
 	}
 
+	@Override
 	public int getItemViewType(int position) {
 		return 0;
+	}
+
+	@Override
+	public boolean hasStableIds() {
+		return true;
 	}
 
 	/**
@@ -209,18 +220,18 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 		return context;
 	}
 
-	@Override
-	public boolean hasStableIds() {
-		return true;
-	}
-
 	/**
 	 * This method should be called when the model transformation has changed. The model may be the same but the
 	 * instantiation of the elements that should be rendered may have changed so the model should be run again and a new
 	 * list part should be generated to be adapted to the viewer contents.
-	 * <p>
-	 * This action should trigger the display regeneration and the requests for new View instances to be used for the new
-	 * ui render contents.
+	 *
+	 * This action should trigger the reconstruction of the view list starting from the data source stored data. Most of
+	 * the already generated controllers should already exist and have their generated views so most of the data on
+	 * repetitive calls is already present and cached. Only when the trigger activated new controllers or it is created by
+	 * a new data event then the controllers may change and the views should be regenerated for new items.
+	 *
+	 * If an element has changed it is supposed that its view was destroyed so on the next iteration to render it should
+	 * be recreated again..
 	 */
 	@Override
 	public void notifyDataSetChanged() {

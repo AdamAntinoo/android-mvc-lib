@@ -5,9 +5,11 @@ import android.support.annotation.NonNull;
 import junit.framework.Assert;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
+import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.model.EmptyNode;
+import org.dimensinfin.android.mvc.support.TestController;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -15,49 +17,29 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
+
 /**
  * @author Adam Antinoo
  */
 public class AAndroidControllerTest {
-	final static class TestController extends AAndroidController<EmptyNode> implements IAndroidController<EmptyNode> {
-		private boolean visible = true;
 
-		public TestController(final @NonNull EmptyNode model, final @NonNull IControllerFactory factory) {
-			super(model, factory);
+	final static class MultipleModelCollaborator extends EmptyNode implements ICollaboration {
+
+		public MultipleModelCollaborator(final String name) {
+			super(name);
 		}
 
 		@Override
-		public IRender buildRender(final Context context) {
-			return null;
+		public List<ICollaboration> collaborate2Model(final String variation) {
+			final List<ICollaboration> data = new ArrayList<>();
+			data.add(new EmptyNode("Data 1"));
+			data.add(new EmptyNode("Data 2"));
+			return data;
 		}
-
-		@Override
-		public long getModelId() {
-			return 0;
-		}
-
-//		@Override
-//		public int compareTo(@NonNull final EmptyNode other) {
-//			final EmptyNode model = this.getModel();
-//			return model.getName().compareTo(other.getName());
-//		}
-
-		@Override
-		public boolean isVisible() {
-			return visible;
-		}
-
-		public TestController setVisible(final boolean visible) {
-			this.visible = visible;
-			return this;
-		}
-
-		@Override
-		public int compareTo(@NonNull final Object o) {
-			final TestController target = (TestController) o;
-			return this.getModel().getName().compareTo(((TestController) o).getModel().getName());
-		}
-
 	}
 
 	private static ControllerFactory factory;
@@ -183,15 +165,26 @@ public class AAndroidControllerTest {
 	}
 
 	@Test
-	public void buildRender() {
-	}
-
-
-	@Test
-	public void isVisible() {
-	}
-
-	@Test
 	public void refreshChildren() {
+		// Given
+		final List<EmptyNode> testModelHierarchy = new ArrayList();
+		testModelHierarchy.add(new EmptyNode("Node 1"));
+		testModelHierarchy.add(new EmptyNode("Node 2"));
+		final TestController testController = new TestController(new MultipleModelCollaborator("Data"),factory);
+
+		// When
+		when(factory.createController(any(EmptyNode.class))).thenReturn(new TestController(new EmptyNode("Test"),factory));
+		when ( factory.getVariant ( )).thenReturn("TEST");
+
+		// Asserts
+		Assert.assertEquals("The initial list is empty.", 0, testController.getChildren().size());
+
+		// Test
+		testController.refreshChildren();
+		final List<IAndroidController<EmptyNode>> endList = testController.getChildren();
+
+		// Asserts
+		Assert.assertEquals("The end list has 2 items.", 2, testController.getChildren().size());
+		Mockito.verify(factory , times  (2)).createController(any(EmptyNode.class));
 	}
 }

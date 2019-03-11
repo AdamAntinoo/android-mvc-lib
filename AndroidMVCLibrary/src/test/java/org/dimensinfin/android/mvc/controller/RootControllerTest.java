@@ -2,27 +2,16 @@ package org.dimensinfin.android.mvc.controller;
 
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
-import org.dimensinfin.android.mvc.model.MVCRootNode;
-import org.dimensinfin.android.mvc.support.TestControllerFactory;
-import org.dimensinfin.android.mvc.core.UIGlobalExecutor;
-import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
+import org.dimensinfin.android.mvc.model.MVCRootNode;
 import org.dimensinfin.android.mvc.model.Separator;
-import org.dimensinfin.android.mvc.support.PojoTestUtils;
 import org.dimensinfin.android.mvc.support.TestControllerFactory;
-import org.dimensinfin.android.mvc.support.TestDataSource;
-import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -149,6 +138,7 @@ public class RootControllerTest {
 		Assert.assertEquals(4, controllers.size());
 		Assert.assertTrue(expected == obtained);
 	}
+
 	@Test
 	public void refreshChildren_root5WithNodeReduction() {
 		// Given
@@ -212,6 +202,7 @@ public class RootControllerTest {
 		// Assert
 		Assert.assertEquals(6, contentCollector.size());
 	}
+
 	@Test
 	public void collaborate2View_nodeReduction() {
 		// Given

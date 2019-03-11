@@ -15,16 +15,19 @@ import org.dimensinfin.android.mvc.controller.SeparatorController;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
+import org.dimensinfin.android.mvc.model.EmptyNode;
 import org.dimensinfin.android.mvc.model.MVCRootNode;
 import org.dimensinfin.android.mvc.model.Separator;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
  * @author Adam Antinoo
  */
 
 public class PojoContractsTest {
+	private static final ControllerFactory factory = Mockito.mock(ControllerFactory.class);
 
 	@Test
 	public void accessorContract() {
@@ -34,15 +37,38 @@ public class PojoContractsTest {
 		PojoTestUtils.validateAccessors(SeparatorController.class);
 	}
 
-	//	@Test
+	@Test
 	public void equalsContract() {
-//		EqualsVerifier.forClass(AMVCDataSource.class).verify();
-		EqualsVerifier.forClass(AAndroidController.class).verify();
-//		EqualsVerifier.forClass(RootController.class).verify();
-//		EqualsVerifier.forClass(SeparatorController.class).verify();
+		// - A A N D R O I D C O N T R O L L E R
+		final EmptyNode node1 = new EmptyNode("Test1");
+		final EmptyNode node2 = new EmptyNode("Test2");
+		final EmptyNode node3 = node1;
+		final TestController controller1 = new TestController(node1,factory);
+		final TestController controller2 = new TestController(node2,factory);
+		final TestController controller3 = new TestController(node3,factory);
+
+		// Asserts
+		Assert.assertFalse("Controllers are different.",controller2.equals(controller1));
+		Assert.assertFalse("Controllers are different.",controller2.equals(controller3));
+		Assert.assertTrue("Controllers are equal.",controller1.equals(controller3));
+	}
+	@Test
+	public void hashCodeContract() {
+		// - A A N D R O I D C O N T R O L L E R
+		final EmptyNode node1 = new EmptyNode("Test1");
+		final EmptyNode node2 = new EmptyNode("Test2");
+		final EmptyNode node3 = node1;
+		final TestController controller1 = new TestController(node1,factory);
+		final TestController controller2 = new TestController(node2,factory);
+		final TestController controller3 = new TestController(node3,factory);
+
+		// Asserts
+		Assert.assertNotEquals("Controllers are different.",controller2.hashCode(), controller1.hashCode());
+		Assert.assertNotEquals("Controllers are different.",controller2.hashCode(), controller3.hashCode());
+		Assert.assertEquals("Controllers are equal.",controller1.hashCode(), controller3.hashCode());
 	}
 
-	@Test
+		@Test
 	public void toStringContract() {
 		final DataSourceLocator locator = new DataSourceLocator().addIdentifier("TEST");
 		final ControllerFactory factory = new TestControllerFactory("TEST");

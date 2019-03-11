@@ -83,7 +83,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * Instance for a dynamic model generator. The model can change after creation by user interactions through the
 	 * rendered views and parts.
 	 */
-	private IDataSource _datasource = null;
+//	private IDataSource _datasource = null;
 	/**
 	 * Evolved adapter to connect the source of data in the form of a <b>AndroidController</b> list to the
 	 * <code>ListView</code> that contains the displayed render.
@@ -288,13 +288,13 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 		// - S E C T I O N   2. where we setup the data sources for the adapters. Only include no timing operations.
 		// Entry point to generate the DataSection model.
-		_datasource = DataSourceManager.registerDataSource(this.registerDataSource());
-		// Check that the data source is a valid data source.
-		if (null == _datasource) _datasource = new EmptyDataSource(new DataSourceLocator().addIdentifier("EMPTY"), getFactory())
-				.setVariant(this.getVariant())
-				.setExtras(this.getExtras());
+//		_datasource = DataSourceManager.registerDataSource(this.registerDataSource());
+//		// Check that the data source is a valid data source.
+//		if (null == _datasource) _datasource = new EmptyDataSource(new DataSourceLocator().addIdentifier("EMPTY"), getFactory())
+//				.setVariant(this.getVariant())
+//				.setExtras(this.getExtras());
 		// Install the adapter before any data request or model generation.
-		_adapter = new DataSourceAdapter(this, _datasource);
+		_adapter = new DataSourceAdapter(this, DataSourceManager.registerDataSource(this.registerDataSource()));
 		_dataSectionContainer.setAdapter(_adapter);
 
 		AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.onCreateView]");
@@ -319,7 +319,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 		// The first action is to add a progress indicator to the contents.
 		// This way once we finish the configuration the display will refresh with the spinner on it.
 		// We remove the spinner from the display when the model generation ends.
-		_datasource.startOnLoadProcess();
+//		_datasource.startOnLoadProcess();
 		// Do the execution on the UI by using an UI handler.
 		handler.post(() -> _adapter.notifyDataSetChanged());
 		// Create the hierarchy structure to be used on the Header. We have the model list and we should convert it to a view list.
@@ -330,12 +330,12 @@ public abstract class AbstractPagerFragment extends Fragment {
 		});
 		// Create the hierarchy structure to be used on the Adapter for the DataSection.
 		// Do this on background so we can update the interface on real time.
-		AbstractPagerFragment._uiExecutor.submit(() -> {
-			_datasource.collaborate2Model();
-			handler.post(() -> {
-				_adapter.notifyDataSetChanged();
-			});
-		});
+//		AbstractPagerFragment._uiExecutor.submit(() -> {
+//			_datasource.collaborate2Model();
+//			handler.post(() -> {
+//				_adapter.notifyDataSetChanged();
+//			});
+//		});
 //		} catch (final RuntimeException rtex) {
 //			AbstractPagerFragment.logger.error("RTEX [AbstractPagerFragment.onStart]> {}.", rtex.getMessage());
 //			rtex.printStackTrace();
@@ -343,6 +343,8 @@ public abstract class AbstractPagerFragment extends Fragment {
 //					, "RTEX [AbstractPagerFragment.onStart]> " + rtex.getMessage()
 //					, Toast.LENGTH_LONG).show();
 //		}
+		// Signal the adapter to refresh the render list of items. On first call this should generate all the data structures.
+		_adapter.notifyDataSetChanged();
 		AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.onStart]");
 	}
 

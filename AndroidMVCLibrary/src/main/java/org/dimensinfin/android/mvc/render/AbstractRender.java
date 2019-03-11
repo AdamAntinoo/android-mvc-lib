@@ -18,7 +18,7 @@ import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.core.model.Separator;
+import org.dimensinfin.android.mvc.model.Separator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

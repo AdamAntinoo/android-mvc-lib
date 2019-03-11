@@ -25,7 +25,8 @@ public class Separator implements ICollaboration {
 	private static Logger logger = LoggerFactory.getLogger(Separator.class);
 
 	public enum ESeparatorType {
-		DEFAULT, LINE_WHITE, LINE_RED, LINE_ORANGE, LINE_YELLOW, LINE_GREEN, LINE_DARKBLUE, EMPTY_SIGNAL
+		DEFAULT, LINE_WHITE, LINE_RED, LINE_ORANGE, LINE_YELLOW, LINE_GREEN, LINE_DARKBLUE, EMPTY_SIGNAL,
+		LINE_ROSE, LINE_LIGHTBLUE, LINE_PURPLE, LINE_GREY, LINE_BLACK
 	}
 
 	// - F I E L D - S E C T I O N
