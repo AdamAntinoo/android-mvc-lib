@@ -17,8 +17,8 @@ import android.view.View;
  * model nodes that should be visible.
  */
 public interface IRenderableController extends IAndroidController {
-	IRender buildRender(final Context context);
-	View getViewCache();
-	void setViewCache(final View targetView);
-	long getModelId();
+//	IRender buildRender(final Context context);
+//	View getViewCache();
+//	void setViewCache(final View targetView);
+//	long getModelId();
 }

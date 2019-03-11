@@ -17,7 +17,7 @@ import org.mockito.Mockito;
 public class AAndroidControllerTest {
 	final static class TestController extends AAndroidController<EmptyNode> {
 
-		public TestController(final @lombok.NonNull EmptyNode model, final @lombok.NonNull IControllerFactory factory) {
+		public TestController(final @NonNull EmptyNode model, final @NonNull IControllerFactory factory) {
 			super(model, factory);
 		}
 

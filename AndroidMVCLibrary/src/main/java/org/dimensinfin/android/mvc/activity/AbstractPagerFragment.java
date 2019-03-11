@@ -491,10 +491,10 @@ public abstract class AbstractPagerFragment extends Fragment {
 		}
 	}
 
-	public static class EmptyNotVisibleNode  {
+	public static class EmptyNotVisibleNode  extends Separator{
 		public EmptyNotVisibleNode() {
 			super();
-			this.setRenderWhenEmpty(false);
+//			this.setRenderWhenEmpty(false);
 		}
 
 //		@Override

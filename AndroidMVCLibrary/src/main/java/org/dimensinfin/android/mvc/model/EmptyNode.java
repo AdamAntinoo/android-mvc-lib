@@ -8,26 +8,32 @@
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.model;
 
-import java.util.Hashtable;
-import java.util.Hashtable;
-import java.util.Hashtable;
-
-import org.joda.time.Instant;
+import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Adam Antinoo
  */
 
-public class EmptyNode {
+public class EmptyNode implements ICollaboration {
 	private static Logger logger = LoggerFactory.getLogger(EmptyNode.class);
 
 	// - F I E L D - S E C T I O N
+	private final String name;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public EmptyNode() {
+	public EmptyNode(final String name) {
 		super();
+		this.name = name;
+	}
+	// - G E T T E R S   &   S E T T E R S
+
+	public String getName() {
+		return name;
 	}
 
 	// - M E T H O D - S E C T I O N
@@ -38,5 +44,10 @@ public class EmptyNode {
 				.append("]")
 				.append("->").append(super.toString())
 				.toString();
+	}
+
+	@Override
+	public List<ICollaboration> collaborate2Model(final String variation) {
+		return new ArrayList<>();
 	}
 }

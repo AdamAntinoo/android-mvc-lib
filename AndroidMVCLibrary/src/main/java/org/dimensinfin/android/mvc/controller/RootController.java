@@ -10,9 +10,9 @@ package org.dimensinfin.android.mvc.controller;
 
 import android.support.annotation.NonNull;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
+import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.model.MVCRootNode;
-import org.dimensinfin.core.interfaces.ICollaboration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +38,9 @@ public class RootController {
 	}
 
 	// - G E T T E R S   &   S E T T E R S
+	public MVCRootNode getModel() {
+		return model;
+	}
 
 	/**
 	 * The factory is set on all the Parts during the creation time by the factory itself. This allows to construct any
