@@ -363,6 +363,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/test/java/org/dimensinfin/android/mvc/support/TestControllerFactory.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/test/java/org/dimensinfin/android/mvc/support/TestDataSource.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/test/java/org/dimensinfin/android/mvc/utils/PojoGenericTest.java">
           <value>
             <set />

@@ -49,7 +49,7 @@ public class AAndroidControllerTest {
 	@Test
 	public void addChild() {
 		// Given
-final int initial =		controller.getChildren().size();
+		final int initial = controller.getChildren().size();
 
 // Test
 		controller.addChild(new TestController(new EmptyNode("Test"), factory));
