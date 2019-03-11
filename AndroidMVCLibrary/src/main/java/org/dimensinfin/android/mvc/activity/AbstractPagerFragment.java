@@ -533,43 +533,43 @@ public abstract class AbstractPagerFragment extends Fragment {
 		}
 	}
 
-	public static class EmptyAndroidController extends AAndroidController<Separator> {
-		public EmptyAndroidController(final Separator model, final IControllerFactory factory) {
-			super(model, factory);
-		}
-
-		@Override
-		public long getModelId() {
-			return 0;
-		}
-
-		@Override
-		public IRender buildRender(final Context context) {
-			return null;
-		}
-
-		@Override
-		public int compareTo(@NonNull final Separator o) {
-			return 0;
-		}
-	}
-
-	public static class EmptyRender extends AbstractRender<Separator> {
-		public EmptyRender(final EmptyAndroidController controller, final Context context) {
-			super(controller, context);
-		}
-
-		@Override
-		protected void initializeViews() {
-		}
-
-		@Override
-		protected int accessLayoutReference() {
-			return 0;
-		}
-
-		@Override
-		public void updateContent() {
-		}
-	}
+//	public static class EmptyAndroidController extends AAndroidController<Separator> {
+//		public EmptyAndroidController(final Separator model, final IControllerFactory factory) {
+//			super(model, factory);
+//		}
+//
+//		@Override
+//		public long getModelId() {
+//			return 0;
+//		}
+//
+//		@Override
+//		public IRender buildRender(final Context context) {
+//			return null;
+//		}
+//
+//		@Override
+//		public int compareTo(@NonNull final Separator o) {
+//			return 0;
+//		}
+//	}
+//
+//	public static class EmptyRender extends AbstractRender<Separator> {
+//		public EmptyRender(final EmptyAndroidController controller, final Context context) {
+//			super(controller, context);
+//		}
+//
+//		@Override
+//		protected void initializeViews() {
+//		}
+//
+//		@Override
+//		protected int accessLayoutReference() {
+//			return 0;
+//		}
+//
+//		@Override
+//		public void updateContent() {
+//		}
+//	}
 }

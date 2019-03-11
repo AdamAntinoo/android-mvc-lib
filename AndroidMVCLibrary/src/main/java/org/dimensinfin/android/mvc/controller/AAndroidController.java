@@ -37,7 +37,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 
 	// - F I E L D - S E C T I O N
 	/** List of children of the hierarchy. */
-	private List<IAndroidController> children = new ArrayList<>();
+	private List<IAndroidController<M>> children = new ArrayList<>();
 	/** Reference to the Model node. */
 	private final M model; // Holds the model node.
 	/** This field caches the factory that is set during the construction. */
@@ -68,7 +68,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		return this.factory;
 	}
 
-	public List<IAndroidController> getChildren() {
+	public List<IAndroidController<M>> getChildren() {
 		if (children == null) this.children = new ArrayList<>(2);
 		return children;
 	}
@@ -104,7 +104,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		this.getChildren().add(child);
 	}
 
-	public void addChildren(final List<IAndroidController> modelList) {
+	public void addChildren(final List<IAndroidController<M>> modelList) {
 		for (IAndroidController node : modelList)
 			this.addChild(node);
 	}
@@ -145,7 +145,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		logger.info(">< [AAndroidController.collaborate2View]> Collaborator: {}", this.getClass().getSimpleName());
 		// If the node is expanded then give the children the opportunity to also be added.
 		// --- This is the section that is different for any AndroidController. This should be done calling the list of policies.
-		List<IAndroidController> ch = this.orderingFeature(this.getChildren());
+		List<IAndroidController<M>> ch = this.orderingFeature(this.getChildren());
 		logger.info("-- [AAndroidController.collaborate2View]> Collaborator children: {}", ch.size());
 		// --- End of policies
 		// Add this node to the list of controllers only if it should be visible.
@@ -158,12 +158,20 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	/**
 	 * If the ordering flag is set then order the children and use the final ordered list to continue the rendering of the
 	 * nodes to the list container.
-	 * @param children the list of elements to be sorted if the flag is set to true.
+	 * @param childrenList the list of elements to be sorted if the flag is set to true.
 	 * @return
 	 */
-	public List<IAndroidController> orderingFeature(final List<IAndroidController> children) {
-		if (this.isOrderedActive()) Collections.sort(children);
-		return children;
+	public List<IAndroidController<M>> orderingFeature(final List<IAndroidController<M>> childrenList) {
+//		final List<IAndroidController<M>> nodes = new ArrayList<>();
+//		for ( IAndroidController<M>  node : childrenList){
+//			nodes.add(node);
+//		}
+////		nodes.addAll(childrenList);
+//
+//		Collections.sort(nodes);
+
+		if (this.isOrderedActive()) Collections.sort(childrenList);
+		return childrenList;
 	}
 
 	public boolean isVisible() {
@@ -230,7 +238,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 			currentMap.put(control.getModel(), control);
 		}
 		// Create the new children list ot be able to delete nodes.
-		final List<IAndroidController> newChildrenList = new ArrayList<>(firstLevelNodes.size());
+		final List<IAndroidController<M>> newChildrenList = new ArrayList<>(firstLevelNodes.size());
 		// Check all the model instances have a matching AndroidController instance.
 		for (ICollaboration modelNode : firstLevelNodes) {
 			// Search for the model instance on the current controller map.

@@ -53,9 +53,14 @@ public class SeparatorController extends AAndroidController<Separator> {
 	}
 
 	@Override
-	public int compareTo(@NonNull final Separator other) {
-		return this.getTitle().compareTo(other.getTitle());
+	public int compareTo(@NonNull final Object o) {
+		return 0;
 	}
+
+//	@Override
+//	public int compareTo(@NonNull final Separator other) {
+//		return this.getTitle().compareTo(other.getTitle());
+//	}
 // - B U I L D E R
 //	public static class Builder extends AAndroidController.Builder<Separator> {
 //		public Builder(final Separator model, final IControllerFactory factory) {

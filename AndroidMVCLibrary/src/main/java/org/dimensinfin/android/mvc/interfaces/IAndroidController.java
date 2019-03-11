@@ -2,18 +2,17 @@ package org.dimensinfin.android.mvc.interfaces;
 
 import android.content.Context;
 import android.view.View;
-import org.dimensinfin.android.mvc.controller.AAndroidController;
 
 import java.util.List;
 
-public interface IAndroidController<M extends ICollaboration> extends IEventEmitter, Comparable<M> {
+public interface IAndroidController<M extends ICollaboration> extends IEventEmitter, Comparable {
 	M getModel();
 	void refreshChildren();
 	View getViewCache();
-	AAndroidController<M> setViewCache(final View targetView);
+	IAndroidController<M> setViewCache(final View targetView);
 	boolean isOrderedActive();
-	AAndroidController<M> setOrderedActive(final boolean orderedActive);
-	List<IAndroidController> orderingFeature(final List<IAndroidController> children);
+	IAndroidController<M> setOrderedActive(final boolean orderedActive);
+	List<IAndroidController<M>> orderingFeature(final List<IAndroidController<M>> children);
 	void collaborate2View(final List<IAndroidController> contentCollector);
 	boolean isVisible();
 

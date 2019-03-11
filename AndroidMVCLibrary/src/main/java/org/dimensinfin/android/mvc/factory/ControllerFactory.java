@@ -35,10 +35,10 @@ public class ControllerFactory implements IControllerFactory {
 			return new SeparatorController((Separator) node,this)
 					.setRenderMode(this.getVariant());
 		}
-		if (node instanceof AbstractPagerFragment.EmptyNotVisibleNode) {
-			return new AbstractPagerFragment.EmptyAndroidController((Separator) node,this)
-					.setRenderMode(this.getVariant());
-		}
+//		if (node instanceof AbstractPagerFragment.EmptyNotVisibleNode) {
+//			return new AbstractPagerFragment.EmptyAndroidController((Separator) node,this)
+//					.setRenderMode(this.getVariant());
+//		}
 		// If no part is trapped then result a NOT FOUND mark
 		return new SeparatorController(new Separator("-NO Model-Controller match-[" + node.getClass().getSimpleName() + "]-")
 				,this);
