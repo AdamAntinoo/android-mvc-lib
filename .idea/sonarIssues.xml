@@ -183,6 +183,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/events/EventEmitter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/factory/ControllerFactory.java">
           <value>
             <set />

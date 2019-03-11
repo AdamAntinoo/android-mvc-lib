@@ -1,21 +1,19 @@
 package org.dimensinfin.android.mvc.controller;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.dimensinfin.android.mvc.events.EventEmitter;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,20 +39,14 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	/** List of children of the hierarchy. */
 	private List<IAndroidController> children = new ArrayList<>();
 	/** Reference to the Model node. */
-	@Getter
 	private final M model; // Holds the model node.
 	/** This field caches the factory that is set during the construction. */
 	private final IControllerFactory factory;
-	@Getter
-	@Setter
 	private boolean orderedActive = false; // If the contents should be returned ordered or not
 
-	@Getter
 	private String renderMode; // Holds the type of the render to be used on this instance.
-	@Getter
-	@Setter
 	private View viewCache; // Caches the render generated view used to the Adapter so it can be reused multiple times.
-	private AbstractPropertyChanger eventController = new AbstractPropertyChanger();
+	private IEventEmitter eventController = new EventEmitter();
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public AAndroidController(@NonNull final M model, @NonNull final IControllerFactory factory) {
@@ -63,6 +55,10 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	}
 
 	// - G E T T E R S   &   S E T T E R S
+	@Override
+	public M getModel() {
+		return model;
+	}
 
 	/**
 	 * The factory is set on all the Controllers during the creation time by the factory itself. This allows to construct
@@ -82,6 +78,28 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		return this;
 	}
 
+	@Override
+	public boolean isOrderedActive() {
+		return orderedActive;
+	}
+
+	public AAndroidController<M> setOrderedActive(final boolean orderedActive) {
+		this.orderedActive = orderedActive;
+		return this;
+	}
+
+	@Override
+	public View getViewCache() {
+		return viewCache;
+	}
+
+	@Override
+	public AAndroidController<M> setViewCache(final View viewCache) {
+		this.viewCache = viewCache;
+		return this;
+	}
+
+	// - D E L E G A T E S - C H I L D R E N
 	public void addChild(final IAndroidController child) {
 		this.getChildren().add(child);
 	}
@@ -148,7 +166,9 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		return children;
 	}
 
-	public abstract boolean isVisible();
+	public boolean isVisible() {
+		return true;
+	}
 
 //	public List<IAndroidController> runPolicies(final List<IAndroidController> targets) {
 //		return targets;
@@ -167,11 +187,15 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 
 	@Override
 	public boolean sendChangeEvent(final String eventName) {
-		this.eventController.firePropertyChange(new PropertyChangeEvent(this, eventName, null, null));
+		this.eventController.sendChangeEvent(eventName);
 		return true;
 	}
 
-	// - M E T H O D - S E C T I O N
+	@Override
+	public void removePropertyChangeListener(final PropertyChangeListener listener) {
+		this.eventController.removePropertyChangeListener(listener);
+	}
+// - M E T H O D - S E C T I O N
 
 	/**
 	 * The refresh process should optimize the reuse of the already available Parts. We should check for model identity on

@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
-import org.dimensinfin.core.model.Separator;
+import org.dimensinfin.android.mvc.model.Separator;
 
 /**
  * @author Adam Antinoo

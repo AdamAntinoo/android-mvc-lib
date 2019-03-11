@@ -8,5 +8,6 @@ import java.beans.PropertyChangeListener;
  */
 public interface IEventEmitter {
 	void addPropertyChangeListener(final PropertyChangeListener listener);
+	void removePropertyChangeListener(final PropertyChangeListener listener);
 	boolean sendChangeEvent(final String eventName);
 }

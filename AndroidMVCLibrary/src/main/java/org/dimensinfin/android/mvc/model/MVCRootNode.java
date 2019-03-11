@@ -8,8 +8,7 @@
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.model;
 
-import lombok.EqualsAndHashCode;
-import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +22,6 @@ import java.util.List;
  * children.
  * @author Adam Antinoo
  */
-@EqualsAndHashCode
 public class MVCRootNode implements ICollaboration {
 	private static Logger logger = LoggerFactory.getLogger(MVCRootNode.class);
 

@@ -8,9 +8,7 @@
 //               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.controller;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NonNull;
+import android.support.annotation.NonNull;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.model.MVCRootNode;
@@ -23,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-@EqualsAndHashCode
 public class RootController {
 	private static final Logger logger = LoggerFactory.getLogger(RootController.class);
 
@@ -32,7 +29,6 @@ public class RootController {
 	private List<IAndroidController> children = new Vector<>();
 	/** This field caches the factory that is set during the construction. */
 	private IControllerFactory factory = null;
-	@Getter
 	private MVCRootNode model; // Holds the model node.
 
 	// - C O N S T R U C T O R - S E C T I O N
