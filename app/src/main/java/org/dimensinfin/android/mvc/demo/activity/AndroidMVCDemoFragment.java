@@ -1,26 +1,17 @@
-//  PROJECT:     Android.MVC (A.MVC)
-//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
-//  COPYRIGHT:   (c) 2013-2019 by Dimensinfin Industries, all rights reserved.
-//  ENVIRONMENT: Android API16.
-//  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
-//               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
-//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.demo.activity;
 
-import android.content.Context;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
+import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.demo.factory.DemoControllerFactory;
+import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.model.DemoContainer;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 import org.dimensinfin.android.mvc.model.DemoItem;
 import org.dimensinfin.android.mvc.model.DemoLabel;
-import org.dimensinfin.core.datasource.DataSourceLocator;
-import org.dimensinfin.core.interfaces.ICollaboration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,59 +99,59 @@ final class DemoDataSource extends AMVCDataSource {
 		AMVCDataSource.logger.info(">> [DemoDataSource.collaborate2Model]");
 		// Check if we should use the cached version.
 //		if (!isCached()) {
-			if (getVariant() == AndroidMVCDemoActivity.EDemoVariants.NON_EXPANDABLE_SECTION.name()) {
-				// Initialize the Adapter data structures.
+		if (getVariant() == AndroidMVCDemoActivity.EDemoVariants.NON_EXPANDABLE_SECTION.name()) {
+			// Initialize the Adapter data structures.
 //				this.setDataModel(new RootNode());
 
-				// Wait a delay of 6 seconds to allow to watch the counter.
-				try {
-					Thread.sleep(TimeUnit.SECONDS.toMillis(2));
-				} catch (InterruptedException ex) {
-				}
-				// Add manually each of the demo model nodes.
-				addModelContents(new DemoLabel("NON EXPANDABLE SECTION"));
-				addModelContents(new DemoItem()
-						.setIcon(R.drawable.criticalstate)
-						.setTitle("STOP"));
-				addModelContents(new DemoItem()
-						.setIcon(R.drawable.corpmap)
-						.setTitle("Maps"));
-				addModelContents(new DemoItem()
-						.setIcon(R.drawable.industry)
-						.setTitle("Industrial"));
+			// Wait a delay of 6 seconds to allow to watch the counter.
+			try {
+				Thread.sleep(TimeUnit.SECONDS.toMillis(2));
+			} catch (InterruptedException ex) {
 			}
-			if (getVariant() == AndroidMVCDemoActivity.EDemoVariants.EXPANDABLE_SECTION.name()) {
-				// Initialize the Adapter data structures.
+			// Add manually each of the demo model nodes.
+			addModelContents(new DemoLabel("NON EXPANDABLE SECTION"));
+			addModelContents(new DemoItem()
+					.setIcon(R.drawable.criticalstate)
+					.setTitle("STOP"));
+			addModelContents(new DemoItem()
+					.setIcon(R.drawable.corpmap)
+					.setTitle("Maps"));
+			addModelContents(new DemoItem()
+					.setIcon(R.drawable.industry)
+					.setTitle("Industrial"));
+		}
+		if (getVariant() == AndroidMVCDemoActivity.EDemoVariants.EXPANDABLE_SECTION.name()) {
+			// Initialize the Adapter data structures.
 //				this.setDataModel(new RootNode());
 
-				// Wait a delay of 6 seconds to allow to watch the counter.
-				try {
-					Thread.sleep(TimeUnit.SECONDS.toMillis(4));
-				} catch (InterruptedException ex) {
-				}
-				addModelContents(new DemoLabel("EXPANDABLE SECTION"));
-				final DemoContainer container = new DemoContainer()
-						.setName("STATES");
-				container.addContent(new DemoItem()
-						.setIcon(R.drawable.info)
-						.setTitle("Critical"));
-				container.addContent(new DemoItem()
-						.setIcon(R.drawable.info)
-						.setTitle("Danger"));
-				container.addContent(new DemoItem()
-						.setIcon(R.drawable.info)
-						.setTitle("Warning"));
-				container.addContent(new DemoItem()
-						.setIcon(R.drawable.info)
-						.setTitle("Normal"));
-				container.addContent(new DemoItem()
-						.setIcon(R.drawable.info)
-						.setTitle("Nominal"));
-				container.addContent(new DemoItem()
-						.setIcon(R.drawable.info)
-						.setTitle("Stop"));
-				addModelContents(container);
+			// Wait a delay of 6 seconds to allow to watch the counter.
+			try {
+				Thread.sleep(TimeUnit.SECONDS.toMillis(4));
+			} catch (InterruptedException ex) {
 			}
+			addModelContents(new DemoLabel("EXPANDABLE SECTION"));
+			final DemoContainer container = new DemoContainer()
+					.setName("STATES");
+			container.addContent(new DemoItem()
+					.setIcon(R.drawable.info)
+					.setTitle("Critical"));
+			container.addContent(new DemoItem()
+					.setIcon(R.drawable.info)
+					.setTitle("Danger"));
+			container.addContent(new DemoItem()
+					.setIcon(R.drawable.info)
+					.setTitle("Warning"));
+			container.addContent(new DemoItem()
+					.setIcon(R.drawable.info)
+					.setTitle("Normal"));
+			container.addContent(new DemoItem()
+					.setIcon(R.drawable.info)
+					.setTitle("Nominal"));
+			container.addContent(new DemoItem()
+					.setIcon(R.drawable.info)
+					.setTitle("Stop"));
+			addModelContents(container);
+		}
 //		}
 		logger.info("<< [PlantDataSource.collaborate2Model]");
 	}

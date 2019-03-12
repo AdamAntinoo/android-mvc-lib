@@ -222,7 +222,6 @@ public abstract class AbstractPagerActivity extends FragmentActivity {
 		this.disableIndicator();
 		AbstractPagerActivity.logger.info("<< [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
 	}
-
 	private void updateInitialTitle() {
 		if (null != _actionBar) {
 			Fragment firstFragment = _pageAdapter.getInitialPage();

@@ -9,7 +9,6 @@
 package org.dimensinfin.android.mvc.model;
 
 import org.dimensinfin.android.mvc.demo.R;
-import org.dimensinfin.core.model.Container;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,12 +27,12 @@ public class IconContainer extends Container {
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 	public IconContainer () {
 		super();
-		jsonClass="IconContainer";
+//		jsonClass="IconContainer";
 	}
 
 	public IconContainer (final String title) {
 		super(title);
-		jsonClass="IconContainer";
+//		jsonClass="IconContainer";
 	}
 
 	// - M E T H O D - S E C T I O N ..........................................................................

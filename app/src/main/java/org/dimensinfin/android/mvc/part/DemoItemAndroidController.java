@@ -1,19 +1,12 @@
-//  PROJECT:     Android.MVC (A.MVC)
-//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
-//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
-//  ENVIRONMENT: Android API16.
-//  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
-//               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
-//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.part;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import lombok.ToString;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.controller.DemoContainerController;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
@@ -24,7 +17,6 @@ import org.dimensinfin.android.mvc.render.AbstractRender;
 /**
  * @author Adam Antinoo
  */
-@ToString
 public class DemoItemAndroidController extends AAndroidController<DemoLabel> {
 	// - F I E L D - S E C T I O N
 
@@ -37,6 +29,13 @@ public class DemoItemAndroidController extends AAndroidController<DemoLabel> {
 	@Override
 	public long getModelId() {
 		return this.getModel().hashCode();
+	}
+	@Override
+	public int compareTo(@NonNull final Object o) {
+		if (o instanceof DemoItemAndroidController) {
+			final DemoItemAndroidController target = (DemoItemAndroidController) o;
+			return this.getModel().compareTo(target.getModel());
+		} else return -1;
 	}
 
 	// - G E T T E R S   &   S E T T E R S

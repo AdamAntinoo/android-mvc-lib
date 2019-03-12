@@ -1,23 +1,13 @@
-//  PROJECT:     Android.MVC (A.MVC)
-//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
-//  COPYRIGHT:   (c) 2013-2019 by Dimensinfin Industries, all rights reserved.
-//  ENVIRONMENT: Android API16.
-//  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
-//               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
-//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
-import org.dimensinfin.core.interfaces.ICollaboration;
+import android.support.annotation.NonNull;
+import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@EqualsAndHashCode
-public class DemoHeaderTitle implements ICollaboration, Serializable {
+public class DemoHeaderTitle implements ICollaboration, Serializable, Comparable<DemoHeaderTitle> {
 	private static final long serialVersionUID = 7084637836405461264L;
 
 	// - F I E L D - S E C T I O N
@@ -58,9 +48,15 @@ public class DemoHeaderTitle implements ICollaboration, Serializable {
 
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer( "DemoHeaderTitle [" );
-		buffer.append( getName() ).append( " - " ).append( getVersion() );
-		buffer.append( " ]" );
+		StringBuffer buffer = new StringBuffer("DemoHeaderTitle [");
+		buffer.append(getName()).append(" - ").append(getVersion());
+		buffer.append(" ]");
 		return buffer.toString();
 	}
+
+	@Override
+	public int compareTo(@NonNull final DemoHeaderTitle o) {
+		return this.name.compareTo(o.name);
+	}
+
 }

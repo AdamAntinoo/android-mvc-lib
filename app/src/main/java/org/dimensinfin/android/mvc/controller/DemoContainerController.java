@@ -9,7 +9,7 @@
 package org.dimensinfin.android.mvc.controller;
 
 import android.content.Context;
-import lombok.EqualsAndHashCode;
+import android.support.annotation.NonNull;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.model.DemoContainer;
@@ -20,7 +20,6 @@ import java.text.DecimalFormat;
 /**
  * @author Adam Antinoo
  */
-@EqualsAndHashCode
 public class DemoContainerController extends AAndroidController<DemoContainer> {
 	private static DecimalFormat itemCountFormatter = new DecimalFormat("###,##0");
 
@@ -56,6 +55,14 @@ public class DemoContainerController extends AAndroidController<DemoContainer> {
 		return buffer.toString();
 	}
 
+	@Override
+	public int compareTo(@NonNull final Object o) {
+		if (o instanceof DemoContainerController) {
+			final DemoContainerController target = (DemoContainerController) o;
+			return this.getModel().compareTo(target.getModel());
+		} else return -1;
+	}
+
 	public static class DemoContainerRender extends AbstractRender<DemoContainer> {
 		// - F I E L D - S E C T I O N
 		// - C O N S T R U C T O R - S E C T I O N
@@ -68,6 +75,7 @@ public class DemoContainerController extends AAndroidController<DemoContainer> {
 		protected void initializeViews() {
 
 		}
+
 		@Override
 		public void updateContent() {
 //			super.updateContent();
@@ -75,6 +83,7 @@ public class DemoContainerController extends AAndroidController<DemoContainer> {
 //			name.setVisibility(View.VISIBLE);
 //			childCount.setText(this.getController().getTContentCount());
 		}
+
 		@Override
 		protected int accessLayoutReference() {
 			return 0;

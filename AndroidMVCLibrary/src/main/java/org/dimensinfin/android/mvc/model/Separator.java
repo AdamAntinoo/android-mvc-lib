@@ -8,6 +8,7 @@
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.model;
 
+import android.support.annotation.NonNull;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
@@ -21,7 +22,7 @@ import java.util.List;
  * @author Adam Antinoo
  */
 
-public class Separator implements ICollaboration {
+public class Separator implements ICollaboration, Comparable<Separator> {
 	private static Logger logger = LoggerFactory.getLogger(Separator.class);
 
 	public enum ESeparatorType {
@@ -85,6 +86,12 @@ public class Separator implements ICollaboration {
 				'}';
 	}
 
+	@Override
+	public int compareTo(@NonNull final Separator o) {
+		return this.title.compareTo(o.title);
+	}
+
+	// - I C O L L A B O R A T I O N
 	@Override
 	public List<ICollaboration> collaborate2Model(final String variation) {
 		return new ArrayList<>();

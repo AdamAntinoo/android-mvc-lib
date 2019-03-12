@@ -9,11 +9,11 @@
 package org.dimensinfin.android.mvc.controller;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-import lombok.ToString;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
@@ -24,7 +24,6 @@ import org.dimensinfin.android.mvc.render.DemoHeaderTitleRender;
 /**
  * @author Adam Antinoo
  */
-@ToString
 public class DemoHeaderTitleController extends AAndroidController<DemoHeaderTitle> implements IMenuActionTarget {
 	// - F I E L D - S E C T I O N
 	private int iconReference = R.drawable.defaulticonplaceholder;
@@ -74,5 +73,13 @@ public class DemoHeaderTitleController extends AAndroidController<DemoHeaderTitl
 	@Override
 	public long getModelId() {
 		return this.getModel().hashCode();
+	}
+
+	@Override
+	public int compareTo(@NonNull final Object o) {
+		if (o instanceof DemoHeaderTitleController) {
+			final DemoHeaderTitleController target = (DemoHeaderTitleController) o;
+			return this.getModel().compareTo(target.getModel());
+		} else return -1;
 	}
 }

@@ -8,7 +8,6 @@
 //               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.model;
 
-import org.dimensinfin.core.model.Container;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
