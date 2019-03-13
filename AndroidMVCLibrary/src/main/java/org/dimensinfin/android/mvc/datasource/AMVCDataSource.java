@@ -3,14 +3,12 @@ package org.dimensinfin.android.mvc.datasource;
 import android.os.Bundle;
 import org.dimensinfin.android.mvc.controller.RootController;
 import org.dimensinfin.android.mvc.core.EEvents;
-import org.dimensinfin.android.mvc.core.UIGlobalExecutor;
 import org.dimensinfin.android.mvc.events.EventEmitter;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
-import org.dimensinfin.android.mvc.model.MVCModelRootNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,20 +74,21 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	 */
 	private final MVCModelRootNode dataModelRoot = new MVCModelRootNode();
 	/**
-	 * The root node for the AndroidController hierarchy that matches the data model hierarchy. YTHis is a special
-	 * implementation of a AndroidController. Cannot be changed but has to define methods to customize its behavior to any
-	 * need that suits the developer. For example sorting and filtering can me changed by adding policies to this
-	 * instance.
+	 * The root node for the AndroidController hierarchy that matches the data model hierarchy. This is a special node
+	 * that just contains controllers. It behaved a little differently from an standard controller but results in the root
+	 * of the controller hierarchy. Cannot be changed but has to define methods to customize its behavior to any need that
+	 * suits the developer. For example sorting and filtering can be changed by adding policies to this instance.
 	 */
 	private RootController controllerRoot;
-	/**
-	 * The list of Parts to show on the viewer. This is the body section that is scrollable. This instance is shared
-	 * during the <code>collaboration2View()</code> phase to use less memory and avoid copying references from list to
-	 * list during the generation process.
-	 */
-	private final List<IAndroidController> dataSectionControllers = new ArrayList<>(100);
-	/** Flag used to do not launch more update events when there is one pending. */
-	private boolean _pending = false;
+	private boolean dirty = false; // This is the flag for model changes.
+//	/**
+//	 * The list of Parts to show on the viewer. This is the body section that is scrollable. This instance is shared
+//	 * during the <code>collaboration2View()</code> phase to use less memory and avoid copying references from list to
+//	 * list during the generation process.
+//	 */
+//	private final List<IAndroidController> dataSectionControllers = new ArrayList<>(100);
+//	/** Flag used to do not launch more update events when there is one pending. */
+//	private boolean _pending = false;
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public AMVCDataSource(final DataSourceLocator locator, final IControllerFactory controllerFactory) {
@@ -103,8 +102,21 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 //	private IDataSource getDataSource() {
 //		return this;
 //	}
+	private boolean isDirty() {
+		return this.dirty;
+	}
+	private void cleanDirty(){
+		this.dirty=false;
+	}
 
 	// - G E T T E R S   &   S E T T E R S
+	public AMVCDataSource shouldBeCached(final boolean shouldBeCached) {
+		this.shouldBeCached = shouldBeCached;
+		return this;
+	}
+
+	// - I D A T A S O U R C E   I N T E R F A C E
+	@Override
 	public DataSourceLocator getDataSourceLocator() {
 		return locator;
 	}
@@ -124,34 +136,27 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 		return controllerFactory;
 	}
 
-//	public boolean isShouldBeCached() {
-//		return shouldBeCached;
-//	}
-
+	@Override
 	public AMVCDataSource setExtras(final Bundle extras) {
 		this.extras = extras;
 		return this;
 	}
 
+	@Override
 	public AMVCDataSource setVariant(final String variant) {
 		this.variant = variant;
 		return this;
 	}
 
-	public AMVCDataSource shouldBeCached(final boolean shouldBeCached) {
-		this.shouldBeCached = shouldBeCached;
-		return this;
-	}
-
 	// - I D A T A S O U R C E   I N T E R F A C E
-	public void cleanup() {
-		dataModelRoot.clean();
-		// Clear the listener event link from the discarded Parts.
-		//		cleanLinks(dataSectionControllers);
-		dataSectionControllers.clear();
-		// And add back the initial spinner.
-//		dataSectionControllers.add(new OnLoadSpinnerController(new Separator(), this.controllerFactory));
-	}
+//	public void cleanup() {
+//		dataModelRoot.clean();
+//		// Clear the listener event link from the discarded Parts.
+//		//		cleanLinks(dataSectionControllers);
+//		dataSectionControllers.clear();
+//		// And add back the initial spinner.
+////		dataSectionControllers.add(new OnLoadSpinnerController(new Separator(), this.controllerFactory));
+//	}
 
 //	/**
 //	 * This method checks if the DataSource is compatible with caching and if this is the case checks if there are
@@ -165,56 +170,59 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 //	}
 //
 
-	/**
-	 * Get the current cache selected state. This is used internally to do some checks.
-	 * @return
-	 */
-	public boolean isCacheable() {
-		return shouldBeCached;
-	}
+//	/**
+//	 * Get the current cache selected state. This is used internally to do some checks.
+//	 * @return
+//	 */
+//	public boolean isCacheable() {
+//		return shouldBeCached;
+//	}
 
-	/**
-	 * Sets the cacheable state for this DataSource. By default the cache state is <code>false</code> so no sources are
-	 * caches. But in some cases the developer can speed up the model generation process and made it suitable for single
-	 * initialization and caching. Use this setter to set the right state.
-	 * @param cachestate new cache state for this data source. Affects at new source registrations with this same inique
-	 *                   identifier.
-	 * @return this same instance to allow functional programming.
-	 */
-	public IDataSource setCacheable(final boolean cachestate) {
-		this.shouldBeCached = cachestate;
-		return this;
-	}
-
-	public IDataSource setRefreshTime(final int time) {
-		this.refreshTime = time;
-		return this;
-	}
+//	/**
+//	 * Sets the cacheable state for this DataSource. By default the cache state is <code>false</code> so no sources are
+//	 * caches. But in some cases the developer can speed up the model generation process and made it suitable for single
+//	 * initialization and caching. Use this setter to set the right state.
+//	 * @param cachestate new cache state for this data source. Affects at new source registrations with this same inique
+//	 *                   identifier.
+//	 * @return this same instance to allow functional programming.
+//	 */
+//	public IDataSource setCacheable(final boolean cachestate) {
+//		this.shouldBeCached = cachestate;
+//		return this;
+//	}
+//
+//	public IDataSource setRefreshTime(final int time) {
+//		this.refreshTime = time;
+//		return this;
+//	}
 
 	/**
 	 * This is the single way to add more content to the DataSource internal model representation. Encapsulating this
 	 * functionality on this method we make sure that the right events are generated and the model is properly updated and
-	 * the render process will work as expected. Even this method should be compatible with nos dynamic Fragments. Anyway
-	 * the launch for the update is done when the thread the generated this additions completes and at that time the data
-	 * source should also fire a final update event that is the mandatory event used by non dynamic Fragments.
+	 * the render process will work as expected.
+	 *
+	 * Any change to the model should report the data source on a dirty state. When the updates are completed then we
+	 * should generate the new contents with a simple call to the adapter's <code>notifyDataSetChanged</code>. With this
+	 * notification we should start the list view content generation from the bottom up.
 	 * @param newNode a new node to be added to the contents of the root point of the model.
-	 * @return this IDataSource instance to allow functional coding.
+	 * @return this IDataSource instance to allow flow coding.
 	 */
 	public IDataSource addModelContents(final ICollaboration newNode) {
 		dataModelRoot.addChild(newNode);
+		this.dirty=true; // Signal the model change
 		// Optimization - If the event is already launched and not processed do not launch it again.
-		if (_pending) return this;
-		else {
-			// Fire the model structure change event. This processing is done on the background and on the UI thread.
-			_pending = true;
-			UIGlobalExecutor.submit(() -> {
-				// Notify the Adapter that the Root node has been modified to regenerate the collaboration2View.
-				this.propertyChange(new PropertyChangeEvent(this
-						, EEvents.EVENTSTRUCTURE_NEWDATA.name(), newNode, dataModelRoot));
-				_pending = false;
-			});
-			return this;
-		}
+//		if (_pending) return this;
+//		else {
+//			// Fire the model structure change event. This processing is done on the background and on the UI thread.
+//			_pending = true;
+//			UIGlobalExecutor.submit(() -> {
+//				// Notify the Adapter that the Root node has been modified to regenerate the collaboration2View.
+//				this.propertyChange(new PropertyChangeEvent(this
+//						, EEvents.EVENTSTRUCTURE_NEWDATA.name(), newNode, dataModelRoot));
+////				_pending = false;
+//			});
+		return this;
+//		}
 	}
 
 //	/**
@@ -233,8 +241,25 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 //		return this;
 //	}
 
+	/**
+	 * This is the point where the adapter connects to get the contents for its list view. When the list view need any
+	 * update it will call this point to get a fresh controller list. Most of the times that controller list is ready and
+	 * just have to be collected from the full controller hierarchy with the collaboration to view procedure.
+	 *
+	 * Any new controller or modified controller will not have a view and then when the contents are rendered will get its
+	 * view representation created for visualization. For the other calls this just will collect into a new list a set of
+	 * already ready controllers.
+	 * @return the list of controllers that collaborate to the view list this time.
+	 */
 	public List<IAndroidController> getDataSectionContents() {
-		return dataSectionControllers;
+		final List<IAndroidController> controllers = new ArrayList<>();
+		// Check if the model needs update (dirty flag) or we can jump directly to the view collaboration.
+		if (this.isDirty()) {
+			controllerRoot.refreshChildren();
+			this.cleanDirty();
+		}
+		controllerRoot.collaborate2View(controllers);
+		return controllers;
 	}
 
 //	/**
@@ -295,7 +320,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 			ex.printStackTrace();
 //			}
 		}
-		logger.info("<< [MVCDataSource.transformModel2Parts]> dataSectionControllers.size: {}", dataSectionControllers.size());
+//		logger.info("<< [MVCDataSource.transformModel2Parts]> dataSectionControllers.size: {}", dataSectionControllers.size());
 	}
 
 	// - I E V E N T E M I T T E R   I N T E R F A C E
@@ -349,48 +374,48 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	public synchronized void propertyChange(final PropertyChangeEvent event) {
 		logger.info(">> [MVCDataSource.propertyChange]> Processing Event: {}", event.getPropertyName());
 
-		// - C O N T E N T   E V E N T S
-		// The expand/collapse state has changed.
-		if (EEvents.valueOf(event.getPropertyName()) ==
-				EEvents.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE) {
-			synchronized (dataSectionControllers) {
-				dataSectionControllers.clear();
-				controllerRoot.collaborate2View(dataSectionControllers);
-			}
-		}
-
-		// - S T R U C T U R E   E V E N T S
-		if (EEvents.valueOf(event.getPropertyName()) ==
-				EEvents.EVENTSTRUCTURE_NEWDATA) {
-			this.transformModel2Parts();
-			synchronized (dataSectionControllers) {
-				dataSectionControllers.clear();
-				controllerRoot.collaborate2View(dataSectionControllers);
-			}
-			// TODO - I think there is missing the action to update the listview. Trying with this messsage.
-			this.sendChangeEvent(EEvents.EVENTADAPTER_REQUESTNOTIFYCHANGES.name());
-		}
-		if (EEvents.valueOf(event.getPropertyName()) ==
-				EEvents.EVENTSTRUCTURE_DOWNLOADDATA) {
-			this.transformModel2Parts();
-			//			cleanLinks(dataSectionControllers);
-			synchronized (dataSectionControllers) {
-				dataSectionControllers.clear();
-				controllerRoot.collaborate2View(dataSectionControllers);
-			}
-		}
-
-		// - R E F R E S H   E V E N T S
-		if (EEvents.valueOf(event.getPropertyName()) ==
-				EEvents.EVENTSTRUCTURE_REFRESHDATA) {
-			collaborate2Model();
-			this.transformModel2Parts();
-			//			cleanLinks(dataSectionControllers);
-			synchronized (dataSectionControllers) {
-				dataSectionControllers.clear();
-				controllerRoot.collaborate2View(dataSectionControllers);
-			}
-		}
+//		// - C O N T E N T   E V E N T S
+//		// The expand/collapse state has changed.
+//		if (EEvents.valueOf(event.getPropertyName()) ==
+//				EEvents.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE) {
+//			synchronized (dataSectionControllers) {
+//				dataSectionControllers.clear();
+//				controllerRoot.collaborate2View(dataSectionControllers);
+//			}
+//		}
+//
+//		// - S T R U C T U R E   E V E N T S
+//		if (EEvents.valueOf(event.getPropertyName()) ==
+//				EEvents.EVENTSTRUCTURE_NEWDATA) {
+//			this.transformModel2Parts();
+//			synchronized (dataSectionControllers) {
+//				dataSectionControllers.clear();
+//				controllerRoot.collaborate2View(dataSectionControllers);
+//			}
+//			// TODO - I think there is missing the action to update the listview. Trying with this messsage.
+//			this.sendChangeEvent(EEvents.EVENTADAPTER_REQUESTNOTIFYCHANGES.name());
+//		}
+//		if (EEvents.valueOf(event.getPropertyName()) ==
+//				EEvents.EVENTSTRUCTURE_DOWNLOADDATA) {
+//			this.transformModel2Parts();
+//			//			cleanLinks(dataSectionControllers);
+//			synchronized (dataSectionControllers) {
+//				dataSectionControllers.clear();
+//				controllerRoot.collaborate2View(dataSectionControllers);
+//			}
+//		}
+//
+//		// - R E F R E S H   E V E N T S
+//		if (EEvents.valueOf(event.getPropertyName()) ==
+//				EEvents.EVENTSTRUCTURE_REFRESHDATA) {
+//			collaborate2Model();
+//			this.transformModel2Parts();
+//			//			cleanLinks(dataSectionControllers);
+//			synchronized (dataSectionControllers) {
+//				dataSectionControllers.clear();
+//				controllerRoot.collaborate2View(dataSectionControllers);
+//			}
+//		}
 
 		// - A D A P T E R   E V E N T S
 		// Send up the event to the DataSourceAdapter but be sure to run any display changes on the UI main thread.

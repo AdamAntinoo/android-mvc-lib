@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.model.MVCModelRootNode;
+import org.dimensinfin.android.mvc.datasource.MVCModelRootNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

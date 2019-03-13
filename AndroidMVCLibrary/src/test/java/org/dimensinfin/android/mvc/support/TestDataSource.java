@@ -8,8 +8,8 @@ public class TestDataSource extends AMVCDataSource {
 	public TestDataSource(final DataSourceLocator locator, final IControllerFactory controllerFactory) {
 		super(locator, controllerFactory);
 	}
-
-	@Override
-	public void collaborate2Model() {
-	}
+//
+//	@Override
+//	public void collaborate2Model() {
+//	}
 }

@@ -274,7 +274,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 
 		return new EqualsBuilder()
 				.append(orderedActive, that.orderedActive)
-				.append(children, that.children)
+//				.append(children, that.children)
 				.append(model, that.model)
 				.append(factory, that.factory)
 				.append(renderMode, that.renderMode)

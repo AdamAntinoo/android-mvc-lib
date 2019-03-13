@@ -3,7 +3,7 @@ package org.dimensinfin.android.mvc.controller;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
-import org.dimensinfin.android.mvc.model.MVCModelRootNode;
+import org.dimensinfin.android.mvc.datasource.MVCModelRootNode;
 import org.dimensinfin.android.mvc.model.Separator;
 import org.dimensinfin.android.mvc.support.TestControllerFactory;
 import org.junit.Assert;
@@ -73,7 +73,7 @@ public class RootControllerTest {
 		// Test
 		final RootController root = new RootController(node, factory);
 		root.refreshChildren();
-		final List<ICollaboration> controllers = node.getChildren();
+		final List<ICollaboration> controllers = node.getModelContents();
 
 		// Assert
 		Assert.assertNotNull(controllers);
@@ -96,7 +96,7 @@ public class RootControllerTest {
 		// Test
 		final RootController root = new RootController(node, new TestControllerFactory("TEST"));
 		root.refreshChildren();
-		final List<ICollaboration> controllers = node.getChildren();
+		final List<ICollaboration> controllers = node.getModelContents();
 
 		// Assert
 		Assert.assertNotNull(controllers);
@@ -118,7 +118,7 @@ public class RootControllerTest {
 		// Test
 		final RootController root = new RootController(node, new TestControllerFactory("TEST"));
 		root.refreshChildren();
-		List<ICollaboration> controllers = node.getChildren();
+		List<ICollaboration> controllers = node.getModelContents();
 
 		// Assert
 		Assert.assertNotNull(controllers);
@@ -130,7 +130,7 @@ public class RootControllerTest {
 
 		// Test
 		root.refreshChildren();
-		controllers = node.getChildren();
+		controllers = node.getModelContents();
 		final ICollaboration obtained = controllers.get(2);
 
 		// Assert
@@ -155,14 +155,14 @@ public class RootControllerTest {
 		// Test
 		final RootController root = new RootController(node, new TestControllerFactory("TEST"));
 		root.refreshChildren();
-		List<ICollaboration> controllers = node.getChildren();
+		List<ICollaboration> controllers = node.getModelContents();
 
 		// Assert
 		Assert.assertNotNull(controllers);
 		Assert.assertEquals(4, controllers.size());
 
 		// Remove one of the nodes.
-		final List<ICollaboration> modelList = node.getChildren();
+		final List<ICollaboration> modelList = node.getModelContents();
 		final List<ICollaboration> newList = new ArrayList<>();
 		newList.add(modelList.get(0));
 		newList.add(modelList.get(1));
@@ -172,7 +172,7 @@ public class RootControllerTest {
 
 		// Test
 		root.refreshChildren();
-		controllers = node.getChildren();
+		controllers = node.getModelContents();
 		final ICollaboration obtained = controllers.get(2);
 
 		// Assert
@@ -226,7 +226,7 @@ public class RootControllerTest {
 		Assert.assertEquals(6, contentCollector.size());
 
 		// Remove one of the nodes.
-		final List<ICollaboration> modelList = node.getChildren();
+		final List<ICollaboration> modelList = node.getModelContents();
 		final List<ICollaboration> newList = new ArrayList<>();
 		newList.add(modelList.get(0));
 		newList.add(modelList.get(1));

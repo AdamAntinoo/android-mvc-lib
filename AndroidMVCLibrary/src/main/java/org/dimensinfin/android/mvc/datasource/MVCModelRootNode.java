@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc.model;
+package org.dimensinfin.android.mvc.datasource;
 
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.slf4j.Logger;
@@ -29,7 +29,7 @@ public class MVCModelRootNode implements ICollaboration {
 	 * This special node collaborates with their children but not itself.
 	 */
 	public List<ICollaboration> collaborate2Model(final String variant) {
-		return new ArrayList<>(this.getChildren());
+		return new ArrayList<>(this.getModelContents());
 	}
 
 	// - G E T T E R S   &   S E T T E R S
@@ -37,10 +37,6 @@ public class MVCModelRootNode implements ICollaboration {
 	public List<ICollaboration> getModelContents() {
 		return modelContents;
 	}
-
-//	public List<ICollaboration> getChildren() {
-//		return children;
-//	}
 
 	// - M E T H O D - S E C T I O N
 	// - D E L E G A T E S - M O D E L C O N T E N T S

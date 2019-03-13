@@ -1,10 +1,14 @@
 package org.dimensinfin.android.mvc.datasource;
 
+import junit.framework.Assert;
 import org.dimensinfin.android.mvc.core.UIGlobalExecutor;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
+import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
+import org.dimensinfin.android.mvc.model.EmptyNode;
 import org.dimensinfin.android.mvc.model.Separator;
 import org.dimensinfin.android.mvc.support.PojoTestUtils;
+import org.dimensinfin.android.mvc.support.TestController;
 import org.dimensinfin.android.mvc.support.TestControllerFactory;
 import org.dimensinfin.android.mvc.support.TestDataSource;
 import org.junit.Test;
@@ -19,20 +23,20 @@ import java.util.List;
 public class AMVCDataSourceTest {
 	private static final DataSourceLocator locator = new DataSourceLocator().addIdentifier("TEST");
 	private static final ControllerFactory factory = new TestControllerFactory("TEST");
-	private static final ICollaboration node = new Separator("TEST");
+//	private static final ICollaboration node = new Separator("TEST");
 
-	public static class TestNode extends Separator {
-		private List<ICollaboration> children = new ArrayList<>();
-
-		public void addChild(final ICollaboration child) {
-			this.children.add(child);
-		}
-
-		@Override
-		public List<ICollaboration> collaborate2Model(final String variant) {
-			return new ArrayList<ICollaboration>(this.children);
-		}
-	}
+//	public static class TestNode extends Separator {
+//		private List<ICollaboration> children = new ArrayList<>();
+//
+//		public void addChild(final ICollaboration child) {
+//			this.children.add(child);
+//		}
+//
+//		@Override
+//		public List<ICollaboration> collaborate2Model(final String variant) {
+//			return new ArrayList<ICollaboration>(this.children);
+//		}
+//	}
 
 	@Test
 	public void testAccesors() {
@@ -50,7 +54,7 @@ public class AMVCDataSourceTest {
 		final TestDataSource ds = new TestDataSource(locator, factory);
 
 		// Test
-		ds.addModelContents(node);
+		ds.addModelContents(new EmptyNode("TEST"));
 
 		// Asserts
 		Mockito.verify(executor, Mockito.times(1)).submit(() -> {
@@ -58,12 +62,20 @@ public class AMVCDataSourceTest {
 		});
 	}
 
-//	@Test
-//	public void transformModel2Parts() {
-//		// Given
-//		final TestDataSource ds = new TestDataSource(locator, factory);
-// // Test
-//		ds.transformModel2Parts();
-//
-//	}
+	@Test
+	public void getDataSectionContents_simpleLinear() {
+		// Given
+		final TestDataSource ds = new TestDataSource(locator, factory);
+		ds.addModelContents(new EmptyNode("Test 1"));
+		ds.addModelContents(new EmptyNode("Test 2"));
+
+		// Test
+		final List<IAndroidController> obtained = ds.getDataSectionContents();
+
+		// Asserts
+		Assert.assertTrue("Check the output element by element.",
+				new TestController(new EmptyNode("Test 1"),factory).getModel().equals(obtained.get(0).getModel()));
+		Assert.assertTrue("Check the output element by element.",
+				new TestController(new EmptyNode("Test 2"),factory).getModel().equals(obtained.get(1).getModel()));
+	}
 }

@@ -15,7 +15,7 @@ import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.model.EmptyNode;
-import org.dimensinfin.android.mvc.model.MVCModelRootNode;
+import org.dimensinfin.android.mvc.datasource.MVCModelRootNode;
 import org.dimensinfin.android.mvc.model.Separator;
 import org.junit.Assert;
 import org.junit.Test;

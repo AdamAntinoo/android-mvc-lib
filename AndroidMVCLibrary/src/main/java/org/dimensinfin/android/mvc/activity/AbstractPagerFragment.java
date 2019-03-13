@@ -38,7 +38,7 @@ import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.android.mvc.model.MVCModelRootNode;
+import org.dimensinfin.android.mvc.datasource.MVCModelRootNode;
 import org.dimensinfin.android.mvc.model.Separator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -479,12 +479,12 @@ public abstract class AbstractPagerFragment extends Fragment {
 			super(locator, factory);
 		}
 
-		@Override
+//		@Override
 		public boolean isCacheable() {
 			return false;
 		}
 
-		@Override
+//		@Override
 		public void collaborate2Model() {
 			// Create an empty list of items. This can be done by setting a model that if not rendered when empty.
 			this.addModelContents(new EmptyNotVisibleNode());

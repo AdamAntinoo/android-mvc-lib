@@ -8,6 +8,8 @@
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +46,26 @@ public class EmptyNode implements ICollaboration {
 				.append("]")
 				.append("->").append(super.toString())
 				.toString();
+	}
+
+	@Override
+	public boolean equals(final Object o) {
+		if (this == o) return true;
+
+		if (o == null || getClass() != o.getClass()) return false;
+
+		final EmptyNode emptyNode = (EmptyNode) o;
+
+		return new EqualsBuilder()
+				.append(name, emptyNode.name)
+				.isEquals();
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder(17, 37)
+				.append(name)
+				.toHashCode();
 	}
 
 	@Override
