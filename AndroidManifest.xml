@@ -35,11 +35,5 @@
 
         <!-- S E R V I C E S -->
     </application>
-    <instrumentation
-            android:name="android.support.test.runner.AndroidJUnitRunner"
-            android:targetPackage="org.dimensinfin.android.mvc.demo">
-        <meta-data
-                android:name="listener"
-                android:value="com.foo.Listener,com.foo.Listener2" />
-    </instrumentation>
+
 </manifest>

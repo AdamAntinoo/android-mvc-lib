@@ -1,94 +1,96 @@
 package org.dimensinfin.android.mvc.datasource;
 
-import android.app.Application;
-import android.widget.ListView;
-import com.squareup.assertj.android.BuildConfig;
+import android.widget.BaseAdapter;
 import junit.framework.Assert;
-import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.ICollaboration;
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
-import org.dimensinfin.android.mvc.support.TestDataSource;
+import org.dimensinfin.android.mvc.interfaces.IAndroidController;
+import org.dimensinfin.android.mvc.model.EmptyNode;
+import org.dimensinfin.android.mvc.support.TestController;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
+import org.mockito.Mockito;
 
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Adam Antinoo
  */
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 18)
 public class DataSourceAdapterTest {
-	final private class TestFragment extends AbstractPagerFragment {
-
-		@Override
-		public String getSubtitle() {
-			return "Subtitle";
-		}
-
-		@Override
-		public String getTitle() {
-			return "Title";
-		}
-
-		@Override
-		public IControllerFactory createFactory() {
-			return new ControllerFactory("TEST");
-		}
-
-		@Override
-		protected List<ICollaboration> registerHeaderSource() {
-			return new ArrayList<>();
-		}
-
-		@Override
-		protected IDataSource registerDataSource() {
-			return new TestDataSource(new DataSourceLocator().addIdentifier("TEST"), this.createFactory());
-		}
-	}
-
-	final private class TestApplication extends Application {
-
-	}
-
-	private TestFragment fragment;
-//	private LinearLayoutManager mockLayoutManager;
-
-//	@Inject
-//	CandiesBroadcastReceiver mockBroadcastReceiver;
-//	@Inject
-//	CandiesListAdapter mockAdapter;
+	private static final ControllerFactory factory = Mockito.mock(ControllerFactory.class);
+	private static final List<IAndroidController> controllers = new ArrayList<>();
 
 	@Before
 	public void setUp() {
-//		((TestApplication) RuntimeEnvironment.application).inject(this);
+		// Initialize the list of controllers
+		controllers.add(new TestController(new EmptyNode("Test 1"), factory));
+		controllers.add(new TestController(new EmptyNode("Test 2"), factory));
+		controllers.add(new TestController(new EmptyNode("Test 3"), factory));
+	}
 
-		//making a mock of the layout manager...
-//		mockLayoutManager = Mockito.mock(LinearLayoutManager.class);
-		fragment = new TestFragment();
+//	@Test
+	public void propertyChange() {
+		// Given
+		final AbstractPagerFragment fragment = Mockito.mock(AbstractPagerFragment.class);
+		final AMVCDataSource datasource = Mockito.mock(AMVCDataSource.class);
+		final BaseAdapter adapter = Mockito.mock(BaseAdapter.class);
 
-		//setting it on our testable subclass...
-//		fragment.setLayoutManager(mockLayoutManager);
+		// When
+//		Mockito.when( fragment.getAppContext()).thenReturn(context);
 
-		//Start the fragment!
-		SupportFragmentTestUtil.startFragment(fragment);
+		// Test
+		final DataSourceAdapter dsadapter = new DataSourceAdapter(fragment, datasource);
+		dsadapter.propertyChange(new PropertyChangeEvent(this, "Test", null, null));
+
+		// Asserts
+		Assert.assertNotNull("The controllers should have been loaded.", dsadapter.getCount());
 	}
 
 	@Test
-	public void defaultDisplay() {
-		ListView recyclerView = (ListView) fragment.getView().findViewById(R.id.listContainer);
-//		ListView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+	public void notifyDataSetChanged() {
+		// Given
+		final AbstractPagerFragment fragment = Mockito.mock(AbstractPagerFragment.class);
+		final AMVCDataSource datasource = Mockito.mock(AMVCDataSource.class);
+		final BaseAdapter adapter = Mockito.mock(BaseAdapter.class);
 
-		//assertThat(LayoutManager layoutManager) is provided to us by the assertj-android-recyclerview library.
-//		assertThat(layoutManager).isEqualTo(mockLayoutManager);
-		Assert.assertNotNull("The list view should be accesible.", recyclerView);
+		// When
+		Mockito.when(datasource.getDataSectionContents()).thenReturn(controllers);
+
+		// Test
+		final DataSourceAdapter dsadapter = new DataSourceAdapter(fragment, datasource);
+		dsadapter.notifyDataSetChanged();
+
+		// Asserts
+		final IAndroidController expected = controllers.get(1);
+		final Object obtained = dsadapter.getItem(1);
+		Assert.assertEquals("The contents should have 3 elements.", expected, obtained);
+		Assert.assertEquals("The contents should have 3 elements.", 3, dsadapter.getCount());
+		Assert.assertEquals("The selected item should match the identifier.", 0L, dsadapter.getItemId(1));
+	}
+
+	@Test
+	public void baseAdapter() {
+		// Given
+		final AbstractPagerFragment fragment = Mockito.mock(AbstractPagerFragment.class);
+		final AMVCDataSource datasource = Mockito.mock(AMVCDataSource.class);
+		final BaseAdapter adapter = Mockito.mock(BaseAdapter.class);
+
+		// When
+		Mockito.when(datasource.getDataSectionContents()).thenReturn(controllers);
+
+		// Test
+		final DataSourceAdapter dsadapter = new DataSourceAdapter(fragment, datasource);
+		dsadapter.notifyDataSetChanged();
+
+		// Asserts
+		final IAndroidController expected = controllers.get(1);
+		final Object obtained = dsadapter.getItem(1);
+		Assert.assertTrue("Check the adapter configuration.", dsadapter.areAllItemsEnabled());
+		Assert.assertTrue("Check the adapter configuration.", dsadapter.isEnabled(1));
+		Assert.assertTrue("Check the adapter configuration.", dsadapter.hasStableIds());
+		Assert.assertEquals("Check the adapter configuration.", 1, dsadapter.getViewTypeCount());
+		Assert.assertEquals("Check the adapter configuration.", 0, dsadapter.getItemViewType(1));
 	}
 }

@@ -12,7 +12,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -39,9 +38,8 @@ import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.android.mvc.model.MVCRootNode;
+import org.dimensinfin.android.mvc.model.MVCModelRootNode;
 import org.dimensinfin.android.mvc.model.Separator;
-import org.dimensinfin.android.mvc.render.AbstractRender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -370,14 +368,14 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * the Header container. We follow a similar mechanics that for the DataSection ListView but instead keeping the
 	 * intermediate AndroidController instances we go directly to the View output by the <b>Render</b> instance.
 	 *
-	 * The use of a fake <code>@link{MVCRootNode}</code> allows to also support model elements that have contents that
+	 * The use of a fake <code>@link{MVCModelRootNode}</code> allows to also support model elements that have contents that
 	 * should be rendered when expanded. Even the header contents are limited in interaction we can have the
 	 * expand/collapse functionality to calculate the final list of Views to render.
 	 */
 	protected void generateHeaderContents(final List<ICollaboration> headerData) {
 		logger.info(">> [AbstractPagerFragment.generateHeaderContents]");
 		// Create a fake root node where to connect the list.
-		MVCRootNode headerModel = new MVCRootNode();
+		MVCModelRootNode headerModel = new MVCModelRootNode();
 		for (ICollaboration node : headerData) {
 			headerModel.addChild(node);
 		}

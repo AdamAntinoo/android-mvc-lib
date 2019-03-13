@@ -1,11 +1,3 @@
-//  PROJECT:     Android.MVC (A.MVC)
-//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
-//  COPYRIGHT:   (c) 2013-2019 by Dimensinfin Industries, all rights reserved.
-//  ENVIRONMENT: Android API16.
-//  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
-//               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
-//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.datasource;
 
 import android.app.Activity;
@@ -49,12 +41,12 @@ import java.util.List;
  * @author Adam Antinoo
  */
 public class DataSourceAdapter extends BaseAdapter implements PropertyChangeListener {
-	// - S T A T I C - S E C T I O N ..........................................................................
+	// - S T A T I C - S E C T I O N
 	private static Logger logger = LoggerFactory.getLogger(DataSourceAdapter.class);
 	private static final boolean LOG_ALLOWED = true;
 	private static final String GETTING_VIEW = "-- [DataSourceAdapter.getView]> Getting view [";
 
-	// - F I E L D - S E C T I O N ............................................................................
+	// - F I E L D - S E C T I O N
 	/** The Activity where all this structures belong and that is used as the core display context. */
 	private Context context = null;
 	/** An instance for a source of data that will provide the list of <b>Parts</b> to be used to construct the Views. */
@@ -62,7 +54,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	/** The current list of Parts that is being displayed. */
 	private final List<IAndroidController> contentControllerList = new ArrayList<>();
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	// - C O N S T R U C T O R - S E C T I O N
 
 	/** Neutral creator for the initialization of the parent BaseAdapter. */
 	public DataSourceAdapter() {
@@ -83,16 +75,12 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 		this.datasource.addPropertyChangeListener(this); // Connect the listener to the data source events.
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
-	public IAndroidController getCastedItem(final int position) {
-		return contentControllerList.get(position);
-	}
-
+	// - M E T H O D - S E C T I O N
+	// - B A S E   A D A P T E R   I M P L E M E N T A T I O N
+	@Override
 	public Object getItem(final int position) {
 		return contentControllerList.get(position);
 	}
-
-	// - B A S E   A D A P T E R   I M P L E M E N T A T I O N
 	@Override
 	public int getCount() {
 		return contentControllerList.size();
@@ -218,6 +206,9 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 
 	private Context getContext() {
 		return context;
+	}
+	private IAndroidController getCastedItem(final int position) {
+		return contentControllerList.get(position);
 	}
 
 	/**

@@ -2,21 +2,19 @@ package org.dimensinfin.android.mvc.datasource;
 
 import android.app.Application;
 import android.widget.ListView;
-import com.squareup.assertj.android.BuildConfig;
 import junit.framework.Assert;
 import org.dimensinfin.android.mvc.R;
+import org.dimensinfin.android.mvc.TestDataSource;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
-import org.dimensinfin.android.mvc.support.TestDataSource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +22,8 @@ import java.util.List;
 /**
  * @author Adam Antinoo
  */
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 18)
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = 18)
 public class DataSourceAdapterTest {
 	final private class TestFragment extends AbstractPagerFragment {
 
@@ -79,7 +77,7 @@ public class DataSourceAdapterTest {
 //		fragment.setLayoutManager(mockLayoutManager);
 
 		//Start the fragment!
-		SupportFragmentTestUtil.startFragment(fragment);
+//		SupportFragmentTestUtil.startFragment(fragment);
 	}
 
 	@Test

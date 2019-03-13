@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.model.MVCRootNode;
+import org.dimensinfin.android.mvc.model.MVCModelRootNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,16 +29,16 @@ public class RootController {
 	private List<IAndroidController> children = new Vector<>();
 	/** This field caches the factory that is set during the construction. */
 	private IControllerFactory factory = null;
-	private MVCRootNode model; // Holds the model node.
+	private MVCModelRootNode model; // Holds the model node.
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public RootController(@NonNull final MVCRootNode node, @NonNull final IControllerFactory factory) {
+	public RootController(@NonNull final MVCModelRootNode node, @NonNull final IControllerFactory factory) {
 		this.model = node;
 		this.factory = factory;
 	}
 
 	// - G E T T E R S   &   S E T T E R S
-	public MVCRootNode getModel() {
+	public MVCModelRootNode getModel() {
 		return model;
 	}
 

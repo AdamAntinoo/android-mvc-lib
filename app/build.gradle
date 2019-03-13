@@ -49,6 +49,11 @@ android {
         abortOnError false
         quiet true
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -77,10 +82,16 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:2.23.4'
 //    testImplementation 'com.openpojo:openpojo:0.8.12'
 //    testImplementation 'com.squareup.assertj:assertj-android:1.1.0'
-    testImplementation 'org.robolectric:robolectric:3.0'
-    testImplementation('org.robolectric:shadows-support-v4:3.0') {
-        exclude module: 'support-v4'
-    }
+    testImplementation 'org.robolectric:robolectric:3.7.1'
+    testImplementation 'androidx.fragment:fragment-testing:1.1.0-alpha04'
+    // https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-extensions
+    testImplementation group: 'androidx.lifecycle', name: 'lifecycle-extensions', version: '2.0.0'
+// https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-viewmodel
+    testImplementation group: 'androidx.lifecycle', name: 'lifecycle-viewmodel', version: '2.0.0'
+
+//    testImplementation('org.robolectric:shadows-support-v4:4.2') {
+//        exclude module: 'support-v4'
+//    }
     testImplementation "com.google.truth:truth:0.43"
 //    testCompile 'org.mockito:mockito-all:1.10.19'
 //    testImplementation 'net.javacrumbs.json-unit:json-unit-fluent:1.5.6'

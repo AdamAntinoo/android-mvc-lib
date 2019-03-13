@@ -73,6 +73,10 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		return children;
 	}
 
+	public String getRenderMode() {
+		return renderMode;
+	}
+
 	public AAndroidController<M> setRenderMode(final String renderMode) {
 		this.renderMode = renderMode;
 		return this;

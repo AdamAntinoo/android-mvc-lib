@@ -3,7 +3,7 @@ package org.dimensinfin.android.mvc.controller;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
-import org.dimensinfin.android.mvc.model.MVCRootNode;
+import org.dimensinfin.android.mvc.model.MVCModelRootNode;
 import org.dimensinfin.android.mvc.model.Separator;
 import org.dimensinfin.android.mvc.support.TestControllerFactory;
 import org.junit.Assert;
@@ -43,7 +43,7 @@ public class RootControllerTest {
 	@Test
 	public void refreshChildren_rootEmpty() {
 		// Given
-		final MVCRootNode node = mock(MVCRootNode.class);
+		final MVCModelRootNode node = mock(MVCModelRootNode.class);
 		final ControllerFactory factory = mock(ControllerFactory.class);
 
 		// When
@@ -61,7 +61,7 @@ public class RootControllerTest {
 	@Test
 	public void refreshChildren_root1SimpleNode() {
 		// Given
-		final MVCRootNode node = new MVCRootNode();
+		final MVCModelRootNode node = new MVCModelRootNode();
 		final Separator child = new Separator("SEPARATOR-TEST");
 		node.addChild(child);
 		final ControllerFactory factory = mock(ControllerFactory.class);
@@ -83,7 +83,7 @@ public class RootControllerTest {
 	@Test
 	public void refreshChildren_root5MultiLevelNode() {
 		// Given
-		final MVCRootNode node = new MVCRootNode();
+		final MVCModelRootNode node = new MVCModelRootNode();
 		final Separator child = new Separator("SEPARATOR-TEST");
 		node.addChild(child);
 		node.addChild(child);
@@ -106,7 +106,7 @@ public class RootControllerTest {
 	@Test
 	public void refreshChildren_root5WithPreGeneration() {
 		// Given
-		final MVCRootNode node = new MVCRootNode();
+		final MVCModelRootNode node = new MVCModelRootNode();
 		final Separator child = new Separator("SEPARATOR-TEST");
 		node.addChild(child);
 		node.addChild(child);
@@ -142,7 +142,7 @@ public class RootControllerTest {
 	@Test
 	public void refreshChildren_root5WithNodeReduction() {
 		// Given
-		final MVCRootNode node = new MVCRootNode();
+		final MVCModelRootNode node = new MVCModelRootNode();
 		final Separator child = new Separator("SEPARATOR-TEST");
 		node.addChild(child);
 		node.addChild(child);
@@ -183,7 +183,7 @@ public class RootControllerTest {
 	@Test
 	public void collaborate2View() {
 		// Given
-		final MVCRootNode node = new MVCRootNode();
+		final MVCModelRootNode node = new MVCModelRootNode();
 		final Separator child = new Separator("SEPARATOR-TEST");
 		node.addChild(child);
 		node.addChild(child);
@@ -206,7 +206,7 @@ public class RootControllerTest {
 	@Test
 	public void collaborate2View_nodeReduction() {
 		// Given
-		final MVCRootNode node = new MVCRootNode();
+		final MVCModelRootNode node = new MVCModelRootNode();
 		final Separator child = new Separator("SEPARATOR-TEST");
 		node.addChild(child);
 		node.addChild(child);

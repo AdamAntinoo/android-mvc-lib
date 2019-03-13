@@ -1,11 +1,3 @@
-//  PROJECT:     Android.MVC (A.MVC)
-//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
-//  COPYRIGHT:   (c) 2013-2019 by Dimensinfin Industries, all rights reserved.
-//  ENVIRONMENT: Android API16.
-//  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchical Part model that finally will
-//               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.model;
 
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
@@ -22,16 +14,14 @@ import java.util.List;
  * children.
  * @author Adam Antinoo
  */
-public class MVCRootNode implements ICollaboration {
-	private static Logger logger = LoggerFactory.getLogger(MVCRootNode.class);
-
+public class MVCModelRootNode implements ICollaboration {
 	// - F I E L D - S E C T I O N
-	private List<ICollaboration> children = new ArrayList<>();
+	private List<ICollaboration> modelContents = new ArrayList<>();
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public MVCRootNode() {
-		super();
-	}
+//	public MVCModelRootNode() {
+//		super();
+//	}
 
 	// - I C O L L A B O R A T I O N   I N T E R F A C E
 
@@ -44,14 +34,19 @@ public class MVCRootNode implements ICollaboration {
 
 	// - G E T T E R S   &   S E T T E R S
 
-	public List<ICollaboration> getChildren() {
-		return children;
+	public List<ICollaboration> getModelContents() {
+		return modelContents;
 	}
 
+//	public List<ICollaboration> getChildren() {
+//		return children;
+//	}
+
 	// - M E T H O D - S E C T I O N
+	// - D E L E G A T E S - M O D E L C O N T E N T S
 	public void addChild(final ICollaboration child) {
 		if (null != child) {
-			children.add(child);
+			modelContents.add(child);
 		}
 	}
 
@@ -61,11 +56,11 @@ public class MVCRootNode implements ICollaboration {
 	}
 
 	public void clean() {
-		this.getChildren().clear();
+		this.modelContents.clear();
 	}
 
 	@Override
 	public String toString() {
-		return "MVCRootNode [count: " + this.getChildren().size() + " ]";
+		return "MVCModelRootNode [count: " + this.getModelContents().size() + " ]";
 	}
 }

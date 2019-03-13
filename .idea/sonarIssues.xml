@@ -3,6 +3,11 @@
   <component name="issues">
     <option name="index">
       <map>
+        <entry key="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robolectric/robolectric/3.0/f888cea3bc1a24110e315eb9827ab593610ea62f/robolectric-3.0.jar!/org/robolectric/RobolectricTestRunner.class">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$USER_HOME$/.m2/repository/junit/junit/4.12/junit-4.12.jar!/org/junit/internal/runners/model/ReflectiveCallable.class">
           <value>
             <set />
@@ -14,6 +19,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/AndroidMVCLibrary/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/androidTest/java/org/dimensinfin/android/mvc/DataSourceAdapterTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/AndroidManifest.xml">
           <value>
             <set />
           </value>
@@ -268,6 +283,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/model/MVCModelRootNode.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/main/java/org/dimensinfin/android/mvc/model/MVCRootNode.java">
           <value>
             <set />
@@ -358,6 +378,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/test/java/org/dimensinfin/android/mvc/datasource/DataSourceLocatorTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/test/java/org/dimensinfin/android/mvc/parts/BasePartTest.java">
           <value>
             <set />
@@ -414,6 +439,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/proguard-rules.pro">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <value>
             <set />
           </value>
@@ -523,7 +553,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/test/java/org/dimensinfin/android/mvc/TestDataSource.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/test/java/org/dimensinfin/android/mvc/datasource/DataSourceAdapterTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/test/java/org/dimensinfin/android/mvc/demo/activity/AndroidMVCDemoActivityTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/test/resources/robolectric.properties">
           <value>
             <set />
           </value>
@@ -534,6 +579,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/sonar.sh">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../ShopList/AndroidMVC/app/build.gradle">
           <value>
             <set />
           </value>

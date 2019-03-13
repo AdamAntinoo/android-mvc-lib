@@ -1,11 +1,3 @@
-//  PROJECT:     Android.MVC (A.MVC)
-//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
-//  COPYRIGHT:   (c) 2013-2019 by Dimensinfin Industries, all rights reserved.
-//  ENVIRONMENT: Android API16.
-//  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
-//               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
-//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.datasource;
 
 import android.os.Bundle;
@@ -18,7 +10,7 @@ import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
-import org.dimensinfin.android.mvc.model.MVCRootNode;
+import org.dimensinfin.android.mvc.model.MVCModelRootNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,7 +74,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	 * customize the Root nodes (for example to add special filtering) we should remove the
 	 * <code>final</code> from this field.
 	 */
-	private final MVCRootNode dataModelRoot = new MVCRootNode();
+	private final MVCModelRootNode dataModelRoot = new MVCModelRootNode();
 	/**
 	 * The root node for the AndroidController hierarchy that matches the data model hierarchy. YTHis is a special
 	 * implementation of a AndroidController. Cannot be changed but has to define methods to customize its behavior to any

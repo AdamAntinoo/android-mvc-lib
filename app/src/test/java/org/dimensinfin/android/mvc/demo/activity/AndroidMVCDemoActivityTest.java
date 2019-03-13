@@ -1,24 +1,25 @@
 package org.dimensinfin.android.mvc.demo.activity;
 
 import com.google.common.truth.Truth;
-import junit.framework.Assert;
-import org.dimensinfin.android.mvc.demo.R;
+import org.dimensinfin.android.mvc.demo.BuildConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-
-import static com.google.common.truth.Truth.assertThat;
+import org.robolectric.annotation.Config;
 
 /**
  * @author Adam Antinoo
  */
 @RunWith(RobolectricTestRunner.class)
+//@RunWith(AndroidJUnit4::class)
+
+//@Config( sdk = 18)
 public class AndroidMVCDemoActivityTest {
 	@Test
 	public void clickingButton_shouldChangeMessage() {
 		// Given
-	final	AndroidMVCDemoActivity activity = Robolectric.setupActivity(AndroidMVCDemoActivity.class);
+		final AndroidMVCDemoActivity activity = Robolectric.setupActivity(AndroidMVCDemoActivity.class);
 		final AndroidMVCDemoFragment fragment = new AndroidMVCDemoFragment();
 //		final String expected = "";
 
