@@ -1,6 +1,8 @@
 package org.dimensinfin.android.mvc.model;
 
 import android.support.annotation.NonNull;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 
 import java.io.Serializable;
@@ -15,8 +17,8 @@ public class DemoHeaderTitle implements ICollaboration, Serializable, Comparable
 	private String version = "-VERSION-";
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public DemoHeaderTitle() {
-	}
+//	public DemoHeaderTitle() {
+//	}
 
 	public DemoHeaderTitle(@NonNull final String name, @NonNull final String version) {
 		this.name = name;
@@ -28,22 +30,48 @@ public class DemoHeaderTitle implements ICollaboration, Serializable, Comparable
 		return name;
 	}
 
-	public void setName(final String name) {
-		this.name = name;
-	}
+//	public void setName(final String name) {
+//		this.name = name;
+//	}
 
 	public String getVersion() {
 		return version;
 	}
 
-	public void setVersion(final String version) {
-		this.version = version;
-	}
+//	public void setVersion(final String version) {
+//		this.version = version;
+//	}
 
 	// - I C O L L A B O R A T I O N   I N T E R F A C E
 	@Override
 	public List<ICollaboration> collaborate2Model(final String variant) {
 		return new ArrayList<ICollaboration>();
+	}
+
+ // - C O M P A R A B L E   I N T E R F A C E
+	@Override
+	public int compareTo(@NonNull final DemoHeaderTitle o) {
+		return this.name.compareTo(o.name);
+	}
+
+	// - C O R E
+	@Override
+	public boolean equals(final Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		final DemoHeaderTitle that = (DemoHeaderTitle) o;
+		return new EqualsBuilder()
+				.append(name, that.name)
+				.append(version, that.version)
+				.isEquals();
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder(17, 37)
+				.append(name)
+				.append(version)
+				.toHashCode();
 	}
 
 	@Override
@@ -53,10 +81,4 @@ public class DemoHeaderTitle implements ICollaboration, Serializable, Comparable
 		buffer.append(" ]");
 		return buffer.toString();
 	}
-
-	@Override
-	public int compareTo(@NonNull final DemoHeaderTitle o) {
-		return this.name.compareTo(o.name);
-	}
-
 }

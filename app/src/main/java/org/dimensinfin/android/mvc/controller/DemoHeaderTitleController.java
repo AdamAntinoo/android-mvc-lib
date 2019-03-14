@@ -1,11 +1,3 @@
-//  PROJECT:     Android.MVC (A.MVC)
-//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
-//  COPYRIGHT:   (c) 2013-2019 by Dimensinfin Industries, all rights reserved.
-//  ENVIRONMENT: Android API16.
-//  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchical Part model that finally will
-//               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.controller;
 
 import android.content.Context;
@@ -13,13 +5,14 @@ import android.support.annotation.NonNull;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
-import org.dimensinfin.android.mvc.render.DemoHeaderTitleRender;
+import org.dimensinfin.android.mvc.render.AbstractRender;
 
 /**
  * @author Adam Antinoo
@@ -27,7 +20,7 @@ import org.dimensinfin.android.mvc.render.DemoHeaderTitleRender;
 public class DemoHeaderTitleController extends AAndroidController<DemoHeaderTitle> implements IMenuActionTarget {
 	// - F I E L D - S E C T I O N
 	private int iconReference = R.drawable.defaulticonplaceholder;
-	private Context context ;
+	private Context context;
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public DemoHeaderTitleController(final DemoHeaderTitle model, final IControllerFactory factory) {
@@ -48,7 +41,7 @@ public class DemoHeaderTitleController extends AAndroidController<DemoHeaderTitl
 
 	@Override
 	public IRender buildRender(final Context context) {
-		this.context=context;
+		this.context = context;
 		return new DemoHeaderTitleRender(this, context);
 	}
 
@@ -81,5 +74,38 @@ public class DemoHeaderTitleController extends AAndroidController<DemoHeaderTitl
 			final DemoHeaderTitleController target = (DemoHeaderTitleController) o;
 			return this.getModel().compareTo(target.getModel());
 		} else return -1;
+	}
+
+	public class DemoHeaderTitleRender extends AbstractRender<DemoHeaderTitle> {
+		// - F I E L D - S E C T I O N
+		private TextView applicationName;
+		private TextView applicationVersion;
+
+		// - C O N S T R U C T O R - S E C T I O N
+		public DemoHeaderTitleRender(final DemoHeaderTitleController controller, final Context context) {
+			super(controller, context);
+		}
+
+		// - M E T H O D - S E C T I O N
+		@Override
+		public void initializeViews() {
+			applicationName = this.getView().findViewById(R.id.applicationName);
+			applicationVersion = this.getView().findViewById(R.id.applicationVersion);
+			assert (applicationName != null);
+			assert (applicationVersion != null);
+		}
+
+		@Override
+		public void updateContent() {
+			applicationName.setText(this.getController().getModel().getName());
+			applicationName.setVisibility(View.VISIBLE);
+			applicationVersion.setText(getController().getModel().getVersion());
+			applicationVersion.setVisibility(View.VISIBLE);
+		}
+
+		@Override
+		public int accessLayoutReference() {
+			return R.layout.demoheadertitle4header;
+		}
 	}
 }

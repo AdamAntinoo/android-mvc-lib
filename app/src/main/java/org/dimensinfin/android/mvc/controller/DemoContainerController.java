@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.model.DemoContainer;
+import org.dimensinfin.android.mvc.part.DemoItemAndroidController;
 import org.dimensinfin.android.mvc.render.AbstractRender;
 
 import java.text.DecimalFormat;
@@ -63,7 +64,7 @@ public class DemoContainerController extends AAndroidController<DemoContainer> {
 		} else return -1;
 	}
 
-	public static class DemoContainerRender extends AbstractRender<DemoContainer> {
+	public static class DemoContainerRender extends DemoItemAndroidController.DemoLabelRender {
 		// - F I E L D - S E C T I O N
 		// - C O N S T R U C T O R - S E C T I O N
 		public DemoContainerRender(final AAndroidController<DemoContainer> controller, final Context context) {
@@ -84,9 +85,9 @@ public class DemoContainerController extends AAndroidController<DemoContainer> {
 //			childCount.setText(this.getController().getTContentCount());
 		}
 
-		@Override
-		protected int accessLayoutReference() {
-			return 0;
-		}
+//		@Override
+//		protected int accessLayoutReference() {
+//			return 0;
+//		}
 	}
 }
