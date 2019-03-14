@@ -124,7 +124,7 @@ public abstract class AbstractRender<M extends ICollaboration> implements IRende
 		} else convertView.setBackground(getContext().getResources().getDrawable(themeColor));
 	}
 
-	protected abstract void initializeViews();
+	public abstract void initializeViews();
 	protected abstract int accessLayoutReference();
 
 	// - I R E N D E R   I N T E R F A C E

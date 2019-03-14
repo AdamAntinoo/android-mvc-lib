@@ -29,7 +29,7 @@ public class SeparatorRender extends AbstractRender<Separator> {
 	}
 
 	@Override
-	protected void initializeViews() {
+	public void initializeViews() {
 		title = this.getView().findViewById(R.id.title);
 	}
 

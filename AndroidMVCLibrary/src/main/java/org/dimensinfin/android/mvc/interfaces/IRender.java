@@ -15,7 +15,7 @@ import android.view.View;
 
 // - CLASS IMPLEMENTATION ...................................................................................
 public interface IRender {
-//	public void initializeViews();
+	public void initializeViews();
 
 	public void updateContent();
 

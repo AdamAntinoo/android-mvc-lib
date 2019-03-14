@@ -348,6 +348,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/test/java/org/dimensinfin/android/mvc/activity/AbstractFragmentPagerAdapterTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/AndroidMVCLibrary/src/test/java/org/dimensinfin/android/mvc/activity/AbstractPagerActivityTest.java">
           <value>
             <set />

@@ -233,7 +233,7 @@ public abstract class AbstractPagerActivity extends FragmentActivity {
 		}
 	}
 
-	//--- A C T I V I T Y   L I F E C Y C L E
+	// - A C T I V I T Y   L I F E C Y C L E
 
 	@Override
 	protected void onStart() {
@@ -242,4 +242,3 @@ public abstract class AbstractPagerActivity extends FragmentActivity {
 		updateInitialTitle();
 	}
 }
-// - UNUSED CODE ............................................................................................

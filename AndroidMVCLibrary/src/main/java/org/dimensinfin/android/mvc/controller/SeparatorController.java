@@ -54,7 +54,8 @@ public class SeparatorController extends AAndroidController<Separator> {
 
 	@Override
 	public int compareTo(@NonNull final Object o) {
-		return 0;
+		final SeparatorController target = (SeparatorController) o;
+		return this.getModel().getTitle().compareTo(((SeparatorController) o).getModel().getTitle());
 	}
 
 //	@Override

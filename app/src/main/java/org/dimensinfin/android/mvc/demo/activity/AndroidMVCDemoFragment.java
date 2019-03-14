@@ -105,7 +105,7 @@ final class DemoDataSource extends AMVCDataSource {
 
 			// Wait a delay of 6 seconds to allow to watch the counter.
 			try {
-				Thread.sleep(TimeUnit.SECONDS.toMillis(2));
+				Thread.sleep(TimeUnit.SECONDS.toMillis(10));
 			} catch (InterruptedException ex) {
 			}
 			// Add manually each of the demo model nodes.

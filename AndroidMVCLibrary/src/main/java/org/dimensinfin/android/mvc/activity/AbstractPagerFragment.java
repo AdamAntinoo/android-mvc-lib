@@ -1,15 +1,8 @@
-//  PROJECT:     Android.MVC (A.MVC)
-//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
-//  COPYRIGHT:   (c) 2013-2019 by Dimensinfin Industries, all rights reserved.
-//  ENVIRONMENT: Android API16.
-//  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
-//               a generic converter from a Graph Model to a hierarchycal AndroidController model that finally will
-//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
@@ -21,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.dimensinfin.android.mvc.R;
@@ -40,6 +34,8 @@ import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.datasource.MVCModelRootNode;
 import org.dimensinfin.android.mvc.model.Separator;
+import org.joda.time.Instant;
+import org.joda.time.format.DateTimeFormatterBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Adam Antinoo
@@ -68,7 +65,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * The library will require access to a valid application context at any time. Usually the activity is not connected
 	 * to the Fragment until the fragment is going to be used and then the life cycle is started. But if the developed
 	 * likes to use fragments not connected to real Activities we should be sure we can still have access to a valid
-	 * context. We get a reference to the long term singletor for the Application context.
+	 * context. We get a reference to the long term singleton for the Application context.
 	 */
 	private Context appContext;
 	/** Factory that will generate the specific <b>Parts</b> for this Fragment/Activity/Application. */
@@ -107,7 +104,6 @@ public abstract class AbstractPagerFragment extends Fragment {
 //	// TODO REFACTOR Set back to private after the PagerFragment is removed
 //	private final Vector<IAndroidAndroidController> _headerContents = new Vector<IAndroidAndroidController>();
 //	private IModelGenerator _generator = null;
-
 
 	private IMenuActionTarget _listCallback = null;
 
@@ -276,9 +272,9 @@ public abstract class AbstractPagerFragment extends Fragment {
 		_progressElapsedCounter = this.assertNotNull(_container.findViewById(R.id.progressCounter));
 
 		// Set the visual state of all items.
-		_progressLayout.setVisibility(View.GONE);
+		_progressLayout.setVisibility(View.VISIBLE);
 		_dataSectionContainer.setVisibility(View.VISIBLE);
-		_progressElapsedCounter.setVisibility(View.GONE);
+		_progressElapsedCounter.setVisibility(View.VISIBLE);
 		// Prepare the structures for the context menu.
 		// TODO Check if the menus can be tied to the Parts independently and not to the whole Header.
 		//			this.registerForContextMenu(_headerContainer);
@@ -299,6 +295,40 @@ public abstract class AbstractPagerFragment extends Fragment {
 		return _container;
 	}
 	//[03]
+	private void initializeViews() {
+//		_progressLayout = this.assertNotNull(_container.findViewById(R.id.progressLayout));
+		_progressElapsedCounter = this.assertNotNull(_container.findViewById(R.id.progressCounter));
+		final Instant _elapsedTimer = Instant.now();
+		new CountDownTimer(TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS.toMillis(10)) {
+			@Override
+			public void onFinish() {
+				_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
+				_progressElapsedCounter.invalidate();
+			}
+
+			@Override
+			public void onTick(final long millisUntilFinished) {
+				_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
+				_progressElapsedCounter.invalidate();
+			}
+		}.start();
+	}
+	private String generateTimeString(final long millis) {
+		try {
+			final long elapsed = Instant.now().getMillis() - millis;
+			final DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
+			if (elapsed > TimeUnit.HOURS.toMillis(1)) {
+				timeFormatter.appendHourOfDay(2).appendLiteral("h ");
+			}
+			if (elapsed > TimeUnit.MINUTES.toMillis(1)) {
+				timeFormatter.appendMinuteOfHour(2).appendLiteral("m ").appendSecondOfMinute(2).appendLiteral("s");
+			} else timeFormatter.appendSecondOfMinute(2).appendLiteral("s");
+			return timeFormatter.toFormatter().print(new Instant(elapsed));
+		} catch (final RuntimeException rtex) {
+			return "0m 00s";
+		}
+	}
+
 
 	/**
 	 * At this point on the Fragment life cycle we are sure that the fragment is already constructed and that the flow is
@@ -319,13 +349,14 @@ public abstract class AbstractPagerFragment extends Fragment {
 		// We remove the spinner from the display when the model generation ends.
 //		_datasource.startOnLoadProcess();
 		// Do the execution on the UI by using an UI handler.
+		handler.post(()->_adapter.load());
 		handler.post(() -> _adapter.notifyDataSetChanged());
 		// Create the hierarchy structure to be used on the Header. We have the model list and we should convert it to a view list.
-		AbstractPagerFragment._uiExecutor.submit(() -> {
+//		AbstractPagerFragment._uiExecutor.submit(() -> {
 			// Entry point to generate the Header model.
 			_headersource = this.registerHeaderSource();
 			generateHeaderContents(_headersource);
-		});
+//		});
 		// Create the hierarchy structure to be used on the Adapter for the DataSection.
 		// Do this on background so we can update the interface on real time.
 //		AbstractPagerFragment._uiExecutor.submit(() -> {
@@ -342,7 +373,8 @@ public abstract class AbstractPagerFragment extends Fragment {
 //					, Toast.LENGTH_LONG).show();
 //		}
 		// Signal the adapter to refresh the render list of items. On first call this should generate all the data structures.
-		_adapter.notifyDataSetChanged();
+//		_adapter.notifyDataSetChanged();
+		this.initializeViews();
 		AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.onStart]");
 	}
 

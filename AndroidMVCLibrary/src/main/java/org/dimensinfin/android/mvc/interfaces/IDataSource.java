@@ -38,7 +38,7 @@ public interface IDataSource extends PropertyChangeListener {
 //
 //	IDataSource addModelContents(final ICollaboration newnode);
 //
-//	void collaborate2Model();
+	void collaborate2Model();
 //
 //
 ////	 IRootPart createRootPart();

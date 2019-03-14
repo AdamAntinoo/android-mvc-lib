@@ -76,6 +76,9 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	}
 
 	// - M E T H O D - S E C T I O N
+	public void load (){
+		if ( null != this.datasource)this.datasource.collaborate2Model();
+	}
 	// - B A S E   A D A P T E R   I M P L E M E N T A T I O N
 	@Override
 	public Object getItem(final int position) {
@@ -194,7 +197,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 		IRender render = controller.buildRender(context);
 		final View view = render.getView();
 		view.setTag(controller); // Piggyback the controller to the view to allow access.
-//		render.initializeViews(); // Associate the fields to variables.
+		render.initializeViews(); // Associate the fields to variables.
 		render.updateContent(); // Set the initial value for the view fields.
 		// Store view on the AndroidController for cache.
 //		if (this.getContext().getResources().getBoolean(R.id.exceptionMessage)) {
