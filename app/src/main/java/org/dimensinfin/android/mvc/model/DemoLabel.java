@@ -1,29 +1,18 @@
-//  PROJECT:     Android.MVC (A.MVC)
-//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
-//  COPYRIGHT:   (c) 2013-2018 by Dimensinfin Industries, all rights reserved.
-//  ENVIRONMENT: Android API16.
-//  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
-//               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
-//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * @author Adam Antinoo
  */
-
-// - CLASS IMPLEMENTATION ...................................................................................
 public class DemoLabel extends DemoNode {
-	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("DemoLabel");
-
-	// - F I E L D - S E C T I O N ............................................................................
+	// - F I E L D - S E C T I O N
 	private String title = "-TITLE-";
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	// - C O N S T R U C T O R - S E C T I O N
 	public DemoLabel() {
 		super();
 	}
@@ -33,8 +22,8 @@ public class DemoLabel extends DemoNode {
 		title = newTitle;
 	}
 
-	// - M E T H O D - S E C T I O N ..........................................................................
-	//--- G E T T E R S   &   S E T T E R S
+	// - M E T H O D - S E C T I O N
+	// - G E T T E R S   &   S E T T E R S
 	public String getTitle() {
 		return title;
 	}
@@ -42,6 +31,24 @@ public class DemoLabel extends DemoNode {
 	public DemoLabel setTitle(final String title) {
 		this.title = title;
 		return this;
+	}
+
+	// -  C O R E
+	@Override
+	public boolean equals(final Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		final DemoLabel demoLabel = (DemoLabel) o;
+		return new EqualsBuilder()
+				.append(title, demoLabel.title)
+				.isEquals();
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder(17, 37)
+				.append(title)
+				.toHashCode();
 	}
 
 	@Override
@@ -53,5 +60,3 @@ public class DemoLabel extends DemoNode {
 		return buffer.toString();
 	}
 }
-// - UNUSED CODE ............................................................................................
-//[01]

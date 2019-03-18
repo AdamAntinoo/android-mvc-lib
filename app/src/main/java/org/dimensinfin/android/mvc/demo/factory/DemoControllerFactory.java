@@ -20,7 +20,7 @@ import org.dimensinfin.android.mvc.model.DemoContainer;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 import org.dimensinfin.android.mvc.model.DemoItem;
 import org.dimensinfin.android.mvc.model.DemoLabel;
-import org.dimensinfin.android.mvc.part.DemoItemAndroidController;
+import org.dimensinfin.android.mvc.controller.DemoItemAndroidController;
 
 /**
  * @author Adam Antinoo

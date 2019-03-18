@@ -1,12 +1,10 @@
-package org.dimensinfin.android.mvc.part;
+package org.dimensinfin.android.mvc.controller;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import org.dimensinfin.android.mvc.controller.AAndroidController;
-import org.dimensinfin.android.mvc.controller.DemoContainerController;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
@@ -30,6 +28,7 @@ public class DemoItemAndroidController extends AAndroidController<DemoLabel> {
 	public long getModelId() {
 		return this.getModel().hashCode();
 	}
+
 	@Override
 	public int compareTo(@NonNull final Object o) {
 		if (o instanceof DemoItemAndroidController) {
@@ -78,22 +77,20 @@ public class DemoItemAndroidController extends AAndroidController<DemoLabel> {
 
 		@Override
 		public int accessLayoutReference() {
-			return R.layout.label4list;
+			return R.layout.item4list;
 		}
 	}
 
 	public static class DemoItemRender extends DemoLabelRender {
-		// - S T A T I C - S E C T I O N ..........................................................................
-
-		// - F I E L D - S E C T I O N ............................................................................
+		// - F I E L D - S E C T I O N
 		private ImageView nodeIcon = null;
 
-		// - C O N S T R U C T O R - S E C T I O N ................................................................
+		// - C O N S T R U C T O R - S E C T I O N
 		public DemoItemRender(final AAndroidController target, final Context context) {
 			super(target, context);
 		}
 
-		// - M E T H O D - S E C T I O N ..........................................................................
+		// - M E T H O D - S E C T I O N
 		@Override
 		public DemoItemAndroidController getController() {
 			return (DemoItemAndroidController) super.getController();
@@ -102,7 +99,7 @@ public class DemoItemAndroidController extends AAndroidController<DemoLabel> {
 		@Override
 		public void initializeViews() {
 			super.initializeViews();
-			nodeIcon = (ImageView) this.getView().findViewById(R.id.nodeIcon);
+			nodeIcon = this.getView().findViewById(R.id.nodeIcon);
 			assert (nodeIcon != null);
 		}
 

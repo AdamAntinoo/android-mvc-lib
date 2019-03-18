@@ -13,8 +13,6 @@ import android.support.annotation.NonNull;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.model.DemoContainer;
-import org.dimensinfin.android.mvc.part.DemoItemAndroidController;
-import org.dimensinfin.android.mvc.render.AbstractRender;
 
 import java.text.DecimalFormat;
 

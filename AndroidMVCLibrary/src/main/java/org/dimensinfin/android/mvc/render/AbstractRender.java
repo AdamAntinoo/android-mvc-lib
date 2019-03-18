@@ -125,7 +125,7 @@ public abstract class AbstractRender<M extends ICollaboration> implements IRende
 	}
 
 	public abstract void initializeViews();
-	protected abstract int accessLayoutReference();
+//	protected abstract int accessLayoutReference();
 
 	// - I R E N D E R   I N T E R F A C E
 	public View getView() {

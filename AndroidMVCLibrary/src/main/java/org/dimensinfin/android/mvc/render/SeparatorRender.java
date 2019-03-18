@@ -82,7 +82,7 @@ public class SeparatorRender extends AbstractRender<Separator> {
 	 * @return the layout
 	 */
 	@Override
-	protected int accessLayoutReference() {
+	public int accessLayoutReference() {
 		// Separator can be rendered in many ways. Set the default and then calculate the right one depending on the Model type.
 		int layoutRef = R.layout.separatorwhiteline;
 		// Select the rendering depending on the Separator type.

@@ -46,6 +46,20 @@ public class DemoHeaderTitleController extends AAndroidController<DemoHeaderTitl
 	}
 
 	@Override
+	public long getModelId() {
+		return this.getModel().hashCode();
+	}
+
+	@Override
+	public int compareTo(@NonNull final Object o) {
+		if (o instanceof DemoHeaderTitleController) {
+			final DemoHeaderTitleController target = (DemoHeaderTitleController) o;
+			return this.getModel().compareTo(target.getModel());
+		} else return -1;
+	}
+
+	// - I M E N U A C T I O N   I N T E R F A C E
+	@Override
 	public boolean onContextItemSelected(final MenuItem item) {
 		logger.info(">< [DemoHeaderTitleController.onContextItemSelected]");
 		Toast.makeText(this.context
@@ -61,19 +75,6 @@ public class DemoHeaderTitleController extends AAndroidController<DemoHeaderTitl
 		menu.add(0, v.getId(), 0, "Action 1");
 		menu.add(0, v.getId(), 0, "Action 2");
 		logger.info("<< [DemoHeaderTitleController.onCreateContextMenu]");
-	}
-
-	@Override
-	public long getModelId() {
-		return this.getModel().hashCode();
-	}
-
-	@Override
-	public int compareTo(@NonNull final Object o) {
-		if (o instanceof DemoHeaderTitleController) {
-			final DemoHeaderTitleController target = (DemoHeaderTitleController) o;
-			return this.getModel().compareTo(target.getModel());
-		} else return -1;
 	}
 
 	public class DemoHeaderTitleRender extends AbstractRender<DemoHeaderTitle> {
