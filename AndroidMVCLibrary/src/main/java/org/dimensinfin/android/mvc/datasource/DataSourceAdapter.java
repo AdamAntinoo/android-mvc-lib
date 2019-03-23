@@ -2,6 +2,8 @@ package org.dimensinfin.android.mvc.datasource;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +47,8 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	private static Logger logger = LoggerFactory.getLogger(DataSourceAdapter.class);
 	private static final boolean LOG_ALLOWED = true;
 	private static final String GETTING_VIEW = "-- [DataSourceAdapter.getView]> Getting view [";
+	/** Task _handler to manage execution of code that should be done on the main loop thread. */
+	protected static final Handler _handler = new Handler(Looper.getMainLooper());
 
 	// - F I E L D - S E C T I O N
 	/** The Activity where all this structures belong and that is used as the core display context. */
@@ -244,8 +248,14 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * is a generic class that must not be upgraded because we start then to replicate most of the code.
 	 */
 	public void propertyChange(final PropertyChangeEvent event) {
+		// - C O N T E N T   E V E N T S
+		if (EEvents.valueOf(event.getPropertyName()) ==
+				EEvents.EVENTCONTENTS_ACTIONMODIFYDATA) _handler.post(() -> {
+			this.notifyDataSetChanged();
+		});
+
 		// Be sure to run graphical changes on the UI thread. If we already are on it this has no effect.
-		((Activity) this.getContext()).runOnUiThread(() -> {
+		_handler.post(() -> {
 			if (EEvents.valueOf(event.getPropertyName()) ==
 					EEvents.EVENTADAPTER_REQUESTNOTIFYCHANGES) {
 				this.notifyDataSetChanged();

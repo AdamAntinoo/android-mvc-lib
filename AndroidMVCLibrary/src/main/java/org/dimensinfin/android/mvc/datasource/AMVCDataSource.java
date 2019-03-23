@@ -122,8 +122,9 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	private boolean isDirty() {
 		return this.dirty;
 	}
-	private void cleanDirty(){
-		this.dirty=false;
+
+	private void cleanDirty() {
+		this.dirty = false;
 	}
 
 	// - G E T T E R S   &   S E T T E R S
@@ -226,7 +227,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	 */
 	public IDataSource addModelContents(final ICollaboration newNode) {
 		dataModelRoot.addChild(newNode);
-		this.dirty=true; // Signal the model change
+		this.dirty = true; // Signal the model change
 		// Optimization - If the event is already launched and not processed do not launch it again.
 //		if (_pending) return this;
 //		else {
@@ -391,10 +392,11 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	public synchronized void propertyChange(final PropertyChangeEvent event) {
 		logger.info(">> [MVCDataSource.propertyChange]> Processing Event: {}", event.getPropertyName());
 
-//		// - C O N T E N T   E V E N T S
-//		// The expand/collapse state has changed.
-//		if (EEvents.valueOf(event.getPropertyName()) ==
-//				EEvents.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE) {
+		// - C O N T E N T   E V E N T S
+		// The expand/collapse state has changed.
+		if (EEvents.valueOf(event.getPropertyName()) ==
+				EEvents.EVENTCONTENTS_ACTIONMODIFYDATA) this.sendChangeEvent(event.getPropertyName());
+//		{
 //			synchronized (dataSectionControllers) {
 //				dataSectionControllers.clear();
 //				controllerRoot.collaborate2View(dataSectionControllers);
@@ -481,6 +483,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 		public IRender buildRender(final Context context) {
 			return new SeparatorRender(this, context);
 		}
+
 		@Override
 		public int compareTo(@NonNull final Object o) {
 			final SeparatorController target = (SeparatorController) o;

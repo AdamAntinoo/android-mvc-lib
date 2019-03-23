@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.dimensinfin.android.mvc.core.EEvents;
 import org.dimensinfin.android.mvc.events.EventEmitter;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
@@ -207,7 +208,13 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	public void removePropertyChangeListener(final PropertyChangeListener listener) {
 		this.eventController.removePropertyChangeListener(listener);
 	}
-// - M E T H O D - S E C T I O N
+
+	protected void notifyDataModelChange() {
+		this.viewCache=null ; // Clean the view cache to force recreation.
+		this.sendChangeEvent(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name());
+	}
+
+	// - M E T H O D - S E C T I O N
 
 	/**
 	 * The refresh process should optimize the reuse of the already available Parts. We should check for model identity on

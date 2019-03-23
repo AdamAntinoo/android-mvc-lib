@@ -48,7 +48,9 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class AbstractPagerFragment extends Fragment implements ITitledFragment {
 	protected static Logger logger = LoggerFactory.getLogger(AbstractPagerFragment.class);
-	public static final ExecutorService _uiExecutor = Executors.newFixedThreadPool(1);
+	protected static final ExecutorService _uiExecutor = Executors.newFixedThreadPool(1);
+	/** Task _handler to manage execution of code that should be done on the main loop thread. */
+	protected static final Handler _handler = new Handler(Looper.getMainLooper());
 
 	// - F I E L D - S E C T I O N
 	/**
@@ -103,8 +105,6 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
 //	private IModelGenerator _generator = null;
 
 	private IMenuActionTarget _listCallback = null;
-	/** Task _handler to anage execution of code that should be done on the main loop thread. */
-	private final Handler _handler = new Handler(Looper.getMainLooper());
 
 	// - C O N S T R U C T O R - S E C T I O N
 	// - G E T T E R S   &   S E T T E R S
