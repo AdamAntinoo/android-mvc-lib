@@ -153,7 +153,7 @@ final class DemoDataSource extends AMVCDataSource {
 			addModelContents(container);
 		}
 //		}
-		logger.info("<< [PlantDataSource.collaborate2Model]");
+		logger.info("<< [DemoDataSource.collaborate2Model]");
 	}
 
 	private void threadWait(final long milliseconds) {

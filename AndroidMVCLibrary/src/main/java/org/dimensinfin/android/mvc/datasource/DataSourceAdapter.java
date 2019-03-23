@@ -76,14 +76,16 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	}
 
 	// - M E T H O D - S E C T I O N
-	public void load (){
-		if ( null != this.datasource)this.datasource.collaborate2Model();
+	public void collaborateData() {
+		if (null != this.datasource) this.datasource.collaborate2Model();
 	}
+
 	// - B A S E   A D A P T E R   I M P L E M E N T A T I O N
 	@Override
 	public Object getItem(final int position) {
 		return contentControllerList.get(position);
 	}
+
 	@Override
 	public int getCount() {
 		return contentControllerList.size();
@@ -210,6 +212,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	private Context getContext() {
 		return context;
 	}
+
 	private IAndroidController getCastedItem(final int position) {
 		return contentControllerList.get(position);
 	}

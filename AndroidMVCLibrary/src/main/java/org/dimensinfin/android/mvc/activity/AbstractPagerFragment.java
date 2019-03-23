@@ -14,7 +14,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.dimensinfin.android.mvc.R;
@@ -22,18 +21,16 @@ import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.controller.RootController;
 import org.dimensinfin.android.mvc.core.MVCExceptionHandler;
 import org.dimensinfin.android.mvc.core.ToastExceptionHandler;
-import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
-import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
+import org.dimensinfin.android.mvc.datasource.MVCModelRootNode;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.android.mvc.datasource.MVCModelRootNode;
-import org.dimensinfin.android.mvc.model.Separator;
+import org.dimensinfin.android.mvc.interfaces.ITitledFragment;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormatterBuilder;
 import org.slf4j.Logger;
@@ -49,7 +46,7 @@ import java.util.concurrent.TimeUnit;
  * @author Adam Antinoo
  * @since 1.0.0
  */
-public abstract class AbstractPagerFragment extends Fragment {
+public abstract class AbstractPagerFragment extends Fragment implements ITitledFragment {
 	protected static Logger logger = LoggerFactory.getLogger(AbstractPagerFragment.class);
 	public static final ExecutorService _uiExecutor = Executors.newFixedThreadPool(1);
 
@@ -70,7 +67,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	private Context appContext;
 	/** Factory that will generate the specific <b>Parts</b> for this Fragment/Activity/Application. */
 	private IControllerFactory _factory = null;
-	/** This flag will help to detect when the creation process fails because of a rutime problem. */
+	/** This flag will help to detect when the creation process fails because of a runtime problem. */
 //	private boolean _properlyInitialized = true;
 	/** List of model elements that should be converted to views and inserted on the Header ui container. */
 	private List<ICollaboration> _headersource = null;
@@ -106,28 +103,10 @@ public abstract class AbstractPagerFragment extends Fragment {
 //	private IModelGenerator _generator = null;
 
 	private IMenuActionTarget _listCallback = null;
+	/** Task _handler to anage execution of code that should be done on the main loop thread. */
+	private final Handler _handler = new Handler(Looper.getMainLooper());
 
 	// - C O N S T R U C T O R - S E C T I O N
-//	public AbstractPagerFragment(final Context applicationContext) {
-//		super();
-//	}
-
-	// - I T I T L E D F R A G M E N T   I N T E R F A C E
-
-	/**
-	 * Gets the text to set set at the subtitle slot on the <b>ActionBar</b>. This should be implemented by each new
-	 * Fragment.
-	 * @return subtitle string.
-	 */
-	public abstract String getSubtitle();
-
-	/**
-	 * Gets the text to set set at the title slot on the <b>ActionBar</b>. This should be implemented by each new
-	 * Fragment.
-	 * @return title string.
-	 */
-	public abstract String getTitle();
-
 	// - G E T T E R S   &   S E T T E R S
 	public IMenuActionTarget getListCallback() {
 		return this._listCallback;
@@ -210,6 +189,22 @@ public abstract class AbstractPagerFragment extends Fragment {
 		return _factory;
 	}
 
+	// - I T I T L E D F R A G M E N T   I N T E R F A C E
+
+	/**
+	 * Gets the text to set set at the subtitle slot on the <b>ActionBar</b>. This should be implemented by each new
+	 * Fragment.
+	 * @return subtitle string.
+	 */
+	public abstract String getSubtitle();
+
+	/**
+	 * Gets the text to set set at the title slot on the <b>ActionBar</b>. This should be implemented by each new
+	 * Fragment.
+	 * @return title string.
+	 */
+	public abstract String getTitle();
+
 	// - ABSTRACT METHODS TO BE IMPLEMENTED BY APP
 
 	/**
@@ -281,54 +276,14 @@ public abstract class AbstractPagerFragment extends Fragment {
 		this.registerForContextMenu(_dataSectionContainer);
 
 		// - S E C T I O N   2. where we setup the data sources for the adapters. Only include no timing operations.
-		// Entry point to generate the DataSection model.
-//		_datasource = DataSourceManager.registerDataSource(this.registerDataSource());
-//		// Check that the data source is a valid data source.
-//		if (null == _datasource) _datasource = new EmptyDataSource(new DataSourceLocator().addIdentifier("EMPTY"), getFactory())
-//				.setVariant(this.getVariant())
-//				.setExtras(this.getExtras());
 		// Install the adapter before any data request or model generation.
 		_adapter = new DataSourceAdapter(this, DataSourceManager.registerDataSource(this.registerDataSource()));
 		_dataSectionContainer.setAdapter(_adapter);
+		_headersource = this.registerHeaderSource();
 
 		AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.onCreateView]");
 		return _container;
 	}
-	//[03]
-	private void initializeViews() {
-//		_progressLayout = this.assertNotNull(_container.findViewById(R.id.progressLayout));
-		_progressElapsedCounter = this.assertNotNull(_container.findViewById(R.id.progressCounter));
-		final Instant _elapsedTimer = Instant.now();
-		new CountDownTimer(TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS.toMillis(10)) {
-			@Override
-			public void onFinish() {
-				_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
-				_progressElapsedCounter.invalidate();
-			}
-
-			@Override
-			public void onTick(final long millisUntilFinished) {
-				_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
-				_progressElapsedCounter.invalidate();
-			}
-		}.start();
-	}
-	private String generateTimeString(final long millis) {
-		try {
-			final long elapsed = Instant.now().getMillis() - millis;
-			final DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
-			if (elapsed > TimeUnit.HOURS.toMillis(1)) {
-				timeFormatter.appendHourOfDay(2).appendLiteral("h ");
-			}
-			if (elapsed > TimeUnit.MINUTES.toMillis(1)) {
-				timeFormatter.appendMinuteOfHour(2).appendLiteral("m ").appendSecondOfMinute(2).appendLiteral("s");
-			} else timeFormatter.appendSecondOfMinute(2).appendLiteral("s");
-			return timeFormatter.toFormatter().print(new Instant(elapsed));
-		} catch (final RuntimeException rtex) {
-			return "0m 00s";
-		}
-	}
-
 
 	/**
 	 * At this point on the Fragment life cycle we are sure that the fragment is already constructed and that the flow is
@@ -341,41 +296,32 @@ public abstract class AbstractPagerFragment extends Fragment {
 	public void onStart() {
 		AbstractPagerFragment.logger.info(">> [AbstractPagerFragment.onStart]");
 		super.onStart();
-		final Handler handler = new Handler(Looper.getMainLooper());
 		Thread.setDefaultUncaughtExceptionHandler(new ToastExceptionHandler(this.getAppContext()));
-//		try {
-		// The first action is to add a progress indicator to the contents.
-		// This way once we finish the configuration the display will refresh with the spinner on it.
-		// We remove the spinner from the display when the model generation ends.
-//		_datasource.startOnLoadProcess();
-		// Do the execution on the UI by using an UI handler.
-		handler.post(()->_adapter.load());
-		handler.post(() -> _adapter.notifyDataSetChanged());
-		// Create the hierarchy structure to be used on the Header. We have the model list and we should convert it to a view list.
-//		AbstractPagerFragment._uiExecutor.submit(() -> {
-			// Entry point to generate the Header model.
-			_headersource = this.registerHeaderSource();
-			generateHeaderContents(_headersource);
-//		});
-		// Create the hierarchy structure to be used on the Adapter for the DataSection.
-		// Do this on background so we can update the interface on real time.
-//		AbstractPagerFragment._uiExecutor.submit(() -> {
-//			_datasource.collaborate2Model();
-//			handler.post(() -> {
-//				_adapter.notifyDataSetChanged();
-//			});
-//		});
-//		} catch (final RuntimeException rtex) {
-//			AbstractPagerFragment.logger.error("RTEX [AbstractPagerFragment.onStart]> {}.", rtex.getMessage());
-//			rtex.printStackTrace();
-//			Toast.makeText(this.getAppContext()
-//					, "RTEX [AbstractPagerFragment.onStart]> " + rtex.getMessage()
-//					, Toast.LENGTH_LONG).show();
-//		}
-		// Signal the adapter to refresh the render list of items. On first call this should generate all the data structures.
-//		_adapter.notifyDataSetChanged();
-		this.initializeViews();
+		// Start counting the elapsed time while we generate and load the  model.
+		this.initializeProgressCounter();
+
+		// We use another thread to perform the data source generation that is a long time action.
+		_uiExecutor.submit(() -> {
+			AbstractPagerFragment.logger.info(">> [AbstractPagerFragment.inside data source generation]");
+			_adapter.collaborateData(); // Call the ds to generate the root contents.
+			_handler.post(() -> { // After the model is created used the UI thread to render the collaboration to view.
+				_adapter.notifyDataSetChanged();
+				this.hideProgressIndicator(); // Hide the waiting indicator while the model is generated and the view populated.
+			});
+		});
+
+		// Entry point to generate the Header model.
+		_headersource = this.registerHeaderSource();
+		generateHeaderContents(_headersource);
+		// Update the display with the initial progress indicator.
+		_adapter.notifyDataSetChanged();
 		AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.onStart]");
+	}
+
+	private void hideProgressIndicator() {
+		_progressLayout.setVisibility(View.GONE);
+		_dataSectionContainer.setVisibility(View.VISIBLE);
+		_progressElapsedCounter.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -400,12 +346,12 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * the Header container. We follow a similar mechanics that for the DataSection ListView but instead keeping the
 	 * intermediate AndroidController instances we go directly to the View output by the <b>Render</b> instance.
 	 *
-	 * The use of a fake <code>@link{MVCModelRootNode}</code> allows to also support model elements that have contents that
-	 * should be rendered when expanded. Even the header contents are limited in interaction we can have the
+	 * The use of a fake <code>@link{MVCModelRootNode}</code> allows to also support model elements that have contents
+	 * that should be rendered when expanded. Even the header contents are limited in interaction we can have the
 	 * expand/collapse functionality to calculate the final list of Views to render.
 	 */
 	protected void generateHeaderContents(final List<ICollaboration> headerData) {
-		logger.info(">> [AbstractPagerFragment.generateHeaderContents]");
+		AbstractPagerFragment.logger.info(">> [AbstractPagerFragment.generateHeaderContents]");
 		// Create a fake root node where to connect the list.
 		MVCModelRootNode headerModel = new MVCModelRootNode();
 		for (ICollaboration node : headerData) {
@@ -421,14 +367,14 @@ public abstract class AbstractPagerFragment extends Fragment {
 		controllerRoot.collaborate2View(headerParts);
 
 		// Now do the old functionality by copying each of the resulting parts to the Header container.
-		final Handler handler = new Handler(Looper.getMainLooper());
-		handler.post(() -> {
+//		final Handler handler = new Handler(Looper.getMainLooper());
+		_handler.post(() -> {
 			_headerContainer.removeAllViews();
 			for (IAndroidController part : headerParts) {
 				if (part instanceof IAndroidController) addView2Header((IAndroidController) part);
 			}
 		});
-		logger.info("<< [AbstractPagerFragment.generateHeaderContents]");
+		AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.generateHeaderContents]");
 	}
 
 	/**
@@ -457,7 +403,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 					, "RTEX [AbstractPagerFragment.addView2Header]> RuntimeException. " + rtex.getMessage()
 					, Toast.LENGTH_LONG).show();
 		}
-		logger.info("<< AbstractPagerFragment.addView2Header");
+		logger.info("<< [AbstractPagerFragment.addView2Header]");
 	}
 
 	// - CONTEXTUAL MENU FOR THE HEADER
@@ -506,64 +452,67 @@ public abstract class AbstractPagerFragment extends Fragment {
 		return target;
 	}
 
-	public static class EmptyDataSource extends AMVCDataSource {
-		public EmptyDataSource(DataSourceLocator locator, IControllerFactory factory) {
-			super(locator, factory);
-		}
+	private void initializeProgressCounter() {
+		_progressElapsedCounter = this.assertNotNull(_container.findViewById(R.id.progressCounter));
+		final Instant _elapsedTimer = Instant.now();
+		new CountDownTimer(TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS.toMillis(10)) {
+			@Override
+			public void onFinish() {
+				_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
+				_progressElapsedCounter.invalidate();
+			}
 
-//		@Override
-		public boolean isCacheable() {
-			return false;
-		}
+			@Override
+			public void onTick(final long millisUntilFinished) {
+				_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
+				_progressElapsedCounter.invalidate();
+			}
+		}.start();
+	}
 
-//		@Override
-		public void collaborate2Model() {
-			// Create an empty list of items. This can be done by setting a model that if not rendered when empty.
-			this.addModelContents(new EmptyNotVisibleNode());
+	private String generateTimeString(final long millis) {
+		try {
+			final long elapsed = Instant.now().getMillis() - millis;
+			final DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
+			if (elapsed > TimeUnit.HOURS.toMillis(1)) {
+				timeFormatter.appendHourOfDay(2).appendLiteral("h ");
+			}
+			if (elapsed > TimeUnit.MINUTES.toMillis(1)) {
+				timeFormatter.appendMinuteOfHour(2).appendLiteral("m ").appendSecondOfMinute(2).appendLiteral("s");
+			} else timeFormatter.appendSecondOfMinute(2).appendLiteral("s");
+			return timeFormatter.toFormatter().print(new Instant(elapsed));
+		} catch (final RuntimeException rtex) {
+			return "0m 00s";
 		}
 	}
 
-	public static class EmptyNotVisibleNode  extends Separator{
-		public EmptyNotVisibleNode() {
-			super();
-//			this.setRenderWhenEmpty(false);
-		}
+//	public static class EmptyDataSource extends AMVCDataSource {
+//		public EmptyDataSource(DataSourceLocator locator, IControllerFactory factory) {
+//			super(locator, factory);
+//		}
+//
+//		//		@Override
+//		public boolean isCacheable() {
+//			return false;
+//		}
+//
+//		//		@Override
+//		public void collaborate2Model() {
+//			// Create an empty list of items. This can be done by setting a model that if not rendered when empty.
+//			this.addModelContents(new EmptyNotVisibleNode());
+//		}
+//	}
 
-//		@Override
-//		public boolean collapse() {
-//			return false;
+//	public static class EmptyNotVisibleNode extends Separator {
+//		public EmptyNotVisibleNode() {
+//			super();
+////			this.setRenderWhenEmpty(false);
 //		}
-//
 //		@Override
-//		public boolean expand() {
-//			return false;
+//		public List<ICollaboration> collaborate2Model(final String variation) {
+//			return new ArrayList<>();
 //		}
-//
-//		@Override
-//		public boolean isEmpty() {
-//			return true;
-//		}
-//
-//		@Override
-//		public boolean isExpanded() {
-//			return false;
-//		}
-//
-//		@Override
-//		public boolean isRenderWhenEmpty() {
-//			return false;
-//		}
-
-//		@Override
-//		public IExpandable setRenderWhenEmpty(final boolean renderWhenEmpty) {
-//			return this;
-//		}
-
-		@Override
-		public List<ICollaboration> collaborate2Model(final String variation) {
-			return new ArrayList<>();
-		}
-	}
+//	}
 
 //	public static class EmptyAndroidController extends AAndroidController<Separator> {
 //		public EmptyAndroidController(final Separator model, final IControllerFactory factory) {
@@ -592,7 +541,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 //		}
 //
 //		@Override
-//		protected void initializeViews() {
+//		protected void initializeProgressCounter() {
 //		}
 //
 //		@Override
