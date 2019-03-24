@@ -498,6 +498,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/org/dimensinfin/android/mvc/controller/DemoLabelCounterController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/org/dimensinfin/android/mvc/demo/activity/AndroidMVCDemoActivity.java">
           <value>
             <set />

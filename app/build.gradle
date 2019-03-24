@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'project-report'
 
 android {
-    buildToolsVersion '28.0.3'
+//    buildToolsVersion '28.0.3'
     compileSdkVersion 27
     defaultConfig {
         minSdkVersion 16
@@ -22,7 +22,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             resValue "string", "appname", "AndroidMVC"
-            resValue "string", "appversion", "v"+android.defaultConfig.versionName
+            resValue "string", "appversion", "v" + android.defaultConfig.versionName
             resValue "string", "appversionname", "NeoCom" + android.defaultConfig.versionName
             resValue "string", "appversionnumber", "\"" + android.defaultConfig.versionCode + "\""
         }
@@ -33,13 +33,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             resValue "string", "appname", "AndroidMVC"
-            resValue "string", "appversion", "v"+android.defaultConfig.versionName
+            resValue "string", "appversion", "v" + android.defaultConfig.versionName
             resValue "string", "appversionname", "NeoCom" + android.defaultConfig.versionName
             resValue "string", "appversionnumber", "\"" + android.defaultConfig.versionCode + "\""
         }
     }
     sourceSets {
-//        main.java.srcDirs += 'src/main/java-androidcommons'
+        main.java.srcDirs += 'src/main/java'
+        androidTest.java.srcDirs = ['src/test/java']
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -49,6 +50,10 @@ android {
         abortOnError false
         quiet true
     }
+
+//    useLibrary 'android.test.runner'
+//    useLibrary 'android.test.base'
+//    useLibrary 'android.test.mock'
     testOptions {
         unitTests {
             includeAndroidResources = true
@@ -56,41 +61,40 @@ android {
         }
     }
 }
-
+repositories {
+    jcenter()
+    google()
+}
 dependencies {
     // A N D R O I D    S U P P O R T
-//    implementation 'com.android.support:appcompat-v7:27.1.1'
-//    implementation 'com.android.support:support-core-utils:27.1.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:support-v13:27.1.1'
 
     // P R O J E C T    D E P E N D E N C I E S
     implementation project(path: ':AndroidMVCLibrary')
-//    implementation project(path: ':CoreBase')
-
-    // L O C A L    L I B R A R I E S
-//    implementation files('libs/CoreBase.core-2.0.3.jar')
 
     // M O D U L E    D E P E N D E N C I E S
     implementation 'org.slf4j:slf4j-android:1.7.25'
     implementation 'joda-time:joda-time:2.3'
     implementation 'org.apache.commons:commons-lang3:3.7'
-//    compileOnly 'org.projectlombok:lombok:1.18.4'
-//    annotationProcessor 'org.projectlombok:lombok:1.18.4'
 
     // T E S T I N G
-//    testImplementation project(path: ':AndroidMVCLibrary')
     testImplementation 'org.slf4j:slf4j-android:1.7.25'
+
+    // JUnit testing
     testImplementation 'junit:junit:4.12'
+    // Mockito
     testImplementation 'org.mockito:mockito-core:2.23.4'
     testImplementation 'com.openpojo:openpojo:0.8.12'
-//    testImplementation 'com.openpojo:openpojo:0.8.12'
-//    testImplementation 'com.squareup.assertj:assertj-android:1.1.0'
-    testImplementation 'org.robolectric:robolectric:3.7.1'
-    testImplementation 'androidx.fragment:fragment-testing:1.1.0-alpha04'
-    // https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-extensions
-    testImplementation group: 'androidx.lifecycle', name: 'lifecycle-extensions', version: '2.0.0'
-// https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-viewmodel
-    testImplementation group: 'androidx.lifecycle', name: 'lifecycle-viewmodel', version: '2.0.0'
+    // Roboelectric
+    testImplementation 'org.robolectric:robolectric:4.2'
+    testImplementation 'androidx.test:core:1.1.0'
+    testImplementation 'androidx.test:runner:1.1.1'
+    testImplementation 'androidx.test:rules:1.1.1'
+
+//    testImplementation group: 'androidx.lifecycle', name: 'lifecycle-extensions', version: '2.0.0'
+//// https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-viewmodel
+//    testImplementation group: 'androidx.lifecycle', name: 'lifecycle-viewmodel', version: '2.0.0'
 
 //    testImplementation('org.robolectric:shadows-support-v4:4.2') {
 //        exclude module: 'support-v4'
@@ -99,7 +103,6 @@ dependencies {
 //    testCompile 'org.mockito:mockito-all:1.10.19'
 //    testImplementation 'net.javacrumbs.json-unit:json-unit-fluent:1.5.6'
 //    testCompile 'com.squareup.assertj:assertj-android-recyclerview-v7:1.1.0@aar'
-
 
 //    compileOnly 'com.google.dagger:dagger:1.0.0'
 //    annotationProcessor 'com.google.dagger:dagger-compiler:1.0.0'
@@ -112,7 +115,34 @@ dependencies {
     // A N D R O I D   T E S T I N G
 //    androidTestImplementation 'com.android.support:support-v13:27.1.1'
 //    androidTestImplementation 'com.android.support:support-annotations:28.0.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+//    androidTestImplementation 'androidx.test:runner:1.1.1'
+//    androidTestImplementation 'androidx.test:rules:1.1.1'
+
+    // Core library
+    androidTestImplementation 'androidx.test:core:1.1.0'
+
+    // AndroidJUnitRunner and JUnit Rules
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test:rules:1.1.1'
+    androidTestImplementation 'androidx.fragment:fragment-testing:1.1.0-alpha05'
+
+    // Assertions
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test.ext:truth:1.1.0'
+    androidTestImplementation 'com.google.truth:truth:0.43'
+
+    // Espresso dependencies
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-web:3.1.1'
+    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.1.1'
+
+    // The following Espresso dependency can be either "implementation"
+    // or "androidTestImplementation", depending on whether you want the
+    // dependency to appear on your APK's compile classpath or the test APK
+    // classpath.
+    androidTestImplementation 'androidx.test.espresso:espresso-idling-resource:3.1.1'
 }
