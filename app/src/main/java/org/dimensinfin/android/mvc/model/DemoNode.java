@@ -13,13 +13,13 @@ import java.util.List;
 /**
  * @author Adam Antinoo
  */
-public class DemoNode implements ICollaboration, Comparable<DemoNode> {
+public class DemoNode extends EmptyNode implements ICollaboration, Comparable<DemoNode> {
 	// - F I E L D - S E C T I O N
 	public String jsonClass = "DemoNode";
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public DemoNode() {
-		super();
+		super("");
 	}
 
 	// - M E T H O D - S E C T I O N
