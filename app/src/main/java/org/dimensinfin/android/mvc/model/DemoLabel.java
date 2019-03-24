@@ -1,5 +1,6 @@
 package org.dimensinfin.android.mvc.model;
 
+import android.support.annotation.NonNull;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.slf4j.Logger;
@@ -8,7 +9,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Adam Antinoo
  */
-public class DemoLabel extends DemoNode {
+public class DemoLabel extends DemoNode{
 	// - F I E L D - S E C T I O N
 	private String title = "-TITLE-";
 
@@ -31,6 +32,15 @@ public class DemoLabel extends DemoNode {
 	public DemoLabel setTitle(final String title) {
 		this.title = title;
 		return this;
+	}
+
+	// - C O M P A R A B L E
+	@Override
+	public int compareTo(@NonNull final Object o) {
+		if (o instanceof DemoLabel) {
+			final DemoLabel target = (DemoLabel) o;
+			return this.title.compareTo(target.title);
+		} else return -1;
 	}
 
 	// -  C O R E

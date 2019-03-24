@@ -11,38 +11,115 @@ import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.model.DemoItem;
 import org.dimensinfin.android.mvc.model.DemoLabel;
-import org.dimensinfin.android.mvc.model.EmptyNode;
 import org.dimensinfin.android.mvc.render.AbstractRender;
+
+import java.beans.PropertyChangeListener;
+import java.util.List;
 
 /**
  * @author Adam Antinoo
  */
-public class DemoItemAndroidController extends AAndroidController implements IAndroidController<DemoLabel> {
+public class DemoItemAndroidController implements IAndroidController<DemoLabel> {
 	// - F I E L D - S E C T I O N
+	private AAndroidController<DemoLabel> delegatedController;
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public DemoItemAndroidController(final DemoLabel model, final IControllerFactory factory) {
-		super(model, factory);
+		// Connect the delegate.
+		this.delegatedController = new AAndroidController<DemoLabel>(model, factory);
+//		super(model, factory);
+	}
+
+	// - D E L E G A T E D - A A N D R O I D C O N T R O L L E R
+	@Override
+	public DemoLabel getModel() {
+		return delegatedController.getModel();
+	}
+
+	@Override
+	public void refreshChildren() {
+		delegatedController.refreshChildren();
+	}
+
+	@Override
+	public void collaborate2View(final List<IAndroidController<?>> contentCollector) {
+		delegatedController.collaborate2View(contentCollector);
+	}
+
+	@Override
+	public List<IAndroidController<DemoLabel>> orderingFeature(final List<IAndroidController<DemoLabel>> childrenList) {
+		return delegatedController.orderingFeature(childrenList);
+	}
+
+	@Override
+	public boolean isVisible() {
+		return delegatedController.isVisible();
+	}
+
+	@Override
+	public boolean isOrderedActive() {
+		return delegatedController.isOrderedActive();
+	}
+
+	@Override
+	public AAndroidController setOrderedActive(final boolean orderedActive) {
+		return delegatedController.setOrderedActive(orderedActive);
+	}
+
+	@Override
+	public View getViewCache() {
+		return delegatedController.getViewCache();
+	}
+
+	@Override
+	public String getRenderMode() {
+		return delegatedController.getRenderMode();
+	}
+
+	public AAndroidController setRenderMode(final String renderMode) {
+		return delegatedController.setRenderMode(renderMode);
+	}
+
+	@Override
+	public AAndroidController setViewCache(final View viewCache) {
+		return delegatedController.setViewCache(viewCache);
+	}
+
+	@Override
+	public void addPropertyChangeListener(final PropertyChangeListener listener) {
+		delegatedController.addPropertyChangeListener(listener);
+	}
+
+	@Override
+	public boolean sendChangeEvent(final String eventName) {
+		return delegatedController.sendChangeEvent(eventName);
+	}
+
+	@Override
+	public void removePropertyChangeListener(final PropertyChangeListener listener) {
+		delegatedController.removePropertyChangeListener(listener);
 	}
 
 	// - M E T H O D - S E C T I O N
-	@Override
-	public DemoLabel getModel(){
-		return (DemoLabel) super.getModel();
-	}
+//	@Override
+//	public DemoLabel getModel(){
+//		return (DemoLabel) super.getModel();
+//	}
 	@Override
 	public long getModelId() {
 		return this.getModel().hashCode();
 	}
 
 	@Override
-	public int compareTo(@NonNull final DemoLabel o) {
-//		final EmptyNode m = this.getModel();
-		return this.getModel().getTitle().compareTo(o.getTitle());
-//		if (o instanceof DemoItemAndroidController) {
-//			final DemoItemAndroidController target = (DemoItemAndroidController) o;
-//			return this.getModel().compareTo(target.getModel());
-//		} else return -1;
+	public int compareTo(@NonNull final Object o) {
+//		final DemoLabel m = this.getModel();
+//		return this.getModel().getTitle().compareTo(o.getTitle());
+		if (o instanceof DemoItemAndroidController) {
+			final DemoItemAndroidController target = (DemoItemAndroidController) o;
+			final DemoLabel m = this.getModel();
+			final DemoLabel t = target.getModel();
+			return m.getTitle().compareTo(t.getTitle());
+		} else return -1;
 	}
 
 	// - G E T T E R S   &   S E T T E R S
@@ -62,7 +139,7 @@ public class DemoItemAndroidController extends AAndroidController implements IAn
 	public static class DemoLabelRender extends AbstractRender<DemoLabel> {
 		private TextView nodeName = null;
 
-		public DemoLabelRender(final AAndroidController target, final Context context) {
+		public DemoLabelRender(final IAndroidController target, final Context context) {
 			super(target, context);
 		}
 
@@ -94,7 +171,7 @@ public class DemoItemAndroidController extends AAndroidController implements IAn
 		private ImageView nodeIcon = null;
 
 		// - C O N S T R U C T O R - S E C T I O N
-		public DemoItemRender(final AAndroidController target, final Context context) {
+		public DemoItemRender(final IAndroidController target, final Context context) {
 			super(target, context);
 		}
 

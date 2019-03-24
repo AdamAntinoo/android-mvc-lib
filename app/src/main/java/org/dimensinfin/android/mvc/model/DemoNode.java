@@ -4,8 +4,6 @@ import android.support.annotation.NonNull;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +11,13 @@ import java.util.List;
 /**
  * @author Adam Antinoo
  */
-public class DemoNode extends EmptyNode implements ICollaboration, Comparable<DemoNode> {
+public class DemoNode /*extends EmptyNode*/ implements ICollaboration, Comparable {
 	// - F I E L D - S E C T I O N
 	public String jsonClass = "DemoNode";
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public DemoNode() {
-		super("");
+		super();
 	}
 
 	// - M E T H O D - S E C T I O N
@@ -59,9 +57,12 @@ public class DemoNode extends EmptyNode implements ICollaboration, Comparable<De
 		buffer.append("]");
 		return buffer.toString();
 	}
-	@Override
-	public int compareTo(@NonNull final DemoNode o) {
-		return this.jsonClass.compareTo(o.jsonClass);
-	}
 
+	@Override
+	public int compareTo(@NonNull final Object o) {
+		if (o instanceof DemoNode) {
+			final DemoNode target = (DemoNode) o;
+			return this.jsonClass.compareTo(target.jsonClass);
+		} else return -1;
+	}
 }

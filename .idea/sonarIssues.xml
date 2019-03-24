@@ -3,6 +3,11 @@
   <component name="issues">
     <option name="index">
       <map>
+        <entry key="/Dummy.txt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robolectric/robolectric/3.0/f888cea3bc1a24110e315eb9827ab593610ea62f/robolectric-3.0.jar!/org/robolectric/RobolectricTestRunner.class">
           <value>
             <set />

@@ -12,7 +12,6 @@ import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.android.mvc.model.EmptyNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,15 +32,15 @@ import java.util.List;
  * @author Adam Antinoo
  * @since 4.0.0
  */
-public abstract class AAndroidController implements IAndroidController<EmptyNode> {
+public class AAndroidController<M extends ICollaboration> implements IAndroidController<M> {
 	/** This is the public logger that should be used by all the Controllers. */
 	protected static final Logger logger = LoggerFactory.getLogger(AAndroidController.class);
 
 	// - F I E L D - S E C T I O N
 	/** List of children of the hierarchy. */
-	private List<IAndroidController<EmptyNode>> children = new ArrayList<>();
+	private List<IAndroidController<M>> children = new ArrayList<>();
 	/** Reference to the Model node. */
-	private final EmptyNode model; // Holds the model node.
+	private final M model; // Holds the model node.
 	/** This field caches the factory that is set during the construction. */
 	private final IControllerFactory factory;
 	private boolean orderedActive = false; // If the contents should be returned ordered or not
@@ -51,15 +50,19 @@ public abstract class AAndroidController implements IAndroidController<EmptyNode
 	private IEventEmitter eventController = new EventEmitter();
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public AAndroidController(@NonNull final EmptyNode model, @NonNull final IControllerFactory factory) {
+	public AAndroidController(@NonNull final M model, @NonNull final IControllerFactory factory) {
 		this.model = model;
 		this.factory = factory;
 	}
 
 	// - G E T T E R S   &   S E T T E R S
 	@Override
-	public EmptyNode getModel() {
+	public M getModel() {
 		return model;
+	}
+
+	public long getModelId() {
+		return 0;
 	}
 
 	/**
@@ -70,7 +73,7 @@ public abstract class AAndroidController implements IAndroidController<EmptyNode
 		return this.factory;
 	}
 
-	public List<IAndroidController<EmptyNode>> getChildren() {
+	public List<IAndroidController<M>> getChildren() {
 		if (children == null) this.children = new ArrayList<>(2);
 		return children;
 	}
@@ -110,7 +113,7 @@ public abstract class AAndroidController implements IAndroidController<EmptyNode
 		this.getChildren().add(child);
 	}
 
-	public void addChildren(final List<IAndroidController<EmptyNode>> modelList) {
+	public void addChildren(final List<IAndroidController<M>> modelList) {
 		for (IAndroidController node : modelList)
 			this.addChild(node);
 	}
@@ -129,7 +132,9 @@ public abstract class AAndroidController implements IAndroidController<EmptyNode
 	 * @param context the Activity UI context to use to locate the inflater and do the action.
 	 * @return
 	 */
-	public abstract IRender buildRender(final Context context);
+	public IRender buildRender(final Context context) {
+		return null;
+	}
 
 	/**
 	 * Optimized process to generate the list of Controllers that should end on the render graphical process. While we are
@@ -151,7 +156,7 @@ public abstract class AAndroidController implements IAndroidController<EmptyNode
 		logger.info(">< [AAndroidController.collaborate2View]> Collaborator: {}", this.getClass().getSimpleName());
 		// If the node is expanded then give the children the opportunity to also be added.
 		// --- This is the section that is different for any AndroidController. This should be done calling the list of policies.
-		List<IAndroidController<EmptyNode>> ch = this.getChildren();
+		List<IAndroidController<M>> ch = this.orderingFeature(this.getChildren());
 		logger.info("-- [AAndroidController.collaborate2View]> Collaborator children: {}", ch.size());
 		// --- End of policies
 		// Add this node to the list of controllers only if it should be visible.
@@ -161,24 +166,16 @@ public abstract class AAndroidController implements IAndroidController<EmptyNode
 		}
 	}
 
-//	/**
-//	 * If the ordering flag is set then order the children and use the final ordered list to continue the rendering of the
-//	 * nodes to the list container.
-//	 * @param childrenList the list of elements to be sorted if the flag is set to true.
-//	 * @return
-//	 */
-//	public List<AAndroidController orderingFeature(final List<AAndroidController> childrenList) {
-////		final List<IAndroidController<M>> nodes = new ArrayList<>();
-////		for ( IAndroidController<M>  node : childrenList){
-////			nodes.add(node);
-////		}
-//////		nodes.addAll(childrenList);
-////
-////		Collections.sort(nodes);
-//
-//		if (this.isOrderedActive()) Collections.sort(childrenList);
-//		return childrenList;
-//	}
+	/**
+	 * If the ordering flag is set then order the children and use the final ordered list to continue the rendering of the
+	 * nodes to the list container.
+	 * @param childrenList the list of elements to be sorted if the flag is set to true.
+	 * @return
+	 */
+	public List<IAndroidController<M>> orderingFeature(final List<IAndroidController<M>> childrenList) {
+		if (this.isOrderedActive()) Collections.sort(childrenList);
+		return childrenList;
+	}
 
 	public boolean isVisible() {
 		return true;
@@ -211,7 +208,7 @@ public abstract class AAndroidController implements IAndroidController<EmptyNode
 	}
 
 	protected void notifyDataModelChange() {
-		this.viewCache=null ; // Clean the view cache to force recreation.
+		this.viewCache = null; // Clean the view cache to force recreation.
 		this.sendChangeEvent(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name());
 	}
 
@@ -250,7 +247,7 @@ public abstract class AAndroidController implements IAndroidController<EmptyNode
 			currentMap.put(control.getModel(), control);
 		}
 		// Create the new children list ot be able to delete nodes.
-		final List<IAndroidController<EmptyNode>> newChildrenList = new ArrayList<>(firstLevelNodes.size());
+		final List<IAndroidController<M>> newChildrenList = new ArrayList<>(firstLevelNodes.size());
 		// Check all the model instances have a matching AndroidController instance.
 		for (ICollaboration modelNode : firstLevelNodes) {
 			// Search for the model instance on the current controller map.
@@ -295,6 +292,18 @@ public abstract class AAndroidController implements IAndroidController<EmptyNode
 				.append(orderedActive)
 				.append(renderMode)
 				.toHashCode();
+	}
+	@Override
+	public int compareTo(@NonNull final Object o) {
+//		final DemoLabel m = this.getModel();
+//		return this.getModel().getTitle().compareTo(o.getTitle());
+//		if (o instanceof AAndroidController) {
+//			final AAndroidController target = (AAndroidController) o;
+//			final M m = this.getModel();
+//			final DemoLabel t = target.getModel();
+//			return m.getTitle().compareTo(t.getTitle());
+//		} else return -1;
+		return 0;
 	}
 
 	@Override

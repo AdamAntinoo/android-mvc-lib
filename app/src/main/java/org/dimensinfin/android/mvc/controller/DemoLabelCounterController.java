@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.widget.TextView;
 import org.dimensinfin.android.mvc.demo.R;
+import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.model.DemoLabel;
 import org.dimensinfin.android.mvc.model.DemoNode;
@@ -13,6 +14,10 @@ import org.dimensinfin.android.mvc.model.DemoNode;
  */
 
 public class DemoLabelCounterController extends AAndroidController<DemoLabel> {
+	public DemoLabelCounterController(@NonNull final DemoLabel model, @NonNull final IControllerFactory factory) {
+		super(model, factory);
+	}
+
 	// - F I E L D - S E C T I O N
 	// - C O N S T R U C T O R - S E C T I O N
 	// - G E T T E R S   &   S E T T E R S
@@ -50,6 +55,10 @@ public class DemoLabelCounterController extends AAndroidController<DemoLabel> {
 		}
 
 		@Override
+		public int accessLayoutReference() {
+			return R.layout.labelcounter4list;
+		}
+		@Override
 		public void initializeViews() {
 			super.initializeViews();
 			labelCounter = this.getView().findViewById(R.id.labelCounter);
@@ -59,7 +68,7 @@ public class DemoLabelCounterController extends AAndroidController<DemoLabel> {
 		@Override
 		public void updateContent() {
 			super.updateContent();
-			labelCounter.setText(this.getController().getModel().get);
+			labelCounter.setText("4");
 		}
 	}
 }
