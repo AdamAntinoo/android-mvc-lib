@@ -6,7 +6,7 @@ import org.dimensinfin.android.mvc.controller.AAndroidController;
 
 import java.util.List;
 
-public interface IAndroidController<M> /*extends IEventEmitter, Comparable */ {
+public interface IAndroidController<M> extends IEventEmitter/*, Comparable */ {
 	M getModel();
 
 	void refreshChildren();

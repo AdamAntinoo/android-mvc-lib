@@ -16,17 +16,30 @@ import org.dimensinfin.android.mvc.model.Separator;
 import org.dimensinfin.android.mvc.render.SeparatorRender;
 import org.joda.time.Instant;
 
-public class SeparatorController extends AAndroidController<Separator> {
+public class SeparatorController extends AAndroidController {
 	// - F I E L D - S E C T I O N
+	private GenericController<Separator> delegatedController;
+
 	// - C O N S T R U C T O R - S E C T I O N
-	public SeparatorController(final Separator model, final IControllerFactory factory) {
-		super(model, factory);
+	public SeparatorController(@NonNull final Separator model, @NonNull final IControllerFactory factory) {
+		super(factory);
+		// Connect the delegate.
+		this.delegatedController = new GenericController<Separator>(model, factory);
+	}
+
+	// - D E L E G A T E D - A A N D R O I D C O N T R O L L E R
+	public Separator getModel() {
+		return delegatedController.getModel();
 	}
 
 	// - M E T H O D - S E C T I O N
 	public String getTitle() {
 		return this.getModel().getTitle();
 	}
+//	@Override
+//	public long getModelId() {
+//		return this.getModel().hashCode();
+//	}
 
 	@Override
 	public String toString() {
@@ -52,7 +65,7 @@ public class SeparatorController extends AAndroidController<Separator> {
 		return new SeparatorRender(this, context);
 	}
 
-	@Override
+//	@Override
 	public int compareTo(@NonNull final Object o) {
 		final SeparatorController target = (SeparatorController) o;
 		return this.getModel().getTitle().compareTo(((SeparatorController) o).getModel().getTitle());

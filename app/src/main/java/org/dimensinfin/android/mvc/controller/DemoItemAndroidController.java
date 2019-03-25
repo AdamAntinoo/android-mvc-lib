@@ -13,9 +13,6 @@ import org.dimensinfin.android.mvc.model.DemoItem;
 import org.dimensinfin.android.mvc.model.DemoLabel;
 import org.dimensinfin.android.mvc.render.AbstractRender;
 
-import java.beans.PropertyChangeListener;
-import java.util.List;
-
 /**
  * @author Adam Antinoo
  */
@@ -25,9 +22,9 @@ public class DemoItemAndroidController extends AAndroidController {
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public DemoItemAndroidController(@NonNull final DemoLabel model, @NonNull final IControllerFactory factory) {
+		super(factory);
 		// Connect the delegate.
 		this.delegatedController = new GenericController<DemoLabel>(model, factory);
-//		super(model, factory);
 	}
 
 	// - D E L E G A T E D - A A N D R O I D C O N T R O L L E R

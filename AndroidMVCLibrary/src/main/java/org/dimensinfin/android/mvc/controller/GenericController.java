@@ -22,9 +22,8 @@ public class GenericController<M> implements IModelContainer<M> {
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public GenericController(@NonNull final M model, @NonNull final IControllerFactory factory) {
+//		super(factory);
 		this.model = model;
-//		this.factory = factory;
-		super(factory);
 	}
 
 	// - D E L E G A T E - I E V E N T E M I T T E R

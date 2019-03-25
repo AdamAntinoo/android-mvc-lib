@@ -4,13 +4,16 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import org.dimensinfin.android.mvc.core.EEvents;
+import org.dimensinfin.android.mvc.events.EventEmitter;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -44,7 +47,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 
 	private String renderMode; // Holds the type of the render to be used on this instance.
 	private View viewCache; // Caches the render generated view used to the Adapter so it can be reused multiple times.
-//	private IEventEmitter eventController = new EventEmitter();
+	private IEventEmitter eventController = new EventEmitter();
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public AAndroidController(@NonNull final IControllerFactory factory) {
@@ -178,31 +181,30 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 //	}
 
 	// - I E V E N T E M I T T E R   I N T E R F A C E
+	/**
+	 * Add a new listener to the list of listeners on the delegated listen and event processing node.
+	 * @param listener the new listener to connect to this instance messages.
+	 */
+	@Override
+	public void addPropertyChangeListener(final PropertyChangeListener listener) {
+		this.eventController.addPropertyChangeListener(listener);
+	}
 
-//	/**
-//	 * Add a new listener to the list of listeners on the delegated listen and event processing node.
-//	 * @param listener the new listener to connect to this instance messages.
-//	 */
-//	@Override
-//	public void addPropertyChangeListener(final PropertyChangeListener listener) {
-//		this.eventController.addPropertyChangeListener(listener);
-//	}
-//
-//	@Override
-//	public boolean sendChangeEvent(final String eventName) {
-//		this.eventController.sendChangeEvent(eventName);
-//		return true;
-//	}
-//
-//	@Override
-//	public void removePropertyChangeListener(final PropertyChangeListener listener) {
-//		this.eventController.removePropertyChangeListener(listener);
-//	}
+	@Override
+	public boolean sendChangeEvent(final String eventName) {
+		this.eventController.sendChangeEvent(eventName);
+		return true;
+	}
 
-//	protected void notifyDataModelChange() {
-//		this.viewCache = null; // Clean the view cache to force recreation.
-//		this.sendChangeEvent(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name());
-//	}
+	@Override
+	public void removePropertyChangeListener(final PropertyChangeListener listener) {
+		this.eventController.removePropertyChangeListener(listener);
+	}
+
+	protected void notifyDataModelChange() {
+		this.viewCache = null; // Clean the view cache to force recreation.
+		this.sendChangeEvent(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name());
+	}
 
 	// - M E T H O D - S E C T I O N
 
