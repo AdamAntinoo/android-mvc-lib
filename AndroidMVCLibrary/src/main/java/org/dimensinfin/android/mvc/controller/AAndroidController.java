@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This class will implement the core Android interaction controller on the classic pattern Model-View-Controller
@@ -51,12 +52,12 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public AAndroidController(@NonNull final IControllerFactory factory) {
-//		this.model = model;
+		Objects.requireNonNull(factory);
 		this.factory = factory;
 	}
 
 	// - G E T T E R S   &   S E T T E R S
-//	@Override
+	@Override
 	public abstract M getModel();
 
 	/**
@@ -168,19 +169,25 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	 * @return
 	 */
 	public List<IAndroidController> orderingFeature(final List<IAndroidController> childrenList) {
-//		if (this.isOrderedActive()) Collections.sort(childrenList);
+		if (this.isOrderedActive()) Collections.sort(childrenList);
 		return childrenList;
 	}
- // TODO - This should be made abstract when the code is stable.
+
+	@Override
+	public int compareTo(@NonNull final Object target) {
+		if (target instanceof IAndroidController) {
+			final IAndroidController castedTarget = (IAndroidController) target;
+			return this.getModel().compareTo(castedTarget.getModel());
+		} else return -1;
+	}
+
+	// TODO - This should be made abstract when the code is stable.
 	public boolean isVisible() {
 		return true;
 	}
 
-//	public List<IAndroidController> runPolicies(final List<IAndroidController> targets) {
-//		return targets;
-//	}
-
 	// - I E V E N T E M I T T E R   I N T E R F A C E
+
 	/**
 	 * Add a new listener to the list of listeners on the delegated listen and event processing node.
 	 * @param listener the new listener to connect to this instance messages.
@@ -262,51 +269,4 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		this.addChildren(newChildrenList);
 		logger.info("<< [AAndroidController.refreshChildren]> Content size: {}", this.getChildren().size());
 	}
-
-//	@Override
-//	public boolean equals(final Object o) {
-//		if (this == o) return true;
-//		if (o == null || getClass() != o.getClass()) return false;
-//		final AAndroidController that = (AAndroidController) o;
-//		return new EqualsBuilder()
-//				.append(orderedActive, that.orderedActive)
-////				.append(children, that.children)
-//				.append(model, that.model)
-//				.append(factory, that.factory)
-//				.append(renderMode, that.renderMode)
-//				.isEquals();
-//	}
-//
-//	@Override
-//	public int hashCode() {
-//		return new HashCodeBuilder(17, 37)
-//				.append(children)
-//				.append(model)
-//				.append(factory)
-//				.append(orderedActive)
-//				.append(renderMode)
-//				.toHashCode();
-//	}
-//	@Override
-//	public int compareTo(@NonNull final Object o) {
-////		final DemoLabel m = this.getModel();
-////		return this.getModel().getTitle().compareTo(o.getTitle());
-////		if (o instanceof AAndroidController) {
-////			final AAndroidController target = (AAndroidController) o;
-////			final M m = this.getModel();
-////			final DemoLabel t = target.getModel();
-////			return m.getTitle().compareTo(t.getTitle());
-////		} else return -1;
-//		return 0;
-//	}
-
-//	@Override
-//	public String toString() {
-//		return "AAndroidController{" +
-//				"model=" + model +
-//				", factory=" + factory +
-//				", orderedActive=" + orderedActive +
-//				", renderMode='" + renderMode + '\'' +
-//				'}';
-//	}
 }

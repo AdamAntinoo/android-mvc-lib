@@ -24,7 +24,7 @@ public class SeparatorController extends AAndroidController {
 	public SeparatorController(@NonNull final Separator model, @NonNull final IControllerFactory factory) {
 		super(factory);
 		// Connect the delegate.
-		this.delegatedController = new GenericController<Separator>(model, factory);
+		this.delegatedController = new GenericController<Separator>(model);
 	}
 
 	// - D E L E G A T E D - A A N D R O I D C O N T R O L L E R

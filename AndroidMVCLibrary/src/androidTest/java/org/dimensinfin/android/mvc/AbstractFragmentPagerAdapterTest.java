@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc.activity;
+package org.dimensinfin.android.mvc;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

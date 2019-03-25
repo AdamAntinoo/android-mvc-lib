@@ -5,7 +5,7 @@ import junit.framework.Assert;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
-import org.dimensinfin.android.mvc.model.EmptyNode;
+import org.dimensinfin.android.mvc.support.EmptyNode;
 import org.dimensinfin.android.mvc.support.TestController;
 import org.junit.Before;
 import org.junit.Test;

@@ -5,11 +5,10 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DemoHeaderTitle implements ICollaboration, Serializable, Comparable<DemoHeaderTitle> {
+public class DemoHeaderTitle implements ICollaboration {
 	private static final long serialVersionUID = 7084637836405461264L;
 
 	// - F I E L D - S E C T I O N
@@ -30,17 +29,9 @@ public class DemoHeaderTitle implements ICollaboration, Serializable, Comparable
 		return name;
 	}
 
-//	public void setName(final String name) {
-//		this.name = name;
-//	}
-
 	public String getVersion() {
 		return version;
 	}
-
-//	public void setVersion(final String version) {
-//		this.version = version;
-//	}
 
 	// - I C O L L A B O R A T I O N   I N T E R F A C E
 	@Override
@@ -48,10 +39,13 @@ public class DemoHeaderTitle implements ICollaboration, Serializable, Comparable
 		return new ArrayList<ICollaboration>();
 	}
 
- // - C O M P A R A B L E   I N T E R F A C E
+	// - C O M P A R A B L E   I N T E R F A C E
 	@Override
-	public int compareTo(@NonNull final DemoHeaderTitle o) {
-		return this.name.compareTo(o.name);
+	public int compareTo(@NonNull final Object o) {
+		if (o instanceof DemoHeaderTitle) {
+			final DemoHeaderTitle target = (DemoHeaderTitle) o;
+			return this.name.compareTo(target.name);
+		} else return -1;
 	}
 
 	// - C O R E

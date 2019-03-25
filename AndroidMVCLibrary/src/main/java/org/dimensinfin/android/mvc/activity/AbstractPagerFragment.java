@@ -18,12 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
-import org.dimensinfin.android.mvc.controller.RootController;
 import org.dimensinfin.android.mvc.core.MVCExceptionHandler;
 import org.dimensinfin.android.mvc.core.ToastExceptionHandler;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
-import org.dimensinfin.android.mvc.datasource.MVCModelRootNode;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
@@ -352,26 +350,24 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
 	 */
 	protected void generateHeaderContents(final List<ICollaboration> headerData) {
 		AbstractPagerFragment.logger.info(">> [AbstractPagerFragment.generateHeaderContents]");
-		// Create a fake root node where to connect the list.
-		MVCModelRootNode headerModel = new MVCModelRootNode();
-		for (ICollaboration node : headerData) {
-			headerModel.addChild(node);
+		// Create the list of controllers from the model list received.
+		final List<IAndroidController> rootControllers = new ArrayList<>(headerData.size());
+		for (ICollaboration modelNode : headerData) {
+			final IAndroidController newController = this._factory.createController(modelNode);
+			newController.refreshChildren();
+			rootControllers.add(newController);
 		}
 
-		// Do the same operations as in the body contents. Create a root, add to it the model elements and then
-		// recursively generate the AndroidController list.
-		final RootController controllerRoot = new RootController(headerModel, this.getFactory());
-		controllerRoot.refreshChildren();
-		ArrayList<IAndroidController> headerParts = new ArrayList<IAndroidController>();
-		// Select for the body contents only the viewable Parts from the AndroidController model. Make it a list.
-		controllerRoot.collaborate2View(headerParts);
-
-		// Now do the old functionality by copying each of the resulting parts to the Header container.
-//		final Handler handler = new Handler(Looper.getMainLooper());
+		// Compose the final list from the controllers collaborating to the view.
+		final List<IAndroidController> controllers = new ArrayList<>();
+		for (IAndroidController controller : rootControllers) {
+			controller.collaborate2View(controllers);
+		}
+		// Now create the view and add it to the header list.
 		_handler.post(() -> {
 			_headerContainer.removeAllViews();
-			for (IAndroidController part : headerParts) {
-				if (part instanceof IAndroidController) addView2Header((IAndroidController) part);
+			for (IAndroidController part : controllers) {
+				if (part instanceof IAndroidController) addView2Header(part);
 			}
 		});
 		AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.generateHeaderContents]");

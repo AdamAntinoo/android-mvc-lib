@@ -4,7 +4,6 @@ import org.dimensinfin.android.mvc.controller.SeparatorController;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
-import org.dimensinfin.android.mvc.model.EmptyNode;
 import org.dimensinfin.android.mvc.model.Separator;
 
 public class TestControllerFactory extends ControllerFactory {

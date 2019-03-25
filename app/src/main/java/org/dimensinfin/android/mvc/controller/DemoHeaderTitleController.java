@@ -27,7 +27,7 @@ public class DemoHeaderTitleController extends AAndroidController implements IMe
 	public DemoHeaderTitleController(@NonNull final DemoHeaderTitle model, @NonNull final IControllerFactory factory) {
 		super(factory);
 		// Connect the delegate.
-		this.delegatedController = new GenericController<>(model, factory);
+		this.delegatedController = new GenericController<>(model);
 	}
 
 	// - D E L E G A T E D - A A N D R O I D C O N T R O L L E R

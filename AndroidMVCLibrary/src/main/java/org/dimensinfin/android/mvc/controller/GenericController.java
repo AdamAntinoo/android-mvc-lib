@@ -2,16 +2,20 @@ package org.dimensinfin.android.mvc.controller;
 
 import android.support.annotation.NonNull;
 import org.dimensinfin.android.mvc.events.EventEmitter;
+import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
 
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 
 /**
+ * Delegate to be used on the controllers to isolate from the model class to be used on the controller. With this delegate
+ * we are able to isolate the model and be able to use inheritance for development of controllers.
  * @author Adam Antinoo
  */
 
-public class GenericController<M> implements IModelContainer<M> {
+public class GenericController<M extends ICollaboration> implements IModelContainer<M> {
 	// - F I E L D - S E C T I O N
 	/** Reference to the Model node. */
 	private final M model; // Holds the model node.
@@ -21,8 +25,9 @@ public class GenericController<M> implements IModelContainer<M> {
 	private IEventEmitter eventController = new EventEmitter();
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public GenericController(@NonNull final M model, @NonNull final IControllerFactory factory) {
-//		super(factory);
+	public GenericController(@NonNull final M model) {
+		Objects.requireNonNull(model);
+//		Objects.requireNonNull(factory);
 		this.model = model;
 	}
 
@@ -53,14 +58,4 @@ public class GenericController<M> implements IModelContainer<M> {
 	public M getModel() {
 		return model;
 	}
-
-//	/**
-//	 * The factory is set on all the Controllers during the creation time by the factory itself. This allows to construct
-//	 * any Model supported by the factory from any Controller created by that Factory.
-//	 */
-//	public IControllerFactory getControllerFactory() {
-//		return this.factory;
-//	}
-
-	// - M E T H O D - S E C T I O N
 }

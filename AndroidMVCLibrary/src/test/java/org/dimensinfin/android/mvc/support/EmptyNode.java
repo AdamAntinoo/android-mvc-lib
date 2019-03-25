@@ -6,11 +6,13 @@
 //               on Android projects. Defines the Part factory and the Part core methods to manage
 //               a generic converter from a Graph Model to a hierarchical Part model that finally will
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
-package org.dimensinfin.android.mvc.model;
+package org.dimensinfin.android.mvc.support;
 
+import android.support.annotation.NonNull;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
+import org.dimensinfin.android.mvc.model.Separator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,11 +53,8 @@ public class EmptyNode implements ICollaboration {
 	@Override
 	public boolean equals(final Object o) {
 		if (this == o) return true;
-
 		if (o == null || getClass() != o.getClass()) return false;
-
 		final EmptyNode emptyNode = (EmptyNode) o;
-
 		return new EqualsBuilder()
 				.append(name, emptyNode.name)
 				.isEquals();
@@ -66,6 +65,15 @@ public class EmptyNode implements ICollaboration {
 		return new HashCodeBuilder(17, 37)
 				.append(name)
 				.toHashCode();
+	}
+
+	// - C O M P A R A B L E   I N T E R F A C E
+	@Override
+	public int compareTo(@NonNull final Object o) {
+		if ( o instanceof EmptyNode) {
+			final EmptyNode target = (EmptyNode) o;
+			return this.name.compareTo(target.name);
+		} else return -1;
 	}
 
 	@Override

@@ -28,7 +28,7 @@ public class DemoItemAndroidController extends AAndroidController implements Com
 	public DemoItemAndroidController(@NonNull final DemoLabel model, @NonNull final IControllerFactory factory) {
 		super(factory);
 		// Connect the delegate.
-		this.delegatedController = new GenericController<DemoLabel>(model, factory);
+		this.delegatedController = new GenericController<DemoLabel>(model);
 	}
 
 	// - D E L E G A T E D - A A N D R O I D C O N T R O L L E R

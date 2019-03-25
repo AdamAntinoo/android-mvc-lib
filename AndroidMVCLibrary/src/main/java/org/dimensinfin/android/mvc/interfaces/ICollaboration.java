@@ -7,6 +7,6 @@ import java.util.List;
  * of implementation frees model nodes from the single parent-children hierarchy that was the common behavior for GEF
  * node trees. New MVC will convert graphs to trees and then to lists for model render on list views.
  */
-public interface ICollaboration {
+public interface ICollaboration extends Comparable {
 	List<ICollaboration> collaborate2Model(String variation);
 }

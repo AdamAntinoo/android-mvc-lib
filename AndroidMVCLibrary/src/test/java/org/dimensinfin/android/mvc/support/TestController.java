@@ -8,7 +8,6 @@ import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.controller.GenericController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.android.mvc.model.EmptyNode;
 
 public class TestController extends AAndroidController {
 	// - F I E L D - S E C T I O N
@@ -23,7 +22,7 @@ public class TestController extends AAndroidController {
 	public TestController(@NonNull final EmptyNode model, @NonNull final IControllerFactory factory) {
 		super(factory);
 		// Connect the delegate.
-		this.delegatedController = new GenericController<EmptyNode>(model, factory);
+		this.delegatedController = new GenericController<EmptyNode>(model);
 	}
 
 	// - D E L E G A T E D - A A N D R O I D C O N T R O L L E R
@@ -75,9 +74,9 @@ public class TestController extends AAndroidController {
 				.toHashCode();
 	}
 
-//	@Override
-//	public int compareTo(@NonNull final Object o) {
+	@Override
+	public int compareTo(@NonNull final Object o) {
 //		final TestController target = (TestController) o;
-//		return this.getModel().getName().compareTo(((TestController) o).getModel().getName());
-//	}
+		return this.getModel().getName().compareTo(((TestController) o).getModel().getName());
+	}
 }

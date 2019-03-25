@@ -22,7 +22,7 @@ import java.util.List;
  * @author Adam Antinoo
  */
 
-public class Separator implements ICollaboration, Comparable<Separator> {
+public class Separator implements ICollaboration {
 	private static Logger logger = LoggerFactory.getLogger(Separator.class);
 
 	public enum ESeparatorType {
@@ -86,9 +86,13 @@ public class Separator implements ICollaboration, Comparable<Separator> {
 				'}';
 	}
 
+	// - C O M P A R A B L E   I N T E R F A C E
 	@Override
-	public int compareTo(@NonNull final Separator o) {
-		return this.title.compareTo(o.title);
+	public int compareTo(@NonNull final Object o) {
+		if ( o instanceof  Separator) {
+			final Separator target = (Separator) o;
+			return this.title.compareTo(target.title);
+		} else return -1;
 	}
 
 	// - I C O L L A B O R A T I O N

@@ -9,13 +9,10 @@
 package org.dimensinfin.android.mvc.support;
 
 import org.dimensinfin.android.mvc.controller.AAndroidController;
-import org.dimensinfin.android.mvc.controller.RootController;
 import org.dimensinfin.android.mvc.controller.SeparatorController;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
-import org.dimensinfin.android.mvc.model.EmptyNode;
-import org.dimensinfin.android.mvc.datasource.MVCModelRootNode;
 import org.dimensinfin.android.mvc.model.Separator;
 import org.junit.Assert;
 import org.junit.Test;
@@ -32,7 +29,7 @@ public class PojoContractsTest {
 	public void accessorContract() {
 		PojoTestUtils.validateAccessors(AMVCDataSource.class);
 		PojoTestUtils.validateAccessors(AAndroidController.class);
-		PojoTestUtils.validateAccessors(RootController.class);
+//		PojoTestUtils.validateAccessors(RootController.class);
 		PojoTestUtils.validateAccessors(SeparatorController.class);
 	}
 
@@ -72,11 +69,11 @@ public class PojoContractsTest {
 	public void toStringContract() {
 		final DataSourceLocator locator = new DataSourceLocator().addIdentifier("TEST");
 		final ControllerFactory factory = new TestControllerFactory("TEST");
-		final MVCModelRootNode root = new MVCModelRootNode();
+//		final MVCModelRootNode root = new MVCModelRootNode();
 		final Separator separator = new Separator("TEST");
 
 		Assert.assertNotNull(new TestDataSource(locator, factory).toString());
-		Assert.assertNotNull(new RootController(root, factory).toString());
+//		Assert.assertNotNull(new RootController(root, factory).toString());
 		Assert.assertNotNull(new SeparatorController(separator, factory).toString());
 	}
 }
