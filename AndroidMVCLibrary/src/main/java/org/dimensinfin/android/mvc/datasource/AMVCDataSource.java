@@ -458,115 +458,115 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	}
 
 
-	public static class OnLoadSpinnerController extends AAndroidController<Separator> {
-		// - C O N S T R U C T O R - S E C T I O N
-
-		/**
-		 * This constructor connect the root part to the DS and then top the other initialization elements that define the
-		 * DS functionality but at a time that is not the creation time. Then the Factory and other data structures become
-		 * available to the part hierarchy without affecting any other AndroidController implementation.
-		 */
-		public OnLoadSpinnerController(final Separator model, final IControllerFactory factory) {
-			super(model, factory);
-		}
-
-		/**
-		 * This method is required by the Adapter to get a unique identifier for each node to be render on a Viewer.
-		 * @return a unique number identifier.
-		 */
-		@Override
-		public long getModelId() {
-			return Instant.now().getMillis();
-		}
-
-		@Override
-		public IRender buildRender(final Context context) {
-			return new SeparatorRender(this, context);
-		}
-
-		@Override
-		public int compareTo(@NonNull final Object o) {
-			final SeparatorController target = (SeparatorController) o;
-			return this.getModel().getTitle().compareTo(((SeparatorController) o).getModel().getTitle());
-		}
-	}
-
-	public static class OnLoadSpinnerRender extends AbstractRender<Separator> {
-		// - F I E L D - S E C T I O N
-		private ProgressBar progress = null;
-		private TextView progressCounter = null;
-
-		private Instant _elapsedTimer = null;
-
-		// - C O N S T R U C T O R - S E C T I O N
-		public OnLoadSpinnerRender(final AAndroidController<Separator> controller, final Context context) {
-			super(controller, context);
-		}
-
-		// - I R E N D E R   I N T E R F A C E
-		@Override
-		public void initializeViews() {
-			progress = (ProgressBar) this.getView().findViewById(R.id.progress);
-			progressCounter = (TextView) this.getView().findViewById(R.id.progressCounter);
-			_elapsedTimer = Instant.now();
-			new CountDownTimer(TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS.toMillis(10)) {
-				@Override
-				public void onFinish() {
-					progressCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
-					progressCounter.invalidate();
-				}
-
-				@Override
-				public void onTick(final long millisUntilFinished) {
-					progressCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
-					progressCounter.invalidate();
-				}
-			}.start();
-		}
-
-		@Override
-		public void updateContent() {
-			Animation rotation = AnimationUtils.loadAnimation(getContext(), R.anim.clockwise_rotation);
-			rotation.setRepeatCount(Animation.INFINITE);
-			progress.startAnimation(rotation);
-		}
-
-		@Override
-		public int accessLayoutReference() {
-			return R.layout.onload_spinner;
-		}
-
-		/**
-		 * Displays an string in the format "nh nm ns" that is the number of seconds from the start point that is the value
-		 * received as the parameter and the current instant on time.
-		 */
-		protected String generateTimeString(final long millis) {
-			try {
-				final long elapsed = Instant.now().getMillis() - millis;
-				final DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
-				if (elapsed > TimeUnit.HOURS.toMillis(1)) {
-					timeFormatter.appendHourOfDay(2).appendLiteral("h ");
-				}
-				if (elapsed > TimeUnit.MINUTES.toMillis(1)) {
-					timeFormatter.appendMinuteOfHour(2).appendLiteral("m ").appendSecondOfMinute(2).appendLiteral("s");
-				} else timeFormatter.appendSecondOfMinute(2).appendLiteral("s");
-				return timeFormatter.toFormatter().print(new Instant(elapsed));
-			} catch (final RuntimeException rtex) {
-				return "0m 00s";
-			}
-		}
-
-		// - B U I L D E R
-//		public static class Builder extends AbstractRender.Builder<Separator> {
-//			public Builder(final AAndroidController<Separator> controller, final Context context) {
-//				super(controller, context);
-//			}
+//	public static class OnLoadSpinnerController extends AAndroidController<Separator> {
+//		// - C O N S T R U C T O R - S E C T I O N
 //
-//			public OnLoadSpinnerRender build() {
-//				return new OnLoadSpinnerRender(this);
+//		/**
+//		 * This constructor connect the root part to the DS and then top the other initialization elements that define the
+//		 * DS functionality but at a time that is not the creation time. Then the Factory and other data structures become
+//		 * available to the part hierarchy without affecting any other AndroidController implementation.
+//		 */
+//		public OnLoadSpinnerController(final Separator model, final IControllerFactory factory) {
+//			super(model, factory);
+//		}
+//
+//		/**
+//		 * This method is required by the Adapter to get a unique identifier for each node to be render on a Viewer.
+//		 * @return a unique number identifier.
+//		 */
+//		@Override
+//		public long getModelId() {
+//			return Instant.now().getMillis();
+//		}
+//
+//		@Override
+//		public IRender buildRender(final Context context) {
+//			return new SeparatorRender(this, context);
+//		}
+//
+//		@Override
+//		public int compareTo(@NonNull final Object o) {
+//			final SeparatorController target = (SeparatorController) o;
+//			return this.getModel().getTitle().compareTo(((SeparatorController) o).getModel().getTitle());
+//		}
+//	}
+//
+//	public static class OnLoadSpinnerRender extends AbstractRender<Separator> {
+//		// - F I E L D - S E C T I O N
+//		private ProgressBar progress = null;
+//		private TextView progressCounter = null;
+//
+//		private Instant _elapsedTimer = null;
+//
+//		// - C O N S T R U C T O R - S E C T I O N
+//		public OnLoadSpinnerRender(final AAndroidController<Separator> controller, final Context context) {
+//			super(controller, context);
+//		}
+//
+//		// - I R E N D E R   I N T E R F A C E
+//		@Override
+//		public void initializeViews() {
+//			progress = (ProgressBar) this.getView().findViewById(R.id.progress);
+//			progressCounter = (TextView) this.getView().findViewById(R.id.progressCounter);
+//			_elapsedTimer = Instant.now();
+//			new CountDownTimer(TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS.toMillis(10)) {
+//				@Override
+//				public void onFinish() {
+//					progressCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
+//					progressCounter.invalidate();
+//				}
+//
+//				@Override
+//				public void onTick(final long millisUntilFinished) {
+//					progressCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
+//					progressCounter.invalidate();
+//				}
+//			}.start();
+//		}
+//
+//		@Override
+//		public void updateContent() {
+//			Animation rotation = AnimationUtils.loadAnimation(getContext(), R.anim.clockwise_rotation);
+//			rotation.setRepeatCount(Animation.INFINITE);
+//			progress.startAnimation(rotation);
+//		}
+//
+//		@Override
+//		public int accessLayoutReference() {
+//			return R.layout.onload_spinner;
+//		}
+//
+//		/**
+//		 * Displays an string in the format "nh nm ns" that is the number of seconds from the start point that is the value
+//		 * received as the parameter and the current instant on time.
+//		 */
+//		protected String generateTimeString(final long millis) {
+//			try {
+//				final long elapsed = Instant.now().getMillis() - millis;
+//				final DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
+//				if (elapsed > TimeUnit.HOURS.toMillis(1)) {
+//					timeFormatter.appendHourOfDay(2).appendLiteral("h ");
+//				}
+//				if (elapsed > TimeUnit.MINUTES.toMillis(1)) {
+//					timeFormatter.appendMinuteOfHour(2).appendLiteral("m ").appendSecondOfMinute(2).appendLiteral("s");
+//				} else timeFormatter.appendSecondOfMinute(2).appendLiteral("s");
+//				return timeFormatter.toFormatter().print(new Instant(elapsed));
+//			} catch (final RuntimeException rtex) {
+//				return "0m 00s";
 //			}
 //		}
-	}
+//
+//		// - B U I L D E R
+////		public static class Builder extends AbstractRender.Builder<Separator> {
+////			public Builder(final AAndroidController<Separator> controller, final Context context) {
+////				super(controller, context);
+////			}
+////
+////			public OnLoadSpinnerRender build() {
+////				return new OnLoadSpinnerRender(this);
+////			}
+////		}
+//	}
 
 //	// - B U I L D E R
 //	public static class Builder {

@@ -1,11 +1,3 @@
-//  PROJECT:     Android.MVC (A.MVC)
-//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
-//  COPYRIGHT:   (c) 2013-2019 by Dimensinfin Industries, all rights reserved.
-//  ENVIRONMENT: Android API16.
-//  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
-//               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
-//               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.controller;
 
 import android.support.annotation.NonNull;
@@ -21,10 +13,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-public class RootController {
+public class RootController extends AAndroidController{
 	private static final Logger logger = LoggerFactory.getLogger(RootController.class);
 
 	// - F I E L D - S E C T I O N
+	private GenericController<MVCModelRootNode> delegatedController;
+
 	/** List of children of the hierarchy. */
 	private List<IAndroidController> children = new Vector<>();
 	/** This field caches the factory that is set during the construction. */
@@ -33,8 +27,10 @@ public class RootController {
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public RootController(@NonNull final MVCModelRootNode node, @NonNull final IControllerFactory factory) {
+		this.delegatedController = new GenericController<>(node, factory);
 		this.model = node;
-		this.factory = factory;
+//		this.factory = factory;
+		super(factory);
 	}
 
 	// - G E T T E R S   &   S E T T E R S

@@ -19,12 +19,12 @@ import java.util.List;
 /**
  * @author Adam Antinoo
  */
-public class DemoItemAndroidController implements IIAndroidController {
+public class DemoItemAndroidController extends AAndroidController {
 	// - F I E L D - S E C T I O N
 	private GenericController<DemoLabel> delegatedController;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public DemoItemAndroidController(final DemoLabel model, final IControllerFactory factory) {
+	public DemoItemAndroidController(@NonNull final DemoLabel model, @NonNull final IControllerFactory factory) {
 		// Connect the delegate.
 		this.delegatedController = new GenericController<DemoLabel>(model, factory);
 //		super(model, factory);
