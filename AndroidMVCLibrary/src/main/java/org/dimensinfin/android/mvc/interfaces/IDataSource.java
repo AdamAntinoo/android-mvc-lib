@@ -18,31 +18,13 @@ import java.util.List;
 // - CLASS IMPLEMENTATION
 public interface IDataSource extends PropertyChangeListener {
 	DataSourceLocator getDataSourceLocator();
-	String getVariant();
 	Bundle getExtras();
-	IControllerFactory getControllerFactory();
-
 	AMVCDataSource setExtras(final Bundle extras);
+	String getVariant();
 	IDataSource setVariant(final String variant);
 
-	void addPropertyChangeListener(final PropertyChangeListener newListener);
-	List<IAndroidController> getDataSectionContents();
-//
-//	void cleanup();
-//
-//	//	 boolean isCached();
-////
-//	boolean isCacheable();
-//
-////	 IDataSource setCacheable( final boolean cachestate );
-//
-//	IDataSource addModelContents(final ICollaboration newnode);
-//
 	void collaborate2Model();
-//
-//
-////	 IRootPart createRootPart();
-//
-//	void startOnLoadProcess();
+	List<IAndroidController> getDataSectionContents();
 
+	void addPropertyChangeListener(final PropertyChangeListener newListener);
 }

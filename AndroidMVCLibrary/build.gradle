@@ -80,13 +80,13 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
-//    libraryVariants.all { variant ->
-//        variant.outputs.all { output ->
-//            if (outputFile != null && outputFileName.endsWith('.aar')) {
-//                outputFileName = "${archivesBaseName}-${version}.aar"
-//            }
-//        }
-//    }
+    libraryVariants.all { variant ->
+        variant.outputs.all { output ->
+            if (outputFile != null && outputFileName.endsWith('.aar')) {
+                outputFileName = "${archivesBaseName}-${version}.aar"
+            }
+        }
+    }
 }
 
 dependencies {
@@ -94,15 +94,13 @@ dependencies {
     implementation 'com.android.support:support-fragment:27.1.1'
 
     // L O C A L    L I B R A R I E S
-    api files('libs/viewpagerindicator-release.aar')
+    implementation files('libs/viewpagerindicator-release.aar')
 //    compileOnly files('libs/CoreBase.core-2.0.3.jar')
 
     // M O D U L E    D E P E N D E N C I E S
     compileOnly 'org.slf4j:slf4j-android:1.7.25'
     implementation 'joda-time:joda-time:2.3'
     implementation 'org.apache.commons:commons-lang3:3.7'
-    implementation 'com.squareup.dagger:dagger:1.2.2'
-    annotationProcessor 'com.squareup.dagger:dagger-compiler:1.2.2'
 
     // T E S T I N G
     testImplementation 'org.slf4j:slf4j-android:1.7.25'
@@ -112,7 +110,7 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:4.2'
 
     // A N D R O I D   T E S T I N G
-    androidTestImplementation 'com.android.support:support-annotations:28.0.0'
+    androidTestImplementation 'com.android.support:support-annotations:27.1.1'
     androidTestImplementation 'org.mockito:mockito-core:2.23.4'
 //    androidTestImplementation 'com.android.support.test:runner:1.0.2'
 //    androidTestImplementation 'com.android.support.test:rules:1.0.2'

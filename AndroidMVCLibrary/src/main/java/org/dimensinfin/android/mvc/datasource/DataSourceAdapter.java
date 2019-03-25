@@ -248,6 +248,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * is a generic class that must not be upgraded because we start then to replicate most of the code.
 	 */
 	public void propertyChange(final PropertyChangeEvent event) {
+		logger.info(">> [DataSourceAdapter.propertyChange]> Processing Event: {}", event.getPropertyName());
 		// - C O N T E N T   E V E N T S
 		if (EEvents.valueOf(event.getPropertyName()) ==
 				EEvents.EVENTCONTENTS_ACTIONMODIFYDATA) _handler.post(() -> {
