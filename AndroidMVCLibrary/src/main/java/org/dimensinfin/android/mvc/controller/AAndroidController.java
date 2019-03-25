@@ -59,8 +59,6 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 //	@Override
 	public abstract M getModel();
 
-	public abstract long getModelId();
-
 	/**
 	 * The factory is set on all the Controllers during the creation time by the factory itself. This allows to construct
 	 * any Model supported by the factory from any Controller created by that Factory.
@@ -120,6 +118,8 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
 
+	public abstract long getModelId();
+
 	/**
 	 * This is the call that should create and inflate the render UI view. During all other processes the Context is not
 	 * needed not used but this is the right moment to get to the Android system and instantiate a new UI element. The
@@ -171,7 +171,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 //		if (this.isOrderedActive()) Collections.sort(childrenList);
 		return childrenList;
 	}
-
+ // TODO - This should be made abstract when the code is stable.
 	public boolean isVisible() {
 		return true;
 	}

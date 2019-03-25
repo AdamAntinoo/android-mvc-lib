@@ -13,23 +13,35 @@ import android.support.annotation.NonNull;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.model.DemoContainer;
+import org.dimensinfin.android.mvc.model.DemoLabel;
 
 import java.text.DecimalFormat;
 
 /**
  * @author Adam Antinoo
  */
-public class DemoContainerController extends AAndroidController<DemoContainer> {
+public class DemoContainerController extends AAndroidController{
 	private static DecimalFormat itemCountFormatter = new DecimalFormat("###,##0");
 
 	// - F I E L D - S E C T I O N
+	private GenericController<DemoContainer> delegatedController;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public DemoContainerController(final DemoContainer model, final IControllerFactory factory) {
-		super(model, factory);
+	public DemoContainerController(@NonNull final IControllerFactory factory) {
+		super(factory);
+	}
+	public DemoContainerController(@NonNull final DemoContainer model, @NonNull final IControllerFactory factory) {
+		super(factory);
+		// Connect the delegate.
+		this.delegatedController = new GenericController<>(model, factory);
 	}
 
-	// - M E T H O D - S E C T I O N
+	// - D E L E G A T E D - A A N D R O I D C O N T R O L L E R
+	public DemoContainer getModel() {
+		return delegatedController.getModel();
+	}
+
+	// - O V E R R I D E - A A N D R O I D C O N T R O L L E R
 	@Override
 	public long getModelId() {
 		return this.getModel().getTitle().hashCode();
@@ -54,13 +66,13 @@ public class DemoContainerController extends AAndroidController<DemoContainer> {
 		return buffer.toString();
 	}
 
-	@Override
-	public int compareTo(@NonNull final Object o) {
-		if (o instanceof DemoContainerController) {
-			final DemoContainerController target = (DemoContainerController) o;
-			return this.getModel().compareTo(target.getModel());
-		} else return -1;
-	}
+//	@Override
+//	public int compareTo(@NonNull final Object o) {
+//		if (o instanceof DemoContainerController) {
+//			final DemoContainerController target = (DemoContainerController) o;
+//			return this.getModel().compareTo(target.getModel());
+//		} else return -1;
+//	}
 
 	public static class DemoContainerRender extends DemoItemAndroidController.DemoLabelRender {
 		// - F I E L D - S E C T I O N

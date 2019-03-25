@@ -17,17 +17,36 @@ import org.dimensinfin.android.mvc.render.AbstractRender;
 /**
  * @author Adam Antinoo
  */
-public class DemoHeaderTitleController extends AAndroidController<DemoHeaderTitle> implements IMenuActionTarget {
+public class DemoHeaderTitleController extends AAndroidController implements IMenuActionTarget, Comparable {
 	// - F I E L D - S E C T I O N
+	private GenericController<DemoHeaderTitle> delegatedController;
 	private int iconReference = R.drawable.defaulticonplaceholder;
 	private Context context;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public DemoHeaderTitleController(final DemoHeaderTitle model, final IControllerFactory factory) {
-		super(model, factory);
+	public DemoHeaderTitleController(@NonNull final DemoHeaderTitle model, @NonNull final IControllerFactory factory) {
+		super(factory);
+		// Connect the delegate.
+		this.delegatedController = new GenericController<>(model, factory);
 	}
 
-	// - M E T H O D - S E C T I O N
+	// - D E L E G A T E D - A A N D R O I D C O N T R O L L E R
+	public DemoHeaderTitle getModel() {
+		return delegatedController.getModel();
+	}
+
+	// - O V E R R I D E - A A N D R O I D C O N T R O L L E R
+	@Override
+	public long getModelId() {
+		return this.getModel().hashCode();
+	}
+
+	@Override
+	public IRender buildRender(final Context context) {
+		this.context = context;
+		return new DemoHeaderTitleRender(this, context);
+	}
+
 	// - G E T T E R S   &   S E T T E R S
 	public int getIconReference() {
 		return iconReference;
@@ -39,18 +58,8 @@ public class DemoHeaderTitleController extends AAndroidController<DemoHeaderTitl
 		return this;
 	}
 
-	@Override
-	public IRender buildRender(final Context context) {
-		this.context = context;
-		return new DemoHeaderTitleRender(this, context);
-	}
-
-	@Override
-	public long getModelId() {
-		return this.getModel().hashCode();
-	}
-
-	@Override
+	// - C O M P A R A B L E   I N T E R F A C E
+		@Override
 	public int compareTo(@NonNull final Object o) {
 		if (o instanceof DemoHeaderTitleController) {
 			final DemoHeaderTitleController target = (DemoHeaderTitleController) o;
