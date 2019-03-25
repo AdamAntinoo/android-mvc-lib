@@ -7,67 +7,65 @@ import java.util.List;
 import java.util.Vector;
 
 public class Container extends Separator {
-	// - S T A T I C - S E C T I O N
 	private static final long serialVersionUID = -957283664928489030L;
 
 	// - F I E L D - S E C T I O N
-	private final Vector<ICollaboration> _contents = new Vector<ICollaboration>();
+	private final List<ICollaboration> _contents = new ArrayList<>();
 	private boolean _expanded = false;
 	private boolean _renderIfEmpty = true;
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public Container() {
 		super();
-//		jsonClass = "Container";
 	}
 
 	public Container(final String title) {
 		super(title);
-//		jsonClass = "Container";
 	}
 
-	//- M E T H O D - S E C T I O N
+	// - M E T H O D - S E C T I O N
 	public int addContent(final ICollaboration node) {
 		this._contents.add(node);
 		return _contents.size();
 	}
 
-	public int addContentList(final List<ICollaboration> newcontents) {
-		for (ICollaboration node : newcontents)
-			addContent(node);
-		return _contents.size();
-	}
+//	public int addContentList(final List<ICollaboration> newcontents) {
+//		for (ICollaboration node : newcontents)
+//			addContent(node);
+//		return _contents.size();
+//	}
 
 	public void clean() {
-		_contents.clear();
+		this._contents.clear();
+	}
+	public List<ICollaboration> getContents() {
+		return _contents;
+	}
+	public int getContentSize() {
+		return this._contents.size();
 	}
 
+	// - I C O L L A B O R A T I O N   I N T E R F A C E
 	/**
 	 * Check if the <code>Container</code> has contents and then add all them to the model.
 	 */
 	@Override
 	public List<ICollaboration> collaborate2Model(final String variant) {
-		ArrayList<ICollaboration> results = new ArrayList<ICollaboration>();
-		results.addAll(this.getContents());
-		return results;
+		return this.getContents();
+//		ArrayList<ICollaboration> results = new ArrayList<ICollaboration>();
+//		results.addAll(this.getContents());
+//		return results;
 	}
 
+	// - I E X P A N D A B L E   I N T E R F A C E
 	public boolean collapse() {
-		_expanded = false;
+		this._expanded = false;
 		return _expanded;
 	}
 
 	public boolean expand() {
-		_expanded = true;
+		this._expanded = true;
 		return _expanded;
-	}
-
-	public Vector<ICollaboration> getContents() {
-		return _contents;
-	}
-
-	public int getContentSize() {
-		return this._contents.size();
 	}
 
 	public boolean isEmpty() {
@@ -78,17 +76,17 @@ public class Container extends Separator {
 	}
 
 	public boolean isExpanded() {
-		return _expanded;
+		return this._expanded;
 	}
 
 	public boolean isRenderWhenEmpty() {
-		return _renderIfEmpty;
+		return this._renderIfEmpty;
 	}
 
-//	public IExpandable setRenderWhenEmpty (final boolean renderWhenEmpty) {
-//		_renderIfEmpty = renderWhenEmpty;
+	public void setRenderWhenEmpty (final boolean renderWhenEmpty) {
+		this._renderIfEmpty = renderWhenEmpty;
 //		return this;
-//	}
+	}
 
 	@Override
 	public String toString() {

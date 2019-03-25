@@ -9,9 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * This is the most simplest class for any model node on the application demo for the MVC library. Just defines the json
+ * class that is something unused on the demo but that allows to use inheritance over the model instances to check this
+ * point.
  * @author Adam Antinoo
  */
-public class DemoNode /*extends EmptyNode*/ implements ICollaboration, Comparable {
+public class DemoNode implements ICollaboration {
 	// - F I E L D - S E C T I O N
 	public String jsonClass = "DemoNode";
 
@@ -20,7 +23,6 @@ public class DemoNode /*extends EmptyNode*/ implements ICollaboration, Comparabl
 		super();
 	}
 
-	// - M E T H O D - S E C T I O N
 	// - I C O L L A B O R A T I O N   I N T E R F A C E
 	@Override
 	public List<ICollaboration> collaborate2Model(final String variant) {
@@ -30,6 +32,15 @@ public class DemoNode /*extends EmptyNode*/ implements ICollaboration, Comparabl
 	// - G E T T E R S   &   S E T T E R S
 	public String getJsonClass() {
 		return jsonClass;
+	}
+
+	// - C O M P A R A B L E   I N T E R F A C E
+	@Override
+	public int compareTo(@NonNull final Object o) {
+		if (o instanceof DemoNode) {
+			final DemoNode target = (DemoNode) o;
+			return this.jsonClass.compareTo(target.jsonClass);
+		} else return -1;
 	}
 
 	// - C O R E
@@ -56,13 +67,5 @@ public class DemoNode /*extends EmptyNode*/ implements ICollaboration, Comparabl
 		buffer.append("jsonClass: ").append(jsonClass).append(" ");
 		buffer.append("]");
 		return buffer.toString();
-	}
-
-	@Override
-	public int compareTo(@NonNull final Object o) {
-		if (o instanceof DemoNode) {
-			final DemoNode target = (DemoNode) o;
-			return this.jsonClass.compareTo(target.jsonClass);
-		} else return -1;
 	}
 }

@@ -23,7 +23,6 @@ import java.util.List;
  */
 
 public class Separator implements ICollaboration {
-	private static Logger logger = LoggerFactory.getLogger(Separator.class);
 
 	public enum ESeparatorType {
 		DEFAULT, LINE_WHITE, LINE_RED, LINE_ORANGE, LINE_YELLOW, LINE_GREEN, LINE_DARKBLUE, EMPTY_SIGNAL,
@@ -62,11 +61,8 @@ public class Separator implements ICollaboration {
 	@Override
 	public boolean equals(final Object o) {
 		if (this == o) return true;
-
 		if (o == null || getClass() != o.getClass()) return false;
-
 		final Separator separator = (Separator) o;
-
 		return new EqualsBuilder()
 				.append(title, separator.title)
 				.isEquals();

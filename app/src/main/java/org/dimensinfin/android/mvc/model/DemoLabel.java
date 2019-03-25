@@ -3,13 +3,11 @@ package org.dimensinfin.android.mvc.model;
 import android.support.annotation.NonNull;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Adam Antinoo
  */
-public class DemoLabel extends DemoNode{
+public class DemoLabel extends DemoNode {
 	// - F I E L D - S E C T I O N
 	private String title = "-TITLE-";
 
