@@ -12,6 +12,7 @@ import org.dimensinfin.android.mvc.model.DemoContainer;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 import org.dimensinfin.android.mvc.model.DemoItem;
 import org.dimensinfin.android.mvc.model.DemoLabel;
+import org.dimensinfin.android.mvc.model.DemoLabelCounter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,8 +111,8 @@ final class DemoDataSource extends AMVCDataSource {
 			}
 			// Add manually each of the demo model nodes.
 			addModelContents(new DemoLabel("NON EXPANDABLE SECTION"));
-			addModelContents(new DemoItem()
-					.setIcon(R.drawable.criticalstate)
+			addModelContents(new DemoLabelCounter()
+//					.setIcon(R.drawable.criticalstate)
 					.setTitle("STOP"));
 			addModelContents(new DemoItem()
 					.setIcon(R.drawable.corpmap)

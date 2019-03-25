@@ -3,6 +3,7 @@ package org.dimensinfin.android.mvc.demo.factory;
 import android.support.annotation.NonNull;
 import org.dimensinfin.android.mvc.controller.DemoContainerController;
 import org.dimensinfin.android.mvc.controller.DemoHeaderTitleController;
+import org.dimensinfin.android.mvc.controller.DemoLabelCounterController;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
@@ -13,6 +14,7 @@ import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 import org.dimensinfin.android.mvc.model.DemoItem;
 import org.dimensinfin.android.mvc.model.DemoLabel;
 import org.dimensinfin.android.mvc.controller.DemoItemAndroidController;
+import org.dimensinfin.android.mvc.model.DemoLabelCounter;
 
 /**
  * @author Adam Antinoo
@@ -47,6 +49,10 @@ public class DemoControllerFactory extends ControllerFactory implements IControl
 		}
 
 		// Demo classes and models
+		if (node instanceof DemoLabelCounter) {
+			// These shows the selected Separator but with another rendering.
+			return new DemoLabelCounterController((DemoLabelCounter) node, this).setRenderMode("-LABEL-");
+		}
 		if (node instanceof DemoItem) {
 			// These shows the selected Separator but with another rendering.
 			IAndroidController part = new DemoItemAndroidController((DemoItem) node, this).setRenderMode("-ITEM-");

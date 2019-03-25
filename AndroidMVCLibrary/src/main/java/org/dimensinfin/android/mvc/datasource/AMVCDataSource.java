@@ -96,6 +96,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	 * of the controller hierarchy. Cannot be changed but has to define methods to customize its behavior to any need that
 	 * suits the developer. For example sorting and filtering can be changed by adding policies to this instance.
 	 */
+	// TODO - Replace by a list of controllers.
 	private RootController controllerRoot;
 	private boolean dirty = false; // This is the flag for model changes.
 //	/**

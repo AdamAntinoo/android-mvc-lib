@@ -1,48 +1,49 @@
 package org.dimensinfin.android.mvc.controller;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
+import org.dimensinfin.android.mvc.datasource.MVCModelRootNode;
 import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.datasource.MVCModelRootNode;
-import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-public class RootController /*extends AAndroidController*/{
+public class RootController /*extends AAndroidController*/ {
 	private static final Logger logger = LoggerFactory.getLogger(RootController.class);
 
 	// - F I E L D - S E C T I O N
-	private GenericController<MVCModelRootNode> delegatedController;
+//	private GenericController<MVCModelRootNode> delegatedController;
 
 	/** List of children of the hierarchy. */
 	private List<IAndroidController> children = new Vector<>();
-//	/** This field caches the factory that is set during the construction. */
+	//	/** This field caches the factory that is set during the construction. */
 	private final IControllerFactory factory;
 	private MVCModelRootNode model; // Holds the model node.
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public RootController(@NonNull final MVCModelRootNode node, @NonNull final IControllerFactory factory) {
 //		super(factory);
-		this.delegatedController = new GenericController<>(node, factory);
+//		this.delegatedController = new GenericController<>(node, factory);
 		this.model = node;
 		this.factory = factory;
 	}
 
 	public void refreshChildren() {
-		for ( IAndroidController node : this.children){
-			node.refreshChildren();
+		this.children.clear();
+		final List<ICollaboration> firstLevelNodes = this.model.collaborate2Model(this.factory.getVariant());
+		if (firstLevelNodes.isEmpty()) return;
+		for (ICollaboration modelNode : firstLevelNodes) {
+			final IAndroidController newController = this.factory.createController(modelNode);
+			newController.refreshChildren();
+			this.children.add(newController);
 		}
 	}
 
 	public void collaborate2View(final List<IAndroidController> controllers) {
-		for ( IAndroidController node : this.children){
+		for (IAndroidController node : this.children) {
 			node.collaborate2View(controllers);
 		}
 	}
