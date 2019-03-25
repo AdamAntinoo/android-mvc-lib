@@ -36,12 +36,8 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	protected static final Logger logger = LoggerFactory.getLogger(AAndroidController.class);
 
 	// - F I E L D - S E C T I O N
-//	private GenericController<DemoLabel> delegatedController;
-
 	/** List of children of the hierarchy. */
 	private List<IAndroidController> children = new ArrayList<>();
-	/** Reference to the Model node. */
-//	private final M model; // Holds the model node.
 	/** This field caches the factory that is set during the construction. */
 	private final IControllerFactory factory;
 	private boolean orderedActive = false; // If the contents should be returned ordered or not
@@ -118,9 +114,6 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	}
 
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
-
-	public abstract long getModelId();
-
 	/**
 	 * This is the call that should create and inflate the render UI view. During all other processes the Context is not
 	 * needed not used but this is the right moment to get to the Android system and instantiate a new UI element. The
@@ -129,7 +122,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	 * @param context the Activity UI context to use to locate the inflater and do the action.
 	 * @return
 	 */
-	public abstract IRender buildRender(final Context context);
+//	public abstract IRender buildRender(final Context context);
 
 	/**
 	 * Optimized process to generate the list of Controllers that should end on the render graphical process. While we are
