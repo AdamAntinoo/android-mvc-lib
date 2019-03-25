@@ -19,86 +19,93 @@ import java.util.List;
 /**
  * @author Adam Antinoo
  */
-public class DemoItemAndroidController implements IAndroidController<DemoLabel> {
+public class DemoItemAndroidController implements IIAndroidController {
 	// - F I E L D - S E C T I O N
-	private AAndroidController<DemoLabel> delegatedController;
+	private GenericController<DemoLabel> delegatedController;
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public DemoItemAndroidController(final DemoLabel model, final IControllerFactory factory) {
 		// Connect the delegate.
-		this.delegatedController = new AAndroidController<DemoLabel>(model, factory);
+		this.delegatedController = new GenericController<DemoLabel>(model, factory);
 //		super(model, factory);
 	}
 
 	// - D E L E G A T E D - A A N D R O I D C O N T R O L L E R
-	@Override
 	public DemoLabel getModel() {
 		return delegatedController.getModel();
 	}
 
-	@Override
-	public void refreshChildren() {
-		delegatedController.refreshChildren();
-	}
-
-	@Override
-	public void collaborate2View(final List<IAndroidController<?>> contentCollector) {
-		delegatedController.collaborate2View(contentCollector);
-	}
-
-	@Override
-	public List<IAndroidController<DemoLabel>> orderingFeature(final List<IAndroidController<DemoLabel>> childrenList) {
-		return delegatedController.orderingFeature(childrenList);
-	}
-
-	@Override
-	public boolean isVisible() {
-		return delegatedController.isVisible();
-	}
-
-	@Override
-	public boolean isOrderedActive() {
-		return delegatedController.isOrderedActive();
-	}
-
-	@Override
-	public AAndroidController setOrderedActive(final boolean orderedActive) {
-		return delegatedController.setOrderedActive(orderedActive);
-	}
-
-	@Override
-	public View getViewCache() {
-		return delegatedController.getViewCache();
-	}
-
-	@Override
-	public String getRenderMode() {
-		return delegatedController.getRenderMode();
-	}
-
-	public AAndroidController setRenderMode(final String renderMode) {
-		return delegatedController.setRenderMode(renderMode);
-	}
-
-	@Override
-	public AAndroidController setViewCache(final View viewCache) {
-		return delegatedController.setViewCache(viewCache);
-	}
-
-	@Override
-	public void addPropertyChangeListener(final PropertyChangeListener listener) {
-		delegatedController.addPropertyChangeListener(listener);
-	}
-
-	@Override
-	public boolean sendChangeEvent(final String eventName) {
-		return delegatedController.sendChangeEvent(eventName);
-	}
-
-	@Override
-	public void removePropertyChangeListener(final PropertyChangeListener listener) {
-		delegatedController.removePropertyChangeListener(listener);
-	}
+//	@Override
+//	public DemoLabel getModel() {
+//		return delegatedController.getModel();
+//	}
+//
+//	@Override
+//	public void refreshChildren() {
+//		delegatedController.refreshChildren();
+//	}
+//
+//	@Override
+//	public void collaborate2View(final List<IAndroidController<?>> contentCollector) {
+//		delegatedController.collaborate2View(contentCollector);
+//	}
+//
+//	@Override
+//	public List<IAndroidController<DemoLabel>> orderingFeature(final List<IAndroidController<DemoLabel>> childrenList) {
+//		return delegatedController.orderingFeature(childrenList);
+//	}
+//
+//	@Override
+//	public boolean isVisible() {
+//		return delegatedController.isVisible();
+//	}
+//
+//	@Override
+//	public boolean isOrderedActive() {
+//		return delegatedController.isOrderedActive();
+//	}
+//
+//	@Override
+//	public IAndroidController setOrderedActive(final boolean orderedActive) {
+//		delegatedController.setOrderedActive(orderedActive);
+//		return this;
+//	}
+//
+//	@Override
+//	public View getViewCache() {
+//		return delegatedController.getViewCache();
+//	}
+//
+//	@Override
+//	public String getRenderMode() {
+//		return delegatedController.getRenderMode();
+//	}
+//
+//	public IAndroidController setRenderMode(final String renderMode) {
+//		delegatedController.setRenderMode(renderMode);
+//		return this;
+//	}
+//
+//	@Override
+//	public IAndroidController setViewCache(final View viewCache) {
+//		delegatedController.setViewCache(viewCache);
+//		return this;
+//	}
+//
+//	@Override
+//	public void addPropertyChangeListener(final PropertyChangeListener listener) {
+//		delegatedController.addPropertyChangeListener(listener);
+//	}
+//
+//	@Override
+//	public boolean sendChangeEvent(final String eventName) {
+//		return delegatedController.sendChangeEvent(eventName);
+//	}
+//
+//	@Override
+//	public void removePropertyChangeListener(final PropertyChangeListener listener) {
+//		delegatedController.removePropertyChangeListener(listener);
+//	}
 
 	// - M E T H O D - S E C T I O N
 //	@Override
@@ -110,17 +117,17 @@ public class DemoItemAndroidController implements IAndroidController<DemoLabel> 
 		return this.getModel().hashCode();
 	}
 
-	@Override
-	public int compareTo(@NonNull final Object o) {
-//		final DemoLabel m = this.getModel();
-//		return this.getModel().getTitle().compareTo(o.getTitle());
-		if (o instanceof DemoItemAndroidController) {
-			final DemoItemAndroidController target = (DemoItemAndroidController) o;
-			final DemoLabel m = this.getModel();
-			final DemoLabel t = target.getModel();
-			return m.getTitle().compareTo(t.getTitle());
-		} else return -1;
-	}
+//	@Override
+//	public int compareTo(@NonNull final Object o) {
+////		final DemoLabel m = this.getModel();
+////		return this.getModel().getTitle().compareTo(o.getTitle());
+//		if (o instanceof DemoItemAndroidController) {
+//			final DemoItemAndroidController target = (DemoItemAndroidController) o;
+//			final DemoLabel m = this.getModel();
+//			final DemoLabel t = target.getModel();
+//			return m.getTitle().compareTo(t.getTitle());
+//		} else return -1;
+//	}
 
 	// - G E T T E R S   &   S E T T E R S
 	public int getIconReference() {
