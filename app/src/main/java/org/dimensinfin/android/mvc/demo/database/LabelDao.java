@@ -16,6 +16,6 @@ import org.slf4j.LoggerFactory;
  */
 @Dao
 public interface LabelDao {
-	@Query("SELECT * FROM Label")
+	@Query("SELECT * FROM label_table")
 	List<Label> getAll();
 }

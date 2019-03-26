@@ -36,7 +36,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	 * Unique DataSource string identifier to locate this instance on the <code>DataSourceManager</code> in case the
 	 * instances should be cached.
 	 */
-	private final DataSourceLocator locator;
+	protected  DataSourceLocator locator;
 	/** Copy of the extras bundle received by the Activity. */
 	private Bundle extras = new Bundle();
 	/**
@@ -50,7 +50,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	 * factory to create its children parts from the model nodes. This is a mandatory field that should be available at
 	 * the creation because the DS cannot work without a AndroidController Factory.
 	 */
-	private final IControllerFactory controllerFactory;
+	protected  IControllerFactory controllerFactory;
 	/**
 	 * Flag to indicate if the model contents generated can be cached and we can avoid running the <code>collaborate2Model
 	 * ()</code> method on every fragment instantiation. If the model is suitable for caching we can speed up the turn of
@@ -81,6 +81,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	private List<IAndroidController> controllerRoot = new ArrayList<>();
 
 	// - C O N S T R U C T O R - S E C T I O N
+	public AMVCDataSource(){}
 	public AMVCDataSource(final DataSourceLocator locator, final IControllerFactory controllerFactory) {
 		this.locator = locator;
 		this.controllerFactory = controllerFactory;

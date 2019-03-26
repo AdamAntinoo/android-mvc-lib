@@ -1,12 +1,13 @@
 package org.dimensinfin.android.mvc.controller;
 
-import android.support.annotation.NonNull;
 import org.dimensinfin.android.mvc.events.EventEmitter;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
 
 import java.beans.PropertyChangeListener;
 import java.util.Objects;
+
+import androidx.annotation.NonNull;
 
 /**
  * Delegate to be used on the controllers to isolate from the model class to be used on the controller. With this

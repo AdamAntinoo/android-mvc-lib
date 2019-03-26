@@ -8,13 +8,14 @@
 //               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.activity;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import org.dimensinfin.android.mvc.R;
 
 import java.util.List;
 import java.util.Vector;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 public class AbstractFragmentPagerAdapter extends FragmentPagerAdapter {
 	// - F I E L D - S E C T I O N

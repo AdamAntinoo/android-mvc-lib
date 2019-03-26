@@ -39,7 +39,7 @@ tasks.withType(Pmd) {
 apply plugin: 'com.android.library'
 apply plugin: 'project-report'
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
@@ -91,7 +91,7 @@ android {
 
 dependencies {
     // A N D R O I D    S U P P O R T
-    implementation 'com.android.support:support-fragment:27.1.1'
+    implementation 'androidx.fragment:fragment:1.0.0'
 
     // L O C A L    L I B R A R I E S
     implementation files('libs/viewpagerindicator-release.aar')

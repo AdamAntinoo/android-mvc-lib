@@ -1,6 +1,5 @@
 package org.dimensinfin.android.mvc.controller;
 
-import android.support.annotation.NonNull;
 import android.view.View;
 import org.dimensinfin.android.mvc.core.EEvents;
 import org.dimensinfin.android.mvc.events.EventEmitter;
@@ -17,6 +16,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+
+import androidx.annotation.NonNull;
 
 /**
  * This class will implement the core Android interaction controller on the classic pattern Model-View-Controller
