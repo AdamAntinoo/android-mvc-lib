@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import org.dimensinfin.android.mvc.demo.R;
-import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.model.DemoItem;
@@ -16,7 +15,7 @@ import org.dimensinfin.android.mvc.render.AbstractRender;
 /**
  * @author Adam Antinoo
  */
-public class DemoItemAndroidController extends AAndroidController implements Comparable {
+public class DemoItemAndroidController extends AAndroidController {
 	// - F I E L D - S E C T I O N
 	private GenericController<DemoLabel> delegatedController;
 
@@ -41,6 +40,7 @@ public class DemoItemAndroidController extends AAndroidController implements Com
 	public long getModelId() {
 		return this.getModel().hashCode();
 	}
+
 	@Override
 	public IRender buildRender(final Context context) {
 		if (getRenderMode() == "-LABEL-") return new DemoLabelRender(this, context);
@@ -66,10 +66,10 @@ public class DemoItemAndroidController extends AAndroidController implements Com
 		return R.drawable.defaulticonplaceholder;
 	}
 
-	public static class DemoLabelRender extends AbstractRender<DemoLabel> {
+	public static class DemoLabelRender extends AbstractRender {
 		private TextView nodeName = null;
 
-		public DemoLabelRender(final IAndroidController target, final Context context) {
+		public DemoLabelRender(@NonNull final DemoItemAndroidController target, @NonNull final Context context) {
 			super(target, context);
 		}
 
@@ -86,7 +86,8 @@ public class DemoItemAndroidController extends AAndroidController implements Com
 
 		@Override
 		public void updateContent() {
-			nodeName.setText(getController().getModel().getTitle());
+//			final DemoItemAndroidController c = this.getController();
+			nodeName.setText(this.getController().getModel().getTitle());
 			nodeName.setVisibility(View.VISIBLE);
 		}
 
@@ -101,7 +102,7 @@ public class DemoItemAndroidController extends AAndroidController implements Com
 		private ImageView nodeIcon = null;
 
 		// - C O N S T R U C T O R - S E C T I O N
-		public DemoItemRender(final IAndroidController target, final Context context) {
+		public DemoItemRender(@NonNull final DemoItemAndroidController target, @NonNull final Context context) {
 			super(target, context);
 		}
 

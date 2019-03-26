@@ -1,8 +1,9 @@
-package org.dimensinfin.android.mvc.interfaces;
+package org.dimensinfin.android.mvc.controller;
 
 import android.content.Context;
 import android.view.View;
-import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
+import org.dimensinfin.android.mvc.interfaces.IRender;
 
 import java.util.List;
 

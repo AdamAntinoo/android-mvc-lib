@@ -3,7 +3,7 @@ package org.dimensinfin.android.mvc.datasource;
 import junit.framework.Assert;
 import org.dimensinfin.android.mvc.core.UIGlobalExecutor;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.IAndroidController;
+import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.support.EmptyNode;
 import org.dimensinfin.android.mvc.support.PojoTestUtils;
 import org.dimensinfin.android.mvc.support.TestController;

@@ -8,6 +8,8 @@
 //               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.interfaces;
 
+import org.dimensinfin.android.mvc.controller.IAndroidController;
+
 public interface IControllerFactory {
 	IAndroidController createController(ICollaboration model);
 	String getVariant();

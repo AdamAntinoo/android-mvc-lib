@@ -86,7 +86,7 @@ public class DemoHeaderTitleController extends AAndroidController implements IMe
 		logger.info("<< [DemoHeaderTitleController.onCreateContextMenu]");
 	}
 
-	public class DemoHeaderTitleRender extends AbstractRender<DemoHeaderTitle> {
+	public class DemoHeaderTitleRender extends AbstractRender {
 		// - F I E L D - S E C T I O N
 		private TextView applicationName;
 		private TextView applicationVersion;
@@ -96,7 +96,12 @@ public class DemoHeaderTitleController extends AAndroidController implements IMe
 			super(controller, context);
 		}
 
-		// - M E T H O D - S E C T I O N
+		// - I R E N D E R   I N T E R F A C E
+		@Override
+		public DemoHeaderTitleController getController() {
+			return (DemoHeaderTitleController) super.getController();
+		}
+
 		@Override
 		public void initializeViews() {
 			applicationName = this.getView().findViewById(R.id.applicationName);

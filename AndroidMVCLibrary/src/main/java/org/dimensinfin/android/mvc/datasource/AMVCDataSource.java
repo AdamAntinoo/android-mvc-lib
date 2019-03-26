@@ -3,7 +3,7 @@ package org.dimensinfin.android.mvc.datasource;
 import android.os.Bundle;
 import org.dimensinfin.android.mvc.core.EEvents;
 import org.dimensinfin.android.mvc.events.EventEmitter;
-import org.dimensinfin.android.mvc.interfaces.IAndroidController;
+import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;

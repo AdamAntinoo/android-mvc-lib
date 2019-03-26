@@ -1,15 +1,13 @@
 package org.dimensinfin.android.mvc.controller;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import org.dimensinfin.android.mvc.core.EEvents;
 import org.dimensinfin.android.mvc.events.EventEmitter;
-import org.dimensinfin.android.mvc.interfaces.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
-import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.android.mvc.model.IExpandable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -144,15 +142,18 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	public void collaborate2View(final List<IAndroidController> contentCollector) {
 		logger.info(">< [AAndroidController.collaborate2View]> Collaborator: {}", this.getClass().getSimpleName());
 		// If the node is expanded then give the children the opportunity to also be added.
-		// --- This is the section that is different for any AndroidController. This should be done calling the list of policies.
-		List<IAndroidController> ch = this.orderingFeature(this.getChildren());
-		logger.info("-- [AAndroidController.collaborate2View]> Collaborator children: {}", ch.size());
-		// --- End of policies
-		// Add this node to the list of controllers only if it should be visible.
-		if (this.isVisible()) contentCollector.add(this);
-		for (IAndroidController controller : ch) {
-			controller.collaborate2View(contentCollector);
-		}
+		if (this instanceof IExpandable) {
+			// --- This is the section that is different for any AndroidController.
+			List<IAndroidController> ch = this.orderingFeature(this.getChildren());
+			logger.info("-- [AAndroidController.collaborate2View]> Collaborator children: {}", ch.size());
+			// --- End of policies
+			// Add this node to the list of controllers only if it should be visible.
+			if (this.isVisible()) contentCollector.add(this);
+			if (((IExpandable) this).isExpanded())
+				for (IAndroidController controller : ch) {
+					controller.collaborate2View(contentCollector);
+				}
+		} else if (this.isVisible()) contentCollector.add(this);
 	}
 
 	/**
@@ -174,10 +175,18 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		} else return -1;
 	}
 
-	// TODO - This should be made abstract when the code is stable.
-	public boolean isVisible() {
-		return true;
-	}
+	/**
+	 * This is the ain switch to be implemented on each controller to decide if the node and its contents are visible at a
+	 * determinate point in time. It can happen that a node will have to be rendered on a particular time but should not
+	 * be visible at others and this is determined by an specific logic and not by some tests done over some set of
+	 * fields.
+	 *
+	 * With this implementation most of the render decision is set for each controller and not generically and controlled
+	 * by fields.
+	 * @return
+	 */
+	@Override
+	public abstract boolean isVisible();
 
 	// - I E V E N T E M I T T E R   I N T E R F A C E
 
@@ -207,6 +216,10 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	}
 
 	// - M E T H O D - S E C T I O N
+	protected void refresh() {
+		this.setViewCache(null);
+		this.notifyDataModelChange();
+	}
 
 	/**
 	 * The refresh process should optimize the reuse of the already available Parts. We should check for model identity on

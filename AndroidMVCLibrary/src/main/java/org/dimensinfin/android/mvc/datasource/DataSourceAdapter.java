@@ -15,7 +15,7 @@ import android.widget.TextView;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.core.EEvents;
-import org.dimensinfin.android.mvc.interfaces.IAndroidController;
+import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.joda.time.Instant;
@@ -256,11 +256,9 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 		});
 
 		// Be sure to run graphical changes on the UI thread. If we already are on it this has no effect.
-		_handler.post(() -> {
-			if (EEvents.valueOf(event.getPropertyName()) ==
-					EEvents.EVENTADAPTER_REQUESTNOTIFYCHANGES) {
-				this.notifyDataSetChanged();
-			}
+		if (EEvents.valueOf(event.getPropertyName()) ==
+				EEvents.EVENTADAPTER_REQUESTNOTIFYCHANGES) _handler.post(() -> {
+			this.notifyDataSetChanged();
 		});
 	}
 }

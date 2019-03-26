@@ -9,6 +9,7 @@
 package org.dimensinfin.android.mvc.interfaces;
 
 import android.os.Bundle;
+import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
 

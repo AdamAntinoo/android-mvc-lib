@@ -12,20 +12,25 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.controller.AAndroidController;
-import org.dimensinfin.android.mvc.model.Separator;
+import org.dimensinfin.android.mvc.controller.SeparatorController;
 
 /**
  * @author Adam Antinoo
  */
 
-public class SeparatorRender extends AbstractRender<Separator> {
+public class SeparatorRender extends AbstractRender {
 	// - F I E L D - S E C T I O N
 	private TextView title;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public SeparatorRender(final AAndroidController<Separator> controller, final Context context) {
+	public SeparatorRender(final SeparatorController controller, final Context context) {
 		super(controller, context);
+	}
+
+	// - I R E N D E R   I N T E R F A C E
+	@Override
+	public SeparatorController getController() {
+		return (SeparatorController) super.getController();
 	}
 
 	@Override
@@ -33,8 +38,6 @@ public class SeparatorRender extends AbstractRender<Separator> {
 		title = this.getView().findViewById(R.id.title);
 	}
 
-	// - M E T H O D - S E C T I O N
-	// - I R E N D E R   I N T E R F A C E
 	@Override
 	public void updateContent() {
 		String tt = this.getController().getModel().getTitle();
@@ -116,15 +119,4 @@ public class SeparatorRender extends AbstractRender<Separator> {
 		}
 		return layoutRef;
 	}
-
-	// - B U I L D E R
-//	public static class Builder extends AbstractRender.Builder<Separator> {
-//		public Builder(final AAndroidController<Separator> controller, final Context context) {
-//			super(controller, context);
-//		}
-//
-//		public SeparatorRender build() {
-//			return new SeparatorRender(this);
-//		}
-//	}
 }

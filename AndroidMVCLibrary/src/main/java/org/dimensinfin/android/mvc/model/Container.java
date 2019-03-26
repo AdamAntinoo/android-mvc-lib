@@ -4,9 +4,8 @@ import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
-public class Container extends Separator {
+public class Container extends Separator implements IExpandable{
 	private static final long serialVersionUID = -957283664928489030L;
 
 	// - F I E L D - S E C T I O N
@@ -38,14 +37,17 @@ public class Container extends Separator {
 	public void clean() {
 		this._contents.clear();
 	}
+
 	public List<ICollaboration> getContents() {
 		return _contents;
 	}
+
 	public int getContentSize() {
 		return this._contents.size();
 	}
 
 	// - I C O L L A B O R A T I O N   I N T E R F A C E
+
 	/**
 	 * Check if the <code>Container</code> has contents and then add all them to the model.
 	 */
@@ -58,6 +60,11 @@ public class Container extends Separator {
 	}
 
 	// - I E X P A N D A B L E   I N T E R F A C E
+	public boolean toggleExpand() {
+		this._expanded = !this._expanded;
+		return this._expanded;
+	}
+
 	public boolean collapse() {
 		this._expanded = false;
 		return _expanded;
@@ -83,7 +90,7 @@ public class Container extends Separator {
 		return this._renderIfEmpty;
 	}
 
-	public void setRenderWhenEmpty (final boolean renderWhenEmpty) {
+	public void setRenderWhenEmpty(final boolean renderWhenEmpty) {
 		this._renderIfEmpty = renderWhenEmpty;
 //		return this;
 	}

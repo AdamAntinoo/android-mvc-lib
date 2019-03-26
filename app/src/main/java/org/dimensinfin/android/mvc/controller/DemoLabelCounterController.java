@@ -55,19 +55,18 @@ public class DemoLabelCounterController extends DemoItemAndroidController implem
 	// - V I E W . O N C L I C K L I S T E N E R
 	@Override
 	public void onClick(final View v) {
-		// Increate the counter and see it it updates.
+		// Increase the counter and see it it updates.
 		this.getModel().setCounter(this.getModel().getCounter() + 1);
-		this.setViewCache(null);
 		this.notifyDataModelChange();
 	}
 
 	// - R E N D E R   C L A S S
-	public static class DemoLabelCounterRender<DemoLabelCounter> extends DemoItemAndroidController.DemoLabelRender {
+	public static class DemoLabelCounterRender extends DemoItemAndroidController.DemoLabelRender {
 		// - F I E L D - S E C T I O N
 		private TextView labelCounter = null;
 
 		// - C O N S T R U C T O R - S E C T I O N
-		public DemoLabelCounterRender(final AAndroidController target, final Context context) {
+		public DemoLabelCounterRender(final DemoLabelCounterController target, final Context context) {
 			super(target, context);
 		}
 
