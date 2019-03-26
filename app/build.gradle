@@ -38,10 +38,17 @@ android {
             resValue "string", "appversionnumber", "\"" + android.defaultConfig.versionCode + "\""
         }
     }
-    sourceSets {
-        main.java.srcDirs += 'src/main/java'
-        androidTest.java.srcDirs = ['src/test/java']
-    }
+//    sourceSets {
+//        main.java.srcDirs += 'src/main/java'
+//        test.java.srcDirs = ['src/test/java']
+//        androidTest.java.srcDirs = ['src/andxroidTest/java']
+//    }
+//    sourceSets {
+//        main {
+//            res.srcDirs += 'src/main/res-ui'
+//            res.srcDirs += 'src/main/res-dynamic'
+//        }
+//    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

@@ -16,18 +16,16 @@ import org.dimensinfin.android.mvc.model.DemoLabelCounter;
 
 public class DemoLabelCounterController extends DemoItemAndroidController implements View.OnClickListener {
 	// - F I E L D - S E C T I O N
-	private GenericController<DemoLabelCounter> delegatedController;
+//	private GenericController<DemoLabelCounter> delegatedController;
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public DemoLabelCounterController(@NonNull final DemoLabelCounter model, @NonNull final IControllerFactory factory) {
-		super(model,factory);
-		// Connect the delegate.
-		this.delegatedController = new GenericController<DemoLabelCounter>(model);
+		super(new GenericController<DemoLabelCounter>(model),factory);
 	}
 
 	// - D E L E G A T E D - A A N D R O I D C O N T R O L L E R
 	public DemoLabelCounter getModel() {
-		return delegatedController.getModel();
+		return (DemoLabelCounter) super.getModel();
 	}
 
 	// - O V E R R I D E - A A N D R O I D C O N T R O L L E R
@@ -44,12 +42,7 @@ public class DemoLabelCounterController extends DemoItemAndroidController implem
 	// - C O M P A R A B L E   I N T E R F A C E
 	@Override
 	public int compareTo(@NonNull final Object o) {
-		if (o instanceof DemoLabelCounterController) {
-			final DemoLabelCounterController target = (DemoLabelCounterController) o;
-			final DemoLabel m = this.getModel();
-			final DemoLabel t = target.getModel();
-			return m.getTitle().compareTo(t.getTitle());
-		} else return -1;
+		return this.getModel().compareTo(((IAndroidController)o).getModel());
 	}
 
 	// - V I E W . O N C L I C K L I S T E N E R

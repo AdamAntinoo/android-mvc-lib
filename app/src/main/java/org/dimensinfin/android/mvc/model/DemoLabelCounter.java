@@ -7,6 +7,15 @@ public class DemoLabelCounter extends DemoLabel {
 	// - F I E L D - S E C T I O N
 	private int counter = 0;
 
+	// - C O N S T R U C T O R - S E C T I O N
+	public DemoLabelCounter() {
+		super();
+	}
+
+	public DemoLabelCounter(final String newTitle) {
+		super(newTitle);
+	}
+
 	// - G E T T E R S   &   S E T T E R S
 	public int getCounter() {
 		return counter;
@@ -26,6 +35,7 @@ public class DemoLabelCounter extends DemoLabel {
 		return new EqualsBuilder()
 				.appendSuper(super.equals(o))
 				.append(counter, that.counter)
+				.append(this.getTitle(), that.getTitle()) // Inherited values
 				.isEquals();
 	}
 
@@ -34,6 +44,15 @@ public class DemoLabelCounter extends DemoLabel {
 		return new HashCodeBuilder(17, 37)
 				.appendSuper(super.hashCode())
 				.append(counter)
+				.append(this.getTitle())
 				.toHashCode();
+	}
+
+	@Override
+	public String toString() {
+		return "DemoLabelCounter{" +
+				"counter=" + this.getCounter() +
+				", title='" + this.getTitle() + '\'' +
+				'}';
 	}
 }

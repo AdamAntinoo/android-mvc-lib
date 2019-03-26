@@ -32,15 +32,6 @@ public class DemoLabel extends DemoNode {
 		return this;
 	}
 
-	// - C O M P A R A B L E
-	@Override
-	public int compareTo(@NonNull final Object o) {
-		if (o instanceof DemoLabel) {
-			final DemoLabel target = (DemoLabel) o;
-			return this.title.compareTo(target.title);
-		} else return -1;
-	}
-
 	// -  C O R E
 	@Override
 	public boolean equals(final Object o) {
@@ -57,6 +48,14 @@ public class DemoLabel extends DemoNode {
 		return new HashCodeBuilder(17, 37)
 				.append(title)
 				.toHashCode();
+	}
+
+	@Override
+	public int compareTo(@NonNull final Object o) {
+		if (o instanceof DemoLabel) {
+			final DemoLabel target = (DemoLabel) o;
+			return this.title.compareTo(target.title);
+		} else return -1;
 	}
 
 	@Override

@@ -17,23 +17,13 @@ import org.dimensinfin.android.mvc.render.AbstractRender;
  */
 public class DemoItemAndroidController extends AAndroidController<DemoLabel> {
 	// - F I E L D - S E C T I O N
-//	private GenericController<DemoLabel> delegatedController;
-
 	// - C O N S T R U C T O R - S E C T I O N
-//	public DemoItemAndroidController(@NonNull final IControllerFactory factory) {
-//		super(factory);
-//	}
-
+	public DemoItemAndroidController(@NonNull final GenericController<?> controller, @NonNull final IControllerFactory factory) {
+		super((GenericController<DemoLabel>) controller,factory);
+	}
 	public DemoItemAndroidController(@NonNull final DemoLabel model, @NonNull final IControllerFactory factory) {
 		super(new GenericController<DemoLabel>(model),factory);
-		// Connect the delegate.
-//		this.delegatedController = new GenericController<DemoLabel>(model);
 	}
-
-	// - D E L E G A T E D - A A N D R O I D C O N T R O L L E R
-//	public DemoLabel getModel() {
-//		return delegatedController.getModel();
-//	}
 
 	// - O V E R R I D E - A A N D R O I D C O N T R O L L E R
 	@Override
@@ -91,7 +81,6 @@ public class DemoItemAndroidController extends AAndroidController<DemoLabel> {
 
 		@Override
 		public void updateContent() {
-//			final DemoItemAndroidController c = this.getController();
 			nodeName.setText(this.getController().getModel().getTitle());
 			nodeName.setVisibility(View.VISIBLE);
 		}
@@ -114,7 +103,7 @@ public class DemoItemAndroidController extends AAndroidController<DemoLabel> {
 		// - M E T H O D - S E C T I O N
 		@Override
 		public DemoItemAndroidController getController() {
-			return (DemoItemAndroidController) super.getController();
+			return super.getController();
 		}
 
 		@Override
