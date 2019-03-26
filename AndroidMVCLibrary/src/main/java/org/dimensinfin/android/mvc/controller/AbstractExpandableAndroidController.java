@@ -10,8 +10,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.dimensinfin.android.mvc.core.EEvents;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.model.IExpandable;
-import org.joda.time.Duration;
-import org.joda.time.Instant;
 
 import java.util.concurrent.TimeUnit;
 
@@ -43,39 +41,15 @@ public abstract class AbstractExpandableAndroidController<M extends IExpandable>
 
 		_handler.postDelayed(() -> {
 			logger.info("-- [AbstractExpandableAndroidController.onClick.run]");
-			final Instant chrono = Instant.now();
+//			final Instant chrono = Instant.now();
 			this.getModel().toggleExpand();
 			this.notifyDataModelChange(EEvents.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE);
-//			getTarget().fireStructureChange(SystemWideConstants.events.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE.name(), this, this);
 			this.clickSupporter.completeClick();
-//			getTarget().invalidate();
-			logger.info("<< [AbstractExpandableAndroidController.onClick.run]> Time Elapsed: {}ms",
-					new Duration(chrono, Instant.now()).getMillis() + "ms");
+//			logger.info("<< [AbstractExpandableAndroidController.onClick.run]> Time Elapsed: {}ms",
+//					new Duration(chrono, Instant.now()).getMillis());
 		}, TimeUnit.MILLISECONDS.toMillis(1000));
-
-//		new Handler().postDelayed(new OneShotTask<AbstractExpandableAndroidController>(this) {
-//			public void run() {
-//				getActivity().runOnUiThread(new Runnable() {
-//					@Override
-//					public void run() {
-//						logger.info(">> [NeoComExpandablePart.onClick.OneShotTask.run]");
-//						final Instant chrono = Instant.now();
-//						getTarget().toggleExpanded();
-//						getTarget().fireStructureChange(SystemWideConstants.events.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE.name(), this, this);
-//						completeClick();
-//						getTarget().invalidate();
-//						logger.info("<< [AbstractExpandableAndroidController.onClick.OneShotTask.run]> Time Elapsed: {}ms" ,
-//							new	Duration(chrono, Instant.now()).getMillis() + "ms");
-//					}
-//				});
-//			}
-//		}, TimeUnit.MICROSECONDS.toMillis(500));
 		logger.info("<< [NeoComExpandablePart.onClick]");
 	}
-
-//	private AbstractExpandableAndroidController getTarget() {
-//		return this;
-//	}
 
 	// - C L I C K S U P P O R T E R   C L A S S
 	public static class ClickSupporter {

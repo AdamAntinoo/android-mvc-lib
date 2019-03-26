@@ -20,6 +20,10 @@ import org.dimensinfin.android.mvc.model.DemoLabelCounter;
  * @author Adam Antinoo
  */
 public class DemoControllerFactory extends ControllerFactory implements IControllerFactory {
+//	private static DemoControllerFactory singleInstance = new DemoControllerFactory();
+//	public static DemoControllerFactory getInstance() {
+//		return singleInstance;
+//	}
 	// - F I E L D - S E C T I O N
 
 	// - C O N S T R U C T O R - S E C T I O N
