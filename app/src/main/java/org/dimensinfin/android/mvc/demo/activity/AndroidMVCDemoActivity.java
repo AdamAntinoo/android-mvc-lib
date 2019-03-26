@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 public class AndroidMVCDemoActivity extends AbstractPagerActivity {
 
 	public enum EDemoVariants {
-		NON_EXPANDABLE_SECTION, EXPANDABLE_SECTION
+		NON_EXPANDABLE_SECTION, EXPANDABLE_SECTION, DATABASE_SECTION
 	}
 
 	// - M E T H O D - S E C T I O N
@@ -25,6 +25,7 @@ public class AndroidMVCDemoActivity extends AbstractPagerActivity {
 		// Process the parameters into the context. This initial Activity is the only one with no parameters.
 		this.addPage(new AndroidMVCDemoFragment().setVariant(EDemoVariants.NON_EXPANDABLE_SECTION.name()));
 		this.addPage(new AndroidMVCDemoFragment().setVariant(EDemoVariants.EXPANDABLE_SECTION.name()));
+		this.addPage(new DatabaseDemoFragment().setVariant(EDemoVariants.DATABASE_SECTION.name()));
 		logger.info("<< [AndroidMVCDemoActivity.onCreate]"); //$NON-NLS-1$
 	}
 }

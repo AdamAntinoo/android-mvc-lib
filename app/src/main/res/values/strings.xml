@@ -7,8 +7,10 @@
     <!-- A P P L I C A T I O N    R E S O U R C E S -->
     <string name="activity_title_AndroidMVCDemoActivity">DEMO MVC</string>
     <string name="activity_title_DemoFragment">DEMO MVC</string>
+    <string name="activity_title_DemoFragment_Database">DATABASE MVC</string>
     <string name="activity_subtitle_DemoFragment_NonExpandable">->No Expandable Section</string>
     <string name="activity_subtitle_DemoFragment_Expandable">->Expandable Section</string>
+    <string name="activity_subtitle_DemoFragment_Database">->Database loaded Data</string>
 
     <!--A P P L I C A T I O N   D E F A U L T S-->
     <string name="defaultlabelname">-LABEL NAME-</string>
