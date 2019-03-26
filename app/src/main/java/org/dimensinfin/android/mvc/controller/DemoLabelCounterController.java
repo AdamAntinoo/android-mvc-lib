@@ -20,9 +20,9 @@ public class DemoLabelCounterController extends DemoItemAndroidController implem
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public DemoLabelCounterController(@NonNull final DemoLabelCounter model, @NonNull final IControllerFactory factory) {
-		super(factory);
+		super(model,factory);
 		// Connect the delegate.
-		this.delegatedController = new GenericController<>(model);
+		this.delegatedController = new GenericController<DemoLabelCounter>(model);
 	}
 
 	// - D E L E G A T E D - A A N D R O I D C O N T R O L L E R

@@ -17,23 +17,23 @@ import org.dimensinfin.android.mvc.render.AbstractRender;
 /**
  * @author Adam Antinoo
  */
-public class DemoHeaderTitleController extends AAndroidController implements IMenuActionTarget, Comparable {
+public class DemoHeaderTitleController extends AAndroidController<DemoHeaderTitle> implements IMenuActionTarget, Comparable {
 	// - F I E L D - S E C T I O N
-	private GenericController<DemoHeaderTitle> delegatedController;
+//	private GenericController<DemoHeaderTitle> delegatedController;
 	private int iconReference = R.drawable.defaulticonplaceholder;
 	private Context context;
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public DemoHeaderTitleController(@NonNull final DemoHeaderTitle model, @NonNull final IControllerFactory factory) {
-		super(factory);
+		super(new GenericController<DemoHeaderTitle>(model),factory);
 		// Connect the delegate.
-		this.delegatedController = new GenericController<>(model);
+//		this.delegatedController = new GenericController<>(model);
 	}
 
 	// - D E L E G A T E D - A A N D R O I D C O N T R O L L E R
-	public DemoHeaderTitle getModel() {
-		return delegatedController.getModel();
-	}
+//	public DemoHeaderTitle getModel() {
+//		return delegatedController.getModel();
+//	}
 
 	// - O V E R R I D E - A A N D R O I D C O N T R O L L E R
 	@Override
@@ -65,6 +65,11 @@ public class DemoHeaderTitleController extends AAndroidController implements IMe
 			final DemoHeaderTitleController target = (DemoHeaderTitleController) o;
 			return this.getModel().compareTo(target.getModel());
 		} else return -1;
+	}
+
+	@Override
+	public boolean isVisible() {
+		return true;
 	}
 
 	// - I M E N U A C T I O N   I N T E R F A C E

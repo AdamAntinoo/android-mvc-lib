@@ -11,24 +11,24 @@ import org.dimensinfin.android.mvc.interfaces.IRender;
 
 public class TestController extends AAndroidController {
 	// - F I E L D - S E C T I O N
-	private GenericController<EmptyNode> delegatedController;
+//	private GenericController<EmptyNode> delegatedController;
 	private boolean visible = true;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public TestController(@NonNull final IControllerFactory factory) {
-		super(factory);
-	}
+//	public TestController(@NonNull final IControllerFactory factory) {
+//		super(factory);
+//	}
 
 	public TestController(@NonNull final EmptyNode model, @NonNull final IControllerFactory factory) {
-		super(factory);
+		super(new GenericController<EmptyNode>(model), factory);
 		// Connect the delegate.
-		this.delegatedController = new GenericController<EmptyNode>(model);
+//		this.delegatedController = ;
 	}
 
 	// - D E L E G A T E D - A A N D R O I D C O N T R O L L E R
-	public EmptyNode getModel() {
-		return delegatedController.getModel();
-	}
+//	public EmptyNode getModel() {
+//		return delegatedController.getModel();
+//	}
 
 	// - O V E R R I D E - A A N D R O I D C O N T R O L L E R
 	@Override
@@ -52,7 +52,6 @@ public class TestController extends AAndroidController {
 	}
 
 	// - C O R E
-
 	@Override
 	public boolean equals(final Object o) {
 		if (this == o) return true;
@@ -61,7 +60,7 @@ public class TestController extends AAndroidController {
 		if (super.equals(o))
 			return new EqualsBuilder()
 					.append(visible, that.visible)
-					.append(delegatedController, that.delegatedController)
+//					.append(delegatedController, that.delegatedController)
 					.isEquals();
 		else return false;
 	}
@@ -69,14 +68,16 @@ public class TestController extends AAndroidController {
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder(17, 37)
-				.append(delegatedController)
+//				.append(delegatedController)
 				.append(visible)
 				.toHashCode();
 	}
 
 	@Override
 	public int compareTo(@NonNull final Object o) {
-//		final TestController target = (TestController) o;
-		return this.getModel().getName().compareTo(((TestController) o).getModel().getName());
+//		if (o instanceof TestController) {
+//			final TestController target = (TestController) o;
+			return this.getModel().compareTo(((TestController) o).getModel());
+//		} else return -1;
 	}
 }

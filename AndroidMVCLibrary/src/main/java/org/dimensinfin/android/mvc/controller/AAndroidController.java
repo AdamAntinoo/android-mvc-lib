@@ -34,6 +34,8 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	protected static final Logger logger = LoggerFactory.getLogger(AAndroidController.class);
 
 	// - F I E L D - S E C T I O N
+	/** Place to store the model handler delegate so the model class is automatically casted. */
+	private GenericController<M> delegatedController;
 	/** List of children of the hierarchy. */
 	private List<IAndroidController> children = new ArrayList<>();
 	/** This field caches the factory that is set during the construction. */
@@ -45,14 +47,18 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	private IEventEmitter eventController = new EventEmitter();
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public AAndroidController(@NonNull final IControllerFactory factory) {
+	public AAndroidController(@NonNull final GenericController<M> delegate, @NonNull final IControllerFactory factory) {
+		Objects.requireNonNull(delegate);
 		Objects.requireNonNull(factory);
+		this.delegatedController = delegate;
 		this.factory = factory;
 	}
 
 	// - G E T T E R S   &   S E T T E R S
 	@Override
-	public abstract M getModel();
+	public M getModel() {
+		return this.delegatedController.getModel();
+	}
 
 	/**
 	 * The factory is set on all the Controllers during the creation time by the factory itself. This allows to construct
@@ -142,14 +148,14 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	public void collaborate2View(final List<IAndroidController> contentCollector) {
 		logger.info(">< [AAndroidController.collaborate2View]> Collaborator: {}", this.getClass().getSimpleName());
 		// If the node is expanded then give the children the opportunity to also be added.
-		if (this instanceof IExpandable) {
+		if (this.getModel() instanceof IExpandable) {
 			// --- This is the section that is different for any AndroidController.
 			List<IAndroidController> ch = this.orderingFeature(this.getChildren());
 			logger.info("-- [AAndroidController.collaborate2View]> Collaborator children: {}", ch.size());
 			// --- End of policies
 			// Add this node to the list of controllers only if it should be visible.
 			if (this.isVisible()) contentCollector.add(this);
-			if (((IExpandable) this).isExpanded())
+			if (((IExpandable) this.getModel()).isExpanded())
 				for (IAndroidController controller : ch) {
 					controller.collaborate2View(contentCollector);
 				}

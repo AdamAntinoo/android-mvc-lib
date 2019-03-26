@@ -23,21 +23,21 @@ import java.text.DecimalFormat;
 /**
  * @author Adam Antinoo
  */
-public class DemoContainerController extends AAndroidController implements View.OnClickListener{
+public class DemoContainerController extends AAndroidController<DemoContainer> implements View.OnClickListener{
 	private static DecimalFormat itemCountFormatter = new DecimalFormat("###,##0");
 
 	// - F I E L D - S E C T I O N
-	private GenericController<DemoContainer> delegatedController;
+//	private GenericController<DemoContainer> delegatedController;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public DemoContainerController(@NonNull final IControllerFactory factory) {
-		super(factory);
-	}
+//	public DemoContainerController(@NonNull final IControllerFactory factory) {
+//		super(new GenericController<>(model),factory);
+//	}
 
 	public DemoContainerController(@NonNull final DemoContainer model, @NonNull final IControllerFactory factory) {
-		super(factory);
+		super(new GenericController<DemoContainer>(model),factory);
 		// Connect the delegate.
-		this.delegatedController = new GenericController<>(model);
+//		this.delegatedController = new GenericController<>(model);
 	}
 
 	// - V I E W . O N C L I C K L I S T E N E R
@@ -50,9 +50,9 @@ public class DemoContainerController extends AAndroidController implements View.
 	}
 
 	// - D E L E G A T E D - A A N D R O I D C O N T R O L L E R
-	public DemoContainer getModel() {
-		return delegatedController.getModel();
-	}
+//	public DemoContainer getModel() {
+//		return delegatedController.getModel();
+//	}
 
 	// - O V E R R I D E - A A N D R O I D C O N T R O L L E R
 	@Override
@@ -77,6 +77,11 @@ public class DemoContainerController extends AAndroidController implements View.
 		buffer.append("]");
 		buffer.append("->").append(super.toString());
 		return buffer.toString();
+	}
+
+	@Override
+	public boolean isVisible() {
+		return true;
 	}
 
 //	@Override

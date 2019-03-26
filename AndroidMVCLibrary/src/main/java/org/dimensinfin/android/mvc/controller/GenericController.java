@@ -3,31 +3,27 @@ package org.dimensinfin.android.mvc.controller;
 import android.support.annotation.NonNull;
 import org.dimensinfin.android.mvc.events.EventEmitter;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
 
 import java.beans.PropertyChangeListener;
 import java.util.Objects;
 
 /**
- * Delegate to be used on the controllers to isolate from the model class to be used on the controller. With this delegate
- * we are able to isolate the model and be able to use inheritance for development of controllers.
+ * Delegate to be used on the controllers to isolate from the model class to be used on the controller. With this
+ * delegate we are able to isolate the model and be able to use inheritance for development of controllers.
  * @author Adam Antinoo
  */
 
-public class GenericController<M extends ICollaboration> implements IModelContainer<M> {
+public class GenericController<M extends ICollaboration> implements IModelContainer<M>, Comparable<M> {
 	// - F I E L D - S E C T I O N
 	/** Reference to the Model node. */
 	private final M model; // Holds the model node.
-//	/** This field caches the factory that is set during the construction. */
-//	private final IControllerFactory factory;
 	/** This is the delegate instance to be used to handle the events and the listener chain. */
 	private IEventEmitter eventController = new EventEmitter();
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public GenericController(@NonNull final M model) {
 		Objects.requireNonNull(model);
-//		Objects.requireNonNull(factory);
 		this.model = model;
 	}
 
@@ -48,10 +44,10 @@ public class GenericController<M extends ICollaboration> implements IModelContai
 	}
 
 	// - C O M P A R A B L E   I N T E R F A C E
-//	@Override
-//	public int compareTo(@NonNull final M target) {
-//		return this.getModel().compareTo(target)
-//	}
+	@Override
+	public int compareTo(@NonNull final M target) {
+		return this.getModel().compareTo(target);
+	}
 
 	// - G E T T E R S   &   S E T T E R S
 	@Override

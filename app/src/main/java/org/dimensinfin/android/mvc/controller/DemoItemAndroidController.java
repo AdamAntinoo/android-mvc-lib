@@ -15,25 +15,25 @@ import org.dimensinfin.android.mvc.render.AbstractRender;
 /**
  * @author Adam Antinoo
  */
-public class DemoItemAndroidController extends AAndroidController {
+public class DemoItemAndroidController extends AAndroidController<DemoLabel> {
 	// - F I E L D - S E C T I O N
-	private GenericController<DemoLabel> delegatedController;
+//	private GenericController<DemoLabel> delegatedController;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public DemoItemAndroidController(@NonNull final IControllerFactory factory) {
-		super(factory);
-	}
+//	public DemoItemAndroidController(@NonNull final IControllerFactory factory) {
+//		super(factory);
+//	}
 
 	public DemoItemAndroidController(@NonNull final DemoLabel model, @NonNull final IControllerFactory factory) {
-		super(factory);
+		super(new GenericController<DemoLabel>(model),factory);
 		// Connect the delegate.
-		this.delegatedController = new GenericController<DemoLabel>(model);
+//		this.delegatedController = new GenericController<DemoLabel>(model);
 	}
 
 	// - D E L E G A T E D - A A N D R O I D C O N T R O L L E R
-	public DemoLabel getModel() {
-		return delegatedController.getModel();
-	}
+//	public DemoLabel getModel() {
+//		return delegatedController.getModel();
+//	}
 
 	// - O V E R R I D E - A A N D R O I D C O N T R O L L E R
 	@Override
@@ -57,6 +57,11 @@ public class DemoItemAndroidController extends AAndroidController {
 			final DemoLabel t = target.getModel();
 			return m.getTitle().compareTo(t.getTitle());
 		} else return -1;
+	}
+
+	@Override
+	public boolean isVisible() {
+		return true;
 	}
 
 	// - G E T T E R S   &   S E T T E R S
