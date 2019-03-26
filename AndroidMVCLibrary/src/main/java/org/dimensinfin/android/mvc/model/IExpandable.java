@@ -1,10 +1,12 @@
 package org.dimensinfin.android.mvc.model;
 
+import org.dimensinfin.android.mvc.interfaces.ICollaboration;
+
 /**
  * @author Adam Antinoo
  */
 
-public interface IExpandable {
+public interface IExpandable extends ICollaboration {
 	boolean toggleExpand();
 
 	boolean collapse();

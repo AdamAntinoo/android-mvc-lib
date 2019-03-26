@@ -14,8 +14,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
-import org.dimensinfin.android.mvc.core.EEvents;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.core.EEvents;
 import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.joda.time.Instant;
@@ -252,6 +252,10 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 		// - C O N T E N T   E V E N T S
 		if (EEvents.valueOf(event.getPropertyName()) ==
 				EEvents.EVENTCONTENTS_ACTIONMODIFYDATA) _handler.post(() -> {
+			this.notifyDataSetChanged();
+		});
+		if (EEvents.valueOf(event.getPropertyName()) ==
+				EEvents.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE) _handler.post(() -> {
 			this.notifyDataSetChanged();
 		});
 

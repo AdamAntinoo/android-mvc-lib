@@ -221,6 +221,11 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		this.sendChangeEvent(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name());
 	}
 
+	protected void notifyDataModelChange(final EEvents event) {
+		this.viewCache = null; // Clean the view cache to force recreation.
+		this.sendChangeEvent(event.name());
+	}
+
 	// - M E T H O D - S E C T I O N
 	protected void refresh() {
 		this.setViewCache(null);
