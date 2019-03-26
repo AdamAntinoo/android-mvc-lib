@@ -91,10 +91,12 @@ android {
 
 dependencies {
     // A N D R O I D    S U P P O R T
+    implementation 'com.android.support:support-fragment:28.0.0'
     implementation 'androidx.fragment:fragment:1.0.0'
 
     // L O C A L    L I B R A R I E S
-    implementation files('libs/viewpagerindicator-release.aar')
+    compile 'com.mcxiaoke.viewpagerindicator:library:2.4.1'
+//    implementation files('libs/viewpagerindicator-release.aar')
 //    compileOnly files('libs/CoreBase.core-2.0.3.jar')
 
     // M O D U L E    D E P E N D E N C I E S
@@ -110,7 +112,7 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:4.2'
 
     // A N D R O I D   T E S T I N G
-    androidTestImplementation 'com.android.support:support-annotations:27.1.1'
+//    androidTestImplementation 'com.android.support:support-annotations:27.1.1'
     androidTestImplementation 'org.mockito:mockito-core:2.23.4'
 //    androidTestImplementation 'com.android.support.test:runner:1.0.2'
 //    androidTestImplementation 'com.android.support.test:rules:1.0.2'

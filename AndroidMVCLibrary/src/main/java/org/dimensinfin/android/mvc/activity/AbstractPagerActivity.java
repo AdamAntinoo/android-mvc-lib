@@ -2,7 +2,6 @@ package org.dimensinfin.android.mvc.activity;
 
 import android.app.ActionBar;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -14,6 +13,8 @@ import org.dimensinfin.android.mvc.core.MVCException;
 import org.dimensinfin.android.mvc.core.MVCExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import androidx.annotation.NonNull;
 
 /**
  * This class extends the bare android Activity. Defines the ActionBar and instantiates the layout. The generic layout
@@ -128,30 +129,31 @@ public abstract class AbstractPagerActivity extends FragmentActivity {
 					}
 				}
 			});
-		} else {
-			_pageContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-				public void onPageScrolled(final int arg0, final float arg1, final int arg2) {
-					// Do nothing on scroll detection.
-				}
-
-				public void onPageScrollStateChanged(final int arg0) {
-					// Do nothing on scroll detection.
-				}
-
-				public void onPageSelected(final int position) {
-					if (null != _actionBar) {
-						_actionBar.setTitle(_pageAdapter.getTitle(position));
-						// Clear empty subtitles.
-						if ("" == _pageAdapter.getSubTitle(position)) {
-							_actionBar.setSubtitle(null);
-						} else {
-							_actionBar.setSubtitle(_pageAdapter.getSubTitle(position));
-						}
-					}
-				}
-			});
 		}
+//		else {
+//			_pageContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//
+//				public void onPageScrolled(final int arg0, final float arg1, final int arg2) {
+//					// Do nothing on scroll detection.
+//				}
+//
+//				public void onPageScrollStateChanged(final int arg0) {
+//					// Do nothing on scroll detection.
+//				}
+//
+//				public void onPageSelected(final int position) {
+//					if (null != _actionBar) {
+//						_actionBar.setTitle(_pageAdapter.getTitle(position));
+//						// Clear empty subtitles.
+//						if ("" == _pageAdapter.getSubTitle(position)) {
+//							_actionBar.setSubtitle(null);
+//						} else {
+//							_actionBar.setSubtitle(_pageAdapter.getSubTitle(position));
+//						}
+//					}
+//				}
+//			});
+//		}
 	}
 
 	private void disableIndicator() {

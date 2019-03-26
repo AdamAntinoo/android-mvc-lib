@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import org.dimensinfin.android.mvc.R;
@@ -21,6 +20,8 @@ import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.model.Separator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import androidx.annotation.NonNull;
 
 /**
  * This class encapsulates the core definition for a component render. It is transparent to the Model type that is
