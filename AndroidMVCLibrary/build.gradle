@@ -91,11 +91,12 @@ android {
 
 dependencies {
     // A N D R O I D    S U P P O R T
-    implementation 'com.android.support:support-fragment:28.0.0'
+//    implementation 'com.android.support:support-fragment:28.0.0'
     implementation 'androidx.fragment:fragment:1.0.0'
 
     // L O C A L    L I B R A R I E S
-    compile 'com.mcxiaoke.viewpagerindicator:library:2.4.1'
+    implementation 'me.relex:circleindicator:2.1.0'
+//    compile 'com.mcxiaoke.viewpagerindicator:library:2.4.1'
 //    implementation files('libs/viewpagerindicator-release.aar')
 //    compileOnly files('libs/CoreBase.core-2.0.3.jar')
 

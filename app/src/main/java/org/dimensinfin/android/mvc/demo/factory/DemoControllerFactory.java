@@ -1,6 +1,5 @@
 package org.dimensinfin.android.mvc.demo.factory;
 
-import android.support.annotation.NonNull;
 import org.dimensinfin.android.mvc.controller.DemoContainerController;
 import org.dimensinfin.android.mvc.controller.DemoHeaderTitleController;
 import org.dimensinfin.android.mvc.controller.DemoLabelCounterController;
@@ -15,6 +14,8 @@ import org.dimensinfin.android.mvc.model.DemoItem;
 import org.dimensinfin.android.mvc.model.DemoLabel;
 import org.dimensinfin.android.mvc.controller.DemoItemAndroidController;
 import org.dimensinfin.android.mvc.model.DemoLabelCounter;
+
+import androidx.annotation.NonNull;
 
 /**
  * @author Adam Antinoo

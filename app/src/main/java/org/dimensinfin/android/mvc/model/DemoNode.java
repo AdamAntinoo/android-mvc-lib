@@ -1,12 +1,13 @@
 package org.dimensinfin.android.mvc.model;
 
-import android.support.annotation.NonNull;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 /**
  * This is the most simplest class for any model node on the application demo for the MVC library. Just defines the json
