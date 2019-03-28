@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "41870b90a0d7567c633291f9bc3bb239",
+    "identityHash": "d682f7ff20a0e280ec682bb9fb4df059",
     "entities": [
       {
         "tableName": "group_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`jsonClass` TEXT, `id` TEXT NOT NULL, `group_name` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`jsonClass` TEXT, `id` TEXT NOT NULL, `group_name` TEXT NOT NULL, `title` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "jsonClass",
@@ -25,6 +25,12 @@
             "columnName": "group_name",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -69,9 +75,10 @@
         "foreignKeys": []
       }
     ],
+    "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"41870b90a0d7567c633291f9bc3bb239\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"d682f7ff20a0e280ec682bb9fb4df059\")"
     ]
   }
 }

@@ -27,5 +27,9 @@ public class GroupViewModel extends AndroidViewModel {
 	// - G E T T E R S   &   S E T T E R S
 	public LiveData<List<Group>> getAllWords() { return this._allGroups; }
 
+	public void storeGroup(final Group group) {
+		this.mRepository.storeGroup(group);
+	}
+
 	// - M E T H O D - S E C T I O N
 }

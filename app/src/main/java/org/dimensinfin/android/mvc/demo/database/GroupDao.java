@@ -2,6 +2,7 @@ package org.dimensinfin.android.mvc.demo.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Insert;
 import androidx.room.Query;
 
 import java.util.List;
@@ -16,4 +17,7 @@ public interface GroupDao {
 
 	@Query("DELETE FROM group_table")
 	void deleteAll();
+
+	@Insert
+	void insert(final Group newGroup);
 }

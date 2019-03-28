@@ -4,6 +4,7 @@ import org.dimensinfin.android.mvc.controller.DemoContainerController;
 import org.dimensinfin.android.mvc.controller.DemoHeaderTitleController;
 import org.dimensinfin.android.mvc.controller.DemoLabelCounterController;
 import org.dimensinfin.android.mvc.demo.R;
+import org.dimensinfin.android.mvc.demo.database.Group;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
@@ -65,6 +66,10 @@ public class DemoControllerFactory extends ControllerFactory implements IControl
 		}
 		// WARNING - When node classes have direct inheritance put the parent below their children.
 		if (node instanceof DemoLabel) {
+			// These shows the selected Separator but with another rendering.
+			return new DemoItemAndroidController((DemoLabel) node, this).setRenderMode("-LABEL-");
+		}
+		if (node instanceof Group) {
 			// These shows the selected Separator but with another rendering.
 			return new DemoItemAndroidController((DemoLabel) node, this).setRenderMode("-LABEL-");
 		}

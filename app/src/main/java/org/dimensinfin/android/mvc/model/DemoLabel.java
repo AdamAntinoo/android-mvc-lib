@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
  */
 public class DemoLabel extends DemoNode {
     // - F I E L D - S E C T I O N
-    private String title = "-TITLE-";
+    public String title = "-TITLE-";
 
     // - C O N S T R U C T O R - S E C T I O N
     public DemoLabel() {

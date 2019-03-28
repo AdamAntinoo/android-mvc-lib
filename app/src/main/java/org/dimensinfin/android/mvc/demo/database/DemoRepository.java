@@ -30,4 +30,8 @@ public class DemoRepository {
 	public void deleteGroups() {
 		this._groupDao.deleteAll();
 	}
+
+    public void storeGroup(final Group group) {
+		this._groupDao.insert(group);
+    }
 }
