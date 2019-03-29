@@ -10,9 +10,14 @@ public class AppCompatibilityUtils {
         return ourInstance;
     }
 
-    public static boolean assertNotNull(final Object target) {
+    public static boolean testAssertNotNull(final Object target) {
         if (null == target) throw new NullPointerException("Mandatory parameter is null.");
         return true;
+    }
+
+    public static <T> T assertNotNull(final T target) {
+        if (null == target) throw new NullPointerException("Target object is not valid. Found to be null.");
+        return target;
     }
 
     private AppCompatibilityUtils() {

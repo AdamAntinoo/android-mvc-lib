@@ -14,7 +14,7 @@ import org.dimensinfin.android.mvc.demo.database.Group;
 import org.dimensinfin.android.mvc.demo.factory.DemoControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
+import org.dimensinfin.android.mvc.datasource.IDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +92,7 @@ public class DatabaseDemoFragment extends AbstractPagerFragment {
                     .withViewModel(this.mWordViewModel)
                     .withVariant(getVariant())
                     .withExtras(getExtras())
-                    .withCacheStatus(true)
+                    .withCacheStatus(false)
                     .build();
             return ds;
         } finally {

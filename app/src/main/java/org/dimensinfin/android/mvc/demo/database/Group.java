@@ -64,6 +64,8 @@ public class Group extends DemoLabel {
 
         public Builder withName(final String name) {
             this.object.groupName = name;
+            this.object.title = name;
+            this.object.title = name + this.object.hashCode();
             return this;
         }
 

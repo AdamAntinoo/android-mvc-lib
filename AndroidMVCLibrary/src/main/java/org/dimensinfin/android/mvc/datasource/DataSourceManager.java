@@ -1,6 +1,5 @@
 package org.dimensinfin.android.mvc.datasource;
 
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +27,7 @@ public class DataSourceManager {
 	public static IDataSource registerDataSource(final IDataSource newSource) {
 		if (null == newSource) return newSource;
 		// Check if the data source can be cached.
-//		if (newSource.isCacheable()) {
+		if (newSource.needsCaching()) {
 			DataSourceLocator locator = newSource.getDataSourceLocator();
 			// Search for locator on cache.
 			IDataSource found = DataSourceManager.dataSources.get(locator.getIdentity());
@@ -39,7 +38,7 @@ public class DataSourceManager {
 				return newSource;
 			} else
 				return found;
-//		}
-//		return newSource;
+		}
+		return newSource;
 	}
 }

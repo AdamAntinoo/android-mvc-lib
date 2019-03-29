@@ -19,13 +19,14 @@ import android.widget.Toast;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
 import org.dimensinfin.android.mvc.core.MVCExceptionHandler;
 import org.dimensinfin.android.mvc.core.ToastExceptionHandler;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
+import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.interfaces.ITitledFragment;
@@ -229,7 +230,7 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
      */
     public abstract String getTitle();
 
-    // - ABSTRACT METHODS TO BE IMPLEMENTED BY APP
+    // - T O   B E   I M P L E M E N T E D   B Y   D E V E L O P E R S
 
     /**
      * This method should be implemented by all the application Fragments to set the <b>ControllerFactory</b> that will be
@@ -286,12 +287,12 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
         super.onCreateView(inflater, container, savedInstanceState);
         // TODO analyze what is returned by the savedInstanceState when recovering the application. That will help to recover the
         // functional state of the application.
-        // - S E C T I O N   1. where we get access to the UI elements.
+        // - S E C T I O N   1. Where we get access to the UI elements.
         _container = (ViewGroup) inflater.inflate(R.layout.fragment_base, container, false);
-        _headerContainer = this.assertNotNull(_container.findViewById(R.id.headerContainer));
-        _dataSectionContainer = this.assertNotNull(_container.findViewById(R.id.listContainer));
-        _progressLayout = this.assertNotNull(_container.findViewById(R.id.progressLayout));
-        _progressElapsedCounter = this.assertNotNull(_container.findViewById(R.id.progressCounter));
+        _headerContainer = AppCompatibilityUtils.assertNotNull(_container.findViewById(R.id.headerContainer));
+        _dataSectionContainer = AppCompatibilityUtils.assertNotNull(_container.findViewById(R.id.listContainer));
+        _progressLayout = AppCompatibilityUtils.assertNotNull(_container.findViewById(R.id.progressLayout));
+        _progressElapsedCounter = AppCompatibilityUtils.assertNotNull(_container.findViewById(R.id.progressCounter));
 
         // Set the visual state of all items.
         _progressLayout.setVisibility(View.VISIBLE);
@@ -302,11 +303,11 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
         //			this.registerForContextMenu(_headerContainer);
         this.registerForContextMenu(_dataSectionContainer);
 
-        // - S E C T I O N   2. where we setup the data sources for the adapters. Only include no timing operations.
+        // - S E C T I O N   2. Where we setup the data sources for the adapters. Only include no timing operations.
         // Install the adapter before any data request or model generation.
         _adapter = new DataSourceAdapter(this, DataSourceManager.registerDataSource(this.registerDataSource()));
         _dataSectionContainer.setAdapter(_adapter);
-        _headersource = this.registerHeaderSource();
+//        _headersource = this.registerHeaderSource();
 
         AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.onCreateView]");
         return _container;
@@ -325,23 +326,26 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
         super.onStart();
         Thread.setDefaultUncaughtExceptionHandler(new ToastExceptionHandler(this.getAppContext()));
         // Start counting the elapsed time while we generate and load the  model.
-        this.initializeProgressCounter();
-
-        // We use another thread to perform the data source generation that is a long time action.
-        _uiExecutor.submit(() -> {
-            AbstractPagerFragment.logger.info(">> [AbstractPagerFragment.inside data source generation]");
-            _adapter.collaborateData(); // Call the ds to generate the root contents.
-            _handler.post(() -> { // After the model is created used the UI thread to render the collaboration to view.
-                _adapter.notifyDataSetChanged();
-                this.hideProgressIndicator(); // Hide the waiting indicator while the model is generated and the view populated.
-            });
-        });
+        this.initializeProgressIndicator();
 
         // Entry point to generate the Header model.
         _headersource = this.registerHeaderSource();
-        generateHeaderContents(_headersource);
+        this.generateHeaderContents(_headersource);
+
+        // We use another thread to perform the data source generation that is a long time action.
+        _uiExecutor.submit(() -> {
+            AbstractPagerFragment.logger.info("-- [AbstractPagerFragment.inside data source generation]");
+            _adapter.collaborateData(); // Call the ds to generate the root contents.
+            _handler.post(() -> { // After the model is created used the UI thread to render the collaboration to view.
+//                _adapter.collaborateData(); // Call the ds to generate the root contents.
+                _adapter.notifyDataSetChanged();
+                this.hideProgressIndicator(); // Hide the waiting indicator after the model is generated and the view populated.
+            });
+        });
+
         // Update the display with the initial progress indicator.
-        _adapter.notifyDataSetChanged();
+//        _adapter.collaborateData(); // Call the ds to generate the root contents.
+//        _adapter.notifyDataSetChanged();
         AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.onStart]");
     }
 
@@ -473,13 +477,13 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
     }
 
     // - U T I L I T I E S
-    private <T> T assertNotNull(final T target) {
-        assert (target != null);
-        return target;
-    }
+//    private <T> T assertNotNull(final T target) {
+//        assert (target != null);
+//        return target;
+//    }
 
-    private void initializeProgressCounter() {
-        _progressElapsedCounter = this.assertNotNull(_container.findViewById(R.id.progressCounter));
+    private void initializeProgressIndicator() {
+        _progressElapsedCounter = AppCompatibilityUtils.assertNotNull(_container.findViewById(R.id.progressCounter));
         final Instant _elapsedTimer = Instant.now();
         new CountDownTimer(TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS.toMillis(10)) {
             @Override
@@ -567,7 +571,7 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
 //		}
 //
 //		@Override
-//		protected void initializeProgressCounter() {
+//		protected void initializeProgressIndicator() {
 //		}
 //
 //		@Override

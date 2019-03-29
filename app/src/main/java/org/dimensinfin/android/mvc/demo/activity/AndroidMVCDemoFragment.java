@@ -7,7 +7,7 @@ import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.demo.factory.DemoControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
+import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.model.DemoContainer;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 import org.dimensinfin.android.mvc.model.DemoItem;
@@ -72,7 +72,7 @@ public class AndroidMVCDemoFragment extends AbstractPagerFragment {
 			ds = new DemoDataSource(identifier, this.getFactory())
 					.setVariant(getVariant())
 					.setExtras(getExtras())
-					.shouldBeCached(true);
+					.shouldBeCached(false);
 			return ds;
 		} finally {
 			AbstractPagerFragment.logger.info("<< [AndroidMVCDemoFragment.registerDataSource]");
@@ -98,6 +98,7 @@ final class DemoDataSource extends AMVCDataSource {
 	 */
 	public void collaborate2Model() {
 		AMVCDataSource.logger.info(">> [DemoDataSource.collaborate2Model]");
+		this.cleanModel(); // Clear the model before creating it again to remove duplicates.
 		// Check if we should use the cached version.
 //		if (!isCached()) {
 		if (getVariant() == AndroidMVCDemoActivity.EDemoVariants.NON_EXPANDABLE_SECTION.name()) {

@@ -9,7 +9,6 @@ import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
