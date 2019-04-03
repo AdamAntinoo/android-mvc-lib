@@ -10,11 +10,11 @@ import androidx.annotation.NonNull;
 
 public class SeparatorController extends AAndroidController<Separator> {
 	// - F I E L D - S E C T I O N
-//	private GenericController<Separator> delegatedController;
+//	private ControllerAdapter<Separator> delegatedController;
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public SeparatorController(@NonNull final Separator model, @NonNull final IControllerFactory factory) {
-		super(new GenericController<Separator>(model), factory);
+		super(new ControllerAdapter<Separator>(model), factory);
 //		// Connect the delegate.
 //		this.delegatedController = ;
 	}
