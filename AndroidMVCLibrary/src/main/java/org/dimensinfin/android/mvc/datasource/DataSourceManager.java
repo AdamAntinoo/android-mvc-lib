@@ -1,9 +1,13 @@
 package org.dimensinfin.android.mvc.datasource;
 
+import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.concurrent.Future;
+
+import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
 
 /**
  * Controls and caches all DataSources in use that are allowed to be cacheable. Will use a single multifield Locator to
@@ -24,20 +28,27 @@ public class DataSourceManager {
 	 * @param newSource new DataSource to add to the Manager
 	 * @return the oldest DataSource with the same identifier.
 	 */
-	public static IDataSource registerDataSource(final IDataSource newSource) {
-		if (null == newSource) return newSource;
+	public static IDataSource registerDataSource(@NonNull final IDataSource newSource) {
+//		if (null == newSource) return newSource;
+		AppCompatibilityUtils.parameterNotNull(newSource);
 		// Check if the data source can be cached.
 		if (newSource.needsCaching()) {
 			DataSourceLocator locator = newSource.getDataSourceLocator();
 			// Search for locator on cache.
-			IDataSource found = DataSourceManager.dataSources.get(locator.getIdentity());
+		final	IDataSource found = DataSourceManager.dataSources.get(locator.getIdentity());
 			if (null == found) {
 				DataSourceManager.dataSources.put(locator.getIdentity(), newSource);
 				DataSourceManager.logger
-						.info("-- [DataSourceManager.registerDataSource]> Registering new DataSource: " + locator.getIdentity());
-				return newSource;
-			} else
-				return found;
+						.info("-- [DataSourceManager.registerDataSource]> Registering new DataSource: {}" , locator.getIdentity());
+//				found = newSource;
+				final Future<IDataSource> sync = AppCompatibilityUtils.backgroundExecutor.submit(() -> newSource.prepareModel(), newSource);
+//				newSource.setSynchronizer(sync);
+//				return newSource;
+			}
+			// Request to start the model preparation.
+			AppCompatibilityUtils.backgroundExecutor.submit(()-> found.prepareModel());
+//			else
+//				newSource= found;
 		}
 		return newSource;
 	}

@@ -47,10 +47,10 @@ public class AAndroidControllerTest {
 	@Before
 	public void setUp() {
 		factory = Mockito.mock(ControllerFactory.class);
-		controller = new TestController(new EmptyNode("Test"), factory);
+		controller = new TestController(new ControllerAdapter<>(new EmptyNode("Test")), factory);
 		data.clear();
 		for (int index = 0; index < 9; index++) {
-			data.add(new TestController(new EmptyNode("Test" + index), factory));
+			data.add(new TestController(new ControllerAdapter<>(new EmptyNode("Test" + index)), factory));
 		}
 	}
 
@@ -69,7 +69,7 @@ public class AAndroidControllerTest {
 	public void createWithValidParameters() {
 		// Given
 		final String expected = "Create Test";
-		final TestController controller = new TestController(new EmptyNode(expected), factory);
+		final TestController controller = new TestController(new ControllerAdapter<>(new EmptyNode(expected)), factory);
 		// Tests
 		final String actual = controller.getModel().getName();
 		// Asserts
@@ -113,7 +113,7 @@ public class AAndroidControllerTest {
 		// Given
 		final int initial = controller.getChildren().size();
 		// Test
-		controller.addChild(new TestController(new EmptyNode("Test"), factory));
+		controller.addChild(new TestController(new ControllerAdapter<>(new EmptyNode("Test")), factory));
 		// Assert
 		Assert.assertEquals("The number of initial children is 0.", 0, initial);
 		Assert.assertEquals("The number of child is 1.", 1, controller.getChildren().size());
@@ -169,8 +169,8 @@ public class AAndroidControllerTest {
 	public void orderingFeature_notordered() {
 		// Given
 		controller.setOrderedActive(false);
-		controller.addChild(new TestController(new EmptyNode("First"), factory));
-		controller.addChild(new TestController(new EmptyNode("Last"), factory));
+		controller.addChild(new TestController(new ControllerAdapter<>(new EmptyNode("First")), factory));
+		controller.addChild(new TestController(new ControllerAdapter<>(new EmptyNode("Last")), factory));
 		// Test
 		controller.orderingFeature(controller.getChildren());
 		// Asserts
@@ -183,8 +183,8 @@ public class AAndroidControllerTest {
 	public void orderingFeature_ordered() {
 		// Given
 		controller.setOrderedActive(true);
-		controller.addChild(new TestController(new EmptyNode("Last"), factory));
-		controller.addChild(new TestController(new EmptyNode("First"), factory));
+		controller.addChild(new TestController(new ControllerAdapter<>(new EmptyNode("Last")), factory));
+		controller.addChild(new TestController(new ControllerAdapter<>(new EmptyNode("First")), factory));
 
 		// Test
 		controller.orderingFeature(controller.getChildren());
@@ -200,10 +200,10 @@ public class AAndroidControllerTest {
 		final List<EmptyNode> testModelHierarchy = new ArrayList();
 		testModelHierarchy.add(new EmptyNode("Node 1"));
 		testModelHierarchy.add(new EmptyNode("Node 2"));
-		final TestController testController = new TestController(new MultipleModelCollaborator("Data"), factory);
+		final TestController testController = new TestController(new ControllerAdapter<>(new MultipleModelCollaborator("Data")), factory);
 
 		// When
-		when(factory.createController(any(EmptyNode.class))).thenReturn(new TestController(new EmptyNode("Test"), factory));
+		when(factory.createController(any(EmptyNode.class))).thenReturn(new TestController(new ControllerAdapter<>(new EmptyNode("Test")), factory));
 		when(factory.getVariant()).thenReturn("TEST");
 
 		// Asserts
@@ -211,7 +211,7 @@ public class AAndroidControllerTest {
 
 		// Test
 		testController.refreshChildren();
-		final List<IAndroidController<EmptyNode>> endList = testController.getChildren();
+		final List<IAndroidController> endList = testController.getChildren();
 
 		// Asserts
 		Assert.assertEquals("The end list has 2 items.", 2, testController.getChildren().size());

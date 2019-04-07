@@ -92,7 +92,7 @@ android {
 dependencies {
     // A N D R O I D    S U P P O R T
 //    implementation 'com.android.support:support-fragment:28.0.0'
-    implementation 'androidx.fragment:fragment:1.0.0'
+    compileOnly 'androidx.fragment:fragment:1.0.0'
 
     // L O C A L    L I B R A R I E S
     implementation 'me.relex:circleindicator:2.1.0'

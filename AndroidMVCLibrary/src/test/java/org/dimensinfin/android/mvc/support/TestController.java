@@ -1,29 +1,35 @@
 package org.dimensinfin.android.mvc.support;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.controller.ControllerAdapter;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 
-public class TestController extends AAndroidController {
+import androidx.annotation.NonNull;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+public class TestController extends AAndroidController<EmptyNode> {
 	// - F I E L D - S E C T I O N
 //	private ControllerAdapter<EmptyNode> delegatedController;
 	private boolean visible = true;
+
+	public TestController(@NonNull final ControllerAdapter<EmptyNode> delegate, @NonNull final IControllerFactory factory) {
+		super(delegate, factory);
+	}
 
 	// - C O N S T R U C T O R - S E C T I O N
 //	public TestController(@NonNull final IControllerFactory factory) {
 //		super(factory);
 //	}
 
-	public TestController(@NonNull final EmptyNode model, @NonNull final IControllerFactory factory) {
-		super(new ControllerAdapter<EmptyNode>(model), factory);
-		// Connect the delegate.
-//		this.delegatedController = ;
-	}
+//	public TestController(@NonNull final EmptyNode model, @NonNull final IControllerFactory factory) {
+//		super(new ControllerAdapter<EmptyNode>(model), factory);
+//		// Connect the delegate.
+//		//		this.delegatedController = ;
+//	}
 
 	// - D E L E G A T E D - A A N D R O I D C O N T R O L L E R
 //	public EmptyNode getModel() {

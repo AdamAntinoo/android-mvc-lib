@@ -49,7 +49,7 @@ import androidx.fragment.app.Fragment;
  */
 public abstract class AbstractPagerFragment extends Fragment implements ITitledFragment {
     protected static Logger logger = LoggerFactory.getLogger(AbstractPagerFragment.class);
-    protected static final ExecutorService _uiExecutor = Executors.newFixedThreadPool(1);
+//    protected static final ExecutorService _uiExecutor = Executors.newFixedThreadPool(1);
     /**
      * Task _handler to manage execution of code that should be done on the main loop thread.
      */
@@ -81,7 +81,7 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
     /**
      * List of model elements that should be converted to views and inserted on the Header ui container.
      */
-    private List<ICollaboration> _headersource = null;
+//    private List<ICollaboration> _headersource = null;
     /**
      * Instance for a dynamic model generator. The model can change after creation by user interactions through the
      * rendered views and parts.
@@ -305,8 +305,16 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
 
         // - S E C T I O N   2. Where we setup the data sources for the adapters. Only include no timing operations.
         // Install the adapter before any data request or model generation.
-        _adapter = new DataSourceAdapter(this, DataSourceManager.registerDataSource(this.registerDataSource()));
+        final IDataSource ds=DataSourceManager.registerDataSource(this.registerDataSource());
+        _adapter = new DataSourceAdapter(this, ds);
         _dataSectionContainer.setAdapter(_adapter);
+
+        // - S E C T I O N   3. Post the tak to generate the header contents to be rendered.
+        AppCompatibilityUtils.backgroundExecutor.submit(()->{
+            AbstractPagerFragment.logger.info("-- [AbstractPagerFragment.DS Initialisation]");
+            _adapter.collaborateData(); // Call the ds to generate the root contents.
+            this.generateHeaderContents(ds.getHeaderSectionContents());
+        });
 //        _headersource = this.registerHeaderSource();
 
         AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.onCreateView]");
@@ -328,14 +336,16 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
         // Start counting the elapsed time while we generate and load the  model.
         this.initializeProgressIndicator();
 
-        // Entry point to generate the Header model.
-        _headersource = this.registerHeaderSource();
-        this.generateHeaderContents(_headersource);
+        // Entry point to generate the Header model and then generate the Controllers.
+//        AppCompatibilityUtils.backgroundExecutor.submit(()->{
+//            this.generateHeaderContents(this.d);
+//        })
+//        _headersource = this.registerHeaderSource();
 
         // We use another thread to perform the data source generation that is a long time action.
-        _uiExecutor.submit(() -> {
-            AbstractPagerFragment.logger.info("-- [AbstractPagerFragment.inside data source generation]");
-            _adapter.collaborateData(); // Call the ds to generate the root contents.
+        AppCompatibilityUtils.backgroundExecutor.submit(()->{
+            AbstractPagerFragment.logger.info("-- [AbstractPagerFragment.Render data section]");
+//            _adapter.collaborateData(); // Call the ds to generate the root contents.
             _handler.post(() -> { // After the model is created used the UI thread to render the collaboration to view.
 //                _adapter.collaborateData(); // Call the ds to generate the root contents.
                 _adapter.notifyDataSetChanged();
@@ -381,19 +391,19 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
      * that should be rendered when expanded. Even the header contents are limited in interaction we can have the
      * expand/collapse functionality to calculate the final list of Views to render.
      */
-    protected void generateHeaderContents(final List<ICollaboration> headerData) {
+    protected void generateHeaderContents(final List<IAndroidController> headerControllers) {
         AbstractPagerFragment.logger.info(">> [AbstractPagerFragment.generateHeaderContents]");
         // Create the list of controllers from the model list received.
-        final List<IAndroidController> rootControllers = new ArrayList<>(headerData.size());
-        for (ICollaboration modelNode : headerData) {
-            final IAndroidController newController = this._factory.createController(modelNode);
-            newController.refreshChildren();
-            rootControllers.add(newController);
-        }
+//        final List<IAndroidController> rootControllers = new ArrayList<>(headerData.size());
+//        for (ICollaboration modelNode : headerData) {
+//            final IAndroidController newController = this._factory.createController(modelNode);
+//            newController.refreshChildren();
+//            rootControllers.add(newController);
+//        }
 
         // Compose the final list from the controllers collaborating to the view.
         final List<IAndroidController> controllers = new ArrayList<>();
-        for (IAndroidController controller : rootControllers) {
+        for (IAndroidController controller : headerControllers) {
             controller.collaborate2View(controllers);
         }
         // Now create the view and add it to the header list.

@@ -8,16 +8,16 @@
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.support;
 
-import android.support.annotation.NonNull;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.dimensinfin.android.mvc.interfaces.ICollaboration;
-import org.dimensinfin.android.mvc.model.Separator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.dimensinfin.android.mvc.interfaces.ICollaboration;
+
+import androidx.annotation.NonNull;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Adam Antinoo
@@ -44,10 +44,10 @@ public class EmptyNode implements ICollaboration {
 	@Override
 	public String toString() {
 		return new StringBuilder("EmptyNode [")
-				.append("name: ").append(0)
-				.append("]")
-				.append("->").append(super.toString())
-				.toString();
+				       .append("name: ").append(0)
+				       .append("]")
+				       .append("->").append(super.toString())
+				       .toString();
 	}
 
 	@Override
@@ -56,21 +56,21 @@ public class EmptyNode implements ICollaboration {
 		if (o == null || getClass() != o.getClass()) return false;
 		final EmptyNode emptyNode = (EmptyNode) o;
 		return new EqualsBuilder()
-				.append(name, emptyNode.name)
-				.isEquals();
+				       .append(name, emptyNode.name)
+				       .isEquals();
 	}
 
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder(17, 37)
-				.append(name)
-				.toHashCode();
+				       .append(name)
+				       .toHashCode();
 	}
 
 	// - C O M P A R A B L E   I N T E R F A C E
 	@Override
 	public int compareTo(@NonNull final Object o) {
-		if ( o instanceof EmptyNode) {
+		if (o instanceof EmptyNode) {
 			final EmptyNode target = (EmptyNode) o;
 			return this.name.compareTo(target.name);
 		} else return -1;

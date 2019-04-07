@@ -4,18 +4,18 @@ import android.app.ActionBar;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-
 import org.dimensinfin.android.mvc.R;
+
 import org.dimensinfin.android.mvc.core.MVCException;
 import org.dimensinfin.android.mvc.core.MVCExceptionHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
 import me.relex.circleindicator.CircleIndicator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class extends the bare android Activity. Defines the ActionBar and instantiates the layout. The generic layout
@@ -34,209 +34,211 @@ import me.relex.circleindicator.CircleIndicator;
  * @since 1.0.0
  */
 public abstract class AbstractPagerActivity extends FragmentActivity {
-    public enum EExtrasMVC {
-        EXTRA_EXCEPTIONMESSAGE, EXTRA_VARIANT
-    }
+	public enum EExtrasMVC {
+		EXTRA_EXCEPTIONMESSAGE, EXTRA_VARIANT
+	}
 
-    protected static Logger logger = LoggerFactory.getLogger(AbstractPagerActivity.class);
+	protected static Logger logger = LoggerFactory.getLogger(AbstractPagerActivity.class);
 
-    // - F I E L D - S E C T I O N
-    protected Bundle extras = null;
-    protected ActionBar _actionBar = null;
-    protected ViewPager _pageContainer = null;
-    private final AbstractFragmentPagerAdapter _pageAdapter = new AbstractFragmentPagerAdapter(this.getSupportFragmentManager());
+	// - F I E L D - S E C T I O N
+	protected Bundle extras = null;
+	protected ActionBar _actionBar = null;
+	protected ViewPager _pageContainer = null;
+	private final AbstractFragmentPagerAdapter _pageAdapter = new AbstractFragmentPagerAdapter(this.getSupportFragmentManager());
 
-    /**
-     * Image reference to the background layout item that can be replaced by the application implementation.
-     */
-    protected ImageView background = null;
-    protected CircleIndicator _indicator = null;
+	/**
+	 * Image reference to the background layout item that can be replaced by the application implementation.
+	 */
+	protected ImageView background = null;
+	protected CircleIndicator _indicator = null;
 
-    // - C O N S T R U C T O R - S E C T I O N
+	// - C O N S T R U C T O R - S E C T I O N
 
-    // - M E T H O D - S E C T I O N
+	// - M E T H O D - S E C T I O N
 
-    /**
-     * Allows to change the context background that covers the full size of the display
-     *
-     * @param newBackground the new background image.
-     */
-    public void setBackground(final ImageView newBackground) {
-        this.background = newBackground;
-    }
+	/**
+	 * Allows to change the context background that covers the full size of the display
+	 *
+	 * @param newBackground the new background image.
+	 */
+	public void setBackground(final ImageView newBackground) {
+		this.background = newBackground;
+	}
 
-    /**
-     * Adds a new <code>Fragment</code> to the list of fragments managed by the pager. The new fragment is added at the
-     * last position of the list of fragments, positions are then relative and not set by the developer.
-     *
-     * @param newFrag the new fragment to add to the pager. When the application is brought back to life we can have
-     *                already the fragments created and initialized at the <code>FragmentManager</code>. In such a case we
-     *                discard the new received fragment and use the already instance at the <code>FragmentManager</code>.
-     */
-    public void addPage(@NonNull final AbstractPagerFragment newFrag) {
-        AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.addPage]");
-        // Connect to the application context of not already done.
-        newFrag.setAppContext(this.getApplicationContext());
-        // Before checking if we have already this fragment we should get its unique identifier.
-        final Fragment frag = this.getSupportFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
-        if (null == frag) {
-            _pageAdapter.addPage(newFrag);
-        } else {
-            if (null == newFrag)
-                throw new RuntimeException("RTEX [AbstractPagerActivity.addPage]> The fragment defined is null and cannot be used.");
-            // We need to update the fragment cached on the Fragment Manager
-            if (frag instanceof AbstractPagerFragment) {
-                AbstractPagerActivity.logger.info("-- [AbstractPagerActivity.addPage]> Reusing available fragment. {}"
-                        , _pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
-                // Reuse a previous created Fragment. Copy all fields accesible.
-                ((AbstractPagerFragment) frag)
-                        .setVariant(newFrag.getVariant())
-                        .setExtras(newFrag.getExtras())
-                        .setAppContext(newFrag.getAppContext())
-                        .setListCallback(newFrag.getListCallback());
-                _pageAdapter.addPage(newFrag);
-            } else
-                throw new RuntimeException("RTEX [AbstractPagerActivity.addPage]> The fragment located does not inherit the required functionality. Does not extend AbstractPagerFragment.");
-        }
-        // Be sure the Fragment context points to a valid context.
-        newFrag.setAppContext(this.getApplicationContext());
-        // Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
-        newFrag.setExtras(this.getExtras());
-        // Check the number of pages to activate the indicator when more the one.
-        if (_pageAdapter.getCount() > 1) {
-            this.activateIndicator();
-        }
-        AbstractPagerActivity.logger.info("<< [AbstractPagerActivity.addPage]"); //$NON-NLS-1$
-    }
+	/**
+	 * Adds a new <code>Fragment</code> to the list of fragments managed by the pager. The new fragment is added at the
+	 * last position of the list of fragments, positions are then relative and not set by the developer.
+	 *
+	 * @param newFrag the new fragment to add to the pager. When the application is brought back to life we can have
+	 *                already the fragments created and initialized at the <code>FragmentManager</code>. In such a case we
+	 *                discard the new received fragment and use the already instance at the <code>FragmentManager</code>.
+	 */
+	public void addPage(@NonNull final AbstractPagerFragment newFrag) {
+		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.addPage]");
+		// Connect to the application context of not already done.
+		newFrag.setAppContext(this.getApplicationContext());
+		// Before checking if we have already this fragment we should get its unique identifier.
+		final Fragment frag = this.getSupportFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
+		if (null == frag) {
+			_pageAdapter.addPage(newFrag);
+		} else {
+			if (null == newFrag)
+				throw new RuntimeException("RTEX [AbstractPagerActivity.addPage]> The fragment defined is null and cannot be used.");
+			// We need to update the fragment cached on the Fragment Manager
+			if (frag instanceof AbstractPagerFragment) {
+				AbstractPagerActivity.logger.info("-- [AbstractPagerActivity.addPage]> Reusing available fragment. {}"
+						, _pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
+				// Reuse a previous created Fragment. Copy all fields accesible.
+				((AbstractPagerFragment) frag)
+						.setVariant(newFrag.getVariant())
+						.setExtras(newFrag.getExtras())
+						.setAppContext(newFrag.getAppContext())
+						.setListCallback(newFrag.getListCallback());
+				_pageAdapter.addPage(newFrag);
+			} else
+				throw new RuntimeException("RTEX [AbstractPagerActivity.addPage]> The fragment located does not inherit the required functionality. Does not extend AbstractPagerFragment.");
+		}
+		// Be sure the Fragment context points to a valid context.
+		newFrag.setAppContext(this.getApplicationContext());
+		// Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
+		newFrag.setExtras(this.getExtras());
+		// Check the number of pages to activate the indicator when more the one.
+		if (_pageAdapter.getCount() > 1) {
+			this.activateIndicator();
+		}
+		AbstractPagerActivity.logger.info("<< [AbstractPagerActivity.addPage]"); //$NON-NLS-1$
+	}
 
-    protected void activateIndicator() {
-        // If the Indicator is active then set the listener.
-        if (null != _indicator) {
-            _indicator.setVisibility(View.VISIBLE);
-            _indicator.setViewPager(_pageContainer);
-            _indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+	protected void activateIndicator() {
+		// If the Indicator is active then set the listener.
+		if (null != _indicator) {
+			_indicator.setVisibility(View.VISIBLE);
+			_indicator.setViewPager(_pageContainer);
+			_indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-                public void onPageScrolled(final int arg0, final float arg1, final int arg2) {
-                    // Do nothing on scroll detection.
-                }
+				public void onPageScrolled(final int arg0, final float arg1, final int arg2) {
+					// Do nothing on scroll detection.
+				}
 
-                public void onPageScrollStateChanged(final int arg0) {
-                    // Do nothing on scroll detection.
-                }
+				public void onPageScrollStateChanged(final int arg0) {
+					// Do nothing on scroll detection.
+				}
 
-                public void onPageSelected(final int position) {
-                    if (null != _actionBar) {
-                        _actionBar.setTitle(_pageAdapter.getTitle(position));
-                        // Clear empty subtitles.
-                        if ("" == _pageAdapter.getSubTitle(position)) {
-                            _actionBar.setSubtitle(null);
-                        } else {
-                            _actionBar.setSubtitle(_pageAdapter.getSubTitle(position));
-                        }
-                    }
-                }
-            });
-        }
-//		else {
-//			_pageContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//
-//				public void onPageScrolled(final int arg0, final float arg1, final int arg2) {
-//					// Do nothing on scroll detection.
-//				}
-//
-//				public void onPageScrollStateChanged(final int arg0) {
-//					// Do nothing on scroll detection.
-//				}
-//
-//				public void onPageSelected(final int position) {
-//					if (null != _actionBar) {
-//						_actionBar.setTitle(_pageAdapter.getTitle(position));
-//						// Clear empty subtitles.
-//						if ("" == _pageAdapter.getSubTitle(position)) {
-//							_actionBar.setSubtitle(null);
-//						} else {
-//							_actionBar.setSubtitle(_pageAdapter.getSubTitle(position));
-//						}
-//					}
-//				}
-//			});
-//		}
-    }
+				public void onPageSelected(final int position) {
+					if (null != _actionBar) {
+						_actionBar.setTitle(_pageAdapter.getTitle(position));
+						// Clear empty subtitles.
+						if ("" == _pageAdapter.getSubTitle(position)) {
+							_actionBar.setSubtitle(null);
+						} else {
+							_actionBar.setSubtitle(_pageAdapter.getSubTitle(position));
+						}
+					}
+				}
+			});
+		}
+		//		else {
+		//			_pageContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+		//
+		//				public void onPageScrolled(final int arg0, final float arg1, final int arg2) {
+		//					// Do nothing on scroll detection.
+		//				}
+		//
+		//				public void onPageScrollStateChanged(final int arg0) {
+		//					// Do nothing on scroll detection.
+		//				}
+		//
+		//				public void onPageSelected(final int position) {
+		//					if (null != _actionBar) {
+		//						_actionBar.setTitle(_pageAdapter.getTitle(position));
+		//						// Clear empty subtitles.
+		//						if ("" == _pageAdapter.getSubTitle(position)) {
+		//							_actionBar.setSubtitle(null);
+		//						} else {
+		//							_actionBar.setSubtitle(_pageAdapter.getSubTitle(position));
+		//						}
+		//					}
+		//				}
+		//			});
+		//		}
+	}
 
-    private void disableIndicator() {
-        if (null != _indicator) {
-            _indicator.setVisibility(View.GONE);
-        }
-    }
+	private void disableIndicator() {
+		if (null != _indicator) {
+			_indicator.setVisibility(View.GONE);
+		}
+	}
 
-    private Bundle getExtras() {
-        return extras;
-    }
+	protected Bundle getExtras() {
+		return this.extras;
+	}
 
-    @Override
-    protected void onCreate(final Bundle savedInstanceState) {
-        AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
-        super.onCreate(savedInstanceState);
-        // Install the default library exception interceptor to show lib exceptions.
-        Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this));
-        // Process the extras received by the intent so they can be shared to all the Fragments
-        try {
-            // Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
-            if (null != savedInstanceState) {
-                extras = savedInstanceState;
-            } else {
-                extras = this.getIntent().getExtras();
-            }
-        } catch (RuntimeException rtex) {
-            logger.warn("RTEX [AbstractPagerActivity.onCreate]> {}", rtex.getMessage());
-        }
+	@Override
+	protected void onCreate(final Bundle savedInstanceState) {
+		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
+		super.onCreate(savedInstanceState);
+		// Install the default library exception interceptor to show lib exceptions.
+		Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this));
+		// Process the extras received by the intent so they can be shared to all the Fragments
+		try {
+			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
+			if (null != savedInstanceState) {
+				this.extras = savedInstanceState;
+			} else {
+				this.extras = this.getIntent().getExtras();
+			}
+		} catch (RuntimeException rtex) {
+			logger.warn("RTEX [AbstractPagerActivity.onCreate]> {}", rtex.getMessage());
+		}
+		// If the extras are not defined then create an empty container.
+		if (null == this.extras) this.extras = new Bundle();
 
 
-        // TODO This section is back the core ActionBar that can be configured until a new configuration is tested.
-        // Set the layout to the core context that defines the background, the indicator and the fragment container.
-        this.setContentView(R.layout.activity_pager);
-        // Gets the context's default ActionBar
-        _actionBar = this.getActionBar();
-        _actionBar.show();
-        _actionBar.setDisplayHomeAsUpEnabled(true);
+		// TODO This section is back the core ActionBar that can be configured until a new configuration is tested.
+		// Set the layout to the core context that defines the background, the indicator and the fragment container.
+		this.setContentView(R.layout.activity_pager);
+		// Gets the context's default ActionBar
+		_actionBar = this.getActionBar();
+		_actionBar.show();
+		_actionBar.setDisplayHomeAsUpEnabled(true);
 
-        // Locate the elements of the page and store in global data.
-        _pageContainer = this.findViewById(R.id.pager);
-        background = this.findViewById(R.id.backgroundFrame);
-        _indicator = this.findViewById(R.id.indicator);
-        // Check page structure.
-        if (null == _pageContainer) {
-            throw new MVCException("RTEX [AbstractPagerActivity.onCreate]> Expected UI element not found.");
-        }
-        if (null == background) {
-            throw new MVCException("RTEX [AbstractPagerActivity.onCreate]> Expected UI element not found.");
-        }
+		// Locate the elements of the page and store in global data.
+		_pageContainer = this.findViewById(R.id.pager);
+		background = this.findViewById(R.id.backgroundFrame);
+		_indicator = this.findViewById(R.id.indicator);
+		// Check page structure.
+		if (null == _pageContainer) {
+			throw new MVCException("RTEX [AbstractPagerActivity.onCreate]> Expected UI element not found.");
+		}
+		if (null == background) {
+			throw new MVCException("RTEX [AbstractPagerActivity.onCreate]> Expected UI element not found.");
+		}
 
-        // Add the adapter for the page switching.
-//		_pageAdapter = new AbstractFragmentPagerAdapter(this.getFragmentManager(), _pageContainer.getId());
-        _pageContainer.setAdapter(_pageAdapter);
-        // Cleat the indicator from the view until more than one page is added.
-        this.disableIndicator();
-        AbstractPagerActivity.logger.info("<< [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
-    }
+		// Add the adapter for the page switching.
+		//		_pageAdapter = new AbstractFragmentPagerAdapter(this.getFragmentManager(), _pageContainer.getId());
+		_pageContainer.setAdapter(_pageAdapter);
+		// Cleat the indicator from the view until more than one page is added.
+		this.disableIndicator();
+		AbstractPagerActivity.logger.info("<< [AbstractPagerActivity.onCreate]"); //$NON-NLS-1$
+	}
 
-    private void updateInitialTitle() {
-        if (null != _actionBar) {
-            Fragment firstFragment = _pageAdapter.getInitialPage();
-            // REFACTOR This IF can be removed once this code works.
-            if (firstFragment instanceof AbstractPagerFragment) {
-                _actionBar.setTitle(((AbstractPagerFragment) firstFragment).getTitle());
-                _actionBar.setSubtitle(((AbstractPagerFragment) firstFragment).getSubtitle());
-            }
-        }
-    }
+	private void updateInitialTitle() {
+		if (null != _actionBar) {
+			Fragment firstFragment = _pageAdapter.getInitialPage();
+			// REFACTOR This IF can be removed once this code works.
+			if (firstFragment instanceof AbstractPagerFragment) {
+				_actionBar.setTitle(((AbstractPagerFragment) firstFragment).getTitle());
+				_actionBar.setSubtitle(((AbstractPagerFragment) firstFragment).getSubtitle());
+			}
+		}
+	}
 
-    // - A C T I V I T Y   L I F E C Y C L E
+	// - A C T I V I T Y   L I F E C Y C L E
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // Update the menu for the first page.
-        updateInitialTitle();
-    }
+	@Override
+	protected void onStart() {
+		super.onStart();
+		// Update the menu for the first page.
+		updateInitialTitle();
+	}
 }
