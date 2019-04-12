@@ -9,6 +9,11 @@ public class TestDataSource extends AMVCDataSource {
 		super(locator, controllerFactory);
 	}
 
+	@Override
+	public void prepareModel() {
+
+	}
+
 	//	@Override
 //	public IControllerFactory getControllerFactory() {
 //		return super.con();

@@ -1,20 +1,22 @@
 package org.dimensinfin.android.mvc.support;
 
 import android.content.Context;
-
+import androidx.annotation.NonNull;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.controller.ControllerAdapter;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 
-import androidx.annotation.NonNull;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
 public class TestController extends AAndroidController<EmptyNode> {
 	// - F I E L D - S E C T I O N
 //	private ControllerAdapter<EmptyNode> delegatedController;
 	private boolean visible = true;
+
+	public TestController(@NonNull final EmptyNode model, @NonNull final IControllerFactory factory) {
+		super(new ControllerAdapter<>(model), factory);
+	}
 
 	public TestController(@NonNull final ControllerAdapter<EmptyNode> delegate, @NonNull final IControllerFactory factory) {
 		super(delegate, factory);
@@ -76,6 +78,7 @@ public class TestController extends AAndroidController<EmptyNode> {
 		return new HashCodeBuilder(17, 37)
 //				.append(delegatedController)
 				.append(visible)
+				.append(this.getModel().getName())
 				.toHashCode();
 	}
 
@@ -83,7 +86,7 @@ public class TestController extends AAndroidController<EmptyNode> {
 	public int compareTo(@NonNull final Object o) {
 //		if (o instanceof TestController) {
 //			final TestController target = (TestController) o;
-			return this.getModel().compareTo(((TestController) o).getModel());
+		return this.getModel().compareTo(((TestController) o).getModel());
 //		} else return -1;
 	}
 }
