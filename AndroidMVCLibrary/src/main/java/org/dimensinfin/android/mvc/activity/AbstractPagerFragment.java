@@ -402,14 +402,14 @@ public abstract class AbstractPagerFragment extends Fragment implements ITitledF
 //        }
 
         // Compose the final list from the controllers collaborating to the view.
-        final List<IAndroidController> controllers = new ArrayList<>();
-        for (IAndroidController controller : headerControllers) {
-            controller.collaborate2View(controllers);
-        }
+//        final List<IAndroidController> controllers = new ArrayList<>();
+//        for (IAndroidController controller : headerControllers) {
+//            controller.collaborate2View(controllers);
+//        }
         // Now create the view and add it to the header list.
         _handler.post(() -> {
             _headerContainer.removeAllViews();
-            for (IAndroidController part : controllers) {
+            for (IAndroidController part : headerControllers) {
                 if (part instanceof IAndroidController) addView2Header(part);
             }
         });

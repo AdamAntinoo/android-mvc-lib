@@ -236,7 +236,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	public IDataSource addHeaderContents(final ICollaboration newModel) {
 		logger.info(">< [AMVCDataSource.addHeaderContents]> Adding model: {}", newModel.getClass().getSimpleName());
 		this.headerModelRoot.add(newModel);
-		this.controllerHeaderSectionRoot.add(this.controllerFactory.createController(newModel));
+//		this.controllerHeaderSectionRoot.add(this.controllerFactory.createController(newModel));
 		return this;
 	}
 
