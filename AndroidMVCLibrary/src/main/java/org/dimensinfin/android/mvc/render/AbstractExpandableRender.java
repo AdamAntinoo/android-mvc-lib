@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.controller.AbstractExpandableAndroidController;
+import org.dimensinfin.android.mvc.controller.AExpandAndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.model.IExpandable;
@@ -36,8 +36,8 @@ public abstract class AbstractExpandableRender extends AbstractRender {
         super(controller, context);
     }
 
-    public AbstractExpandableAndroidController getController() {
-        return (AbstractExpandableAndroidController) super.getController();
+    public AExpandAndroidController getController() {
+        return (AExpandAndroidController) super.getController();
     }
 
     @Override

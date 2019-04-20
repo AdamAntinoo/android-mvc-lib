@@ -9,11 +9,10 @@
 package org.dimensinfin.android.mvc.support;
 
 import org.dimensinfin.android.mvc.controller.AAndroidController;
-import org.dimensinfin.android.mvc.controller.SeparatorController;
 import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
-import org.dimensinfin.android.mvc.factory.ControllerFactory;
-import org.dimensinfin.android.mvc.model.Separator;
+import org.dimensinfin.android.mvc.controller.ControllerFactory;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;

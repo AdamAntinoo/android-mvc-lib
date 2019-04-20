@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
  * @author Adam Antinoo
  */
 
-public class ControllerAdapter<M extends ICollaboration> implements IModelContainer<M>, Comparable<M> {
+public class ControllerAdapter<M extends ICollaboration> implements /*IModelContainer<M>,*/ IEventEmitter, Comparable<M> {
 	// - F I E L D - S E C T I O N
 	/** Reference to the Model node. */
 	private final M model; // Holds the model node.
@@ -51,7 +51,7 @@ public class ControllerAdapter<M extends ICollaboration> implements IModelContai
 	}
 
 	// - G E T T E R S   &   S E T T E R S
-	@Override
+//	@Override
 	public M getModel() {
 		return model;
 	}

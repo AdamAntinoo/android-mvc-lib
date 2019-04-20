@@ -1,6 +1,7 @@
 package org.dimensinfin.android.mvc.model;
 
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
+import org.dimensinfin.android.mvc.support.Separator;
 
 import java.util.ArrayList;
 import java.util.List;

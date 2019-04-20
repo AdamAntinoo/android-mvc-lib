@@ -2,7 +2,7 @@ package org.dimensinfin.android.mvc.controller;
 
 import android.view.View;
 import junit.framework.Assert;
-import org.dimensinfin.android.mvc.factory.ControllerFactory;
+
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.support.EmptyNode;
 import org.dimensinfin.android.mvc.support.TestController;

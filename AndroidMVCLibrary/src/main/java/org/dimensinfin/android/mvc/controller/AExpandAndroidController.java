@@ -7,7 +7,7 @@ import android.view.View;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.dimensinfin.android.mvc.core.EEvents;
+import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.model.IExpandable;
 
@@ -18,7 +18,7 @@ import androidx.annotation.NonNull;
 /**
  * @author Adam Antinoo
  */
-public abstract class AbstractExpandableAndroidController<M extends IExpandable> extends AAndroidController<M> implements View.OnClickListener {
+public abstract class AExpandAndroidController<M extends IExpandable> extends AAndroidController<M> implements View.OnClickListener {
 	protected static final Handler _handler = new Handler(Looper.getMainLooper());
 
 	// - F I E L D - S E C T I O N
@@ -26,7 +26,7 @@ public abstract class AbstractExpandableAndroidController<M extends IExpandable>
 	private ClickSupporter clickSupporter = new ClickSupporter(false);
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public AbstractExpandableAndroidController(@NonNull final ControllerAdapter<M> delegate, @NonNull final IControllerFactory factory) {
+	public AExpandAndroidController( @NonNull final ControllerAdapter<M> delegate, @NonNull final IControllerFactory factory) {
 		super(delegate, factory);
 	}
 
@@ -36,18 +36,18 @@ public abstract class AbstractExpandableAndroidController<M extends IExpandable>
 	// - V I E W . O N C L I C K L I S T E N E R
 	@Override
 	public void onClick(final View view) {
-		logger.info(">> [AbstractExpandableAndroidController.onClick]");
+		logger.info(">> [AExpandAndroidController.onClick]");
 		// Signal the action may take some time and launch it on the background.
 		this.clickSupporter.activateClick();
 		this.notifyDataModelChange();  // Signal the view needs update
 
 		_handler.postDelayed(() -> {
-			logger.info("-- [AbstractExpandableAndroidController.onClick.run]");
+			logger.info("-- [AExpandAndroidController.onClick.run]");
 //			final Instant chrono = Instant.now();
 			this.getModel().toggleExpand();
 			this.notifyDataModelChange(EEvents.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE);
 			this.clickSupporter.completeClick();
-//			logger.info("<< [AbstractExpandableAndroidController.onClick.run]> Time Elapsed: {}ms",
+//			logger.info("<< [AExpandAndroidController.onClick.run]> Time Elapsed: {}ms",
 //					new Duration(chrono, Instant.now()).getMillis());
 		}, TimeUnit.MILLISECONDS.toMillis(1000));
 		logger.info("<< [NeoComExpandablePart.onClick]");

@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc.core;
+package org.dimensinfin.android.mvc.events;
 
 public enum EEvents {
 	EVENTSTRUCTURE_NEWDATA, EVENTSTRUCTURE_DOWNLOADDATA, EVENTSTRUCTURE_DELETEDATA, EVENTSTRUCTURE_REFRESHDATA,

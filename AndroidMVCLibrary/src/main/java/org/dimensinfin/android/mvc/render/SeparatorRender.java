@@ -12,7 +12,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.controller.SeparatorController;
+import org.dimensinfin.android.mvc.support.SeparatorController;
 
 /**
  * @author Adam Antinoo

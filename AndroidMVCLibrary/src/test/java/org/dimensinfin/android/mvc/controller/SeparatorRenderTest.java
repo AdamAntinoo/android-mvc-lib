@@ -4,8 +4,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.factory.ControllerFactory;
-import org.dimensinfin.android.mvc.model.Separator;
+import org.dimensinfin.android.mvc.support.Separator;
+import org.dimensinfin.android.mvc.support.SeparatorController;
 
 import org.junit.Test;
 import org.mockito.Mockito;

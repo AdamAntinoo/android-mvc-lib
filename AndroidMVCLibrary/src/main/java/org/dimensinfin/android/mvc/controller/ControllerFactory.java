@@ -6,13 +6,12 @@
 //               on Android projects. Defines the AndroidController factory and the AndroidController core methods to manage
 //               a generic converter from a Graph Model to a hierarchical AndroidController model that finally will
 //               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
-package org.dimensinfin.android.mvc.factory;
+package org.dimensinfin.android.mvc.controller;
 
-import org.dimensinfin.android.mvc.controller.SeparatorController;
-import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.support.SeparatorController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.model.Separator;
+import org.dimensinfin.android.mvc.support.Separator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

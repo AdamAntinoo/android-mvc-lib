@@ -1,7 +1,7 @@
 package org.dimensinfin.android.mvc.controller;
 
 import android.view.View;
-import org.dimensinfin.android.mvc.core.EEvents;
+import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.events.EventEmitter;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;

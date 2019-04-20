@@ -1,9 +1,11 @@
-package org.dimensinfin.android.mvc.controller;
+package org.dimensinfin.android.mvc.support;
 
 import android.content.Context;
+
+import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.controller.ControllerAdapter;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.android.mvc.model.Separator;
 import org.dimensinfin.android.mvc.render.SeparatorRender;
 
 import androidx.annotation.NonNull;
