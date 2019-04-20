@@ -13,5 +13,5 @@ public interface IPagerFragment extends ITitledFragment {
 	public IPagerFragment setVariant(final String selectedVariant);
 	public Bundle getExtras();
 	public IPagerFragment setExtras(final Bundle extras);
-	public IMenuActionTarget getListCallback();
+//	public IMenuActionTarget getListCallback();
 }

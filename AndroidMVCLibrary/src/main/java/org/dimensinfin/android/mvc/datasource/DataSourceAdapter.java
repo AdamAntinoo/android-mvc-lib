@@ -47,7 +47,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	private static Logger logger = LoggerFactory.getLogger(DataSourceAdapter.class);
 	private static final boolean LOG_ALLOWED = true;
 	private static final String GETTING_VIEW = "-- [DataSourceAdapter.getView]> Getting view [";
-	/** Task _handler to manage execution of code that should be done on the main loop thread. */
+	/** Task handler to manage execution of code that should be done on the main loop thread. */
 	protected static final Handler _handler = new Handler(Looper.getMainLooper());
 
 	// - F I E L D - S E C T I O N

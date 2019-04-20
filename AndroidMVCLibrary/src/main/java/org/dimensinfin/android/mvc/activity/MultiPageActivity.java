@@ -4,8 +4,8 @@ import android.app.ActionBar;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import org.dimensinfin.android.mvc.R;
 
+import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.exception.MVCException;
 import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
 
@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
  * that will be able to contain different pages and with the feature to allow to swipe to them without changing the
  * context. The different pages will be shown by a circle page indicator if more that one page is present. Only two of
  * them are accessible to other implementations, the Background and the ActionBar.
- * <p>
+ *
  * So at the creation step we only should have to generate the Fragments and add them to the pager. This is the
  * functionality for the <code>addPage(ImageView)</code> public method. Fragments share some characteristics to use the
  * possibilities offered by the ActionBar like the <b>Title</b> and the <b>SubTitle</b>.
@@ -61,7 +61,7 @@ public abstract class MultiPageActivity extends FragmentActivity {
 	 *
 	 * @param newBackground the new background image.
 	 */
-	public void setBackground(final ImageView newBackground) {
+	public void setBackground( final ImageView newBackground ) {
 		this.background = newBackground;
 	}
 
@@ -73,7 +73,7 @@ public abstract class MultiPageActivity extends FragmentActivity {
 	 *                already the fragments created and initialized at the <code>FragmentManager</code>. In such a case we
 	 *                discard the new received fragment and use the already instance at the <code>FragmentManager</code>.
 	 */
-	public void addPage(@NonNull final IPagerFragment newFrag) {
+	public void addPage( @NonNull final IPagerFragment newFrag ) {
 		MultiPageActivity.logger.info(">> [MultiPageActivity.addPage]");
 		// Connect to the application context of not already done.
 		newFrag.setAppContext(this.getApplicationContext());
@@ -89,7 +89,7 @@ public abstract class MultiPageActivity extends FragmentActivity {
 				MultiPageActivity.logger.info("-- [MultiPageActivity.addPage]> Reusing available fragment. {}"
 						, _pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
 				// Reuse a previous created Fragment. Copy all fields accesible.
-				((MVCPagerFragment) frag)
+				((AMVCFragment) frag)
 						.setVariant(newFrag.getVariant())
 						.setExtras(newFrag.getExtras())
 						.setAppContext(newFrag.getAppContext())
@@ -116,15 +116,38 @@ public abstract class MultiPageActivity extends FragmentActivity {
 			_indicator.setViewPager(_pageContainer);
 			_indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-				public void onPageScrolled(final int arg0, final float arg1, final int arg2) {
+				public void onPageScrolled( final int arg0, final float arg1, final int arg2 ) {
 					// Do nothing on scroll detection.
 				}
 
-				public void onPageScrollStateChanged(final int arg0) {
+				public void onPageScrollStateChanged( final int arg0 ) {
 					// Do nothing on scroll detection.
 				}
 
-				public void onPageSelected(final int position) {
+				public void onPageSelected( final int position ) {
+					if (null != _actionBar) {
+						_actionBar.setTitle(_pageAdapter.getTitle(position));
+						// Clear empty subtitles.
+						if ("" == _pageAdapter.getSubTitle(position)) {
+							_actionBar.setSubtitle(null);
+						} else {
+							_actionBar.setSubtitle(_pageAdapter.getSubTitle(position));
+						}
+					}
+				}
+			});
+		} else {
+			_pageContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+				public void onPageScrolled( final int arg0, final float arg1, final int arg2 ) {
+					// Do nothing on scroll detection.
+				}
+
+				public void onPageScrollStateChanged( final int arg0 ) {
+					// Do nothing on scroll detection.
+				}
+
+				public void onPageSelected( final int position ) {
 					if (null != _actionBar) {
 						_actionBar.setTitle(_pageAdapter.getTitle(position));
 						// Clear empty subtitles.
@@ -137,30 +160,6 @@ public abstract class MultiPageActivity extends FragmentActivity {
 				}
 			});
 		}
-		//		else {
-		//			_pageContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-		//
-		//				public void onPageScrolled(final int arg0, final float arg1, final int arg2) {
-		//					// Do nothing on scroll detection.
-		//				}
-		//
-		//				public void onPageScrollStateChanged(final int arg0) {
-		//					// Do nothing on scroll detection.
-		//				}
-		//
-		//				public void onPageSelected(final int position) {
-		//					if (null != _actionBar) {
-		//						_actionBar.setTitle(_pageAdapter.getTitle(position));
-		//						// Clear empty subtitles.
-		//						if ("" == _pageAdapter.getSubTitle(position)) {
-		//							_actionBar.setSubtitle(null);
-		//						} else {
-		//							_actionBar.setSubtitle(_pageAdapter.getSubTitle(position));
-		//						}
-		//					}
-		//				}
-		//			});
-		//		}
 	}
 
 	private void disableIndicator() {
@@ -173,8 +172,9 @@ public abstract class MultiPageActivity extends FragmentActivity {
 		return this.extras;
 	}
 
+	// - A C T I V I T Y   L I F E C Y C L E
 	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
+	protected void onCreate( final Bundle savedInstanceState ) {
 		MultiPageActivity.logger.info(">> [MultiPageActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		// Install the default library exception interceptor to show lib exceptions.
@@ -222,23 +222,21 @@ public abstract class MultiPageActivity extends FragmentActivity {
 		MultiPageActivity.logger.info("<< [MultiPageActivity.onCreate]"); //$NON-NLS-1$
 	}
 
-	private void updateInitialTitle() {
-		if (null != _actionBar) {
-			Fragment firstFragment = _pageAdapter.getInitialPage();
-			// REFACTOR This IF can be removed once this code works.
-			if (firstFragment instanceof MVCPagerFragment) {
-				_actionBar.setTitle(((MVCPagerFragment) firstFragment).getTitle());
-				_actionBar.setSubtitle(((MVCPagerFragment) firstFragment).getSubtitle());
-			}
-		}
-	}
-
-	// - A C T I V I T Y   L I F E C Y C L E
-
 	@Override
 	protected void onStart() {
 		super.onStart();
 		// Update the menu for the first page.
 		updateInitialTitle();
+	}
+
+	private void updateInitialTitle() {
+		if (null != _actionBar) {
+			Fragment firstFragment = _pageAdapter.getInitialPage();
+			// REFACTOR This IF can be removed once this code works.
+			if (firstFragment instanceof MVCPagerFragment) {
+				_actionBar.setTitle(((AMVCFragment) firstFragment).getTitle());
+				_actionBar.setSubtitle(((AMVCFragment) firstFragment).getSubtitle());
+			}
+		}
 	}
 }

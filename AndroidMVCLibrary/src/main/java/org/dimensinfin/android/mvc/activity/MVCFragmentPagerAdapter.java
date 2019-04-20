@@ -42,11 +42,11 @@ public class MVCFragmentPagerAdapter extends FragmentPagerAdapter {
 
 	// - I T I T L E D F R A G M E N T   I N T E R F A C E
 	public String getSubTitle(final int position) {
-		return ((MVCPagerFragment) this.getItem(position)).getSubtitle();
+		return ((AMVCFragment) this.getItem(position)).getSubtitle();
 	}
 
 	public String getTitle(final int position) {
-		return ((MVCPagerFragment) this.getItem(position)).getTitle();
+		return ((AMVCFragment) this.getItem(position)).getTitle();
 	}
 
 	// - M E T H O D - S E C T I O N
