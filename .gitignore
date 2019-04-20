@@ -1,14 +1,18 @@
 *.iml
-.gradle
-/local.properties
+*.odt#
+
 /.idea/workspace.xml
 /.idea/libraries
 /.idea/sonarIssues.xml
+/.idea/modules.xml	
+
 .DS_Store
+.gradle
+/local.properties
 /build
 /captures
 .externalNativeBuild
-*.odt#
 
 # - C O D E   C O V E R A G E
+/javadoc
 /Documentation/Reports

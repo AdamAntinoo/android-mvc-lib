@@ -10,15 +10,13 @@ buildscript {
         maven { url "https://kotlin.bintray.com/kotlinx/" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:3.4.0'
         classpath 'com.google.gms:google-services:4.2.0'
         classpath 'me.tatarka:gradle-retrolambda:3.2.3'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
     }
 }
-//plugins {
-//    id 'io.franzbecker.gradle-lombok' version '1.14'
-//}
+
 allprojects {
     repositories {
         mavenLocal()

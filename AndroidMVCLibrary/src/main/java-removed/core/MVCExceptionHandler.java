@@ -11,8 +11,6 @@ package org.dimensinfin.android.mvc.core;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Hashtable;
-import java.util.Hashtable;
-import java.util.Hashtable;
 
 import android.app.Activity;
 import android.content.Context;

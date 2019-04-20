@@ -2,7 +2,7 @@ package org.dimensinfin.android.mvc.datasource;
 
 import android.widget.BaseAdapter;
 import junit.framework.Assert;
-import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.support.EmptyNode;
@@ -33,7 +33,7 @@ public class DataSourceAdapterTest {
 //	@Test
 	public void propertyChange() {
 		// Given
-		final AbstractPagerFragment fragment = Mockito.mock(AbstractPagerFragment.class);
+		final MVCPagerFragment fragment = Mockito.mock(MVCPagerFragment.class);
 		final AMVCDataSource datasource = Mockito.mock(AMVCDataSource.class);
 		final BaseAdapter adapter = Mockito.mock(BaseAdapter.class);
 
@@ -51,7 +51,7 @@ public class DataSourceAdapterTest {
 	@Test
 	public void notifyDataSetChanged() {
 		// Given
-		final AbstractPagerFragment fragment = Mockito.mock(AbstractPagerFragment.class);
+		final MVCPagerFragment fragment = Mockito.mock(MVCPagerFragment.class);
 		final AMVCDataSource datasource = Mockito.mock(AMVCDataSource.class);
 		final BaseAdapter adapter = Mockito.mock(BaseAdapter.class);
 
@@ -73,7 +73,7 @@ public class DataSourceAdapterTest {
 	@Test
 	public void baseAdapter() {
 		// Given
-		final AbstractPagerFragment fragment = Mockito.mock(AbstractPagerFragment.class);
+		final MVCPagerFragment fragment = Mockito.mock(MVCPagerFragment.class);
 		final AMVCDataSource datasource = Mockito.mock(AMVCDataSource.class);
 		final BaseAdapter adapter = Mockito.mock(BaseAdapter.class);
 

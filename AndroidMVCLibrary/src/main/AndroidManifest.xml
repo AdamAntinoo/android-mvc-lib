@@ -2,15 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="org.dimensinfin.android.mvc">
 
-    <uses-sdk tools:overrideLibrary="com.viewpagerindicator" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application />
-    <instrumentation
-            android:name="android.support.test.runner.AndroidJUnitRunner"
-            android:targetPackage="org.dimensinfin.android.mvc.demo">
-        <meta-data
-                android:name="listener"
-                android:value="com.foo.Listener,com.foo.Listener2" />
-    </instrumentation>
 </manifest>

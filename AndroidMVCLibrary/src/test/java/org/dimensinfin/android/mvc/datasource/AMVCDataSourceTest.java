@@ -1,7 +1,7 @@
 package org.dimensinfin.android.mvc.datasource;
 
 import junit.framework.Assert;
-import org.dimensinfin.android.mvc.core.UIGlobalExecutor;
+
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.support.EmptyNode;
@@ -45,7 +45,7 @@ public class AMVCDataSourceTest {
 	public void addModelContents() {
 		// Mocks
 		final AMVCDataSource amvcds = Mockito.mock(AMVCDataSource.class);
-		final UIGlobalExecutor executor = Mockito.mock(UIGlobalExecutor.class);
+//		final UIGlobalExecutor executor = Mockito.mock(UIGlobalExecutor.class);
 
 		// Given
 		final TestDataSource ds = new TestDataSource(locator, factory);
@@ -54,9 +54,10 @@ public class AMVCDataSourceTest {
 		ds.addModelContents(new EmptyNode("TEST"));
 
 		// Asserts
-		Mockito.verify(executor, Mockito.times(1)).submit(() -> {
-			int i = 0;
-		});
+		// TODO - Test removed after deleting the UIGlobalExecutor
+//		Mockito.verify(executor, Mockito.times(1)).submit(() -> {
+//			int i = 0;
+//		});
 	}
 
 	@Test

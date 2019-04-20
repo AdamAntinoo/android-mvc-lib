@@ -38,13 +38,15 @@ tasks.withType(Pmd) {
 // - A N D R O I D
 apply plugin: 'com.android.library'
 apply plugin: 'project-report'
+apply plugin: 'maven'
+
 android {
     compileSdkVersion 28
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 31
-        versionName "4.0.0"
+        versionName "4.1.0"
         project.archivesBaseName = "AndroidMVC"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -54,13 +56,13 @@ android {
             minifyEnabled false
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "bool", "CACHE_MVC_VIEWS_ON_CONTROLLER", "true"
+            resValue "bool", "CACHE_MVC_VIEWS_ON_CONTROLLER", "false"
         }
         release {
             minifyEnabled false
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "bool", "CACHE_MVC_VIEWS_ON_CONTROLLER", "false"
+            resValue "bool", "CACHE_MVC_VIEWS_ON_CONTROLLER", "true"
         }
     }
     sourceSets {
@@ -89,41 +91,79 @@ android {
     }
 }
 
+// - M A V E N   P U B L I S H   I N F O
+group = 'org.dimensinfin'
+version = project.version
+//ext {
+//    //Specify your maven repository url here
+//    repositoryUrl = 'ftp://your.maven.repository.com/maven2'
+//    //Or you can use 'file:\\\\C:\\Temp' or 'maven-temp' for a local maven repository
+//}
+uploadArchives {
+    repositories {
+//        mavenDeployer {
+//            configuration = configurations.deployerJars
+//            repository(url: repositoryUrl) {
+//                //if your repository needs authentication
+//                authentication(userName: "username", password: "password")
+//            }
+//        }
+        mavenLocal()
+    }
+}
+
+// - B U I L D   T A S K S
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    destinationDir = file("../javadoc/")
+    failOnError false
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+    archives androidSourcesJar
+    archives javadocJar
+}
+
+//Upload android library to maven with javadoc and android sources
+configurations {
+    deployerJars
+}
+
+// - A N D R O I D    S U P P O R T
 dependencies {
-    // A N D R O I D    S U P P O R T
-//    implementation 'com.android.support:support-fragment:28.0.0'
     compileOnly 'androidx.fragment:fragment:1.0.0'
-
-    // L O C A L    L I B R A R I E S
-    implementation 'me.relex:circleindicator:2.1.0'
-//    compile 'com.mcxiaoke.viewpagerindicator:library:2.4.1'
-//    implementation files('libs/viewpagerindicator-release.aar')
-//    compileOnly files('libs/CoreBase.core-2.0.3.jar')
-
-    // M O D U L E    D E P E N D E N C I E S
+}
+// - L I B R A R Y   D E P E N D E N C I E S
+dependencies {
     compileOnly 'org.slf4j:slf4j-android:1.7.25'
+    implementation 'me.relex:circleindicator:2.1.0'
     implementation 'joda-time:joda-time:2.3'
     implementation 'org.apache.commons:commons-lang3:3.7'
 }
-// T E S T I N G
+// - T E S T I N G
 dependencies {
-    testImplementation 'androidx.fragment:fragment:1.0.0'
-    testImplementation 'org.slf4j:slf4j-android:1.7.25'
     testImplementation 'junit:junit:4.12'
+    testImplementation 'org.slf4j:slf4j-simple:1.7.25'
+    testImplementation 'joda-time:joda-time:2.9.9'
     testImplementation 'org.mockito:mockito-core:2.23.4'
-    testImplementation 'com.openpojo:openpojo:0.8.12'
-    testImplementation 'org.robolectric:robolectric:4.2'
 }
 
-// A N D R O I D   T E S T I N G
+// - A N D R O I D   T E S T I N G
 dependencies {
-//    androidTestImplementation 'com.android.support:support-annotations:27.1.1'
     compileOnly 'androidx.fragment:fragment:1.0.0'
     androidTestImplementation 'org.mockito:mockito-core:2.23.4'
-//    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-//    androidTestImplementation 'com.android.support.test:rules:1.0.2'
-
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test:rules:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }

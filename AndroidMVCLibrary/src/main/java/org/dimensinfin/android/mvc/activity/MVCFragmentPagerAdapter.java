@@ -4,19 +4,18 @@ import org.dimensinfin.android.mvc.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-public class AbstractFragmentPagerAdapter extends FragmentPagerAdapter {
+public class MVCFragmentPagerAdapter extends FragmentPagerAdapter {
 	// - F I E L D - S E C T I O N
 	private final List<IPagerFragment> _fragments = new ArrayList<>();
 	private int _pagerid = R.id.pager; // This is the resource id for the pager layout viewer that should be set.
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public AbstractFragmentPagerAdapter(final FragmentManager fm) {
+	public MVCFragmentPagerAdapter( final FragmentManager fm) {
 		super(fm);
 	}
 
@@ -43,11 +42,11 @@ public class AbstractFragmentPagerAdapter extends FragmentPagerAdapter {
 
 	// - I T I T L E D F R A G M E N T   I N T E R F A C E
 	public String getSubTitle(final int position) {
-		return ((AbstractPagerFragment) this.getItem(position)).getSubtitle();
+		return ((MVCPagerFragment) this.getItem(position)).getSubtitle();
 	}
 
 	public String getTitle(final int position) {
-		return ((AbstractPagerFragment) this.getItem(position)).getTitle();
+		return ((MVCPagerFragment) this.getItem(position)).getTitle();
 	}
 
 	// - M E T H O D - S E C T I O N
