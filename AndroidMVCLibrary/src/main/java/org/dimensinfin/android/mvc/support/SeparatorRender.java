@@ -6,19 +6,19 @@
 //               on Android projects. Defines the Part factory and the Part core methods to manage
 //               a generic converter from a Graph Model to a hierarchical Part model that finally will
 //               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
-package org.dimensinfin.android.mvc.render;
+package org.dimensinfin.android.mvc.support;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.support.SeparatorController;
+import org.dimensinfin.android.mvc.render.MVCRender;
 
 /**
  * @author Adam Antinoo
  */
 
-public class SeparatorRender extends AbstractRender {
+public class SeparatorRender extends MVCRender {
 	// - F I E L D - S E C T I O N
 	private TextView title;
 

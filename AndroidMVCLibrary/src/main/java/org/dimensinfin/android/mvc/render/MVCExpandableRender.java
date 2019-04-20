@@ -11,14 +11,14 @@ import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AExpandAndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
-import org.dimensinfin.android.mvc.model.IExpandable;
+import org.dimensinfin.android.mvc.support.IExpandable;
 
 import androidx.annotation.NonNull;
 
 /**
  * @author Adam Antinoo
  */
-public abstract class AbstractExpandableRender extends AbstractRender {
+public abstract class MVCExpandableRender extends MVCRender {
     // - F I E L D - S E C T I O N
     // - L A Y O U T   F I E L D S
     protected ImageView _rightArrow = null;
@@ -32,7 +32,7 @@ public abstract class AbstractExpandableRender extends AbstractRender {
     protected TextView categoryLabel = null;
 
     // - C O N S T R U C T O R - S E C T I O N
-    public AbstractExpandableRender(@NonNull final IAndroidController controller, @NonNull final Context context) {
+    public MVCExpandableRender( @NonNull final IAndroidController controller, @NonNull final Context context) {
         super(controller, context);
     }
 
@@ -42,7 +42,7 @@ public abstract class AbstractExpandableRender extends AbstractRender {
 
     @Override
     public void initializeViews() {
-        logger.info(">< [AbstractExpandableRender.initializeViews]");
+        logger.info(">< [MVCExpandableRender.initializeViews]");
         _rightArrow = this.getView().findViewById(R.id.rightArrow);
 
         nodeIcon = this.getView().findViewById(R.id.nodeIcon);
@@ -59,13 +59,13 @@ public abstract class AbstractExpandableRender extends AbstractRender {
      */
     @Override
     public void updateContent() {
-        logger.info(">< [AbstractExpandableRender.updateContent]");
+        logger.info(">< [MVCExpandableRender.updateContent]");
         // Check if the model is expandable to show or hide the arrow.
         ICollaboration targetModel = (ICollaboration) this.getController().getModel();
         if (null != _rightArrow) {
             if (targetModel instanceof IExpandable) {
                 _rightArrow.setVisibility(View.VISIBLE);
-                logger.info(">< [AbstractExpandableRender.updateContent]> Setting right arrow");
+                logger.info(">< [MVCExpandableRender.updateContent]> Setting right arrow");
                 if (((IExpandable) targetModel).isExpanded()) {
                     _rightArrow.setImageResource(R.drawable.arrowdown);
                 } else {
@@ -75,7 +75,7 @@ public abstract class AbstractExpandableRender extends AbstractRender {
                 // Check if the click is running and then replace the right arrow by an spinner.
                 if (getController().clickRunning()) {
                     if (null != _rightArrow) {
-                        logger.info("-- [AbstractExpandableRender.updateContent]> Activating spinner animation.");
+                        logger.info("-- [MVCExpandableRender.updateContent]> Activating spinner animation.");
                         _rightArrow.setImageDrawable(getDrawable(R.drawable.progress_spinner_orange));
                         Animation rotation = AnimationUtils.loadAnimation(getContext(), R.anim.clockwise_rotation);
                         rotation.setRepeatCount(Animation.INFINITE);
@@ -94,7 +94,7 @@ public abstract class AbstractExpandableRender extends AbstractRender {
 //	//--- D E L E G A T E D   M E T H O D S
 //	@Override
 //	public String toString() {
-//		StringBuffer buffer = new StringBuffer("AbstractExpandableRender [ ");
+//		StringBuffer buffer = new StringBuffer("MVCExpandableRender [ ");
 //		buffer.append("model: ").append(getController().getModel().toString());
 //		buffer.append("]");
 //		//		buffer.append("->").append(super.toString());

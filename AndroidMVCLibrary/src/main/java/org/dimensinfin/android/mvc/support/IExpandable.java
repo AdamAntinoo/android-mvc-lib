@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc.model;
+package org.dimensinfin.android.mvc.support;
 
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 

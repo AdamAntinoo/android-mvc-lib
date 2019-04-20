@@ -30,8 +30,8 @@ import androidx.annotation.NonNull;
  * defined as a generic type. Renders are tied to model types but can be used and connected to the models through
  * multiple controllers. // * @param <M> the model class type tht can be accessed through the controller.
  */
-public abstract class AbstractRender implements IRender {
-	protected static Logger logger = LoggerFactory.getLogger(AbstractRender.class);
+public abstract class MVCRender implements IRender {
+	protected static Logger logger = LoggerFactory.getLogger(MVCRender.class);
 	protected static final Handler handler = new Handler(Looper.getMainLooper());
 
 	// - F I E L D - S E C T I O N
@@ -41,7 +41,7 @@ public abstract class AbstractRender implements IRender {
 
 	// - L A Y O U T   F I E L D S
 	// - C O N S T R U C T O R - S E C T I O N
-	public AbstractRender(@NonNull final IAndroidController controller, @NonNull final Context context) {
+	public MVCRender( @NonNull final IAndroidController controller, @NonNull final Context context) {
 		this.controller = controller;
 		this.context = context;
 		this.createView(); // Inflate the layout to have the containers ready for identification.

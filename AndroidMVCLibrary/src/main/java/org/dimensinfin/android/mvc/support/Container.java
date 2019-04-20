@@ -1,12 +1,11 @@
-package org.dimensinfin.android.mvc.model;
+package org.dimensinfin.android.mvc.support;
 
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
-import org.dimensinfin.android.mvc.support.Separator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Container extends Separator implements IExpandable{
+public class Container extends Separator implements IExpandable {
 	private static final long serialVersionUID = -957283664928489030L;
 
 	// - F I E L D - S E C T I O N

@@ -6,7 +6,7 @@ import org.dimensinfin.android.mvc.events.EventEmitter;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
-import org.dimensinfin.android.mvc.model.IExpandable;
+import org.dimensinfin.android.mvc.support.IExpandable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

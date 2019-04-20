@@ -121,7 +121,7 @@ public abstract class AbstractAndroidAndroidController extends AbstractAndroidCo
 		_view = convertView;
 	}
 
-	//	public abstract AbstractRender selectRenderer ();
+	//	public abstract MVCRender selectRenderer ();
 	// --- I P A R T   I N T E R F A C E
 	public List<IAndroidController> runPolicies(final List<IAndroidController> targets ) {
 		return targets;
