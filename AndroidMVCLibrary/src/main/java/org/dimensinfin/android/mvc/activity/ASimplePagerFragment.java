@@ -3,7 +3,6 @@ package org.dimensinfin.android.mvc.activity;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -26,15 +25,11 @@ import org.dimensinfin.android.mvc.exception.ToastExceptionHandler;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 
-import androidx.fragment.app.Fragment;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormatterBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public abstract class ASimplePagerFragment extends AMVCFragment {
 	/**
@@ -69,42 +64,8 @@ public abstract class ASimplePagerFragment extends AMVCFragment {
 	protected ViewGroup _mapContainer = null;
 	private MapContentAdapter _adapter = null;
 
-	private IMenuActionTarget _listCallback = null;
 
 	// - G E T T E R S   &   S E T T E R S
-	public IMenuActionTarget getListCallback() {
-		return this._listCallback;
-	}
-
-	public void setListCallback(final IMenuActionTarget callback) {
-		if (null != callback) {
-			_listCallback = callback;
-		}
-	}
-
-	// - T O   B E   I M P L E M E N T E D   B Y   D E V E L O P E R S
-	/**
-	 * This method that should be implemented at every fragment is responsible to generate a list of model data that
-	 * should be transformed into <code>Views</code> to be rendered on the Header container.
-	 *
-	 * @return a <code>List</code> of model instances that should be converted to Parts and then to Views to be stored on
-	 * 		the Header container and rendered. This is a simple list and not a so complex model as the <code>IDataSource</code>
-	 * 		used for the DataSection contents.
-	 */
-	protected List<ICollaboration> registerHeaderSource() {
-		return null;
-	}
-	/**
-	 * This method that should be implemented at every fragment is responsible to instantiate, identify and initialize a
-	 * <code>@link{IDataSource}</code> that is the class code that generates the model structures, be them list,
-	 * hierarchy or graphs.
-	 *
-	 * @return an <code>IDataSource</code> instance that is ready to generate the model contents.
-	 */
-	protected IDataSource registerDataSource() {
-		return this.generateDataSource();
-	}
-	public abstract IDataSource generateDataSource();
 
 	// - L I F E C Y C L E
 	@Override
@@ -153,7 +114,7 @@ public abstract class ASimplePagerFragment extends AMVCFragment {
 	public void onViewStateRestored(Bundle savedInstanceState) {
 		// restore the variant name.
 		if (null != savedInstanceState)
-			setVariant(savedInstanceState.getString(MultiPageActivity.EExtrasMVC.EXTRA_VARIANT.name()));
+			setVariant(savedInstanceState.getString(MVCMultiPageActivity.EExtrasMVC.EXTRA_VARIANT.name()));
 		super.onViewStateRestored(savedInstanceState);
 	}
 
@@ -161,7 +122,7 @@ public abstract class ASimplePagerFragment extends AMVCFragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		// Save the variant assigned to this fragment instance.
-		outState.putString(MultiPageActivity.EExtrasMVC.EXTRA_VARIANT.name(), getVariant());
+		outState.putString(MVCMultiPageActivity.EExtrasMVC.EXTRA_VARIANT.name(), getVariant());
 	}
 
 	// - H E A D E R   M A N A G E M E N T   S E C T I O N

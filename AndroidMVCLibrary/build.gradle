@@ -82,13 +82,13 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
-    libraryVariants.all { variant ->
-        variant.outputs.all { output ->
-            if (outputFile != null && outputFileName.endsWith('.aar')) {
-                outputFileName = "${archivesBaseName}-${version}.aar"
-            }
-        }
-    }
+//    libraryVariants.all { variant ->
+//        variant.outputs.all { output ->
+//            if (outputFile != null && outputFileName.endsWith('.aar')) {
+//                outputFileName = "${archivesBaseName}-${version}.aar"
+//            }
+//        }
+//    }
 }
 
 // - M A V E N   P U B L I S H   I N F O
@@ -101,13 +101,6 @@ version = project.version
 //}
 uploadArchives {
     repositories {
-//        mavenDeployer {
-//            configuration = configurations.deployerJars
-//            repository(url: repositoryUrl) {
-//                //if your repository needs authentication
-//                authentication(userName: "username", password: "password")
-//            }
-//        }
         mavenLocal()
     }
 }

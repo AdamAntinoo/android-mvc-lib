@@ -1,14 +1,13 @@
 package org.dimensinfin.android.mvc.activity;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
+import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.ITitledFragment;
 
 import androidx.fragment.app.Fragment;
@@ -35,16 +34,21 @@ public abstract class AMVCFragment extends Fragment implements ITitledFragment, 
 	/**
 	 * Copy of the extras bundle received by the Activity.
 	 */
-	private Bundle _extras = new Bundle();
+	protected Bundle _extras = new Bundle();
 	/**
 	 * The library will require access to a valid application context at any time. Usually the activity is not connected
 	 * to the Fragment until the fragment is going to be used and then the life cycle is started. But if the developed
 	 * likes to use fragments not connected to real Activities we should be sure we can still have access to a valid
 	 * context. We get a reference to the long term singleton for the Application context.
 	 */
-	private Context _appContext;
+	protected Context _appContext;
+	private IMenuActionTarget listCallback = null;
+
+	/** This constructur is required to create the fragments from the xml layouts. */
+	public AMVCFragment() { }
 
 	// - G E T T E R S   &   S E T T E R S
+
 	/**
 	 * Sets the variant code to differentiate this instance form any other Fragment instances. This field should be set on
 	 * the instantiation process of the Fragment and also should be recovered from persistence when the fragment is
@@ -53,7 +57,7 @@ public abstract class AMVCFragment extends Fragment implements ITitledFragment, 
 	 * @return the variant name assigned to this fragment instance.
 	 */
 	public String getVariant() {
-	    return _variant;
+		return _variant;
 	}
 
 	/**
@@ -64,9 +68,9 @@ public abstract class AMVCFragment extends Fragment implements ITitledFragment, 
 	 * @param selectedVariant the new name to assign to this fragment instance.
 	 * @return
 	 */
-	public AMVCFragment setVariant( final String selectedVariant) {
-	    _variant = selectedVariant;
-	    return this;
+	public AMVCFragment setVariant( final String selectedVariant ) {
+		_variant = selectedVariant;
+		return this;
 	}
 
 	/**
@@ -76,7 +80,7 @@ public abstract class AMVCFragment extends Fragment implements ITitledFragment, 
 	 * @return extras bundle.
 	 */
 	public Bundle getExtras() {
-	    return _extras;
+		return _extras;
 	}
 
 	/**
@@ -87,13 +91,13 @@ public abstract class AMVCFragment extends Fragment implements ITitledFragment, 
 	 * @param extras new bundle of extrax to be tied to this Fragment instance.
 	 * @return this instance to allow for functional constructive statements.
 	 */
-	public AMVCFragment setExtras( final Bundle extras) {
-	    _extras = extras;
-	    return this;
+	public AMVCFragment setExtras( final Bundle extras ) {
+		_extras = extras;
+		return this;
 	}
 
 	public Context getAppContext() {
-	    return this._appContext;
+		return this._appContext;
 	}
 
 	/**
@@ -103,9 +107,9 @@ public abstract class AMVCFragment extends Fragment implements ITitledFragment, 
 	 * @param appContext the Application singleton context.
 	 * @return this instance to allow for functional constructive statements.
 	 */
-	public AMVCFragment setAppContext( final Context appContext) {
-	    this._appContext = appContext;
-	    return this;
+	public AMVCFragment setAppContext( final Context appContext ) {
+		this._appContext = appContext;
+		return this;
 	}
 
 	/**
@@ -115,12 +119,23 @@ public abstract class AMVCFragment extends Fragment implements ITitledFragment, 
 	 * @return
 	 */
 	public IControllerFactory getFactory() {
-	    // Check if we have already a factory.
-	    if (null == _factory) {
-	        _factory = this.createFactory();
-	    }
-	    return _factory;
+		// Check if we have already a factory.
+		if (null == _factory) {
+			_factory = this.createFactory();
+		}
+		return _factory;
 	}
+
+	public IMenuActionTarget getListCallback() {
+		return this.listCallback;
+	}
+
+	public void setListCallback( final IMenuActionTarget callback ) {
+		if (null != callback) {
+			listCallback = callback;
+		}
+	}
+
 	/**
 	 * This method should be implemented by all the application Fragments to set the <b>ControllerFactory</b> that will be
 	 * used during the model transformation processing to generate the <b>Parts</b> of the model to be used on this
@@ -128,7 +143,14 @@ public abstract class AMVCFragment extends Fragment implements ITitledFragment, 
 	 */
 	public abstract IControllerFactory createFactory();
 
+	/**
+	 * The methos should be implemented by all subclassed Fragments to provide the data source to be used inside the fragment
+	 * render. This single instance should be able to produce the data for the header panel and for the view list.
+	 */
+	public abstract IDataSource createDS();
+
 	// - I T I T L E D F R A G M E N T   I N T E R F A C E
+
 	/**
 	 * Gets the text to set set at the subtitle slot on the <b>ActionBar</b>. This should be implemented by each new
 	 * Fragment.
@@ -144,4 +166,37 @@ public abstract class AMVCFragment extends Fragment implements ITitledFragment, 
 	 * @return title string.
 	 */
 	public abstract String getTitle();
+
+
+	//    // - B U I L D E R
+	//    protected static abstract class BaseBuilder<T extends AMVCFragment, B extends BaseBuilder> {
+	//        protected T actualClass;
+	//        protected B actualClassBuilder;
+	//
+	//        protected abstract T getActual();
+	//
+	//        protected abstract B getActualBuilder();
+	//
+	//        public BaseBuilder() {
+	//            this.actualClass = getActual();
+	//            this.actualClassBuilder = getActualBuilder();
+	//        }
+	//
+	//        public B withAppContext(final Context appContext) {
+	//            this.actualClass.setAppContext(appContext);
+	//            return this.actualClassBuilder;
+	//        }
+	//
+	//        public B withExtras(final Bundle extras) {
+	//            this.actualClass.setExtras(extras);
+	//            return this.actualClassBuilder;
+	//        }
+	//
+	//        public T build() {
+	//            // Do any other validations. If failed then launch an exception.
+	//            AppCompatibilityUtils.assertNotNull(this.actualClass._appContext);
+	//            AppCompatibilityUtils.assertNotNull(this.actualClass._extras);
+	//            return actualClass;
+	//        }
+	//    }
 }

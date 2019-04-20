@@ -27,8 +27,6 @@ import java.util.List;
  *
  * @author Adam Antinoo
  */
-
-// - CLASS IMPLEMENTATION
 public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
     protected static final Logger logger = LoggerFactory.getLogger(AMVCDataSource.class);
 
