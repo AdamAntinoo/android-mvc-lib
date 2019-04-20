@@ -12,6 +12,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import org.dimensinfin.android.mvc.R;
@@ -30,11 +32,12 @@ import androidx.annotation.NonNull;
  */
 public abstract class AbstractRender implements IRender {
 	protected static Logger logger = LoggerFactory.getLogger(AbstractRender.class);
+	protected static final Handler handler = new Handler(Looper.getMainLooper());
 
 	// - F I E L D - S E C T I O N
 	private IAndroidController controller; // Holds the parent controller that is associated to this render. Used to access the model.
 	private Context context; // Reference to the context. Usually the application singleton.
-	private View convertView = null;
+	protected View convertView = null;
 
 	// - L A Y O U T   F I E L D S
 	// - C O N S T R U C T O R - S E C T I O N
@@ -63,7 +66,7 @@ public abstract class AbstractRender implements IRender {
 	 * implementation is the layout identifier to be used on the inflation. This is not a new method that is made abstract
 	 * to force developers to fill the gap on ne instances.
 	 */
-	private void createView() {
+	protected void createView() {
 		convertView = this.inflateView(this.accessLayoutReference());
 		convertView.setTag(this);
 	}

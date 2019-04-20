@@ -2,6 +2,7 @@ package org.dimensinfin.android.mvc.activity;
 
 import org.dimensinfin.android.mvc.R;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -11,7 +12,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class AbstractFragmentPagerAdapter extends FragmentPagerAdapter {
 	// - F I E L D - S E C T I O N
-	private final List<Fragment> _fragments = new Vector<Fragment>();
+	private final List<IPagerFragment> _fragments = new ArrayList<>();
 	private int _pagerid = R.id.pager; // This is the resource id for the pager layout viewer that should be set.
 
 	// - C O N S T R U C T O R - S E C T I O N
@@ -37,7 +38,7 @@ public class AbstractFragmentPagerAdapter extends FragmentPagerAdapter {
 		// Check if the requested position is available. If the position requested is outdide the limit return empty element.
 		if (position >= this.getCount()) return new Fragment();
 		if (position < 0) return new Fragment();
-		return _fragments.get(position);
+		return (Fragment) _fragments.get(position);
 	}
 
 	// - I T I T L E D F R A G M E N T   I N T E R F A C E
@@ -57,7 +58,7 @@ public class AbstractFragmentPagerAdapter extends FragmentPagerAdapter {
 	 * number of pages is greater than one.
 	 * @param fragNew new fragment to all to the list of pages.
 	 */
-	public void addPage(final Fragment fragNew) {
+	public void addPage(final IPagerFragment fragNew) {
 		if (null != fragNew) {
 			_fragments.add(fragNew);
 		}

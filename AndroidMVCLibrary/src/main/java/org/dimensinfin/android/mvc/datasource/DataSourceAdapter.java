@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
+import org.dimensinfin.android.mvc.activity.IPagerFragment;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.core.EEvents;
 import org.dimensinfin.android.mvc.interfaces.IRender;
@@ -73,7 +74,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * @param fragment   The fragment source for this adapter contents.
 	 * @param datasource the source for the data to be represented on the view structures.
 	 */
-	public DataSourceAdapter(@NonNull final AbstractPagerFragment fragment, @NonNull final IDataSource datasource) {
+	public DataSourceAdapter(@NonNull final IPagerFragment fragment, @NonNull final IDataSource datasource) {
 		this.context = fragment.getAppContext();
 		this.datasource = datasource;
 		this.datasource.addPropertyChangeListener(this); // Connect the listener to the data source events.

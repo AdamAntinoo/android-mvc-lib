@@ -73,7 +73,7 @@ public abstract class AbstractPagerActivity extends FragmentActivity {
 	 *                already the fragments created and initialized at the <code>FragmentManager</code>. In such a case we
 	 *                discard the new received fragment and use the already instance at the <code>FragmentManager</code>.
 	 */
-	public void addPage(@NonNull final AbstractPagerFragment newFrag) {
+	public void addPage(@NonNull final IPagerFragment newFrag) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.addPage]");
 		// Connect to the application context of not already done.
 		newFrag.setAppContext(this.getApplicationContext());
