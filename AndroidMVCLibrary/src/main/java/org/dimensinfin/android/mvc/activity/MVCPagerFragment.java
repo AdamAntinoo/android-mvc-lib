@@ -574,7 +574,7 @@ public abstract class AbstractPagerFragment extends Fragment implements IPagerFr
 //		}
 //	}
 //
-//	public static class EmptyRender extends AbstractRender<Separator> {
+//	public static class EmptyRender extends MVCRender<Separator> {
 //		public EmptyRender(final EmptyAndroidController controller, final Context context) {
 //			super(controller, context);
 //		}
