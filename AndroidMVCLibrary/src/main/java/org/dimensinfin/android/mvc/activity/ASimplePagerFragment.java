@@ -82,7 +82,7 @@ public abstract class ASimplePagerFragment extends AMVCFragment {
 		_mapContainer.setVisibility(View.VISIBLE);
 
 		// - S E C T I O N   2. Where we setup the data sources for the adapters. Only include no timing operations.
-		final IDataSource ds = DataSourceManager.registerDataSource(this.registerDataSource());
+		final IDataSource ds = DataSourceManager.registerDataSource(this.createDS());
 		_adapter = new MapContentAdapter(this, ds, _mapContainer);
 
 		// - S E C T I O N   3. Post the tak to generate the header contents to be rendered.

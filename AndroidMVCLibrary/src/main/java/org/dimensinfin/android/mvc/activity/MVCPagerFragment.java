@@ -20,11 +20,11 @@ import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
-import org.dimensinfin.android.mvc.core.MVCExceptionHandler;
-import org.dimensinfin.android.mvc.core.ToastExceptionHandler;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
+import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
+import org.dimensinfin.android.mvc.exception.ToastExceptionHandler;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
@@ -47,8 +47,8 @@ import androidx.fragment.app.Fragment;
  * @author Adam Antinoo
  * @since 1.0.0
  */
-public abstract class AbstractPagerFragment extends Fragment implements IPagerFragment {
-    protected static Logger logger = LoggerFactory.getLogger(AbstractPagerFragment.class);
+public abstract class MVCPagerFragment extends Fragment implements IPagerFragment {
+    protected static Logger logger = LoggerFactory.getLogger(MVCPagerFragment.class);
     /**
      * Task _handler to manage execution of code that should be done on the main loop thread.
      */
@@ -153,7 +153,7 @@ public abstract class AbstractPagerFragment extends Fragment implements IPagerFr
      * @param selectedVariant the new name to assign to this fragment instance.
      * @return
      */
-    public AbstractPagerFragment setVariant(final String selectedVariant) {
+    public MVCPagerFragment setVariant(final String selectedVariant) {
         _variant = selectedVariant;
         return this;
     }
@@ -176,7 +176,7 @@ public abstract class AbstractPagerFragment extends Fragment implements IPagerFr
      * @param extras new bundle of extrax to be tied to this Fragment instance.
      * @return this instance to allow for functional constructive statements.
      */
-    public AbstractPagerFragment setExtras(final Bundle extras) {
+    public MVCPagerFragment setExtras(final Bundle extras) {
         _extras = extras;
         return this;
     }
@@ -192,7 +192,7 @@ public abstract class AbstractPagerFragment extends Fragment implements IPagerFr
      * @param appContext the Application singleton context.
      * @return this instance to allow for functional constructive statements.
      */
-    public AbstractPagerFragment setAppContext(final Context appContext) {
+    public MVCPagerFragment setAppContext(final Context appContext) {
         this.appContext = appContext;
         return this;
     }
@@ -280,7 +280,7 @@ public abstract class AbstractPagerFragment extends Fragment implements IPagerFr
      */
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        logger.info(">> [AbstractPagerFragment.onCreateView]");
+        logger.info(">> [MVCPagerFragment.onCreateView]");
         // Install the default library exception interceptor to show lib exceptions.
         Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this.getAppContext()));
         super.onCreateView(inflater, container, savedInstanceState);
@@ -310,12 +310,12 @@ public abstract class AbstractPagerFragment extends Fragment implements IPagerFr
 
         // - S E C T I O N   3. Post the tak to generate the header contents to be rendered.
         AppCompatibilityUtils.backgroundExecutor.submit(()->{
-            AbstractPagerFragment.logger.info("-- [AbstractPagerFragment.DS Initialisation]");
+            MVCPagerFragment.logger.info("-- [MVCPagerFragment.DS Initialisation]");
             _adapter.collaborateData(); // Call the ds to generate the root contents.
             this.generateHeaderContents(ds.getHeaderSectionContents());
         });
 
-        AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.onCreateView]");
+        MVCPagerFragment.logger.info("<< [MVCPagerFragment.onCreateView]");
         return _container;
     }
 
@@ -328,7 +328,7 @@ public abstract class AbstractPagerFragment extends Fragment implements IPagerFr
      */
     @Override
     public void onStart() {
-        AbstractPagerFragment.logger.info(">> [AbstractPagerFragment.onStart]");
+        MVCPagerFragment.logger.info(">> [MVCPagerFragment.onStart]");
         super.onStart();
         Thread.setDefaultUncaughtExceptionHandler(new ToastExceptionHandler(this.getAppContext()));
         // Start counting the elapsed time while we generate and load the  model.
@@ -342,7 +342,7 @@ public abstract class AbstractPagerFragment extends Fragment implements IPagerFr
 
         // We use another thread to perform the data source generation that is a long time action.
         AppCompatibilityUtils.backgroundExecutor.submit(()->{
-            AbstractPagerFragment.logger.info("-- [AbstractPagerFragment.Render data section]");
+            MVCPagerFragment.logger.info("-- [MVCPagerFragment.Render data section]");
 //            _adapter.collaborateData(); // Call the ds to generate the root contents.
             _handler.post(() -> { // After the model is created used the UI thread to render the collaboration to view.
 //                _adapter.collaborateData(); // Call the ds to generate the root contents.
@@ -354,7 +354,7 @@ public abstract class AbstractPagerFragment extends Fragment implements IPagerFr
         // Update the display with the initial progress indicator.
 //        _adapter.collaborateData(); // Call the ds to generate the root contents.
 //        _adapter.notifyDataSetChanged();
-        AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.onStart]");
+        MVCPagerFragment.logger.info("<< [MVCPagerFragment.onStart]");
     }
 
     private void hideProgressIndicator() {
@@ -367,7 +367,7 @@ public abstract class AbstractPagerFragment extends Fragment implements IPagerFr
     public void onViewStateRestored(Bundle savedInstanceState) {
         // restore the variant name.
         if (null != savedInstanceState)
-            setVariant(savedInstanceState.getString(AbstractPagerActivity.EExtrasMVC.EXTRA_VARIANT.name()));
+            setVariant(savedInstanceState.getString(MVCMultiPageActivity.EExtrasMVC.EXTRA_VARIANT.name()));
         super.onViewStateRestored(savedInstanceState);
     }
 
@@ -375,7 +375,7 @@ public abstract class AbstractPagerFragment extends Fragment implements IPagerFr
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         // Save the variant assigned to this fragment instance.
-        outState.putString(AbstractPagerActivity.EExtrasMVC.EXTRA_VARIANT.name(), getVariant());
+        outState.putString(MVCMultiPageActivity.EExtrasMVC.EXTRA_VARIANT.name(), getVariant());
     }
 
     // - H E A D E R   M A N A G E M E N T   S E C T I O N
@@ -390,7 +390,7 @@ public abstract class AbstractPagerFragment extends Fragment implements IPagerFr
      * expand/collapse functionality to calculate the final list of Views to render.
      */
     protected void generateHeaderContents(final List<IAndroidController> headerControllers) {
-        AbstractPagerFragment.logger.info(">> [AbstractPagerFragment.generateHeaderContents]");
+        MVCPagerFragment.logger.info(">> [MVCPagerFragment.generateHeaderContents]");
         // Create the list of controllers from the model list received.
 //        final List<IAndroidController> rootControllers = new ArrayList<>(headerData.size());
 //        for (ICollaboration modelNode : headerData) {
@@ -411,7 +411,7 @@ public abstract class AbstractPagerFragment extends Fragment implements IPagerFr
                 if (part instanceof IAndroidController) addView2Header(part);
             }
         });
-        AbstractPagerFragment.logger.info("<< [AbstractPagerFragment.generateHeaderContents]");
+        MVCPagerFragment.logger.info("<< [MVCPagerFragment.generateHeaderContents]");
     }
 
     /**
@@ -421,7 +421,7 @@ public abstract class AbstractPagerFragment extends Fragment implements IPagerFr
      * @param target the AndroidController to render to a View.
      */
     private void addView2Header(final IAndroidController target) {
-        logger.info(">> [AbstractPagerFragment.addView2Header]");
+        logger.info(">> [MVCPagerFragment.addView2Header]");
         try {
             final IRender holder = target.buildRender(this.getAppContext());
             // TODO. This holder does not call the initializeViews of the view before the update.
@@ -435,14 +435,14 @@ public abstract class AbstractPagerFragment extends Fragment implements IPagerFr
             }
             _headerContainer.setVisibility(View.VISIBLE);
         } catch (final RuntimeException rtex) {
-            logger.info("RTEX [AbstractPagerFragment.addView2Header]> Problem generating view for: {}", target.getClass().getCanonicalName());
-            logger.info("RTEX [AbstractPagerFragment.addView2Header]> RuntimeException. {}", rtex.getMessage());
+            logger.info("RTEX [MVCPagerFragment.addView2Header]> Problem generating view for: {}", target.getClass().getCanonicalName());
+            logger.info("RTEX [MVCPagerFragment.addView2Header]> RuntimeException. {}", rtex.getMessage());
             rtex.printStackTrace();
             Toast.makeText(this.getAppContext()
-                    , "RTEX [AbstractPagerFragment.addView2Header]> RuntimeException. " + rtex.getMessage()
+                    , "RTEX [MVCPagerFragment.addView2Header]> RuntimeException. " + rtex.getMessage()
                     , Toast.LENGTH_LONG).show();
         }
-        logger.info("<< [AbstractPagerFragment.addView2Header]");
+        logger.info("<< [MVCPagerFragment.addView2Header]");
     }
 
     // - CONTEXTUAL MENU FOR THE HEADER
@@ -460,7 +460,7 @@ public abstract class AbstractPagerFragment extends Fragment implements IPagerFr
 
     @Override
     public void onCreateContextMenu(final ContextMenu menu, final View view, final ContextMenu.ContextMenuInfo menuInfo) {
-        logger.info(">> [AbstractPagerFragment.onCreateContextMenu]");
+        logger.info(">> [MVCPagerFragment.onCreateContextMenu]");
         // REFACTOR If we call the super then the fragment's parent context gets called. So the listcallback and the Activity
         // have not to be the same
         //			super.onCreateContextMenu(menu, view, menuInfo);
@@ -482,7 +482,7 @@ public abstract class AbstractPagerFragment extends Fragment implements IPagerFr
             ((IMenuActionTarget) part).onCreateContextMenu(menu, view, menuInfo);
         }
         //		}
-        logger.info("<< [AbstractPagerFragment.onCreateContextMenu]"); //$NON-NLS-1$
+        logger.info("<< [MVCPagerFragment.onCreateContextMenu]"); //$NON-NLS-1$
     }
 
     // - U T I L I T I E S

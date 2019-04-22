@@ -3,7 +3,8 @@ package org.dimensinfin.android.mvc.datasource;
 import android.os.Bundle;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.core.EEvents;
+import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
+import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.events.EventEmitter;
 import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
@@ -324,4 +325,64 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
                 ", dirty=" + dirty +
                 '}';
     }
+	// - B U I L D E R
+	protected static abstract class BaseBuilder<T extends AMVCDataSource, B extends BaseBuilder> {
+		protected T actualClass;
+		protected B actualClassBuilder;
+		private final DataSourceLocator identifier;
+
+		protected abstract T getActual();
+
+		protected abstract B getActualBuilder();
+
+		public BaseBuilder() {
+			this.identifier = new DataSourceLocator();
+			this.actualClass = getActual();
+			this.actualClassBuilder = getActualBuilder();
+		}
+
+		public B addIdentifier(final int identifier) {
+			this.identifier.addIdentifier(Integer.valueOf(identifier).toString());
+			return this.actualClassBuilder;
+		}
+
+		public B addIdentifier(final long identifier) {
+			this.identifier.addIdentifier(Long.valueOf(identifier).toString());
+			return this.actualClassBuilder;
+		}
+
+		public B addIdentifier(final String identifier) {
+			if (null != identifier) this.identifier.addIdentifier(identifier);
+			return this.actualClassBuilder;
+		}
+
+		public B withFactory(final IControllerFactory factory) {
+			if (null != factory) this.actualClass.controllerFactory = factory;
+			return this.actualClassBuilder;
+		}
+
+		public B withVariant(final String variant) {
+			if (null != variant) this.actualClass.setVariant(variant);
+			return this.actualClassBuilder;
+		}
+
+		public B withExtras(final Bundle extras) {
+			if (null != extras) this.actualClass.setExtras(extras);
+			return this.actualClassBuilder;
+		}
+
+		public B withCacheStatus(final boolean cacheStatus) {
+			this.actualClass.shouldBeCached(cacheStatus);
+			return this.actualClassBuilder;
+		}
+
+		public T build() {
+			// Register the identifier and create the data source.
+			this.actualClass.locator = this.identifier;
+			// Do any other validations. If failed then launch an exception.
+			AppCompatibilityUtils.assertNotNull(this.actualClass.locator);
+			AppCompatibilityUtils.assertNotNull(this.actualClass.controllerFactory);
+			return actualClass;
+		}
+	}
 }
