@@ -9,5 +9,5 @@ package org.dimensinfin.android.mvc.interfaces;
 // - INTERFACE IMPLEMENTATION ...............................................................................
 public interface IActivityCallback {
 	// - M E T H O D - S E C T I O N ..........................................................................
-	public IDataSource getDataSource(int fragmentID);
+	public IPartsDataSource getDataSource( int fragmentID);
 }

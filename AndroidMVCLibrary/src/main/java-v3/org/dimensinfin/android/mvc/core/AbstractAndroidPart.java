@@ -25,7 +25,7 @@ import java.util.List;
 
 /**
  * Core code for any Android Part. Will have enough code to deal with the adaptation of a Part to the
- * DataSourceAdapter needs to connect the part with the view. Has the knowledge of the Render and how to
+ * DataSourceAdapterv3 needs to connect the part with the view. Has the knowledge of the Render and how to
  * report tehm to the Adapter.
  * @author Adam Antinoo
  */

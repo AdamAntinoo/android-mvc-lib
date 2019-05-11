@@ -11,8 +11,7 @@
 //               real time while processing the model sources. This should allow for search and filtering.
 package org.dimensinfin.android.mvc.core;
 
-import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
+import org.dimensinfin.android.mvc.interfaces.IPartsDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -25,7 +24,6 @@ import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -48,7 +46,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	//	/** Stores the user activation state. Usually becomes true when the users is interacting with the part. */
 	//	private boolean active = true;
 	private IPartFactory _factory = null;
-	private IDataSource _dataSource = null;
+	private IPartsDataSource _dataSource = null;
 	protected String renderMode = "-DEFAULT-";
 	//	protected boolean newImplementation = false;
 
@@ -251,7 +249,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 	//	//		this.active = active;
 	//	//	}
 
-//	public IPart setDataStore( final IDataSource ds ) {
+//	public IPart setDataStore( final IPartsDataSource ds ) {
 //		_dataSource = ds;
 //		return this;
 //	}

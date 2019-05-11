@@ -9,7 +9,9 @@
 package org.dimensinfin.android.mvc.activity;
 
 import android.app.Activity;
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -28,12 +30,11 @@ import org.dimensinfin.android.mvc.core.AbstractExpandablePart;
 import org.dimensinfin.android.mvc.core.AbstractPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.core.RootPart;
-import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapterv3;
-import org.dimensinfin.android.mvc.datasource.DataSourceManager;
+import org.dimensinfin.android.mvc.datasource.DataSourceManagerv3;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
+import org.dimensinfin.android.mvc.interfaces.IPartsDataSource;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
@@ -88,7 +89,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * Instance for a dynamic model generator. The model can change after creation by user interactions through the
 	 * rendered views and parts.
 	 */
-	private IDataSource _datasource = null;
+	private IPartsDataSource _datasource = null;
 	/**
 	 * Evolved adapter to connect the source of data in the form of a <b>Part</b> list to the <code>ListView</code> that
 	 * contains the displayed render.
@@ -231,18 +232,18 @@ public abstract class AbstractPagerFragment extends Fragment {
 	 * This method that should be implemented at every fragment is responsible to generate a list of model data that
 	 * should be transformed into <code>Views</code> to be rendered on the Header container.
 	 * @return a <code>List</code> of model instances that should be converted to Parts and then to Views to be stored on
-	 * the Header container and rendered. This is a simple list and not a so complex model as the <code>IDataSource</code>
+	 * the Header container and rendered. This is a simple list and not a so complex model as the <code>IPartsDataSource</code>
 	 * used for the DataSection contents.
 	 */
 	protected abstract List<ICollaboration> registerHeaderSource();
 
 	/**
 	 * This method that should be implemented at every fragment is responsible to instantiate, identify and initialize a
-	 * <code>@link{IDataSource}</code> that is the class code that generates the model structures, be them list, hierarchy
+	 * <code>@link{IPartsDataSource}</code> that is the class code that generates the model structures, be them list, hierarchy
 	 * or graphs.
-	 * @return an <code>IDataSource</code> instance that is ready to generate the model contents.
+	 * @return an <code>IPartsDataSource</code> instance that is ready to generate the model contents.
 	 */
-	protected abstract IDataSource registerDataSource();
+	protected abstract IPartsDataSource registerDataSource();
 
 
 	//--- F R A G M E N T   L I F E C Y C L E
@@ -302,7 +303,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 			// Entry point to generate the Header model.
 //			_headersource = this.registerHeaderSource();
 			// Entry point to generate the DataSection model.
-			_datasource = DataSourceManager.registerDataSource(this.registerDataSource());
+			_datasource = DataSourceManagerv3.registerDataSource(this.registerDataSource());
 			// Check that the datasource is a valid data source.
 			if (null == _datasource) _datasource = new EmptyDataSource(new DataSourceLocator().addIdentifier("EMPTY")
 					, getVariant(), getFactory(), getExtras());

@@ -27,8 +27,8 @@ import org.dimensinfin.android.mvc.core.AbstractPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.android.mvc.interfaces.IPartsDataSource;
 import org.dimensinfin.android.mvc.interfaces.IRootPart;
 import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -52,14 +52,14 @@ import java.util.concurrent.TimeUnit;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class MVCDataSource extends AbstractPropertyChanger implements IDataSource {
+public abstract class MVCDataSource extends AbstractPropertyChanger implements IPartsDataSource {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = -9128905983909144873L;
 	public static Logger logger = LoggerFactory.getLogger("MVCDataSource");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	/**
-	 * Unique DataSource string identifier to locate this instance on the <code>DataSourceManager</code> in case the
+	 * Unique DataSource string identifier to locate this instance on the <code>DataSourceManagerv3</code> in case the
 	 * instances should be cached.
 	 */
 	private final DataSourceLocator _locator;
@@ -118,7 +118,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		return _variant;
 	}
 
-	public IDataSource setVariant( final String variant ) {
+	public IPartsDataSource setVariant( final String variant ) {
 		_variant = variant;
 		return this;
 	}
@@ -171,12 +171,12 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 *                   identifier.
 	 * @return this same instance to allow functional programming.
 	 */
-	public IDataSource setCacheable( final boolean cachestate ) {
+	public IPartsDataSource setCacheable( final boolean cachestate ) {
 		this._shouldBeCached = cachestate;
 		return this;
 	}
 
-	public IDataSource setRefreshTime( final int time ) {
+	public IPartsDataSource setRefreshTime( final int time ) {
 		this.refreshTime = time;
 		return this;
 	}
@@ -188,7 +188,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 * @param newnode a new node to be added to the contents of the root point of the model.
 	 * @return this IDataSource instance to allow functional coding.
 	 */
-	public IDataSource addModelContents( final ICollaboration newnode ) {
+	public IPartsDataSource addModelContents( final ICollaboration newnode ) {
 		_dataModelRoot.addChild(newnode);
 		// Optimization - If the event is already launched and not processed do not launch it again.
 		if (_pending) return this;
@@ -205,7 +205,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		}
 	}
 
-	public IDataSource addModelContents( final ICollaboration newnode, final boolean forceEvent ) {
+	public IPartsDataSource addModelContents( final ICollaboration newnode, final boolean forceEvent ) {
 		_dataModelRoot.addChild(newnode);
 		if (forceEvent)
 			//			if(_pending)

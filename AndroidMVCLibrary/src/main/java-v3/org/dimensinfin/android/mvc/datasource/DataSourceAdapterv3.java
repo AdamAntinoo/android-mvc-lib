@@ -25,7 +25,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
+import org.dimensinfin.android.mvc.interfaces.IPartsDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +34,6 @@ import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
 import org.dimensinfin.android.mvc.constants.SystemWideConstants;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
-import org.dimensinfin.android.mvc.interfaces.IDataSource;
 import org.dimensinfin.core.util.Chrono;
 
 // - CLASS IMPLEMENTATION ...................................................................................
@@ -49,21 +48,21 @@ import org.dimensinfin.core.util.Chrono;
  */
 public class DataSourceAdapterv3 extends BaseAdapter implements PropertyChangeListener {
 	// - S T A T I C - S E C T I O N ..........................................................................
-	private static Logger logger = LoggerFactory.getLogger("DataSourceAdapter");
+	private static Logger logger = LoggerFactory.getLogger("DataSourceAdapterv3");
 	private static boolean logAllowed = true;
 
 	// - F I E L D - S E C T I O N ............................................................................
 	/** The Activity where all this structures beong an that is used as the core display context. */
 	private Activity _context = null;
 	/** An instance for a source of data that will provide the list of <b>Parts</b> to be used to construct the Views. */
-	private IDataSource _datasource = null;
+	private IPartsDataSource _datasource = null;
 	/** The current list of Parts that is being displayed. */
 	private final List<IAndroidPart> _contentPartList = new ArrayList<IAndroidPart>();
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
 	/** Neutral creator for the initialization of the parent. */
-	public DataSourceAdapterv3() {
+	public DataSourceAdapterv3 () {
 		super();
 	}
 
@@ -75,7 +74,7 @@ public class DataSourceAdapterv3 extends BaseAdapter implements PropertyChangeLi
 	 * @param activity   reference to the Activity and the Context where we should connect the Views.
 	 * @param datasource the source for the data to be represented on the view structures.
 	 */
-	public DataSourceAdapterv3( final Activity activity, final IDataSource datasource ) {
+	public DataSourceAdapterv3 ( final Activity activity, final IPartsDataSource datasource ) {
 		this();
 		_context = activity;
 		_datasource = datasource;
@@ -85,7 +84,7 @@ public class DataSourceAdapterv3 extends BaseAdapter implements PropertyChangeLi
 		//		_contentPartList.addAll(_datasource.getBodyParts());
 	}
 
-	public DataSourceAdapterv3( final AbstractPagerFragment fragment, final IDataSource datasource ) {
+	public DataSourceAdapterv3 ( final AbstractPagerFragment fragment, final IPartsDataSource datasource ) {
 		this(fragment.getAppContext(), datasource);
 	}
 
@@ -143,7 +142,7 @@ public class DataSourceAdapterv3 extends BaseAdapter implements PropertyChangeLi
 			// If the request is new we are sure this has to be created.
 			IAndroidPart item = this.getCastedItem(position);
 			if ( null == convertView ) {
-				exitMessage = "-- [DataSourceAdapter.getView]> Getting view [" + position + "] - " + item.getClass().getSimpleName();
+				exitMessage = "-- [DataSourceAdapterv3.getView]> Getting view [" + position + "] - " + item.getClass().getSimpleName();
 				AbstractRender holder = item.getRenderer(_context);
 				holder.initializeViews();
 				convertView = holder.getView();
@@ -156,7 +155,7 @@ public class DataSourceAdapterv3 extends BaseAdapter implements PropertyChangeLi
 			} else {
 				View cachedView = item.getView();
 				if ( null == cachedView ) {
-					exitMessage = "-- [DataSourceAdapter.getView]> Getting view [" + position + "] - "
+					exitMessage = "-- [DataSourceAdapterv3.getView]> Getting view [" + position + "] - "
 							+ item.getClass().getSimpleName() + " RECREATE";
 					// Recreate the view.
 					AbstractRender holder = this.getCastedItem(position).getRenderer(_context);
@@ -171,7 +170,7 @@ public class DataSourceAdapterv3 extends BaseAdapter implements PropertyChangeLi
 				} else {
 					// Cached view found. Return new view.
 					convertView = cachedView;
-					exitMessage = "-- [DataSourceAdapter.getView]> Getting view [" + position + "] - "
+					exitMessage = "-- [DataSourceAdapterv3.getView]> Getting view [" + position + "] - "
 							+ item.getClass().getSimpleName() + " CACHED";
 				}
 			}
@@ -199,7 +198,7 @@ public class DataSourceAdapterv3 extends BaseAdapter implements PropertyChangeLi
 			if ( null == message ) {
 				message = "NullPointerException detected.";
 			}
-			DataSourceAdapterv3.logger.error("RTEX [DataSourceAdapter.getView]> Runtime Exception: " + message);
+			DataSourceAdapterv3.logger.error("RTEX [DataSourceAdapterv3.getView]> Runtime Exception: " + message);
 			rtex.printStackTrace();
 			//DEBUG Add exception registration to the exception page.
 			final LayoutInflater mInflater = (LayoutInflater) this.getContext()
@@ -207,7 +206,7 @@ public class DataSourceAdapterv3 extends BaseAdapter implements PropertyChangeLi
 			// Under an exception we can replace the View item by this special layout with the Exception message.
 			convertView = mInflater.inflate(R.layout.exception4list, null);
 			TextView exceptionMessage = (TextView) convertView.findViewById(R.id.exceptionMessage);
-			exceptionMessage.setText("[DataSourceAdapter.getView]> RTEX > " + message);
+			exceptionMessage.setText("[DataSourceAdapterv3.getView]> RTEX > " + message);
 			return convertView;
 		}
 	}
