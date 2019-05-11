@@ -20,11 +20,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import me.relex.circleindicator.CircleIndicator;
+
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.datasource.AbstractFragmentPagerAdapter;
 
 import androidx.viewpager.widget.ViewPager;
-import com.viewpagerindicator.CirclePageIndicator;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager.widget.ViewPager;
+import me.relex.circleindicator.CircleIndicator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +50,7 @@ import org.slf4j.LoggerFactory;
  * @since 1.0.0
  */
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class AbstractPagerActivity extends Activity {
+public abstract class AbstractPagerActivity extends FragmentActivity {
 	public enum EExtrasMVC {
 		EXTRA_EXCEPTIONMESSAGE, EXTRA_VARIANT
 	}
@@ -60,7 +65,7 @@ public abstract class AbstractPagerActivity extends Activity {
 	protected AbstractFragmentPagerAdapter _pageAdapter = null;
 	/** Image reference to the background layout item that can be replaced by the application implementation. */
 	protected ImageView background = null;
-	protected CirclePageIndicator _indicator = null;
+	protected CircleIndicator _indicator = null;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
 
@@ -89,7 +94,7 @@ public abstract class AbstractPagerActivity extends Activity {
 	public void addPage( AbstractPagerFragment newFrag ) {
 		AbstractPagerActivity.logger.info(">> [AbstractPagerActivity.addPage]");
 		// Before checking if we have already this fragment we should get its unique identifier.
-		Fragment frag = this.getFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextPosition()));
+		Fragment frag = this.getSupportFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextPosition()));
 		if (null == frag) {
 			_pageAdapter.addPage(newFrag);
 		} else {
@@ -202,7 +207,7 @@ public abstract class AbstractPagerActivity extends Activity {
 		// Locate the elements of the page and store in global data.
 		_pageContainer = (ViewPager) this.findViewById(R.id.pager);
 		background = (ImageView) this.findViewById(R.id.backgroundFrame);
-		_indicator = (CirclePageIndicator) this.findViewById(R.id.indicator);
+		_indicator = (CircleIndicator) this.findViewById(R.id.indicator);
 		// Check page structure.
 		if (null == _pageContainer) {
 			throw new RuntimeException("RTEX [AbstractPagerActivity.onCreate]> Expected UI element not found.");
@@ -212,7 +217,7 @@ public abstract class AbstractPagerActivity extends Activity {
 		}
 
 		// Add the adapter for the page switching.
-		_pageAdapter = new AbstractFragmentPagerAdapter(this.getFragmentManager(), _pageContainer.getId());
+		_pageAdapter = new AbstractFragmentPagerAdapter(this.getSupportFragmentManager(), _pageContainer.getId());
 		_pageContainer.setAdapter(_pageAdapter);
 		// Cleat the indicator from the view until more than one page is added.
 		this.disableIndicator();
