@@ -10,8 +10,6 @@ package org.dimensinfin.android.mvc.activity;
 
 import android.app.Activity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -31,6 +29,7 @@ import org.dimensinfin.android.mvc.core.AbstractPart;
 import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapterv3;
+import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.datasource.DataSourceManagerv3;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
@@ -39,10 +38,8 @@ import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.core.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
-import org.dimensinfin.core.interfaces.IModelGenerator;
 import org.dimensinfin.core.model.RootNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -114,7 +111,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 
 	// TODO REFACTOR Set back to private after the PagerFragment is removed
 	private final Vector<IAndroidPart> _headerContents = new Vector<IAndroidPart>();
-	private IModelGenerator _generator = null;
+//	private IModelGenerator _generator = null;
 
 
 	private IMenuActionTarget _listCallback = null;
@@ -545,6 +542,11 @@ public abstract class AbstractPagerFragment extends Fragment {
 		@Override
 		public List<ICollaboration> collaborate2Model( final String variation ) {
 			return new ArrayList<>();
+		}
+
+		@Override
+		public int compareTo( final Object o ) {
+			return 0;
 		}
 	}
 

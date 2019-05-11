@@ -55,6 +55,11 @@ public class PanelException implements ICollaboration {
 		//		buffer.append("->").append(super.toString());
 		return buffer.toString();
 	}
+
+	@Override
+	public int compareTo( final Object o ) {
+		return 0;
+	}
 }
 // - UNUSED CODE ............................................................................................
 //[01]

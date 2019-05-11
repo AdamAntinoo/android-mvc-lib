@@ -44,7 +44,7 @@ public abstract class AMVCFragment extends Fragment implements ITitledFragment, 
 	protected Context _appContext;
 	private IMenuActionTarget listCallback = null;
 
-	/** This constructur is required to create the fragments from the xml layouts. */
+	/** This constructor is required to create the fragments from the xml layouts. */
 	public AMVCFragment() { }
 
 	// - G E T T E R S   &   S E T T E R S
@@ -66,7 +66,6 @@ public abstract class AMVCFragment extends Fragment implements ITitledFragment, 
 	 * on fragment reconstruction and can help to add specific and differential funtionalities.
 	 *
 	 * @param selectedVariant the new name to assign to this fragment instance.
-	 * @return
 	 */
 	public AMVCFragment setVariant( final String selectedVariant ) {
 		_variant = selectedVariant;
@@ -115,8 +114,6 @@ public abstract class AMVCFragment extends Fragment implements ITitledFragment, 
 	/**
 	 * Returns the <b>ControllerFactory</b> associated with this Fragment instance. If the factory is still undefined then
 	 * the method calls the creation method to get a fresh instance.
-	 *
-	 * @return
 	 */
 	public IControllerFactory getFactory() {
 		// Check if we have already a factory.
@@ -144,7 +141,7 @@ public abstract class AMVCFragment extends Fragment implements ITitledFragment, 
 	public abstract IControllerFactory createFactory();
 
 	/**
-	 * The methos should be implemented by all subclassed Fragments to provide the data source to be used inside the fragment
+	 * The method should be implemented by all subclassed Fragments to provide the data source to be used inside the fragment
 	 * render. This single instance should be able to produce the data for the header panel and for the view list.
 	 */
 	public abstract IDataSource createDS();
@@ -166,37 +163,4 @@ public abstract class AMVCFragment extends Fragment implements ITitledFragment, 
 	 * @return title string.
 	 */
 	public abstract String getTitle();
-
-
-	//    // - B U I L D E R
-	//    protected static abstract class BaseBuilder<T extends AMVCFragment, B extends BaseBuilder> {
-	//        protected T actualClass;
-	//        protected B actualClassBuilder;
-	//
-	//        protected abstract T getActual();
-	//
-	//        protected abstract B getActualBuilder();
-	//
-	//        public BaseBuilder() {
-	//            this.actualClass = getActual();
-	//            this.actualClassBuilder = getActualBuilder();
-	//        }
-	//
-	//        public B withAppContext(final Context appContext) {
-	//            this.actualClass.setAppContext(appContext);
-	//            return this.actualClassBuilder;
-	//        }
-	//
-	//        public B withExtras(final Bundle extras) {
-	//            this.actualClass.setExtras(extras);
-	//            return this.actualClassBuilder;
-	//        }
-	//
-	//        public T build() {
-	//            // Do any other validations. If failed then launch an exception.
-	//            AppCompatibilityUtils.assertNotNull(this.actualClass._appContext);
-	//            AppCompatibilityUtils.assertNotNull(this.actualClass._extras);
-	//            return actualClass;
-	//        }
-	//    }
 }

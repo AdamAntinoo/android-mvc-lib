@@ -13,7 +13,7 @@ import java.util.List;
 
 import android.os.Bundle;
 
-import org.dimensinfin.core.datasource.DataSourceLocator;
+import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
 // - CLASS IMPLEMENTATION ...................................................................................

@@ -24,7 +24,6 @@ import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
 import org.dimensinfin.android.mvc.exception.ToastExceptionHandler;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
-import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 
@@ -32,10 +31,10 @@ import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormatterBuilder;
 
 public abstract class ASimplePagerFragment extends AMVCFragment {
-	/**
-	 * Task handler to manage execution of code that should be done on the main loop thread.
-	 */
-	protected static final Handler _handler = new Handler(Looper.getMainLooper());
+//	/**
+//	 * Task handler to manage execution of code that should be done on the main loop thread.
+//	 */
+//	protected static final Handler _handler = new Handler(Looper.getMainLooper());
 
 	// - F I E L D - S E C T I O N
 	// - U I    F I E L D S
@@ -152,7 +151,7 @@ public abstract class ASimplePagerFragment extends AMVCFragment {
 		//            controller.collaborate2View(controllers);
 		//        }
 		// Now create the view and add it to the header list.
-		_handler.post(() -> {
+		handler.post(() -> {
 			_headerContainer.removeAllViews();
 			for (IAndroidController part : headerControllers) {
 				if (part instanceof IAndroidController) addView2Header(part);

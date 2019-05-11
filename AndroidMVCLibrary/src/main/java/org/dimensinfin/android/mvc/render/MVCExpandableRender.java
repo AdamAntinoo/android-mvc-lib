@@ -10,8 +10,8 @@ import android.widget.TextView;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AExpandAndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.support.IExpandable;
+import org.dimensinfin.core.interfaces.ICollaboration;
 
 import androidx.annotation.NonNull;
 

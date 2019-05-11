@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.android.mvc.model.PanelException;
-import org.dimensinfin.core.datasource.DataSourceLocator;
 
 /**
  * This exceptional Data Source will accept an exception on construction to render a Exception Panel with the exception message and other

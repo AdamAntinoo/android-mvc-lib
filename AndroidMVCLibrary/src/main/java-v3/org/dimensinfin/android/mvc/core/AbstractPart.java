@@ -11,11 +11,11 @@
 //               real time while processing the model sources. This should allow for search and filtering.
 package org.dimensinfin.android.mvc.core;
 
+import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
 import org.dimensinfin.android.mvc.interfaces.IPartsDataSource;
 import org.dimensinfin.android.mvc.interfaces.IPart;
 import org.dimensinfin.android.mvc.interfaces.IPartFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.interfaces.IEventProjector;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.core.model.AbstractPropertyChanger;
 import org.dimensinfin.core.model.RootNode;
@@ -358,8 +358,8 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 			if (null != part) {
 				part.setParent(this);
 				// Connect parts as listeners for fast objects. Watch this connections for Part destruction.
-				if (model instanceof IEventProjector)
-					((IEventProjector) model).addPropertyChangeListener(this);
+				if (model instanceof IEventEmitter)
+					((IEventEmitter) model).addPropertyChangeListener(this);
 			}
 		}
 		return part;

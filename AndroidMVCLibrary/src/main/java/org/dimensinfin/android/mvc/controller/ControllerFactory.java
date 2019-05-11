@@ -9,9 +9,10 @@
 package org.dimensinfin.android.mvc.controller;
 
 import org.dimensinfin.android.mvc.support.SeparatorController;
-import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.support.Separator;
+import org.dimensinfin.core.interfaces.ICollaboration;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

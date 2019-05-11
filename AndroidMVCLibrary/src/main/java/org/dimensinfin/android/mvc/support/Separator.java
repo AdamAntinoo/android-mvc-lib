@@ -10,10 +10,11 @@ package org.dimensinfin.android.mvc.support;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.dimensinfin.core.interfaces.ICollaboration;
 
 import androidx.annotation.NonNull;
 

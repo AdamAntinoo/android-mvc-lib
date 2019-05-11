@@ -1,8 +1,8 @@
 package org.dimensinfin.android.mvc.controller;
 
 import org.dimensinfin.android.mvc.events.EventEmitter;
-import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
+import org.dimensinfin.core.interfaces.ICollaboration;
 
 import java.beans.PropertyChangeListener;
 import java.util.Objects;
