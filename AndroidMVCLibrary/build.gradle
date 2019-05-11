@@ -67,6 +67,7 @@ android {
     }
     sourceSets {
         main {
+            java.srcDirs += 'src/main/java-v3'
             res.srcDirs += 'src/main/res-ui'
             res.srcDirs += 'src/main/res-dynamic'
         }
@@ -143,6 +144,8 @@ dependencies {
     implementation 'me.relex:circleindicator:2.1.0'
     implementation 'joda-time:joda-time:2.3'
     implementation 'org.apache.commons:commons-lang3:3.7'
+
+    implementation 'org.dimensinfin:CoreBase.core:2.2.0'
 }
 // - T E S T I N G
 dependencies {
