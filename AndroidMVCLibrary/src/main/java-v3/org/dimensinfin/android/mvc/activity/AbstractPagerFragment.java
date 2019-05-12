@@ -510,6 +510,11 @@ public abstract class AbstractPagerFragment extends Fragment {
 		}
 
 		@Override
+		public boolean toggleExpand() {
+			return false;
+		}
+
+		@Override
 		public boolean collapse() {
 			return false;
 		}

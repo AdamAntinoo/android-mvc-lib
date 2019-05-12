@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DataSourceManager {
 	// - S T A T I C - S E C T I O N
-	private static Logger logger = LoggerFactory.getLogger("DataSourceManager");
+	private static Logger logger = LoggerFactory.getLogger(DataSourceManager.class);
 	private static final HashMap<String, IDataSource> dataSources = new HashMap<String, IDataSource>();
 
 	// - M E T H O D - S E C T I O N

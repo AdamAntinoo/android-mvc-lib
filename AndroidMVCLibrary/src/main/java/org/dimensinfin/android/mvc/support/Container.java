@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.interfaces.IExpandable;
 
 public class Container extends Separator implements IExpandable {
 	private static final long serialVersionUID = -957283664928489030L;
@@ -90,9 +91,9 @@ public class Container extends Separator implements IExpandable {
 		return this._renderIfEmpty;
 	}
 
-	public void setRenderWhenEmpty(final boolean renderWhenEmpty) {
+	public IExpandable setRenderWhenEmpty( final boolean renderWhenEmpty) {
 		this._renderIfEmpty = renderWhenEmpty;
-//		return this;
+		return this;
 	}
 
 	@Override

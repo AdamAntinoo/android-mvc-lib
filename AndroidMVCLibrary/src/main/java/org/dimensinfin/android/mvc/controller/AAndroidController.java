@@ -1,16 +1,5 @@
 package org.dimensinfin.android.mvc.controller;
 
-import android.view.View;
-import org.dimensinfin.android.mvc.events.EEvents;
-import org.dimensinfin.android.mvc.events.EventEmitter;
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
-import org.dimensinfin.android.mvc.support.IExpandable;
-import org.dimensinfin.core.interfaces.ICollaboration;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +7,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import android.view.View;
 import androidx.annotation.NonNull;
+
+import org.dimensinfin.android.mvc.events.EEvents;
+import org.dimensinfin.android.mvc.events.EventEmitter;
+import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
+import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.interfaces.IExpandable;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class will implement the core Android interaction controller on the classic pattern Model-View-Controller
@@ -28,6 +28,7 @@ import androidx.annotation.NonNull;
  *
  * On version 4.0 I have replaced the old GEF Part concept by the traditional Controller and started to add unit test
  * code and replaced old style java code practices by the new advanced code techniques and refactorings.
+ *
  * @author Adam Antinoo
  * @since 4.0.0
  */
@@ -49,7 +50,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	private IEventEmitter eventController = new EventEmitter();
 
 	// - C O N S T R U C T O R - S E C T I O N
-	protected AAndroidController(@NonNull final ControllerAdapter<M> delegate, @NonNull final IControllerFactory factory) {
+	protected AAndroidController( @NonNull final ControllerAdapter<M> delegate, @NonNull final IControllerFactory factory ) {
 		Objects.requireNonNull(delegate);
 		Objects.requireNonNull(factory);
 		this.delegatedController = delegate;
@@ -79,7 +80,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		return renderMode;
 	}
 
-	public AAndroidController setRenderMode(final String renderMode) {
+	public AAndroidController setRenderMode( final String renderMode ) {
 		this.renderMode = renderMode;
 		return this;
 	}
@@ -89,7 +90,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		return orderedActive;
 	}
 
-	public AAndroidController setOrderedActive(final boolean orderedActive) {
+	public AAndroidController setOrderedActive( final boolean orderedActive ) {
 		this.orderedActive = orderedActive;
 		return this;
 	}
@@ -100,17 +101,17 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	}
 
 	@Override
-	public AAndroidController setViewCache(final View viewCache) {
+	public AAndroidController setViewCache( final View viewCache ) {
 		this.viewCache = viewCache;
 		return this;
 	}
 
 	// - D E L E G A T E S - C H I L D R E N
-	public void addChild(final IAndroidController child) {
+	public void addChild( final IAndroidController child ) {
 		this.getChildren().add(child);
 	}
 
-	public void addChildren(final List<IAndroidController> modelList) {
+	public void addChildren( final List<IAndroidController> modelList ) {
 		for (IAndroidController node : modelList)
 			this.addChild(node);
 	}
@@ -128,7 +129,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	 * @param context the Activity UI context to use to locate the inflater and do the action.
 	 * @return
 	 */
-//	public abstract IRender buildRender(final Context context);
+	//	public abstract IRender buildRender(final Context context);
 
 	/**
 	 * Optimized process to generate the list of Controllers that should end on the render graphical process. While we are
@@ -144,10 +145,11 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	 * not matching the filter restrictions. Filtering is a such complex task that will require a complete
 	 * reimplementation for this method and the search for a pattern algorithm suitable for empty node trimming while not
 	 * removing intermediate nodes not matching the filter.
+	 *
 	 * @param contentCollector the list where we are collecting the Controllers visible for rendering.
 	 */
 	@Override
-	public void collaborate2View(final List<IAndroidController> contentCollector) {
+	public void collaborate2View( final List<IAndroidController> contentCollector ) {
 		logger.info(">< [AAndroidController.collaborate2View]> Collaborator: {}", this.getClass().getSimpleName());
 		// If the node is expanded then give the children the opportunity to also be added.
 		if (this.getModel() instanceof IExpandable) {
@@ -167,16 +169,16 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	/**
 	 * If the ordering flag is set then order the children and use the final ordered list to continue the rendering of the
 	 * nodes to the list container.
+	 *
 	 * @param childrenList the list of elements to be sorted if the flag is set to true.
-	 * @return
 	 */
-	public List<IAndroidController> orderingFeature(final List<IAndroidController> childrenList) {
+	public List<IAndroidController> orderingFeature( final List<IAndroidController> childrenList ) {
 		if (this.isOrderedActive()) Collections.sort(childrenList);
 		return childrenList;
 	}
 
 	@Override
-	public int compareTo(@NonNull final Object target) {
+	public int compareTo( @NonNull final Object target ) {
 		if (target instanceof IAndroidController) {
 			final IAndroidController castedTarget = (IAndroidController) target;
 			return this.getModel().compareTo(castedTarget.getModel());
@@ -191,30 +193,32 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	 *
 	 * With this implementation most of the render decision is set for each controller and not generically and controlled
 	 * by fields.
-	 * @return
 	 */
 	@Override
-	public abstract boolean isVisible();
+	public boolean isVisible() {
+		return true;
+	}
 
 	// - I E V E N T E M I T T E R   I N T E R F A C E
 
 	/**
 	 * Add a new listener to the list of listeners on the delegated listen and event processing node.
+	 *
 	 * @param listener the new listener to connect to this instance messages.
 	 */
 	@Override
-	public void addPropertyChangeListener(final PropertyChangeListener listener) {
+	public void addPropertyChangeListener( final PropertyChangeListener listener ) {
 		this.eventController.addPropertyChangeListener(listener);
 	}
 
 	@Override
-	public boolean sendChangeEvent(final String eventName) {
+	public boolean sendChangeEvent( final String eventName ) {
 		this.eventController.sendChangeEvent(eventName);
 		return true;
 	}
 
 	@Override
-	public void removePropertyChangeListener(final PropertyChangeListener listener) {
+	public void removePropertyChangeListener( final PropertyChangeListener listener ) {
 		this.eventController.removePropertyChangeListener(listener);
 	}
 
@@ -223,7 +227,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		this.sendChangeEvent(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name());
 	}
 
-	protected void notifyDataModelChange(final EEvents event) {
+	protected void notifyDataModelChange( final EEvents event ) {
 		this.viewCache = null; // Clean the view cache to force recreation.
 		this.sendChangeEvent(event.name());
 	}

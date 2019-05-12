@@ -40,7 +40,8 @@ public abstract class AbstractRender implements IRender {
 	//- L A Y O U T   F I E L D S
 	//	protected ImageView _rightArrow = null;
 
-	// - C O N S T R U C T O R - S E C T I O N ................................................................
+	// - C O N S T R U C T O R S
+	public AbstractRender(){}
 	public AbstractRender( final AbstractPart newPart, final Activity context ) {
 		super();
 		_part = newPart;

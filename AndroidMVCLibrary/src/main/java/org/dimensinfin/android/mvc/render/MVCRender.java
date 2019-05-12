@@ -54,7 +54,6 @@ public abstract class MVCRender implements IRender {
 		return context;
 	}
 
-//		public abstract IAndroidController getController();
 	public IAndroidController getController() {
 		return controller;
 	}
