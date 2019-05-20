@@ -5,8 +5,6 @@ import java.util.concurrent.TimeUnit;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -113,7 +111,7 @@ public abstract class ASimplePagerFragment extends AMVCFragment {
 	public void onViewStateRestored(Bundle savedInstanceState) {
 		// restore the variant name.
 		if (null != savedInstanceState)
-			setVariant(savedInstanceState.getString(MVCMultiPageActivity.EExtrasMVC.EXTRA_VARIANT.name()));
+			setVariant(savedInstanceState.getString(AMVCMultiPageActivity.EExtrasMVC.EXTRA_VARIANT.name()));
 		super.onViewStateRestored(savedInstanceState);
 	}
 
@@ -121,7 +119,7 @@ public abstract class ASimplePagerFragment extends AMVCFragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		// Save the variant assigned to this fragment instance.
-		outState.putString(MVCMultiPageActivity.EExtrasMVC.EXTRA_VARIANT.name(), getVariant());
+		outState.putString(AMVCMultiPageActivity.EExtrasMVC.EXTRA_VARIANT.name(), getVariant());
 	}
 
 	// - H E A D E R   M A N A G E M E N T   S E C T I O N
@@ -136,7 +134,7 @@ public abstract class ASimplePagerFragment extends AMVCFragment {
 	 * expand/collapse functionality to calculate the final list of Views to render.
 	 */
 	protected void generateHeaderContents(final List<IAndroidController> headerControllers) {
-		AMVCFragment.logger.info(">> [MVCPagerFragment.generateHeaderContents]");
+		AMVCFragment.logger.info(">> [AMVCPagerFragment.generateHeaderContents]");
 		// Create the list of controllers from the model list received.
 		//        final List<IAndroidController> rootControllers = new ArrayList<>(headerData.size());
 		//        for (ICollaboration modelNode : headerData) {
@@ -157,7 +155,7 @@ public abstract class ASimplePagerFragment extends AMVCFragment {
 				if (part instanceof IAndroidController) addView2Header(part);
 			}
 		});
-		AMVCFragment.logger.info("<< [MVCPagerFragment.generateHeaderContents]");
+		AMVCFragment.logger.info("<< [AMVCPagerFragment.generateHeaderContents]");
 	}
 
 	/**
@@ -167,7 +165,7 @@ public abstract class ASimplePagerFragment extends AMVCFragment {
 	 * @param target the AndroidController to render to a View.
 	 */
 	private void addView2Header(final IAndroidController target) {
-		logger.info(">> [MVCPagerFragment.addView2Header]");
+		logger.info(">> [AMVCPagerFragment.addView2Header]");
 //		try {
 			final IRender holder = target.buildRender(this.getAppContext());
 			// TODO. This holder does not call the initializeViews of the view before the update.
@@ -181,14 +179,14 @@ public abstract class ASimplePagerFragment extends AMVCFragment {
 			}
 			_headerContainer.setVisibility(View.VISIBLE);
 //		} catch (final RuntimeException rtex) {
-//			logger.info("RTEX [MVCPagerFragment.addView2Header]> Problem generating view for: {}", target.getClass().getCanonicalName());
-//			logger.info("RTEX [MVCPagerFragment.addView2Header]> RuntimeException. {}", rtex.getMessage());
+//			logger.info("RTEX [AMVCPagerFragment.addView2Header]> Problem generating view for: {}", target.getClass().getCanonicalName());
+//			logger.info("RTEX [AMVCPagerFragment.addView2Header]> RuntimeException. {}", rtex.getMessage());
 //			rtex.printStackTrace();
 //			Toast.makeText(this.getAppContext()
-//					, "RTEX [MVCPagerFragment.addView2Header]> RuntimeException. " + rtex.getMessage()
+//					, "RTEX [AMVCPagerFragment.addView2Header]> RuntimeException. " + rtex.getMessage()
 //					, Toast.LENGTH_LONG).show();
 //		}
-		logger.info("<< [MVCPagerFragment.addView2Header]");
+		logger.info("<< [AMVCPagerFragment.addView2Header]");
 	}
 
 	// - CONTEXTUAL MENU FOR THE HEADER
@@ -206,7 +204,7 @@ public abstract class ASimplePagerFragment extends AMVCFragment {
 
 	@Override
 	public void onCreateContextMenu(final ContextMenu menu, final View view, final ContextMenu.ContextMenuInfo menuInfo) {
-		logger.info(">> [MVCPagerFragment.onCreateContextMenu]");
+		logger.info(">> [AMVCPagerFragment.onCreateContextMenu]");
 		// REFACTOR If we call the super then the fragment's parent context gets called. So the listcallback and the Activity
 		// have not to be the same
 		//			super.onCreateContextMenu(menu, view, menuInfo);
@@ -228,7 +226,7 @@ public abstract class ASimplePagerFragment extends AMVCFragment {
 			((IMenuActionTarget) part).onCreateContextMenu(menu, view, menuInfo);
 		}
 		//		}
-		logger.info("<< [MVCPagerFragment.onCreateContextMenu]"); //$NON-NLS-1$
+		logger.info("<< [AMVCPagerFragment.onCreateContextMenu]"); //$NON-NLS-1$
 	}
 
 	// - U T I L I T I E S

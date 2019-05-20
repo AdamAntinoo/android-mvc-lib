@@ -34,8 +34,8 @@ public class ControllerFactory implements IControllerFactory {
 			return new SeparatorController((Separator) node,this)
 					.setRenderMode(this.getVariant());
 		}
-//		if (node instanceof MVCPagerFragment.EmptyNotVisibleNode) {
-//			return new MVCPagerFragment.EmptyAndroidController((Separator) node,this)
+//		if (node instanceof AMVCPagerFragment.EmptyNotVisibleNode) {
+//			return new AMVCPagerFragment.EmptyAndroidController((Separator) node,this)
 //					.setRenderMode(this.getVariant());
 //		}
 		// If no part is trapped then result a NOT FOUND mark

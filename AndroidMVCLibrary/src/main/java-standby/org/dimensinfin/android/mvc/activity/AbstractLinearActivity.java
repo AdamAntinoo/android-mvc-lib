@@ -56,7 +56,7 @@ public class AbstractLinearActivity extends AbstractPagerActivity {
 				((AbstractPagerFragment) frag).setVariant(newFrag.getVariant());
 				newFrag = (AbstractPagerFragment) frag;
 			} else
-				throw new RuntimeException("RTEX [AbstractLinearActivity.addLinear]> The fragment located does not inherit the required functionality. Does not extend MVCPagerFragment.");
+				throw new RuntimeException("RTEX [AbstractLinearActivity.addLinear]> The fragment located does not inherit the required functionality. Does not extend AMVCPagerFragment.");
 		}
 		// Be sure the Fragment context points to a valid context.
 		newFrag.setAppContext(this);

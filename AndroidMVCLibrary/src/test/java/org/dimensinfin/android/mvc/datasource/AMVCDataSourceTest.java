@@ -35,7 +35,7 @@ public class AMVCDataSourceTest {
 //		}
 //	}
 
-	@Test
+//	@Test
 	public void testAccesors() {
 		PojoTestUtils.validateAccessors(TestDataSource.class);
 		PojoTestUtils.validateAccessors(AMVCDataSource.class);

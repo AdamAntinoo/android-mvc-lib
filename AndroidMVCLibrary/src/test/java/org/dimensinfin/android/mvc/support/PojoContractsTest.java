@@ -24,7 +24,7 @@ import org.mockito.Mockito;
 public class PojoContractsTest {
 	private static final ControllerFactory factory = Mockito.mock(ControllerFactory.class);
 
-	@Test
+//	@Test
 	public void accessorContract() {
 		PojoTestUtils.validateAccessors(AMVCDataSource.class);
 		PojoTestUtils.validateAccessors(AAndroidController.class);

@@ -105,7 +105,7 @@ public abstract class AbstractPart extends AbstractPropertyChanger implements IP
 		child.setParent(this);
 	}
 
-	//	public void clean () {
+	//	public void clear () {
 	//		children.clear();
 	//	}
 	public void cleanLinks() {

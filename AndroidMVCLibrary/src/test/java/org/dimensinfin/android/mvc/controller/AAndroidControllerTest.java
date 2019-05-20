@@ -3,9 +3,10 @@ package org.dimensinfin.android.mvc.controller;
 import android.view.View;
 import junit.framework.Assert;
 
-import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.support.EmptyNode;
 import org.dimensinfin.android.mvc.support.TestController;
+import org.dimensinfin.core.interfaces.ICollaboration;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

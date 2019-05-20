@@ -2,7 +2,7 @@ package org.dimensinfin.android.mvc.support;
 
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.interfaces.ICollaboration;
+import org.dimensinfin.core.interfaces.ICollaboration;
 
 public class TestControllerFactory extends ControllerFactory {
 

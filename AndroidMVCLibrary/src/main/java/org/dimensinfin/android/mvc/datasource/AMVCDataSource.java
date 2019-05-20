@@ -3,7 +3,6 @@ package org.dimensinfin.android.mvc.datasource;
 import android.os.Bundle;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
 import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.events.EventEmitter;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
@@ -17,6 +16,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This class is the abstract implementation for a source of the model elements that should be rendered on an special
@@ -381,8 +381,8 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 			// Register the identifier and create the data source.
 			this.actualClass.locator = this.identifier;
 			// Do any other validations. If failed then launch an exception.
-			AppCompatibilityUtils.assertNotNull(this.actualClass.locator);
-			AppCompatibilityUtils.assertNotNull(this.actualClass.controllerFactory);
+			Objects.requireNonNull(this.actualClass.locator);
+			Objects.requireNonNull(this.actualClass.controllerFactory);
 			return actualClass;
 		}
 	}

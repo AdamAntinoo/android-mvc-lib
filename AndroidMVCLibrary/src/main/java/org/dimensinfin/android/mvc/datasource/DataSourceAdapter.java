@@ -1,5 +1,11 @@
 package org.dimensinfin.android.mvc.datasource;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
@@ -11,24 +17,19 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.IPagerFragment;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.interfaces.IRender;
+
 import org.joda.time.Instant;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import androidx.annotation.NonNull;
 
 /**
  * This is the class that connects the ListView to a model list. If is an extension of the generic BaseAdapter and
@@ -40,6 +41,7 @@ import androidx.annotation.NonNull;
  * same as for the Activity and when the context terminates the system should be able to recover the adapters and all
  * the views. But references for this Context should not live outside this instance to remove the problem to lock
  * references on uncontrolled places.
+ *
  * @author Adam Antinoo
  */
 public class DataSourceAdapter extends BaseAdapter implements PropertyChangeListener {
@@ -70,10 +72,11 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * to render the Model and the DataSource with the list of Controllers to be rendered there. To make this Adapter
 	 * compatible with Fragment and Activities we should have two constructors and consolidate the reference to the
 	 * Context that is the only element really required for the constructions and connection of the views.
+	 *
 	 * @param fragment   The fragment source for this adapter contents.
 	 * @param datasource the source for the data to be represented on the view structures.
 	 */
-	public DataSourceAdapter(@NonNull final IPagerFragment fragment, @NonNull final IDataSource datasource) {
+	public DataSourceAdapter( @NonNull final IPagerFragment fragment, @NonNull final IDataSource datasource ) {
 		this.context = fragment.getAppContext();
 		this.datasource = datasource;
 		this.datasource.addPropertyChangeListener(this); // Connect the listener to the data source events.
@@ -86,7 +89,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 
 	// - B A S E   A D A P T E R   I M P L E M E N T A T I O N
 	@Override
-	public Object getItem(final int position) {
+	public Object getItem( final int position ) {
 		return contentControllerList.get(position);
 	}
 
@@ -96,7 +99,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	}
 
 	@Override
-	public long getItemId(final int position) {
+	public long getItemId( final int position ) {
 		return contentControllerList.get(position).getModelId();
 	}
 
@@ -106,12 +109,12 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	}
 
 	@Override
-	public boolean isEnabled(int position) {
+	public boolean isEnabled( int position ) {
 		return true;
 	}
 
 	@Override
-	public int getItemViewType(int position) {
+	public int getItemViewType( int position ) {
 		return 0;
 	}
 
@@ -124,6 +127,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * This requires the number of different views we have on the list. This really can be calculated by running over the
 	 * list of controllers and getting the unique list of their render types. This optimization is not already implemented
 	 * but added to the list of features to be added.
+	 *
 	 * @return the number of different views. Forced to be 1 because it is not being calculated.
 	 */
 	public int getViewTypeCount() {
@@ -136,7 +140,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * times.
 	 */
 	//	@SuppressLint("ViewHolder")
-	public View getView(final int position, View convertView, final ViewGroup parent) {
+	public View getView( final int position, View convertView, final ViewGroup parent ) {
 		final Instant chrono = Instant.now();
 		String exitMessage;
 		try {
@@ -150,16 +154,18 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 				View cachedView = item.getViewCache();
 				if (null == cachedView) {
 					exitMessage = GETTING_VIEW + position + "] - "
-							+ item.getClass().getSimpleName() + " RECREATE";
+							              + item.getClass().getSimpleName() + " RECREATE";
 					// Recreate the view.
 					convertView = this.constructRender(context, item);
 				} else {
 					// Cached view found. Return new view.
 					convertView = cachedView;
 					exitMessage = GETTING_VIEW + position + "] - "
-							+ item.getClass().getSimpleName() + " CACHED";
+							              + item.getClass().getSimpleName() + " CACHED";
 				}
 			}
+			if (null == convertView)
+				exitMessage = GETTING_VIEW + position + "] - " + item.getClass().getSimpleName() + " NOT FOUND";
 			// Activate listeners if the AndroidController supports that feature.
 			convertView.setClickable(false);
 			convertView.setLongClickable(true);
@@ -190,23 +196,23 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 			rtex.printStackTrace();
 			//DEBUG Add exception registration to the exception page.
 			final LayoutInflater mInflater = (LayoutInflater) this.getContext()
-					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+					                                                  .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 			// Under an exception we can replace the View item by this special layout with the Exception message.
-			convertView = mInflater.inflate(R.layout.exception4list, parent);
+			convertView = mInflater.inflate(R.layout.exception4list, null);
 			TextView exceptionMessage = convertView.findViewById(R.id.exceptionMessage);
 			exceptionMessage.setText(new StringBuilder("[DataSourceAdapter.getView]> RTEX > {}").append(message).toString());
 		}
 		return convertView;
 	}
 
-	private View constructRender(final Context context, final IAndroidController controller) {
+	private View constructRender( final Context context, final IAndroidController controller ) {
 		IRender render = controller.buildRender(context);
 		final View view = render.getView();
 		view.setTag(controller); // Piggyback the controller to the view to allow access.
 		render.initializeViews(); // Associate the fields to variables.
 		render.updateContent(); // Set the initial value for the view fields.
 		// Store view on the AndroidController for cache.
-//		if (this.getContext().getResources().getBoolean(R.id.exceptionMessage)) {
+		//		if (this.getContext().getResources().getBoolean(R.id.exceptionMessage)) {
 		if (true) {
 			controller.setViewCache(view);
 		}
@@ -217,7 +223,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 		return context;
 	}
 
-	private IAndroidController getCastedItem(final int position) {
+	private IAndroidController getCastedItem( final int position ) {
 		return contentControllerList.get(position);
 	}
 
@@ -247,21 +253,21 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * Send messages to the parent context that is the one that has code implemented for every different case. This class
 	 * is a generic class that must not be upgraded because we start then to replicate most of the code.
 	 */
-	public void propertyChange(final PropertyChangeEvent event) {
+	public void propertyChange( final PropertyChangeEvent event ) {
 		logger.info(">> [DataSourceAdapter.propertyChange]> Processing Event: {}", event.getPropertyName());
 		// - C O N T E N T   E V E N T S
 		if (EEvents.valueOf(event.getPropertyName()) ==
-				EEvents.EVENTCONTENTS_ACTIONMODIFYDATA) _handler.post(() -> {
+				    EEvents.EVENTCONTENTS_ACTIONMODIFYDATA) _handler.post(() -> {
 			this.notifyDataSetChanged();
 		});
 		if (EEvents.valueOf(event.getPropertyName()) ==
-				EEvents.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE) _handler.post(() -> {
+				    EEvents.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE) _handler.post(() -> {
 			this.notifyDataSetChanged();
 		});
 
 		// Be sure to run graphical changes on the UI thread. If we already are on it this has no effect.
 		if (EEvents.valueOf(event.getPropertyName()) ==
-				EEvents.EVENTADAPTER_REQUESTNOTIFYCHANGES) _handler.post(() -> {
+				    EEvents.EVENTADAPTER_REQUESTNOTIFYCHANGES) _handler.post(() -> {
 			this.notifyDataSetChanged();
 		});
 	}

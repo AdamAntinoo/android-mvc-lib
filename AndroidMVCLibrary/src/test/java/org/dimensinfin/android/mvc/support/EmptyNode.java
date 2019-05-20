@@ -11,9 +11,10 @@ package org.dimensinfin.android.mvc.support;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dimensinfin.android.mvc.interfaces.ICollaboration;
-
 import androidx.annotation.NonNull;
+
+import org.dimensinfin.core.interfaces.ICollaboration;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.slf4j.Logger;

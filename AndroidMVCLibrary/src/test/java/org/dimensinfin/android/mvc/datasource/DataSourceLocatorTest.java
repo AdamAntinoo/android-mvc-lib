@@ -3,8 +3,6 @@ package org.dimensinfin.android.mvc.datasource;
 import junit.framework.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * @author Adam Antinoo
  */

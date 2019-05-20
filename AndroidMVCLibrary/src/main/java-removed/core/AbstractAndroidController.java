@@ -69,7 +69,7 @@ public abstract class AbstractAndroidController /*extends AbstractPropertyChange
 //		child.setParent(this);
 //	}
 
-	//	public void clean () {
+	//	public void clear () {
 	//		children.clear();
 	//	}
 //	public void cleanLinks() {
