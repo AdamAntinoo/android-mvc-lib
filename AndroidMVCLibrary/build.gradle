@@ -46,7 +46,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 31
-        versionName "4.2.2-STABLE"
+        versionName "4.2.2"
         project.archivesBaseName = "AndroidMVC"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -154,6 +154,7 @@ dependencies {
 
 // - T E S T I N G
 dependencies {
+    testImplementation 'androidx.annotation:annotation:1.0.0'
     testImplementation 'androidx.fragment:fragment:1.0.0'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.slf4j:slf4j-simple:1.7.25'

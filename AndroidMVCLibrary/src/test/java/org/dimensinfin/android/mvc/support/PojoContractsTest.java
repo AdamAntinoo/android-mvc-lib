@@ -1,11 +1,3 @@
-//  PROJECT:     Android.MVC (A.MVC)
-//  AUTHORS:     Adam Antinoo - adamantinoo.git@gmail.com
-//  COPYRIGHT:   (c) 2013-2019 by Dimensinfin Industries, all rights reserved.
-//  ENVIRONMENT: Android API16.
-//  DESCRIPTION: Library that defines a generic Model View Controller core classes to be used
-//               on Android projects. Defines the Part factory and the Part core methods to manage
-//               a generic converter from a Graph Model to a hierarchical Part model that finally will
-//               be converted to a Part list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.support;
 
 import org.dimensinfin.android.mvc.controller.AAndroidController;
@@ -13,6 +5,7 @@ import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 
+import org.dimensinfin.core.model.Separator;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
