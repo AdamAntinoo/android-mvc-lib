@@ -111,7 +111,7 @@ public abstract class ASimplePagerFragment extends AMVCFragment {
 	public void onViewStateRestored(Bundle savedInstanceState) {
 		// restore the variant name.
 		if (null != savedInstanceState)
-			setVariant(savedInstanceState.getString(AMVCMultiPageActivity.EExtrasMVC.EXTRA_VARIANT.name()));
+			setVariant(savedInstanceState.getString(AMVCMultiPageActivity.EMVCExtras.EXTRA_VARIANT.name()));
 		super.onViewStateRestored(savedInstanceState);
 	}
 
@@ -119,7 +119,7 @@ public abstract class ASimplePagerFragment extends AMVCFragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		// Save the variant assigned to this fragment instance.
-		outState.putString(AMVCMultiPageActivity.EExtrasMVC.EXTRA_VARIANT.name(), getVariant());
+		outState.putString(AMVCMultiPageActivity.EMVCExtras.EXTRA_VARIANT.name(), getVariant());
 	}
 
 	// - H E A D E R   M A N A G E M E N T   S E C T I O N

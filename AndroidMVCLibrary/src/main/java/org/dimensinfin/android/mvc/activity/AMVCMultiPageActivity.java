@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  * @since 1.0.0
  */
 public abstract class AMVCMultiPageActivity extends FragmentActivity {
-	public enum EExtrasMVC {
+	public enum EMVCExtras {
 		EXTRA_EXCEPTIONMESSAGE, EXTRA_VARIANT
 	}
 
@@ -76,7 +76,7 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 	public void addPage( @NonNull final IPagerFragment newFrag ) {
 		AMVCMultiPageActivity.logger.info(">> [AMVCMultiPageActivity.addPage]");
 		// Connect to the application context of not already done.
-		newFrag.setActivityContext(this);
+//		newFrag.setActivityContext(this);
 		// Before checking if we have already this fragment we should get its unique identifier.
 		final Fragment frag = this.getSupportFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
 		if (null == frag) {
@@ -102,6 +102,7 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 		newFrag.setActivityContext(this);
 		// Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
 		newFrag.setExtras(this.getExtras());
+//		newFrag.setVariant(this.getVariant());
 		// Check the number of pages to activate the indicator when more the one.
 		if (_pageAdapter.getCount() > 1) {
 			this.activateIndicator();
@@ -190,9 +191,7 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 		} catch (RuntimeException rtex) {
 			logger.warn("RTEX [AMVCMultiPageActivity.onCreate]> {}", rtex.getMessage());
 		}
-		// If the extras are not defined then create an empty container.
-		if (null == this.extras) this.extras = new Bundle();
-
+		if (null == this.extras) this.extras = new Bundle(); // If the extras are not defined then create an empty container.
 
 		// TODO This section is back the core ActionBar that can be configured until a new configuration is tested.
 		// Set the layout to the core context that defines the background, the indicator and the fragment container.
