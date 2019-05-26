@@ -173,7 +173,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 		final Activity act = getActivity();
 		if (null == act)
 			if (null == _appContext)
-				throw new RuntimeException("RTEX [AbstractPagerFragment.getAppContext] There is no Context " +
+				throw new RuntimeException("RTEX [AbstractPagerFragment.getActivityContext] There is no Context " +
 						"accesible. Application unexpected error.");
 			else return _appContext;
 		else return act;

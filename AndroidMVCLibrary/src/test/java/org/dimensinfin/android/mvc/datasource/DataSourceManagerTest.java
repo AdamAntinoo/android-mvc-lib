@@ -21,6 +21,15 @@ public class DataSourceManagerTest {
 	}
 
 	@Test
+	public void registerDataSource_notcached() throws InterruptedException {
+		final IDataSource datasource = Mockito.mock(IDataSource.class);
+		Mockito.when(datasource.needsCaching()).thenReturn(false);
+		DataSourceManager.registerDataSource(datasource);
+		Thread.sleep(TimeUnit.SECONDS.toMillis(1));
+		Mockito.verify(datasource, times(1)).prepareModel();
+	}
+
+	@Test
 	public void registerDataSource_cached() throws InterruptedException {
 		final IDataSource datasource = Mockito.mock(IDataSource.class);
 

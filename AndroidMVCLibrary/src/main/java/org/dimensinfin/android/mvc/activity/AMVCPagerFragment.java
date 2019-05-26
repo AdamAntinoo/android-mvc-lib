@@ -36,44 +36,6 @@ import org.joda.time.format.DateTimeFormatterBuilder;
  * @since 1.0.0
  */
 public abstract class AMVCPagerFragment extends AMVCFragment {
-	//    protected static Logger logger = LoggerFactory.getLogger(AMVCPagerFragment.class);
-	//    /**
-	//     * Task _handler to manage execution of code that should be done on the main loop thread.
-	//     */
-	//    protected static final Handler _handler = new Handler(Looper.getMainLooper());
-	//
-	//    // - F I E L D - S E C T I O N
-	//    /**
-	//     * The variant is an optional field that should be set by the developer. Because it will choose not to fill it should
-	//     * have a valid default value.
-	//     */
-	//    private String _variant = "-DEFAULT-";
-	//    /**
-	//     * Copy of the extras bundle received by the Activity.
-	//     */
-	//    private Bundle _extras = new Bundle();
-	//    /**
-	//     * The library will require access to a valid application context at any time. Usually the activity is not connected
-	//     * to the Fragment until the fragment is going to be used and then the life cycle is started. But if the developed
-	//     * likes to use fragments not connected to real Activities we should be sure we can still have access to a valid
-	//     * context. We get a reference to the long term singleton for the Application context.
-	//     */
-	//    private Context appContext;
-	//    /**
-	//     * Factory that will generate the specific <b>Parts</b> for this Fragment/Activity/Application.
-	//     */
-	//    private IControllerFactory _factory = null;
-	/** This flag will help to detect when the creation process fails because of a runtime problem. */
-	//	private boolean _properlyInitialized = true;
-	/**
-	 * List of model elements that should be converted to views and inserted on the Header ui container.
-	 */
-	//    private List<ICollaboration> _headersource = null;
-	/**
-	 * Instance for a dynamic model generator. The model can change after creation by user interactions through the
-	 * rendered views and parts.
-	 */
-	//	private IDataSource _datasource = null;
 	/**
 	 * Evolved adapter to connect the source of data in the form of a <b>AndroidController</b> list to the
 	 * <code>ListView</code> that contains the displayed render.
@@ -102,146 +64,6 @@ public abstract class AMVCPagerFragment extends AMVCFragment {
 	 * completion of the loading process.
 	 */
 	private TextView _progressElapsedCounter = null;
-
-
-	//	// TODO REFACTOR Set back to private after the PagerFragment is removed
-	//	private final Vector<IAndroidAndroidController> _headerContents = new Vector<IAndroidAndroidController>();
-	//	private IModelGenerator _generator = null;
-
-	//    private IMenuActionTarget _listCallback = null;
-
-	// - C O N S T R U C T O R - S E C T I O N
-	// - G E T T E R S   &   S E T T E R S
-	//	public IMenuActionTarget getListCallback() {
-	//		return this.getListCallback();
-	//	}
-	//
-	//	public void setListCallback( final IMenuActionTarget callback ) {
-	//		if (null != callback) {
-	//			this.setListCallback(callback);
-	//		}
-	//	}
-
-	//	/**
-	//	 * Sets the variant code to differentiate this instance form any other Fragment instances. This field should be set on
-	//	 * the instantiation process of the Fragment and also should be recovered from persistence when the fragment is
-	//	 * reconstructed.
-	//	 *
-	//	 * @return the variant name assigned to this fragment instance.
-	//	 */
-	//	public String getVariant() {
-	//		return _variant;
-	//	}
-	//
-	//	/**
-	//	 * Sets the variant name. Variant names should come from a limited list of strings, usually implemented as an
-	//	 * enumerated and that is set for each fragment instance that should have any differentiation. The value is restored
-	//	 * on fragment reconstruction and can help to add specific and differential funtionalities.
-	//	 *
-	//	 * @param selectedVariant the new name to assign to this fragment instance.
-	//	 */
-	//	public AMVCPagerFragment setVariant( final String selectedVariant ) {
-	//		_variant = selectedVariant;
-	//		return this;
-	//	}
-	//
-	//	/**
-	//	 * Gets a reference to the extras received by the Activity. They can come from the intent of from the persistence
-	//	 * stored data upon Application reactivation.
-	//	 *
-	//	 * @return extras bundle.
-	//	 */
-	//	public Bundle getExtras() {
-	//		return _extras;
-	//	}
-	//
-	//	/**
-	//	 * Sets the extras to be associated to the Fragment. This is usually automatically setup by the Activity but the
-	//	 * developer can change the set of extras at any time. Contents are transparent to the library and are nor user by
-	//	 * it.
-	//	 *
-	//	 * @param extras new bundle of extrax to be tied to this Fragment instance.
-	//	 * @return this instance to allow for functional constructive statements.
-	//	 */
-	//	public AMVCPagerFragment setExtras( final Bundle extras ) {
-	//		_extras = extras;
-	//		return this;
-	//	}
-	//
-	//	public Context getAppContext() {
-	//		return this.appContext;
-	//	}
-	//
-	//	/**
-	//	 * During initialization of the Fragment we install the long term singleton for the Application context This is done
-	//	 * from the owner activity that connects the Fragment but also added when the fragment is reconnected..
-	//	 *
-	//	 * @param appContext the Application singleton context.
-	//	 * @return this instance to allow for functional constructive statements.
-	//	 */
-	//	public AMVCPagerFragment setAppContext( final Context appContext ) {
-	//		this.appContext = appContext;
-	//		return this;
-	//	}
-
-	//	/**
-	//	 * Returns the <b>ControllerFactory</b> associated with this Fragment instance. If the factory is still undefined then
-	//	 * the method calls the creation method to get a fresh instance.
-	//	 */
-	//	public IControllerFactory getFactory() {
-	//		// Check if we have already a factory.
-	//		if (null == _factory) {
-	//			_factory = this.createFactory();
-	//		}
-	//		return _factory;
-	//	}
-
-	// - I T I T L E D F R A G M E N T   I N T E R F A C E
-
-	//	/**
-	//	 * Gets the text to set set at the subtitle slot on the <b>ActionBar</b>. This should be implemented by each new
-	//	 * Fragment.
-	//	 *
-	//	 * @return subtitle string.
-	//	 */
-	//	public abstract String getSubtitle();
-	//
-	//	/**
-	//	 * Gets the text to set set at the title slot on the <b>ActionBar</b>. This should be implemented by each new
-	//	 * Fragment.
-	//	 *
-	//	 * @return title string.
-	//	 */
-	//	public abstract String getTitle();
-
-	// - T O   B E   I M P L E M E N T E D   B Y   D E V E L O P E R S
-
-	//	/**
-	//	 * This method should be implemented by all the application Fragments to set the <b>ControllerFactory</b> that will be
-	//	 * used during the model transformation processing to generate the <b>Parts</b> of the model to be used on this
-	//	 * Fragment.
-	//	 */
-	//	public abstract IControllerFactory createFactory();
-
-	//	/**
-	//	 * This method that should be implemented at every fragment is responsible to generate a list of model data that
-	//	 * should be transformed into <code>Views</code> to be rendered on the Header container.
-	//	 *
-	//	 * @return a <code>List</code> of model instances that should be converted to Parts and then to Views to be stored on
-	//	 * 		the Header container and rendered. This is a simple list and not a so complex model as the <code>IDataSource</code>
-	//	 * 		used for the DataSection contents.
-	//	 */
-	//	protected abstract List<ICollaboration> registerHeaderSource();
-	//
-	//	/**
-	//	 * This method that should be implemented at every fragment is responsible to instantiate, identify and initialize a
-	//	 * <code>@link{IDataSource}</code> that is the class code that generates the model structures, be them list,
-	//	 * hierarchy or graphs.
-	//	 *
-	//	 * @return an <code>IDataSource</code> instance that is ready to generate the model contents.
-	//	 */
-	//	protected abstract IDataSource registerDataSource();
-
 
 	// - F R A G M E N T   L I F E C Y C L E
 
@@ -315,16 +137,9 @@ public abstract class AMVCPagerFragment extends AMVCFragment {
 	public void onStart() {
 		logger.info(">> [AMVCPagerFragment.onStart]");
 		super.onStart();
-		Thread.setDefaultUncaughtExceptionHandler(new ToastExceptionHandler(this.getAppContext()));
+		Thread.setDefaultUncaughtExceptionHandler(new ToastExceptionHandler(this.getActivityContext()));
 		// Start counting the elapsed time while we generate and load the  model.
 		this.initializeProgressIndicator();
-
-		// Entry point to generate the Header model and then generate the Controllers.
-		//        AppCompatibilityUtils.backgroundExecutor.submit(()->{
-		//            this.generateHeaderContents(this.d);
-		//        })
-		//        _headersource = this.registerHeaderSource();
-
 		// We use another thread to perform the data source generation that is a long time action.
 		AppCompatibilityUtils.backgroundExecutor.submit(() -> {
 			logger.info("-- [AMVCPagerFragment.Render data section]");
@@ -335,10 +150,6 @@ public abstract class AMVCPagerFragment extends AMVCFragment {
 				this.hideProgressIndicator(); // Hide the waiting indicator after the model is generated and the view populated.
 			});
 		});
-
-		// Update the display with the initial progress indicator.
-		//        _adapter.collaborateData(); // Call the ds to generate the root contents.
-		//        _adapter.notifyDataSetChanged();
 		logger.info("<< [AMVCPagerFragment.onStart]");
 	}
 
@@ -376,20 +187,6 @@ public abstract class AMVCPagerFragment extends AMVCFragment {
 	 */
 	protected void generateHeaderContents( final List<IAndroidController> headerControllers ) {
 		logger.info(">> [AMVCPagerFragment.generateHeaderContents]");
-		// Create the list of controllers from the model list received.
-		//        final List<IAndroidController> rootControllers = new ArrayList<>(headerData.size());
-		//        for (ICollaboration modelNode : headerData) {
-		//            final IAndroidController newController = this._factory.createController(modelNode);
-		//            newController.refreshChildren();
-		//            rootControllers.add(newController);
-		//        }
-
-		// Compose the final list from the controllers collaborating to the view.
-		//        final List<IAndroidController> controllers = new ArrayList<>();
-		//        for (IAndroidController controller : headerControllers) {
-		//            controller.collaborate2View(controllers);
-		//        }
-		// Now create the view and add it to the header list.
 		handler.post(() -> {
 			_headerContainer.removeAllViews();
 			for (IAndroidController part : headerControllers) {
@@ -408,7 +205,7 @@ public abstract class AMVCPagerFragment extends AMVCFragment {
 	private void addView2Header( final IAndroidController target ) {
 		logger.info(">> [AMVCPagerFragment.addView2Header]");
 		try {
-			final IRender holder = target.buildRender(this.getAppContext());
+			final IRender holder = target.buildRender(this.getActivityContext());
 			// TODO. This holder does not call the initializeViews of the view before the update.
 			holder.updateContent();
 			final View hv = holder.getView();
@@ -423,7 +220,7 @@ public abstract class AMVCPagerFragment extends AMVCFragment {
 			logger.info("RTEX [AMVCPagerFragment.addView2Header]> Problem generating view for: {}", target.getClass().getCanonicalName());
 			logger.info("RTEX [AMVCPagerFragment.addView2Header]> RuntimeException. {}", rtex.getMessage());
 			rtex.printStackTrace();
-			Toast.makeText(this.getAppContext()
+			Toast.makeText(this.getActivityContext()
 					, "RTEX [AMVCPagerFragment.addView2Header]> RuntimeException. " + rtex.getMessage()
 					, Toast.LENGTH_LONG).show();
 		}
@@ -509,72 +306,4 @@ public abstract class AMVCPagerFragment extends AMVCFragment {
 			return "0m 00s";
 		}
 	}
-
-	//	public static class EmptyDataSource extends AMVCDataSource {
-	//		public EmptyDataSource(DataSourceLocator locator, IControllerFactory factory) {
-	//			super(locator, factory);
-	//		}
-	//
-	//		//		@Override
-	//		public boolean isCacheable() {
-	//			return false;
-	//		}
-	//
-	//		//		@Override
-	//		public void collaborate2Model() {
-	//			// Create an empty list of items. This can be done by setting a model that if not rendered when empty.
-	//			this.addModelContents(new EmptyNotVisibleNode());
-	//		}
-	//	}
-
-	//	public static class EmptyNotVisibleNode extends Separator {
-	//		public EmptyNotVisibleNode() {
-	//			super();
-	////			this.setRenderWhenEmpty(false);
-	//		}
-	//		@Override
-	//		public List<ICollaboration> collaborate2Model(final String variation) {
-	//			return new ArrayList<>();
-	//		}
-	//	}
-
-	//	public static class EmptyAndroidController extends AAndroidController<Separator> {
-	//		public EmptyAndroidController(final Separator model, final IControllerFactory factory) {
-	//			super(model, factory);
-	//		}
-	//
-	//		@Override
-	//		public long getModelId() {
-	//			return 0;
-	//		}
-	//
-	//		@Override
-	//		public IRender buildRender(final Context context) {
-	//			return null;
-	//		}
-	//
-	//		@Override
-	//		public int compareTo(@NonNull final Separator o) {
-	//			return 0;
-	//		}
-	//	}
-	//
-	//	public static class EmptyRender extends MVCRender<Separator> {
-	//		public EmptyRender(final EmptyAndroidController controller, final Context context) {
-	//			super(controller, context);
-	//		}
-	//
-	//		@Override
-	//		protected void initializeProgressIndicator() {
-	//		}
-	//
-	//		@Override
-	//		protected int accessLayoutReference() {
-	//			return 0;
-	//		}
-	//
-	//		@Override
-	//		public void updateContent() {
-	//		}
-	//	}
 }

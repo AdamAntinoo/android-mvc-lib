@@ -69,7 +69,7 @@ public abstract class ASimplePagerFragment extends AMVCFragment {
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 		logger.info(">> [ASimplePagerFragment.onCreateView]");
 		// Install the default library exception interceptor to show lib exceptions.
-		Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this.getAppContext()));
+		Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this.getActivityContext()));
 		super.onCreateView(inflater, container, savedInstanceState);
 		// - S E C T I O N   1. Where we get access to the UI elements.
 		_container = (ViewGroup) inflater.inflate(R.layout.fragment_map, container, false);
@@ -103,7 +103,7 @@ public abstract class ASimplePagerFragment extends AMVCFragment {
 	public void onStart() {
 		AMVCFragment.logger.info(">> [ASimplePagerFragment.onStart]");
 		super.onStart();
-		Thread.setDefaultUncaughtExceptionHandler(new ToastExceptionHandler(this.getAppContext()));
+		Thread.setDefaultUncaughtExceptionHandler(new ToastExceptionHandler(this.getActivityContext()));
 		AMVCFragment.logger.info("<< [ASimplePagerFragment.onStart]");
 	}
 
@@ -167,7 +167,7 @@ public abstract class ASimplePagerFragment extends AMVCFragment {
 	private void addView2Header(final IAndroidController target) {
 		logger.info(">> [AMVCPagerFragment.addView2Header]");
 //		try {
-			final IRender holder = target.buildRender(this.getAppContext());
+			final IRender holder = target.buildRender(this.getActivityContext());
 			// TODO. This holder does not call the initializeViews of the view before the update.
 			holder.updateContent();
 			final View hv = holder.getView();
@@ -182,7 +182,7 @@ public abstract class ASimplePagerFragment extends AMVCFragment {
 //			logger.info("RTEX [AMVCPagerFragment.addView2Header]> Problem generating view for: {}", target.getClass().getCanonicalName());
 //			logger.info("RTEX [AMVCPagerFragment.addView2Header]> RuntimeException. {}", rtex.getMessage());
 //			rtex.printStackTrace();
-//			Toast.makeText(this.getAppContext()
+//			Toast.makeText(this.getActivityContext()
 //					, "RTEX [AMVCPagerFragment.addView2Header]> RuntimeException. " + rtex.getMessage()
 //					, Toast.LENGTH_LONG).show();
 //		}

@@ -40,7 +40,7 @@ public class DataSourceAdapterTest {
 		final BaseAdapter adapter = Mockito.mock(BaseAdapter.class);
 
 		// When
-//		Mockito.when( fragment.getAppContext()).thenReturn(context);
+//		Mockito.when( fragment.getActivityContext()).thenReturn(context);
 
 		// Test
 		final DataSourceAdapter dsadapter = new DataSourceAdapter(fragment, datasource);

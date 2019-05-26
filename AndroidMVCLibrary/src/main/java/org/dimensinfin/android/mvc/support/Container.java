@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
+import org.dimensinfin.core.model.Separator;
 
 public class Container extends Separator implements IExpandable {
 	private static final long serialVersionUID = -957283664928489030L;

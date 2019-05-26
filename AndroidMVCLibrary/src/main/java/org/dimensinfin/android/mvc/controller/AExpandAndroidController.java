@@ -25,10 +25,14 @@ public abstract class AExpandAndroidController<M extends IExpandable> extends AA
 	// - C O M P O S I T I O N S
 	private ClickSupporter clickSupporter = new ClickSupporter(false);
 
-	// - C O N S T R U C T O R - S E C T I O N
-	public AExpandAndroidController( @NonNull final ControllerAdapter<M> delegate, @NonNull final IControllerFactory factory) {
-		super(delegate, factory);
+	public AExpandAndroidController( @NonNull final M model, @NonNull final IControllerFactory factory ) {
+		super(model, factory);
 	}
+
+	// - C O N S T R U C T O R - S E C T I O N
+//	public AExpandAndroidController( @NonNull final ControllerAdapter<M> delegate, @NonNull final IControllerFactory factory) {
+//		super(delegate, factory);
+//	}
 
 	public boolean clickRunning () {
 		return this.clickSupporter.isClickRunning();

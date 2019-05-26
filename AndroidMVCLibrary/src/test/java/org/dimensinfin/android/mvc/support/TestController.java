@@ -15,12 +15,12 @@ public class TestController extends AAndroidController<EmptyNode> {
 	private boolean visible = true;
 
 	public TestController(@NonNull final EmptyNode model, @NonNull final IControllerFactory factory) {
-		super(new ControllerAdapter<>(model), factory);
+		super(model, factory);
 	}
 
-	public TestController(@NonNull final ControllerAdapter<EmptyNode> delegate, @NonNull final IControllerFactory factory) {
-		super(delegate, factory);
-	}
+//	public TestController(@NonNull final ControllerAdapter<EmptyNode> delegate, @NonNull final IControllerFactory factory) {
+//		super(delegate, factory);
+//	}
 
 	// - C O N S T R U C T O R - S E C T I O N
 //	public TestController(@NonNull final IControllerFactory factory) {

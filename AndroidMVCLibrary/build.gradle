@@ -46,23 +46,21 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 31
-        versionName "4.2.1-STABLE"
+        versionName "4.2.2-STABLE"
         project.archivesBaseName = "AndroidMVC"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        debug {
-            minifyEnabled false
-            useProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "bool", "CACHE_MVC_VIEWS_ON_CONTROLLER", "false"
-        }
         release {
             minifyEnabled false
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "bool", "CACHE_MVC_VIEWS_ON_CONTROLLER", "true"
+        }
+        debug {
+            initWith release
+            resValue "bool", "CACHE_MVC_VIEWS_ON_CONTROLLER", "false"
         }
     }
     sourceSets {
@@ -95,11 +93,6 @@ android {
 // - M A V E N   P U B L I S H   I N F O
 group = 'org.dimensinfin'
 version = project.version
-//ext {
-//    //Specify your maven repository url here
-//    repositoryUrl = 'ftp://your.maven.repository.com/maven2'
-//    //Or you can use 'file:\\\\C:\\Temp' or 'maven-temp' for a local maven repository
-//}
 uploadArchives {
     repositories {
         mavenLocal()
@@ -148,6 +141,7 @@ ext {
 dependencies {
     compileOnly 'androidx.fragment:fragment:1.0.0'
 }
+
 // - L I B R A R Y   D E P E N D E N C I E S
 dependencies {
     implementation 'org.slf4j:slf4j-api:1.7.25'
@@ -178,11 +172,11 @@ dependencies {
 
     androidTestImplementation 'org.mockito:mockito-android:2.21.0'
     androidTestImplementation 'org.mockito:mockito-core:2.22.0'
-    androidTestImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC2'
+//    androidTestImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC2'
     androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
     androidTestImplementation 'androidx.test:rules:1.2.0-alpha03'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.3'
+//    androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha03'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0-alpha03'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0-alpha03'

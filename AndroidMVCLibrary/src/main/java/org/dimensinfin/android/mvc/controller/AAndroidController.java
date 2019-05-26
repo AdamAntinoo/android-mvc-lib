@@ -50,11 +50,15 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	private IEventEmitter eventController = new EventEmitter();
 
 	// - C O N S T R U C T O R - S E C T I O N
-	protected AAndroidController( @NonNull final ControllerAdapter<M> delegate, @NonNull final IControllerFactory factory ) {
+	private AAndroidController( @NonNull final ControllerAdapter<M> delegate, @NonNull final IControllerFactory factory ) {
 		Objects.requireNonNull(delegate);
 		Objects.requireNonNull(factory);
 		this.delegatedController = delegate;
 		this.factory = factory;
+	}
+
+	public AAndroidController( @NonNull final M model, @NonNull final IControllerFactory factory ) {
+		this(new ControllerAdapter<M>(model), factory);
 	}
 
 	// - G E T T E R S   &   S E T T E R S

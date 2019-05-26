@@ -1,5 +1,6 @@
 package org.dimensinfin.android.mvc.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,7 +42,7 @@ public abstract class AMVCFragment extends Fragment implements ITitledFragment, 
 	 * likes to use fragments not connected to real Activities we should be sure we can still have access to a valid
 	 * context. We get a reference to the long term singleton for the Application context.
 	 */
-	protected Context _appContext;
+	protected Activity activity;
 	private IMenuActionTarget listCallback = null;
 
 	/** This constructor is required to create the fragments from the xml layouts. */
@@ -95,19 +96,19 @@ public abstract class AMVCFragment extends Fragment implements ITitledFragment, 
 		return this;
 	}
 
-	public Context getAppContext() {
-		return this._appContext;
+	public Activity getActivityContext() {
+		return this.activity;
 	}
 
 	/**
 	 * During initialization of the Fragment we install the long term singleton for the Application context This is done
 	 * from the owner activity that connects the Fragment but also added when the fragment is reconnected..
 	 *
-	 * @param appContext the Application singleton context.
+	 * @param activity the Application singleton context.
 	 * @return this instance to allow for functional constructive statements.
 	 */
-	public AMVCFragment setAppContext( final Context appContext ) {
-		this._appContext = appContext;
+	public AMVCFragment setActivityContext( final Activity activity ) {
+		this.activity = activity;
 		return this;
 	}
 

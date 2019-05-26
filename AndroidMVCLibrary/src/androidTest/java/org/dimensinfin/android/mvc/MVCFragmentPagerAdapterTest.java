@@ -1,8 +1,9 @@
 package org.dimensinfin.android.mvc;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import org.dimensinfin.android.mvc.activity.IPagerFragment;
 import org.dimensinfin.android.mvc.activity.MVCFragmentPagerAdapter;
 
 import org.junit.Test;
@@ -29,7 +30,7 @@ public class MVCFragmentPagerAdapterTest {
 		// Get a new position after adding a page.
 		// Given
 		final FragmentManager fragmentManager = mock(FragmentManager.class);
-		final Fragment fragment = mock(Fragment.class);
+		final IPagerFragment fragment = mock(IPagerFragment.class);
 		final MVCFragmentPagerAdapter adapter = new MVCFragmentPagerAdapter(fragmentManager) {
 			public void notifyDataSetChanged() {
 			}
@@ -60,7 +61,7 @@ public class MVCFragmentPagerAdapterTest {
 		// Given
 		final FragmentManager fragmentManager = mock(FragmentManager.class);
 		final int pagerId = 10;
-		final Fragment fragment = mock(Fragment.class);
+		final IPagerFragment fragment = mock(IPagerFragment.class);
 		final MVCFragmentPagerAdapter adapter = new MVCFragmentPagerAdapter(fragmentManager) {
 			public void notifyDataSetChanged() {
 			}
@@ -79,7 +80,7 @@ public class MVCFragmentPagerAdapterTest {
 		// Given
 		final FragmentManager fragmentManager = mock(FragmentManager.class);
 		final int pagerId = 10;
-		final Fragment fragment = mock(Fragment.class);
+		final IPagerFragment fragment = mock(IPagerFragment.class);
 		final MVCFragmentPagerAdapter adapter = new MVCFragmentPagerAdapter(fragmentManager) {
 			public void notifyDataSetChanged() {
 			}
@@ -101,7 +102,7 @@ public class MVCFragmentPagerAdapterTest {
 	//	@Test
 	public void addPage_notify() {
 		// Given
-		final Fragment fragment = mock(Fragment.class);
+		final IPagerFragment fragment = mock(IPagerFragment.class);
 		final MVCFragmentPagerAdapter adapter = mock(MVCFragmentPagerAdapter.class);
 
 		// Test

@@ -34,7 +34,7 @@ public class MapContentAdapter implements PropertyChangeListener {
 
 	// - C O N S T R U C T O R S
 	public MapContentAdapter(@NonNull  final IPagerFragment fragment, @NonNull final IDataSource datasource, @NonNull final ViewGroup container) {
-		this.context = fragment.getAppContext();
+		this.context = fragment.getActivityContext();
 		this.datasource = datasource;
 		this.datasource.addPropertyChangeListener(this); // Connect the listener to the data source events.
 		this.mapContainer = container;

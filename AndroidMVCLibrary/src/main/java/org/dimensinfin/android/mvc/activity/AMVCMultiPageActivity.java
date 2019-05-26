@@ -76,7 +76,7 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 	public void addPage( @NonNull final IPagerFragment newFrag ) {
 		AMVCMultiPageActivity.logger.info(">> [AMVCMultiPageActivity.addPage]");
 		// Connect to the application context of not already done.
-		newFrag.setAppContext(this.getApplicationContext());
+		newFrag.setActivityContext(this);
 		// Before checking if we have already this fragment we should get its unique identifier.
 		final Fragment frag = this.getSupportFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
 		if (null == frag) {
@@ -92,14 +92,14 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 				((AMVCFragment) frag)
 						.setVariant(newFrag.getVariant())
 						.setExtras(newFrag.getExtras())
-						.setAppContext(newFrag.getAppContext())
+						.setActivityContext(newFrag.getActivityContext())
 						.setListCallback(newFrag.getListCallback());
 				_pageAdapter.addPage(newFrag);
 			} else
 				throw new RuntimeException("RTEX [AMVCMultiPageActivity.addPage]> The fragment located does not inherit the required functionality. Does not extend AMVCPagerFragment.");
 		}
 		// Be sure the Fragment context points to a valid context.
-		newFrag.setAppContext(this.getApplicationContext());
+		newFrag.setActivityContext(this);
 		// Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
 		newFrag.setExtras(this.getExtras());
 		// Check the number of pages to activate the indicator when more the one.

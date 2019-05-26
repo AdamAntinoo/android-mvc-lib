@@ -19,7 +19,8 @@ import android.view.View;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.android.mvc.support.Separator;
+import org.dimensinfin.core.model.Separator;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,7 +66,7 @@ public abstract class MVCRender implements IRender {
 	 * implementation is the layout identifier to be used on the inflation. This is not a new method that is made abstract
 	 * to force developers to fill the gap on ne instances.
 	 */
-	protected void createView() {
+	public void createView() {
 		convertView = this.inflateView(this.accessLayoutReference());
 		convertView.setTag(this);
 	}

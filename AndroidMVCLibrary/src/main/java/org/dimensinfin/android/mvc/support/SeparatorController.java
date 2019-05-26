@@ -3,9 +3,9 @@ package org.dimensinfin.android.mvc.support;
 import android.content.Context;
 
 import org.dimensinfin.android.mvc.controller.AAndroidController;
-import org.dimensinfin.android.mvc.controller.ControllerAdapter;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.core.model.Separator;
 
 import androidx.annotation.NonNull;
 
@@ -15,9 +15,7 @@ public class SeparatorController extends AAndroidController<Separator> {
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public SeparatorController(@NonNull final Separator model, @NonNull final IControllerFactory factory) {
-		super(new ControllerAdapter<Separator>(model), factory);
-//		// Connect the delegate.
-//		this.delegatedController = ;
+		super(model, factory);
 	}
 
 	// - D E L E G A T E D - A A N D R O I D C O N T R O L L E R

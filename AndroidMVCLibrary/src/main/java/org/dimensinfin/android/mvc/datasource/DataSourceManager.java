@@ -53,7 +53,13 @@ public class DataSourceManager {
 					}
 				});
 			}
-		}
+		} else AppCompatibilityUtils.backgroundExecutor.submit(() -> {
+			try {
+				newSource.prepareModel();
+			} catch (RuntimeException runtime) {
+				runtime.printStackTrace();
+			}
+		});
 		return newSource;
 	}
 
