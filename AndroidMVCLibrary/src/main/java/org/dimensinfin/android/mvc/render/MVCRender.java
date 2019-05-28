@@ -38,7 +38,7 @@ public abstract class MVCRender implements IRender {
 	// - F I E L D - S E C T I O N
 	private IAndroidController controller; // Holds the parent controller that is associated to this render. Used to access the model.
 	private Context context; // Reference to the context. Usually the application singleton.
-	protected View convertView = null;
+	protected View convertView;
 
 	// - L A Y O U T   F I E L D S
 	// - C O N S T R U C T O R - S E C T I O N

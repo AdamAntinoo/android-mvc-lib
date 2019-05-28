@@ -46,7 +46,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 31
-        versionName "4.2.2"
+        versionName "4.2.3"
         project.archivesBaseName = "AndroidMVC"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -68,6 +68,7 @@ android {
             java.srcDirs += 'src/main/java-v3'
             res.srcDirs += 'src/main/res-ui'
             res.srcDirs += 'src/main/res-dynamic'
+            res.srcDirs += 'src/main/res-v3'
         }
     }
     compileOptions {
