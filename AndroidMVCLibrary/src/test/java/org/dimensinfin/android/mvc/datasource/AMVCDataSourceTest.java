@@ -6,7 +6,7 @@ import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.support.EmptyNode;
 import org.dimensinfin.android.mvc.support.PojoTestUtils;
-import org.dimensinfin.android.mvc.support.TestController;
+import org.dimensinfin.android.mvc.support.MockController;
 import org.dimensinfin.android.mvc.support.TestControllerFactory;
 import org.dimensinfin.android.mvc.support.TestDataSource;
 import org.junit.Test;
@@ -72,8 +72,8 @@ public class AMVCDataSourceTest {
 
 		// Asserts
 		Assert.assertTrue("Check the output element by element.",
-				new TestController(new EmptyNode("Test 1"),factory).getModel().equals(obtained.get(0).getModel()));
+				new MockController(new EmptyNode("Test 1"),factory).getModel().equals(obtained.get(0).getModel()));
 		Assert.assertTrue("Check the output element by element.",
-				new TestController(new EmptyNode("Test 2"),factory).getModel().equals(obtained.get(1).getModel()));
+				new MockController(new EmptyNode("Test 2"),factory).getModel().equals(obtained.get(1).getModel()));
 	}
 }

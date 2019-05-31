@@ -20,7 +20,7 @@ public class TestControllerFactory extends ControllerFactory {
 			return new SeparatorController((Separator) node, this);
 		}
 		if (node instanceof EmptyNode) {
-			return new TestController((EmptyNode) node, this);
+			return new MockController((EmptyNode) node, this);
 		}
 		return super.createController(node);
 	}

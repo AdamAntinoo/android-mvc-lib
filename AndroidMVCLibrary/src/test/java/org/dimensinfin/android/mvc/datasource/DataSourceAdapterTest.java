@@ -8,7 +8,8 @@ import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.support.EmptyNode;
-import org.dimensinfin.android.mvc.support.TestController;
+import org.dimensinfin.android.mvc.support.MockController;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -27,9 +28,9 @@ public class DataSourceAdapterTest {
 	@Before
 	public void setUp() {
 		// Initialize the list of controllers
-		controllers.add(new TestController(new EmptyNode("Test 1"), factory));
-		controllers.add(new TestController(new EmptyNode("Test 2"), factory));
-		controllers.add(new TestController(new EmptyNode("Test 3"), factory));
+		controllers.add(new MockController(new EmptyNode("Test 1"), factory));
+		controllers.add(new MockController(new EmptyNode("Test 2"), factory));
+		controllers.add(new MockController(new EmptyNode("Test 3"), factory));
 	}
 
 //	@Test

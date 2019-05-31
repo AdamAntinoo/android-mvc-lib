@@ -31,8 +31,8 @@ public interface IAndroidController<M> extends IEventEmitter, Comparable {
 
 	void refreshChildren();
 
+	long getModelId();
+
 	// - A B S T R A C T
 	IRender buildRender( final Context context );
-
-	long getModelId();
 }

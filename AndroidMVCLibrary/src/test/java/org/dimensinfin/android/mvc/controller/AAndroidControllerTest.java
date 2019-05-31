@@ -1,18 +1,23 @@
 package org.dimensinfin.android.mvc.controller;
 
-import android.view.View;
-import junit.framework.Assert;
+import java.util.ArrayList;
+import java.util.List;
 
+import android.content.Context;
+import android.view.View;
+
+import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.android.mvc.render.AMVCRender;
+import org.dimensinfin.android.mvc.render.MVCRender;
 import org.dimensinfin.android.mvc.support.EmptyNode;
-import org.dimensinfin.android.mvc.support.TestController;
+import org.dimensinfin.android.mvc.support.MockController;
+import org.dimensinfin.android.mvc.support.MockRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -22,18 +27,19 @@ import static org.mockito.Mockito.when;
  * This is the JUnit test class to check all the features available to controllers and specifically to the main
  * controller implementation represented by the abstract AAndroidController class. There is a need for a test additional
  * class because the class under test is abstract and cannot be instantiated.
+ *
  * @author Adam Antinoo
  */
 public class AAndroidControllerTest {
 
 	final static class MultipleModelCollaborator extends EmptyNode implements ICollaboration {
 
-		public MultipleModelCollaborator(final String name) {
+		public MultipleModelCollaborator( final String name ) {
 			super(name);
 		}
 
 		@Override
-		public List<ICollaboration> collaborate2Model(final String variation) {
+		public List<ICollaboration> collaborate2Model( final String variation ) {
 			final List<ICollaboration> data = new ArrayList<>();
 			data.add(new EmptyNode("Data 1"));
 			data.add(new EmptyNode("Data 2"));
@@ -42,16 +48,18 @@ public class AAndroidControllerTest {
 	}
 
 	private static ControllerFactory factory;
-	private static TestController controller;
+	private static EmptyNode model;
+	private static MockController controller;
 	private static final List<IAndroidController> data = new ArrayList<>();
 
 	@Before
 	public void setUp() {
 		factory = Mockito.mock(ControllerFactory.class);
-		controller = new TestController(new EmptyNode("Test"), factory);
+		model = new EmptyNode("TEST NODE");
+		controller = new MockController(model, factory);
 		data.clear();
 		for (int index = 0; index < 9; index++) {
-			data.add(new TestController(new EmptyNode("Test" + index), factory));
+			data.add(new MockController(new EmptyNode("Test" + index), factory));
 		}
 	}
 
@@ -63,14 +71,14 @@ public class AAndroidControllerTest {
 	@Test(expected = NullPointerException.class)
 	public void createWithNulls() {
 		// Given a null creation call
-		final TestController controller = new TestController((EmptyNode) giveNull(), giveNull());
+		final MockController controller = new MockController((EmptyNode) giveNull(), giveNull());
 	}
 
 	@Test
 	public void createWithValidParameters() {
 		// Given
 		final String expected = "Create Test";
-		final TestController controller = new TestController(new EmptyNode(expected), factory);
+		final MockController controller = new MockController(new EmptyNode(expected), factory);
 		// Tests
 		final String actual = controller.getModel().getName();
 		// Asserts
@@ -114,7 +122,7 @@ public class AAndroidControllerTest {
 		// Given
 		final int initial = controller.getChildren().size();
 		// Test
-		controller.addChild(new TestController(new EmptyNode("Test"), factory));
+		controller.addChild(new MockController(new EmptyNode("Test"), factory));
 		// Assert
 		Assert.assertEquals("The number of initial children is 0.", 0, initial);
 		Assert.assertEquals("The number of child is 1.", 1, controller.getChildren().size());
@@ -143,7 +151,7 @@ public class AAndroidControllerTest {
 		Assert.assertEquals("The number of initial children is 0.", 0, controller.getChildren().size());
 	}
 
-//	@Test
+	//	@Test
 	public void collaborate2View_allVisibleElements() {
 		// Given
 		final List collector = new ArrayList();
@@ -154,45 +162,45 @@ public class AAndroidControllerTest {
 		Assert.assertEquals("The collaboration should be 9+1 elements.", 10, collector.size());
 	}
 
-//	@Test
+	//	@Test
 	public void collaborate2View_containerNotVisible() {
 		// Given
 		final List collector = new ArrayList();
 		// Test
 		controller.addChildren(data);
-		controller.setVisible(false);
+		//		controller.setVisible(false);
 		controller.collaborate2View(collector);
 		// Asserts
 		Assert.assertEquals("The collaboration should be 9 elements.", 9, collector.size());
 	}
 
-		@Test
+	@Test
 	public void orderingFeature_notordered() {
 		// Given
 		controller.setOrderedActive(false);
-		controller.addChild(new TestController(new EmptyNode("First"), factory));
-		controller.addChild(new TestController(new EmptyNode("Last"), factory));
+		controller.addChild(new MockController(new EmptyNode("First"), factory));
+		controller.addChild(new MockController(new EmptyNode("Last"), factory));
 		// Test
 		controller.orderingFeature(controller.getChildren());
 		// Asserts
-			final List c = controller.getChildren();
-		Assert.assertEquals("The first should be First", "First", ((TestController)controller.getChildren().get(0)).getModel().getName());
-		Assert.assertEquals("The first should be Last", "Last", ((TestController)controller.getChildren().get(1)).getModel().getName());
+		final List c = controller.getChildren();
+		Assert.assertEquals("The first should be First", "First", ((MockController) controller.getChildren().get(0)).getModel().getName());
+		Assert.assertEquals("The first should be Last", "Last", ((MockController) controller.getChildren().get(1)).getModel().getName());
 	}
 
-		@Test
+	@Test
 	public void orderingFeature_ordered() {
 		// Given
 		controller.setOrderedActive(true);
-		controller.addChild(new TestController(new EmptyNode("Last"), factory));
-		controller.addChild(new TestController(new EmptyNode("First"), factory));
+		controller.addChild(new MockController(new EmptyNode("Last"), factory));
+		controller.addChild(new MockController(new EmptyNode("First"), factory));
 
 		// Test
 		controller.orderingFeature(controller.getChildren());
 
 		// Asserts
-//		Assert.assertEquals("The first should be First", "First", controller.getChildren().get(0).getModel().getName());
-//		Assert.assertEquals("The first should be Last", "Last", controller.getChildren().get(1).getModel().getName());
+		//		Assert.assertEquals("The first should be First", "First", controller.getChildren().get(0).getModel().getName());
+		//		Assert.assertEquals("The first should be Last", "Last", controller.getChildren().get(1).getModel().getName());
 	}
 
 	@Test
@@ -201,21 +209,59 @@ public class AAndroidControllerTest {
 		final List<EmptyNode> testModelHierarchy = new ArrayList();
 		testModelHierarchy.add(new EmptyNode("Node 1"));
 		testModelHierarchy.add(new EmptyNode("Node 2"));
-		final TestController testController = new TestController(new MultipleModelCollaborator("Data"), factory);
+		final MockController mockController = new MockController(new MultipleModelCollaborator("Data"), factory);
 
 		// When
-		when(factory.createController(any(EmptyNode.class))).thenReturn(new TestController(new EmptyNode("Test"), factory));
+		when(factory.createController(any(EmptyNode.class))).thenReturn(new MockController(new EmptyNode("Test"), factory));
 		when(factory.getVariant()).thenReturn("TEST");
 
 		// Asserts
-		Assert.assertEquals("The initial list is empty.", 0, testController.getChildren().size());
+		Assert.assertEquals("The initial list is empty.", 0, mockController.getChildren().size());
 
 		// Test
-		testController.refreshChildren();
-		final List<IAndroidController> endList = testController.getChildren();
+		mockController.refreshChildren();
+		final List<IAndroidController> endList = mockController.getChildren();
 
 		// Asserts
-		Assert.assertEquals("The end list has 2 items.", 2, testController.getChildren().size());
+		Assert.assertEquals("The end list has 2 items.", 2, mockController.getChildren().size());
 		Mockito.verify(factory, times(2)).createController(any(EmptyNode.class));
+	}
+
+	@Test
+	public void getModel() {
+		Assert.assertNotNull("Check that the model exists.", controller.getModel());
+		Assert.assertEquals(model, controller.getModel());
+	}
+
+	@Test
+	public void getRenderMode_default() {
+		final String obtained = controller.getRenderMode();
+		Assert.assertEquals("Check the value for the default render mode.", "-DEFAULT-", obtained);
+	}
+
+	@Test
+	public void getRenderMode_set() {
+		controller.setRenderMode("TEST MODE");
+		final String obtained = controller.getRenderMode();
+		Assert.assertEquals("Check the value for the default render mode.", "TEST MODE", obtained);
+	}
+
+//	@Test
+//	public void buildRender() {
+//		final Context context = Mockito.mock(Context.class);
+//		final MVCRender coreRender = Mockito.mock(MVCRender.class);
+////		Mockito.doAnswer((call)->{
+////			return null;
+////		}).when(coreRender.createView());
+//		final IRender render = controller.buildRender(context);
+//		Assert.assertNotNull(render);
+//		Assert.assertTrue(render instanceof MockRender);
+//	}
+
+	@Test
+	public void getModelId() {
+		final int expected = model.hashCode();
+		final long obtained = controller.getModelId();
+		Assert.assertEquals("Check that the default id matches.", expected, obtained);
 	}
 }

@@ -31,9 +31,9 @@ public class PojoContractsTest {
 		final EmptyNode node1 = new EmptyNode("Test1");
 		final EmptyNode node2 = new EmptyNode("Test2");
 		final EmptyNode node3 = node1;
-		final TestController controller1 = new TestController(node1, factory);
-		final TestController controller2 = new TestController(node2, factory);
-		final TestController controller3 = new TestController(node3, factory);
+		final MockController controller1 = new MockController(node1, factory);
+		final MockController controller2 = new MockController(node2, factory);
+		final MockController controller3 = new MockController(node3, factory);
 
 		// Asserts
 		Assert.assertFalse("Controllers are different.", controller2.equals(controller1));
@@ -47,9 +47,9 @@ public class PojoContractsTest {
 		final EmptyNode node1 = new EmptyNode("Test1");
 		final EmptyNode node2 = new EmptyNode("Test2");
 		final EmptyNode node3 = node1;
-		final TestController controller1 = new TestController(node1, factory);
-		final TestController controller2 = new TestController(node2, factory);
-		final TestController controller3 = new TestController(node3, factory);
+		final MockController controller1 = new MockController(node1, factory);
+		final MockController controller2 = new MockController(node2, factory);
+		final MockController controller3 = new MockController(node3, factory);
 
 		// Asserts
 		Assert.assertNotEquals("Controllers are different.", controller2.hashCode(), controller1.hashCode());

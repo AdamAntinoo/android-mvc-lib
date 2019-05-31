@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import android.content.Context;
 import android.view.View;
 import androidx.annotation.NonNull;
 
@@ -14,6 +15,8 @@ import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.events.EventEmitter;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
+import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.android.mvc.interfaces.IUniqueModel;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 
@@ -45,7 +48,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	private final IControllerFactory factory;
 	private boolean orderedActive = false; // If the contents should be returned ordered or not
 
-	private String renderMode; // Holds the type of the render to be used on this instance.
+	private String renderMode = "-DEFAULT-"; // Holds the type of the render to be used on this instance.
 	private View viewCache; // Caches the render generated view used to the Adapter so it can be reused multiple times.
 	private IEventEmitter eventController = new EventEmitter();
 
@@ -125,15 +128,16 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	}
 
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
+
 	/**
 	 * This is the call that should create and inflate the render UI view. During all other processes the Context is not
 	 * needed not used but this is the right moment to get to the Android system and instantiate a new UI element. The
 	 * Context can be discarded after this moment since the view is going to be cached and if needed to be constructed
 	 * again this call will be issued another time.
+	 *
 	 * @param context the Activity UI context to use to locate the inflater and do the action.
-	 * @return
 	 */
-	//	public abstract IRender buildRender(final Context context);
+	public abstract IRender buildRender( final Context context );
 
 	/**
 	 * Optimized process to generate the list of Controllers that should end on the render graphical process. While we are
@@ -201,6 +205,16 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	@Override
 	public boolean isVisible() {
 		return true;
+	}
+
+	/**
+	 * The model identifier can be implemented by default by getting the hashcode for the model or if the model implements the
+	 * additional interface to provide a unique adapter identifier then the implementation may call that additional method.
+	 */
+	public long getModelId() {
+		if (this.getModel() instanceof IUniqueModel)
+			return ((IUniqueModel) this.getModel()).getUniqueModelIdentifier();
+		return this.getModel().hashCode();
 	}
 
 	// - I E V E N T E M I T T E R   I N T E R F A C E
