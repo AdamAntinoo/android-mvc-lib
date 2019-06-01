@@ -8,6 +8,8 @@
 //               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.render;
 
+import java.util.Objects;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -41,8 +43,10 @@ public abstract class MVCRender implements IRender {
 	protected View convertView;
 
 	// - L A Y O U T   F I E L D S
-	// - C O N S T R U C T O R - S E C T I O N
+	// - C O N S T R U C T O R S
 	public MVCRender( @NonNull final IAndroidController controller, @NonNull final Context context) {
+		Objects.requireNonNull(controller);
+		Objects.requireNonNull(context);
 		this.controller = controller;
 		this.context = context;
 		this.createView(); // Inflate the layout to have the containers ready for identification.

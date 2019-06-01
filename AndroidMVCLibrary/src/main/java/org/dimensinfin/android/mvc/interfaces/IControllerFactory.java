@@ -12,6 +12,7 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
 public interface IControllerFactory {
-	IAndroidController createController( ICollaboration model);
+	IAndroidController createController( ICollaboration model );
+
 	String getVariant();
 }

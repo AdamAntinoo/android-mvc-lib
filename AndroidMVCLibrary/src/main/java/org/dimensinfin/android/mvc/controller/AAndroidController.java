@@ -251,7 +251,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	}
 
 	// - M E T H O D - S E C T I O N
-	protected void refresh() {
+	protected void invalidate() {
 		this.setViewCache(null);
 		this.notifyDataModelChange();
 	}
@@ -278,11 +278,11 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	 * Page.
 	 */
 	public void refreshChildren() {
-		logger.info(">> [AAndroidController.refreshChildren]");
+//		logger.info(">> [AAndroidController.refreshChildren]");
 		// Get the new list of children for this model node. Use the Variant for generation discrimination.
 		final List<ICollaboration> firstLevelNodes = this.getModel().collaborate2Model(this.getControllerFactory().getVariant());
 		if (firstLevelNodes.isEmpty()) return;
-		logger.info("-- [AAndroidController.refreshChildren]> firstLevelNodes count: {}", firstLevelNodes.size());
+//		logger.info("-- [AAndroidController.refreshChildren]> firstLevelNodes count: {}", firstLevelNodes.size());
 		// Create the model-controller current map to check the elements missing.
 		final HashMap<ICollaboration, IAndroidController> currentMap = new HashMap<>(firstLevelNodes.size());
 		for (IAndroidController<M> control : this.getChildren()) {
@@ -308,6 +308,6 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		// Replace the new children list.
 		this.clean();
 		this.addChildren(newChildrenList);
-		logger.info("<< [AAndroidController.refreshChildren]> Content size: {}", this.getChildren().size());
+//		logger.info("<< [AAndroidController.refreshChildren]> Content size: {}", this.getChildren().size());
 	}
 }
