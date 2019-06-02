@@ -206,9 +206,8 @@ public abstract class AMVCPagerFragment extends AMVCFragment {
 		logger.info(">> [AMVCPagerFragment.addView2Header]");
 		try {
 			final IRender holder = target.buildRender(this.getActivityContext());
-			// TODO. This holder does not call the initializeViews of the view before the update.
-			holder.updateContent();
 			final View hv = holder.getView();
+			holder.updateContent();
 			_headerContainer.addView(hv);
 			// Add the connection to the click listener
 			if (target instanceof OnClickListener) {

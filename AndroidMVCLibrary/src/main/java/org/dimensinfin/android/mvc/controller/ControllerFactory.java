@@ -16,7 +16,7 @@ public class ControllerFactory implements IControllerFactory {
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public ControllerFactory(final String selectedVariant) {
-		variant = selectedVariant;
+		this.variant = selectedVariant;
 	}
 
 	// - M E T H O D - S E C T I O N

@@ -429,9 +429,9 @@ public abstract class AbstractPagerFragment extends Fragment {
 		logger.info(">> [AbstractPagerFragment.addView2Header]");
 		try {
 			final IRender holder = target.getRenderer(this.getAppContext());
+			final View hv = holder.getView();
 			holder.initializeViews();
 			holder.updateContent();
-			final View hv = holder.getView();
 			_headerContainer.addView(hv);
 			// Add the connection to the click listener
 			if (target instanceof OnClickListener) {

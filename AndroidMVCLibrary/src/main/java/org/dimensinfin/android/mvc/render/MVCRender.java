@@ -18,6 +18,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
+import androidx.annotation.NonNull;
+
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IRender;
@@ -25,8 +27,6 @@ import org.dimensinfin.core.model.Separator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import androidx.annotation.NonNull;
 
 /**
  * This class encapsulates the core definition for a component render. It is transparent to the Model type that is
@@ -44,13 +44,13 @@ public abstract class MVCRender implements IRender {
 
 	// - L A Y O U T   F I E L D S
 	// - C O N S T R U C T O R S
-	public MVCRender( @NonNull final IAndroidController controller, @NonNull final Context context) {
+	public MVCRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 		Objects.requireNonNull(controller);
 		Objects.requireNonNull(context);
 		this.controller = controller;
 		this.context = context;
-		this.createView(); // Inflate the layout to have the containers ready for identification.
-		this.initializeViews(); // Connect the inflated fields to the render variables.
+		//		this.createView(); // Inflate the layout to have the containers ready for identification.
+		//		this.initializeViews(); // Connect the inflated fields to the render variables.
 	}
 
 	// - M E T H O D - S E C T I O N
@@ -79,17 +79,17 @@ public abstract class MVCRender implements IRender {
 		return (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 	}
 
-	private View inflateView(final int _layoutIdentifier) {
+	private View inflateView( final int _layoutIdentifier ) {
 		return this.getInflater().inflate(_layoutIdentifier, null);
 	}
 
-	protected Drawable getDrawable(final int resourceid) {
+	protected Drawable getDrawable( final int resourceid ) {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 			return getContext().getResources().getDrawable(resourceid);
 		} else return getContext().getResources().getDrawable(resourceid, getContext().getTheme());
 	}
 
-	protected void setPanelBorderColor(final Separator.ESeparatorType panelTheme) {
+	protected void setPanelBorderColor( final Separator.ESeparatorType panelTheme ) {
 		int themeColor = R.drawable.uipanelborderwhite;
 		switch (panelTheme) {
 			case LINE_WHITE:
@@ -134,12 +134,18 @@ public abstract class MVCRender implements IRender {
 		} else convertView.setBackground(getContext().getResources().getDrawable(themeColor));
 	}
 
-//	public abstract void initializeViews();
+	//	public abstract void initializeViews();
 
 	// - I R E N D E R   I N T E R F A C E
+
+	/**
+	 * Complete reimplementation to create and instantiate the render layout and perform the field associations.
+	 */
 	public View getView() {
+		if (null == this.convertView) {
+			this.createView(); // Inflate the layout to have the containers ready for identification.
+			this.initializeViews(); // Connect the inflated fields to the render variables.
+		}
 		return convertView;
 	}
-
-//	public abstract void updateContent();
 }
