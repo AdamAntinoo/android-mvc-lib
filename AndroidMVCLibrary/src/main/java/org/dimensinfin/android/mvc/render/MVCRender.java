@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 /**
  * This class encapsulates the core definition for a component render. It is transparent to the Model type that is
  * defined as a generic type. Renders are tied to model types but can be used and connected to the models through
- * multiple controllers. // * @param <M> the model class type tht can be accessed through the controller.
+ * multiple controllers. // * @param <M> the model class type that can be accessed through the controller.
  */
 public abstract class MVCRender implements IRender {
 	protected static Logger logger = LoggerFactory.getLogger(MVCRender.class);
