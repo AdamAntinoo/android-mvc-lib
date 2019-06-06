@@ -11,6 +11,7 @@ import android.content.Context;
 import android.view.View;
 import androidx.annotation.NonNull;
 
+import org.dimensinfin.android.mvc.domain.IContainer;
 import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.events.EventEmitter;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
@@ -171,6 +172,14 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 				for (IAndroidController controller : ch) {
 					controller.collaborate2View(contentCollector);
 				}
+		} else if (this instanceof IContainer) {
+			if (this.isVisible()) contentCollector.add(this);
+			if ( ((IContainer)this).wants2Collaborate()){
+				List<IAndroidController> ch = this.orderingFeature(this.getChildren());
+				for (IAndroidController controller : ch) {
+					controller.collaborate2View(contentCollector);
+				}
+			}
 		} else if (this.isVisible()) contentCollector.add(this);
 	}
 

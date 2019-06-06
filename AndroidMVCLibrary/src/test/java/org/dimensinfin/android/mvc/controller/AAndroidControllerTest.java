@@ -5,14 +5,16 @@ import java.util.List;
 
 import android.content.Context;
 import android.view.View;
+import androidx.annotation.NonNull;
 
+import org.dimensinfin.android.mvc.domain.IContainer;
+import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.android.mvc.render.AMVCRender;
-import org.dimensinfin.android.mvc.render.MVCRender;
+import org.dimensinfin.android.mvc.support.Container;
 import org.dimensinfin.android.mvc.support.EmptyNode;
 import org.dimensinfin.android.mvc.support.MockController;
-import org.dimensinfin.android.mvc.support.MockRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.model.Separator;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -31,26 +33,14 @@ import static org.mockito.Mockito.when;
  * @author Adam Antinoo
  */
 public class AAndroidControllerTest {
-
-	final static class MultipleModelCollaborator extends EmptyNode implements ICollaboration {
-
-		public MultipleModelCollaborator( final String name ) {
-			super(name);
-		}
-
-		@Override
-		public List<ICollaboration> collaborate2Model( final String variation ) {
-			final List<ICollaboration> data = new ArrayList<>();
-			data.add(new EmptyNode("Data 1"));
-			data.add(new EmptyNode("Data 2"));
-			return data;
-		}
-	}
-
+	private static final List<IAndroidController> data = new ArrayList<>();
 	private static ControllerFactory factory;
 	private static EmptyNode model;
 	private static MockController controller;
-	private static final List<IAndroidController> data = new ArrayList<>();
+
+	public static <T> T giveNull() {
+		return null;
+	}
 
 	@Before
 	public void setUp() {
@@ -63,9 +53,44 @@ public class AAndroidControllerTest {
 		}
 	}
 
-	@SuppressWarnings("null")
-	public static <T> T giveNull() {
-		return null;
+	@Test
+	public void collaborate2View_simple() {
+		//		final Separator model = new Separator();
+		final MockController controller = new MockController(model, factory);
+		final List<IAndroidController> collector = new ArrayList<>();
+		controller.collaborate2View(collector);
+		Assert.assertEquals("The number of elements should be 1.", 1, collector.size());
+		Assert.assertEquals("The contents should be the controller.", controller, collector.get(0));
+	}
+
+	@Test
+	public void collaborate2View_expandable() {
+		// COMPRESSED
+		final Container expandableModel = new Container();
+		expandableModel.addContent(new EmptyNode("TEST"));
+		final MockExpandableController controller = new MockExpandableController(expandableModel, factory);
+		final List<IAndroidController> collector = new ArrayList<>();
+		controller.collaborate2View(collector);
+		Assert.assertEquals("The number of elements should be 1.", 1, collector.size());
+		Assert.assertEquals("The contents should be the controller.", controller, collector.get(0));
+		// EXPANDED
+		expandableModel.expand();
+		controller.collaborate2View(collector);
+		Assert.assertEquals("The number of elements should be 2.", 2, collector.size());
+		Assert.assertEquals("The contents should be the controller.", controller, collector.get(0));
+	}
+
+	@Test
+	public void collaborate2View_container() {
+		final MockContainerModel containerModel = new MockContainerModel();
+		final MockContainerController controller = new MockContainerController(containerModel, factory);
+		final List<IAndroidController> collector = new ArrayList<>();
+		controller.collaborate2View(collector);
+		Assert.assertEquals("The number of elements should be 1.", 1, collector.size());
+		Assert.assertEquals("The contents should be the controller.", controller, collector.get(0));
+
+//		final List<IAndroidController> collector = new ArrayList<>();
+//		final Separator model = new Separator();
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -246,22 +271,89 @@ public class AAndroidControllerTest {
 		Assert.assertEquals("Check the value for the default render mode.", "TEST MODE", obtained);
 	}
 
-//	@Test
-//	public void buildRender() {
-//		final Context context = Mockito.mock(Context.class);
-//		final MVCRender coreRender = Mockito.mock(MVCRender.class);
-////		Mockito.doAnswer((call)->{
-////			return null;
-////		}).when(coreRender.createView());
-//		final IRender render = controller.buildRender(context);
-//		Assert.assertNotNull(render);
-//		Assert.assertTrue(render instanceof MockRender);
-//	}
-
 	@Test
 	public void getModelId() {
 		final int expected = model.hashCode();
 		final long obtained = controller.getModelId();
 		Assert.assertEquals("Check that the default id matches.", expected, obtained);
+	}
+
+	//	@Test
+	//	public void buildRender() {
+	//		final Context context = Mockito.mock(Context.class);
+	//		final MVCRender coreRender = Mockito.mock(MVCRender.class);
+	////		Mockito.doAnswer((call)->{
+	////			return null;
+	////		}).when(coreRender.createView());
+	//		final IRender render = controller.buildRender(context);
+	//		Assert.assertNotNull(render);
+	//		Assert.assertTrue(render instanceof MockRender);
+	//	}
+
+}
+
+final class MultipleModelCollaborator extends EmptyNode implements ICollaboration {
+
+	public MultipleModelCollaborator( final String name ) {
+		super(name);
+	}
+
+	@Override
+	public List<ICollaboration> collaborate2Model( final String variation ) {
+		final List<ICollaboration> data = new ArrayList<>();
+		data.add(new EmptyNode("Data 1"));
+		data.add(new EmptyNode("Data 2"));
+		return data;
+	}
+}
+
+final class MockExpandableController extends AAndroidController<Container> {
+
+	public MockExpandableController( @NonNull final Container model, @NonNull final IControllerFactory factory ) {
+		super(model, factory);
+	}
+
+	@Override
+	public IRender buildRender( final Context context ) {
+		return null;
+	}
+}
+
+//final class MockTestControllerFactory extends ControllerFactory {
+//
+//	public MockTestControllerFactory( final String selectedVariant ) {
+//		super(selectedVariant);
+//	}
+//
+//	@Override
+//	public IAndroidController createController( final ICollaboration node ) {
+//		if (node instanceof Separator)
+//			return new SeparatorController((Separator) node, this);
+//		return super.createController(node);
+//	}
+//}
+final class MockContainerController extends AAndroidController<MockContainerModel> {
+
+	public MockContainerController( @NonNull final MockContainerModel model, @NonNull final IControllerFactory factory ) {
+		super(model, factory);
+	}
+
+	@Override
+	public IRender buildRender( final Context context ) {
+		return null;
+	}
+}
+
+final class MockContainerModel extends Separator implements IContainer{
+	@Override
+	public List<ICollaboration> collaborate2Model( final String variant ) {
+		final List<ICollaboration> results = new ArrayList<>();
+		results.add(new Separator());
+		return results;
+	}
+
+	@Override
+	public boolean wants2Collaborate() {
+		return true;
 	}
 }
