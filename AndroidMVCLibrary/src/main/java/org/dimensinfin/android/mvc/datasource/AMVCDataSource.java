@@ -14,6 +14,7 @@ import org.dimensinfin.android.mvc.events.EventEmitter;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.model.Separator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -215,9 +216,13 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 		this.controllerDataSectionRoot.clear();
 		synchronized (this.dataModelRoot) {
 			for (ICollaboration modelNode : this.dataModelRoot) {
-				final IAndroidController newController = this.controllerFactory.createController(modelNode);
-				newController.refreshChildren();
-				this.controllerDataSectionRoot.add(newController);
+				try {
+					final IAndroidController newController = this.controllerFactory.createController(modelNode);
+					newController.refreshChildren();
+					this.controllerDataSectionRoot.add(newController);
+				} catch ( ClassCastException cce){
+					this.controllerDataSectionRoot.add(this.controllerFactory.createController(new Separator(cce.getMessage())) );
+				}
 			}
 		}
 		logger.info("<< [AMVCdataSource.refreshDataSection]> Contents: {}", this.controllerDataSectionRoot.size());
