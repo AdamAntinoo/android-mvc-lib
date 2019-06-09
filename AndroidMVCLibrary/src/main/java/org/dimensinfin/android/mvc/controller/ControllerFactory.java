@@ -1,5 +1,7 @@
 package org.dimensinfin.android.mvc.controller;
 
+import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
+import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
 import org.dimensinfin.android.mvc.support.SeparatorController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -26,10 +28,9 @@ public class ControllerFactory implements IControllerFactory {
 			return new SeparatorController((Separator) node,this)
 					.setRenderMode(this.getVariant());
 		}
-//		if (node instanceof AMVCPagerFragment.EmptyNotVisibleNode) {
-//			return new AMVCPagerFragment.EmptyAndroidController((Separator) node,this)
-//					.setRenderMode(this.getVariant());
-//		}
+		if (node instanceof MVCExceptionHandler.ExceptionModel) {
+			return new ExceptionController((MVCExceptionHandler.ExceptionModel) node,this);
+		}
 		// If no part is trapped then result a NOT FOUND mark
 		return new SeparatorController(new Separator("-NO Model-Controller match-[" + node.getClass().getSimpleName() + "]-")
 				,this);
