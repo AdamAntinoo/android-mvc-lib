@@ -67,6 +67,7 @@ public class MapContentAdapter implements PropertyChangeListener {
 		try {
 			final IRender holder = target.buildRender(context);
 //			holder.initializeViews();
+			holder.getView(); // Force view creation and initialisation.
 			holder.updateContent();
 			final View hv = holder.getView();
 			this.mapContainer.addView(hv);
