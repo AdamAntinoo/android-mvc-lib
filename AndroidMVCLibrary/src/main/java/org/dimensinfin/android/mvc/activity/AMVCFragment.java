@@ -7,9 +7,11 @@ import android.os.Looper;
 import android.view.View;
 import androidx.fragment.app.Fragment;
 
+import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
+import org.dimensinfin.android.mvc.interfaces.IRender;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -153,6 +155,13 @@ public abstract class AMVCFragment extends Fragment implements IPagerFragment {
 	 * @return the action bar view.
 	 */
 	public View generateActionBarView() {return null;}
+
+	protected View convertActionBarView( final IAndroidController controller ) {
+		final IRender holder = controller.buildRender(this.getActivityContext());
+		final View actionBarView = holder.getView();
+		holder.updateContent();
+		return actionBarView;
+	}
 
 	// - I T I T L E D F R A G M E N T   I N T E R F A C E
 

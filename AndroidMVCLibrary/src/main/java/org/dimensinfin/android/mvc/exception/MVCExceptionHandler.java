@@ -73,7 +73,7 @@ public class MVCExceptionHandler implements Thread.UncaughtExceptionHandler {
 		final String exceptionClass = exceptionToShow.getClass().getSimpleName();
 		final String exceptionMessage = exceptionToShow.getMessage();
 		final ControllerFactory factory = new ControllerFactory("EXCEPTION-VARIANT");
-		return factory.createController(new ExceptionModel(exceptionToShow));
+		return factory.createController(new ExceptionReport.Builder((Exception) exceptionToShow).build());
 	}
 
 	private void addView2Container( final IAndroidController target ) {
