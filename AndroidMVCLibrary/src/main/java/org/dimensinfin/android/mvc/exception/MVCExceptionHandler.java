@@ -48,48 +48,10 @@ public class MVCExceptionHandler implements Thread.UncaughtExceptionHandler {
 		final List<Throwable> exceptions = new ArrayList<>();
 		exceptions.add(exception);
 		this.generateExceptionViews(exceptions);
-//		this.updateViewContents();
+	}
 
-
-		//		StringWriter stackTrace = new StringWriter();
-		//		exception.printStackTrace(new PrintWriter(stackTrace));
-		//		StringBuilder errorReport = new StringBuilder();
-		//		errorReport.append("************ CAUSE OF ERROR ************\n\n");
-		//		errorReport.append(stackTrace.toString());
-		//
-		//		errorReport.append("\n************ DEVICE INFORMATION ***********\n");
-		//		errorReport.append("Brand: ");
-		//		errorReport.append(Build.BRAND);
-		//		errorReport.append(LINE_SEPARATOR);
-		//		errorReport.append("Device: ");
-		//		errorReport.append(Build.DEVICE);
-		//		errorReport.append(LINE_SEPARATOR);
-		//		errorReport.append("Model: ");
-		//		errorReport.append(Build.MODEL);
-		//		errorReport.append(LINE_SEPARATOR);
-		//		errorReport.append("Id: ");
-		//		errorReport.append(Build.ID);
-		//		errorReport.append(LINE_SEPARATOR);
-		//		errorReport.append("Product: ");
-		//		errorReport.append(Build.PRODUCT);
-		//		errorReport.append(LINE_SEPARATOR);
-		//		errorReport.append("\n************ FIRMWARE ************\n");
-		//		errorReport.append("SDK: ");
-		//		errorReport.append(Build.VERSION.SDK);
-		//		errorReport.append(LINE_SEPARATOR);
-		//		errorReport.append("Release: ");
-		//		errorReport.append(Build.VERSION.RELEASE);
-		//		errorReport.append(LINE_SEPARATOR);
-		//		errorReport.append("Incremental: ");
-		//		errorReport.append(Build.VERSION.INCREMENTAL);
-		//		errorReport.append(LINE_SEPARATOR);
-
-		//		Intent intent = new Intent(localContext, ForceCloseActivity.class);
-		//		intent.putExtra("error", errorReport.toString());
-		//		localContext.startActivity(intent);
-
-		//		android.os.Process.killProcess(android.os.Process.myPid());
-		//		System.exit(10);
+	public View getExceptionView( final Exception exception ) {
+		return this.generateRenderController(exception).buildRender(this.activity).getView();
 	}
 
 	private void initialiseViews() {
@@ -100,6 +62,11 @@ public class MVCExceptionHandler implements Thread.UncaughtExceptionHandler {
 		for (Throwable exception : exceptions) {
 			this.addView2Container(this.generateRenderController(exceptions.get(0)));
 		}
+	}
+
+	protected IAndroidController generateRenderController( final Exception exception ) {
+		final ControllerFactory factory = new ControllerFactory("EXCEPTION-VARIANT");
+		return factory.createController(new ExceptionReport.Builder(exception).build());
 	}
 
 	private IAndroidController generateRenderController( final Throwable exceptionToShow ) {
@@ -133,10 +100,10 @@ public class MVCExceptionHandler implements Thread.UncaughtExceptionHandler {
 		logger.info("<< [AMVCPagerFragment.addView2Container]");
 	}
 
-//	private void updateViewContents() {
-//		exceptionContainer.setVisibility(View.VISIBLE);
-//
-//	}
+	//	private void updateViewContents() {
+	//		exceptionContainer.setVisibility(View.VISIBLE);
+	//
+	//	}
 
 	public static class ExceptionModel implements ICollaboration {
 		private String type;

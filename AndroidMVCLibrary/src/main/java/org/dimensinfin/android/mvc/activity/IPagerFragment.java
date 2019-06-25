@@ -2,11 +2,12 @@ package org.dimensinfin.android.mvc.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.ITitledFragment;
 
-public interface IPagerFragment extends ITitledFragment {
+public interface IPagerFragment {
 	Activity getActivityContext();
 
 	AMVCFragment setActivityContext( final Activity activity );
@@ -20,4 +21,6 @@ public interface IPagerFragment extends ITitledFragment {
 	IPagerFragment setExtras( final Bundle extras );
 
 	IMenuActionTarget getListCallback();
+
+	View generateActionBarView();
 }

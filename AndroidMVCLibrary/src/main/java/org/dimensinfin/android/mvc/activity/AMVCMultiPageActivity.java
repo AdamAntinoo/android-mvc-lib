@@ -3,19 +3,21 @@ package org.dimensinfin.android.mvc.activity;
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.exception.MVCException;
 import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.viewpager.widget.ViewPager;
-import me.relex.circleindicator.CircleIndicator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import me.relex.circleindicator.CircleIndicator;
 
 /**
  * This class extends the bare android Activity. Defines the ActionBar and instantiates the layout. The generic layout
@@ -41,16 +43,14 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 	protected static Logger logger = LoggerFactory.getLogger(AMVCMultiPageActivity.class);
 
 	// - F I E L D - S E C T I O N
-	protected Bundle extras = null;
-	protected ActionBar _actionBar = null;
-	protected ViewPager _pageContainer = null;
+	protected Bundle extras;
+	protected ActionBar _actionBar;
+	protected ViewPager _pageContainer;
 	private final MVCFragmentPagerAdapter _pageAdapter = new MVCFragmentPagerAdapter(this.getSupportFragmentManager());
 
-	/**
-	 * Image reference to the background layout item that can be replaced by the application implementation.
-	 */
-	protected ImageView background = null;
-	protected CircleIndicator _indicator = null;
+	/** Image reference to the background layout item that can be replaced by the application implementation. */
+	protected ImageView background;
+	protected CircleIndicator _indicator;
 
 	// - C O N S T R U C T O R - S E C T I O N
 
@@ -76,7 +76,7 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 	public void addPage( @NonNull final IPagerFragment newFrag ) {
 		AMVCMultiPageActivity.logger.info(">> [AMVCMultiPageActivity.addPage]");
 		// Connect to the application context of not already done.
-//		newFrag.setActivityContext(this);
+		//		newFrag.setActivityContext(this);
 		// Before checking if we have already this fragment we should get its unique identifier.
 		final Fragment frag = this.getSupportFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
 		if (null == frag) {
@@ -102,7 +102,7 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 		newFrag.setActivityContext(this);
 		// Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
 		newFrag.setExtras(this.getExtras());
-//		newFrag.setVariant(this.getVariant());
+		//		newFrag.setVariant(this.getVariant());
 		// Check the number of pages to activate the indicator when more the one.
 		if (_pageAdapter.getCount() > 1) {
 			this.activateIndicator();
@@ -112,55 +112,52 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 
 	protected void activateIndicator() {
 		// If the Indicator is active then set the listener.
-		if (null != _indicator) {
-			_indicator.setVisibility(View.VISIBLE);
-			_indicator.setViewPager(_pageContainer);
-			_indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+		//		if (null != _indicator) {
+		//			_indicator.setVisibility(View.VISIBLE);
+		//			_indicator.setViewPager(_pageContainer);
+		//			_indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+		//
+		//				public void onPageScrolled( final int arg0, final float arg1, final int arg2 ) {
+		//					// Do nothing on scroll detection.
+		//				}
+		//
+		//				public void onPageScrollStateChanged( final int arg0 ) {
+		//					// Do nothing on scroll detection.
+		//				}
+		//
+		//				public void onPageSelected( final int position ) {
+		//					if (null != _actionBar) {
+		//						_actionBar.setTitle(_pageAdapter.getTitle(position));
+		//						// Clear empty subtitles.
+		//						if ("" == _pageAdapter.getSubTitle(position)) {
+		//							_actionBar.setSubtitle(null);
+		//						} else {
+		//							_actionBar.setSubtitle(_pageAdapter.getSubTitle(position));
+		//						}
+		//					}
+		//				}
+		//			});
+		//		} else {
+		_pageContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-				public void onPageScrolled( final int arg0, final float arg1, final int arg2 ) {
-					// Do nothing on scroll detection.
-				}
+			public void onPageScrolled( final int arg0, final float arg1, final int arg2 ) {}
 
-				public void onPageScrollStateChanged( final int arg0 ) {
-					// Do nothing on scroll detection.
-				}
+			public void onPageScrollStateChanged( final int arg0 ) {}
 
-				public void onPageSelected( final int position ) {
-					if (null != _actionBar) {
-						_actionBar.setTitle(_pageAdapter.getTitle(position));
-						// Clear empty subtitles.
-						if ("" == _pageAdapter.getSubTitle(position)) {
-							_actionBar.setSubtitle(null);
-						} else {
-							_actionBar.setSubtitle(_pageAdapter.getSubTitle(position));
-						}
-					}
-				}
-			});
-		} else {
-			_pageContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-				public void onPageScrolled( final int arg0, final float arg1, final int arg2 ) {
-					// Do nothing on scroll detection.
-				}
-
-				public void onPageScrollStateChanged( final int arg0 ) {
-					// Do nothing on scroll detection.
-				}
-
-				public void onPageSelected( final int position ) {
-					if (null != _actionBar) {
-						_actionBar.setTitle(_pageAdapter.getTitle(position));
-						// Clear empty subtitles.
-						if ("" == _pageAdapter.getSubTitle(position)) {
-							_actionBar.setSubtitle(null);
-						} else {
-							_actionBar.setSubtitle(_pageAdapter.getSubTitle(position));
-						}
-					}
-				}
-			});
-		}
+			public void onPageSelected( final int position ) {
+				activateActionBar(((IPagerFragment)_pageAdapter.getItem(position)).generateActionBarView());
+//				if (null != _actionBar) {
+//					_actionBar.setTitle(_pageAdapter.getTitle(position));
+//					// Clear empty subtitles.
+//					if ("" == _pageAdapter.getSubTitle(position)) {
+//						_actionBar.setSubtitle(null);
+//					} else {
+//						_actionBar.setSubtitle(_pageAdapter.getSubTitle(position));
+//					}
+//				}
+			}
+		});
+		//		}
 	}
 
 	private void disableIndicator() {
@@ -174,68 +171,103 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 	}
 
 	// - A C T I V I T Y   L I F E C Y C L E
+
+	/**
+	 * This creates the place where to render the components. During the construction it will connect the view with the adapter. Any exception durint
+	 * this state should show the exception rendering are where to render the list of exceptions detected.
+	 *
+	 * @param savedInstanceState the last saved activity state.
+	 */
 	@Override
 	protected void onCreate( final Bundle savedInstanceState ) {
-		AMVCMultiPageActivity.logger.info(">> [AMVCMultiPageActivity.onCreate]"); //$NON-NLS-1$
+		AMVCMultiPageActivity.logger.info(">> [AMVCMultiPageActivity.onCreate]");
 		super.onCreate(savedInstanceState);
-		// Install the default library exception interceptor to show lib exceptions.
 		Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this));
-		// Process the extras received by the intent so they can be shared to all the Fragments
 		try {
-			// Get the parameters and save them on local fields to be stored on destruction and passed to Fragments.
-			if (null != savedInstanceState) {
-				this.extras = savedInstanceState;
-			} else {
-				this.extras = this.getIntent().getExtras();
-			}
+			this.extractExtras(savedInstanceState);
+			this.setContentView(R.layout.activity_pager); // Set the layout to the core context
+			this.deactivateActionBar();
+			// Locate the elements of the page and store in global data.
+			_pageContainer = this.findViewById(R.id.pager);
+			background = this.findViewById(R.id.backgroundFrame);
+			_indicator = this.findViewById(R.id.indicator);
+			// Check page structure.
+			if (null == _pageContainer)
+				throw new MVCException("RTEX [AMVCMultiPageActivity.onCreate]> Expected UI element not found.");
+			if (null == background)
+				throw new MVCException("RTEX [AMVCMultiPageActivity.onCreate]> Expected UI element not found.");
+			_pageContainer.setAdapter(_pageAdapter);
+			// Cleat the indicator from the view until more than one page is added.
+			this.disableIndicator();
+		} catch (Exception ex) {
+			this.showException(ex); // Show any exception data on the empty page.
+		} finally {
+			AMVCMultiPageActivity.logger.info("<< [AMVCMultiPageActivity.onCreate]");
+		}
+	}
+
+	protected void showException( final Exception exception ) {
+		final ViewGroup exceptionContainer = this.findViewById(R.id.exceptionContainer);
+		exceptionContainer.removeAllViews();
+		exceptionContainer.addView(new MVCExceptionHandler(this).getExceptionView(exception));
+		exceptionContainer.setVisibility(View.VISIBLE);
+	}
+
+	protected void extractExtras( final Bundle savedInstanceState ) {
+		if (null != savedInstanceState) this.extras = savedInstanceState;
+		else this.extras = this.getIntent().getExtras();
+		if (null == this.extras)
+			this.extras = new Bundle(); // If the extras are not defined then create an empty container.
+	}
+
+	protected void activateActionBar( final View actionBarView ) {
+		logger.info(">> [ANeoComActivity.setupActionBar]");
+		try {
+			if (null != actionBarView) {
+				ActionBar actionbar = this.getActionBar();
+				if (null != actionbar) {
+					// Activate the custom ActionBar
+					actionbar.setDisplayShowCustomEnabled(true);
+					actionbar.setDisplayShowTitleEnabled(false);
+					this.getActionBar().setCustomView(actionBarView);
+				}
+			} else this.activateDefaultActionbar();
 		} catch (RuntimeException rtex) {
-			logger.warn("RTEX [AMVCMultiPageActivity.onCreate]> {}", rtex.getMessage());
+			logger.info("EX [ANeoComActivity.setupActionBar]> Exception changing Android ActionBar: {}. Returning to default setup.");
+			this.activateDefaultActionbar();
 		}
-		if (null == this.extras) this.extras = new Bundle(); // If the extras are not defined then create an empty container.
+		logger.info("<< [ANeoComActivity.setupActionBar]");
+	}
 
-		// TODO This section is back the core ActionBar that can be configured until a new configuration is tested.
-		// Set the layout to the core context that defines the background, the indicator and the fragment container.
-		this.setContentView(R.layout.activity_pager);
-		// Gets the context's default ActionBar
-		_actionBar = this.getActionBar();
-		_actionBar.show();
-		_actionBar.setDisplayHomeAsUpEnabled(true);
-
-		// Locate the elements of the page and store in global data.
-		_pageContainer = this.findViewById(R.id.pager);
-		background = this.findViewById(R.id.backgroundFrame);
-		_indicator = this.findViewById(R.id.indicator);
-		// Check page structure.
-		if (null == _pageContainer) {
-			throw new MVCException("RTEX [AMVCMultiPageActivity.onCreate]> Expected UI element not found.");
+	protected void deactivateActionBar() {
+		if (null != this.getActionBar()) {
+			_actionBar = this.getActionBar();
+			_actionBar.hide();
+			_actionBar.setDisplayHomeAsUpEnabled(true);
 		}
-		if (null == background) {
-			throw new MVCException("RTEX [AMVCMultiPageActivity.onCreate]> Expected UI element not found.");
-		}
+	}
 
-		// Add the adapter for the page switching.
-		//		_pageAdapter = new MVCFragmentPagerAdapter(this.getFragmentManager(), _pageContainer.getId());
-		_pageContainer.setAdapter(_pageAdapter);
-		// Cleat the indicator from the view until more than one page is added.
-		this.disableIndicator();
-		AMVCMultiPageActivity.logger.info("<< [AMVCMultiPageActivity.onCreate]"); //$NON-NLS-1$
+	protected void activateDefaultActionbar() {
+		if (null != this.getActionBar()) {
+			_actionBar = this.getActionBar();
+			_actionBar.setDisplayShowCustomEnabled(false);
+			_actionBar.setDisplayShowTitleEnabled(true);
+			_actionBar.show();
+			_actionBar.setDisplayHomeAsUpEnabled(true);
+		}
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
 		// Update the menu for the first page.
-		updateInitialTitle();
+		this.updateInitialTitle();
 	}
 
 	private void updateInitialTitle() {
-		if (null != _actionBar) {
-			Fragment firstFragment = _pageAdapter.getInitialPage();
-			// REFACTOR This IF can be removed once this code works.
-			if (firstFragment instanceof AMVCPagerFragment) {
-				_actionBar.setTitle(((AMVCFragment) firstFragment).getTitle());
-				_actionBar.setSubtitle(((AMVCFragment) firstFragment).getSubtitle());
-			}
-		}
+		Fragment firstFragment = _pageAdapter.getInitialPage();
+		// REFACTOR This IF can be removed once this code works.
+		if (firstFragment instanceof IPagerFragment) this.activateActionBar(((IPagerFragment) firstFragment).generateActionBarView());
+		else this.activateDefaultActionbar();
 	}
 }

@@ -1,21 +1,20 @@
 package org.dimensinfin.android.mvc.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
+import androidx.fragment.app.Fragment;
 
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
-import org.dimensinfin.android.mvc.interfaces.ITitledFragment;
 
-import androidx.fragment.app.Fragment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AMVCFragment extends Fragment implements ITitledFragment, IPagerFragment {
+public abstract class AMVCFragment extends Fragment implements IPagerFragment {
 	protected static Logger logger = LoggerFactory.getLogger(AMVCFragment.class);
 	/**
 	 * Task handler to manage execution of code that should be done on the main loop thread.
@@ -147,21 +146,29 @@ public abstract class AMVCFragment extends Fragment implements ITitledFragment, 
 	 */
 	public abstract IDataSource createDS();
 
+	/**
+	 * This method generates a view through a model and a controller for a component to be used as an ActionBar.
+	 * By default a <code>null</code> will use the standard style or manifest title definition.
+	 *
+	 * @return the action bar view.
+	 */
+	public View generateActionBarView() {return null;}
+
 	// - I T I T L E D F R A G M E N T   I N T E R F A C E
 
-	/**
-	 * Gets the text to set set at the subtitle slot on the <b>ActionBar</b>. This should be implemented by each new
-	 * Fragment.
-	 *
-	 * @return subtitle string.
-	 */
-	public abstract String getSubtitle();
-
-	/**
-	 * Gets the text to set set at the title slot on the <b>ActionBar</b>. This should be implemented by each new
-	 * Fragment.
-	 *
-	 * @return title string.
-	 */
-	public abstract String getTitle();
+	//	/**
+	//	 * Gets the text to set set at the subtitle slot on the <b>ActionBar</b>. This should be implemented by each new
+	//	 * Fragment.
+	//	 *
+	//	 * @return subtitle string.
+	//	 */
+	//	public abstract String getSubtitle();
+	//
+	//	/**
+	//	 * Gets the text to set set at the title slot on the <b>ActionBar</b>. This should be implemented by each new
+	//	 * Fragment.
+	//	 *
+	//	 * @return title string.
+	//	 */
+	//	public abstract String getTitle();
 }
