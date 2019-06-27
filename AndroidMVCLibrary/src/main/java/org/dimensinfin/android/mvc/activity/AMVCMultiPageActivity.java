@@ -112,9 +112,9 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 
 	protected void activateIndicator() {
 		// If the Indicator is active then set the listener.
-		//		if (null != _indicator) {
-		//			_indicator.setVisibility(View.VISIBLE);
-		//			_indicator.setViewPager(_pageContainer);
+				if (null != _indicator) {
+					_indicator.setVisibility(View.VISIBLE);
+					_indicator.setViewPager(_pageContainer);
 		//			_indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 		//
 		//				public void onPageScrolled( final int arg0, final float arg1, final int arg2 ) {
@@ -135,7 +135,7 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 		//							_actionBar.setSubtitle(_pageAdapter.getSubTitle(position));
 		//						}
 		//					}
-		//				}
+						}
 		//			});
 		//		} else {
 		_pageContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
