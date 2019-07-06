@@ -1,13 +1,14 @@
 package org.dimensinfin.android.mvc.controller;
 
-import org.dimensinfin.android.mvc.events.EventEmitter;
-import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
-import org.dimensinfin.core.interfaces.ICollaboration;
-
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+
+import org.dimensinfin.android.mvc.events.EventEmitter;
+import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
+import org.dimensinfin.core.interfaces.ICollaboration;
 
 /**
  * Delegate to be used on the controllers to isolate from the model class to be used on the controller. With this
@@ -41,6 +42,11 @@ public class ControllerAdapter<M extends ICollaboration> implements /*IModelCont
 
 	@Override
 	public boolean sendChangeEvent(final String eventName) {
+		return eventController.sendChangeEvent(eventName);
+	}
+
+	@Override
+	public boolean sendChangeEvent( final PropertyChangeEvent eventName ) {
 		return eventController.sendChangeEvent(eventName);
 	}
 

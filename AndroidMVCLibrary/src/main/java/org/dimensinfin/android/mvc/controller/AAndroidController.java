@@ -1,5 +1,6 @@
 package org.dimensinfin.android.mvc.controller;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,12 +42,12 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	protected static final Logger logger = LoggerFactory.getLogger(AAndroidController.class);
 
 	// - F I E L D - S E C T I O N
+	/** This field caches the factory that is set during the construction. */
+	private final IControllerFactory factory;
 	/** Place to store the model handler delegate so the model class is automatically casted. */
 	private ControllerAdapter<M> delegatedController;
 	/** List of children of the hierarchy. */
 	private List<IAndroidController> children = new ArrayList<>();
-	/** This field caches the factory that is set during the construction. */
-	private final IControllerFactory factory;
 	private boolean orderedActive = false; // If the contents should be returned ordered or not
 
 	private String renderMode = "-DEFAULT-"; // Holds the type of the render to be used on this instance.
@@ -71,25 +72,14 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		return this.delegatedController.getModel();
 	}
 
-	/**
-	 * The factory is set on all the Controllers during the creation time by the factory itself. This allows to construct
-	 * any Model supported by the factory from any Controller created by that Factory.
-	 */
-	public IControllerFactory getControllerFactory() {
-		return this.factory;
+	@Override
+	public View getViewCache() {
+		return viewCache;
 	}
 
-	public List<IAndroidController> getChildren() {
-		if (children == null) this.children = new ArrayList<>(2);
-		return children;
-	}
-
-	public String getRenderMode() {
-		return renderMode;
-	}
-
-	public AAndroidController setRenderMode( final String renderMode ) {
-		this.renderMode = renderMode;
+	@Override
+	public AAndroidController setViewCache( final View viewCache ) {
+		this.viewCache = viewCache;
 		return this;
 	}
 
@@ -103,42 +93,14 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		return this;
 	}
 
-	@Override
-	public View getViewCache() {
-		return viewCache;
+	public String getRenderMode() {
+		return renderMode;
 	}
 
-	@Override
-	public AAndroidController setViewCache( final View viewCache ) {
-		this.viewCache = viewCache;
+	public AAndroidController setRenderMode( final String renderMode ) {
+		this.renderMode = renderMode;
 		return this;
 	}
-
-	// - D E L E G A T E S - C H I L D R E N
-	public void addChild( final IAndroidController child ) {
-		this.getChildren().add(child);
-	}
-
-	public void addChildren( final List<IAndroidController> modelList ) {
-		for (IAndroidController node : modelList)
-			this.addChild(node);
-	}
-
-	public void clean() {
-		this.getChildren().clear();
-	}
-
-	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
-
-	/**
-	 * This is the call that should create and inflate the render UI view. During all other processes the Context is not
-	 * needed not used but this is the right moment to get to the Android system and instantiate a new UI element. The
-	 * Context can be discarded after this moment since the view is going to be cached and if needed to be constructed
-	 * again this call will be issued another time.
-	 *
-	 * @param context the Activity UI context to use to locate the inflater and do the action.
-	 */
-	public abstract IRender buildRender( final Context context );
 
 	/**
 	 * Optimized process to generate the list of Controllers that should end on the render graphical process. While we are
@@ -174,7 +136,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 				}
 		} else if (this instanceof IContainer) {
 			if (this.isVisible()) contentCollector.add(this);
-			if ( ((IContainer)this).wants2Collaborate()){
+			if (((IContainer) this).wants2Collaborate()) {
 				List<IAndroidController> ch = this.orderingFeature(this.getChildren());
 				for (IAndroidController controller : ch) {
 					controller.collaborate2View(contentCollector);
@@ -194,14 +156,6 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		return childrenList;
 	}
 
-	@Override
-	public int compareTo( @NonNull final Object target ) {
-		if (target instanceof IAndroidController) {
-			final IAndroidController castedTarget = (IAndroidController) target;
-			return this.getModel().compareTo(castedTarget.getModel());
-		} else return -1;
-	}
-
 	/**
 	 * This is the ain switch to be implemented on each controller to decide if the node and its contents are visible at a
 	 * determinate point in time. It can happen that a node will have to be rendered on a particular time but should not
@@ -214,55 +168,6 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	@Override
 	public boolean isVisible() {
 		return true;
-	}
-
-	/**
-	 * The model identifier can be implemented by default by getting the hashcode for the model or if the model implements the
-	 * additional interface to provide a unique adapter identifier then the implementation may call that additional method.
-	 */
-	public long getModelId() {
-		if (this.getModel() instanceof IUniqueModel)
-			return ((IUniqueModel) this.getModel()).getUniqueModelIdentifier();
-		return this.getModel().hashCode();
-	}
-
-	// - I E V E N T E M I T T E R   I N T E R F A C E
-
-	/**
-	 * Add a new listener to the list of listeners on the delegated listen and event processing node.
-	 *
-	 * @param listener the new listener to connect to this instance messages.
-	 */
-	@Override
-	public void addPropertyChangeListener( final PropertyChangeListener listener ) {
-		this.eventController.addPropertyChangeListener(listener);
-	}
-
-	@Override
-	public boolean sendChangeEvent( final String eventName ) {
-		this.eventController.sendChangeEvent(eventName);
-		return true;
-	}
-
-	@Override
-	public void removePropertyChangeListener( final PropertyChangeListener listener ) {
-		this.eventController.removePropertyChangeListener(listener);
-	}
-
-	protected void notifyDataModelChange() {
-		this.viewCache = null; // Clean the view cache to force recreation.
-		this.sendChangeEvent(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name());
-	}
-
-	protected void notifyDataModelChange( final EEvents event ) {
-		this.viewCache = null; // Clean the view cache to force recreation.
-		this.sendChangeEvent(event.name());
-	}
-
-	// - M E T H O D - S E C T I O N
-	protected void invalidate() {
-		this.setViewCache(null);
-		this.notifyDataModelChange();
 	}
 
 	/**
@@ -287,11 +192,11 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	 * Page.
 	 */
 	public void refreshChildren() {
-//		logger.info(">> [AAndroidController.refreshChildren]");
+		//		logger.info(">> [AAndroidController.refreshChildren]");
 		// Get the new list of children for this model node. Use the Variant for generation discrimination.
 		final List<ICollaboration> firstLevelNodes = this.getModel().collaborate2Model(this.getControllerFactory().getVariant());
 		if (firstLevelNodes.isEmpty()) return;
-//		logger.info("-- [AAndroidController.refreshChildren]> firstLevelNodes count: {}", firstLevelNodes.size());
+		//		logger.info("-- [AAndroidController.refreshChildren]> firstLevelNodes count: {}", firstLevelNodes.size());
 		// Create the model-controller current map to check the elements missing.
 		final HashMap<ICollaboration, IAndroidController> currentMap = new HashMap<>(firstLevelNodes.size());
 		for (IAndroidController<M> control : this.getChildren()) {
@@ -317,6 +222,108 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		// Replace the new children list.
 		this.clean();
 		this.addChildren(newChildrenList);
-//		logger.info("<< [AAndroidController.refreshChildren]> Content size: {}", this.getChildren().size());
+		//		logger.info("<< [AAndroidController.refreshChildren]> Content size: {}", this.getChildren().size());
+	}
+
+	/**
+	 * The model identifier can be implemented by default by getting the hashcode for the model or if the model implements the
+	 * additional interface to provide a unique adapter identifier then the implementation may call that additional method.
+	 */
+	public long getModelId() {
+		if (this.getModel() instanceof IUniqueModel)
+			return ((IUniqueModel) this.getModel()).getUniqueModelIdentifier();
+		return this.getModel().hashCode();
+	}
+
+	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
+
+	/**
+	 * This is the call that should create and inflate the render UI view. During all other processes the Context is not
+	 * needed not used but this is the right moment to get to the Android system and instantiate a new UI element. The
+	 * Context can be discarded after this moment since the view is going to be cached and if needed to be constructed
+	 * again this call will be issued another time.
+	 *
+	 * @param context the Activity UI context to use to locate the inflater and do the action.
+	 */
+	public abstract IRender buildRender( final Context context );
+
+	/**
+	 * The factory is set on all the Controllers during the creation time by the factory itself. This allows to construct
+	 * any Model supported by the factory from any Controller created by that Factory.
+	 */
+	public IControllerFactory getControllerFactory() {
+		return this.factory;
+	}
+
+	public List<IAndroidController> getChildren() {
+		if (children == null) this.children = new ArrayList<>(2);
+		return children;
+	}
+
+	// - D E L E G A T E S - C H I L D R E N
+	public void addChild( final IAndroidController child ) {
+		this.getChildren().add(child);
+	}
+
+	public void addChildren( final List<IAndroidController> modelList ) {
+		for (IAndroidController node : modelList)
+			this.addChild(node);
+	}
+
+	public void clean() {
+		this.getChildren().clear();
+	}
+
+	// - I E V E N T E M I T T E R   I N T E R F A C E
+
+	@Override
+	public int compareTo( @NonNull final Object target ) {
+		if (target instanceof IAndroidController) {
+			final IAndroidController castedTarget = (IAndroidController) target;
+			return this.getModel().compareTo(castedTarget.getModel());
+		} else return -1;
+	}
+
+	/**
+	 * Add a new listener to the list of listeners on the delegated listen and event processing node.
+	 *
+	 * @param listener the new listener to connect to this instance messages.
+	 */
+	@Override
+	public void addPropertyChangeListener( final PropertyChangeListener listener ) {
+		this.eventController.addPropertyChangeListener(listener);
+	}
+
+	@Override
+	public void removePropertyChangeListener( final PropertyChangeListener listener ) {
+		this.eventController.removePropertyChangeListener(listener);
+	}
+
+	@Override
+	public boolean sendChangeEvent( final String eventName ) {
+		this.eventController.sendChangeEvent(eventName);
+		return true;
+	}
+
+	@Override
+	public boolean sendChangeEvent( final PropertyChangeEvent event ) {
+		this.eventController.sendChangeEvent(event);
+		return true;
+	}
+
+	protected void notifyDataModelChange() {
+		this.viewCache = null; // Clean the view cache to force recreation.
+		this.sendChangeEvent(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name());
+	}
+
+	protected void notifyDataModelChange( final EEvents event ) {
+		this.viewCache = null; // Clean the view cache to force recreation.
+		this.sendChangeEvent(event.name());
+	}
+
+	// - M E T H O D - S E C T I O N
+	protected void invalidate() {
+		this.setViewCache(null);
+		this.notifyDataModelChange();
 	}
 }

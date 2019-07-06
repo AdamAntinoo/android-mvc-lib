@@ -1,5 +1,6 @@
 package org.dimensinfin.android.mvc.interfaces;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
@@ -10,4 +11,12 @@ public interface IEventEmitter {
 	void addPropertyChangeListener(final PropertyChangeListener listener);
 	void removePropertyChangeListener(final PropertyChangeListener listener);
 	boolean sendChangeEvent(final String eventName);
+	boolean sendChangeEvent(final PropertyChangeEvent eventName);
+//	void addEventListener( final IEventReceiver listener );
+//
+//	void removeEventListener( final IEventReceiver listener );
+//
+//	boolean sendChangeEvent( final String eventName );
+
+//	boolean sendChangeEvent( final NeoComEvent eventName );
 }

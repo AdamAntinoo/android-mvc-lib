@@ -274,6 +274,10 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 		this.eventController.sendChangeEvent(eventName);
 		return true;
 	}
+	public boolean sendChangeEvent( final PropertyChangeEvent event ) {
+		this.eventController.sendChangeEvent(event);
+		return true;
+	}
 
 	@Override
 	public void removePropertyChangeListener( final PropertyChangeListener listener ) {
@@ -324,8 +328,11 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 			this.sendChangeEvent(event.getPropertyName());
 			return;
 		}
-
-		// If the event is not processed pass it up the chain.
+		if (event.getPropertyName().equalsIgnoreCase("EVENT_REFRESHDATA")) {
+			logger.info(">< [AMVCDataSource.propertyChange]> Event: {} processed.", event.getPropertyName());
+			this.sendChangeEvent(event.getPropertyName());
+			return;
+		}
 		this.sendChangeEvent(event.getPropertyName()); // Pass the event to the Adapter
 	}
 

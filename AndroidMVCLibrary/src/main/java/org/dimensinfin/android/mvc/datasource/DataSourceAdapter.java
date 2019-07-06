@@ -79,7 +79,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	public DataSourceAdapter( @NonNull final IPagerFragment fragment, @NonNull final IDataSource datasource ) {
 		this.context = fragment.getActivityContext();
 		this.datasource = datasource;
-		this.datasource.addPropertyChangeListener(this); // Connect the listener to the data source events.
+		this.datasource.addPropertyChangeListener(this); // Connect the Adapter to the DataSource
 	}
 
 	// - M E T H O D - S E C T I O N
@@ -177,8 +177,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 				convertView.setClickable(true);
 				convertView.setOnLongClickListener((OnLongClickListener) item);
 			}
-			// REFACTOR Add the DataSource as an event listener because that feature does not depend on the interfaces.
-			item.addPropertyChangeListener(datasource);
+			item.addPropertyChangeListener(datasource); // Add the DataSource as an event listener for the Controllers.
 			if (LOG_ALLOWED) {
 				// Filter out the spinner.
 				if (!exitMessage.contains("OnLoadSpinnerController")) {
