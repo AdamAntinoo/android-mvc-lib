@@ -41,17 +41,7 @@ public class MVCFragmentPagerAdapter extends FragmentPagerAdapter {
 		return (Fragment) _fragments.get(position);
 	}
 
-	//	// - I T I T L E D F R A G M E N T   I N T E R F A C E
-	//	public String getSubTitle(final int position) {
-	//		return ((AMVCFragment) this.getItem(position)).getSubtitle();
-	//	}
-	//
-//	public String getTitle( final int position ) {
-//		return ((AMVCFragment) this.getItem(position)).getTitle();
-//	}
-
 	// - M E T H O D - S E C T I O N
-
 	/**
 	 * Add a new fragment at the end of the list of already managed fragments. After the addition we notify the Adapter
 	 * that the source data has changed so it can update any UI element affected by this change like the indicator is the
@@ -86,6 +76,4 @@ public class MVCFragmentPagerAdapter extends FragmentPagerAdapter {
 	public Fragment getInitialPage() {
 		return this.getItem(0);
 	}
-
-
 }

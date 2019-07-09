@@ -3,6 +3,7 @@ package org.dimensinfin.android.mvc.activity;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.ContextMenu;
@@ -15,6 +16,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AAndroidController;
@@ -89,7 +92,7 @@ public abstract class AMVCPagerFragment extends AMVCFragment {
 	public View onCreateView( final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState ) {
 		logger.info(">> [AMVCPagerFragment.onCreateView]");
 		// Install the default library exception interceptor to show lib exceptions.
-		Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this.getActivity()));
+//		Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this.getActivity()));
 		super.onCreateView(inflater, container, savedInstanceState);
 		// TODO analyze what is returned by the savedInstanceState when recovering the application. That will help to recover the
 		// functional state of the application.
@@ -130,6 +133,12 @@ public abstract class AMVCPagerFragment extends AMVCFragment {
 		}
 		logger.info("<< [AMVCPagerFragment.onCreateView]");
 		return _container;
+	}
+
+	@Nullable
+	@Override
+	public Context getContext() {
+		return this.getActivityContext();
 	}
 
 	protected void showException( final Exception exception ) {

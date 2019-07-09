@@ -41,13 +41,11 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 	}
 
 	protected static Logger logger = LoggerFactory.getLogger(AMVCMultiPageActivity.class);
-
+	private final MVCFragmentPagerAdapter _pageAdapter = new MVCFragmentPagerAdapter(this.getSupportFragmentManager());
 	// - F I E L D - S E C T I O N
 	protected Bundle extras;
 	protected ActionBar _actionBar;
 	protected ViewPager _pageContainer;
-	private final MVCFragmentPagerAdapter _pageAdapter = new MVCFragmentPagerAdapter(this.getSupportFragmentManager());
-
 	/** Image reference to the background layout item that can be replaced by the application implementation. */
 	protected ImageView background;
 	protected CircleIndicator _indicator;
@@ -75,8 +73,6 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 	 */
 	public void addPage( @NonNull final IPagerFragment newFrag ) {
 		AMVCMultiPageActivity.logger.info(">> [AMVCMultiPageActivity.addPage]");
-		// Connect to the application context of not already done.
-		//		newFrag.setActivityContext(this);
 		// Before checking if we have already this fragment we should get its unique identifier.
 		final Fragment frag = this.getSupportFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
 		if (null == frag) {
@@ -88,7 +84,7 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 			if (frag instanceof AMVCPagerFragment) {
 				AMVCMultiPageActivity.logger.info("-- [AMVCMultiPageActivity.addPage]> Reusing available fragment. {}"
 						, _pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
-				// Reuse a previous created Fragment. Copy all fields accesible.
+				// Reuse a previous created Fragment. Copy all fields accessible.
 				((AMVCFragment) frag)
 						.setVariant(newFrag.getVariant())
 						.setExtras(newFrag.getExtras())
@@ -102,62 +98,35 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 		newFrag.setActivityContext(this);
 		// Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
 		newFrag.setExtras(this.getExtras());
-		//		newFrag.setVariant(this.getVariant());
 		// Check the number of pages to activate the indicator when more the one.
 		if (_pageAdapter.getCount() > 1) {
 			this.activateIndicator();
 		}
+		((Fragment)newFrag).onAttach(this);
 		AMVCMultiPageActivity.logger.info("<< [AMVCMultiPageActivity.addPage]"); //$NON-NLS-1$
+	}
+
+	@Override
+	public void onAttachFragment( final Fragment fragment ) {
+		super.onAttachFragment(fragment);
 	}
 
 	protected void activateIndicator() {
 		// If the Indicator is active then set the listener.
-				if (null != _indicator) {
-					_indicator.setVisibility(View.VISIBLE);
-					_indicator.setViewPager(_pageContainer);
-		//			_indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-		//
-		//				public void onPageScrolled( final int arg0, final float arg1, final int arg2 ) {
-		//					// Do nothing on scroll detection.
-		//				}
-		//
-		//				public void onPageScrollStateChanged( final int arg0 ) {
-		//					// Do nothing on scroll detection.
-		//				}
-		//
-		//				public void onPageSelected( final int position ) {
-		//					if (null != _actionBar) {
-		//						_actionBar.setTitle(_pageAdapter.getTitle(position));
-		//						// Clear empty subtitles.
-		//						if ("" == _pageAdapter.getSubTitle(position)) {
-		//							_actionBar.setSubtitle(null);
-		//						} else {
-		//							_actionBar.setSubtitle(_pageAdapter.getSubTitle(position));
-		//						}
-		//					}
-						}
-		//			});
-		//		} else {
+		if (null != _indicator) {
+			_indicator.setVisibility(View.VISIBLE);
+			_indicator.setViewPager(_pageContainer);
+		}
 		_pageContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
 			public void onPageScrolled( final int arg0, final float arg1, final int arg2 ) {}
 
-			public void onPageScrollStateChanged( final int arg0 ) {}
-
 			public void onPageSelected( final int position ) {
-				activateActionBar(((IPagerFragment)_pageAdapter.getItem(position)).generateActionBarView());
-//				if (null != _actionBar) {
-//					_actionBar.setTitle(_pageAdapter.getTitle(position));
-//					// Clear empty subtitles.
-//					if ("" == _pageAdapter.getSubTitle(position)) {
-//						_actionBar.setSubtitle(null);
-//					} else {
-//						_actionBar.setSubtitle(_pageAdapter.getSubTitle(position));
-//					}
-//				}
+				activateActionBar(((IPagerFragment) _pageAdapter.getItem(position)).generateActionBarView());
 			}
+
+			public void onPageScrollStateChanged( final int arg0 ) {}
 		});
-		//		}
 	}
 
 	private void disableIndicator() {
@@ -182,7 +151,7 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 	protected void onCreate( final Bundle savedInstanceState ) {
 		AMVCMultiPageActivity.logger.info(">> [AMVCMultiPageActivity.onCreate]");
 		super.onCreate(savedInstanceState);
-		Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this));
+//		Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this));
 		try {
 			this.extractExtras(savedInstanceState);
 			this.setContentView(R.layout.activity_pager); // Set the layout to the core context
@@ -204,6 +173,13 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 		} finally {
 			AMVCMultiPageActivity.logger.info("<< [AMVCMultiPageActivity.onCreate]");
 		}
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		// Update the menu for the first page.
+		this.updateInitialTitle();
 	}
 
 	protected void showException( final Exception exception ) {
@@ -230,6 +206,7 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 					actionbar.setDisplayShowCustomEnabled(true);
 					actionbar.setDisplayShowTitleEnabled(false);
 					this.getActionBar().setCustomView(actionBarView);
+					this.getActionBar().show();
 				}
 			} else this.activateDefaultActionbar();
 		} catch (RuntimeException rtex) {
@@ -257,17 +234,11 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 		}
 	}
 
-	@Override
-	protected void onStart() {
-		super.onStart();
-		// Update the menu for the first page.
-		this.updateInitialTitle();
-	}
-
 	private void updateInitialTitle() {
 		Fragment firstFragment = _pageAdapter.getInitialPage();
 		// REFACTOR This IF can be removed once this code works.
-		if (firstFragment instanceof IPagerFragment) this.activateActionBar(((IPagerFragment) firstFragment).generateActionBarView());
+		if (firstFragment instanceof IPagerFragment)
+			this.activateActionBar(((IPagerFragment) firstFragment).generateActionBarView());
 		else this.activateDefaultActionbar();
 	}
 }
