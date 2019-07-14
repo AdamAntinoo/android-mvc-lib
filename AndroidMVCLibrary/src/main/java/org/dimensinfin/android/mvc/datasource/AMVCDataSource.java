@@ -1,11 +1,5 @@
 package org.dimensinfin.android.mvc.datasource;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import android.os.Bundle;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
@@ -15,9 +9,14 @@ import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.model.Separator;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * This class is the abstract implementation for a source of the model elements that should be rendered on an special
@@ -204,6 +203,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 		synchronized (this.headerModelRoot) {
 			for (ICollaboration modelNode : this.headerModelRoot) {
 				final IAndroidController newController = this.controllerFactory.createController(modelNode);
+				newController.setDataSource(this); // Connect the controller to the originator data source
 				newController.refreshChildren();
 				this.controllerHeaderSectionRoot.add(newController);
 			}
@@ -218,10 +218,11 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 			for (ICollaboration modelNode : this.dataModelRoot) {
 				try {
 					final IAndroidController newController = this.controllerFactory.createController(modelNode);
+					newController.setDataSource(this); // Connect the controller to the originator data source
 					newController.refreshChildren();
 					this.controllerDataSectionRoot.add(newController);
-				} catch ( ClassCastException cce){
-					this.controllerDataSectionRoot.add(this.controllerFactory.createController(new Separator(cce.getMessage())) );
+				} catch (ClassCastException cce) {
+					this.controllerDataSectionRoot.add(this.controllerFactory.createController(new Separator(cce.getMessage())));
 				}
 			}
 		}
@@ -251,7 +252,6 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	public IDataSource addHeaderContents( final ICollaboration newModel ) {
 		logger.info(">< [AMVCDataSource.addHeaderContents]> Adding model: {}", newModel.getClass().getSimpleName());
 		this.headerModelRoot.add(newModel);
-		//		this.controllerHeaderSectionRoot.add(this.controllerFactory.createController(newModel));
 		return this;
 	}
 
@@ -274,6 +274,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 		this.eventController.sendChangeEvent(eventName);
 		return true;
 	}
+
 	public boolean sendChangeEvent( final PropertyChangeEvent event ) {
 		this.eventController.sendChangeEvent(event);
 		return true;
@@ -322,8 +323,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 		logger.info(">< [AMVCDataSource.propertyChange]> Processing Event: {}", event.getPropertyName());
 		// - C O N T E N T   E V E N T S
 		// The expand/collapse state has changed.
-		if (EEvents.valueOf(event.getPropertyName()) ==
-				    EEvents.EVENTCONTENTS_ACTIONMODIFYDATA) {
+		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name())) {
 			logger.info(">< [AMVCDataSource.propertyChange]> Event: {} processed.", event.getPropertyName());
 			this.sendChangeEvent(event.getPropertyName());
 			return;
@@ -340,11 +340,11 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	@Override
 	public String toString() {
 		return "AMVCDataSource{" +
-				       "locator=" + locator +
-				       ", variant='" + variant + '\'' +
-				       ", shouldBeCached=" + shouldBeCached +
-				       ", dirty=" + dirty +
-				       '}';
+				"locator=" + locator +
+				", variant='" + variant + '\'' +
+				", shouldBeCached=" + shouldBeCached +
+				", dirty=" + dirty +
+				'}';
 	}
 
 	// - B U I L D E R

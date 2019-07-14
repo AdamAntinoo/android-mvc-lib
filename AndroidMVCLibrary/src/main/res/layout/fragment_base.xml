@@ -30,5 +30,12 @@
         android:layout_gravity="top"
         android:dividerHeight="1dp"
         android:visibility="gone" />
+    <LinearLayout
+        android:id="@+id/exceptionContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+    </LinearLayout>
 
 </LinearLayout>

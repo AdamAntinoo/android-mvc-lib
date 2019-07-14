@@ -1,17 +1,11 @@
 package org.dimensinfin.android.mvc.controller;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-
 import android.content.Context;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 
+import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.domain.IContainer;
 import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.events.EventEmitter;
@@ -21,9 +15,16 @@ import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.interfaces.IUniqueModel;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * This class will implement the core Android interaction controller on the classic pattern Model-View-Controller
@@ -53,8 +54,9 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	private String renderMode = "-DEFAULT-"; // Holds the type of the render to be used on this instance.
 	private View viewCache; // Caches the render generated view used to the Adapter so it can be reused multiple times.
 	private IEventEmitter eventController = new EventEmitter();
+	private IDataSource dataSource;
 
-	// - C O N S T R U C T O R - S E C T I O N
+	// - C O N S T R U C T O R S
 	private AAndroidController( @NonNull final ControllerAdapter<M> delegate, @NonNull final IControllerFactory factory ) {
 		Objects.requireNonNull(delegate);
 		Objects.requireNonNull(factory);
@@ -99,6 +101,15 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 
 	public AAndroidController setRenderMode( final String renderMode ) {
 		this.renderMode = renderMode;
+		return this;
+	}
+
+	public IDataSource getDataSource() {
+		return this.dataSource;
+	}
+
+	public AAndroidController setDataSource( final IDataSource dataSource ) {
+		this.dataSource = dataSource;
 		return this;
 	}
 

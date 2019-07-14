@@ -1,12 +1,13 @@
 package org.dimensinfin.android.mvc.controller;
 
-import java.util.List;
-
 import android.content.Context;
 import android.view.View;
 
+import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
 import org.dimensinfin.android.mvc.interfaces.IRender;
+
+import java.util.List;
 
 public interface IAndroidController<M> extends IEventEmitter, Comparable {
 	M getModel();
@@ -33,6 +34,9 @@ public interface IAndroidController<M> extends IEventEmitter, Comparable {
 
 	long getModelId();
 
+	IAndroidController setDataSource( IDataSource amvcDataSource );
+
 	// - A B S T R A C T
 	IRender buildRender( final Context context );
+
 }
