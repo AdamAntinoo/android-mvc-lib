@@ -393,11 +393,6 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 			return this.actualClassBuilder;
 		}
 
-		public B withCacheStatus( final boolean cacheStatus ) {
-			this.actualClass.shouldBeCached(cacheStatus);
-			return this.actualClassBuilder;
-		}
-
 		public T build() {
 			// Register the identifier and create the data source.
 			this.actualClass.locator = this.identifier;
