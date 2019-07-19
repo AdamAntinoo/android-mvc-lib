@@ -3,7 +3,7 @@
              android:id="@+id/activityContainer"
              android:layout_width="fill_parent"
              android:layout_height="fill_parent"
-             android:background="@color/appblack">
+             android:background="@drawable/barren_planet">
 
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	              android:id="@+id/headerContainer"

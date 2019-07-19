@@ -349,7 +349,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 
 	// - B U I L D E R
 	protected static abstract class BaseBuilder<T extends AMVCDataSource, B extends BaseBuilder> {
-		protected T actualClass;
+//		protected T actualClass;
 		protected B actualClassBuilder;
 		private final DataSourceLocator identifier;
 
@@ -359,7 +359,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 
 		public BaseBuilder() {
 			this.identifier = new DataSourceLocator();
-			this.actualClass = getActual();
+//			this.actualClass = this.getActual();
 			this.actualClassBuilder = getActualBuilder();
 		}
 
@@ -379,27 +379,27 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 		}
 
 		public B withFactory( final IControllerFactory factory ) {
-			if (null != factory) this.actualClass.controllerFactory = factory;
+			if (null != factory) this.getActual().controllerFactory = factory;
 			return this.actualClassBuilder;
 		}
 
 		public B withVariant( final String variant ) {
-			if (null != variant) this.actualClass.setVariant(variant);
+			if (null != variant) this.getActual().setVariant(variant);
 			return this.actualClassBuilder;
 		}
 
 		public B withExtras( final Bundle extras ) {
-			if (null != extras) this.actualClass.setExtras(extras);
+			if (null != extras) this.getActual().setExtras(extras);
 			return this.actualClassBuilder;
 		}
 
 		public T build() {
 			// Register the identifier and create the data source.
-			this.actualClass.locator = this.identifier;
+			this.getActual().locator = this.identifier;
 			// Do any other validations. If failed then launch an exception.
-			Objects.requireNonNull(this.actualClass.locator);
-			Objects.requireNonNull(this.actualClass.controllerFactory);
-			return actualClass;
+			Objects.requireNonNull(this.getActual().locator);
+			Objects.requireNonNull(this.getActual().controllerFactory);
+			return this.getActual();
 		}
 	}
 }

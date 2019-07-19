@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -13,7 +14,6 @@ import androidx.viewpager.widget.ViewPager;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.exception.MVCException;
 import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,6 +51,11 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 	protected CircleIndicator _indicator;
 
 	// - C O N S T R U C T O R - S E C T I O N
+
+	// - A C C E P T A N C E
+	public MVCFragmentPagerAdapter accessPageAdapter() {
+		return this._pageAdapter;
+	}
 
 	// - M E T H O D - S E C T I O N
 
@@ -102,7 +107,7 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 		if (_pageAdapter.getCount() > 1) {
 			this.activateIndicator();
 		}
-		((Fragment)newFrag).onAttach(this);
+		((Fragment) newFrag).onAttach(this);
 		AMVCMultiPageActivity.logger.info("<< [AMVCMultiPageActivity.addPage]"); //$NON-NLS-1$
 	}
 

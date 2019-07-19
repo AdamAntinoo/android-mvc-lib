@@ -1,8 +1,5 @@
 package org.dimensinfin.android.mvc.activity;
 
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -30,9 +27,11 @@ import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
 import org.dimensinfin.android.mvc.exception.ToastExceptionHandler;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormatterBuilder;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Adam Antinoo
@@ -68,6 +67,10 @@ public abstract class AMVCPagerFragment extends AMVCFragment {
 	 */
 	private TextView _progressElapsedCounter;
 
+	// - A C C E P T A N C E
+	public ViewGroup accessHeaderContainer() {
+		return this._headerContainer;
+	}
 	// - F R A G M E N T   L I F E C Y C L E
 
 	/**
