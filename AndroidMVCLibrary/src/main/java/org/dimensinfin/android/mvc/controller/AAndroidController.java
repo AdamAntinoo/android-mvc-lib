@@ -87,7 +87,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 
 	@Override
 	public boolean isOrderedActive() {
-		return orderedActive;
+		return this.orderedActive;
 	}
 
 	public AAndroidController setOrderedActive( final boolean orderedActive ) {

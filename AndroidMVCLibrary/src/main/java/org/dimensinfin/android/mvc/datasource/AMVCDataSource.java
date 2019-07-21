@@ -349,7 +349,6 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 
 	// - B U I L D E R
 	protected static abstract class BaseBuilder<T extends AMVCDataSource, B extends BaseBuilder> {
-//		protected T actualClass;
 		protected B actualClassBuilder;
 		private final DataSourceLocator identifier;
 
@@ -359,7 +358,6 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 
 		public BaseBuilder() {
 			this.identifier = new DataSourceLocator();
-//			this.actualClass = this.getActual();
 			this.actualClassBuilder = getActualBuilder();
 		}
 

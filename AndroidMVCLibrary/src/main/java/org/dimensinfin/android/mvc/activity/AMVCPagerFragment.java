@@ -71,6 +71,11 @@ public abstract class AMVCPagerFragment extends AMVCFragment {
 	public ViewGroup accessHeaderContainer() {
 		return this._headerContainer;
 	}
+
+	public ListView accessDataSectionContainer() {
+		return this._dataSectionContainer;
+	}
+
 	// - F R A G M E N T   L I F E C Y C L E
 
 	/**
