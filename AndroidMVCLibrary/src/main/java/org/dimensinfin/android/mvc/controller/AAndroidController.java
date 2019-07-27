@@ -322,7 +322,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		return true;
 	}
 
-	protected void notifyDataModelChange() {
+	public void notifyDataModelChange() {
 		this.viewCache = null; // Clean the view cache to force recreation.
 		this.sendChangeEvent(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name());
 	}
