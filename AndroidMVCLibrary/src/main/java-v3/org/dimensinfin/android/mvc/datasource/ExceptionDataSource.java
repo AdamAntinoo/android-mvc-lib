@@ -26,7 +26,7 @@ import org.dimensinfin.android.mvc.model.PanelException;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public class ExceptionDataSource extends MVCDataSource {
+public class ExceptionDataSource extends MVCDataSourcev3 {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static Logger logger = LoggerFactory.getLogger("ExceptionDataSource");
 

@@ -18,19 +18,19 @@ import androidx.annotation.NonNull;
 /**
  * @author Adam Antinoo
  */
-public abstract class AExpandAndroidController<M extends IExpandable> extends AAndroidController<M> implements View.OnClickListener {
+public abstract class ExpandAndroidController<M extends IExpandable> extends AndroidController<M> implements View.OnClickListener {
 	protected static final Handler _handler = new Handler(Looper.getMainLooper());
 
 	// - F I E L D - S E C T I O N
 	// - C O M P O S I T I O N S
 	private ClickSupporter clickSupporter = new ClickSupporter(false);
 
-	public AExpandAndroidController( @NonNull final M model, @NonNull final IControllerFactory factory ) {
+	public ExpandAndroidController( @NonNull final M model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
 	}
 
 	// - C O N S T R U C T O R - S E C T I O N
-//	public AExpandAndroidController( @NonNull final ControllerAdapter<M> delegate, @NonNull final IControllerFactory factory) {
+//	public ExpandAndroidController( @NonNull final ControllerAdapter<M> delegate, @NonNull final IControllerFactory factory) {
 //		super(delegate, factory);
 //	}
 
@@ -40,18 +40,18 @@ public abstract class AExpandAndroidController<M extends IExpandable> extends AA
 	// - V I E W . O N C L I C K L I S T E N E R
 	@Override
 	public void onClick(final View view) {
-		logger.info(">> [AExpandAndroidController.onClick]");
+		logger.info(">> [ExpandAndroidController.onClick]");
 		// Signal the action may take some time and launch it on the background.
 		this.clickSupporter.activateClick();
 		this.notifyDataModelChange();  // Signal the view needs update
 
 		_handler.postDelayed(() -> {
-			logger.info("-- [AExpandAndroidController.onClick.run]");
+			logger.info("-- [ExpandAndroidController.onClick.run]");
 //			final Instant chrono = Instant.now();
 			this.getModel().toggleExpand();
 			this.notifyDataModelChange(EEvents.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE);
 			this.clickSupporter.completeClick();
-//			logger.info("<< [AExpandAndroidController.onClick.run]> Time Elapsed: {}ms",
+//			logger.info("<< [ExpandAndroidController.onClick.run]> Time Elapsed: {}ms",
 //					new Duration(chrono, Instant.now()).getMillis());
 		}, TimeUnit.MILLISECONDS.toMillis(1000));
 		logger.info("<< [NeoComExpandablePart.onClick]");

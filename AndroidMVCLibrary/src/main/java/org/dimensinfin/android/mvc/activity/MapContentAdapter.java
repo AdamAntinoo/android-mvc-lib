@@ -50,7 +50,7 @@ public class MapContentAdapter implements PropertyChangeListener {
 
 	@UiThread
 	protected void generateMapContents(final List<IAndroidController> mapControllers) {
-		logger.info(">> [ASimplePagerFragment.generateHeaderContents]");
+		logger.info(">> [CanvasPagerFragment.generateHeaderContents]");
 		// Now create the views and add them to the map container.
 		_handler.post(() -> {
 			this.mapContainer.removeAllViews();
@@ -59,11 +59,11 @@ public class MapContentAdapter implements PropertyChangeListener {
 			}
 			this.mapContainer.setVisibility(View.VISIBLE);
 		});
-		logger.info("<< [ASimplePagerFragment.generateHeaderContents]");
+		logger.info("<< [CanvasPagerFragment.generateHeaderContents]");
 	}
 
 	private void addView2Map(final IAndroidController target) {
-		logger.info(">> [ASimplePagerFragment.addViewtoHeader]");
+		logger.info(">> [CanvasPagerFragment.addViewtoHeader]");
 		try {
 			final IRender holder = target.buildRender(context);
 //			holder.initializeViews();
@@ -72,14 +72,14 @@ public class MapContentAdapter implements PropertyChangeListener {
 			final View hv = holder.getView();
 			this.mapContainer.addView(hv);
 		} catch (final RuntimeException rtex) {
-			logger.info("RTEX [ASimplePagerFragment.addView2Header]> Problem generating view for: {}", target.getClass().getCanonicalName());
-			logger.info("RTEX [ASimplePagerFragment.addView2Header]> RuntimeException. {}", rtex.getMessage());
+			logger.info("RTEX [CanvasPagerFragment.addView2Header]> Problem generating view for: {}", target.getClass().getCanonicalName());
+			logger.info("RTEX [CanvasPagerFragment.addView2Header]> RuntimeException. {}", rtex.getMessage());
 			rtex.printStackTrace();
 			Toast.makeText(context
-					, "RTEX [ASimplePagerFragment.addView2Header]> RuntimeException. " + rtex.getMessage()
+					, "RTEX [CanvasPagerFragment.addView2Header]> RuntimeException. " + rtex.getMessage()
 					, Toast.LENGTH_LONG).show();
 		}
-		logger.info("<< ASimplePagerFragment.addViewtoHeader");
+		logger.info("<< CanvasPagerFragment.addViewtoHeader");
 	}
 
 	// - P R O P E R T Y C H A N G E L I S T E N E R   I N T E R F A C E

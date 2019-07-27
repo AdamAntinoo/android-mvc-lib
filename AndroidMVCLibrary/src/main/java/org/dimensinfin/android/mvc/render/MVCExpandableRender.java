@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.controller.AExpandAndroidController;
+import org.dimensinfin.android.mvc.controller.ExpandAndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -36,8 +36,8 @@ public abstract class MVCExpandableRender extends MVCRender {
         super(controller, context);
     }
 
-    public AExpandAndroidController getController() {
-        return (AExpandAndroidController) super.getController();
+    public ExpandAndroidController getController() {
+        return (ExpandAndroidController) super.getController();
     }
 
     @Override

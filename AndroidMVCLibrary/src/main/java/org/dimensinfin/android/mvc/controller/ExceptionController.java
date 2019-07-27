@@ -6,12 +6,11 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
-import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.android.mvc.render.AMVCRender;
+import org.dimensinfin.android.mvc.render.MVCRender;
 
-public class ExceptionController extends AAndroidController<ExceptionReport> {
+public class ExceptionController extends AndroidController<ExceptionReport> {
 	public ExceptionController( @NonNull final ExceptionReport model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
 	}
@@ -22,7 +21,7 @@ public class ExceptionController extends AAndroidController<ExceptionReport> {
 	}
 
 	// - E X C E P T I O N R E N D E R
-	public static class ExceptionRender extends AMVCRender {
+	public static class ExceptionRender extends MVCRender {
 		private TextView exceptionCode;
 		private TextView exceptionType;
 		private TextView exceptionMessage;

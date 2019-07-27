@@ -2,8 +2,8 @@ package org.dimensinfin.android.mvc.datasource;
 
 import android.widget.BaseAdapter;
 
-import org.dimensinfin.android.mvc.activity.AMVCFragment;
-import org.dimensinfin.android.mvc.activity.AMVCPagerFragment;
+import org.dimensinfin.android.mvc.activity.MVCFragment;
+import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.support.EmptyNode;
@@ -38,8 +38,8 @@ public class DataSourceAdapterTest {
 //	@Test
 	public void propertyChange() {
 		// Given
-		final AMVCFragment fragment = Mockito.mock(AMVCPagerFragment.class);
-		final AMVCDataSource datasource = Mockito.mock(AMVCDataSource.class);
+		final MVCFragment fragment = Mockito.mock(MVCPagerFragment.class);
+		final MVCDataSource datasource = Mockito.mock(MVCDataSource.class);
 		final BaseAdapter adapter = Mockito.mock(BaseAdapter.class);
 
 		// When
@@ -55,8 +55,8 @@ public class DataSourceAdapterTest {
 
 	@Test
 	public void notifyDataSetChanged() {
-		final AMVCFragment fragment = Mockito.mock(AMVCPagerFragment.class);
-		final AMVCDataSource datasource = Mockito.mock(AMVCDataSource.class);
+		final MVCFragment fragment = Mockito.mock(MVCPagerFragment.class);
+		final MVCDataSource datasource = Mockito.mock(MVCDataSource.class);
 		Mockito.when(datasource.getDataSectionContents()).thenReturn(controllers);
 		final DataSourceAdapter dsadapter = new DataSourceAdapter(fragment, datasource);
 		dsadapter.notifyDataSetChanged();
@@ -70,8 +70,8 @@ public class DataSourceAdapterTest {
 	@Test
 	public void baseAdapter() {
 		// Given
-		final AMVCFragment fragment = Mockito.mock(AMVCPagerFragment.class);
-		final AMVCDataSource datasource = Mockito.mock(AMVCDataSource.class);
+		final MVCFragment fragment = Mockito.mock(MVCPagerFragment.class);
+		final MVCDataSource datasource = Mockito.mock(MVCDataSource.class);
 		final BaseAdapter adapter = Mockito.mock(BaseAdapter.class);
 
 		// When

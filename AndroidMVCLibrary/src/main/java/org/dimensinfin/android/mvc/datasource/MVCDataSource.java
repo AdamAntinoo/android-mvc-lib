@@ -29,8 +29,8 @@ import java.util.Objects;
  *
  * @author Adam Antinoo
  */
-public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
-	protected static final Logger logger = LoggerFactory.getLogger(AMVCDataSource.class);
+public abstract class MVCDataSource implements IDataSource, IEventEmitter {
+	protected static final Logger logger = LoggerFactory.getLogger(MVCDataSource.class);
 
 	// - F I E L D - S E C T I O N
 	protected Boolean monitor = Boolean.TRUE; // Synchronization monitor to serialize model generation.
@@ -93,10 +93,10 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	private List<IAndroidController> controllerHeaderSectionRoot = new ArrayList<>();
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public AMVCDataSource() {
+	public MVCDataSource() {
 	}
 
-	public AMVCDataSource( final DataSourceLocator locator, final IControllerFactory controllerFactory ) {
+	public MVCDataSource( final DataSourceLocator locator, final IControllerFactory controllerFactory ) {
 		this.locator = locator;
 		this.controllerFactory = controllerFactory;
 	}
@@ -119,7 +119,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 		return this.shouldBeCached;
 	}
 
-	public AMVCDataSource shouldBeCached( final boolean shouldBeCached ) {
+	public MVCDataSource shouldBeCached( final boolean shouldBeCached ) {
 		this.shouldBeCached = shouldBeCached;
 		return this;
 	}
@@ -136,7 +136,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	}
 
 	//    @Override
-	public AMVCDataSource setExtras( final Bundle extras ) {
+	public MVCDataSource setExtras( final Bundle extras ) {
 		this.extras = extras;
 		return this;
 	}
@@ -147,7 +147,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	}
 
 	//    @Override
-	public AMVCDataSource setVariant( final String variant ) {
+	public MVCDataSource setVariant( final String variant ) {
 		this.variant = variant;
 		return this;
 	}
@@ -160,7 +160,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	 */
 	@Override
 	public List<IAndroidController> getHeaderSectionContents() {
-		logger.info(">< [AMVCDataSource.getHeaderSectionContents]");
+		logger.info(">< [MVCDataSource.getHeaderSectionContents]");
 		this.refreshHeaderSection();
 		final List<IAndroidController> controllers = new ArrayList<>();
 		for (IAndroidController controller : this.controllerHeaderSectionRoot) {
@@ -192,7 +192,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 				controller.collaborate2View(controllers);
 			}
 		} finally {
-			logger.info(">< [AMVCDataSource.getDataSectionContents]> Contents count: {}", controllers.size());
+			logger.info(">< [MVCDataSource.getDataSectionContents]> Contents count: {}", controllers.size());
 			return controllers;
 		}
 	}
@@ -242,7 +242,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	 * @return this IDataSource instance to allow flow coding.
 	 */
 	public IDataSource addModelContents( final ICollaboration newModel ) {
-		logger.info(">< [AMVCDataSource.addModelContents]> Adding model: {}", newModel.getClass().getSimpleName());
+		logger.info(">< [MVCDataSource.addModelContents]> Adding model: {}", newModel.getClass().getSimpleName());
 		this.dataModelRoot.add(newModel);
 		this.controllerDataSectionRoot.add(this.controllerFactory.createController(newModel));
 		this.dirty = true; // Signal the model change
@@ -250,7 +250,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	}
 
 	public IDataSource addHeaderContents( final ICollaboration newModel ) {
-		logger.info(">< [AMVCDataSource.addHeaderContents]> Adding model: {}", newModel.getClass().getSimpleName());
+		logger.info(">< [MVCDataSource.addHeaderContents]> Adding model: {}", newModel.getClass().getSimpleName());
 		this.headerModelRoot.add(newModel);
 		return this;
 	}
@@ -320,16 +320,16 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	 */
 	@Override
 	public synchronized void propertyChange( final PropertyChangeEvent event ) {
-		logger.info(">< [AMVCDataSource.propertyChange]> Processing Event: {}", event.getPropertyName());
+		logger.info(">< [MVCDataSource.propertyChange]> Processing Event: {}", event.getPropertyName());
 		// - C O N T E N T   E V E N T S
 		// The expand/collapse state has changed.
 		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name())) {
-			logger.info(">< [AMVCDataSource.propertyChange]> Event: {} processed.", event.getPropertyName());
+			logger.info(">< [MVCDataSource.propertyChange]> Event: {} processed.", event.getPropertyName());
 			this.sendChangeEvent(event.getPropertyName());
 			return;
 		}
 		if (event.getPropertyName().equalsIgnoreCase("EVENT_REFRESHDATA")) {
-			logger.info(">< [AMVCDataSource.propertyChange]> Event: {} processed.", event.getPropertyName());
+			logger.info(">< [MVCDataSource.propertyChange]> Event: {} processed.", event.getPropertyName());
 			this.sendChangeEvent(event.getPropertyName());
 			return;
 		}
@@ -339,7 +339,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	// - C O R E
 	@Override
 	public String toString() {
-		return "AMVCDataSource{" +
+		return "MVCDataSource{" +
 				"locator=" + locator +
 				", variant='" + variant + '\'' +
 				", shouldBeCached=" + shouldBeCached +
@@ -348,7 +348,7 @@ public abstract class AMVCDataSource implements IDataSource, IEventEmitter {
 	}
 
 	// - B U I L D E R
-	protected static abstract class BaseBuilder<T extends AMVCDataSource, B extends BaseBuilder> {
+	protected static abstract class BaseBuilder<T extends MVCDataSource, B extends BaseBuilder> {
 		protected B actualClassBuilder;
 		private final DataSourceLocator identifier;
 

@@ -22,7 +22,7 @@ public interface IAndroidController<M> extends IEventEmitter, Comparable {
 
 	String getRenderMode();
 
-	AAndroidController setRenderMode( final String renderMode );
+	AndroidController setRenderMode( final String renderMode );
 
 	void collaborate2View( final List<IAndroidController> contentCollector );
 

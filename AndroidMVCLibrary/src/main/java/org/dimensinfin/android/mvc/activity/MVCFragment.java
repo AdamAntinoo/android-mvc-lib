@@ -16,8 +16,8 @@ import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AMVCFragment extends Fragment implements IPagerFragment {
-	protected static Logger logger = LoggerFactory.getLogger(AMVCFragment.class);
+public abstract class MVCFragment extends Fragment implements IPagerFragment {
+	protected static Logger logger = LoggerFactory.getLogger(MVCFragment.class);
 	/**
 	 * Task handler to manage execution of code that should be done on the main loop thread.
 	 */
@@ -47,7 +47,7 @@ public abstract class AMVCFragment extends Fragment implements IPagerFragment {
 	private IMenuActionTarget listCallback = null;
 
 	/** This constructor is required to create the fragments from the xml layouts. */
-	public AMVCFragment() { }
+	public MVCFragment() { }
 
 	// - G E T T E R S   &   S E T T E R S
 
@@ -69,7 +69,7 @@ public abstract class AMVCFragment extends Fragment implements IPagerFragment {
 	 *
 	 * @param selectedVariant the new name to assign to this fragment instance.
 	 */
-	public AMVCFragment setVariant( final String selectedVariant ) {
+	public MVCFragment setVariant( final String selectedVariant ) {
 		_variant = selectedVariant;
 		return this;
 	}
@@ -92,7 +92,7 @@ public abstract class AMVCFragment extends Fragment implements IPagerFragment {
 	 * @param extras new bundle of extrax to be tied to this Fragment instance.
 	 * @return this instance to allow for functional constructive statements.
 	 */
-	public AMVCFragment setExtras( final Bundle extras ) {
+	public MVCFragment setExtras( final Bundle extras ) {
 		_extras = extras;
 		return this;
 	}
@@ -108,7 +108,7 @@ public abstract class AMVCFragment extends Fragment implements IPagerFragment {
 	 * @param activity the Application singleton context.
 	 * @return this instance to allow for functional constructive statements.
 	 */
-	public AMVCFragment setActivityContext( final Activity activity ) {
+	public MVCFragment setActivityContext( final Activity activity ) {
 		this.activity = activity;
 		return this;
 	}

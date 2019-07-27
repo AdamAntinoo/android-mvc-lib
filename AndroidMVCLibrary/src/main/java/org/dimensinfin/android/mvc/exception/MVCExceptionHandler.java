@@ -77,7 +77,7 @@ public class MVCExceptionHandler implements Thread.UncaughtExceptionHandler {
 	}
 
 	private void addView2Container( final IAndroidController target ) {
-		logger.info(">> [AMVCPagerFragment.addView2Container]");
+		logger.info(">> [MVCPagerFragment.addView2Container]");
 		try {
 			final IRender holder = target.buildRender(this.activity);
 			final View hv = holder.getView();
@@ -90,14 +90,14 @@ public class MVCExceptionHandler implements Thread.UncaughtExceptionHandler {
 			//			}
 			this.exceptionContainer.setVisibility(View.VISIBLE);
 		} catch (final RuntimeException rtex) {
-			logger.info("RTEX [AMVCPagerFragment.addView2Container]> Problem generating view for: {}", target.getClass().getCanonicalName());
-			logger.info("RTEX [AMVCPagerFragment.addView2Container]> RuntimeException. {}", rtex.getMessage());
+			logger.info("RTEX [MVCPagerFragment.addView2Container]> Problem generating view for: {}", target.getClass().getCanonicalName());
+			logger.info("RTEX [MVCPagerFragment.addView2Container]> RuntimeException. {}", rtex.getMessage());
 			rtex.printStackTrace();
 			Toast.makeText(this.activity
-					, "RTEX [AMVCPagerFragment.addView2Container]> RuntimeException. " + rtex.getMessage()
+					, "RTEX [MVCPagerFragment.addView2Container]> RuntimeException. " + rtex.getMessage()
 					, Toast.LENGTH_LONG).show();
 		}
-		logger.info("<< [AMVCPagerFragment.addView2Container]");
+		logger.info("<< [MVCPagerFragment.addView2Container]");
 	}
 
 	//	private void updateViewContents() {

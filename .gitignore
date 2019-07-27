@@ -1,19 +1,16 @@
 *.iml
 *.odt#
 
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/sonarIssues.xml
-/.idea/modules.xml
-/.idea/caches/
-/.idea/libraries/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/sonarIssues.xml
+.idea/modules.xml
+.idea/caches/
+.idea/libraries/
+.idea/sonarlint/
+.gradle/
 
-.DS_Store
-.gradle
-/local.properties
-/build
-/captures
-.externalNativeBuild
+build/
 
 # - C O D E   C O V E R A G E
 /javadoc

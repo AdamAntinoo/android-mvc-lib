@@ -3,11 +3,11 @@ package org.dimensinfin.android.mvc.support;
 import android.content.Context;
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 
-public class MockController extends AAndroidController<EmptyNode> {
+public class MockController extends AndroidController<EmptyNode> {
 	//	private boolean visible = true;
 
 	public MockController( @NonNull final EmptyNode model, @NonNull final IControllerFactory factory ) {

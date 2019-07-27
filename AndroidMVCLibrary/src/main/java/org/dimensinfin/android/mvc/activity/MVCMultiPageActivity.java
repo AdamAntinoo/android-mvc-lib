@@ -35,12 +35,12 @@ import me.relex.circleindicator.CircleIndicator;
  * @author Adam Antinoo
  * @since 1.0.0
  */
-public abstract class AMVCMultiPageActivity extends FragmentActivity {
+public abstract class MVCMultiPageActivity extends FragmentActivity {
 	public enum EMVCExtras {
 		EXTRA_EXCEPTIONMESSAGE, EXTRA_VARIANT
 	}
 
-	protected static Logger logger = LoggerFactory.getLogger(AMVCMultiPageActivity.class);
+	protected static Logger logger = LoggerFactory.getLogger(MVCMultiPageActivity.class);
 	private final MVCFragmentPagerAdapter _pageAdapter = new MVCFragmentPagerAdapter(this.getSupportFragmentManager());
 	// - F I E L D - S E C T I O N
 	protected Bundle extras;
@@ -77,27 +77,27 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 	 *                discard the new received fragment and use the already instance at the <code>FragmentManager</code>.
 	 */
 	public void addPage( @NonNull final IPagerFragment newFrag ) {
-		AMVCMultiPageActivity.logger.info(">> [AMVCMultiPageActivity.addPage]");
+		logger.info(">> [MVCMultiPageActivity.addPage]");
 		// Before checking if we have already this fragment we should get its unique identifier.
 		final Fragment frag = this.getSupportFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
 		if (null == frag) {
 			_pageAdapter.addPage(newFrag);
 		} else {
 			if (null == newFrag)
-				throw new RuntimeException("RTEX [AMVCMultiPageActivity.addPage]> The fragment defined is null and cannot be used.");
+				throw new RuntimeException("RTEX [MVCMultiPageActivity.addPage]> The fragment defined is null and cannot be used.");
 			// We need to update the fragment cached on the Fragment Manager
-			if (frag instanceof AMVCPagerFragment) {
-				AMVCMultiPageActivity.logger.info("-- [AMVCMultiPageActivity.addPage]> Reusing available fragment. {}"
+			if (frag instanceof MVCPagerFragment) {
+				logger.info("-- [MVCMultiPageActivity.addPage]> Reusing available fragment. {}"
 						, _pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
 				// Reuse a previous created Fragment. Copy all fields accessible.
-				((AMVCFragment) frag)
+				((MVCFragment) frag)
 						.setVariant(newFrag.getVariant())
 						.setExtras(newFrag.getExtras())
 						.setActivityContext(newFrag.getActivityContext())
 						.setListCallback(newFrag.getListCallback());
 				_pageAdapter.addPage(newFrag);
 			} else
-				throw new RuntimeException("RTEX [AMVCMultiPageActivity.addPage]> The fragment located does not inherit the required functionality. Does not extend AMVCPagerFragment.");
+				throw new RuntimeException("RTEX [MVCMultiPageActivity.addPage]> The fragment located does not inherit the required functionality. Does not extend MVCPagerFragment.");
 		}
 		// Be sure the Fragment context points to a valid context.
 		newFrag.setActivityContext(this);
@@ -108,7 +108,7 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 			this.activateIndicator();
 		}
 		((Fragment) newFrag).onAttach(this);
-		AMVCMultiPageActivity.logger.info("<< [AMVCMultiPageActivity.addPage]"); //$NON-NLS-1$
+		logger.info("<< [MVCMultiPageActivity.addPage]"); //$NON-NLS-1$
 	}
 
 	@Override
@@ -154,7 +154,7 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 	 */
 	@Override
 	protected void onCreate( final Bundle savedInstanceState ) {
-		AMVCMultiPageActivity.logger.info(">> [AMVCMultiPageActivity.onCreate]");
+		logger.info(">> [MVCMultiPageActivity.onCreate]");
 		super.onCreate(savedInstanceState);
 //		Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this));
 		try {
@@ -167,16 +167,16 @@ public abstract class AMVCMultiPageActivity extends FragmentActivity {
 			_indicator = this.findViewById(R.id.indicator);
 			// Check page structure.
 			if (null == _pageContainer)
-				throw new MVCException("RTEX [AMVCMultiPageActivity.onCreate]> Expected UI element not found.");
+				throw new MVCException("RTEX [MVCMultiPageActivity.onCreate]> Expected UI element not found.");
 			if (null == background)
-				throw new MVCException("RTEX [AMVCMultiPageActivity.onCreate]> Expected UI element not found.");
+				throw new MVCException("RTEX [MVCMultiPageActivity.onCreate]> Expected UI element not found.");
 			_pageContainer.setAdapter(_pageAdapter);
 			// Cleat the indicator from the view until more than one page is added.
 			this.disableIndicator();
 		} catch (Exception ex) {
 			this.showException(ex); // Show any exception data on the empty page.
 		} finally {
-			AMVCMultiPageActivity.logger.info("<< [AMVCMultiPageActivity.onCreate]");
+			logger.info("<< [MVCMultiPageActivity.onCreate]");
 		}
 	}
 

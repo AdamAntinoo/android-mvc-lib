@@ -8,8 +8,6 @@
 //               be converted to a AndroidController list to be used on a BaseAdapter tied to a ListView.
 package org.dimensinfin.android.mvc.render;
 
-import java.util.Objects;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -18,15 +16,17 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.core.model.Separator;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 /**
  * This class encapsulates the core definition for a component render. It is transparent to the Model type that is

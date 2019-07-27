@@ -38,9 +38,9 @@ import java.util.Objects;
  * @author Adam Antinoo
  * @since 4.0.0
  */
-public abstract class AAndroidController<M extends ICollaboration> implements IAndroidController<M> {
+public abstract class AndroidController<M extends ICollaboration> implements IAndroidController<M> {
 	/** This is the public logger that should be used by all the Controllers. */
-	protected static final Logger logger = LoggerFactory.getLogger(AAndroidController.class);
+	protected static final Logger logger = LoggerFactory.getLogger(AndroidController.class);
 
 	// - F I E L D - S E C T I O N
 	/** This field caches the factory that is set during the construction. */
@@ -57,14 +57,14 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	private IDataSource dataSource;
 
 	// - C O N S T R U C T O R S
-	private AAndroidController( @NonNull final ControllerAdapter<M> delegate, @NonNull final IControllerFactory factory ) {
+	private AndroidController( @NonNull final ControllerAdapter<M> delegate, @NonNull final IControllerFactory factory ) {
 		Objects.requireNonNull(delegate);
 		Objects.requireNonNull(factory);
 		this.delegatedController = delegate;
 		this.factory = factory;
 	}
 
-	public AAndroidController( @NonNull final M model, @NonNull final IControllerFactory factory ) {
+	public AndroidController( @NonNull final M model, @NonNull final IControllerFactory factory ) {
 		this(new ControllerAdapter<M>(model), factory);
 	}
 
@@ -80,7 +80,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	}
 
 	@Override
-	public AAndroidController setViewCache( final View viewCache ) {
+	public AndroidController setViewCache( final View viewCache ) {
 		this.viewCache = viewCache;
 		return this;
 	}
@@ -90,7 +90,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		return this.orderedActive;
 	}
 
-	public AAndroidController setOrderedActive( final boolean orderedActive ) {
+	public AndroidController setOrderedActive( final boolean orderedActive ) {
 		this.orderedActive = orderedActive;
 		return this;
 	}
@@ -99,7 +99,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		return renderMode;
 	}
 
-	public AAndroidController setRenderMode( final String renderMode ) {
+	public AndroidController setRenderMode( final String renderMode ) {
 		this.renderMode = renderMode;
 		return this;
 	}
@@ -108,7 +108,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		return this.dataSource;
 	}
 
-	public AAndroidController setDataSource( final IDataSource dataSource ) {
+	public AndroidController setDataSource( final IDataSource dataSource ) {
 		this.dataSource = dataSource;
 		return this;
 	}
@@ -132,12 +132,12 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	 */
 	@Override
 	public void collaborate2View( final List<IAndroidController> contentCollector ) {
-		logger.info(">< [AAndroidController.collaborate2View]> Collaborator: {}", this.getClass().getSimpleName());
+		logger.info(">< [AndroidController.collaborate2View]> Collaborator: {}", this.getClass().getSimpleName());
 		// If the node is expanded then give the children the opportunity to also be added.
 		if (this.getModel() instanceof IExpandable) {
 			// --- This is the section that is different for any AndroidController.
 			List<IAndroidController> ch = this.orderingFeature(this.getChildren());
-			logger.info("-- [AAndroidController.collaborate2View]> Collaborator children: {}", ch.size());
+			logger.info("-- [AndroidController.collaborate2View]> Collaborator children: {}", ch.size());
 			// --- End of policies
 			// Add this node to the list of controllers only if it should be visible.
 			if (this.isVisible()) contentCollector.add(this);
@@ -203,11 +203,11 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 	 * Page.
 	 */
 	public void refreshChildren() {
-		//		logger.info(">> [AAndroidController.refreshChildren]");
+		//		logger.info(">> [AndroidController.refreshChildren]");
 		// Get the new list of children for this model node. Use the Variant for generation discrimination.
 		final List<ICollaboration> firstLevelNodes = this.getModel().collaborate2Model(this.getControllerFactory().getVariant());
 		if (firstLevelNodes.isEmpty()) return;
-		//		logger.info("-- [AAndroidController.refreshChildren]> firstLevelNodes count: {}", firstLevelNodes.size());
+		//		logger.info("-- [AndroidController.refreshChildren]> firstLevelNodes count: {}", firstLevelNodes.size());
 		// Create the model-controller current map to check the elements missing.
 		final HashMap<ICollaboration, IAndroidController> currentMap = new HashMap<>(firstLevelNodes.size());
 		for (IAndroidController<M> control : this.getChildren()) {
@@ -223,7 +223,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 				newChildrenList.add(currentMap.get(modelNode));
 			} else {
 				// The controller is non existent for this model node. Create a new one from the factory.
-				logger.info("-- [AAndroidController.refreshChildren]> New AndroidController for Model: {}",
+				logger.info("-- [AndroidController.refreshChildren]> New AndroidController for Model: {}",
 						modelNode.getClass().getSimpleName());
 				final IAndroidController newController = this.getControllerFactory().createController(modelNode);
 				newController.refreshChildren();
@@ -233,7 +233,7 @@ public abstract class AAndroidController<M extends ICollaboration> implements IA
 		// Replace the new children list.
 		this.clean();
 		this.addChildren(newChildrenList);
-		//		logger.info("<< [AAndroidController.refreshChildren]> Content size: {}", this.getChildren().size());
+		//		logger.info("<< [AndroidController.refreshChildren]> Content size: {}", this.getChildren().size());
 	}
 
 	/**

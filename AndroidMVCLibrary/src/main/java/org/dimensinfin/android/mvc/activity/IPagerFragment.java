@@ -5,12 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
-import org.dimensinfin.android.mvc.interfaces.ITitledFragment;
 
 public interface IPagerFragment {
 	Activity getActivityContext();
 
-	AMVCFragment setActivityContext( final Activity activity );
+	MVCFragment setActivityContext( final Activity activity );
 
 	String getVariant();
 

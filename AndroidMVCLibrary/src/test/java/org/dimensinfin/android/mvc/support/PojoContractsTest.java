@@ -1,7 +1,7 @@
 package org.dimensinfin.android.mvc.support;
 
-import org.dimensinfin.android.mvc.controller.AAndroidController;
-import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
+import org.dimensinfin.android.mvc.controller.AndroidController;
+import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 
@@ -19,8 +19,8 @@ public class PojoContractsTest {
 
 //	@Test
 	public void accessorContract() {
-		PojoTestUtils.validateAccessors(AMVCDataSource.class);
-		PojoTestUtils.validateAccessors(AAndroidController.class);
+		PojoTestUtils.validateAccessors(MVCDataSource.class);
+		PojoTestUtils.validateAccessors(AndroidController.class);
 //		PojoTestUtils.validateAccessors(RootController.class);
 		PojoTestUtils.validateAccessors(SeparatorController.class);
 	}

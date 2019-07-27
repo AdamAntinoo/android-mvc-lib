@@ -27,12 +27,12 @@ import static org.mockito.Mockito.when;
 
 /**
  * This is the JUnit test class to check all the features available to controllers and specifically to the main
- * controller implementation represented by the abstract AAndroidController class. There is a need for a test additional
+ * controller implementation represented by the abstract AndroidController class. There is a need for a test additional
  * class because the class under test is abstract and cannot be instantiated.
  *
  * @author Adam Antinoo
  */
-public class AAndroidControllerTest {
+public class AndroidControllerTest {
 	private static final List<IAndroidController> data = new ArrayList<>();
 	private static ControllerFactory factory;
 	private static EmptyNode model;
@@ -307,7 +307,7 @@ final class MultipleModelCollaborator extends EmptyNode implements ICollaboratio
 	}
 }
 
-final class MockExpandableController extends AAndroidController<Container> {
+final class MockExpandableController extends AndroidController<Container> {
 
 	public MockExpandableController( @NonNull final Container model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
@@ -332,7 +332,7 @@ final class MockExpandableController extends AAndroidController<Container> {
 //		return super.createController(node);
 //	}
 //}
-final class MockContainerController extends AAndroidController<MockContainerModel> {
+final class MockContainerController extends AndroidController<MockContainerModel> {
 
 	public MockContainerController( @NonNull final MockContainerModel model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);

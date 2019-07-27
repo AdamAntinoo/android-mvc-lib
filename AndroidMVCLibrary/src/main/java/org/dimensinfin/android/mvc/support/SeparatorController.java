@@ -2,14 +2,14 @@ package org.dimensinfin.android.mvc.support;
 
 import android.content.Context;
 
-import org.dimensinfin.android.mvc.controller.AAndroidController;
+import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.core.model.Separator;
 
 import androidx.annotation.NonNull;
 
-public class SeparatorController extends AAndroidController<Separator> {
+public class SeparatorController extends AndroidController<Separator> {
 	// - F I E L D - S E C T I O N
 //	private ControllerAdapter<Separator> delegatedController;
 

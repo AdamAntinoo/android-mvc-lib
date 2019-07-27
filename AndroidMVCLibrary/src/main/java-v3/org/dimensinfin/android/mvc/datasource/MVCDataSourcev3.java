@@ -51,10 +51,10 @@ import java.util.concurrent.TimeUnit;
  */
 
 // - CLASS IMPLEMENTATION ...................................................................................
-public abstract class MVCDataSource extends AbstractPropertyChanger implements IPartsDataSource {
+public abstract class MVCDataSourcev3 extends AbstractPropertyChanger implements IPartsDataSource {
 	// - S T A T I C - S E C T I O N ..........................................................................
 	private static final long serialVersionUID = -9128905983909144873L;
-	public static Logger logger = LoggerFactory.getLogger("MVCDataSource");
+	public static Logger logger = LoggerFactory.getLogger("MVCDataSourcev3");
 
 	// - F I E L D - S E C T I O N ............................................................................
 	/**
@@ -102,7 +102,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	protected int refreshTime = -1;
 
 	// - C O N S T R U C T O R - S E C T I O N ................................................................
-	public MVCDataSource( final DataSourceLocator locator, final String variant, final IPartFactory factory, final Bundle extras ) {
+	public MVCDataSourcev3( final DataSourceLocator locator, final String variant, final IPartFactory factory, final Bundle extras ) {
 		super();
 		_locator = locator;
 		_variant = variant;
@@ -264,7 +264,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 * This new implementation will use partial generation to split and speed up this phase.
 	 */
 	private void transformModel2Parts() {
-		logger.info(">> [MVCDataSource.transformModel2Parts]");
+		logger.info(">> [MVCDataSourcev3.transformModel2Parts]");
 		// Check if we have already a Part model.
 		// But do not forget to associate the new Data model even if the old exists.
 		if (null == _partModelRoot) {
@@ -272,7 +272,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		}
 		_partModelRoot.setRootModel(_dataModelRoot);
 
-		logger.info("-- [MVCDataSource.transformModel2Parts]> Initiating the refreshChildren() for the Model Root");
+		logger.info("-- [MVCDataSourcev3.transformModel2Parts]> Initiating the refreshChildren() for the Model Root");
 		// Intercept any exception on the creation of the model but do not cut the progress of the already added items.
 		try {
 			//			_dataSectionParts.clear();
@@ -280,7 +280,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		logger.info("<< [MVCDataSource.transformModel2Parts]> _dataSectionParts.size: {}", _dataSectionParts.size());
+		logger.info("<< [MVCDataSourcev3.transformModel2Parts]> _dataSectionParts.size: {}", _dataSectionParts.size());
 	}
 
 	// --- P R O P E R T Y C H A N G E R   I N T E R F A C E
@@ -315,7 +315,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 	 */
 	@Override
 	public synchronized void propertyChange( final PropertyChangeEvent event ) {
-		logger.info(">> [MVCDataSource.propertyChange]> Processing Event: {}", event.getPropertyName());
+		logger.info(">> [MVCDataSourcev3.propertyChange]> Processing Event: {}", event.getPropertyName());
 
 		//--- C O N T E N T   E V E N T S
 		// The expand/collapse state has changed.
@@ -367,7 +367,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 		//				.valueOf(event.getPropertyName()) == SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES) {
 		////			this.fireStructureChange(SystemWideConstants.events.EVENTADAPTER_REQUESTNOTIFYCHANGES.name(), event.getOldValue(),
 		////					event.getNewValue());
-		//			logger.info("<< [MVCDataSource.propertyChange]");
+		//			logger.info("<< [MVCDataSourcev3.propertyChange]");
 		//			return;
 		//		}
 		// Send up the event to the DataSourceAdapter but be sure to run any display changes on the UI main thread.
@@ -385,7 +385,7 @@ public abstract class MVCDataSource extends AbstractPropertyChanger implements I
 
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer("MVCDataSource [");
+		StringBuffer buffer = new StringBuffer("MVCDataSourcev3 [");
 		buffer.append("Identifier: ").append(getDataSourceLocator().getIdentity());
 		buffer.append("]");
 		return buffer.toString();

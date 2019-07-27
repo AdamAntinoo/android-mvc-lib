@@ -1,10 +1,10 @@
 package org.dimensinfin.android.mvc.support;
 
-import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
+import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 
-public class TestDataSource extends AMVCDataSource {
+public class TestDataSource extends MVCDataSource {
 	public TestDataSource(final DataSourceLocator locator, final IControllerFactory controllerFactory) {
 		super(locator, controllerFactory);
 	}

@@ -31,7 +31,7 @@ import org.dimensinfin.android.mvc.core.RootPart;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapterv3;
 import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.datasource.DataSourceManagerv3;
-import org.dimensinfin.android.mvc.datasource.MVCDataSource;
+import org.dimensinfin.android.mvc.datasource.MVCDataSourcev3;
 import org.dimensinfin.android.mvc.interfaces.IAndroidPart;
 import org.dimensinfin.android.mvc.interfaces.IPartsDataSource;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
@@ -491,7 +491,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 	}
 
 	//- CLASS IMPLEMENTATION ...................................................................................
-	public static class EmptyDataSource extends MVCDataSource {
+	public static class EmptyDataSource extends MVCDataSourcev3 {
 		public EmptyDataSource( DataSourceLocator locator, String variant, IPartFactory factory, Bundle extras ) {
 			super(locator, variant, factory, extras);
 		}

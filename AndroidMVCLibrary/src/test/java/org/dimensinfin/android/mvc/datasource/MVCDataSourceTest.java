@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author Adam Antinoo
  */
-public class AMVCDataSourceTest {
+public class MVCDataSourceTest {
 	private static final DataSourceLocator locator = new DataSourceLocator().addIdentifier("TEST");
 	private static final ControllerFactory factory = new TestControllerFactory("TEST");
 //	private static final ICollaboration node = new Separator("TEST");
@@ -38,13 +38,13 @@ public class AMVCDataSourceTest {
 //	@Test
 	public void testAccesors() {
 		PojoTestUtils.validateAccessors(TestDataSource.class);
-		PojoTestUtils.validateAccessors(AMVCDataSource.class);
+		PojoTestUtils.validateAccessors(MVCDataSource.class);
 	}
 
 //	@Test
 	public void addModelContents() {
 		// Mocks
-		final AMVCDataSource amvcds = Mockito.mock(AMVCDataSource.class);
+		final MVCDataSource amvcds = Mockito.mock(MVCDataSource.class);
 //		final UIGlobalExecutor executor = Mockito.mock(UIGlobalExecutor.class);
 
 		// Given
