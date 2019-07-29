@@ -1,2 +1,2 @@
 include ':app'
-include ':AndroidMVCLibrary'
+include ':AndroidMVC'
