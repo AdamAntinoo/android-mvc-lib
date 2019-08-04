@@ -71,6 +71,7 @@ dependencies {
 
     // P R O J E C T    D E P E N D E N C I E S
 //    implementation 'me.relex:circleindicator:2.1.0'
+    implementation 'org.dimensinfin:CoreBase.core:3.0.1'
     implementation project(path: ':AndroidMVC')
 
     // L O C A L    L I B R A R I E S

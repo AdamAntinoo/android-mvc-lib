@@ -71,20 +71,20 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	 * visualization changes by relaying the events to the DataSourceAdapter listener.
 	 */
 	private IEventEmitter eventController = new EventEmitter();
+	private boolean dirty = false; // This is the flag for model changes.
 	/**
 	 * This was a node where to deal with the list of core nodes located at the root of the model graph. This has be
 	 * removed and converted into a simple array of model generic items. The matching controller has also been replaced by
 	 * a list.
 	 */
-	private final List<ICollaboration> dataModelRoot = new ArrayList<>();
-	private boolean dirty = false; // This is the flag for model changes.
+	protected final List<ICollaboration> dataModelRoot = new ArrayList<>();
 	/**
 	 * This field now contains the list of controllers resulting from the model list that is also stored into one array
 	 * and not inside a specific model node. This simplifies the code for Root nodes than now have disappeared.
 	 * This list is the list of controllers to be rendered on the data section list view.
 	 */
 	private List<IAndroidController> controllerDataSectionRoot = new ArrayList<>();
-	private final List<ICollaboration> headerModelRoot = new ArrayList<>();
+	protected final List<ICollaboration> headerModelRoot = new ArrayList<>();
 	/**
 	 * This field now contains the list of controllers resulting from the model list that is also stored into one array
 	 * and not inside a specific model node. This simplifies the code for Root nodes than now have disappeared.
@@ -150,6 +150,14 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	public MVCDataSource setVariant( final String variant ) {
 		this.variant = variant;
 		return this;
+	}
+
+	public List<ICollaboration> getDataModelRoot() {
+		return this.dataModelRoot;
+	}
+
+	public List<ICollaboration> getHeaderModelRoot() {
+		return this.headerModelRoot;
 	}
 
 	/**
