@@ -63,6 +63,9 @@ ext {
 }
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'me.relex:circleindicator:2.1.0'
+    implementation 'org.dimensinfin:CoreBase.core:3.0.1'
+    implementation project(':AndroidMVC')
 
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     androidTestImplementation 'androidx.test:rules:1.1.1'

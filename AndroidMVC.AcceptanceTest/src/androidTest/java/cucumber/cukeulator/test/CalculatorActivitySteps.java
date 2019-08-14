@@ -2,13 +2,15 @@ package cucumber.cukeulator.test;
 
 import android.app.Activity;
 import androidx.test.rule.ActivityTestRule;
+
+import org.dimensinfin.android.mvc.CalculatorActivity;
+import org.dimensinfin.android.mvc.R;
+
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import cucumber.cukeulator.CalculatorActivity;
-import cucumber.cukeulator.R;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
