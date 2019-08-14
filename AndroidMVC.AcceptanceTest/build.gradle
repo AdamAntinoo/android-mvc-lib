@@ -6,9 +6,9 @@ apply plugin: 'jacoco'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "org.dimensinfin.android.mvc"
-        testApplicationId "org.dimensinfin.android.mvc.test"
-        testInstrumentationRunner "org.dimensinfin.android.mvc.test.MVCAndroidJUnitRunner"
+        applicationId "org.dimensinfin.android.mvc.acceptance"
+        testApplicationId "org.dimensinfin.android.mvc.acceptance.test"
+        testInstrumentationRunner "org.dimensinfin.android.mvc.acceptance.test.MVCAndroidJUnitRunner"
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 30

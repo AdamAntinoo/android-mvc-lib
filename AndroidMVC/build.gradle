@@ -60,7 +60,6 @@ android {
         }
         debug {
             initWith release
-            resValue "bool", "CACHE_MVC_VIEWS_ON_CONTROLLER", "false"
         }
     }
     sourceSets {
