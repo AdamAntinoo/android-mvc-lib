@@ -1,23 +1,41 @@
+// - P L U G I N S
 apply plugin: 'com.android.application'
+apply plugin: 'project-report'
 apply plugin: 'jacoco'
-//apply plugin: "com.jaredsburrows.spoon"
-
-// ==================================================================
-// Android configuration
-// ==================================================================
 
 android {
-    defaultConfig {
-        applicationId "cucumber.cukeulator"
-        testApplicationId "cucumber.cukeulator.test"
-        testInstrumentationRunner "cucumber.cukeulator.test.CukeulatorAndroidJUnitRunner"
-        minSdkVersion 14
-        targetSdkVersion 28
-        //uncomment this to clear app data before each test when running with orchestrator
-//        testInstrumentationRunnerArguments clearPackageData: 'true'
-    }
     compileSdkVersion 28
-//    buildToolsVersion rootProject.ext.buildToolsVersion
+    defaultConfig {
+        applicationId "org.dimensinfin.android.mvc"
+        testApplicationId "org.dimensinfin.android.mvc.test"
+        testInstrumentationRunner "org.dimensinfin.android.mvc.test.MVCAndroidJUnitRunner"
+        minSdkVersion 16
+        targetSdkVersion 27
+        versionCode 30
+        versionName "4.4.0"
+        project.archivesBaseName = "MVCAcceptanceTests-$versionName"
+        project.version = android.defaultConfig.versionName
+    }
+    buildTypes {
+        release {
+            debuggable false
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            resValue "string", "appname", "AndroidMVC"
+            resValue "string", "appversion", android.defaultConfig.versionName
+//            resValue "string", "appversionname", "NeoCom" + android.defaultConfig.versionName
+//            resValue "string", "appversionnumber", "\"" + android.defaultConfig.versionCode + "\""
+        }
+        debug {
+            initWith(release)
+            debuggable true
+            shrinkResources false
+            minifyEnabled false
+            useProguard false
+        }
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -41,58 +59,20 @@ android {
     }
 }
 ext {
-    cucumber_javaVersion = '4.3.0'
+    cucumberJavaVersion = '4.3.0'
 }
-// ==================================================================
-// Project dependencies
-// ==================================================================
-
 dependencies {
-    //
-    // The following dependency works, if you build Cucumber-JVM on your local machine:
-    //
-    // androidTestCompile 'io.cucumber:cucumber-android:2.3.2-SNAPSHOT'
-    //
-    // (If you enable it, you must disable the dependency to the stable Cucumber version above.)
-    //
-    // If you have not yet built Cucumber-JVM on your local machine, build it with:
-    //
-    //                   cd <cucumber-jvm-source-root>
-    //                   mvn clean install
-    //
-    // Hint: you find the Cucumber-JVM source root under a parent directory of this file.
-    //
-    // If you only change the Android source, you also can do:
-    //
-    //                   cd <cucumber-jvm-source-root>/android
-    //                   mvn install
-    //
-    // Now, after you have been built Cucumber-JVM with one of the commands above, it is published
-    // to your local Maven repository and may be used by other projects on your local machine.
-    //
-    // For our example project, that means you can execute the feature files, with the just built
-    // Cucumber-JVM library by using the following command (press Alt+F12 in Android Studio):
-    //
-    //                   gradlew connectedCheck --refresh-dependencies
-    //
-    // The --refresh-dependencies option seems not to be required anymore for recent Android Studio
-    // and Gradle versions. But, if your Cucumber-JVM snapshot dependency is not updated
-    // automatically by Gradle, the flag always bypasses any caching of dependencies.
-
-
     implementation 'androidx.appcompat:appcompat:1.0.2'
 
-//    testImplementation 'junit:junit:4.12'
-//    testImplementation 'org.mockito:mockito-core:2.10.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     androidTestImplementation 'androidx.test:rules:1.1.1'
     androidTestUtil 'androidx.test:orchestrator:1.1.1'
 
-    // Use the stable Cucumber version
-    androidTestImplementation "io.cucumber:cucumber-android:$cucumber_javaVersion"
-    androidTestImplementation "io.cucumber:cucumber-picocontainer:$cucumber_javaVersion"
+    androidTestImplementation "io.cucumber:cucumber-android:$cucumberJavaVersion"
+    androidTestImplementation "io.cucumber:cucumber-picocontainer:$cucumberJavaVersion"
 }
 
+// - TASKS
 // ==================================================================
 // Custom tasks
 // ==================================================================
@@ -214,7 +194,7 @@ def executeAdb(String program) {
  * @return
  */
 def getCucumberDevicePath() {
-    return 'sdcard/Android/data/cucumber.cukeulator/files/reports'
+    return 'sdcard/Android/data/org.dimensinfin.android.mvc/files/reports'
 }
 
 /**

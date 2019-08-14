@@ -1,4 +1,4 @@
-package cucumber.cukeulator.test;
+package org.dimensinfin.android.mvc.test;
 
 import android.os.Bundle;
 import cucumber.api.CucumberOptions;
@@ -14,7 +14,7 @@ import java.io.File;
 @CucumberOptions(
         features = "features"
 )
-public class CukeulatorAndroidJUnitRunner extends CucumberAndroidJUnitRunner {
+public class MVCAndroidJUnitRunner extends CucumberAndroidJUnitRunner {
 
 
     @Override

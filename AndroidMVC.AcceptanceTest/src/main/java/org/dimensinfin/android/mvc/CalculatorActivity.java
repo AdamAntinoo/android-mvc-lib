@@ -1,4 +1,4 @@
-package cucumber.cukeulator;
+package org.dimensinfin.android.mvc;
 
 import android.app.Activity;
 import android.os.Bundle;
