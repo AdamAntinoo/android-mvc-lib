@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc;
+package org.dimensinfin.android.mvc.acceptance;
 
 import android.app.Activity;
 import android.os.Bundle;

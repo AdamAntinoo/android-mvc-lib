@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc.test;
+package org.dimensinfin.android.mvc.acceptance.test;
 
 import android.os.Bundle;
 import cucumber.api.CucumberOptions;

@@ -1,9 +1,11 @@
-package org.dimensinfin.android.mvc.activity;
+package org.dimensinfin.android.mvc.acceptance.activity;
 
 import org.dimensinfin.android.mvc.TitlePanel;
+import org.dimensinfin.android.mvc.acceptance.controller.TitlePanelController;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
+import org.dimensinfin.android.mvc.controller.ExceptionController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.controller.TitlePanelController;
+import org.dimensinfin.android.mvc.exception.ExceptionReport;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
 public class AcceptanceControllerFactory extends ControllerFactory {
@@ -15,6 +17,8 @@ public class AcceptanceControllerFactory extends ControllerFactory {
 	public IAndroidController createController( final ICollaboration node ) {
 		if (node instanceof TitlePanel)
 			return new TitlePanelController((TitlePanel) node, this);
+		if (node instanceof ExceptionReport)
+			return new ExceptionController((ExceptionReport) node, this);
 
 		return super.createController(node);
 	}

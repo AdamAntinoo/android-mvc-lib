@@ -55,8 +55,12 @@ public class ExceptionController extends AndroidController<ExceptionReport> {
 		public void updateContent() {
 			this.exceptionCode.setText(this.getController().getModel().getExceptionCode());
 			this.exceptionMessage.setText(this.getController().getModel().getMessage());
-			this.exceptionClassName.setText(this.getController().getModel().getExceptionClass());
+			this.exceptionClassName.setText(this.accessExceptionClass());
 			this.exceptionMethodName.setText(this.getController().getModel().getExceptionMethodName());
+		}
+		private String accessExceptionClass(){
+			final String longName = this.getController().getModel().getExceptionClass();
+			return longName.substring (longName.lastIndexOf ('.'));
 		}
 	}
 }

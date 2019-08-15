@@ -52,7 +52,7 @@ public class ExceptionReport implements ICollaboration {
 		public ExceptionReport build() {
 			// Expand the report.
 			this.onConstruction.element = this.onConstruction.exceptionDelegate.getStackTrace()[0];
-			this.onConstruction.exceptionClass = this.onConstruction.element.getClass().getSimpleName();
+			this.onConstruction.exceptionClass = this.onConstruction.element.getClassName();
 			this.onConstruction.exceptionMethodName = this.onConstruction.element.getMethodName();
 			return this.onConstruction;
 		}

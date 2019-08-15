@@ -33,8 +33,8 @@ public class DataSourceManager {
 	 * @return the oldest DataSource with the same identifier.
 	 */
 	public static IDataSource registerDataSource( @NonNull final IDataSource newSource ) {
-		//		if (null == newSource) return newSource;
-		Objects.requireNonNull(newSource);
+		if ( null == newSource) throw new NullPointerException("The data source cannot be a null reference. Please review the " +
+				                                                       "fragment code and implement the 'createDS' method.");
 		// Check if the data source can be cached.
 		if (newSource.needsCaching()) {
 			DataSourceLocator locator = newSource.getDataSourceLocator();

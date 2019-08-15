@@ -7,9 +7,9 @@ Feature: [MVC01] Intercept render phase exceptions and replace by explanation me
 
   Scenario: [MVC01.01] The creating a new title panel there is an exception and the panel is replaces by a exception panel
 	Given a TitlePanel render
-	When creating the view
-	Then get a NullPointerException
-	And replace the panel by a new ExceptionRender
-	And show the next information on the ExceptionRender
-	  | exceptionName        | exceptionMessage     | exceptionOriginClass | exceptionOriginMethod |
-	  | NullPointerException | NullPointerException | TitlePanelRender     | updateContent         |
+#	When creating the view
+#	Then get a NullPointerException
+#	And replace the panel by a new ExceptionRender
+#	And show the next information on the ExceptionRender
+#	  | exceptionName        | exceptionMessage     | exceptionOriginClass | exceptionOriginMethod |
+#	  | NullPointerException | NullPointerException | TitlePanelRender     | updateContent         |

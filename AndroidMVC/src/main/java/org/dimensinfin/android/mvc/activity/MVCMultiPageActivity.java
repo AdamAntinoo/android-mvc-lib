@@ -36,10 +36,6 @@ import me.relex.circleindicator.CircleIndicator;
  * @since 1.0.0
  */
 public abstract class MVCMultiPageActivity extends FragmentActivity {
-	public enum EMVCExtras {
-		EXTRA_EXCEPTIONMESSAGE, EXTRA_VARIANT
-	}
-
 	protected static Logger logger = LoggerFactory.getLogger(MVCMultiPageActivity.class);
 	private final MVCFragmentPagerAdapter _pageAdapter = new MVCFragmentPagerAdapter(this.getSupportFragmentManager());
 	// - F I E L D - S E C T I O N
@@ -49,15 +45,12 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 	/** Image reference to the background layout item that can be replaced by the application implementation. */
 	protected ImageView background;
 	protected CircleIndicator _indicator;
-
-	// - C O N S T R U C T O R - S E C T I O N
+	private Exception lastException;
 
 	// - A C C E P T A N C E
 	public MVCFragmentPagerAdapter accessPageAdapter() {
 		return this._pageAdapter;
 	}
-
-	// - M E T H O D - S E C T I O N
 
 	/**
 	 * Allows to change the context background that covers the full size of the display
@@ -67,6 +60,8 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 	public void setBackground( final ImageView newBackground ) {
 		this.background = newBackground;
 	}
+
+	// - M E T H O D - S E C T I O N
 
 	/**
 	 * Adds a new <code>Fragment</code> to the list of fragments managed by the pager. The new fragment is added at the
@@ -79,12 +74,14 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 	public void addPage( @NonNull final IPagerFragment newFrag ) {
 		logger.info(">> [MVCMultiPageActivity.addPage]");
 		// Before checking if we have already this fragment we should get its unique identifier.
-		final Fragment frag = this.getSupportFragmentManager().findFragmentByTag(_pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
+		final Fragment frag = this.getSupportFragmentManager().findFragmentByTag(
+				_pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
 		if (null == frag) {
 			_pageAdapter.addPage(newFrag);
 		} else {
 			if (null == newFrag)
-				throw new RuntimeException("RTEX [MVCMultiPageActivity.addPage]> The fragment defined is null and cannot be used.");
+				throw new RuntimeException(
+						"RTEX [MVCMultiPageActivity.addPage]> The fragment defined is null and cannot be used.");
 			// We need to update the fragment cached on the Fragment Manager
 			if (frag instanceof MVCPagerFragment) {
 				logger.info("-- [MVCMultiPageActivity.addPage]> Reusing available fragment. {}"
@@ -97,7 +94,8 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 						.setListCallback(newFrag.getListCallback());
 				_pageAdapter.addPage(newFrag);
 			} else
-				throw new RuntimeException("RTEX [MVCMultiPageActivity.addPage]> The fragment located does not inherit the required functionality. Does not extend MVCPagerFragment.");
+				throw new RuntimeException(
+						"RTEX [MVCMultiPageActivity.addPage]> The fragment located does not inherit the required functionality. Does not extend MVCPagerFragment.");
 		}
 		// Be sure the Fragment context points to a valid context.
 		newFrag.setActivityContext(this);
@@ -109,11 +107,6 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 		}
 		((Fragment) newFrag).onAttach(this);
 		logger.info("<< [MVCMultiPageActivity.addPage]"); //$NON-NLS-1$
-	}
-
-	@Override
-	public void onAttachFragment( final Fragment fragment ) {
-		super.onAttachFragment(fragment);
 	}
 
 	protected void activateIndicator() {
@@ -144,8 +137,6 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 		return this.extras;
 	}
 
-	// - A C T I V I T Y   L I F E C Y C L E
-
 	/**
 	 * This creates the place where to render the components. During the construction it will connect the view with the adapter. Any exception durint
 	 * this state should show the exception rendering are where to render the list of exceptions detected.
@@ -174,6 +165,7 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 			// Cleat the indicator from the view until more than one page is added.
 			this.disableIndicator();
 		} catch (Exception ex) {
+			this.lastException = ex;
 			this.showException(ex); // Show any exception data on the empty page.
 		} finally {
 			logger.info("<< [MVCMultiPageActivity.onCreate]");
@@ -185,6 +177,13 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 		super.onStart();
 		// Update the menu for the first page.
 		this.updateInitialTitle();
+	}
+
+	// - A C T I V I T Y   L I F E C Y C L E
+
+	@Override
+	public void onAttachFragment( final Fragment fragment ) {
+		super.onAttachFragment(fragment);
 	}
 
 	protected void showException( final Exception exception ) {
@@ -215,7 +214,8 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 				}
 			} else this.activateDefaultActionbar();
 		} catch (RuntimeException rtex) {
-			logger.info("EX [ANeoComActivity.setupActionBar]> Exception changing Android ActionBar: {}. Returning to default setup.");
+			logger.info(
+					"EX [ANeoComActivity.setupActionBar]> Exception changing Android ActionBar: {}. Returning to default setup.");
 			this.activateDefaultActionbar();
 		}
 		logger.info("<< [ANeoComActivity.setupActionBar]");
@@ -245,5 +245,9 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 		if (firstFragment instanceof IPagerFragment)
 			this.activateActionBar(((IPagerFragment) firstFragment).generateActionBarView());
 		else this.activateDefaultActionbar();
+	}
+
+	public enum EMVCExtras {
+		EXTRA_EXCEPTIONMESSAGE, EXTRA_VARIANT
 	}
 }
