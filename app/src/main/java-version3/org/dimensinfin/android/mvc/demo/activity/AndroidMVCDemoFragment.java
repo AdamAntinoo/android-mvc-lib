@@ -1,18 +1,22 @@
 package org.dimensinfin.android.mvc.demo.activity;
 
+import android.os.Bundle;
+
 import org.dimensinfin.android.mvc.activity.AbstractPagerFragment;
-import org.dimensinfin.android.mvc.datasource.AMVCDataSource;
 import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
+import org.dimensinfin.android.mvc.datasource.MVCDataSourcev3;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.demo.factory.DemoControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
+import org.dimensinfin.android.mvc.interfaces.IPartFactory;
+import org.dimensinfin.android.mvc.interfaces.IPartsDataSource;
 import org.dimensinfin.android.mvc.model.DemoContainer;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
 import org.dimensinfin.android.mvc.model.DemoItem;
 import org.dimensinfin.android.mvc.model.DemoLabel;
 import org.dimensinfin.android.mvc.model.DemoLabelCounter;
+import org.dimensinfin.core.interfaces.ICollaboration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +39,7 @@ public class AndroidMVCDemoFragment extends AbstractPagerFragment {
 	}
 
 	@Override
-	public IControllerFactory createFactory() {
+	public IPartFactory createFactory() {
 		return new DemoControllerFactory(this.getVariant());
 	}
 
@@ -62,17 +66,14 @@ public class AndroidMVCDemoFragment extends AbstractPagerFragment {
 	 * @return a DataSource instance able to generate the required model for each page variant.
 	 */
 	@Override
-	protected IDataSource registerDataSource() {
+	protected IPartsDataSource registerDataSource() {
 		AbstractPagerFragment.logger.info(">> [AndroidMVCDemoFragment.registerDataSource]");
-		IDataSource ds = null;
+		DemoDataSource ds = null;
 		try {
 			final DataSourceLocator identifier = new DataSourceLocator()
 					.addIdentifier(this.getVariant())
 					.addIdentifier("DEMO");
-			ds = new DemoDataSource(identifier, this.getFactory())
-					.setVariant(getVariant())
-					.setExtras(getExtras())
-					.shouldBeCached(false);
+			ds = new DemoDataSource(identifier, getVariant(), this.getFactory(), getExtras());
 			return ds;
 		} finally {
 			AbstractPagerFragment.logger.info("<< [AndroidMVCDemoFragment.registerDataSource]");
@@ -80,12 +81,9 @@ public class AndroidMVCDemoFragment extends AbstractPagerFragment {
 	}
 }
 
-final class DemoDataSource extends AMVCDataSource {
-	// - F I E L D - S E C T I O N
-
-	// - C O N S T R U C T O R - S E C T I O N
-	public DemoDataSource(DataSourceLocator locator, IControllerFactory factory) {
-		super(locator, factory);
+final class DemoDataSource extends MVCDataSourcev3 {
+	public DemoDataSource( final DataSourceLocator locator, final String variant, final IPartFactory factory, final Bundle extras ) {
+		super(locator, variant, factory, extras);
 	}
 
 	// - M E T H O D - S E C T I O N
@@ -97,8 +95,8 @@ final class DemoDataSource extends AMVCDataSource {
 	 * @return
 	 */
 	public void collaborate2Model() {
-		AMVCDataSource.logger.info(">> [DemoDataSource.collaborate2Model]");
-		this.cleanModel(); // Clear the model before creating it again to remove duplicates.
+		MVCDataSourcev3.logger.info(">> [DemoDataSource.collaborate2Model]");
+		this.cleanup(); // Clear the model before creating it again to remove duplicates.
 		// Check if we should use the cached version.
 //		if (!isCached()) {
 		if (getVariant() == AndroidMVCDemoActivity.EDemoVariants.NON_EXPANDABLE_SECTION.name()) {

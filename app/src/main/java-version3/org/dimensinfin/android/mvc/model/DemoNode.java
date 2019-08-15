@@ -2,7 +2,7 @@ package org.dimensinfin.android.mvc.model;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.dimensinfin.android.mvc.interfaces.ICollaboration;
+import org.dimensinfin.core.interfaces.ICollaboration;
 
 import java.util.ArrayList;
 import java.util.List;

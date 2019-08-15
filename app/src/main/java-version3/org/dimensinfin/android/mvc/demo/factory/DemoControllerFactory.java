@@ -1,13 +1,12 @@
 package org.dimensinfin.android.mvc.demo.factory;
 
+import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.DemoContainerController;
 import org.dimensinfin.android.mvc.controller.DemoHeaderTitleController;
 import org.dimensinfin.android.mvc.controller.DemoLabelCounterController;
+import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.demo.database.Group;
-import org.dimensinfin.android.mvc.factory.ControllerFactory;
-import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.interfaces.ICollaboration;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.model.DemoContainer;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
@@ -15,6 +14,7 @@ import org.dimensinfin.android.mvc.model.DemoItem;
 import org.dimensinfin.android.mvc.model.DemoLabel;
 import org.dimensinfin.android.mvc.controller.DemoItemAndroidController;
 import org.dimensinfin.android.mvc.model.DemoLabelCounter;
+import org.dimensinfin.core.interfaces.ICollaboration;
 
 import androidx.annotation.NonNull;
 
@@ -40,7 +40,7 @@ public class DemoControllerFactory extends ControllerFactory implements IControl
 	 * creation time the controller or to replace controllers when required.
 	 */
 	@Override
-	public IAndroidController createController(final ICollaboration node) {
+	public IAndroidController createController( final ICollaboration node) {
 		logger.info("-- [DemoControllerFactory.createController]> Node class: " + node.getClass().getSimpleName());
 		if (node instanceof DemoHeaderTitle) {
 			// These shows the selected Separator but with a different render.

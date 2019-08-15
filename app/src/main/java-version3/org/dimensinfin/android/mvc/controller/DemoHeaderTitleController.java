@@ -7,19 +7,19 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.dimensinfin.android.mvc.core.AbstractRender;
 import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.model.DemoHeaderTitle;
-import org.dimensinfin.android.mvc.render.AbstractRender;
 
 import androidx.annotation.NonNull;
 
 /**
  * @author Adam Antinoo
  */
-public class DemoHeaderTitleController extends AAndroidController<DemoHeaderTitle> implements IMenuActionTarget, Comparable {
+public class DemoHeaderTitleController extends AndroidController<DemoHeaderTitle> implements IMenuActionTarget, Comparable {
     // - F I E L D - S E C T I O N
 //	private GenericController<DemoHeaderTitle> delegatedController;
     private int iconReference = R.drawable.defaulticonplaceholder;
@@ -27,7 +27,7 @@ public class DemoHeaderTitleController extends AAndroidController<DemoHeaderTitl
 
     // - C O N S T R U C T O R - S E C T I O N
     public DemoHeaderTitleController(@NonNull final DemoHeaderTitle model, @NonNull final IControllerFactory factory) {
-        super(new GenericController<DemoHeaderTitle>(model), factory);
+        super(new ControllerAdapter<DemoHeaderTitle>(model), factory);
         // Connect the delegate.
 //		this.delegatedController = new GenericController<>(model);
     }

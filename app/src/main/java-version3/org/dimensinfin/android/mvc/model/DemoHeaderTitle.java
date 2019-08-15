@@ -2,12 +2,12 @@ package org.dimensinfin.android.mvc.model;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.dimensinfin.android.mvc.interfaces.ICollaboration;
+import org.dimensinfin.core.interfaces.ICollaboration;
+
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
 
 public class DemoHeaderTitle implements ICollaboration {
     private static final long serialVersionUID = 7084637836405461264L;
@@ -36,7 +36,7 @@ public class DemoHeaderTitle implements ICollaboration {
 
     // - I C O L L A B O R A T I O N   I N T E R F A C E
     @Override
-    public List<ICollaboration> collaborate2Model(final String variant) {
+    public List<ICollaboration> collaborate2Model( final String variant) {
         return new ArrayList<ICollaboration>();
     }
 

@@ -1,5 +1,7 @@
 package org.dimensinfin.android.mvc.model;
 
+import org.dimensinfin.core.model.Container;
+
 /**
  * @author Adam Antinoo
  */
