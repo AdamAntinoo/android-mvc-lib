@@ -2,6 +2,7 @@ package org.dimensinfin.android.mvc.controller;
 
 import android.content.Context;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.R;
@@ -55,12 +56,17 @@ public class ExceptionController extends AndroidController<ExceptionReport> {
 		public void updateContent() {
 			this.exceptionCode.setText(this.getController().getModel().getExceptionCode());
 			this.exceptionMessage.setText(this.getController().getModel().getMessage());
-			this.exceptionClassName.setText(this.accessExceptionClass());
-			this.exceptionMethodName.setText(this.getController().getModel().getExceptionMethodName());
+//			this.exceptionClassName.setText(this.accessExceptionClass());
+			this.exceptionMethodName.setText(this.accessExceptionMethodName());
 		}
-		private String accessExceptionClass(){
+
+		//		private String accessExceptionClass(){
+//			final String longName = this.getController().getModel().getExceptionClass();
+//			return longName.substring (longName.lastIndexOf ('.'));
+//		}
+		private String accessExceptionMethodName ( ){
 			final String longName = this.getController().getModel().getExceptionClass();
-			return longName.substring (longName.lastIndexOf ('.'));
+			return longName.substring (longName.lastIndexOf ('.'))+"."+this.getController().getModel().getExceptionMethodName();
 		}
 	}
 }

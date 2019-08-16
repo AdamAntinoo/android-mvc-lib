@@ -1,11 +1,5 @@
 package org.dimensinfin.android.mvc.datasource;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
@@ -17,19 +11,28 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.IPagerFragment;
+import org.dimensinfin.android.mvc.controller.ControllerFactory;
+import org.dimensinfin.android.mvc.controller.ExceptionController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.events.EEvents;
+import org.dimensinfin.android.mvc.exception.ExceptionRenderGenerator;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-
 import org.joda.time.Instant;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is the class that connects the ListView to a model list. If is an extension of the generic BaseAdapter and
@@ -45,20 +48,20 @@ import org.slf4j.LoggerFactory;
  * @author Adam Antinoo
  */
 public class DataSourceAdapter extends BaseAdapter implements PropertyChangeListener {
-	// - S T A T I C - S E C T I O N
-	private static Logger logger = LoggerFactory.getLogger(DataSourceAdapter.class);
-	private static final boolean LOG_ALLOWED = true;
-	private static final String GETTING_VIEW = "-- [DataSourceAdapter.getView]> Getting view [";
 	/** Task handler to manage execution of code that should be done on the main loop thread. */
 	protected static final Handler _handler = new Handler(Looper.getMainLooper());
+	private static final boolean LOG_ALLOWED = true;
+	private static final String GETTING_VIEW = "-- [DataSourceAdapter.getView]> Getting view [";
+	// - S T A T I C - S E C T I O N
+	private static Logger logger = LoggerFactory.getLogger(DataSourceAdapter.class);
 
 	// - F I E L D - S E C T I O N
+	/** The current list of Parts that is being displayed. */
+	private final List<IAndroidController> contentControllerList = new ArrayList<>();
 	/** The Activity where all this structures belong and that is used as the core display context. */
 	private Context context = null;
 	/** An instance for a source of data that will provide the list of <b>Parts</b> to be used to construct the Views. */
 	private IDataSource datasource = null;
-	/** The current list of Parts that is being displayed. */
-	private final List<IAndroidController> contentControllerList = new ArrayList<>();
 
 	// - C O N S T R U C T O R - S E C T I O N
 
@@ -87,6 +90,11 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 		if (null != this.datasource) this.datasource.collaborate2Model();
 	}
 
+	@Override
+	public int getCount() {
+		return contentControllerList.size();
+	}
+
 	// - B A S E   A D A P T E R   I M P L E M E N T A T I O N
 	@Override
 	public Object getItem( final int position ) {
@@ -94,44 +102,8 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	}
 
 	@Override
-	public int getCount() {
-		return contentControllerList.size();
-	}
-
-	@Override
 	public long getItemId( final int position ) {
 		return contentControllerList.get(position).getModelId();
-	}
-
-	@Override
-	public boolean areAllItemsEnabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled( int position ) {
-		return true;
-	}
-
-	@Override
-	public int getItemViewType( int position ) {
-		return 0;
-	}
-
-	@Override
-	public boolean hasStableIds() {
-		return true;
-	}
-
-	/**
-	 * This requires the number of different views we have on the list. This really can be calculated by running over the
-	 * list of controllers and getting the unique list of their render types. This optimization is not already implemented
-	 * but added to the list of features to be added.
-	 *
-	 * @return the number of different views. Forced to be 1 because it is not being calculated.
-	 */
-	public int getViewTypeCount() {
-		return 1;
 	}
 
 	/**
@@ -187,21 +159,70 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 				}
 			}
 		} catch (RuntimeException rtex) {
+			Exception exception;
 			String message = rtex.getMessage();
-			if (null == message) {
-				message = "NullPointerException detected.";
-			}
-			DataSourceAdapter.logger.error("RTEX [DataSourceAdapter.getView]> Runtime Exception: {}", message);
+			if (null == message)
+				exception = new NullPointerException("Detected a null pointer exception while generating a new render view.");
+			else exception = rtex;
+			convertView = new ExceptionRenderGenerator.Builder(exception)
+					                           .withContext(this.getContext())
+					                           .withFactory(new ControllerFactory("-DEFAULT-"))
+					                           .build().getView();
+			DataSourceAdapter.logger.error("RTEX [DataSourceAdapter.getView]> Runtime Exception: {}", exception.getMessage());
 			rtex.printStackTrace();
-			//DEBUG Add exception registration to the exception page.
-			final LayoutInflater mInflater = (LayoutInflater) this.getContext()
-					                                                  .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-			// Under an exception we can replace the View item by this special layout with the Exception message.
-			convertView = mInflater.inflate(R.layout.exception4list, null);
-			TextView exceptionMessage = convertView.findViewById(R.id.exceptionMessage);
-			exceptionMessage.setText(new StringBuilder("[DataSourceAdapter.getView]> RTEX > {}").append(message).toString());
 		}
 		return convertView;
+	}
+
+	@Override
+	public boolean hasStableIds() {
+		return true;
+	}
+
+	/**
+	 * This method should be called when the model transformation has changed. The model may be the same but the
+	 * instantiation of the elements that should be rendered may have changed so the model should be run again and a new
+	 * list part should be generated to be adapted to the viewer contents.
+	 *
+	 * This action should trigger the reconstruction of the view list starting from the data source stored data. Most of
+	 * the already generated controllers should already exist and have their generated views so most of the data on
+	 * repetitive calls is already present and cached. Only when the trigger activated new controllers or it is created by
+	 * a new data event then the controllers may change and the views should be regenerated for new items.
+	 *
+	 * If an element has changed it is supposed that its view was destroyed so on the next iteration to render it should
+	 * be recreated again..
+	 */
+	@Override
+	public void notifyDataSetChanged() {
+		contentControllerList.clear();
+		contentControllerList.addAll(datasource.getDataSectionContents());
+		super.notifyDataSetChanged();
+	}
+
+	@Override
+	public boolean areAllItemsEnabled() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled( int position ) {
+		return true;
+	}
+
+	@Override
+	public int getItemViewType( int position ) {
+		return 0;
+	}
+
+	/**
+	 * This requires the number of different views we have on the list. This really can be calculated by running over the
+	 * list of controllers and getting the unique list of their render types. This optimization is not already implemented
+	 * but added to the list of features to be added.
+	 *
+	 * @return the number of different views. Forced to be 1 because it is not being calculated.
+	 */
+	public int getViewTypeCount() {
+		return 1;
 	}
 
 	private View constructRender( final Context context, final IAndroidController controller ) {
@@ -224,26 +245,6 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 
 	private IAndroidController getCastedItem( final int position ) {
 		return contentControllerList.get(position);
-	}
-
-	/**
-	 * This method should be called when the model transformation has changed. The model may be the same but the
-	 * instantiation of the elements that should be rendered may have changed so the model should be run again and a new
-	 * list part should be generated to be adapted to the viewer contents.
-	 *
-	 * This action should trigger the reconstruction of the view list starting from the data source stored data. Most of
-	 * the already generated controllers should already exist and have their generated views so most of the data on
-	 * repetitive calls is already present and cached. Only when the trigger activated new controllers or it is created by
-	 * a new data event then the controllers may change and the views should be regenerated for new items.
-	 *
-	 * If an element has changed it is supposed that its view was destroyed so on the next iteration to render it should
-	 * be recreated again..
-	 */
-	@Override
-	public void notifyDataSetChanged() {
-		contentControllerList.clear();
-		contentControllerList.addAll(datasource.getDataSectionContents());
-		super.notifyDataSetChanged();
 	}
 
 	// - P R O P E R T Y C H A N G E L I S T E N E R   I N T E R F A C E

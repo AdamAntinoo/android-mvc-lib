@@ -78,7 +78,18 @@ dependencies {
     androidTestImplementation "io.cucumber:cucumber-android:$cucumberJavaVersion"
     androidTestImplementation "io.cucumber:cucumber-picocontainer:$cucumberJavaVersion"
 }
-
+//dependencies {
+//    androidTestImplementation("io.cucumber:gherkin:5.1.0") {
+//        exclude group: "io.cucumber", module: "gherkin-jvm-deps"
+//    }
+//    androidTestImplementation files('libs/cucumber-core-4.3.0.jar')
+//    androidTestImplementation("io.cucumber:cucumber-android:$cucumberJavaVersion") {
+//        exclude group: 'io.cucumber', module: 'cucumber-core'
+//    }
+//    androidTestImplementation("io.cucumber:cucumber-picocontainer:$cucumberJavaVersion") {
+//        exclude group: 'io.cucumber', module: 'cucumber-core'
+//    }
+//}
 // - TASKS
 // ==================================================================
 // Custom tasks

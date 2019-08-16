@@ -29,7 +29,7 @@ public class TitlePanelRender extends MVCRender {
 
 	@Override
 	public void initializeViews() {
-		this.title = this.getView().findViewById(R.id.title);
+//		this.title = this.getView().findViewById(R.id.title);
 	}
 
 	@Override
