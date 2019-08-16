@@ -17,6 +17,8 @@ import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 import me.relex.circleindicator.CircleIndicator;
 
 /**
@@ -73,15 +75,16 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 	 */
 	public void addPage( @NonNull final IPagerFragment newFrag ) {
 		logger.info(">> [MVCMultiPageActivity.addPage]");
+		Objects.requireNonNull(newFrag);
 		// Before checking if we have already this fragment we should get its unique identifier.
 		final Fragment frag = this.getSupportFragmentManager().findFragmentByTag(
 				_pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
 		if (null == frag) {
 			_pageAdapter.addPage(newFrag);
 		} else {
-			if (null == newFrag)
-				throw new RuntimeException(
-						"RTEX [MVCMultiPageActivity.addPage]> The fragment defined is null and cannot be used.");
+//			if (null == newFrag)
+//				throw new RuntimeException(
+//						"RTEX [MVCMultiPageActivity.addPage]> The fragment defined is null and cannot be used.");
 			// We need to update the fragment cached on the Fragment Manager
 			if (frag instanceof MVCPagerFragment) {
 				logger.info("-- [MVCMultiPageActivity.addPage]> Reusing available fragment. {}"
@@ -95,7 +98,7 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 				_pageAdapter.addPage(newFrag);
 			} else
 				throw new RuntimeException(
-						"RTEX [MVCMultiPageActivity.addPage]> The fragment located does not inherit the required functionality. Does not extend MVCPagerFragment.");
+						"The fragment located does not inherit the required functionality. Does not extend MVCPagerFragment.");
 		}
 		// Be sure the Fragment context points to a valid context.
 		newFrag.setActivityContext(this);

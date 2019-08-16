@@ -35,6 +35,7 @@ android {
             shrinkResources false
             minifyEnabled false
             useProguard false
+            testCoverageEnabled true
         }
     }
 

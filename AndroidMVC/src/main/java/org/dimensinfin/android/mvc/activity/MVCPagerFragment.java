@@ -80,7 +80,7 @@ public abstract class MVCPagerFragment extends MVCFragment {
 	public Exception getLastException() {
 		return this.lastException;
 	}
-// - F R A G M E N T   L I F E C Y C L E
+	// - F R A G M E N T   L I F E C Y C L E
 
 	@Nullable
 	@Override
@@ -172,7 +172,6 @@ public abstract class MVCPagerFragment extends MVCFragment {
 		logger.info(">> [MVCPagerFragment.onStart]");
 		super.onStart();
 		if (null != this._adapter) { // Cehck that view creation complete successfully.
-//		Thread.setDefaultUncaughtExceptionHandler(new ToastExceptionHandler(this.getActivityContext()));
 			// Start counting the elapsed time while we generate and load the  model.
 			this.initializeProgressIndicator();
 			// We use another thread to perform the data source generation that is a long time action.
@@ -190,7 +189,7 @@ public abstract class MVCPagerFragment extends MVCFragment {
 	}
 
 	@Override
-	public void onSaveInstanceState( Bundle outState ) {
+	public void onSaveInstanceState(final  Bundle outState ) {
 		super.onSaveInstanceState(outState);
 		// Save the variant assigned to this fragment instance.
 		outState.putString(MVCMultiPageActivity.EMVCExtras.EXTRA_VARIANT.name(), getVariant());
@@ -309,11 +308,6 @@ public abstract class MVCPagerFragment extends MVCFragment {
 	}
 
 	// - U T I L I T I E S
-	//    private <T> T assertNotNull(final T target) {
-	//        assert (target != null);
-	//        return target;
-	//    }
-
 	private void initializeProgressIndicator() {
 		_progressElapsedCounter = AppCompatibilityUtils.assertNotNull(_container.findViewById(R.id.progressCounter));
 		final Instant _elapsedTimer = Instant.now();
