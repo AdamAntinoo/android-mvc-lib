@@ -1,13 +1,13 @@
 package org.dimensinfin.android.mvc.support;
 
+import org.dimensinfin.android.mvc.domain.Spacer;
+import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.interfaces.IExpandable;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.interfaces.IExpandable;
-import org.dimensinfin.core.model.Separator;
-
-public class Container extends Separator implements IExpandable {
+public class Container extends Spacer implements IExpandable {
 	private static final long serialVersionUID = -957283664928489030L;
 
 	// - F I E L D - S E C T I O N
@@ -16,16 +16,17 @@ public class Container extends Separator implements IExpandable {
 	private boolean _renderIfEmpty = true;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public Container() {
+	protected Container() {
 		super();
 	}
 
-	public Container(final String title) {
-		super(title);
+	@Deprecated
+	public Container( final String title ) {
+		this.setLabel(title);
 	}
 
 	// - M E T H O D - S E C T I O N
-	public int addContent(final ICollaboration node) {
+	public int addContent( final ICollaboration node ) {
 		this._contents.add(node);
 		return _contents.size();
 	}
@@ -54,17 +55,11 @@ public class Container extends Separator implements IExpandable {
 	 * Check if the <code>Container</code> has contents and then add all them to the model.
 	 */
 	@Override
-	public List<ICollaboration> collaborate2Model(final String variant) {
+	public List<ICollaboration> collaborate2Model( final String variant ) {
 		return this.getContents();
 //		ArrayList<ICollaboration> results = new ArrayList<ICollaboration>();
 //		results.addAll(this.getContents());
 //		return results;
-	}
-
-	// - I E X P A N D A B L E   I N T E R F A C E
-	public boolean toggleExpand() {
-		this._expanded = !this._expanded;
-		return this._expanded;
 	}
 
 	public boolean collapse() {
@@ -88,11 +83,17 @@ public class Container extends Separator implements IExpandable {
 		return this._expanded;
 	}
 
+	// - I E X P A N D A B L E   I N T E R F A C E
+	public boolean toggleExpand() {
+		this._expanded = !this._expanded;
+		return this._expanded;
+	}
+
 	public boolean isRenderWhenEmpty() {
 		return this._renderIfEmpty;
 	}
 
-	public IExpandable setRenderWhenEmpty( final boolean renderWhenEmpty) {
+	public IExpandable setRenderWhenEmpty( final boolean renderWhenEmpty ) {
 		this._renderIfEmpty = renderWhenEmpty;
 		return this;
 	}

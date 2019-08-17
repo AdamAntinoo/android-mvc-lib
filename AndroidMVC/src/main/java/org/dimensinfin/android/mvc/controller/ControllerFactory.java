@@ -3,11 +3,11 @@ package org.dimensinfin.android.mvc.controller;
 import android.content.Context;
 import android.content.Intent;
 
+import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.support.SeparatorController;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.model.Separator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,15 +30,19 @@ public class ControllerFactory implements IControllerFactory {
 	// - M E T H O D - S E C T I O N
 	public IAndroidController createController( final ICollaboration node ) {
 		// Associate the default classes defined at the MVC.
-		if (node instanceof Separator) {
-			return new SeparatorController((Separator) node, this)
+		if (node instanceof Spacer) {
+			return new SeparatorController((Spacer) node, this)
 					       .setRenderMode(this.getVariant());
 		}
 		if (node instanceof ExceptionReport) {
 			return new ExceptionController((ExceptionReport) node, this);
 		}
 		// If no part is trapped then result a NOT FOUND mark
-		return new SeparatorController(new Separator("-NO Model-Controller match-[" + node.getClass().getSimpleName() + "]-")
+		return new SeparatorController(new Spacer.Builder()
+				                               .withLabel("-NO Model-Controller match-[" +
+						                                          node.getClass().getSimpleName() +
+						                                          "]-")
+				                               .build()
 				, this);
 	}
 

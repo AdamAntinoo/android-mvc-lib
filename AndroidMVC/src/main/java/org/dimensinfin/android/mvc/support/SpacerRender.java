@@ -11,12 +11,12 @@ import org.dimensinfin.android.mvc.render.MVCRender;
  * @author Adam Antinoo
  */
 
-public class SeparatorRender extends MVCRender {
+public class SpacerRender extends MVCRender {
 	// - F I E L D - S E C T I O N
 	private TextView title;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public SeparatorRender(final SpacerController controller, final Context context) {
+	public SpacerRender( final SpacerController controller, final Context context) {
 		super(controller, context);
 	}
 

@@ -1,11 +1,10 @@
 package org.dimensinfin.android.mvc.demo.activity;
 
 import android.os.Bundle;
-import org.dimensinfin.android.mvc.activity.AbstractPagerActivity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-public class AndroidMVCDemoActivity extends AbstractPagerActivity {
+import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
+
+public class AndroidMVCDemoActivity extends MVCMultiPageActivity {
 
 	public enum EDemoVariants {
 		NON_EXPANDABLE_SECTION, EXPANDABLE_SECTION, DATABASE_SECTION

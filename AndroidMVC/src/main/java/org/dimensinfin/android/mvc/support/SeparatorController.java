@@ -3,18 +3,18 @@ package org.dimensinfin.android.mvc.support;
 import android.content.Context;
 
 import org.dimensinfin.android.mvc.controller.AndroidController;
+import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
-import org.dimensinfin.core.model.Separator;
 
 import androidx.annotation.NonNull;
 
-public class SeparatorController extends AndroidController<Separator> {
+public class SeparatorController extends AndroidController<Spacer> {
 	// - F I E L D - S E C T I O N
 //	private ControllerAdapter<Separator> delegatedController;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	public SeparatorController(@NonNull final Separator model, @NonNull final IControllerFactory factory) {
+	public SeparatorController(@NonNull final Spacer model, @NonNull final IControllerFactory factory) {
 		super(model, factory);
 	}
 
@@ -53,7 +53,7 @@ public class SeparatorController extends AndroidController<Separator> {
 
 	@Override
 	public IRender buildRender(final Context context) {
-		return new SeparatorRender(this, context);
+		return null;
 	}
 
 	@Override
@@ -62,11 +62,11 @@ public class SeparatorController extends AndroidController<Separator> {
 	}
 
 	// - C O R E
-	@Override
-	public int compareTo(@NonNull final Object other) {
-		if (other instanceof SeparatorController) {
-			final SeparatorController target = (SeparatorController) other;
-			return this.getModel().getTitle().compareTo(target.getModel().getTitle());
-		} else return -1;
-	}
+//	@Override
+//	public int compareTo(@NonNull final Object other) {
+//		if (other instanceof SeparatorController) {
+//			final SeparatorController target = (SeparatorController) other;
+//			return this.getModel().getTitle().compareTo(target.getModel().getTitle());
+//		} else return -1;
+//	}
 }

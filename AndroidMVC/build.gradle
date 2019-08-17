@@ -64,7 +64,7 @@ android {
     }
     sourceSets {
         main {
-            java.srcDirs += 'src/main/java-v3'
+//            java.srcDirs += 'src/main/java-v3'
             res.srcDirs += 'src/main/res-ui'
             res.srcDirs += 'src/main/res-dynamic'
             res.srcDirs += 'src/main/res-v3'
@@ -143,7 +143,7 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.7'
 
     implementation 'me.relex:circleindicator:2.1.0'
-    implementation 'org.dimensinfin:CoreBase.core:3.0.1'
+    implementation 'org.dimensinfin:CoreBase.core:3.1.0'
 }
 
 // - T E S T I N G
