@@ -12,7 +12,10 @@ import java.io.File;
  * annotated, an exception is thrown. This annotation does not have to placed in runner class
 */
 @CucumberOptions(
-        features = "features"
+        features = "features",
+        plugin = { "html:target/cucumber-html-report",
+                "json:target/cucumber-dry.json", "pretty:target/cucumber-pretty-dry.txt",
+                "usage:target/cucumber-usage-dry.json", "junit:target/cucumber-results-dry.xml" }
 )
 public class MVCAndroidJUnitRunner extends CucumberAndroidJUnitRunner {
 

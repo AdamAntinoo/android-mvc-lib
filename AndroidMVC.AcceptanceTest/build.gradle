@@ -2,6 +2,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'project-report'
 apply plugin: 'jacoco'
+apply from: './jacoco.gradle'
 
 android {
     compileSdkVersion 28
@@ -98,18 +99,14 @@ dependencies {
 //        exclude group: 'io.cucumber', module: 'cucumber-core'
 //    }
 //}
+
 // - TASKS
-// ==================================================================
-// Custom tasks
-// ==================================================================
-
-
-task runInstrumentationTests {
-    group "verification"
+//task runInstrumentationTests {
+//    group "reporting"
 //    mustRunAfter "deleteExistingCucumberReports"
 //    dependsOn "deleteExistingCucumberReports"
-    finalizedBy "downloadCucumberReports"
-}
+//    finalizedBy "downloadCucumberReports"
+//}
 
 //spoon {
 //    debug = true

@@ -59,4 +59,8 @@ public class ControllerFactory implements IControllerFactory {
 		Objects.requireNonNull(activity);
 		return new Intent(context, activity);
 	}
+
+	public void cleanRegistry() {
+		activityRegistry.clear();
+	}
 }

@@ -36,6 +36,7 @@ public class ControllerFactoryTest {
 		final Context context = Mockito.mock(Context.class);
 		final ControllerFactory factory = new ControllerFactory("-UNIT-TEST-");
 
+		factory.cleanRegistry();
 		factory.prepareActivity("AcceptanceActivity01", context);
 	}
 

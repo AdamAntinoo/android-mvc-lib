@@ -150,7 +150,6 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 	protected void onCreate( final Bundle savedInstanceState ) {
 		logger.info(">> [MVCMultiPageActivity.onCreate]");
 		super.onCreate(savedInstanceState);
-//		Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this));
 		try {
 			this.extractExtras(savedInstanceState);
 			this.setContentView(R.layout.activity_pager); // Set the layout to the core context
@@ -161,9 +160,9 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 			_indicator = this.findViewById(R.id.indicator);
 			// Check page structure.
 			if (null == _pageContainer)
-				throw new MVCException("RTEX [MVCMultiPageActivity.onCreate]> Expected UI element not found.");
+				throw new MVCException("Expected UI element not found.");
 			if (null == background)
-				throw new MVCException("RTEX [MVCMultiPageActivity.onCreate]> Expected UI element not found.");
+				throw new MVCException("Expected UI element not found.");
 			_pageContainer.setAdapter(_pageAdapter);
 			// Cleat the indicator from the view until more than one page is added.
 			this.disableIndicator();
@@ -204,7 +203,7 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 	}
 
 	protected void activateActionBar( final View actionBarView ) {
-		logger.info(">> [ANeoComActivity.setupActionBar]");
+		logger.info(">> [MVCMultiPageActivity.activateActionBar]");
 		try {
 			if (null != actionBarView) {
 				ActionBar actionbar = this.getActionBar();
@@ -218,10 +217,10 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 			} else this.activateDefaultActionbar();
 		} catch (RuntimeException rtex) {
 			logger.info(
-					"EX [ANeoComActivity.setupActionBar]> Exception changing Android ActionBar: {}. Returning to default setup.");
+					"EX [MVCMultiPageActivity.activateActionBar]> Exception changing Android ActionBar: {}. Returning to default setup.");
 			this.activateDefaultActionbar();
 		}
-		logger.info("<< [ANeoComActivity.setupActionBar]");
+		logger.info("<< [MVCMultiPageActivity.activateActionBar]");
 	}
 
 	protected void deactivateActionBar() {
