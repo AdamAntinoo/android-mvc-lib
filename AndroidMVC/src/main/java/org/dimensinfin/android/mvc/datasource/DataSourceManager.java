@@ -1,14 +1,12 @@
 package org.dimensinfin.android.mvc.datasource;
 
-import java.util.HashMap;
-import java.util.Objects;
-
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
 
 /**
  * Controls and caches all DataSources in use that are allowed to be cacheable. Will use a single multifield Locator to
@@ -17,9 +15,9 @@ import org.slf4j.LoggerFactory;
  * @author Adam Antinoo
  */
 public class DataSourceManager {
+	private static final HashMap<String, IDataSource> dataSources = new HashMap<String, IDataSource>();
 	// - S T A T I C - S E C T I O N
 	private static Logger logger = LoggerFactory.getLogger(DataSourceManager.class);
-	private static final HashMap<String, IDataSource> dataSources = new HashMap<String, IDataSource>();
 
 	private DataSourceManager() {
 	}
@@ -33,27 +31,28 @@ public class DataSourceManager {
 	 * @return the oldest DataSource with the same identifier.
 	 */
 	public static IDataSource registerDataSource( @NonNull final IDataSource newSource ) {
-		if ( null == newSource) throw new NullPointerException("The data source cannot be a null reference. Please review the " +
-				                                                       "fragment code and implement the 'createDS' method.");
+		if (null == newSource) throw new NullPointerException("The data source cannot be a null reference. Please review the " +
+				                                                      "fragment code and implement the 'createDS' method.");
 		// Check if the data source can be cached.
-		if (newSource.needsCaching()) {
+		if (newSource.isCacheable()) {
 			DataSourceLocator locator = newSource.getDataSourceLocator();
 			// Search for locator on cache.
 			final IDataSource found = DataSourceManager.dataSources.get(locator.getIdentity());
-			if (null == found) {
+			if (null == found) { // Register the new data source.
 				DataSourceManager.dataSources.put(locator.getIdentity(), newSource);
 				DataSourceManager.logger
 						.info("-- [DataSourceManager.registerDataSource]> Registering new DataSource: {}", locator.getIdentity());
 				//				found = newSource;
-				AppCompatibilityUtils.backgroundExecutor.submit(() -> {
-					try {
-						newSource.prepareModel();
-					} catch (RuntimeException runtime) {
-						runtime.printStackTrace();
-					}
-				});
+//				AppCompatibilityUtils.backgroundExecutor.submit(() -> {
+//					try {
+//						newSource.prepareModel();
+//					} catch (RuntimeException runtime) {
+//						runtime.printStackTrace();
+//					}
+//				});
 			}
-		} else AppCompatibilityUtils.backgroundExecutor.submit(() -> {
+		}
+		AppCompatibilityUtils.backgroundExecutor.submit(() -> {
 			try {
 				newSource.prepareModel();
 			} catch (RuntimeException runtime) {
@@ -65,5 +64,9 @@ public class DataSourceManager {
 
 	public static void clear() {
 		dataSources.clear();
+	}
+
+	public IDataSource searchDataSource( final DataSourceLocator locator ) {
+		return DataSourceManager.dataSources.get(locator.getIdentity());
 	}
 }

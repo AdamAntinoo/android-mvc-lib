@@ -34,7 +34,7 @@ public class MVC01Fragment extends MVCPagerFragment {
 			this.addModelContents(new TitlePanel.Builder().withTitle("MVC-Acceptance").build());
 		}
 
-		public static class Builder extends MVCDataSource.BaseBuilder<MVC01DataSource, MVC01DataSource.Builder> {
+		public static class Builder extends MVCDataSource.Builder<MVC01DataSource, Builder> {
 			private MVC01DataSource onConstruction;
 
 			@Override

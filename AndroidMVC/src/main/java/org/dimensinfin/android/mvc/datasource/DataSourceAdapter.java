@@ -1,23 +1,18 @@
 package org.dimensinfin.android.mvc.datasource;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.activity.IPagerFragment;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
-import org.dimensinfin.android.mvc.controller.ExceptionController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.exception.ExceptionRenderGenerator;
@@ -48,19 +43,19 @@ import java.util.List;
  * @author Adam Antinoo
  */
 public class DataSourceAdapter extends BaseAdapter implements PropertyChangeListener {
-	protected static Logger logger = LoggerFactory.getLogger(DataSourceAdapter.class);
 	/** Task handler to manage execution of code that should be done on the main loop thread. */
 	private static final Handler _handler = new Handler(Looper.getMainLooper());
 	private static final boolean LOG_ALLOWED = true;
 	private static final String GETTING_VIEW = "-- [DataSourceAdapter.getView]> Getting view [";
+	protected static Logger logger = LoggerFactory.getLogger(DataSourceAdapter.class);
 
 	// - F I E L D - S E C T I O N
 	/** The current list of Parts that is being displayed. */
 	protected final List<IAndroidController> contentControllerList = new ArrayList<>();
-	/** The Activity where all this structures belong and that is used as the core display context. */
-	private Context context = null;
 	/** An instance for a source of data that will provide the list of <b>Parts</b> to be used to construct the Views. */
 	protected IDataSource datasource = null;
+	/** The Activity where all this structures belong and that is used as the core display context. */
+	private Context context = null;
 
 	// - C O N S T R U C T O R - S E C T I O N
 
@@ -147,7 +142,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 				convertView.setClickable(true);
 				convertView.setOnLongClickListener((OnLongClickListener) item);
 			}
-			item.addPropertyChangeListener(datasource); // Add the DataSource as an event listener for the Controllers.
+//			item.addPropertyChangeListener(datasource); // Add the DataSource as an event listener for the Controllers.
 			if (LOG_ALLOWED) {
 				// Filter out the spinner.
 				if (!exitMessage.contains("OnLoadSpinnerController")) {
@@ -163,9 +158,9 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 				exception = new NullPointerException("Detected a null pointer exception while generating a new render view.");
 			else exception = rtex;
 			convertView = new ExceptionRenderGenerator.Builder(exception)
-					                           .withContext(this.getContext())
-					                           .withFactory(new ControllerFactory("-DEFAULT-"))
-					                           .build().getView();
+					              .withContext(this.getContext())
+					              .withFactory(new ControllerFactory("-DEFAULT-"))
+					              .build().getView();
 			DataSourceAdapter.logger.error("RTEX [DataSourceAdapter.getView]> Runtime Exception: {}", exception.getMessage());
 			rtex.printStackTrace();
 		}

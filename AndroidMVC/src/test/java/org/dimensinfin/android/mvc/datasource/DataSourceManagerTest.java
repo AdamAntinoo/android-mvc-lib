@@ -23,7 +23,7 @@ public class DataSourceManagerTest {
 	@Test
 	public void registerDataSource_notcached() throws InterruptedException {
 		final IDataSource datasource = Mockito.mock(IDataSource.class);
-		Mockito.when(datasource.needsCaching()).thenReturn(false);
+		Mockito.when(datasource.isCacheable()).thenReturn(false);
 		DataSourceManager.registerDataSource(datasource);
 		Thread.sleep(TimeUnit.SECONDS.toMillis(1));
 		Mockito.verify(datasource, times(1)).prepareModel();
@@ -34,7 +34,7 @@ public class DataSourceManagerTest {
 		final IDataSource datasource = Mockito.mock(IDataSource.class);
 
 		// When
-		Mockito.when(datasource.needsCaching()).thenReturn(true);
+		Mockito.when(datasource.isCacheable()).thenReturn(true);
 		Mockito.when(datasource.getDataSourceLocator()).thenReturn(
 				new DataSourceLocator().addIdentifier("TEST/LOCATOR")
 		);
@@ -51,7 +51,7 @@ public class DataSourceManagerTest {
 		final IDataSource datasource = Mockito.mock(IDataSource.class);
 
 		// When
-		Mockito.when(datasource.needsCaching()).thenReturn(true);
+		Mockito.when(datasource.isCacheable()).thenReturn(true);
 		Mockito.when(datasource.getDataSourceLocator()).thenReturn(
 				new DataSourceLocator().addIdentifier("TEST/LOCATOR")
 		);
