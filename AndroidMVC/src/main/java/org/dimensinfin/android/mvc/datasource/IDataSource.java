@@ -1,18 +1,18 @@
 package org.dimensinfin.android.mvc.datasource;
 
+import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.core.interfaces.IEventReceiver;
+
 import java.beans.PropertyChangeListener;
 import java.util.List;
-import java.util.concurrent.Future;
 
-import org.dimensinfin.android.mvc.controller.IAndroidController;
-
-public interface IDataSource extends PropertyChangeListener {
+public interface IDataSource extends IEventReceiver {
 	DataSourceLocator getDataSourceLocator();
 
-	boolean needsCaching();
+	boolean isCacheable();
 
 
-	void addPropertyChangeListener(final PropertyChangeListener newListener);
+	void addPropertyChangeListener( final PropertyChangeListener newListener );
 
 	/**
 	 * This is the action to signal the data source to start searching for its data to process it and generate
@@ -43,5 +43,6 @@ public interface IDataSource extends PropertyChangeListener {
 	 * @return the list of data section controllers to be rendered.
 	 */
 	List<IAndroidController> getDataSectionContents();
+
 	void collaborate2Model();
 }
