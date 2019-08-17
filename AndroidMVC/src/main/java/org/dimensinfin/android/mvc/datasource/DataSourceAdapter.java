@@ -48,20 +48,19 @@ import java.util.List;
  * @author Adam Antinoo
  */
 public class DataSourceAdapter extends BaseAdapter implements PropertyChangeListener {
+	protected static Logger logger = LoggerFactory.getLogger(DataSourceAdapter.class);
 	/** Task handler to manage execution of code that should be done on the main loop thread. */
-	protected static final Handler _handler = new Handler(Looper.getMainLooper());
+	private static final Handler _handler = new Handler(Looper.getMainLooper());
 	private static final boolean LOG_ALLOWED = true;
 	private static final String GETTING_VIEW = "-- [DataSourceAdapter.getView]> Getting view [";
-	// - S T A T I C - S E C T I O N
-	private static Logger logger = LoggerFactory.getLogger(DataSourceAdapter.class);
 
 	// - F I E L D - S E C T I O N
 	/** The current list of Parts that is being displayed. */
-	private final List<IAndroidController> contentControllerList = new ArrayList<>();
+	protected final List<IAndroidController> contentControllerList = new ArrayList<>();
 	/** The Activity where all this structures belong and that is used as the core display context. */
 	private Context context = null;
 	/** An instance for a source of data that will provide the list of <b>Parts</b> to be used to construct the Views. */
-	private IDataSource datasource = null;
+	protected IDataSource datasource = null;
 
 	// - C O N S T R U C T O R - S E C T I O N
 
@@ -111,7 +110,6 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * not create more views than the needed ones and the reduction of code line is s must that will improve user response
 	 * times.
 	 */
-	//	@SuppressLint("ViewHolder")
 	public View getView( final int position, View convertView, final ViewGroup parent ) {
 		final Instant chrono = Instant.now();
 		String exitMessage;

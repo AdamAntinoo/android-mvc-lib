@@ -30,7 +30,7 @@ public class MVC01Fragment extends MVCPagerFragment {
 
 		@Override
 		public void collaborate2Model() {
-//			this.addHeaderContents(new TitlePanel.Builder().withTitle("MVC-Acceptance").build());
+			this.addHeaderContents(new TitlePanel.Builder().withTitle("MVC-Acceptance").build());
 			this.addModelContents(new TitlePanel.Builder().withTitle("MVC-Acceptance").build());
 		}
 
