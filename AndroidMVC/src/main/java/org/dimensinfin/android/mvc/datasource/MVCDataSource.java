@@ -392,6 +392,7 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 
 		public B withExtras( final Bundle extras ) {
 			if (null != extras) this.getActual().setExtras(extras);
+			else this.getActual().setExtras(new Bundle());
 			return this.actualClassBuilder;
 		}
 
