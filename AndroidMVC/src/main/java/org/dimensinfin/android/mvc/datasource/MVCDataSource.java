@@ -130,23 +130,19 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 		return locator;
 	}
 
-	//    @Override
 	public Bundle getExtras() {
 		return extras;
 	}
 
-	//    @Override
 	public MVCDataSource setExtras( final Bundle extras ) {
 		this.extras = extras;
 		return this;
 	}
 
-	//    @Override
 	public String getVariant() {
 		return variant;
 	}
 
-	//    @Override
 	public MVCDataSource setVariant( final String variant ) {
 		this.variant = variant;
 		return this;
@@ -211,9 +207,9 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 		synchronized (this.headerModelRoot) {
 			for (ICollaboration modelNode : this.headerModelRoot) {
 				final IAndroidController newController = this.controllerFactory.createController(modelNode);
+				this.controllerHeaderSectionRoot.add(newController);
 				newController.setDataSource(this); // Connect the controller to the originator data source
 				newController.refreshChildren();
-				this.controllerHeaderSectionRoot.add(newController);
 			}
 		}
 		logger.info("<< [AMVCdataSource.refreshHeaderSection]> Contents: {}", this.controllerHeaderSectionRoot.size());
@@ -226,9 +222,9 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 			for (ICollaboration modelNode : this.dataModelRoot) {
 				try {
 					final IAndroidController newController = this.controllerFactory.createController(modelNode);
+					this.controllerDataSectionRoot.add(newController);
 					newController.setDataSource(this); // Connect the controller to the originator data source
 					newController.refreshChildren();
-					this.controllerDataSectionRoot.add(newController);
 				} catch (ClassCastException cce) {
 					this.controllerDataSectionRoot.add(this.controllerFactory.createController(new Separator(cce.getMessage())));
 				}

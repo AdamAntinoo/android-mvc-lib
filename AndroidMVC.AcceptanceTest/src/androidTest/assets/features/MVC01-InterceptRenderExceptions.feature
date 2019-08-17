@@ -9,5 +9,5 @@ Feature: [MVC01] Intercept render phase exceptions and replace by explanation me
 	Given a TitlePanel render
 	When creating the view
 	Then show the next information on the ExceptionRender
-	  | exceptionName        | exceptionMessage     | exceptionOriginClass | exceptionOriginMethod |
-	  | NullPointerException | NullPointerException | TitlePanelRender     | updateContent         |
+	  | exceptionName        | exceptionMessage     | exceptionOriginClass            |
+	  | NullPointerException | NullPointerException | .TitlePanelRender.updateContent |

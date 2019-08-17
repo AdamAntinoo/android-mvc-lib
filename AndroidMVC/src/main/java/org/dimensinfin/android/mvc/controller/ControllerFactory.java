@@ -53,6 +53,8 @@ public class ControllerFactory implements IControllerFactory {
 	}
 
 	public Intent prepareActivity( final String activityCode, final Context context ) {
+		Objects.requireNonNull(activityCode);
+		Objects.requireNonNull(context);
 		final Class activity = activityRegistry.get(activityCode);
 		Objects.requireNonNull(activity);
 		return new Intent(context, activity);

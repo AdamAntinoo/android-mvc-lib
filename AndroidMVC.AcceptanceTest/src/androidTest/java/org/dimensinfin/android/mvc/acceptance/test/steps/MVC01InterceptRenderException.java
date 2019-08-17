@@ -7,22 +7,21 @@ import android.widget.TextView;
 import androidx.test.rule.ActivityTestRule;
 
 import org.dimensinfin.android.mvc.acceptance.R;
-import org.dimensinfin.android.mvc.acceptance.activity.AcceptanceActivity;
+import org.dimensinfin.android.mvc.acceptance.activity.AcceptanceActivity01;
 import org.dimensinfin.android.mvc.acceptance.activity.MVC01Fragment;
 import org.junit.Assert;
 
 import java.util.List;
 import java.util.Map;
 
-import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class MVC01InterceptRenderException {
 	private static final String EXCEPTION_NAME = "exceptionName";
-	private ActivityTestRule<AcceptanceActivity> mActivityRule = new ActivityTestRule<>(AcceptanceActivity.class, false, false);
-	private AcceptanceActivity activity;
+	private ActivityTestRule<AcceptanceActivity01> mActivityRule = new ActivityTestRule<>(AcceptanceActivity01.class, false, false);
+	private AcceptanceActivity01 activity;
 	private MVC01Fragment fragment;
 
 //	@After

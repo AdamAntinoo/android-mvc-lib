@@ -10,10 +10,10 @@ import org.dimensinfin.android.mvc.acceptance.controller.TitlePanelController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.render.MVCRender;
 
-public class TitlePanelRender extends MVCRender {
+public class TitlePanelCompleteRender extends MVCRender {
 	private TextView title;
 
-	public TitlePanelRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
+	public TitlePanelCompleteRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 		super(controller, context);
 	}
 
@@ -29,7 +29,7 @@ public class TitlePanelRender extends MVCRender {
 
 	@Override
 	public void initializeViews() {
-//		this.title = this.getView().findViewById(R.id.title);
+		this.title = this.getView().findViewById(R.id.title);
 	}
 
 	@Override

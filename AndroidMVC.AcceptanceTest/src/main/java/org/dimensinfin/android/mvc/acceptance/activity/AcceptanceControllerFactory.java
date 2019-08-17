@@ -16,7 +16,7 @@ public class AcceptanceControllerFactory extends ControllerFactory {
 	@Override
 	public IAndroidController createController( final ICollaboration node ) {
 		if (node instanceof TitlePanel)
-			return new TitlePanelController((TitlePanel) node, this);
+			return new TitlePanelController((TitlePanel) node, this).setRenderMode(this.getVariant());
 		if (node instanceof ExceptionReport)
 			return new ExceptionController((ExceptionReport) node, this);
 

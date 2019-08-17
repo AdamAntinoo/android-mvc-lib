@@ -7,7 +7,7 @@
         android:label="@string/appname"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".activity.AcceptanceActivity"
+            android:name=".activity.AcceptanceActivity01"
             android:label="MultiPageActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
