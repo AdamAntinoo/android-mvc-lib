@@ -21,7 +21,7 @@
         android:layout_gravity="center|center_horizontal"
         android:gravity="center"
         android:visibility="visible"
-        android:text="@string/default_duration"
+        android:text="00s"
         android:textColor="@color/appwhite" />
 
 </FrameLayout>
