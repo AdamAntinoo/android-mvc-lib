@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "org.dimensinfin.android.mvc.acceptance"
         testApplicationId "org.dimensinfin.android.mvc.acceptance.test"
-//        testInstrumentationRunner "org.dimensinfin.android.mvc.acceptance.test.MVCAndroidJUnitRunner"
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner "org.dimensinfin.android.mvc.acceptance.test.MVCAndroidJUnitRunner"
         minSdkVersion 16
         targetSdkVersion 27
@@ -101,7 +101,6 @@ dependencies {
 //    }
 //}
 
-// - TASKS
 //task runInstrumentationTests {
 //    group "reporting"
 //    mustRunAfter "deleteExistingCucumberReports"
@@ -118,6 +117,7 @@ dependencies {
 //}
 
 
+// - TASKS
 /*
  * Downloads all Cucumber reports from the connected device.
  */

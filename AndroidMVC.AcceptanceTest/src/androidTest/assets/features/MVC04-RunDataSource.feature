@@ -31,14 +31,15 @@ Feature: [MVC04] Run the tests to check all the data sources features.
 #	When registering the data source on the manager
 #	Then check the header container has "1" elements
 #	And check the data container has "1" elements
-#
-#  @MVC04.05
-#  Scenario: [MVC04.05] After registering a new data source get the list of controllers for the header section.
-#	Given a new data source
-#	When registering the data source on the manager
-#	Then check that the header containers have the next data
-#	  | controllerClass | controllerModelTitle |
-#	  | Title           | title                |
+
+  @MVC04.05
+  Scenario: [MVC04.05] After registering a new data source get the list of controllers for the header section.
+	Given the activity "AcceptanceActivity04"
+	And a new data source
+	When registering the data source on the manager
+	Then check that the header has the next list of controllers
+	  | controllerClass | controllerModelTitle |
+	  | Spacer          | -MVC04DataSource-    |
 
   @MVC04.06
   Scenario: [MVC04.06] After registering a new data source exceptions when converting models to controllers.

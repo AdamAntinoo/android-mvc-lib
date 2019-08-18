@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    android:background="@drawable/uipanelborderwhite">
 
-    <TextView
+    <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
         android:id="@+id/title"
-        android:text="Titulo"
-        android:textColor="@color/apporange"
+        style="@style/AppTheme.TextView.Glow.White"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/appname"
+        android:textSize="30sp" />
+
+</RelativeLayout>

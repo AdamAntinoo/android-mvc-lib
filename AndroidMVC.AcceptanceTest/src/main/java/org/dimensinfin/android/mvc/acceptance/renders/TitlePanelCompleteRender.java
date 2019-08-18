@@ -34,6 +34,6 @@ public class TitlePanelCompleteRender extends MVCRender {
 
 	@Override
 	public void updateContent() {
-		this.title.setText("Failure");
+		this.title.setText(this.getController().getModel().getTitle());
 	}
 }

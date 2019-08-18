@@ -1,6 +1,6 @@
 package org.dimensinfin.android.mvc.acceptance.activity;
 
-import org.dimensinfin.android.mvc.TitlePanel;
+import org.dimensinfin.android.mvc.acceptance.TitlePanel;
 import org.dimensinfin.android.mvc.acceptance.controller.TitlePanelController;
 import org.dimensinfin.android.mvc.acceptance.domain.MVC04Test;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;

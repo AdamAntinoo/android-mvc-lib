@@ -7,15 +7,23 @@
         android:label="@string/appname"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".activity.AcceptanceActivity01"
-            android:label="MultiPageActivity" >
+            android:name=".activity.AcceptanceActivity00"
+            android:label="AcceptanceActivity00" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
+            android:name=".activity.AcceptanceActivity01"
+            android:label="AcceptanceActivity" >
+        </activity>
+        <activity
             android:name=".activity.AcceptanceActivity02"
+            android:label="AcceptanceActivity" >
+        </activity>
+        <activity
+            android:name=".activity.AcceptanceActivity04"
             android:label="AcceptanceActivity" >
         </activity>
     </application>

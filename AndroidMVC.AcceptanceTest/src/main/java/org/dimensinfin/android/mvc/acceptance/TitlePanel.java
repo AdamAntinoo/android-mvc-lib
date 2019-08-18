@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc;
+package org.dimensinfin.android.mvc.acceptance;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 
@@ -7,6 +7,10 @@ import java.util.List;
 
 public class TitlePanel implements ICollaboration {
 	private String title;
+
+	public String getTitle() {
+		return this.title;
+	}
 
 	@Override
 	public List<ICollaboration> collaborate2Model( final String variation ) {

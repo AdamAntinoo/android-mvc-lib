@@ -1,6 +1,7 @@
 package org.dimensinfin.android.mvc.acceptance.datasource;
 
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
+import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.core.domain.IntercommunicationEvent;
 
 public class MVC04DataSource extends MVCDataSource {
@@ -19,6 +20,7 @@ public class MVC04DataSource extends MVCDataSource {
 	@Override
 	public void collaborate2Model() {
 		this.collaborate2Model = true;
+		this.addHeaderContents(new Spacer.Builder().withLabel("-MVC04DataSource-").build());
 	}
 
 	@Override
