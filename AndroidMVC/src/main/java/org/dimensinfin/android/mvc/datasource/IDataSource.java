@@ -1,18 +1,15 @@
 package org.dimensinfin.android.mvc.datasource;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IEventReceiver;
 
-import java.beans.PropertyChangeListener;
 import java.util.List;
 
 public interface IDataSource extends IEventReceiver {
 	DataSourceLocator getDataSourceLocator();
 
 	boolean isCacheable();
-
-
-	void addPropertyChangeListener( final PropertyChangeListener newListener );
 
 	/**
 	 * This is the action to signal the data source to start searching for its data to process it and generate
@@ -22,11 +19,9 @@ public interface IDataSource extends IEventReceiver {
 	 */
 	void prepareModel();
 
-	/**
-	 * With this method the initializer will set a synchronization trap that will force any caller that requires the model contents to
-	 * wait until the initialisation is completed and the model root list is populated.
-	 */
-//	void setSynchronizer(final Future<IDataSource> synchronizer);
+	void collaborate2Model();
+
+	IDataSource addHeaderContents( final ICollaboration newModel );
 
 	/**
 	 * This method will use the data source models to generate the contents for the header section. The model will be transformed to the list of
@@ -43,6 +38,4 @@ public interface IDataSource extends IEventReceiver {
 	 * @return the list of data section controllers to be rendered.
 	 */
 	List<IAndroidController> getDataSectionContents();
-
-	void collaborate2Model();
 }

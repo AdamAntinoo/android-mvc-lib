@@ -12,6 +12,9 @@ import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AcceptanceActivity00 extends MVCMultiPageActivity {
 	private boolean onResumeReached = false;
 
@@ -50,15 +53,17 @@ public class AcceptanceActivity00 extends MVCMultiPageActivity {
 
 		public static class MVC00DataSource extends MVCDataSource {
 			private Activity activity;
+			private List<Button> buttons = new ArrayList<>();
 
 			@Override
-			public void prepareModel() { }
+			public void prepareModel() {
+				this.buttons.add(new Button.Builder().build());
+			}
 
 			@Override
 			public void collaborate2Model() {
 				final String appName = this.activity.getResources().getString(R.string.appname);
 				this.addHeaderContents(new TitlePanel.Builder().withTitle(appName).build());
-//				this.addModelContents(new TitlePanel.Builder().withTitle(appName).build());
 			}
 
 			public static class Builder extends MVCDataSource.Builder<MVC00DataSource, Builder> {
@@ -79,6 +84,21 @@ public class AcceptanceActivity00 extends MVCMultiPageActivity {
 					this.onConstruction.activity = activity;
 					return this;
 				}
+			}
+		}
+	}
+
+	public static class Button {
+		// - B U I L D E R
+		public static class Builder {
+			private Button onConstruction;
+
+			public Builder() {
+				this.onConstruction = new Button();
+			}
+
+			public Button build() {
+				return this.onConstruction;
 			}
 		}
 	}

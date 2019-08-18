@@ -47,7 +47,6 @@ public class MVC04RunDataSource {
 		this.fragment = (MVC04Fragment) this.activity.accessPageAdapter().getItem(0);
 		Assert.assertNotNull(this.fragment);
 
-
 		final String variant = "-MVC04RUNDATASOURCE-";
 		this.dataSource = new MVC04DataSource.Builder()
 				                  .addIdentifier("-MVC04-")

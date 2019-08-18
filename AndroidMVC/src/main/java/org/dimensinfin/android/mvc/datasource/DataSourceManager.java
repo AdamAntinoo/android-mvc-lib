@@ -3,6 +3,7 @@ package org.dimensinfin.android.mvc.datasource;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
+import org.dimensinfin.android.mvc.exception.ExceptionReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,21 +43,17 @@ public class DataSourceManager {
 				DataSourceManager.dataSources.put(locator.getIdentity(), newSource);
 				DataSourceManager.logger
 						.info("-- [DataSourceManager.registerDataSource]> Registering new DataSource: {}", locator.getIdentity());
-				//				found = newSource;
-//				AppCompatibilityUtils.backgroundExecutor.submit(() -> {
-//					try {
-//						newSource.prepareModel();
-//					} catch (RuntimeException runtime) {
-//						runtime.printStackTrace();
-//					}
-//				});
-			}
+			} else return found;
 		}
 		AppCompatibilityUtils.backgroundExecutor.submit(() -> {
 			try {
 				newSource.prepareModel();
 			} catch (RuntimeException runtime) {
+				logger.info("-- [DataSourceManager.registerDataSource]> Exception while preparing data source data: {}",
+				            runtime.getMessage());
 				runtime.printStackTrace();
+				// Put this exception on the header contents so the developer can see the message.
+				newSource.addHeaderContents(new ExceptionReport(runtime));
 			}
 		});
 		return newSource;

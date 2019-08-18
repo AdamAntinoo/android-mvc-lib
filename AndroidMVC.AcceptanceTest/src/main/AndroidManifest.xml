@@ -24,7 +24,7 @@
         </activity>
         <activity
             android:name=".activity.AcceptanceActivity04"
-            android:label="AcceptanceActivity" >
+            android:label="AA04.DataSource" >
         </activity>
     </application>
 

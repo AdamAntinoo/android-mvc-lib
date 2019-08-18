@@ -16,6 +16,7 @@ public class AcceptanceActivity02 extends MVCMultiPageActivity {
 	protected void onCreate( final Bundle savedInstanceState ) {
 		super.onCreate(savedInstanceState);
 		this.addPage(new MVC02Fragment().setVariant(TestIdentifiers.MVC02_01.name()));
+		this.addPage(new MVC02Fragment().setVariant(TestIdentifiers.MVC02_02.name()));
 	}
 
 	@Override
