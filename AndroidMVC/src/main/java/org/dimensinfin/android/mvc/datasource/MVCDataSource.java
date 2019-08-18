@@ -275,7 +275,7 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	public IDataSource addModelContents( final ICollaboration newModel ) {
 		logger.info(">< [MVCDataSource.addModelContents]> Adding model: {}", newModel.getClass().getSimpleName());
 		this.dataModelRoot.add(newModel);
-		this.controllerDataSectionRoot.add(this.controllerFactory.createController(newModel));
+//		this.controllerDataSectionRoot.add(this.controllerFactory.createController(newModel));
 		this.dirty = true; // Signal the model change
 		return this;
 	}

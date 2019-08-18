@@ -57,8 +57,8 @@ public class AcceptanceActivity00 extends MVCMultiPageActivity {
 			@Override
 			public void collaborate2Model() {
 				final String appName = this.activity.getResources().getString(R.string.appname);
-//				this.addHeaderContents(new TitlePanel.Builder().withTitle(appName).build());
-				this.addModelContents(new TitlePanel.Builder().withTitle(appName).build());
+				this.addHeaderContents(new TitlePanel.Builder().withTitle(appName).build());
+//				this.addModelContents(new TitlePanel.Builder().withTitle(appName).build());
 			}
 
 			public static class Builder extends MVCDataSource.Builder<MVC00DataSource, Builder> {

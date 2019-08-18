@@ -34,8 +34,7 @@ public class HeaderDataSourceAdapter extends DataSourceAdapter {
 	@Override
 	public void notifyDataSetChanged() {
 		this.contentControllerList.clear();
-		this.contentControllerList.addAll(datasource.getDataSectionContents());
-//		final List<IAndroidController> contents = this.datasource.getHeaderSectionContents();
+		this.contentControllerList.addAll(datasource.getHeaderSectionContents());
 		this.headerContainer.removeAllViews();
 		for (int i = 0; i < this.contentControllerList.size(); i++) {
 			final View view = this.getView(i, null, this.headerContainer);
