@@ -7,19 +7,18 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.domain.IContainer;
-import org.dimensinfin.android.mvc.events.EEvents;
-import org.dimensinfin.android.mvc.events.EventEmitter;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.interfaces.IUniqueModel;
+import org.dimensinfin.core.domain.EEvents;
+import org.dimensinfin.core.domain.EventEmitter;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.interfaces.IEventEmitter;
+import org.dimensinfin.core.interfaces.IEventReceiver;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -101,15 +100,6 @@ public abstract class AndroidController<M extends ICollaboration> implements IAn
 
 	public AndroidController setRenderMode( final String renderMode ) {
 		this.renderMode = renderMode;
-		return this;
-	}
-
-	public IDataSource getDataSource() {
-		return this.dataSource;
-	}
-
-	public AndroidController setDataSource( final IDataSource dataSource ) {
-		this.dataSource = dataSource;
 		return this;
 	}
 
@@ -224,7 +214,7 @@ public abstract class AndroidController<M extends ICollaboration> implements IAn
 			} else {
 				// The controller is non existent for this model node. Create a new one from the factory.
 				logger.info("-- [AndroidController.refreshChildren]> New AndroidController for Model: {}",
-						modelNode.getClass().getSimpleName());
+				            modelNode.getClass().getSimpleName());
 				final IAndroidController newController = this.getControllerFactory().createController(modelNode);
 				newController.refreshChildren();
 				newChildrenList.add(newController);
@@ -244,6 +234,15 @@ public abstract class AndroidController<M extends ICollaboration> implements IAn
 		if (this.getModel() instanceof IUniqueModel)
 			return ((IUniqueModel) this.getModel()).getUniqueModelIdentifier();
 		return this.getModel().hashCode();
+	}
+
+	public IDataSource getDataSource() {
+		return this.dataSource;
+	}
+
+	public AndroidController setDataSource( final IDataSource dataSource ) {
+		this.dataSource = dataSource;
+		return this;
 	}
 
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
@@ -285,8 +284,6 @@ public abstract class AndroidController<M extends ICollaboration> implements IAn
 		this.getChildren().clear();
 	}
 
-	// - I E V E N T E M I T T E R   I N T E R F A C E
-
 	@Override
 	public int compareTo( @NonNull final Object target ) {
 		if (target instanceof IAndroidController) {
@@ -295,36 +292,30 @@ public abstract class AndroidController<M extends ICollaboration> implements IAn
 		} else return -1;
 	}
 
-	/**
-	 * Add a new listener to the list of listeners on the delegated listen and event processing node.
-	 *
-	 * @param listener the new listener to connect to this instance messages.
-	 */
+	// - I E V E N T E M I T T E R   I N T E R F A C E
+
 	@Override
-	public void addPropertyChangeListener( final PropertyChangeListener listener ) {
-		this.eventController.addPropertyChangeListener(listener);
+	public void addEventListener( final IEventReceiver listener ) {this.eventController.addEventListener(listener);}
+
+	@Override
+	public void removeEventListener( final IEventReceiver listener ) {this.eventController.removeEventListener(listener);}
+
+	@Override
+	public boolean sendChangeEvent( final String eventName ) {return this.eventController.sendChangeEvent(eventName);}
+
+	@Override
+	public boolean sendChangeEvent( final String eventName, final Object origin ) {
+		return this.eventController.sendChangeEvent(eventName, origin);
 	}
 
 	@Override
-	public void removePropertyChangeListener( final PropertyChangeListener listener ) {
-		this.eventController.removePropertyChangeListener(listener);
-	}
-
-	@Override
-	public boolean sendChangeEvent( final String eventName ) {
-		this.eventController.sendChangeEvent(eventName);
-		return true;
-	}
-
-	@Override
-	public boolean sendChangeEvent( final PropertyChangeEvent event ) {
-		this.eventController.sendChangeEvent(event);
-		return true;
+	public boolean sendChangeEvent( final String eventName, final Object origin, final Object oldValue, final Object newValue ) {
+		return this.eventController.sendChangeEvent(eventName, origin, oldValue, newValue);
 	}
 
 	public void notifyDataModelChange() {
 		this.viewCache = null; // Clean the view cache to force recreation.
-		this.sendChangeEvent(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name());
+		this.sendChangeEvent(EEvents.EVENT_REFRESHDATA.name());
 	}
 
 	protected void notifyDataModelChange( final EEvents event ) {

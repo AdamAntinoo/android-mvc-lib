@@ -19,12 +19,4 @@ public class SpacerController extends AndroidController<Spacer> {
 	public IRender buildRender(final Context context) {
 		return new SeparatorRender(this, context);
 	}
-	// - C O R E
-//	@Override
-//	public int compareTo(@NonNull final Object other) {
-//		if (other instanceof SpacerController) {
-//			final SpacerController target = (SpacerController) other;
-//			return this.getModel().getTitle().compareTo(target.getModel().getTitle());
-//		} else return -1;
-//	}
 }

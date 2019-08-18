@@ -7,8 +7,8 @@ import android.view.View;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.core.interfaces.IExpandable;
 
 import java.util.concurrent.TimeUnit;
@@ -49,7 +49,7 @@ public abstract class ExpandAndroidController<M extends IExpandable> extends And
 			logger.info("-- [ExpandAndroidController.onClick.run]");
 //			final Instant chrono = Instant.now();
 			this.getModel().toggleExpand();
-			this.notifyDataModelChange(EEvents.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE);
+			this.notifyDataModelChange(EEvents.EVENT_ACTIONEXPANDCOLLAPSE);
 			this.clickSupporter.completeClick();
 //			logger.info("<< [ExpandAndroidController.onClick.run]> Time Elapsed: {}ms",
 //					new Duration(chrono, Instant.now()).getMillis());

@@ -6,12 +6,13 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.domain.Spacer;
-import org.dimensinfin.android.mvc.events.EEvents;
-import org.dimensinfin.android.mvc.events.EventEmitter;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.IEventEmitter;
+import org.dimensinfin.core.domain.EEvents;
+import org.dimensinfin.core.domain.EventEmitter;
 import org.dimensinfin.core.domain.IntercommunicationEvent;
 import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.core.interfaces.IEventEmitter;
+import org.dimensinfin.core.interfaces.IEventReceiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -133,8 +134,23 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	}
 
 	// - D E L E G A T E - I E V E N T E M I T T E R
-	public void addPropertyChangeListener( final PropertyChangeListener newListener ) {
-		this.eventController.addPropertyChangeListener(newListener);
+	@Override
+	public void addEventListener( final IEventReceiver listener ) {this.eventController.addEventListener(listener);}
+
+	@Override
+	public void removeEventListener( final IEventReceiver listener ) {this.eventController.removeEventListener(listener);}
+
+	@Override
+	public boolean sendChangeEvent( final String eventName ) {return this.eventController.sendChangeEvent(eventName);}
+
+	@Override
+	public boolean sendChangeEvent( final String eventName, final Object origin ) {
+		return this.eventController.sendChangeEvent(eventName, origin);
+	}
+
+	@Override
+	public boolean sendChangeEvent( final String eventName, final Object origin, final Object oldValue, final Object newValue ) {
+		return this.eventController.sendChangeEvent(eventName, origin, oldValue, newValue);
 	}
 
 	/**
@@ -296,21 +312,6 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 		return this;
 	}
 
-	@Override
-	public void removePropertyChangeListener( final PropertyChangeListener listener ) {
-		eventController.removePropertyChangeListener(listener);
-	}
-
-	public boolean sendChangeEvent( final String eventName ) {
-		this.eventController.sendChangeEvent(eventName);
-		return true;
-	}
-
-	public boolean sendChangeEvent( final PropertyChangeEvent event ) {
-		this.eventController.sendChangeEvent(event);
-		return true;
-	}
-
 	// - I E V E N T R E C E I V E R   I N T E R F A C E
 
 	/**
@@ -349,12 +350,12 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 		logger.info(">< [MVCDataSource.propertyChange]> Processing Event: {}", event.getPropertyName());
 		// - C O N T E N T   E V E N T S
 		// The expand/collapse state has changed.
-		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENTCONTENTS_ACTIONMODIFYDATA.name())) {
+		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_NEWDATA.name())) {
 			logger.info(">< [MVCDataSource.propertyChange]> Event: {} processed.", event.getPropertyName());
 			this.sendChangeEvent(event.getPropertyName());
 			return;
 		}
-		if (event.getPropertyName().equalsIgnoreCase("EVENT_REFRESHDATA")) {
+		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_REFRESHDATA.name())) {
 			logger.info(">< [MVCDataSource.propertyChange]> Event: {} processed.", event.getPropertyName());
 			this.sendChangeEvent(event.getPropertyName());
 			return;

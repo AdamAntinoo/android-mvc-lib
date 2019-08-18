@@ -38,7 +38,7 @@ public class DataSourceManagerv3 {
 	 */
 	public static IPartsDataSource registerDataSource( final IPartsDataSource newSource ) {
 		if (null == newSource) return newSource;
-		// Check if the datasource is cacheable.
+		// Check if the dataSource is cacheable.
 		if (newSource.isCacheable()) {
 			DataSourceLocator locator = newSource.getDataSourceLocator();
 			// Search for locator on cache.

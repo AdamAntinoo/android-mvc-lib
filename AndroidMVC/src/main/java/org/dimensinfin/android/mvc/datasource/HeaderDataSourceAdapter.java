@@ -2,15 +2,10 @@ package org.dimensinfin.android.mvc.datasource;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.activity.IPagerFragment;
-import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.interfaces.IRender;
-
-import java.util.List;
 
 public class HeaderDataSourceAdapter extends DataSourceAdapter {
 	private ViewGroup headerContainer;
@@ -34,7 +29,7 @@ public class HeaderDataSourceAdapter extends DataSourceAdapter {
 	@Override
 	public void notifyDataSetChanged() {
 		this.contentControllerList.clear();
-		this.contentControllerList.addAll(datasource.getHeaderSectionContents());
+		this.contentControllerList.addAll(dataSource.getHeaderSectionContents());
 		this.headerContainer.removeAllViews();
 		for (int i = 0; i < this.contentControllerList.size(); i++) {
 			final View view = this.getView(i, null, this.headerContainer);

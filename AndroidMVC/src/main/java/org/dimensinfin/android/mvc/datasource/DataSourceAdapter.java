@@ -14,17 +14,17 @@ import androidx.annotation.NonNull;
 import org.dimensinfin.android.mvc.activity.IPagerFragment;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.events.EEvents;
 import org.dimensinfin.android.mvc.exception.ExceptionRenderGenerator;
 import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.core.domain.EEvents;
+import org.dimensinfin.core.domain.IntercommunicationEvent;
+import org.dimensinfin.core.interfaces.IEventReceiver;
 import org.joda.time.Instant;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ import java.util.List;
  *
  * @author Adam Antinoo
  */
-public class DataSourceAdapter extends BaseAdapter implements PropertyChangeListener {
+public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 	/** Task handler to manage execution of code that should be done on the main loop thread. */
 	private static final Handler _handler = new Handler(Looper.getMainLooper());
 	private static final boolean LOG_ALLOWED = true;
@@ -53,7 +53,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	/** The current list of Parts that is being displayed. */
 	protected final List<IAndroidController> contentControllerList = new ArrayList<>();
 	/** An instance for a source of data that will provide the list of <b>Parts</b> to be used to construct the Views. */
-	protected IDataSource datasource = null;
+	protected MVCDataSource dataSource = null;
 	/** The Activity where all this structures belong and that is used as the core display context. */
 	private Context context = null;
 
@@ -75,13 +75,13 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 */
 	public DataSourceAdapter( @NonNull final IPagerFragment fragment, @NonNull final IDataSource datasource ) {
 		this.context = fragment.getActivityContext();
-		this.datasource = datasource;
-		this.datasource.addPropertyChangeListener(this); // Connect the Adapter to the DataSource
+		this.dataSource = (MVCDataSource) datasource;
+		this.dataSource.addEventListener(this); // Connect the Adapter to the DataSource
 	}
 
 	// - M E T H O D - S E C T I O N
 	public void collaborateData() {
-		if (null != this.datasource) this.datasource.collaborate2Model();
+		if (null != this.dataSource) this.dataSource.collaborate2Model();
 	}
 
 	@Override
@@ -142,7 +142,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 				convertView.setClickable(true);
 				convertView.setOnLongClickListener((OnLongClickListener) item);
 			}
-//			item.addPropertyChangeListener(datasource); // Add the DataSource as an event listener for the Controllers.
+//			item.addPropertyChangeListener(dataSource); // Add the DataSource as an event listener for the Controllers.
 			if (LOG_ALLOWED) {
 				// Filter out the spinner.
 				if (!exitMessage.contains("OnLoadSpinnerController")) {
@@ -188,7 +188,7 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	@Override
 	public void notifyDataSetChanged() {
 		contentControllerList.clear();
-		contentControllerList.addAll(datasource.getDataSectionContents());
+		contentControllerList.addAll(dataSource.getDataSectionContents());
 		super.notifyDataSetChanged();
 	}
 
@@ -246,22 +246,15 @@ public class DataSourceAdapter extends BaseAdapter implements PropertyChangeList
 	 * Send messages to the parent context that is the one that has code implemented for every different case. This class
 	 * is a generic class that must not be upgraded because we start then to replicate most of the code.
 	 */
-	public void propertyChange( final PropertyChangeEvent event ) {
+	public void receiveEvent( final IntercommunicationEvent event ) {
 		logger.info(">> [DataSourceAdapter.propertyChange]> Processing Event: {}", event.getPropertyName());
 		// - C O N T E N T   E V E N T S
-		if (EEvents.valueOf(event.getPropertyName()) ==
-				    EEvents.EVENTCONTENTS_ACTIONMODIFYDATA) _handler.post(() -> {
-			this.notifyDataSetChanged();
-		});
-		if (EEvents.valueOf(event.getPropertyName()) ==
-				    EEvents.EVENTCONTENTS_ACTIONEXPANDCOLLAPSE) _handler.post(() -> {
-			this.notifyDataSetChanged();
-		});
-
+		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_NEWDATA.name()))
+			_handler.post(this::notifyDataSetChanged);
+		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_ACTIONEXPANDCOLLAPSE.name()))
+			_handler.post(this::notifyDataSetChanged);
 		// Be sure to run graphical changes on the UI thread. If we already are on it this has no effect.
-		if (EEvents.valueOf(event.getPropertyName()) ==
-				    EEvents.EVENTADAPTER_REQUESTNOTIFYCHANGES) _handler.post(() -> {
-			this.notifyDataSetChanged();
-		});
+		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_ADAPTER_REQUESTNOTIFYCHANGES.name()))
+			_handler.post(this::notifyDataSetChanged);
 	}
 }

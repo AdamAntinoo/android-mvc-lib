@@ -245,7 +245,7 @@ public abstract class MVCDataSourcev3 extends AbstractPropertyChanger implements
 
 	/**
 	 * Add an spinner at the first position on the Part list to signal that we are doing som processing. If the
-	 * datasource is cached it should not have any effect since the model is already generated and we should not have
+	 * dataSource is cached it should not have any effect since the model is already generated and we should not have
 	 * to wait for it.
 	 */
 	public void startOnLoadProcess() {

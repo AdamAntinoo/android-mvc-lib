@@ -301,7 +301,7 @@ public abstract class AbstractPagerFragment extends Fragment {
 //			_headersource = this.registerHeaderSource();
 			// Entry point to generate the DataSection model.
 			_datasource = DataSourceManagerv3.registerDataSource(this.registerDataSource());
-			// Check that the datasource is a valid data source.
+			// Check that the dataSource is a valid data source.
 			if (null == _datasource) _datasource = new EmptyDataSource(new DataSourceLocator().addIdentifier("EMPTY")
 					, getVariant(), getFactory(), getExtras());
 			// Install the adapter before any data request or model generation.
