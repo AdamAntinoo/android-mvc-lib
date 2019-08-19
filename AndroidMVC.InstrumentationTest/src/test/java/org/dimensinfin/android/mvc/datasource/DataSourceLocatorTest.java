@@ -1,11 +1,7 @@
 package org.dimensinfin.android.mvc.datasource;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
-
-/**
- * @author Adam Antinoo
- */
 public class DataSourceLocatorTest {
 
 	@Test

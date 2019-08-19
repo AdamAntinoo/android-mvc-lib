@@ -6,7 +6,7 @@ import android.content.Intent;
 import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
-import org.dimensinfin.android.mvc.support.SeparatorController;
+import org.dimensinfin.android.mvc.support.SpacerController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,14 +31,14 @@ public class ControllerFactory implements IControllerFactory {
 	public IAndroidController createController( final ICollaboration node ) {
 		// Associate the default classes defined at the MVC.
 		if (node instanceof Spacer) {
-			return new SeparatorController((Spacer) node, this)
+			return new SpacerController((Spacer) node, this)
 					       .setRenderMode(this.getVariant());
 		}
 		if (node instanceof ExceptionReport) {
 			return new ExceptionController((ExceptionReport) node, this);
 		}
 		// If no part is trapped then result a NOT FOUND mark
-		return new SeparatorController(new Spacer.Builder()
+		return new SpacerController(new Spacer.Builder()
 				                               .withLabel("-NO Model-Controller match-[" +
 						                                          node.getClass().getSimpleName() +
 						                                          "]-")

@@ -16,7 +16,6 @@ import androidx.annotation.Nullable;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AndroidController;
-import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.HeaderDataSourceAdapter;
@@ -112,10 +111,10 @@ public abstract class MVCPagerFragment extends MVCFragment {
 		// functional state of the application.
 		// - S E C T I O N   1. Where we get access to the UI elements.
 		_container = (ViewGroup) inflater.inflate(R.layout.fragment_base, container, false);
-		_headerContainer = AppCompatibilityUtils.assertNotNull(_container.findViewById(R.id.headerContainer));
-		_dataSectionContainer = AppCompatibilityUtils.assertNotNull(_container.findViewById(R.id.listContainer));
-		_progressLayout = AppCompatibilityUtils.assertNotNull(_container.findViewById(R.id.progressLayout));
-		_progressElapsedCounter = AppCompatibilityUtils.assertNotNull(_container.findViewById(R.id.progressCounter));
+		_headerContainer = Objects.requireNonNull(_container.findViewById(R.id.headerContainer));
+		_dataSectionContainer = Objects.requireNonNull(_container.findViewById(R.id.listContainer));
+		_progressLayout = Objects.requireNonNull(_container.findViewById(R.id.progressLayout));
+		_progressElapsedCounter = Objects.requireNonNull(_container.findViewById(R.id.progressCounter));
 
 		// Set the visual state of all items.
 		_progressLayout.setVisibility(View.VISIBLE);
@@ -311,7 +310,7 @@ public abstract class MVCPagerFragment extends MVCFragment {
 
 	// - U T I L I T I E S
 	private void initializeProgressIndicator() {
-		_progressElapsedCounter = AppCompatibilityUtils.assertNotNull(_container.findViewById(R.id.progressCounter));
+		_progressElapsedCounter = Objects.requireNonNull(_container.findViewById(R.id.progressCounter));
 		final Instant _elapsedTimer = Instant.now();
 		new CountDownTimer(TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS.toMillis(10)) {
 			@Override

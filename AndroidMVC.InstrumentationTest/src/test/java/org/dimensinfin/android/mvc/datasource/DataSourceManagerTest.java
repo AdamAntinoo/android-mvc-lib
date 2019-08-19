@@ -1,10 +1,10 @@
 package org.dimensinfin.android.mvc.datasource;
 
-import java.util.concurrent.TimeUnit;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import java.util.concurrent.TimeUnit;
 
 import static org.mockito.Mockito.times;
 

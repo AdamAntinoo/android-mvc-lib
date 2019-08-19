@@ -25,6 +25,7 @@ import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormatterBuilder;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public abstract class CanvasPagerFragment extends MVCFragment {
@@ -66,8 +67,8 @@ public abstract class CanvasPagerFragment extends MVCFragment {
 		super.onCreateView(inflater, container, savedInstanceState);
 		// - S E C T I O N   1. Where we get access to the UI elements.
 		_container = (ViewGroup) inflater.inflate(R.layout.fragment_map, container, false);
-		_headerContainer = AppCompatibilityUtils.assertNotNull(_container.findViewById(R.id.headerContainer));
-		_mapContainer = AppCompatibilityUtils.assertNotNull(_container.findViewById(R.id.mapCanvas));
+		_headerContainer = Objects.requireNonNull(_container.findViewById(R.id.headerContainer));
+		_mapContainer = Objects.requireNonNull(_container.findViewById(R.id.mapCanvas));
 		_headerContainer.setVisibility(View.VISIBLE);
 		_mapContainer.setVisibility(View.VISIBLE);
 
@@ -214,7 +215,7 @@ public abstract class CanvasPagerFragment extends MVCFragment {
 
 	// - U T I L I T I E S
 	private void initializeProgressIndicator() {
-		_progressElapsedCounter = AppCompatibilityUtils.assertNotNull(_container.findViewById(org.dimensinfin.android.mvc.R.id.progressCounter));
+		_progressElapsedCounter = Objects.requireNonNull(_container.findViewById(org.dimensinfin.android.mvc.R.id.progressCounter));
 		final Instant _elapsedTimer = Instant.now();
 		new CountDownTimer(TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS.toMillis(10)) {
 			@Override

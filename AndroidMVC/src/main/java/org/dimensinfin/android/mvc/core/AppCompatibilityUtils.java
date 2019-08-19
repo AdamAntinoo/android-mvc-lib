@@ -12,18 +12,18 @@ import java.util.concurrent.Executors;
 public class AppCompatibilityUtils {
 	public static final ExecutorService backgroundExecutor = Executors.newFixedThreadPool(1);
 
-	public static boolean testAssertNotNull(final Object target) {
-		if (null == target) throw new NullPointerException("Mandatory parameter is null.");
-		return true;
-	}
+//	public static boolean testAssertNotNull(final Object target) {
+//		if (null == target) throw new NullPointerException("Mandatory parameter is null.");
+//		return true;
+//	}
+//
+//	public static boolean parameterNotNull(final Object target) {
+//		if (null == target) throw new NullPointerException("Mandatory parameter is null.");
+//		return true;
+//	}
 
-	public static boolean parameterNotNull(final Object target) {
-		if (null == target) throw new NullPointerException("Mandatory parameter is null.");
-		return true;
-	}
-
-	public static <T> T assertNotNull(final T target) {
-		if (null == target) throw new NullPointerException("Target object is not valid. Found to be null.");
-		return target;
-	}
+//	public static <T> T assertNotNull(final T target) {
+//		if (null == target) throw new NullPointerException("Target object is not valid. Found to be null.");
+//		return target;
+//	}
 }

@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.render.MVCRender;
 
-public class MockRender extends MVCRender {
-	public MockRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
+public class TestNodeRender extends MVCRender {
+	public TestNodeRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 		super(controller, context);
 	}
 
