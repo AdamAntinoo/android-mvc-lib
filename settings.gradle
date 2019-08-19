@@ -1,3 +1,4 @@
 include ':app'
 include ':AndroidMVC'
+include ':AndroidMVC.InstrumentationTest'
 include ':AndroidMVC.AcceptanceTest'

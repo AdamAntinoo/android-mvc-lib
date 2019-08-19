@@ -55,8 +55,6 @@ android {
         release {
             signingConfig debug.signingConfig
             debuggable false
-            shrinkResources true
-            minifyEnabled true
             useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "bool", "CACHE_MVC_VIEWS_ON_CONTROLLER", "true"
@@ -64,8 +62,6 @@ android {
         debug {
             initWith release
             debuggable true
-            shrinkResources false
-            minifyEnabled false
             useProguard false
             testCoverageEnabled true
         }
@@ -155,33 +151,33 @@ dependencies {
 }
 
 // - T E S T I N G
-dependencies {
-    testImplementation 'androidx.annotation:annotation:1.1.0'
-//    testImplementation 'androidx.arch.core:core-testing:2.0.1'
-    testImplementation 'androidx.fragment:fragment:1.0.0'
-    testImplementation 'junit:junit:4.12'
-    testImplementation "org.slf4j:slf4j-simple:$slf4j"
-    testImplementation 'joda-time:joda-time:2.9.9'
-    testImplementation 'com.openpojo:openpojo:0.8.12'
-    testImplementation 'org.mockito:mockito-core:2.23.4'
-    testImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'
-//    testImplementation "org.robolectric:robolectric:4.3-alpha-2"
-}
-
-// - A N D R O I D   T E S T I N G
-dependencies {
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test:rules:1.2.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
-
-    androidTestImplementation 'androidx.fragment:fragment:1.0.0'
-
-    androidTestImplementation 'org.mockito:mockito-core:2.23.4'
-    androidTestImplementation 'org.mockito:mockito-android:2.23.0'
-//    androidTestImplementation('com.github.tmurakami:dexopener:1.0.2') {
-//        exclude group: 'com.android.support.test', module: 'runner'
-//    }
-}
+//dependencies {
+//    testImplementation 'androidx.annotation:annotation:1.1.0'
+////    testImplementation 'androidx.arch.core:core-testing:2.0.1'
+//    testImplementation 'androidx.fragment:fragment:1.0.0'
+//    testImplementation 'junit:junit:4.12'
+//    testImplementation "org.slf4j:slf4j-simple:$slf4j"
+//    testImplementation 'joda-time:joda-time:2.9.9'
+//    testImplementation 'com.openpojo:openpojo:0.8.12'
+//    testImplementation 'org.mockito:mockito-core:2.23.4'
+//    testImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'
+////    testImplementation "org.robolectric:robolectric:4.3-alpha-2"
+//}
+//
+//// - A N D R O I D   T E S T I N G
+//dependencies {
+//    androidTestImplementation 'androidx.test:runner:1.2.0'
+//    androidTestImplementation 'androidx.test:rules:1.2.0'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+//    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
+//    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
+//
+//    androidTestImplementation 'androidx.fragment:fragment:1.0.0'
+//
+//    androidTestImplementation 'org.mockito:mockito-core:2.23.4'
+//    androidTestImplementation 'org.mockito:mockito-android:2.23.0'
+////    androidTestImplementation('com.github.tmurakami:dexopener:1.0.2') {
+////        exclude group: 'com.android.support.test', module: 'runner'
+////    }
+//}

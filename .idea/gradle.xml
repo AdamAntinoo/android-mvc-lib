@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/AndroidMVC" />
             <option value="$PROJECT_DIR$/AndroidMVC.AcceptanceTest" />
+            <option value="$PROJECT_DIR$/AndroidMVC.InstrumentationTest" />
             <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
