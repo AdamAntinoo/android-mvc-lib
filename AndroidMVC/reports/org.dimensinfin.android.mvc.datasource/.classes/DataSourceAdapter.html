@@ -1,0 +1,419 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: DataSourceAdapter</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.dimensinfin.android.mvc.datasource</a> ]
+</div>
+
+<h1>Coverage Summary for Class: DataSourceAdapter (org.dimensinfin.android.mvc.datasource)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DataSourceAdapter</td>
+<td class="coverageStat">
+  <span class="percent">
+    72.2%
+  </span>
+  <span class="absValue">
+    (13/ 18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    38.8%
+  </span>
+  <span class="absValue">
+    (33/ 85)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$0QhW2WIo</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$26dXB6fJ</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$378tjOzB</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$3YcNWduw</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$41CpfWtz</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$8HNBkJEP</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$aW8SeUCJ</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$bN01Mfsa</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$bU0OMuuz</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$D1kwRGwU</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$eIciXOsz</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$hnel2Q3y</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$ipQl0Qy1</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$jozf1cjS</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$Pbl58YdS</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$pRCFEorG</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$ROSYqFXO</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$S5t3ezq9</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$U3leP4Ex</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$w0FMKNwO</td>
+  </tr>
+  <tr>
+    <td class="name">DataSourceAdapter$MockitoMock$1037472746$auxiliary$X4gcleat</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    72.2%
+  </span>
+  <span class="absValue">
+    (13/ 18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    38.8%
+  </span>
+  <span class="absValue">
+    (33/ 85)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package org.dimensinfin.android.mvc.datasource;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import android.content.Context;
+<i>4</i>&nbsp;import android.os.Handler;
+<i>5</i>&nbsp;import android.os.Looper;
+<i>6</i>&nbsp;import android.view.View;
+<i>7</i>&nbsp;import android.view.View.OnClickListener;
+<i>8</i>&nbsp;import android.view.View.OnLongClickListener;
+<i>9</i>&nbsp;import android.view.ViewGroup;
+<i>10</i>&nbsp;import android.widget.BaseAdapter;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import androidx.annotation.NonNull;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;import org.dimensinfin.android.mvc.activity.IPagerFragment;
+<i>15</i>&nbsp;import org.dimensinfin.android.mvc.controller.ControllerFactory;
+<i>16</i>&nbsp;import org.dimensinfin.android.mvc.controller.IAndroidController;
+<i>17</i>&nbsp;import org.dimensinfin.android.mvc.exception.ExceptionRenderGenerator;
+<i>18</i>&nbsp;import org.dimensinfin.android.mvc.interfaces.IRender;
+<i>19</i>&nbsp;import org.dimensinfin.core.domain.EEvents;
+<i>20</i>&nbsp;import org.dimensinfin.core.domain.IntercommunicationEvent;
+<i>21</i>&nbsp;import org.dimensinfin.core.interfaces.IEventReceiver;
+<i>22</i>&nbsp;import org.joda.time.Instant;
+<i>23</i>&nbsp;import org.joda.time.Period;
+<i>24</i>&nbsp;import org.joda.time.PeriodType;
+<i>25</i>&nbsp;import org.slf4j.Logger;
+<i>26</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;import java.text.MessageFormat;
+<i>29</i>&nbsp;import java.util.ArrayList;
+<i>30</i>&nbsp;import java.util.List;
+<i>31</i>&nbsp;import java.util.Objects;
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;/**
+<i>34</i>&nbsp; * This is the class that connects the ListView to a model list. If is an extension of the generic BaseAdapter and
+<i>35</i>&nbsp; * implements the methods to convert lists of Parts to a list of Renders to the linked to the View elements to be used
+<i>36</i>&nbsp; * by the ViewList.&lt;br&gt; The model connection is performed through the DataSource instance that also gets connected to
+<i>37</i>&nbsp; * the Event Listener chain.
+<i>38</i>&nbsp; *
+<i>39</i>&nbsp; * We can use the Activity as the Context to be used on view creation since the lifetime for this Adapter should be the
+<i>40</i>&nbsp; * same as for the Activity and when the context terminates the system should be able to recover the adapters and all
+<i>41</i>&nbsp; * the views. But references for this Context should not live outside this instance to remove the problem to lock
+<i>42</i>&nbsp; * references on uncontrolled places.
+<i>43</i>&nbsp; *
+<i>44</i>&nbsp; * @author Adam Antinoo
+<i>45</i>&nbsp; */
+<i>46</i>&nbsp;public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
+<i>47</i>&nbsp;	/** Task handler to manage execution of code that should be done on the main loop thread. */
+<b class="fc"><i>48</i>&nbsp;	private static final Handler handler = new Handler(Looper.getMainLooper());</b>
+<i>49</i>&nbsp;	private static final boolean LOG_ALLOWED = true;
+<i>50</i>&nbsp;	private static final String GETTING_VIEW = &quot;-- [DataSourceAdapter.getView]&gt; Getting view [&quot;;
+<b class="fc"><i>51</i>&nbsp;	protected static Logger logger = LoggerFactory.getLogger(DataSourceAdapter.class);</b>
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;	// - F I E L D - S E C T I O N
+<i>54</i>&nbsp;	/** The current list of Parts that is being displayed. */
+<b class="fc"><i>55</i>&nbsp;	protected final List&lt;IAndroidController&gt; contentControllerList = new ArrayList&lt;&gt;();</b>
+<i>56</i>&nbsp;	/** An instance for a source of data that will provide the list of &lt;b&gt;Parts&lt;/b&gt; to be used to construct the Views. */
+<b class="fc"><i>57</i>&nbsp;	protected MVCDataSource dataSource = null;</b>
+<i>58</i>&nbsp;	/** The Activity where all this structures belong and that is used as the core display context. */
+<b class="fc"><i>59</i>&nbsp;	private Context context = null;</b>
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;	// - C O N S T R U C T O R - S E C T I O N
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;	/** Neutral creator for the initialization of the parent BaseAdapter. */
+<i>64</i>&nbsp;	public DataSourceAdapter() {
+<b class="nc"><i>65</i>&nbsp;		super();</b>
+<b class="nc"><i>66</i>&nbsp;	}</b>
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;	/**
+<i>69</i>&nbsp;	 * During the creation of the Adapter we setup the Fragment or the Activity that contains the layout with the ListView
+<i>70</i>&nbsp;	 * to render the Model and the DataSource with the list of Controllers to be rendered there. To make this Adapter
+<i>71</i>&nbsp;	 * compatible with Fragment and Activities we should have two constructors and consolidate the reference to the
+<i>72</i>&nbsp;	 * Context that is the only element really required for the constructions and connection of the views.
+<i>73</i>&nbsp;	 *
+<i>74</i>&nbsp;	 * @param fragment   The fragment source for this adapter contents.
+<i>75</i>&nbsp;	 * @param dataSource the source for the data to be represented on the view structures.
+<i>76</i>&nbsp;	 */
+<b class="fc"><i>77</i>&nbsp;	public DataSourceAdapter( @NonNull final IPagerFragment fragment, @NonNull final IDataSource dataSource ) {</b>
+<b class="fc"><i>78</i>&nbsp;		Objects.requireNonNull(fragment);</b>
+<b class="fc"><i>79</i>&nbsp;		Objects.requireNonNull(dataSource);</b>
+<b class="fc"><i>80</i>&nbsp;		this.context = fragment.getActivityContext();</b>
+<b class="fc"><i>81</i>&nbsp;		this.dataSource = (MVCDataSource) dataSource;</b>
+<b class="fc"><i>82</i>&nbsp;		this.dataSource.addEventListener(this); // Connect the Adapter to the DataSource</b>
+<b class="fc"><i>83</i>&nbsp;	}</b>
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;	// - M E T H O D - S E C T I O N
+<i>86</i>&nbsp;	public void collaborateData() {
+<b class="fc"><i>87</i>&nbsp;		if (null != this.dataSource) this.dataSource.collaborate2Model();</b>
+<b class="fc"><i>88</i>&nbsp;	}</b>
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;	@Override
+<i>91</i>&nbsp;	public int getCount() {
+<b class="fc"><i>92</i>&nbsp;		return this.contentControllerList.size();</b>
+<i>93</i>&nbsp;	}
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;	// - B A S E   A D A P T E R   I M P L E M E N T A T I O N
+<i>96</i>&nbsp;	@Override
+<i>97</i>&nbsp;	public Object getItem( final int position ) {
+<b class="fc"><i>98</i>&nbsp;		return this.contentControllerList.get(position);</b>
+<i>99</i>&nbsp;	}
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;	@Override
+<i>102</i>&nbsp;	public long getItemId( final int position ) {
+<b class="fc"><i>103</i>&nbsp;		return this.contentControllerList.get(position).getModelId();</b>
+<i>104</i>&nbsp;	}
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;	/**
+<i>107</i>&nbsp;	 * This method is called so many times that represent the most consuming tasks on the Activity. The optimization to
+<i>108</i>&nbsp;	 * not create more views than the needed ones and the reduction of code line is s must that will improve user response
+<i>109</i>&nbsp;	 * times.
+<i>110</i>&nbsp;	 */
+<i>111</i>&nbsp;	public View getView( final int position, View convertView, final ViewGroup parent ) {
+<b class="nc"><i>112</i>&nbsp;		final Instant chrono = Instant.now();</b>
+<i>113</i>&nbsp;		String exitMessage;
+<i>114</i>&nbsp;		try {
+<i>115</i>&nbsp;			// If the request is new we are sure this has to be created.
+<b class="nc"><i>116</i>&nbsp;			IAndroidController item = this.getCastedItem(position);</b>
+<b class="nc"><i>117</i>&nbsp;			if (null == convertView) {</b>
+<b class="nc"><i>118</i>&nbsp;				exitMessage = GETTING_VIEW + position + &quot;] - &quot; + item.getClass().getSimpleName();</b>
+<i>119</i>&nbsp;				// At this point we have access to the Context. Create the view, initialize the fields and connect it to the controller.
+<b class="nc"><i>120</i>&nbsp;				convertView = this.constructRender(context, item);</b>
+<i>121</i>&nbsp;			} else {
+<b class="nc"><i>122</i>&nbsp;				View cachedView = item.getViewCache();</b>
+<b class="nc"><i>123</i>&nbsp;				if (null == cachedView) {</b>
+<b class="nc"><i>124</i>&nbsp;					exitMessage = GETTING_VIEW + position + &quot;] - &quot;</b>
+<b class="nc"><i>125</i>&nbsp;							              + item.getClass().getSimpleName() + &quot; RECREATE&quot;;</b>
+<i>126</i>&nbsp;					// Recreate the view.
+<b class="nc"><i>127</i>&nbsp;					convertView = this.constructRender(context, item);</b>
+<i>128</i>&nbsp;				} else {
+<i>129</i>&nbsp;					// Cached view found. Return new view.
+<b class="nc"><i>130</i>&nbsp;					convertView = cachedView;</b>
+<b class="nc"><i>131</i>&nbsp;					exitMessage = GETTING_VIEW + position + &quot;] - &quot;</b>
+<b class="nc"><i>132</i>&nbsp;							              + item.getClass().getSimpleName() + &quot; CACHED&quot;;</b>
+<i>133</i>&nbsp;				}
+<i>134</i>&nbsp;			}
+<b class="nc"><i>135</i>&nbsp;			if (null == convertView)</b>
+<b class="nc"><i>136</i>&nbsp;				exitMessage = GETTING_VIEW + position + &quot;] - &quot; + item.getClass().getSimpleName() + &quot; NOT FOUND&quot;;</b>
+<i>137</i>&nbsp;			// Activate listeners if the AndroidController supports that feature.
+<b class="nc"><i>138</i>&nbsp;			convertView.setClickable(false);</b>
+<b class="nc"><i>139</i>&nbsp;			convertView.setLongClickable(true);</b>
+<b class="nc"><i>140</i>&nbsp;			if (item instanceof OnClickListener) {</b>
+<b class="nc"><i>141</i>&nbsp;				convertView.setClickable(true);</b>
+<b class="nc"><i>142</i>&nbsp;				convertView.setOnClickListener((OnClickListener) item);</b>
+<i>143</i>&nbsp;			}
+<b class="nc"><i>144</i>&nbsp;			if (item instanceof OnLongClickListener) {</b>
+<b class="nc"><i>145</i>&nbsp;				convertView.setClickable(true);</b>
+<b class="nc"><i>146</i>&nbsp;				convertView.setOnLongClickListener((OnLongClickListener) item);</b>
+<i>147</i>&nbsp;			}
+<i>148</i>&nbsp;//			item.addPropertyChangeListener(dataSource); // Add the DataSource as an event listener for the Controllers.
+<i>149</i>&nbsp;			if (LOG_ALLOWED) {
+<i>150</i>&nbsp;				// Filter out the spinner.
+<b class="nc"><i>151</i>&nbsp;				if (!exitMessage.contains(&quot;OnLoadSpinnerController&quot;)) {</b>
+<b class="nc"><i>152</i>&nbsp;					final Period elapsedPeriod = new Period(chrono, Instant.now(), PeriodType.millis());</b>
+<b class="nc"><i>153</i>&nbsp;					final String elapsedMs = MessageFormat.format(&quot;{0,number}ms&quot;, elapsedPeriod.getMillis());</b>
+<b class="nc"><i>154</i>&nbsp;					logger.info(&quot;{} - Rendering time: {}&quot;, exitMessage, elapsedMs);</b>
+<i>155</i>&nbsp;				}
+<i>156</i>&nbsp;			}
+<b class="nc"><i>157</i>&nbsp;		} catch (RuntimeException rtex) {</b>
+<i>158</i>&nbsp;			Exception exception;
+<b class="nc"><i>159</i>&nbsp;			String message = rtex.getMessage();</b>
+<b class="nc"><i>160</i>&nbsp;			if (null == message)</b>
+<b class="nc"><i>161</i>&nbsp;				exception = new NullPointerException(&quot;Detected a null pointer exception while generating a new render view.&quot;);</b>
+<b class="nc"><i>162</i>&nbsp;			else exception = rtex;</b>
+<b class="nc"><i>163</i>&nbsp;			convertView = new ExceptionRenderGenerator.Builder(exception)</b>
+<b class="nc"><i>164</i>&nbsp;					              .withContext(this.getContext())</b>
+<b class="nc"><i>165</i>&nbsp;					              .withFactory(new ControllerFactory(&quot;-DEFAULT-&quot;))</b>
+<b class="nc"><i>166</i>&nbsp;					              .build().getView();</b>
+<b class="nc"><i>167</i>&nbsp;			DataSourceAdapter.logger.error(&quot;RTEX [DataSourceAdapter.getView]&gt; Runtime Exception: {}&quot;, exception.getMessage());</b>
+<b class="nc"><i>168</i>&nbsp;			rtex.printStackTrace();</b>
+<b class="nc"><i>169</i>&nbsp;		}</b>
+<b class="nc"><i>170</i>&nbsp;		return convertView;</b>
+<i>171</i>&nbsp;	}
+<i>172</i>&nbsp;
+<i>173</i>&nbsp;	@Override
+<i>174</i>&nbsp;	public boolean hasStableIds() {
+<b class="nc"><i>175</i>&nbsp;		return true;</b>
+<i>176</i>&nbsp;	}
+<i>177</i>&nbsp;
+<i>178</i>&nbsp;	/**
+<i>179</i>&nbsp;	 * This method should be called when the model transformation has changed. The model may be the same but the
+<i>180</i>&nbsp;	 * instantiation of the elements that should be rendered may have changed so the model should be run again and a new
+<i>181</i>&nbsp;	 * list part should be generated to be adapted to the viewer contents.
+<i>182</i>&nbsp;	 *
+<i>183</i>&nbsp;	 * This action should trigger the reconstruction of the view list starting from the data source stored data. Most of
+<i>184</i>&nbsp;	 * the already generated controllers should already exist and have their generated views so most of the data on
+<i>185</i>&nbsp;	 * repetitive calls is already present and cached. Only when the trigger activated new controllers or it is created by
+<i>186</i>&nbsp;	 * a new data event then the controllers may change and the views should be regenerated for new items.
+<i>187</i>&nbsp;	 *
+<i>188</i>&nbsp;	 * If an element has changed it is supposed that its view was destroyed so on the next iteration to render it should
+<i>189</i>&nbsp;	 * be recreated again..
+<i>190</i>&nbsp;	 */
+<i>191</i>&nbsp;	@Override
+<i>192</i>&nbsp;	public void notifyDataSetChanged() {
+<b class="fc"><i>193</i>&nbsp;		contentControllerList.clear();</b>
+<b class="fc"><i>194</i>&nbsp;		contentControllerList.addAll(dataSource.getDataSectionContents());</b>
+<b class="fc"><i>195</i>&nbsp;		super.notifyDataSetChanged();</b>
+<b class="fc"><i>196</i>&nbsp;	}</b>
+<i>197</i>&nbsp;
+<i>198</i>&nbsp;	@Override
+<i>199</i>&nbsp;	public boolean areAllItemsEnabled() {
+<b class="fc"><i>200</i>&nbsp;		return true;</b>
+<i>201</i>&nbsp;	}
+<i>202</i>&nbsp;
+<i>203</i>&nbsp;	@Override
+<i>204</i>&nbsp;	public boolean isEnabled( int position ) {
+<b class="fc"><i>205</i>&nbsp;		return true;</b>
+<i>206</i>&nbsp;	}
+<i>207</i>&nbsp;
+<i>208</i>&nbsp;	@Override
+<i>209</i>&nbsp;	public int getItemViewType( int position ) {
+<b class="fc"><i>210</i>&nbsp;		return 0;</b>
+<i>211</i>&nbsp;	}
+<i>212</i>&nbsp;
+<i>213</i>&nbsp;	/**
+<i>214</i>&nbsp;	 * This requires the number of different views we have on the list. This really can be calculated by running over the
+<i>215</i>&nbsp;	 * list of controllers and getting the unique list of their render types. This optimization is not already implemented
+<i>216</i>&nbsp;	 * but added to the list of features to be added.
+<i>217</i>&nbsp;	 *
+<i>218</i>&nbsp;	 * @return the number of different views. Forced to be 1 because it is not being calculated.
+<i>219</i>&nbsp;	 */
+<i>220</i>&nbsp;	public int getViewTypeCount() {
+<b class="fc"><i>221</i>&nbsp;		return 1;</b>
+<i>222</i>&nbsp;	}
+<i>223</i>&nbsp;
+<i>224</i>&nbsp;	private View constructRender( final Context context, final IAndroidController controller ) {
+<b class="nc"><i>225</i>&nbsp;		IRender render = controller.buildRender(context);</b>
+<b class="nc"><i>226</i>&nbsp;		final View view = render.getView();</b>
+<b class="nc"><i>227</i>&nbsp;		view.setTag(controller); // Piggyback the controller to the view to allow access.</b>
+<b class="nc"><i>228</i>&nbsp;		render.initializeViews(); // Associate the fields to variables.</b>
+<b class="nc"><i>229</i>&nbsp;		render.updateContent(); // Set the initial value for the view fields.</b>
+<i>230</i>&nbsp;		// Store view on the AndroidController for cache.
+<i>231</i>&nbsp;		//		if (this.getContext().getResources().getBoolean(R.id.exceptionMessage)) {
+<i>232</i>&nbsp;		if (true) {
+<b class="nc"><i>233</i>&nbsp;			controller.setViewCache(view);</b>
+<i>234</i>&nbsp;		}
+<b class="nc"><i>235</i>&nbsp;		return view;</b>
+<i>236</i>&nbsp;	}
+<i>237</i>&nbsp;
+<i>238</i>&nbsp;	private Context getContext() {
+<b class="nc"><i>239</i>&nbsp;		return this.context;</b>
+<i>240</i>&nbsp;	}
+<i>241</i>&nbsp;
+<i>242</i>&nbsp;	private IAndroidController getCastedItem( final int position ) {
+<b class="nc"><i>243</i>&nbsp;		return this.contentControllerList.get(position);</b>
+<i>244</i>&nbsp;	}
+<i>245</i>&nbsp;
+<i>246</i>&nbsp;	// - P R O P E R T Y C H A N G E L I S T E N E R   I N T E R F A C E
+<i>247</i>&nbsp;
+<i>248</i>&nbsp;	/**
+<i>249</i>&nbsp;	 * Send messages to the parent context that is the one that has code implemented for every different case. This class
+<i>250</i>&nbsp;	 * is a generic class that must not be upgraded because we start then to replicate most of the code.
+<i>251</i>&nbsp;	 */
+<i>252</i>&nbsp;	public void receiveEvent( final IntercommunicationEvent event ) {
+<b class="fc"><i>253</i>&nbsp;		logger.info(&quot;&gt;&gt; [DataSourceAdapter.propertyChange]&gt; Processing Event: {}&quot;, event.getPropertyName());</b>
+<i>254</i>&nbsp;		// - C O N T E N T   E V E N T S
+<b class="fc"><i>255</i>&nbsp;		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_NEWDATA.name()))</b>
+<b class="fc"><i>256</i>&nbsp;			handler.post(this::notifyDataSetChanged);</b>
+<b class="fc"><i>257</i>&nbsp;		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_ACTIONEXPANDCOLLAPSE.name()))</b>
+<b class="fc"><i>258</i>&nbsp;			handler.post(this::notifyDataSetChanged);</b>
+<i>259</i>&nbsp;		// Be sure to run graphical changes on the UI thread. If we already are on it this has no effect.
+<b class="fc"><i>260</i>&nbsp;		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_ADAPTER_REQUESTNOTIFYCHANGES.name()))</b>
+<b class="fc"><i>261</i>&nbsp;			handler.post(this::notifyDataSetChanged);</b>
+<b class="fc"><i>262</i>&nbsp;	}</b>
+<i>263</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-08-19 13:30</div>
+</div>
+</body>
+</html>

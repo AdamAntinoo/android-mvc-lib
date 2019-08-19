@@ -1,0 +1,612 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MVCDataSource</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.dimensinfin.android.mvc.datasource</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MVCDataSource (org.dimensinfin.android.mvc.datasource)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MVCDataSource</td>
+<td class="coverageStat">
+  <span class="percent">
+    3.4%
+  </span>
+  <span class="absValue">
+    (1/ 29)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0.8%
+  </span>
+  <span class="absValue">
+    (1/ 128)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MVCDataSource$Builder</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 20)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$2xT8lBnN</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$4oPQkDdy</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$6HFj7zPM</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$7NYgpiHV</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$8bUIvfLE</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$Ad9xTmev</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$APRuK0HQ</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$aTlmfH1R</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$FoocJBHV</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$FvtJhfEN</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$gcU9ZzF4</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$HWgn9D2i</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$IploNTvk</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$JGUQsrtp</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$lvA0XbVB</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$q7MIi0Ph</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$tbf4Z6Sc</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$vwrQ7sxE</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$xLPyOrpb</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$XZghayj4</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$Y8vlTfTj</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$YyoLpyEn</td>
+  </tr>
+  <tr>
+    <td class="name">MVCDataSource$MockitoMock$474843811$auxiliary$zlFgQZTr</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    2.7%
+  </span>
+  <span class="absValue">
+    (1/ 37)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0.7%
+  </span>
+  <span class="absValue">
+    (1/ 148)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package org.dimensinfin.android.mvc.datasource;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import android.os.Bundle;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import org.apache.commons.lang3.builder.ToStringBuilder;
+<i>6</i>&nbsp;import org.apache.commons.lang3.builder.ToStringStyle;
+<i>7</i>&nbsp;import org.dimensinfin.android.mvc.controller.IAndroidController;
+<i>8</i>&nbsp;import org.dimensinfin.android.mvc.domain.Spacer;
+<i>9</i>&nbsp;import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+<i>10</i>&nbsp;import org.dimensinfin.core.domain.EEvents;
+<i>11</i>&nbsp;import org.dimensinfin.core.domain.EventEmitter;
+<i>12</i>&nbsp;import org.dimensinfin.core.domain.IntercommunicationEvent;
+<i>13</i>&nbsp;import org.dimensinfin.core.interfaces.ICollaboration;
+<i>14</i>&nbsp;import org.dimensinfin.core.interfaces.IEventEmitter;
+<i>15</i>&nbsp;import org.dimensinfin.core.interfaces.IEventReceiver;
+<i>16</i>&nbsp;import org.slf4j.Logger;
+<i>17</i>&nbsp;import org.slf4j.LoggerFactory;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;import java.beans.PropertyChangeEvent;
+<i>20</i>&nbsp;import java.beans.PropertyChangeListener;
+<i>21</i>&nbsp;import java.util.ArrayList;
+<i>22</i>&nbsp;import java.util.List;
+<i>23</i>&nbsp;import java.util.Objects;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;/**
+<i>26</i>&nbsp; * This class is the abstract implementation for a source of the model elements that should be rendered on an special
+<i>27</i>&nbsp; * ListView. The instance connect to the List adapter to generate the views for the contents by a transformation from
+<i>28</i>&nbsp; * the root model elements defined on this data source, then converted to a graph of controllers that are able to
+<i>29</i>&nbsp; * integrate the model with he android view element.
+<i>30</i>&nbsp; * &lt;p&gt;
+<i>31</i>&nbsp; * Finally this class has the code to generate the list of controllers to be used on the View List rendering process and
+<i>32</i>&nbsp; * all the event processing required to update that list to be rendered when the underlying model changes.
+<i>33</i>&nbsp; *
+<i>34</i>&nbsp; * @author Adam Antinoo
+<i>35</i>&nbsp; */
+<i>36</i>&nbsp;public abstract class MVCDataSource implements IDataSource, IEventEmitter {
+<b class="fc"><i>37</i>&nbsp;	protected static final Logger logger = LoggerFactory.getLogger(MVCDataSource.class);</b>
+<i>38</i>&nbsp;	/**
+<i>39</i>&nbsp;	 * This was a node where to deal with the list of core nodes located at the root of the model graph. This has be
+<i>40</i>&nbsp;	 * removed and converted into a simple array of model generic items. The matching controller has also been replaced by
+<i>41</i>&nbsp;	 * a list.
+<i>42</i>&nbsp;	 */
+<b class="nc"><i>43</i>&nbsp;	protected final List&lt;ICollaboration&gt; dataModelRoot = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>44</i>&nbsp;	protected final List&lt;ICollaboration&gt; headerModelRoot = new ArrayList&lt;&gt;();</b>
+<i>45</i>&nbsp;	// - F I E L D - S E C T I O N
+<b class="nc"><i>46</i>&nbsp;	protected Boolean monitor = Boolean.TRUE; // Synchronization monitor to serialize model generation.</b>
+<i>47</i>&nbsp;	/**
+<i>48</i>&nbsp;	 * Unique DataSource string identifier to locate this instance on the &lt;code&gt;DataSourceManager&lt;/code&gt; in case the
+<i>49</i>&nbsp;	 * instances should be cached.
+<i>50</i>&nbsp;	 */
+<i>51</i>&nbsp;	protected DataSourceLocator locator;
+<i>52</i>&nbsp;	/**
+<i>53</i>&nbsp;	 * Factory to be used on the AndroidController hierarchy generation. Each AndroidController has a connection to this
+<i>54</i>&nbsp;	 * factory to create its children parts from the model nodes. This is a mandatory field that should be available at
+<i>55</i>&nbsp;	 * the creation because the DS cannot work without a AndroidController Factory.
+<i>56</i>&nbsp;	 */
+<i>57</i>&nbsp;	protected IControllerFactory controllerFactory;
+<i>58</i>&nbsp;	/**
+<i>59</i>&nbsp;	 * Copy of the extras bundle received by the Activity.
+<i>60</i>&nbsp;	 */
+<b class="nc"><i>61</i>&nbsp;	private Bundle extras = new Bundle();</b>
+<i>62</i>&nbsp;	/**
+<i>63</i>&nbsp;	 * This is the Fragment or Activity code used to differentiate between different model generations. It is stored on
+<i>64</i>&nbsp;	 * the String format to be independent from any of the enumerated structures in the different modules. Anyway it
+<i>65</i>&nbsp;	 * should be a conversion from closed list of values.
+<i>66</i>&nbsp;	 */
+<b class="nc"><i>67</i>&nbsp;	private String variant = &quot;-DEFAULT-VARIANT-&quot;;</b>
+<i>68</i>&nbsp;	/**
+<i>69</i>&nbsp;	 * Flag to indicate if the model contents generated can be cached and we can avoid running the &lt;code&gt;collaborate2Model
+<i>70</i>&nbsp;	 * ()&lt;/code&gt; method on every fragment instantiation. If the model is suitable for caching we can speed up the turn of
+<i>71</i>&nbsp;	 * the device because we have not to generate again the DataSource and its model data structure.
+<i>72</i>&nbsp;	 */
+<b class="nc"><i>73</i>&nbsp;	private boolean canBeCached = false;</b>
+<i>74</i>&nbsp;	/**
+<i>75</i>&nbsp;	 * This is the delegate to process inter node events. The data source will receive events from the controllers that
+<i>76</i>&nbsp;	 * are generated by this same data source and will also send events to all the connected listeners that should be
+<i>77</i>&nbsp;	 * reported of controller changes.
+<i>78</i>&nbsp;	 * &lt;p&gt;
+<i>79</i>&nbsp;	 * With that connections any change on the Model should be sent as an event to the Controller. Any action on the
+<i>80</i>&nbsp;	 * Controller will be also detected and sent along with model changes to the DataSource that will command the
+<i>81</i>&nbsp;	 * visualization changes by relaying the events to the DataSourceAdapter listener.
+<i>82</i>&nbsp;	 */
+<b class="nc"><i>83</i>&nbsp;	private IEventEmitter eventController = new EventEmitter();</b>
+<b class="nc"><i>84</i>&nbsp;	private boolean dirty = false; // This is the flag for model changes.</b>
+<i>85</i>&nbsp;	/**
+<i>86</i>&nbsp;	 * This field now contains the list of controllers resulting from the model list that is also stored into one array
+<i>87</i>&nbsp;	 * and not inside a specific model node. This simplifies the code for Root nodes than now have disappeared.
+<i>88</i>&nbsp;	 * This list is the list of controllers to be rendered on the data section list view.
+<i>89</i>&nbsp;	 */
+<b class="nc"><i>90</i>&nbsp;	private List&lt;IAndroidController&gt; controllerDataSectionRoot = new ArrayList&lt;&gt;();</b>
+<i>91</i>&nbsp;	/**
+<i>92</i>&nbsp;	 * This field now contains the list of controllers resulting from the model list that is also stored into one array
+<i>93</i>&nbsp;	 * and not inside a specific model node. This simplifies the code for Root nodes than now have disappeared.
+<i>94</i>&nbsp;	 * This list is the list of controllers to be rendered on the header section list view.
+<i>95</i>&nbsp;	 */
+<b class="nc"><i>96</i>&nbsp;	private List&lt;IAndroidController&gt; controllerHeaderSectionRoot = new ArrayList&lt;&gt;();</b>
+<i>97</i>&nbsp;
+<i>98</i>&nbsp;	// - C O N S T R U C T O R - S E C T I O N
+<b class="nc"><i>99</i>&nbsp;	protected MVCDataSource() {</b>
+<b class="nc"><i>100</i>&nbsp;	}</b>
+<i>101</i>&nbsp;
+<b class="nc"><i>102</i>&nbsp;	private MVCDataSource( final DataSourceLocator locator, final IControllerFactory controllerFactory ) {</b>
+<b class="nc"><i>103</i>&nbsp;		this.locator = locator;</b>
+<b class="nc"><i>104</i>&nbsp;		this.controllerFactory = controllerFactory;</b>
+<b class="nc"><i>105</i>&nbsp;	}</b>
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;	// - M E T H O D - S E C T I O N
+<i>108</i>&nbsp;	private boolean isDirty() {
+<b class="nc"><i>109</i>&nbsp;		return this.dirty;</b>
+<i>110</i>&nbsp;	}
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;	private void cleanDirty() {
+<b class="nc"><i>113</i>&nbsp;		this.dirty = false;</b>
+<b class="nc"><i>114</i>&nbsp;	}</b>
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;	// - G E T T E R S   &amp;   S E T T E R S
+<i>117</i>&nbsp;	protected IControllerFactory getControllerFactory() {
+<b class="nc"><i>118</i>&nbsp;		return controllerFactory;</b>
+<i>119</i>&nbsp;	}
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;	public MVCDataSource canBeCached( final boolean shouldBeCached ) {
+<b class="nc"><i>122</i>&nbsp;		this.canBeCached = shouldBeCached;</b>
+<b class="nc"><i>123</i>&nbsp;		return this;</b>
+<i>124</i>&nbsp;	}
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;	// - I D A T A S O U R C E   I N T E R F A C E
+<i>127</i>&nbsp;	@Override
+<i>128</i>&nbsp;	public DataSourceLocator getDataSourceLocator() {
+<b class="nc"><i>129</i>&nbsp;		return locator;</b>
+<i>130</i>&nbsp;	}
+<i>131</i>&nbsp;
+<i>132</i>&nbsp;	public boolean isCacheable() {
+<b class="nc"><i>133</i>&nbsp;		return this.canBeCached;</b>
+<i>134</i>&nbsp;	}
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;	// - D E L E G A T E - I E V E N T E M I T T E R
+<i>137</i>&nbsp;	@Override
+<b class="nc"><i>138</i>&nbsp;	public void addEventListener( final IEventReceiver listener ) {this.eventController.addEventListener(listener);}</b>
+<i>139</i>&nbsp;
+<i>140</i>&nbsp;	@Override
+<b class="nc"><i>141</i>&nbsp;	public void removeEventListener( final IEventReceiver listener ) {this.eventController.removeEventListener(listener);}</b>
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;	@Override
+<b class="nc"><i>144</i>&nbsp;	public boolean sendChangeEvent( final String eventName ) {return this.eventController.sendChangeEvent(eventName);}</b>
+<i>145</i>&nbsp;
+<i>146</i>&nbsp;	@Override
+<i>147</i>&nbsp;	public boolean sendChangeEvent( final String eventName, final Object origin ) {
+<b class="nc"><i>148</i>&nbsp;		return this.eventController.sendChangeEvent(eventName, origin);</b>
+<i>149</i>&nbsp;	}
+<i>150</i>&nbsp;
+<i>151</i>&nbsp;	@Override
+<i>152</i>&nbsp;	public boolean sendChangeEvent( final String eventName, final Object origin, final Object oldValue, final Object newValue ) {
+<b class="nc"><i>153</i>&nbsp;		return this.eventController.sendChangeEvent(eventName, origin, oldValue, newValue);</b>
+<i>154</i>&nbsp;	}
+<i>155</i>&nbsp;
+<i>156</i>&nbsp;	/**
+<i>157</i>&nbsp;	 * The header contents are the list of different structures and the count for each one. To render the structure we also need the
+<i>158</i>&nbsp;	 * structure icon identifier that is also managed at the model level.
+<i>159</i>&nbsp;	 *
+<i>160</i>&nbsp;	 * @return the model list to be rendered on the header section view.
+<i>161</i>&nbsp;	 */
+<i>162</i>&nbsp;	@Override
+<i>163</i>&nbsp;	public List&lt;IAndroidController&gt; getHeaderSectionContents() {
+<b class="nc"><i>164</i>&nbsp;		logger.info(&quot;&gt;&lt; [MVCDataSource.getHeaderSectionContents]&quot;);</b>
+<b class="nc"><i>165</i>&nbsp;		this.refreshHeaderSection();</b>
+<b class="nc"><i>166</i>&nbsp;		final List&lt;IAndroidController&gt; controllers = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>167</i>&nbsp;		for (IAndroidController controller : this.controllerHeaderSectionRoot) {</b>
+<b class="nc"><i>168</i>&nbsp;			controller.collaborate2View(controllers);</b>
+<b class="nc"><i>169</i>&nbsp;		}</b>
+<b class="nc"><i>170</i>&nbsp;		return controllers;</b>
+<i>171</i>&nbsp;	}
+<i>172</i>&nbsp;
+<i>173</i>&nbsp;	/**
+<i>174</i>&nbsp;	 * This is the point where the adapter connects to get the contents for its list view. When the list view need any
+<i>175</i>&nbsp;	 * update it will call this point to get a fresh controller list. Most of the times that controller list is ready and
+<i>176</i>&nbsp;	 * just have to be collected from the full controller hierarchy with the collaboration to view procedure.
+<i>177</i>&nbsp;	 * &lt;p&gt;
+<i>178</i>&nbsp;	 * Any new controller or modified controller will not have a view and then when the contents are rendered will get its
+<i>179</i>&nbsp;	 * view representation created for visualization. For the other calls this just will collect into a new list a set of
+<i>180</i>&nbsp;	 * already ready controllers.
+<i>181</i>&nbsp;	 *
+<i>182</i>&nbsp;	 * @return the list of controllers that collaborate to the view list this time.
+<i>183</i>&nbsp;	 */
+<i>184</i>&nbsp;	public List&lt;IAndroidController&gt; getDataSectionContents() {
+<b class="nc"><i>185</i>&nbsp;		final List&lt;IAndroidController&gt; controllers = new ArrayList&lt;&gt;();</b>
+<i>186</i>&nbsp;		try {
+<i>187</i>&nbsp;			// Check if the model needs update (dirty flag) or we can jump directly to the view collaboration.
+<b class="nc"><i>188</i>&nbsp;			if (this.isDirty()) {</b>
+<b class="nc"><i>189</i>&nbsp;				this.refreshDataSection();</b>
+<b class="nc"><i>190</i>&nbsp;				this.cleanDirty();</b>
+<i>191</i>&nbsp;			}
+<b class="nc"><i>192</i>&nbsp;			for (IAndroidController controller : this.controllerDataSectionRoot) {</b>
+<b class="nc"><i>193</i>&nbsp;				controller.collaborate2View(controllers);</b>
+<b class="nc"><i>194</i>&nbsp;			}</b>
+<i>195</i>&nbsp;		} finally {
+<b class="nc"><i>196</i>&nbsp;			logger.info(&quot;&gt;&lt; [MVCDataSource.getDataSectionContents]&gt; Contents count: {}&quot;, controllers.size());</b>
+<b class="nc"><i>197</i>&nbsp;			return controllers;</b>
+<i>198</i>&nbsp;		}
+<i>199</i>&nbsp;	}
+<i>200</i>&nbsp;
+<i>201</i>&nbsp;	public Bundle getExtras() {
+<b class="nc"><i>202</i>&nbsp;		return extras;</b>
+<i>203</i>&nbsp;	}
+<i>204</i>&nbsp;
+<i>205</i>&nbsp;	public MVCDataSource setExtras( final Bundle extras ) {
+<b class="nc"><i>206</i>&nbsp;		this.extras = extras;</b>
+<b class="nc"><i>207</i>&nbsp;		return this;</b>
+<i>208</i>&nbsp;	}
+<i>209</i>&nbsp;
+<i>210</i>&nbsp;	public String getVariant() {
+<b class="nc"><i>211</i>&nbsp;		return variant;</b>
+<i>212</i>&nbsp;	}
+<i>213</i>&nbsp;
+<i>214</i>&nbsp;	public MVCDataSource setVariant( final String variant ) {
+<b class="nc"><i>215</i>&nbsp;		this.variant = variant;</b>
+<b class="nc"><i>216</i>&nbsp;		return this;</b>
+<i>217</i>&nbsp;	}
+<i>218</i>&nbsp;
+<i>219</i>&nbsp;	public List&lt;ICollaboration&gt; getDataModelRoot() {
+<b class="nc"><i>220</i>&nbsp;		return this.dataModelRoot;</b>
+<i>221</i>&nbsp;	}
+<i>222</i>&nbsp;
+<i>223</i>&nbsp;	public List&lt;ICollaboration&gt; getHeaderModelRoot() {
+<b class="nc"><i>224</i>&nbsp;		return this.headerModelRoot;</b>
+<i>225</i>&nbsp;	}
+<i>226</i>&nbsp;
+<i>227</i>&nbsp;	private void refreshHeaderSection() {
+<b class="nc"><i>228</i>&nbsp;		logger.info(&quot;&gt;&gt; [AMVCdataSource.refreshHeaderSection]&quot;);</b>
+<b class="nc"><i>229</i>&nbsp;		this.controllerHeaderSectionRoot.clear();</b>
+<b class="nc"><i>230</i>&nbsp;		synchronized (this.headerModelRoot) {</b>
+<b class="nc"><i>231</i>&nbsp;			for (ICollaboration modelNode : this.headerModelRoot) {</b>
+<i>232</i>&nbsp;				try {
+<b class="nc"><i>233</i>&nbsp;					final IAndroidController newController = this.controllerFactory.createController(modelNode);</b>
+<b class="nc"><i>234</i>&nbsp;					this.controllerHeaderSectionRoot.add(newController);</b>
+<b class="nc"><i>235</i>&nbsp;					newController.setDataSource(this); // Connect the controller to the originator data source</b>
+<b class="nc"><i>236</i>&nbsp;					newController.refreshChildren();</b>
+<b class="nc"><i>237</i>&nbsp;				} catch (final ClassCastException cce) {</b>
+<b class="nc"><i>238</i>&nbsp;					this.controllerDataSectionRoot.add(</b>
+<b class="nc"><i>239</i>&nbsp;							this.controllerFactory.createController(new Spacer.Builder()</b>
+<b class="nc"><i>240</i>&nbsp;									                                        .withLabel(cce.getMessage())</b>
+<b class="nc"><i>241</i>&nbsp;									                                        .build()));</b>
+<b class="nc"><i>242</i>&nbsp;				} catch (final RuntimeException rte) {</b>
+<b class="nc"><i>243</i>&nbsp;					this.controllerDataSectionRoot.add(</b>
+<b class="nc"><i>244</i>&nbsp;							this.controllerFactory.createController(new Spacer.Builder()</b>
+<b class="nc"><i>245</i>&nbsp;									                                        .withLabel(rte.getMessage())</b>
+<b class="nc"><i>246</i>&nbsp;									                                        .build()));</b>
+<b class="nc"><i>247</i>&nbsp;				}</b>
+<b class="nc"><i>248</i>&nbsp;			}</b>
+<b class="nc"><i>249</i>&nbsp;		}</b>
+<b class="nc"><i>250</i>&nbsp;		logger.info(&quot;&lt;&lt; [AMVCdataSource.refreshHeaderSection]&gt; Contents: {}&quot;, this.controllerHeaderSectionRoot.size());</b>
+<b class="nc"><i>251</i>&nbsp;	}</b>
+<i>252</i>&nbsp;
+<i>253</i>&nbsp;	private void refreshDataSection() {
+<b class="nc"><i>254</i>&nbsp;		logger.info(&quot;&gt;&gt; [AMVCdataSource.refreshDataSection]&quot;);</b>
+<b class="nc"><i>255</i>&nbsp;		this.controllerDataSectionRoot.clear();</b>
+<b class="nc"><i>256</i>&nbsp;		synchronized (this.dataModelRoot) {</b>
+<b class="nc"><i>257</i>&nbsp;			for (ICollaboration modelNode : this.dataModelRoot) {</b>
+<i>258</i>&nbsp;				try {
+<b class="nc"><i>259</i>&nbsp;					final IAndroidController newController = this.controllerFactory.createController(modelNode);</b>
+<b class="nc"><i>260</i>&nbsp;					this.controllerDataSectionRoot.add(newController);</b>
+<b class="nc"><i>261</i>&nbsp;					newController.setDataSource(this); // Connect the controller to the originator data source</b>
+<b class="nc"><i>262</i>&nbsp;					newController.refreshChildren();</b>
+<b class="nc"><i>263</i>&nbsp;				} catch (final ClassCastException cce) {</b>
+<b class="nc"><i>264</i>&nbsp;					this.controllerDataSectionRoot.add(</b>
+<b class="nc"><i>265</i>&nbsp;							this.controllerFactory.createController(new Spacer.Builder()</b>
+<b class="nc"><i>266</i>&nbsp;									                                        .withLabel(cce.getMessage())</b>
+<b class="nc"><i>267</i>&nbsp;									                                        .build()));</b>
+<b class="nc"><i>268</i>&nbsp;				} catch (final RuntimeException rte) {</b>
+<b class="nc"><i>269</i>&nbsp;					this.controllerDataSectionRoot.add(</b>
+<b class="nc"><i>270</i>&nbsp;							this.controllerFactory.createController(new Spacer.Builder()</b>
+<b class="nc"><i>271</i>&nbsp;									                                        .withLabel(rte.getMessage())</b>
+<b class="nc"><i>272</i>&nbsp;									                                        .build()));</b>
+<b class="nc"><i>273</i>&nbsp;				}</b>
+<b class="nc"><i>274</i>&nbsp;			}</b>
+<b class="nc"><i>275</i>&nbsp;		}</b>
+<b class="nc"><i>276</i>&nbsp;		logger.info(&quot;&lt;&lt; [AMVCdataSource.refreshDataSection]&gt; Contents: {}&quot;, this.controllerDataSectionRoot.size());</b>
+<b class="nc"><i>277</i>&nbsp;	}</b>
+<i>278</i>&nbsp;
+<i>279</i>&nbsp;	/**
+<i>280</i>&nbsp;	 * This is the single way to add more content to the DataSource internal model representation. Encapsulating this
+<i>281</i>&nbsp;	 * functionality on this method we make sure that the right events are generated and the model is properly updated and
+<i>282</i>&nbsp;	 * the render process will work as expected.
+<i>283</i>&nbsp;	 * &lt;p&gt;
+<i>284</i>&nbsp;	 * Any change to the model should report the data source on a dirty state. When the updates are completed then we
+<i>285</i>&nbsp;	 * should generate the new contents with a simple call to the adapter&#39;s &lt;code&gt;notifyDataSetChanged&lt;/code&gt;. With this
+<i>286</i>&nbsp;	 * notification we should start the list view content generation from the bottom up.
+<i>287</i>&nbsp;	 *
+<i>288</i>&nbsp;	 * @param newModel a new node to be added to the contents of the root point of the model.
+<i>289</i>&nbsp;	 * @return this IDataSource instance to allow flow coding.
+<i>290</i>&nbsp;	 */
+<i>291</i>&nbsp;	public IDataSource addModelContents( final ICollaboration newModel ) {
+<b class="nc"><i>292</i>&nbsp;		logger.info(&quot;&gt;&lt; [MVCDataSource.addModelContents]&gt; Adding model: {}&quot;, newModel.getClass().getSimpleName());</b>
+<b class="nc"><i>293</i>&nbsp;		this.dataModelRoot.add(newModel);</b>
+<i>294</i>&nbsp;//		this.controllerDataSectionRoot.add(this.controllerFactory.createController(newModel));
+<b class="nc"><i>295</i>&nbsp;		this.dirty = true; // Signal the model change</b>
+<b class="nc"><i>296</i>&nbsp;		return this;</b>
+<i>297</i>&nbsp;	}
+<i>298</i>&nbsp;
+<i>299</i>&nbsp;	public IDataSource addHeaderContents( final ICollaboration newModel ) {
+<b class="nc"><i>300</i>&nbsp;		logger.info(&quot;&gt;&lt; [MVCDataSource.addHeaderContents]&gt; Adding model: {}&quot;, newModel.getClass().getSimpleName());</b>
+<b class="nc"><i>301</i>&nbsp;		this.headerModelRoot.add(newModel);</b>
+<b class="nc"><i>302</i>&nbsp;		return this;</b>
+<i>303</i>&nbsp;	}
+<i>304</i>&nbsp;
+<i>305</i>&nbsp;	/**
+<i>306</i>&nbsp;	 * Cleans the model and the corresponding controllers. Resets the data source to be empty.
+<i>307</i>&nbsp;	 */
+<i>308</i>&nbsp;	public IDataSource cleanModel() {
+<b class="nc"><i>309</i>&nbsp;		this.dataModelRoot.clear();</b>
+<b class="nc"><i>310</i>&nbsp;		this.controllerDataSectionRoot.clear();</b>
+<b class="nc"><i>311</i>&nbsp;		this.dirty = true; // Signal the model change</b>
+<b class="nc"><i>312</i>&nbsp;		return this;</b>
+<i>313</i>&nbsp;	}
+<i>314</i>&nbsp;
+<i>315</i>&nbsp;	// - I E V E N T R E C E I V E R   I N T E R F A C E
+<i>316</i>&nbsp;
+<i>317</i>&nbsp;	/**
+<i>318</i>&nbsp;	 * This method is called whenever there is an event from any model change or any AndroidController interaction. There
+<i>319</i>&nbsp;	 * are two groups of events, &lt;b&gt;structural&lt;/b&gt; that change the model structure and contents and that require a full
+<i>320</i>&nbsp;	 * regeneration of all the transformations and &lt;b&gt;content&lt;/b&gt; that can change the list of elements to be visible at
+<i>321</i>&nbsp;	 * this point in time but that do not change the initial structure. The contents can happen from changes on the model
+<i>322</i>&nbsp;	 * data or by interactions on the Parts that have some graphical impact.
+<i>323</i>&nbsp;	 * &lt;p&gt;
+<i>324</i>&nbsp;	 * If the model structure changes we should recreate the Model -&gt; AndroidController transformation and generate
+<i>325</i>&nbsp;	 * another AndroidController tree with Parts matching the current model graph. At this transformation we can transform
+<i>326</i>&nbsp;	 * any data connected structure real or virtual to a hierarchy graph with the standard parent-child structure. We use
+<i>327</i>&nbsp;	 * the
+<i>328</i>&nbsp;	 * &lt;code&gt;collaborate2Model()&lt;/code&gt; as a way to convert internal data structures to a hierarchy representation on a
+<i>329</i>&nbsp;	 * point in time. We isolate internal model ways to deal with data and we can optimize for the AndroidController
+<i>330</i>&nbsp;	 * hierarchy without compromising the model flexibility.
+<i>331</i>&nbsp;	 * &lt;p&gt;
+<i>332</i>&nbsp;	 * If the contents change we only should run over the AndroidController tree to make the transformation to generate a
+<i>333</i>&nbsp;	 * new AndroidController list for all the new visible and render items. This is performed with the
+<i>334</i>&nbsp;	 * &lt;code&gt;collaborate2View()&lt;/code&gt; method for any AndroidController that will then decide which of its internal
+<i>335</i>&nbsp;	 * children are going to be referenced for the collaborating list of Parts. This is the right place where to set up
+<i>336</i>&nbsp;	 * programmatic filtering or sorting because at this point we can influence the output representation for the model
+<i>337</i>&nbsp;	 * instance. We can also decorate the resulting AndroidController list breaking the one to one relationship between a
+<i>338</i>&nbsp;	 * model instance and a AndroidController instance.
+<i>339</i>&nbsp;	 * &lt;p&gt;
+<i>340</i>&nbsp;	 * After the models changes we should send a message to the &lt;code&gt;DataSourceAdapter&lt;/code&gt; to refresh the graphical
+<i>341</i>&nbsp;	 * elements and change the display. &lt;code&gt;DataSource&lt;/code&gt; instances do not have a reference to the Adapter nor to
+<i>342</i>&nbsp;	 * the Fragment that created them but during the creation process the Adapter installed a listener to get a copy of
+<i>343</i>&nbsp;	 * the events sent by all its data sources. So we can sent that message by sending again another type of message
+<i>344</i>&nbsp;	 * related to the need for the display for update, the &lt;code&gt;EVENTADAPTER_REQUESTNOTIFYCHANGES&lt;/code&gt;
+<i>345</i>&nbsp;	 *
+<i>346</i>&nbsp;	 * @param event the event to be processed. Event have a property name that is used as a selector.
+<i>347</i>&nbsp;	 */
+<i>348</i>&nbsp;	@Override
+<i>349</i>&nbsp;	public synchronized void receiveEvent( final IntercommunicationEvent event ) {
+<b class="nc"><i>350</i>&nbsp;		logger.info(&quot;&gt;&lt; [MVCDataSource.propertyChange]&gt; Processing Event: {}&quot;, event.getPropertyName());</b>
+<i>351</i>&nbsp;		// - C O N T E N T   E V E N T S
+<i>352</i>&nbsp;		// The expand/collapse state has changed.
+<b class="nc"><i>353</i>&nbsp;		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_NEWDATA.name())) {</b>
+<b class="nc"><i>354</i>&nbsp;			logger.info(&quot;&gt;&lt; [MVCDataSource.propertyChange]&gt; Event: {} processed.&quot;, event.getPropertyName());</b>
+<b class="nc"><i>355</i>&nbsp;			this.sendChangeEvent(event.getPropertyName());</b>
+<b class="nc"><i>356</i>&nbsp;			return;</b>
+<i>357</i>&nbsp;		}
+<b class="nc"><i>358</i>&nbsp;		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_REFRESHDATA.name())) {</b>
+<b class="nc"><i>359</i>&nbsp;			logger.info(&quot;&gt;&lt; [MVCDataSource.propertyChange]&gt; Event: {} processed.&quot;, event.getPropertyName());</b>
+<b class="nc"><i>360</i>&nbsp;			this.sendChangeEvent(event.getPropertyName());</b>
+<b class="nc"><i>361</i>&nbsp;			return;</b>
+<i>362</i>&nbsp;		}
+<b class="nc"><i>363</i>&nbsp;		this.sendChangeEvent(event.getPropertyName()); // Pass the event to the Adapter</b>
+<b class="nc"><i>364</i>&nbsp;	}</b>
+<i>365</i>&nbsp;
+<i>366</i>&nbsp;	// - C O R E
+<i>367</i>&nbsp;	@Override
+<i>368</i>&nbsp;	public String toString() {
+<b class="nc"><i>369</i>&nbsp;		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)</b>
+<b class="nc"><i>370</i>&nbsp;				       .append(&quot;locator&quot;, this.locator)</b>
+<b class="nc"><i>371</i>&nbsp;				       .append(&quot;variant&quot;, this.variant)</b>
+<b class="nc"><i>372</i>&nbsp;				       .append(&quot;canBeCached&quot;, this.canBeCached)</b>
+<b class="nc"><i>373</i>&nbsp;				       .append(&quot;dirty&quot;, this.dirty)</b>
+<b class="nc"><i>374</i>&nbsp;				       .toString();</b>
+<i>375</i>&nbsp;	}
+<i>376</i>&nbsp;
+<i>377</i>&nbsp;	// - B U I L D E R
+<i>378</i>&nbsp;	protected static abstract class Builder&lt;T extends MVCDataSource, B extends MVCDataSource.Builder&gt; {
+<i>379</i>&nbsp;		private final DataSourceLocator identifier;
+<i>380</i>&nbsp;		protected B actualClassBuilder;
+<i>381</i>&nbsp;
+<b class="nc"><i>382</i>&nbsp;		public Builder() {</b>
+<b class="nc"><i>383</i>&nbsp;			this.identifier = new DataSourceLocator();</b>
+<b class="nc"><i>384</i>&nbsp;			this.actualClassBuilder = getActualBuilder();</b>
+<i>385</i>&nbsp;		}
+<i>386</i>&nbsp;
+<i>387</i>&nbsp;		protected abstract T getActual();
+<i>388</i>&nbsp;
+<i>389</i>&nbsp;		protected abstract B getActualBuilder();
+<i>390</i>&nbsp;
+<i>391</i>&nbsp;		public B addIdentifier( final int identifier ) {
+<b class="nc"><i>392</i>&nbsp;			this.identifier.addIdentifier(Integer.valueOf(identifier).toString());</b>
+<b class="nc"><i>393</i>&nbsp;			return this.actualClassBuilder;</b>
+<i>394</i>&nbsp;		}
+<i>395</i>&nbsp;
+<i>396</i>&nbsp;		public B addIdentifier( final long identifier ) {
+<b class="nc"><i>397</i>&nbsp;			this.identifier.addIdentifier(Long.valueOf(identifier).toString());</b>
+<b class="nc"><i>398</i>&nbsp;			return this.actualClassBuilder;</b>
+<i>399</i>&nbsp;		}
+<i>400</i>&nbsp;
+<i>401</i>&nbsp;		public B addIdentifier( final String identifier ) {
+<b class="nc"><i>402</i>&nbsp;			if (null != identifier) this.identifier.addIdentifier(identifier);</b>
+<b class="nc"><i>403</i>&nbsp;			return this.actualClassBuilder;</b>
+<i>404</i>&nbsp;		}
+<i>405</i>&nbsp;
+<i>406</i>&nbsp;		public B withFactory( final IControllerFactory factory ) {
+<b class="nc"><i>407</i>&nbsp;			if (null != factory) this.getActual().controllerFactory = factory;</b>
+<b class="nc"><i>408</i>&nbsp;			return this.actualClassBuilder;</b>
+<i>409</i>&nbsp;		}
+<i>410</i>&nbsp;
+<i>411</i>&nbsp;		public B withVariant( final String variant ) {
+<b class="nc"><i>412</i>&nbsp;			if (null != variant) this.getActual().setVariant(variant);</b>
+<b class="nc"><i>413</i>&nbsp;			return this.actualClassBuilder;</b>
+<i>414</i>&nbsp;		}
+<i>415</i>&nbsp;
+<i>416</i>&nbsp;		public B withExtras( final Bundle extras ) {
+<b class="nc"><i>417</i>&nbsp;			if (null != extras) this.getActual().setExtras(extras);</b>
+<b class="nc"><i>418</i>&nbsp;			else this.getActual().setExtras(new Bundle());</b>
+<b class="nc"><i>419</i>&nbsp;			return this.actualClassBuilder;</b>
+<i>420</i>&nbsp;		}
+<i>421</i>&nbsp;
+<i>422</i>&nbsp;		public T build() {
+<i>423</i>&nbsp;			// Register the identifier and create the data source.
+<b class="nc"><i>424</i>&nbsp;			this.getActual().locator = this.identifier;</b>
+<i>425</i>&nbsp;			// Do any other validations. If failed then launch an exception.
+<b class="nc"><i>426</i>&nbsp;			Objects.requireNonNull(this.getActual().locator);</b>
+<b class="nc"><i>427</i>&nbsp;			Objects.requireNonNull(this.getActual().controllerFactory);</b>
+<b class="nc"><i>428</i>&nbsp;			return this.getActual();</b>
+<i>429</i>&nbsp;		}
+<i>430</i>&nbsp;	}
+<i>431</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-08-19 13:30</div>
+</div>
+</body>
+</html>

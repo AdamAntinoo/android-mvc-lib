@@ -1,0 +1,88 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: IDataSource</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.dimensinfin.android.mvc.datasource</a> ]
+</div>
+
+<h1>Coverage Summary for Class: IDataSource (org.dimensinfin.android.mvc.datasource)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">IDataSource</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package org.dimensinfin.android.mvc.datasource;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.dimensinfin.android.mvc.controller.IAndroidController;
+<i>4</i>&nbsp;import org.dimensinfin.core.interfaces.ICollaboration;
+<i>5</i>&nbsp;import org.dimensinfin.core.interfaces.IEventReceiver;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.util.List;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;public interface IDataSource extends IEventReceiver {
+<i>10</i>&nbsp;	DataSourceLocator getDataSourceLocator();
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;	boolean isCacheable();
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;	/**
+<i>15</i>&nbsp;	 * This is the action to signal the data source to start searching for its data to process it and generate
+<i>16</i>&nbsp;	 * the contents for the root model list. The model generated is still not processed and no controllers are created until
+<i>17</i>&nbsp;	 * the viewer requires them. This call is to create any internal data source data structures that are to be used when extracting the
+<i>18</i>&nbsp;	 * header and data section models.
+<i>19</i>&nbsp;	 */
+<i>20</i>&nbsp;	void prepareModel();
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;	void collaborate2Model();
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;	IDataSource addHeaderContents( final ICollaboration newModel );
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;	/**
+<i>27</i>&nbsp;	 * This method will use the data source models to generate the contents for the header section. The model will be transformed to the list of
+<i>28</i>&nbsp;	 * Controllers so the final header view will have the list of render views to be used on the display.
+<i>29</i>&nbsp;	 *
+<i>30</i>&nbsp;	 * @return the list of header controllers to be rendered.
+<i>31</i>&nbsp;	 */
+<i>32</i>&nbsp;	List&lt;IAndroidController&gt; getHeaderSectionContents();
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;	/**
+<i>35</i>&nbsp;	 * This is the method to generate the list of controllers to be used on the list rendering. The list returned is only for the controllers that are
+<i>36</i>&nbsp;	 * visible and then that collaborate to the view.
+<i>37</i>&nbsp;	 *
+<i>38</i>&nbsp;	 * @return the list of data section controllers to be rendered.
+<i>39</i>&nbsp;	 */
+<i>40</i>&nbsp;	List&lt;IAndroidController&gt; getDataSectionContents();
+<i>41</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-08-19 13:30</div>
+</div>
+</body>
+</html>

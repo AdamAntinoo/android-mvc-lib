@@ -1,0 +1,154 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: HeaderDataSourceAdapter</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.dimensinfin.android.mvc.datasource</a> ]
+</div>
+
+<h1>Coverage Summary for Class: HeaderDataSourceAdapter (org.dimensinfin.android.mvc.datasource)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HeaderDataSourceAdapter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package org.dimensinfin.android.mvc.datasource;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import android.view.View;
+<i>4</i>&nbsp;import android.view.ViewGroup;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import androidx.annotation.NonNull;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import org.dimensinfin.android.mvc.activity.IPagerFragment;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;public class HeaderDataSourceAdapter extends DataSourceAdapter {
+<i>11</i>&nbsp;	private ViewGroup headerContainer;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;	public HeaderDataSourceAdapter( @NonNull final IPagerFragment fragment, @NonNull final IDataSource datasource ) {
+<b class="nc"><i>14</i>&nbsp;		super(fragment, datasource);</b>
+<i>15</i>&nbsp;	}
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;	public HeaderDataSourceAdapter setHeaderContainer( final ViewGroup headerContainer ) {
+<b class="nc"><i>18</i>&nbsp;		this.headerContainer = headerContainer;</b>
+<b class="nc"><i>19</i>&nbsp;		return this;</b>
+<i>20</i>&nbsp;	}
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;	@Override
+<i>23</i>&nbsp;	public void collaborateData() {
+<b class="nc"><i>24</i>&nbsp;		logger.info(&quot;&gt;&gt; [HeaderDataSourceAdapter.collaborateData]&quot;);</b>
+<b class="nc"><i>25</i>&nbsp;		this.headerContainer.removeAllViews();</b>
+<b class="nc"><i>26</i>&nbsp;		logger.info(&quot;&lt;&lt; [HeaderDataSourceAdapter.collaborateData]&quot;);</b>
+<i>27</i>&nbsp;	}
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;	@Override
+<i>30</i>&nbsp;	public void notifyDataSetChanged() {
+<b class="nc"><i>31</i>&nbsp;		this.contentControllerList.clear();</b>
+<b class="nc"><i>32</i>&nbsp;		this.contentControllerList.addAll(dataSource.getHeaderSectionContents());</b>
+<b class="nc"><i>33</i>&nbsp;		this.headerContainer.removeAllViews();</b>
+<b class="nc"><i>34</i>&nbsp;		for (int i = 0; i &lt; this.contentControllerList.size(); i++) {</b>
+<b class="nc"><i>35</i>&nbsp;			final View view = this.getView(i, null, this.headerContainer);</b>
+<b class="nc"><i>36</i>&nbsp;			this.headerContainer.addView(view);</b>
+<i>37</i>&nbsp;		}
+<b class="nc"><i>38</i>&nbsp;		this.headerContainer.setVisibility(View.VISIBLE);</b>
+<i>39</i>&nbsp;	}
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;//	/**
+<i>42</i>&nbsp;//	 * This method extracts the view from the parameter controller and generates the final View element that it is able to
+<i>43</i>&nbsp;//	 * be inserted on the ui ViewGroup container.
+<i>44</i>&nbsp;//	 *
+<i>45</i>&nbsp;//	 * @param target the AndroidController to render to a View.
+<i>46</i>&nbsp;//	 */
+<i>47</i>&nbsp;//	private void addView2Header( final IAndroidController target ) {
+<i>48</i>&nbsp;//		logger.info(&quot;&gt;&gt; [MVCPagerFragment.addView2Header]&quot;);
+<i>49</i>&nbsp;//		try {
+<i>50</i>&nbsp;//			final IRender holder = target.buildRender(this.getActivityContext());
+<i>51</i>&nbsp;//			final View hv = holder.getView();
+<i>52</i>&nbsp;//			holder.updateContent();
+<i>53</i>&nbsp;//			_headerContainer.addView(hv);
+<i>54</i>&nbsp;//			// Add the connection to the click listener
+<i>55</i>&nbsp;//			if (target instanceof View.OnClickListener) {
+<i>56</i>&nbsp;//				hv.setClickable(true);
+<i>57</i>&nbsp;//				hv.setOnClickListener((View.OnClickListener) target);
+<i>58</i>&nbsp;//			}
+<i>59</i>&nbsp;//			_headerContainer.setVisibility(View.VISIBLE);
+<i>60</i>&nbsp;//		} catch (final RuntimeException rtex) {
+<i>61</i>&nbsp;//			logger.info(&quot;RTEX [MVCPagerFragment.addView2Header]&gt; Problem generating view for: {}&quot;,
+<i>62</i>&nbsp;//			            target.getClass().getCanonicalName());
+<i>63</i>&nbsp;//			logger.info(&quot;RTEX [MVCPagerFragment.addView2Header]&gt; RuntimeException. {}&quot;, rtex.getMessage());
+<i>64</i>&nbsp;//			rtex.printStackTrace();
+<i>65</i>&nbsp;//			Toast.makeText(this.getActivityContext()
+<i>66</i>&nbsp;//					, &quot;RTEX [MVCPagerFragment.addView2Header]&gt; RuntimeException. &quot; + rtex.getMessage()
+<i>67</i>&nbsp;//					, Toast.LENGTH_LONG).show();
+<i>68</i>&nbsp;//		}
+<i>69</i>&nbsp;//		logger.info(&quot;&lt;&lt; [MVCPagerFragment.addView2Header]&quot;);
+<i>70</i>&nbsp;//	}
+<i>71</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-08-19 13:30</div>
+</div>
+</body>
+</html>
