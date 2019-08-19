@@ -16,8 +16,6 @@ import org.dimensinfin.core.interfaces.IEventReceiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -133,24 +131,10 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 		return this.canBeCached;
 	}
 
-	// - D E L E G A T E - I E V E N T E M I T T E R
-	@Override
-	public void addEventListener( final IEventReceiver listener ) {this.eventController.addEventListener(listener);}
-
-	@Override
-	public void removeEventListener( final IEventReceiver listener ) {this.eventController.removeEventListener(listener);}
-
-	@Override
-	public boolean sendChangeEvent( final String eventName ) {return this.eventController.sendChangeEvent(eventName);}
-
-	@Override
-	public boolean sendChangeEvent( final String eventName, final Object origin ) {
-		return this.eventController.sendChangeEvent(eventName, origin);
-	}
-
-	@Override
-	public boolean sendChangeEvent( final String eventName, final Object origin, final Object oldValue, final Object newValue ) {
-		return this.eventController.sendChangeEvent(eventName, origin, oldValue, newValue);
+	public IDataSource addHeaderContents( final ICollaboration newModel ) {
+		logger.info(">< [MVCDataSource.addHeaderContents]> Adding model: {}", newModel.getClass().getSimpleName());
+		this.headerModelRoot.add(newModel);
+		return this;
 	}
 
 	/**
@@ -196,6 +180,26 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 			logger.info(">< [MVCDataSource.getDataSectionContents]> Contents count: {}", controllers.size());
 			return controllers;
 		}
+	}
+
+	// - D E L E G A T E - I E V E N T E M I T T E R
+	@Override
+	public void addEventListener( final IEventReceiver listener ) {this.eventController.addEventListener(listener);}
+
+	@Override
+	public void removeEventListener( final IEventReceiver listener ) {this.eventController.removeEventListener(listener);}
+
+	@Override
+	public boolean sendChangeEvent( final String eventName ) {return this.eventController.sendChangeEvent(eventName);}
+
+	@Override
+	public boolean sendChangeEvent( final String eventName, final Object origin ) {
+		return this.eventController.sendChangeEvent(eventName, origin);
+	}
+
+	@Override
+	public boolean sendChangeEvent( final String eventName, final Object origin, final Object oldValue, final Object newValue ) {
+		return this.eventController.sendChangeEvent(eventName, origin, oldValue, newValue);
 	}
 
 	public Bundle getExtras() {
@@ -293,12 +297,6 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 		this.dataModelRoot.add(newModel);
 //		this.controllerDataSectionRoot.add(this.controllerFactory.createController(newModel));
 		this.dirty = true; // Signal the model change
-		return this;
-	}
-
-	public IDataSource addHeaderContents( final ICollaboration newModel ) {
-		logger.info(">< [MVCDataSource.addHeaderContents]> Adding model: {}", newModel.getClass().getSimpleName());
-		this.headerModelRoot.add(newModel);
 		return this;
 	}
 

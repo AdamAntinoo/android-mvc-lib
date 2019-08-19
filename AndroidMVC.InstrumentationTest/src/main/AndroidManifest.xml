@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.dimensinfin.android.mvc.instrumentation">
+    package="org.dimensinfin.android.mvc">
 
     <application
         android:allowBackup="false"
@@ -8,7 +8,7 @@
         android:label="@string/appname"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.AcceptanceActivity00"
+            android:name=".instrumentation.activity.AcceptanceActivity00"
             android:label="AcceptanceActivity00">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

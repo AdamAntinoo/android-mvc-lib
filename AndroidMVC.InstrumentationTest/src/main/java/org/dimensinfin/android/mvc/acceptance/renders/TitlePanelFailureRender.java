@@ -5,9 +5,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.acceptance.controller.TitlePanelController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.instrumentation.R;
 import org.dimensinfin.android.mvc.render.MVCRender;
 
 public class TitlePanelFailureRender extends MVCRender {

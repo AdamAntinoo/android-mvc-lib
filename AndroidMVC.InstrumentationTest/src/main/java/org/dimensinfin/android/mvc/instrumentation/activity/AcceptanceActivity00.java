@@ -3,6 +3,7 @@ package org.dimensinfin.android.mvc.instrumentation.activity;
 import android.app.Activity;
 import android.os.Bundle;
 
+import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.acceptance.TestIdentifiers;
 import org.dimensinfin.android.mvc.acceptance.TitlePanel;
 import org.dimensinfin.android.mvc.acceptance.activity.AcceptanceControllerFactory;
@@ -10,7 +11,6 @@ import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.android.mvc.instrumentation.R;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 
 import java.util.ArrayList;
