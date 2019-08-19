@@ -46,20 +46,28 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 31
-        versionName "4.3.0"
+        versionName "5.1.0"
         project.archivesBaseName = "AndroidMVC"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
-            useProguard false
+            signingConfig debug.signingConfig
+            debuggable false
+            shrinkResources true
+            minifyEnabled true
+            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "bool", "CACHE_MVC_VIEWS_ON_CONTROLLER", "true"
         }
         debug {
             initWith release
+            debuggable true
+            shrinkResources false
+            minifyEnabled false
+            useProguard false
+            testCoverageEnabled true
         }
     }
     sourceSets {

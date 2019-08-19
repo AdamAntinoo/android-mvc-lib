@@ -2,8 +2,8 @@ package org.dimensinfin.android.mvc.support;
 
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.model.Separator;
 
 public class TestControllerFactory extends ControllerFactory {
 
@@ -16,8 +16,8 @@ public class TestControllerFactory extends ControllerFactory {
 //		if (node instanceof RootControllerTest.TestNode) {
 //			return new SeparatorController((RootControllerTest.TestNode) node, this);
 //		}
-		if (node instanceof Separator) {
-			return new SeparatorController((Separator) node, this);
+		if (node instanceof Spacer) {
+			return new SpacerController((Spacer) node, this);
 		}
 		if (node instanceof EmptyNode) {
 			return new MockController((EmptyNode) node, this);

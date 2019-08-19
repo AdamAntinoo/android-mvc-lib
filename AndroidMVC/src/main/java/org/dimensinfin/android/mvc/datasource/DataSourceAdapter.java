@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This is the class that connects the ListView to a model list. If is an extension of the generic BaseAdapter and
@@ -44,7 +45,7 @@ import java.util.List;
  */
 public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 	/** Task handler to manage execution of code that should be done on the main loop thread. */
-	private static final Handler _handler = new Handler(Looper.getMainLooper());
+	private static final Handler handler = new Handler(Looper.getMainLooper());
 	private static final boolean LOG_ALLOWED = true;
 	private static final String GETTING_VIEW = "-- [DataSourceAdapter.getView]> Getting view [";
 	protected static Logger logger = LoggerFactory.getLogger(DataSourceAdapter.class);
@@ -71,11 +72,13 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 	 * Context that is the only element really required for the constructions and connection of the views.
 	 *
 	 * @param fragment   The fragment source for this adapter contents.
-	 * @param datasource the source for the data to be represented on the view structures.
+	 * @param dataSource the source for the data to be represented on the view structures.
 	 */
-	public DataSourceAdapter( @NonNull final IPagerFragment fragment, @NonNull final IDataSource datasource ) {
+	public DataSourceAdapter( @NonNull final IPagerFragment fragment, @NonNull final IDataSource dataSource ) {
+		Objects.requireNonNull(fragment);
+		Objects.requireNonNull(dataSource);
 		this.context = fragment.getActivityContext();
-		this.dataSource = (MVCDataSource) datasource;
+		this.dataSource = (MVCDataSource) dataSource;
 		this.dataSource.addEventListener(this); // Connect the Adapter to the DataSource
 	}
 
@@ -86,18 +89,18 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 
 	@Override
 	public int getCount() {
-		return contentControllerList.size();
+		return this.contentControllerList.size();
 	}
 
 	// - B A S E   A D A P T E R   I M P L E M E N T A T I O N
 	@Override
 	public Object getItem( final int position ) {
-		return contentControllerList.get(position);
+		return this.contentControllerList.get(position);
 	}
 
 	@Override
 	public long getItemId( final int position ) {
-		return contentControllerList.get(position).getModelId();
+		return this.contentControllerList.get(position).getModelId();
 	}
 
 	/**
@@ -233,11 +236,11 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 	}
 
 	private Context getContext() {
-		return context;
+		return this.context;
 	}
 
 	private IAndroidController getCastedItem( final int position ) {
-		return contentControllerList.get(position);
+		return this.contentControllerList.get(position);
 	}
 
 	// - P R O P E R T Y C H A N G E L I S T E N E R   I N T E R F A C E
@@ -250,11 +253,11 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 		logger.info(">> [DataSourceAdapter.propertyChange]> Processing Event: {}", event.getPropertyName());
 		// - C O N T E N T   E V E N T S
 		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_NEWDATA.name()))
-			_handler.post(this::notifyDataSetChanged);
+			handler.post(this::notifyDataSetChanged);
 		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_ACTIONEXPANDCOLLAPSE.name()))
-			_handler.post(this::notifyDataSetChanged);
+			handler.post(this::notifyDataSetChanged);
 		// Be sure to run graphical changes on the UI thread. If we already are on it this has no effect.
 		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_ADAPTER_REQUESTNOTIFYCHANGES.name()))
-			_handler.post(this::notifyDataSetChanged);
+			handler.post(this::notifyDataSetChanged);
 	}
 }

@@ -5,9 +5,9 @@ import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 
 public class TestDataSource extends MVCDataSource {
-	public TestDataSource(final DataSourceLocator locator, final IControllerFactory controllerFactory) {
-		super(locator, controllerFactory);
-	}
+//	public TestDataSource(final DataSourceLocator locator, final IControllerFactory controllerFactory) {
+//		super(locator, controllerFactory);
+//	}
 
 	@Override
 	public void prepareModel() {

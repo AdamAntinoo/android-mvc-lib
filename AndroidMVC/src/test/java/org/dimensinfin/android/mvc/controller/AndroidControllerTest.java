@@ -1,25 +1,25 @@
 package org.dimensinfin.android.mvc.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.domain.IContainer;
+import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.support.Container;
 import org.dimensinfin.android.mvc.support.EmptyNode;
 import org.dimensinfin.android.mvc.support.MockController;
 import org.dimensinfin.core.interfaces.ICollaboration;
-import org.dimensinfin.core.model.Separator;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -66,7 +66,7 @@ public class AndroidControllerTest {
 	@Test
 	public void collaborate2View_expandable() {
 		// COMPRESSED
-		final Container expandableModel = new Container();
+		final Container expandableModel = new Container("Title");
 		expandableModel.addContent(new EmptyNode("TEST"));
 		final MockExpandableController controller = new MockExpandableController(expandableModel, factory);
 		final List<IAndroidController> collector = new ArrayList<>();
@@ -344,11 +344,11 @@ final class MockContainerController extends AndroidController<MockContainerModel
 	}
 }
 
-final class MockContainerModel extends Separator implements IContainer{
+final class MockContainerModel extends Spacer implements IContainer {
 	@Override
 	public List<ICollaboration> collaborate2Model( final String variant ) {
 		final List<ICollaboration> results = new ArrayList<>();
-		results.add(new Separator());
+		results.add(new Spacer.Builder().build());
 		return results;
 	}
 
