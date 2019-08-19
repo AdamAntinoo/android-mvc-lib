@@ -1,5 +1,7 @@
 package org.dimensinfin.android.mvc.support;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
@@ -7,13 +9,12 @@ import org.dimensinfin.core.interfaces.IExpandable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Container extends Spacer implements IExpandable {
+public class Container<M> extends Spacer implements IExpandable {
 	private static final long serialVersionUID = -957283664928489030L;
 
 	// - F I E L D - S E C T I O N
-	private final List<ICollaboration> _contents = new ArrayList<>();
-	private boolean _expanded = false;
-	private boolean _renderIfEmpty = true;
+	private final List<M> contents = new ArrayList<>();
+	private boolean expanded = false;
 
 	// - C O N S T R U C T O R - S E C T I O N
 	protected Container() {
@@ -26,50 +27,32 @@ public class Container extends Spacer implements IExpandable {
 	}
 
 	// - M E T H O D - S E C T I O N
-	public int addContent( final ICollaboration node ) {
-		this._contents.add(node);
-		return _contents.size();
+	public int addContent( final M node ) {
+		this.contents.add(node);
+		return contents.size();
 	}
-
-//	public int addContentList(final List<ICollaboration> newcontents) {
-//		for (ICollaboration node : newcontents)
-//			addContent(node);
-//		return _contents.size();
-//	}
 
 	public void clean() {
-		this._contents.clear();
+		this.contents.clear();
 	}
 
-	public List<ICollaboration> getContents() {
-		return _contents;
+	public List<M> getContents() {
+		return contents;
 	}
 
 	public int getContentSize() {
-		return this._contents.size();
+		return this.contents.size();
 	}
 
-	// - I C O L L A B O R A T I O N   I N T E R F A C E
-
-	/**
-	 * Check if the <code>Container</code> has contents and then add all them to the model.
-	 */
-	@Override
-	public List<ICollaboration> collaborate2Model( final String variant ) {
-		return this.getContents();
-//		ArrayList<ICollaboration> results = new ArrayList<ICollaboration>();
-//		results.addAll(this.getContents());
-//		return results;
-	}
-
+	// - I E X P A N D A B L E
 	public boolean collapse() {
-		this._expanded = false;
-		return _expanded;
+		this.expanded = false;
+		return this.expanded;
 	}
 
 	public boolean expand() {
-		this._expanded = true;
-		return _expanded;
+		this.expanded = true;
+		return this.expanded;
 	}
 
 	public boolean isEmpty() {
@@ -80,30 +63,30 @@ public class Container extends Spacer implements IExpandable {
 	}
 
 	public boolean isExpanded() {
-		return this._expanded;
+		return this.expanded;
 	}
 
-	// - I E X P A N D A B L E   I N T E R F A C E
 	public boolean toggleExpand() {
-		this._expanded = !this._expanded;
-		return this._expanded;
+		this.expanded = !this.expanded;
+		return this.expanded;
 	}
 
-	public boolean isRenderWhenEmpty() {
-		return this._renderIfEmpty;
+	// - I C O L L A B O R A T I O N
+
+	/**
+	 * Check if the <code>Container</code> has contents and then add all them to the model.
+	 */
+	@Override
+	public List<ICollaboration> collaborate2Model( final String variant ) {
+		return (List<ICollaboration>) this.getContents();
 	}
 
-	public IExpandable setRenderWhenEmpty( final boolean renderWhenEmpty ) {
-		this._renderIfEmpty = renderWhenEmpty;
-		return this;
-	}
-
+	// - C O R E
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer("Container [");
-		buffer.append(super.toString()).append(" ");
-		buffer.append("size: ").append(getContentSize()).append(" ");
-		buffer.append(" ]");
-		return buffer.toString();
+		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+				       .append("contents", this.contents)
+				       .append("expanded", this.expanded)
+				       .toString();
 	}
 }

@@ -6,12 +6,13 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.dimensinfin.android.mvc.interfaces.IUniqueModel;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestNode implements ICollaboration {
+public class TestNode implements ICollaboration, IUniqueModel {
 	private final String name;
 
 	public TestNode( final String name ) {
@@ -61,5 +62,11 @@ public class TestNode implements ICollaboration {
 	@Override
 	public List<ICollaboration> collaborate2Model( final String variation ) {
 		return new ArrayList<>();
+	}
+
+	// - I U N I Q U E M O D E L
+	@Override
+	public long getUniqueModelIdentifier() {
+		return 100;
 	}
 }

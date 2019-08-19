@@ -14,6 +14,9 @@ public class TestControllerFactory extends ControllerFactory {
 	public IAndroidController createController( final ICollaboration node ) {
 		if (node instanceof TestNode)
 			return new TestNodeController((TestNode) node, this);
+		if (node instanceof TestContainerNode)
+			return new TestContainerNodeController((TestContainerNode) node, this);
+
 		return super.createController(node);
 	}
 }

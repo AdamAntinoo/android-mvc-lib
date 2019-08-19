@@ -190,6 +190,9 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	public void removeEventListener( final IEventReceiver listener ) {this.eventController.removeEventListener(listener);}
 
 	@Override
+	public boolean sendChangeEvent( final IntercommunicationEvent event ) {return this.eventController.sendChangeEvent(event);}
+
+	@Override
 	public boolean sendChangeEvent( final String eventName ) {return this.eventController.sendChangeEvent(eventName);}
 
 	@Override

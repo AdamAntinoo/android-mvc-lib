@@ -3,6 +3,7 @@ package org.dimensinfin.android.mvc.controller;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.core.domain.EventEmitter;
+import org.dimensinfin.core.domain.IntercommunicationEvent;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IEventEmitter;
 import org.dimensinfin.core.interfaces.IEventReceiver;
@@ -36,6 +37,9 @@ public class ControllerAdapter<M extends ICollaboration> implements IEventEmitte
 
 	@Override
 	public void removeEventListener( final IEventReceiver listener ) {this.eventController.removeEventListener(listener);}
+
+	@Override
+	public boolean sendChangeEvent( final IntercommunicationEvent event ) {return this.eventController.sendChangeEvent(event);}
 
 	@Override
 	public boolean sendChangeEvent( final String eventName ) {return this.eventController.sendChangeEvent(eventName);}

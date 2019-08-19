@@ -12,6 +12,7 @@ import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.interfaces.IUniqueModel;
 import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.core.domain.EventEmitter;
+import org.dimensinfin.core.domain.IntercommunicationEvent;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IEventEmitter;
 import org.dimensinfin.core.interfaces.IEventReceiver;
@@ -193,16 +194,13 @@ public abstract class AndroidController<M extends ICollaboration> implements IAn
 	 * Page.
 	 */
 	public void refreshChildren() {
-		//		logger.info(">> [AndroidController.refreshChildren]");
 		// Get the new list of children for this model node. Use the Variant for generation discrimination.
 		final List<ICollaboration> firstLevelNodes = this.getModel().collaborate2Model(this.getControllerFactory().getVariant());
 		if (firstLevelNodes.isEmpty()) return;
-		//		logger.info("-- [AndroidController.refreshChildren]> firstLevelNodes count: {}", firstLevelNodes.size());
 		// Create the model-controller current map to check the elements missing.
 		final HashMap<ICollaboration, IAndroidController> currentMap = new HashMap<>(firstLevelNodes.size());
-		for (IAndroidController<M> control : this.getChildren()) {
-			currentMap.put(control.getModel(), control);
-		}
+		for (IAndroidController control : this.getChildren())
+			currentMap.put((ICollaboration) control.getModel(), control);
 		// Create the new children list ot be able to delete nodes.
 		final List<IAndroidController> newChildrenList = new ArrayList<>(firstLevelNodes.size());
 		// Check all the model instances have a matching AndroidController instance.
@@ -223,7 +221,6 @@ public abstract class AndroidController<M extends ICollaboration> implements IAn
 		// Replace the new children list.
 		this.clean();
 		this.addChildren(newChildrenList);
-		//		logger.info("<< [AndroidController.refreshChildren]> Content size: {}", this.getChildren().size());
 	}
 
 	/**
@@ -299,6 +296,9 @@ public abstract class AndroidController<M extends ICollaboration> implements IAn
 
 	@Override
 	public void removeEventListener( final IEventReceiver listener ) {this.eventController.removeEventListener(listener);}
+
+	@Override
+	public boolean sendChangeEvent( final IntercommunicationEvent event ) {return this.eventController.sendChangeEvent(event);}
 
 	@Override
 	public boolean sendChangeEvent( final String eventName ) {return this.eventController.sendChangeEvent(eventName);}

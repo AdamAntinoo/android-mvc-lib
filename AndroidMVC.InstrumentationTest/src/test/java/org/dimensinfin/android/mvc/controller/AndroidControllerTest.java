@@ -10,6 +10,9 @@ import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.support.Container;
+import org.dimensinfin.android.mvc.support.TestContainerNode;
+import org.dimensinfin.android.mvc.support.TestContainerNodeController;
+import org.dimensinfin.android.mvc.support.TestControllerFactory;
 import org.dimensinfin.android.mvc.support.TestNode;
 import org.dimensinfin.android.mvc.support.TestNodeController;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -33,9 +36,12 @@ import static org.mockito.Mockito.when;
  * @author Adam Antinoo
  */
 public class AndroidControllerTest {
+	private static final String TEST_VARIANT = "-TEST-VARIANT-";
+
 	public static <T> T giveNull() {
 		return null;
 	}
+
 	private final List<IAndroidController> data = new ArrayList<>();
 	private ControllerFactory factory;
 	private TestNode model;
@@ -53,7 +59,7 @@ public class AndroidControllerTest {
 	}
 
 	@Test
-	public void collaborate2View_simple() {
+	public void collaborate2ViewSimple() {
 		final TestNodeController controller = new TestNodeController(model, factory);
 		final List<IAndroidController> collector = new ArrayList<>();
 		controller.collaborate2View(collector);
@@ -62,7 +68,7 @@ public class AndroidControllerTest {
 	}
 
 	@Test
-	public void collaborate2View_expandable() {
+	public void collaborate2ViewExpandable() {
 		// COMPRESSED
 		final Container expandableModel = new Container("Title");
 		expandableModel.addContent(new TestNode("TEST"));
@@ -79,16 +85,13 @@ public class AndroidControllerTest {
 	}
 
 	@Test
-	public void collaborate2View_container() {
+	public void collaborate2ViewContainer() {
 		final MockContainerModel containerModel = new MockContainerModel();
 		final MockContainerController controller = new MockContainerController(containerModel, factory);
 		final List<IAndroidController> collector = new ArrayList<>();
 		controller.collaborate2View(collector);
 		Assert.assertEquals("The number of elements should be 1.", 1, collector.size());
 		Assert.assertEquals("The contents should be the controller.", controller, collector.get(0));
-
-//		final List<IAndroidController> collector = new ArrayList<>();
-//		final Separator model = new Separator();
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -254,6 +257,21 @@ public class AndroidControllerTest {
 	}
 
 	@Test
+	public void refreshChildrenWithContents() {
+		final IControllerFactory factory = new TestControllerFactory(TEST_VARIANT);
+		final TestContainerNode container = new TestContainerNode();
+		container.addContent(new TestNode("Node 1"));
+		final TestContainerNodeController controller = new TestContainerNodeController(container, factory);
+		controller.refreshChildren();
+
+		final int expected = controller.getChildren().size();
+		Assert.assertFalse(controller.getChildren().isEmpty());
+		controller.refreshChildren(); // Run the generation again but this time with a list already generated.
+		Assert.assertFalse(controller.getChildren().isEmpty());
+		Assert.assertEquals(expected, controller.getChildren().size());
+	}
+
+	@Test
 	public void getModel() {
 		Assert.assertNotNull("Check that the model exists.", controller.getModel());
 		Assert.assertEquals(model, controller.getModel());
@@ -279,18 +297,14 @@ public class AndroidControllerTest {
 		Assert.assertEquals("Check that the default id matches.", expected, obtained);
 	}
 
-	//	@Test
-	//	public void buildRender() {
-	//		final Context context = Mockito.mock(Context.class);
-	//		final MVCRender coreRender = Mockito.mock(MVCRender.class);
-	////		Mockito.doAnswer((call)->{
-	////			return null;
-	////		}).when(coreRender.createView());
-	//		final IRender render = controller.buildRender(context);
-	//		Assert.assertNotNull(render);
-	//		Assert.assertTrue(render instanceof TestNodeRender);
-	//	}
-
+	@Test
+	public void getModelIdUnique() {
+		final TestControllerFactory factory = new TestControllerFactory(TEST_VARIANT);
+		final TestNodeController controller = new TestNodeController(new TestNode("-UNIQUE-TEST-"), factory);
+		final int expected = 100;
+		final long obtained = controller.getModelId();
+		Assert.assertEquals("Check that the default id matches.", expected, obtained);
+	}
 }
 
 final class MultipleModelCollaborator extends TestNode implements ICollaboration {
