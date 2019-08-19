@@ -9,8 +9,7 @@ public class Spacer implements ICollaboration {
 	private String label;
 	private SpacerType type = SpacerType.LINE_WHITE;
 
-	protected Spacer() {
-	}
+	public Spacer() { }
 
 	public String getLabel() {
 		return this.label;

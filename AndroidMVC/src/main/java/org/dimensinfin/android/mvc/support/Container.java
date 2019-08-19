@@ -17,7 +17,7 @@ public class Container<M> extends Spacer implements IExpandable {
 	private boolean expanded = false;
 
 	// - C O N S T R U C T O R - S E C T I O N
-	protected Container() {
+	public Container() {
 		super();
 	}
 

@@ -66,9 +66,13 @@ public abstract class MVCRender implements IRender {
 	 * implementation is the layout identifier to be used on the inflation. This is not a new method that is made abstract
 	 * to force developers to fill the gap on ne instances.
 	 */
-	private void createView() {
-		convertView = this.inflateView(this.accessLayoutReference());
-		convertView.setTag(this);
+	protected void createView() {
+		this.convertView = this.inflateView(this.accessLayoutReference());
+		this.convertView.setTag(this);
+	}
+
+	protected void setNewView( final View newView ) {
+		this.convertView = newView;
 	}
 
 	private LayoutInflater getInflater() {
@@ -126,8 +130,8 @@ public abstract class MVCRender implements IRender {
 				break;
 		}
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			convertView.setBackground(getContext().getResources().getDrawable(themeColor, getContext().getTheme()));
-		} else convertView.setBackground(getContext().getResources().getDrawable(themeColor));
+			this.convertView.setBackground(getContext().getResources().getDrawable(themeColor, getContext().getTheme()));
+		} else this.convertView.setBackground(getContext().getResources().getDrawable(themeColor));
 	}
 
 	// - I R E N D E R   I N T E R F A C E
@@ -140,6 +144,6 @@ public abstract class MVCRender implements IRender {
 			this.createView(); // Inflate the layout to have the containers ready for identification.
 			this.initializeViews(); // Connect the inflated fields to the render variables.
 		}
-		return convertView;
+		return this.convertView;
 	}
 }
