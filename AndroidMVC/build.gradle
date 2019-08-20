@@ -138,6 +138,7 @@ ext {
 // - A N D R O I D    S U P P O R T
 dependencies {
     compileOnly 'androidx.fragment:fragment:1.0.0'
+    compileOnly 'androidx.viewpager:viewpager:1.0.0'
 }
 
 // - L I B R A R Y   D E P E N D E N C I E S

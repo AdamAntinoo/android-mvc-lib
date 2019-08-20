@@ -1,18 +1,18 @@
 package org.dimensinfin.android.mvc.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import org.dimensinfin.android.mvc.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MVCFragmentPagerAdapter extends FragmentPagerAdapter {
 	// - F I E L D - S E C T I O N
-	private final List<IPagerFragment> _fragments = new ArrayList<>();
-	private int _pagerid = R.id.pager; // This is the resource id for the pager layout viewer that should be set.
+	private final List<IPagerFragment> fragments = new ArrayList<>();
+	private int pagerid = R.id.pager; // This is the resource id for the pager layout viewer that should be set.
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public MVCFragmentPagerAdapter( final FragmentManager fm ) {
@@ -22,7 +22,7 @@ public class MVCFragmentPagerAdapter extends FragmentPagerAdapter {
 	// - F R A G M E N T P A G E R A D A P T E R
 	@Override
 	public int getCount() {
-		return _fragments.size();
+		return fragments.size();
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class MVCFragmentPagerAdapter extends FragmentPagerAdapter {
 		// Check if the requested position is available. If the position requested is outdide the limit return empty element.
 		if (position >= this.getCount()) return new Fragment();
 		if (position < 0) return new Fragment();
-		return (Fragment) _fragments.get(position);
+		return (Fragment) fragments.get(position);
 	}
 
 	// - M E T H O D - S E C T I O N
@@ -51,13 +51,13 @@ public class MVCFragmentPagerAdapter extends FragmentPagerAdapter {
 	 */
 	public void addPage( final IPagerFragment fragNew ) {
 		if (null != fragNew) {
-			_fragments.add(fragNew);
+			fragments.add(fragNew);
 		}
 		this.notifyDataSetChanged();
 	}
 
 	public int getNextFreePosition() {
-		return _fragments.size();
+		return fragments.size();
 	}
 
 
@@ -70,7 +70,7 @@ public class MVCFragmentPagerAdapter extends FragmentPagerAdapter {
 	 * @return internal Fragment Manager fragment identifier string.
 	 */
 	public String getFragmentId( final int position ) {
-		return "android:switcher:" + _pagerid + ":" + this.getItemId(position);
+		return "android:switcher:" + pagerid + ":" + this.getItemId(position);
 	}
 
 	public Fragment getInitialPage() {

@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AndroidController;
+import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.HeaderDataSourceAdapter;
@@ -137,8 +138,8 @@ public abstract class MVCPagerFragment extends MVCFragment {
 			Objects.requireNonNull(this.headerDataSectionContainer);
 
 			// - S E C T I O N   3. Post the tak to generate the header contents to be rendered.
-//			AppCompatibilityUtils.backgroundExecutor.submit(() -> {
-			handler.post(() -> {
+			AppCompatibilityUtils.backgroundExecutor.submit(() -> {
+//			handler.post(() -> {
 				logger.info("-- [MVCPagerFragment.DS Initialisation]");
 				this._adapter.collaborateData(); // Call the ds to generate the root contents.
 				this.headerDataSectionContainer.collaborateData();
@@ -175,16 +176,15 @@ public abstract class MVCPagerFragment extends MVCFragment {
 			// Start counting the elapsed time while we generate and load the  model.
 			this.initializeProgressIndicator();
 			// We use another thread to perform the data source generation that is a long time action.
-//			AppCompatibilityUtils.backgroundExecutor.submit(() -> {
-			logger.info("-- [MVCPagerFragment.Render data section]");
-			//            _adapter.collaborateData(); // Call the ds to generate the root contents.
-			handler.post(() -> { // After the model is created used the UI thread to render the collaboration to view.
-				//                _adapter.collaborateData(); // Call the ds to generate the root contents.
-				this._adapter.notifyDataSetChanged();
-				this.headerDataSectionContainer.notifyDataSetChanged();
-				this.hideProgressIndicator(); // Hide the waiting indicator after the model is generated and the view populated.
+			AppCompatibilityUtils.backgroundExecutor.submit(() -> {
+				logger.info("-- [MVCPagerFragment.Render data section]");
+//				handler.post(() -> { // After the model is created used the UI thread to render the collaboration to view.
+				this.getActivityContext().runOnUiThread(() -> {
+					this._adapter.notifyDataSetChanged();
+					this.headerDataSectionContainer.notifyDataSetChanged();
+					this.hideProgressIndicator(); // Hide the waiting indicator after the model is generated and the view populated.
+				});
 			});
-//			});
 		}
 		logger.info("<< [MVCPagerFragment.onStart]");
 	}
@@ -256,57 +256,6 @@ public abstract class MVCPagerFragment extends MVCFragment {
 		_dataSectionContainer.setVisibility(View.VISIBLE);
 		_progressElapsedCounter.setVisibility(View.GONE);
 	}
-//
-//	/**
-//	 * This method is the way to transform the list of model data prepared for the Header to end on a list of Views inside
-//	 * the Header container. We follow a similar mechanics that for the DataSection ListView but instead keeping the
-//	 * intermediate AndroidController instances we go directly to the View output by the <b>Render</b> instance.
-//	 * <p>
-//	 * The use of a fake <code>@link{MVCModelRootNode}</code> allows to also support model elements that have contents
-//	 * that should be rendered when expanded. Even the header contents are limited in interaction we can have the
-//	 * expand/collapse functionality to calculate the final list of Views to render.
-//	 */
-//	protected void generateHeaderContents( final List<IAndroidController> headerControllers ) {
-//		logger.info(">> [MVCPagerFragment.generateHeaderContents]");
-//		handler.post(() -> {
-//			_headerContainer.removeAllViews();
-//			for (IAndroidController part : headerControllers) {
-//				if (part instanceof IAndroidController) addView2Header(part);
-//			}
-//		});
-//		logger.info("<< [MVCPagerFragment.generateHeaderContents]");
-//	}
-
-//	/**
-//	 * This method extracts the view from the parameter controller and generates the final View element that it is able to
-//	 * be inserted on the ui ViewGroup container.
-//	 *
-//	 * @param target the AndroidController to render to a View.
-//	 */
-//	private void addView2Header( final IAndroidController target ) {
-//		logger.info(">> [MVCPagerFragment.addView2Header]");
-//		try {
-//			final IRender holder = target.buildRender(this.getActivityContext());
-//			final View hv = holder.getView();
-//			holder.updateContent();
-//			_headerContainer.addView(hv);
-//			// Add the connection to the click listener
-//			if (target instanceof OnClickListener) {
-//				hv.setClickable(true);
-//				hv.setOnClickListener((OnClickListener) target);
-//			}
-//			_headerContainer.setVisibility(View.VISIBLE);
-//		} catch (final RuntimeException rtex) {
-//			logger.info("RTEX [MVCPagerFragment.addView2Header]> Problem generating view for: {}",
-//			            target.getClass().getCanonicalName());
-//			logger.info("RTEX [MVCPagerFragment.addView2Header]> RuntimeException. {}", rtex.getMessage());
-//			rtex.printStackTrace();
-//			Toast.makeText(this.getActivityContext()
-//					, "RTEX [MVCPagerFragment.addView2Header]> RuntimeException. " + rtex.getMessage()
-//					, Toast.LENGTH_LONG).show();
-//		}
-//		logger.info("<< [MVCPagerFragment.addView2Header]");
-//	}
 
 	// - U T I L I T I E S
 	private void initializeProgressIndicator() {

@@ -38,6 +38,10 @@ import me.relex.circleindicator.CircleIndicator;
  * @since 1.0.0
  */
 public abstract class MVCMultiPageActivity extends FragmentActivity {
+	public enum EMVCExtras {
+		EXTRA_EXCEPTIONMESSAGE, EXTRA_VARIANT
+	}
+
 	protected static Logger logger = LoggerFactory.getLogger(MVCMultiPageActivity.class);
 	private final MVCFragmentPagerAdapter _pageAdapter = new MVCFragmentPagerAdapter(this.getSupportFragmentManager());
 	// - F I E L D - S E C T I O N
@@ -54,6 +58,8 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 		return this._pageAdapter;
 	}
 
+	// - M E T H O D - S E C T I O N
+
 	/**
 	 * Allows to change the context background that covers the full size of the display
 	 *
@@ -62,8 +68,6 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 	public void setBackground( final ImageView newBackground ) {
 		this.background = newBackground;
 	}
-
-	// - M E T H O D - S E C T I O N
 
 	/**
 	 * Adds a new <code>Fragment</code> to the list of fragments managed by the pager. The new fragment is added at the
@@ -110,6 +114,13 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 		}
 		((Fragment) newFrag).onAttach(this);
 		logger.info("<< [MVCMultiPageActivity.addPage]"); //$NON-NLS-1$
+	}
+
+	public IPagerFragment setPage( final int pageNumber ) {
+		if ((pageNumber < 0) || (pageNumber > this._pageAdapter.getCount() - 1))
+			return (IPagerFragment) this._pageAdapter.getItem(this._pageContainer.getCurrentItem());
+		this._pageContainer.setCurrentItem(pageNumber, true);
+		return (IPagerFragment) this._pageAdapter.getItem(this._pageContainer.getCurrentItem());
 	}
 
 	protected void activateIndicator() {
@@ -174,14 +185,14 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 		}
 	}
 
+	// - A C T I V I T Y   L I F E C Y C L E
+
 	@Override
 	protected void onStart() {
 		super.onStart();
 		// Update the menu for the first page.
 		this.updateInitialTitle();
 	}
-
-	// - A C T I V I T Y   L I F E C Y C L E
 
 	@Override
 	public void onAttachFragment( final Fragment fragment ) {
@@ -247,9 +258,5 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 		if (firstFragment instanceof IPagerFragment)
 			this.activateActionBar(((IPagerFragment) firstFragment).generateActionBarView());
 		else this.activateDefaultActionbar();
-	}
-
-	public enum EMVCExtras {
-		EXTRA_EXCEPTIONMESSAGE, EXTRA_VARIANT
 	}
 }

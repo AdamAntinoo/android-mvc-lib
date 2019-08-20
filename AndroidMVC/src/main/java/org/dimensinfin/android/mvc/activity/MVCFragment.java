@@ -162,22 +162,4 @@ public abstract class MVCFragment extends Fragment implements IPagerFragment {
 		holder.updateContent();
 		return actionBarView;
 	}
-
-	// - I T I T L E D F R A G M E N T   I N T E R F A C E
-
-	//	/**
-	//	 * Gets the text to set set at the subtitle slot on the <b>ActionBar</b>. This should be implemented by each new
-	//	 * Fragment.
-	//	 *
-	//	 * @return subtitle string.
-	//	 */
-	//	public abstract String getSubtitle();
-	//
-	//	/**
-	//	 * Gets the text to set set at the title slot on the <b>ActionBar</b>. This should be implemented by each new
-	//	 * Fragment.
-	//	 *
-	//	 * @return title string.
-	//	 */
-	//	public abstract String getTitle();
 }
