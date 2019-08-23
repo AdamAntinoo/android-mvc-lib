@@ -321,7 +321,7 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	 * regeneration of all the transformations and <b>content</b> that can change the list of elements to be visible at
 	 * this point in time but that do not change the initial structure. The contents can happen from changes on the model
 	 * data or by interactions on the Parts that have some graphical impact.
-	 * <p>
+	 *
 	 * If the model structure changes we should recreate the Model -> AndroidController transformation and generate
 	 * another AndroidController tree with Parts matching the current model graph. At this transformation we can transform
 	 * any data connected structure real or virtual to a hierarchy graph with the standard parent-child structure. We use
@@ -329,7 +329,7 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	 * <code>collaborate2Model()</code> as a way to convert internal data structures to a hierarchy representation on a
 	 * point in time. We isolate internal model ways to deal with data and we can optimize for the AndroidController
 	 * hierarchy without compromising the model flexibility.
-	 * <p>
+	 *
 	 * If the contents change we only should run over the AndroidController tree to make the transformation to generate a
 	 * new AndroidController list for all the new visible and render items. This is performed with the
 	 * <code>collaborate2View()</code> method for any AndroidController that will then decide which of its internal
@@ -337,7 +337,7 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	 * programmatic filtering or sorting because at this point we can influence the output representation for the model
 	 * instance. We can also decorate the resulting AndroidController list breaking the one to one relationship between a
 	 * model instance and a AndroidController instance.
-	 * <p>
+	 *
 	 * After the models changes we should send a message to the <code>DataSourceAdapter</code> to refresh the graphical
 	 * elements and change the display. <code>DataSource</code> instances do not have a reference to the Adapter nor to
 	 * the Fragment that created them but during the creation process the Adapter installed a listener to get a copy of

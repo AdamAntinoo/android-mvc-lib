@@ -160,6 +160,7 @@ public abstract class MVCFragment extends Fragment implements IPagerFragment {
 		final IRender holder = controller.buildRender(this.getActivityContext());
 		final View actionBarView = holder.getView();
 		holder.updateContent();
+		actionBarView.setTag(controller);
 		return actionBarView;
 	}
 }
