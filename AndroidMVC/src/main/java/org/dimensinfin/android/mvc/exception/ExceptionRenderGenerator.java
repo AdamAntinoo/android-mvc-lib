@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import org.dimensinfin.android.mvc.controller.ExceptionController;
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.domain.IControllerFactory;
 
 import java.util.Objects;
 

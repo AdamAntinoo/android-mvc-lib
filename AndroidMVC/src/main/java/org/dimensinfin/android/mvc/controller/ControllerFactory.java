@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.support.SpacerController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.slf4j.Logger;

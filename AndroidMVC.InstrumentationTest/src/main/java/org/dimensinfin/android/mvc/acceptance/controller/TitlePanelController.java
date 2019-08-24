@@ -10,7 +10,7 @@ import org.dimensinfin.android.mvc.acceptance.renders.TitlePanelCompleteRender;
 import org.dimensinfin.android.mvc.acceptance.renders.TitlePanelFailureRender;
 import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.ExceptionController;
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 
 public class TitlePanelController extends AndroidController<TitlePanel> {

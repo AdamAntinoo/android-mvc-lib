@@ -48,12 +48,12 @@ public class DataSourceManager {
 		AppCompatibilityUtils.backgroundExecutor.submit(() -> {
 			try {
 				newSource.prepareModel();
-			} catch (RuntimeException runtime) {
+			} catch (Exception ex) {
 				logger.info("-- [DataSourceManager.registerDataSource]> Exception while preparing data source data: {}",
-				            runtime.getMessage());
-				runtime.printStackTrace();
+				            ex.getMessage());
+				ex.printStackTrace();
 				// Put this exception on the header contents so the developer can see the message.
-				newSource.addHeaderContents(new ExceptionReport(runtime));
+				newSource.addHeaderContents(new ExceptionReport(ex));
 			}
 		});
 		return newSource;

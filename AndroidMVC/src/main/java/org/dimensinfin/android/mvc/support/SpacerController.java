@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.domain.Spacer;
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 
 public class SpacerController extends AndroidController<Spacer> {

@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.render.MVCRender;
 

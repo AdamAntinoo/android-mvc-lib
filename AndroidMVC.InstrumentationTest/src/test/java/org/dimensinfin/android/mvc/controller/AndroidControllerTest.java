@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.domain.IContainer;
 import org.dimensinfin.android.mvc.domain.Spacer;
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IRender;
 import org.dimensinfin.android.mvc.support.Container;
 import org.dimensinfin.android.mvc.support.TestContainerNode;

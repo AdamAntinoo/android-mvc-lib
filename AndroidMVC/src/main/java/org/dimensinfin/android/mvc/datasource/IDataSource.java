@@ -17,7 +17,7 @@ public interface IDataSource extends IEventReceiver {
 	 * the viewer requires them. This call is to create any internal data source data structures that are to be used when extracting the
 	 * header and data section models.
 	 */
-	void prepareModel();
+	void prepareModel() throws Exception;
 
 	void collaborate2Model();
 

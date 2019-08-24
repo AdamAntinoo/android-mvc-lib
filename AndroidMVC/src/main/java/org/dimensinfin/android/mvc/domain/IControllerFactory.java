@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc.interfaces;
+package org.dimensinfin.android.mvc.domain;
 
 import android.content.Context;
 import android.content.Intent;
