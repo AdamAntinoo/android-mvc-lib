@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.android.mvc.domain.IRender;
 
 public class SpacerController extends AndroidController<Spacer> {
 	public SpacerController( @NonNull final Spacer model, @NonNull final IControllerFactory factory) {

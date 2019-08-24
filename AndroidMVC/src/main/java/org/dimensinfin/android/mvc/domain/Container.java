@@ -1,8 +1,7 @@
-package org.dimensinfin.android.mvc.support;
+package org.dimensinfin.android.mvc.domain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 

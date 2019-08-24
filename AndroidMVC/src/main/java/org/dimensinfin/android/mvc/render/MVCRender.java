@@ -22,7 +22,7 @@ import androidx.annotation.NonNull;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.domain.SpacerType;
-import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.android.mvc.domain.IRender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

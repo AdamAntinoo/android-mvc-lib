@@ -1,7 +1,5 @@
 package org.dimensinfin.android.mvc.activity;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import android.content.Context;
@@ -14,7 +12,7 @@ import android.widget.Toast;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.android.mvc.domain.IRender;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;

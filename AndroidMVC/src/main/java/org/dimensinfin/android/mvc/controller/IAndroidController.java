@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import org.dimensinfin.android.mvc.datasource.IDataSource;
-import org.dimensinfin.android.mvc.interfaces.IRender;
+import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.core.interfaces.IEventEmitter;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc.interfaces;
+package org.dimensinfin.android.mvc.domain;
 
 import android.view.View;
 

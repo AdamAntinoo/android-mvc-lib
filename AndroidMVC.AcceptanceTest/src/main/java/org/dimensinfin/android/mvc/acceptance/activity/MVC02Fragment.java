@@ -5,7 +5,7 @@ import org.dimensinfin.android.mvc.acceptance.TitlePanel;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.android.mvc.interfaces.IControllerFactory;
+import org.dimensinfin.android.mvc.domain.IControllerFactory;
 
 public class MVC02Fragment extends MVCPagerFragment {
 	@Override
