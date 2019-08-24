@@ -14,7 +14,7 @@ import android.widget.TextView;
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
+import org.dimensinfin.android.mvc.core.MVCScheduler;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
@@ -77,12 +77,12 @@ public abstract class CanvasPagerFragment extends MVCFragment {
 		_adapter = new MapContentAdapter(this, ds, _mapContainer);
 
 		// - S E C T I O N   3. Post the tak to generate the header contents to be rendered.
-		AppCompatibilityUtils.backgroundExecutor.submit(() -> {
+		MVCScheduler.backgroundExecutor.submit(() -> {
 			logger.info("-- [CanvasPagerFragment.DS Initialisation]");
 			_adapter.collaborateData(); // Call the ds to generate the root contents.
 		});
 		// Generate the views and set them into the containers, header and map for rendering.
-		AppCompatibilityUtils.backgroundExecutor.submit(() -> {
+		MVCScheduler.backgroundExecutor.submit(() -> {
 			logger.info("-- [CanvasPagerFragment.Render Header section]");
 			this.generateHeaderContents(ds.getHeaderSectionContents());
 			logger.info("-- [CanvasPagerFragment.Render Map section]");

@@ -45,6 +45,7 @@ public abstract class MVCFragment extends Fragment implements IPagerFragment {
 	 */
 	protected Activity activity;
 	private IMenuActionTarget listCallback = null;
+	protected Exception lastException;
 
 	/** This constructor is required to create the fragments from the xml layouts. */
 	public MVCFragment() { }
@@ -133,6 +134,10 @@ public abstract class MVCFragment extends Fragment implements IPagerFragment {
 		if (null != callback) {
 			listCallback = callback;
 		}
+	}
+
+	public Exception getLastException() {
+		return this.lastException;
 	}
 
 	/**

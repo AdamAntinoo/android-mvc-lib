@@ -2,7 +2,7 @@ package org.dimensinfin.android.mvc.datasource;
 
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
+import org.dimensinfin.android.mvc.core.MVCScheduler;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +45,7 @@ public class DataSourceManager {
 						.info("-- [DataSourceManager.registerDataSource]> Registering new DataSource: {}", locator.getIdentity());
 			} else return found;
 		}
-		AppCompatibilityUtils.backgroundExecutor.submit(() -> {
+		MVCScheduler.backgroundExecutor.submit(() -> {
 			try {
 				newSource.prepareModel();
 			} catch (Exception ex) {

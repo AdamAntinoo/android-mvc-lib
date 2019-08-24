@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AndroidController;
-import org.dimensinfin.android.mvc.core.AppCompatibilityUtils;
+import org.dimensinfin.android.mvc.core.MVCScheduler;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.HeaderDataSourceAdapter;
@@ -64,7 +64,6 @@ public abstract class MVCPagerFragment extends MVCFragment {
 	 * completion of the loading process.
 	 */
 	private TextView _progressElapsedCounter;
-	private Exception lastException;
 
 	// - A C C E P T A N C E
 	public ViewGroup accessHeaderContainer() {
@@ -75,9 +74,6 @@ public abstract class MVCPagerFragment extends MVCFragment {
 		return this._dataSectionContainer;
 	}
 
-	public Exception getLastException() {
-		return this.lastException;
-	}
 	// - F R A G M E N T   L I F E C Y C L E
 
 	@Nullable
@@ -138,8 +134,7 @@ public abstract class MVCPagerFragment extends MVCFragment {
 			Objects.requireNonNull(this.headerDataSectionContainer);
 
 			// - S E C T I O N   3. Post the tak to generate the header contents to be rendered.
-			AppCompatibilityUtils.backgroundExecutor.submit(() -> {
-//			handler.post(() -> {
+			MVCScheduler.backgroundExecutor.submit(() -> {
 				logger.info("-- [MVCPagerFragment.DS Initialisation]");
 				this._adapter.collaborateData(); // Call the ds to generate the root contents.
 				this.headerDataSectionContainer.collaborateData();
@@ -172,19 +167,25 @@ public abstract class MVCPagerFragment extends MVCFragment {
 	public void onStart() {
 		logger.info(">> [MVCPagerFragment.onStart]");
 		super.onStart();
-		if (null != this._adapter) { // Cehck that view creation complete successfully.
-			// Start counting the elapsed time while we generate and load the  model.
-			this.initializeProgressIndicator();
-			// We use another thread to perform the data source generation that is a long time action.
-			AppCompatibilityUtils.backgroundExecutor.submit(() -> {
-				logger.info("-- [MVCPagerFragment.Render data section]");
+		try {
+			if (null != this._adapter) { // Cehck that view creation complete successfully.
+				// Start counting the elapsed time while we generate and load the  model.
+				this.initializeProgressIndicator();
+				// We use another thread to perform the data source generation that is a long time action.
+				MVCScheduler.backgroundExecutor.submit(() -> {
+					logger.info("-- [MVCPagerFragment.Render data section]");
 //				handler.post(() -> { // After the model is created used the UI thread to render the collaboration to view.
-				this.getActivityContext().runOnUiThread(() -> {
-					this._adapter.notifyDataSetChanged();
-					this.headerDataSectionContainer.notifyDataSetChanged();
-					this.hideProgressIndicator(); // Hide the waiting indicator after the model is generated and the view populated.
+					this.getActivityContext().runOnUiThread(() -> {
+						this._adapter.notifyDataSetChanged();
+						this.headerDataSectionContainer.notifyDataSetChanged();
+						this.hideProgressIndicator(); // Hide the waiting indicator after the model is generated and the view populated.
+					});
 				});
-			});
+			}
+		} catch (RuntimeException rtex) {
+			logger.info("RX [MVCPagerFragment.onStart]> Intercepted exception: {}", rtex.getMessage());
+			this.lastException = rtex;
+			this.showException(rtex); // Show any exception data on the empty page.
 		}
 		logger.info("<< [MVCPagerFragment.onStart]");
 	}
