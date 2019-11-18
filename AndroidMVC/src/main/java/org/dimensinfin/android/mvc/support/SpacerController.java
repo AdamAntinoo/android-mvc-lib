@@ -17,6 +17,6 @@ public class SpacerController extends AndroidController<Spacer> {
 	// - I A N D R O I D C O N T R O L L E R   I N T E R F A C E
 	@Override
 	public IRender buildRender(final Context context) {
-		return new SeparatorRender(this, context);
+		return new SpacerRender(this, context);
 	}
 }
