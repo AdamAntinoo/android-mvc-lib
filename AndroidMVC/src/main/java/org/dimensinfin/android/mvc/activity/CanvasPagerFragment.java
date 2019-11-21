@@ -11,22 +11,23 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+
+import org.joda.time.Instant;
+import org.joda.time.format.DateTimeFormatterBuilder;
+
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.core.MVCScheduler;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
+import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
 import org.dimensinfin.android.mvc.exception.ToastExceptionHandler;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
-import org.dimensinfin.android.mvc.domain.IRender;
-import org.joda.time.Instant;
-import org.joda.time.format.DateTimeFormatterBuilder;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 public abstract class CanvasPagerFragment extends MVCFragment {
 	// - U I    F I E L D S
@@ -143,7 +144,7 @@ public abstract class CanvasPagerFragment extends MVCFragment {
 		//            controller.collaborate2View(controllers);
 		//        }
 		// Now create the view and add it to the header list.
-		handler.post(() -> {
+		this.getActivityContext().runOnUiThread(() -> {
 			_headerContainer.removeAllViews();
 			for (IAndroidController part : headerControllers) {
 				if (part instanceof IAndroidController) addView2Header(part);

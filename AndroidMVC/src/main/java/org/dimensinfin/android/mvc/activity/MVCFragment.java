@@ -2,26 +2,25 @@ package org.dimensinfin.android.mvc.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import androidx.fragment.app.Fragment;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
-import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.domain.IRender;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 
 public abstract class MVCFragment extends Fragment implements IPagerFragment {
 	protected static Logger logger = LoggerFactory.getLogger(MVCFragment.class);
 	/**
 	 * Task handler to manage execution of code that should be done on the main loop thread.
 	 */
-	protected static final Handler handler = new Handler(Looper.getMainLooper());
+	@Deprecated
+//	protected static final Handler handler = new Handler(Looper.getMainLooper());
 
 	// - A P I   F I E L D S
 	/**
