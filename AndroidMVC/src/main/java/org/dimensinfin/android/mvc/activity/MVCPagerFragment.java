@@ -11,11 +11,18 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+
+import org.joda.time.Instant;
+import org.joda.time.format.DateTimeFormatterBuilder;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AndroidController;
+import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.core.MVCScheduler;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
@@ -23,11 +30,6 @@ import org.dimensinfin.android.mvc.datasource.HeaderDataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.exception.ExceptionRenderGenerator;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
-import org.joda.time.Instant;
-import org.joda.time.format.DateTimeFormatterBuilder;
-
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Adam Antinoo
@@ -70,8 +72,21 @@ public abstract class MVCPagerFragment extends MVCFragment {
 		return this._headerContainer;
 	}
 
+	public List<IAndroidController> accessHeaderContents() {
+		return this.headerDataSectionContainer.accessContents();
+	}
+
+	public List<IAndroidController> accessDataContents() {
+		return this._adapter.accessContents();
+	}
+
 	public ListView accessDataSectionContainer() {
 		return this._dataSectionContainer;
+	}
+
+	public void updateDisplay(){
+		this._adapter.notifyDataSetChanged();
+		this.headerDataSectionContainer.notifyDataSetChanged();
 	}
 
 	// - F R A G M E N T   L I F E C Y C L E
@@ -102,49 +117,49 @@ public abstract class MVCPagerFragment extends MVCFragment {
 	 */
 	@Override
 	public View onCreateView( final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState ) {
-		logger.info(">> [MVCPagerFragment.onCreateView]");
-		super.onCreateView(inflater, container, savedInstanceState);
+		logger.info( ">> [MVCPagerFragment.onCreateView]" );
+		super.onCreateView( inflater, container, savedInstanceState );
 		// TODO analyze what is returned by the savedInstanceState when recovering the application. That will help to recover the
 		// functional state of the application.
 		// - S E C T I O N   1. Where we get access to the UI elements.
-		_container = (ViewGroup) inflater.inflate(R.layout.fragment_base, container, false);
-		_headerContainer = Objects.requireNonNull(_container.findViewById(R.id.headerContainer));
-		_dataSectionContainer = Objects.requireNonNull(_container.findViewById(R.id.listContainer));
-		_progressLayout = Objects.requireNonNull(_container.findViewById(R.id.progressLayout));
-		_progressElapsedCounter = Objects.requireNonNull(_container.findViewById(R.id.progressCounter));
+		_container = (ViewGroup) inflater.inflate( R.layout.fragment_base, container, false );
+		_headerContainer = Objects.requireNonNull( _container.findViewById( R.id.headerContainer ) );
+		_dataSectionContainer = Objects.requireNonNull( _container.findViewById( R.id.listContainer ) );
+		_progressLayout = Objects.requireNonNull( _container.findViewById( R.id.progressLayout ) );
+		_progressElapsedCounter = Objects.requireNonNull( _container.findViewById( R.id.progressCounter ) );
 
 		// Set the visual state of all items.
-		_progressLayout.setVisibility(View.VISIBLE);
-		_dataSectionContainer.setVisibility(View.VISIBLE);
-		_progressElapsedCounter.setVisibility(View.VISIBLE);
+		_progressLayout.setVisibility( View.VISIBLE );
+		_dataSectionContainer.setVisibility( View.VISIBLE );
+		_progressElapsedCounter.setVisibility( View.VISIBLE );
 		// Prepare the structures for the context menu.
 		// TODO Check if the menus can be tied to the Parts independently and not to the whole Header.
 		//			this.registerForContextMenu(_headerContainer);
-		this.registerForContextMenu(_dataSectionContainer);
+		this.registerForContextMenu( _dataSectionContainer );
 
 		// - S E C T I O N   2. Where we setup the data sources for the adapters. Only include no timing operations.
 		try {
 			// Install the adapter before any data request or model generation.
-			final IDataSource ds = DataSourceManager.registerDataSource(this.createDS());
-			this._adapter = new DataSourceAdapter(this, ds);
-			Objects.requireNonNull(this._adapter);
-			logger.info("-- [MVCPagerFragment.DS Initialisation]> Adapter set: {}", _adapter.toString());
-			_dataSectionContainer.setAdapter(_adapter);
-			this.headerDataSectionContainer = new HeaderDataSourceAdapter(this, ds).setHeaderContainer(this._headerContainer);
-			Objects.requireNonNull(this.headerDataSectionContainer);
+			final IDataSource ds = DataSourceManager.registerDataSource( this.createDS() );
+			this._adapter = new DataSourceAdapter( this, ds );
+			Objects.requireNonNull( this._adapter );
+			logger.info( "-- [MVCPagerFragment.DS Initialisation]> Adapter set: {}", _adapter.toString() );
+			_dataSectionContainer.setAdapter( _adapter );
+			this.headerDataSectionContainer = new HeaderDataSourceAdapter( this, ds ).setHeaderContainer( this._headerContainer );
+			Objects.requireNonNull( this.headerDataSectionContainer );
 
 			// - S E C T I O N   3. Post the tak to generate the header contents to be rendered.
-			MVCScheduler.backgroundExecutor.submit(() -> {
-				logger.info("-- [MVCPagerFragment.DS Initialisation]");
+			MVCScheduler.backgroundExecutor.submit( () -> {
+				logger.info( "-- [MVCPagerFragment.DS Initialisation]" );
 				this._adapter.collaborateData(); // Call the ds to generate the root contents.
 				this.headerDataSectionContainer.collaborateData();
-			});
+			} );
 		} catch (RuntimeException rtex) {
-			logger.info("RX [MVCPagerFragment.onCreateView]> Intercepted exception: {}", rtex.getMessage());
+			logger.info( "RX [MVCPagerFragment.onCreateView]> Intercepted exception: {}", rtex.getMessage() );
 			this.lastException = rtex;
-			this.showException(rtex); // Show any exception data on the empty page.
+			this.showException( rtex ); // Show any exception data on the empty page.
 		}
-		logger.info("<< [MVCPagerFragment.onCreateView]");
+		logger.info( "<< [MVCPagerFragment.onCreateView]" );
 		return _container;
 	}
 
@@ -152,8 +167,8 @@ public abstract class MVCPagerFragment extends MVCFragment {
 	public void onViewStateRestored( Bundle savedInstanceState ) {
 		// restore the variant name.
 		if (null != savedInstanceState)
-			setVariant(savedInstanceState.getString(MVCMultiPageActivity.EMVCExtras.EXTRA_VARIANT.name()));
-		super.onViewStateRestored(savedInstanceState);
+			setVariant( savedInstanceState.getString( MVCMultiPageActivity.EMVCExtras.EXTRA_VARIANT.name() ) );
+		super.onViewStateRestored( savedInstanceState );
 	}
 
 	/**
@@ -165,41 +180,41 @@ public abstract class MVCPagerFragment extends MVCFragment {
 	 */
 	@Override
 	public void onStart() {
-		logger.info(">> [MVCPagerFragment.onStart]");
+		logger.info( ">> [MVCPagerFragment.onStart]" );
 		super.onStart();
 		try {
 			if (null != this._adapter) { // Cehck that view creation complete successfully.
 				// Start counting the elapsed time while we generate and load the  model.
 				this.initializeProgressIndicator();
 				// We use another thread to perform the data source generation that is a long time action.
-				MVCScheduler.backgroundExecutor.submit(() -> {
-					logger.info("-- [MVCPagerFragment.Render data section]");
+				MVCScheduler.backgroundExecutor.submit( () -> {
+					logger.info( "-- [MVCPagerFragment.Render data section]" );
 //				handler.post(() -> { // After the model is created used the UI thread to render the collaboration to view.
-					this.getActivityContext().runOnUiThread(() -> {
+					this.getActivityContext().runOnUiThread( () -> {
 						this._adapter.notifyDataSetChanged();
 						this.headerDataSectionContainer.notifyDataSetChanged();
 						this.hideProgressIndicator(); // Hide the waiting indicator after the model is generated and the view populated.
-					});
-				});
+					} );
+				} );
 			}
 		} catch (RuntimeException rtex) {
-			logger.info("RX [MVCPagerFragment.onStart]> Intercepted exception: {}", rtex.getMessage());
+			logger.info( "RX [MVCPagerFragment.onStart]> Intercepted exception: {}", rtex.getMessage() );
 			this.lastException = rtex;
-			this.showException(rtex); // Show any exception data on the empty page.
+			this.showException( rtex ); // Show any exception data on the empty page.
 		}
-		logger.info("<< [MVCPagerFragment.onStart]");
+		logger.info( "<< [MVCPagerFragment.onStart]" );
 	}
 
 	@Override
 	public void onSaveInstanceState( final Bundle outState ) {
-		super.onSaveInstanceState(outState);
+		super.onSaveInstanceState( outState );
 		// Save the variant assigned to this fragment instance.
-		outState.putString(MVCMultiPageActivity.EMVCExtras.EXTRA_VARIANT.name(), getVariant());
+		outState.putString( MVCMultiPageActivity.EMVCExtras.EXTRA_VARIANT.name(), getVariant() );
 	}
 
 	@Override
 	public void onCreateContextMenu( final ContextMenu menu, final View view, final ContextMenu.ContextMenuInfo menuInfo ) {
-		logger.info(">> [MVCPagerFragment.onCreateContextMenu]");
+		logger.info( ">> [MVCPagerFragment.onCreateContextMenu]" );
 		// REFACTOR If we call the super then the fragment's parent context gets called. So the listcallback and the Activity
 		// have not to be the same
 		//			super.onCreateContextMenu(menu, view, menuInfo);
@@ -218,21 +233,21 @@ public abstract class MVCPagerFragment extends MVCFragment {
 		// Check if the selected item is suitable for menu and select it depending on item part class.
 		AndroidController part = (AndroidController) info.targetView.getTag();
 		if (part instanceof IMenuActionTarget) {
-			((IMenuActionTarget) part).onCreateContextMenu(menu, view, menuInfo);
+			((IMenuActionTarget) part).onCreateContextMenu( menu, view, menuInfo );
 		}
 		//		}
-		logger.info("<< [MVCPagerFragment.onCreateContextMenu]"); //$NON-NLS-1$
+		logger.info( "<< [MVCPagerFragment.onCreateContextMenu]" ); //$NON-NLS-1$
 	}
 
 	// - CONTEXTUAL MENU FOR THE HEADER
 	@Override
 	public boolean onContextItemSelected( final MenuItem item ) {
-		logger.info(">> ManufactureContextFragment.onContextItemSelected");
+		logger.info( ">> ManufactureContextFragment.onContextItemSelected" );
 		final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 		final int menuItemIndex = item.getItemId();
 		final AndroidController part = (AndroidController) info.targetView.getTag();
 		if (part instanceof IMenuActionTarget)
-			return ((IMenuActionTarget) part).onContextItemSelected(item);
+			return ((IMenuActionTarget) part).onContextItemSelected( item );
 		else
 			return true;
 	}
@@ -241,37 +256,37 @@ public abstract class MVCPagerFragment extends MVCFragment {
 
 	protected void showException( final Exception exception ) {
 		// Hide standard elements.
-		this._headerContainer.setVisibility(View.GONE);
-		this._dataSectionContainer.setVisibility(View.GONE);
-		final ViewGroup exceptionContainer = _container.findViewById(R.id.exceptionContainer);
+		this._headerContainer.setVisibility( View.GONE );
+		this._dataSectionContainer.setVisibility( View.GONE );
+		final ViewGroup exceptionContainer = _container.findViewById( R.id.exceptionContainer );
 		exceptionContainer.removeAllViews();
-		exceptionContainer.addView(new ExceptionRenderGenerator.Builder(exception)
-				                           .withContext(this.getContext())
-				                           .withFactory(this.getFactory())
-				                           .build().getView());
-		exceptionContainer.setVisibility(View.VISIBLE);
+		exceptionContainer.addView( new ExceptionRenderGenerator.Builder( exception )
+				                            .withContext( this.getContext() )
+				                            .withFactory( this.getFactory() )
+				                            .build().getView() );
+		exceptionContainer.setVisibility( View.VISIBLE );
 	}
 
 	private void hideProgressIndicator() {
-		_progressLayout.setVisibility(View.GONE);
-		_dataSectionContainer.setVisibility(View.VISIBLE);
-		_progressElapsedCounter.setVisibility(View.GONE);
+		_progressLayout.setVisibility( View.GONE );
+		_dataSectionContainer.setVisibility( View.VISIBLE );
+		_progressElapsedCounter.setVisibility( View.GONE );
 	}
 
 	// - U T I L I T I E S
 	private void initializeProgressIndicator() {
-		_progressElapsedCounter = Objects.requireNonNull(_container.findViewById(R.id.progressCounter));
+		_progressElapsedCounter = Objects.requireNonNull( _container.findViewById( R.id.progressCounter ) );
 		final Instant _elapsedTimer = Instant.now();
-		new CountDownTimer(TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS.toMillis(10)) {
+		new CountDownTimer( TimeUnit.DAYS.toMillis( 1 ), TimeUnit.MILLISECONDS.toMillis( 10 ) ) {
 			@Override
 			public void onTick( final long millisUntilFinished ) {
-				_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
+				_progressElapsedCounter.setText( generateTimeString( _elapsedTimer.getMillis() ) );
 				_progressElapsedCounter.invalidate();
 			}
 
 			@Override
 			public void onFinish() {
-				_progressElapsedCounter.setText(generateTimeString(_elapsedTimer.getMillis()));
+				_progressElapsedCounter.setText( generateTimeString( _elapsedTimer.getMillis() ) );
 				_progressElapsedCounter.invalidate();
 			}
 		}.start();
@@ -281,13 +296,13 @@ public abstract class MVCPagerFragment extends MVCFragment {
 		try {
 			final long elapsed = Instant.now().getMillis() - millis;
 			final DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
-			if (elapsed > TimeUnit.HOURS.toMillis(1)) {
-				timeFormatter.appendHourOfDay(2).appendLiteral("h ");
+			if (elapsed > TimeUnit.HOURS.toMillis( 1 )) {
+				timeFormatter.appendHourOfDay( 2 ).appendLiteral( "h " );
 			}
-			if (elapsed > TimeUnit.MINUTES.toMillis(1)) {
-				timeFormatter.appendMinuteOfHour(2).appendLiteral("m ").appendSecondOfMinute(2).appendLiteral("s");
-			} else timeFormatter.appendSecondOfMinute(2).appendLiteral("s");
-			return timeFormatter.toFormatter().print(new Instant(elapsed));
+			if (elapsed > TimeUnit.MINUTES.toMillis( 1 )) {
+				timeFormatter.appendMinuteOfHour( 2 ).appendLiteral( "m " ).appendSecondOfMinute( 2 ).appendLiteral( "s" );
+			} else timeFormatter.appendSecondOfMinute( 2 ).appendLiteral( "s" );
+			return timeFormatter.toFormatter().print( new Instant( elapsed ) );
 		} catch (final RuntimeException rtex) {
 			return "0m 00s";
 		}

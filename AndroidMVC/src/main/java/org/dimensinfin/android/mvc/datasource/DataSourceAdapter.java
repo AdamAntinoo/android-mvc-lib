@@ -8,27 +8,27 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.activity.IPagerFragment;
-import org.dimensinfin.android.mvc.controller.ControllerFactory;
-import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.exception.ExceptionRenderGenerator;
-import org.dimensinfin.android.mvc.domain.IRender;
-import org.dimensinfin.core.domain.EEvents;
-import org.dimensinfin.core.domain.IntercommunicationEvent;
-import org.dimensinfin.core.interfaces.IEventReceiver;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import org.joda.time.Instant;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import org.dimensinfin.android.mvc.activity.IPagerFragment;
+import org.dimensinfin.android.mvc.controller.ControllerFactory;
+import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.domain.IRender;
+import org.dimensinfin.android.mvc.exception.ExceptionRenderGenerator;
+import org.dimensinfin.core.domain.EEvents;
+import org.dimensinfin.core.domain.IntercommunicationEvent;
+import org.dimensinfin.core.interfaces.IEventReceiver;
 
 /**
  * This is the class that connects the ListView to a model list. If is an extension of the generic BaseAdapter and
@@ -45,10 +45,10 @@ import java.util.Objects;
  */
 public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 	/** Task handler to manage execution of code that should be done on the main loop thread. */
-	private static final Handler handler = new Handler(Looper.getMainLooper());
+	private static final Handler handler = new Handler( Looper.getMainLooper() );
 	private static final boolean LOG_ALLOWED = true;
 	private static final String GETTING_VIEW = "-- [DataSourceAdapter.getView]> Getting view [";
-	protected static Logger logger = LoggerFactory.getLogger(DataSourceAdapter.class);
+	protected static Logger logger = LoggerFactory.getLogger( DataSourceAdapter.class );
 
 	// - F I E L D - S E C T I O N
 	/** The current list of Parts that is being displayed. */
@@ -75,11 +75,11 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 	 * @param dataSource the source for the data to be represented on the view structures.
 	 */
 	public DataSourceAdapter( @NonNull final IPagerFragment fragment, @NonNull final IDataSource dataSource ) {
-		Objects.requireNonNull(fragment);
-		Objects.requireNonNull(dataSource);
+		Objects.requireNonNull( fragment );
+		Objects.requireNonNull( dataSource );
 		this.context = fragment.getActivityContext();
 		this.dataSource = (MVCDataSource) dataSource;
-		this.dataSource.addEventListener(this); // Connect the Adapter to the DataSource
+		this.dataSource.addEventListener( this ); // Connect the Adapter to the DataSource
 	}
 
 	// - M E T H O D - S E C T I O N
@@ -92,15 +92,19 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 		return this.contentControllerList.size();
 	}
 
+	public List<IAndroidController> accessContents() {
+		return this.contentControllerList;
+	}
+
 	// - B A S E   A D A P T E R   I M P L E M E N T A T I O N
 	@Override
 	public Object getItem( final int position ) {
-		return this.contentControllerList.get(position);
+		return this.contentControllerList.get( position );
 	}
 
 	@Override
 	public long getItemId( final int position ) {
-		return this.contentControllerList.get(position).getModelId();
+		return this.contentControllerList.get( position ).getModelId();
 	}
 
 	/**
@@ -113,18 +117,18 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 		String exitMessage;
 		try {
 			// If the request is new we are sure this has to be created.
-			IAndroidController item = this.getCastedItem(position);
+			IAndroidController item = this.getCastedItem( position );
 			if (null == convertView) {
 				exitMessage = GETTING_VIEW + position + "] - " + item.getClass().getSimpleName();
 				// At this point we have access to the Context. Create the view, initialize the fields and connect it to the controller.
-				convertView = this.constructRender(context, item);
+				convertView = this.constructRender( context, item );
 			} else {
 				View cachedView = item.getViewCache();
 				if (null == cachedView) {
 					exitMessage = GETTING_VIEW + position + "] - "
 							              + item.getClass().getSimpleName() + " RECREATE";
 					// Recreate the view.
-					convertView = this.constructRender(context, item);
+					convertView = this.constructRender( context, item );
 				} else {
 					// Cached view found. Return new view.
 					convertView = cachedView;
@@ -135,36 +139,36 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 			if (null == convertView)
 				exitMessage = GETTING_VIEW + position + "] - " + item.getClass().getSimpleName() + " NOT FOUND";
 			// Activate listeners if the AndroidController supports that feature.
-			convertView.setClickable(false);
-			convertView.setLongClickable(true);
+			convertView.setClickable( false );
+			convertView.setLongClickable( true );
 			if (item instanceof OnClickListener) {
-				convertView.setClickable(true);
-				convertView.setOnClickListener((OnClickListener) item);
+				convertView.setClickable( true );
+				convertView.setOnClickListener( (OnClickListener) item );
 			}
 			if (item instanceof OnLongClickListener) {
-				convertView.setClickable(true);
-				convertView.setOnLongClickListener((OnLongClickListener) item);
+				convertView.setClickable( true );
+				convertView.setOnLongClickListener( (OnLongClickListener) item );
 			}
-//			item.addPropertyChangeListener(dataSource); // Add the DataSource as an event listener for the Controllers.
+			item.addEventListener(dataSource); // Add the DataSource as an event listener for the Controllers.
 			if (LOG_ALLOWED) {
 				// Filter out the spinner.
-				if (!exitMessage.contains("OnLoadSpinnerController")) {
-					final Period elapsedPeriod = new Period(chrono, Instant.now(), PeriodType.millis());
-					final String elapsedMs = MessageFormat.format("{0,number}ms", elapsedPeriod.getMillis());
-					logger.info("{} - Rendering time: {}", exitMessage, elapsedMs);
+				if (!exitMessage.contains( "OnLoadSpinnerController" )) {
+					final Period elapsedPeriod = new Period( chrono, Instant.now(), PeriodType.millis() );
+					final String elapsedMs = MessageFormat.format( "{0,number}ms", elapsedPeriod.getMillis() );
+					logger.info( "{} - Rendering time: {}", exitMessage, elapsedMs );
 				}
 			}
 		} catch (RuntimeException rtex) {
 			Exception exception;
 			String message = rtex.getMessage();
 			if (null == message)
-				exception = new NullPointerException("Detected a null pointer exception while generating a new render view.");
+				exception = new NullPointerException( "Detected a null pointer exception while generating a new render view." );
 			else exception = rtex;
-			convertView = new ExceptionRenderGenerator.Builder(exception)
-					              .withContext(this.getContext())
-					              .withFactory(new ControllerFactory("-DEFAULT-"))
+			convertView = new ExceptionRenderGenerator.Builder( exception )
+					              .withContext( this.getContext() )
+					              .withFactory( new ControllerFactory( "-DEFAULT-" ) )
 					              .build().getView();
-			DataSourceAdapter.logger.error("RTEX [DataSourceAdapter.getView]> Runtime Exception: {}", exception.getMessage());
+			DataSourceAdapter.logger.error( "RTEX [DataSourceAdapter.getView]> Runtime Exception: {}", exception.getMessage() );
 			rtex.printStackTrace();
 		}
 		return convertView;
@@ -191,7 +195,7 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 	@Override
 	public void notifyDataSetChanged() {
 		contentControllerList.clear();
-		contentControllerList.addAll(dataSource.getDataSectionContents());
+		contentControllerList.addAll( dataSource.getDataSectionContents() );
 		super.notifyDataSetChanged();
 	}
 
@@ -222,15 +226,15 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 	}
 
 	private View constructRender( final Context context, final IAndroidController controller ) {
-		IRender render = controller.buildRender(context);
+		IRender render = controller.buildRender( context );
 		final View view = render.getView();
-		view.setTag(controller); // Piggyback the controller to the view to allow access.
+		view.setTag( controller ); // Piggyback the controller to the view to allow access.
 		render.initializeViews(); // Associate the fields to variables.
 		render.updateContent(); // Set the initial value for the view fields.
 		// Store view on the AndroidController for cache.
 		//		if (this.getContext().getResources().getBoolean(R.id.exceptionMessage)) {
 		if (true) {
-			controller.setViewCache(view);
+			controller.setViewCache( view );
 		}
 		return view;
 	}
@@ -240,7 +244,7 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 	}
 
 	private IAndroidController getCastedItem( final int position ) {
-		return this.contentControllerList.get(position);
+		return this.contentControllerList.get( position );
 	}
 
 	// - P R O P E R T Y C H A N G E L I S T E N E R   I N T E R F A C E
@@ -250,14 +254,14 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 	 * is a generic class that must not be upgraded because we start then to replicate most of the code.
 	 */
 	public void receiveEvent( final IntercommunicationEvent event ) {
-		logger.info(">> [DataSourceAdapter.propertyChange]> Processing Event: {}", event.getPropertyName());
+		logger.info( ">> [DataSourceAdapter.propertyChange]> Processing Event: {}", event.getPropertyName() );
 		// - C O N T E N T   E V E N T S
-		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_NEWDATA.name()))
-			handler.post(this::notifyDataSetChanged);
-		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_ACTIONEXPANDCOLLAPSE.name()))
-			handler.post(this::notifyDataSetChanged);
+		if (event.getPropertyName().equalsIgnoreCase( EEvents.EVENT_NEWDATA.name() ))
+			handler.post( this::notifyDataSetChanged );
+		if (event.getPropertyName().equalsIgnoreCase( EEvents.EVENT_ACTIONEXPANDCOLLAPSE.name() ))
+			handler.post( this::notifyDataSetChanged );
 		// Be sure to run graphical changes on the UI thread. If we already are on it this has no effect.
-		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_ADAPTER_REQUESTNOTIFYCHANGES.name()))
-			handler.post(this::notifyDataSetChanged);
+		if (event.getPropertyName().equalsIgnoreCase( EEvents.EVENT_ADAPTER_REQUESTNOTIFYCHANGES.name() ))
+			handler.post( this::notifyDataSetChanged );
 	}
 }
