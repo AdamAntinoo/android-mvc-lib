@@ -84,9 +84,11 @@ public abstract class MVCPagerFragment extends MVCFragment {
 		return this._dataSectionContainer;
 	}
 
-	public void updateDisplay(){
+	public void updateDisplay() {
 		this._adapter.notifyDataSetChanged();
+		this._dataSectionContainer.invalidate();
 		this.headerDataSectionContainer.notifyDataSetChanged();
+		this._headerContainer.invalidate();
 	}
 
 	// - F R A G M E N T   L I F E C Y C L E
@@ -141,14 +143,13 @@ public abstract class MVCPagerFragment extends MVCFragment {
 		try {
 			// Install the adapter before any data request or model generation.
 			final IDataSource ds = DataSourceManager.registerDataSource( this.createDS() );
-			this._adapter = new DataSourceAdapter( this, ds );
-			Objects.requireNonNull( this._adapter );
+			this._adapter = Objects.requireNonNull( new DataSourceAdapter( this, ds ) );
 			logger.info( "-- [MVCPagerFragment.DS Initialisation]> Adapter set: {}", _adapter.toString() );
 			_dataSectionContainer.setAdapter( _adapter );
-			this.headerDataSectionContainer = new HeaderDataSourceAdapter( this, ds ).setHeaderContainer( this._headerContainer );
-			Objects.requireNonNull( this.headerDataSectionContainer );
+			this.headerDataSectionContainer = Objects.requireNonNull( new HeaderDataSourceAdapter( this, ds )
+					                                                          .setHeaderContainer( this._headerContainer ) );
 
-			// - S E C T I O N   3. Post the tak to generate the header contents to be rendered.
+			// - S E C T I O N   3. Post the task to generate the header and the data contents to be rendered.
 			MVCScheduler.backgroundExecutor.submit( () -> {
 				logger.info( "-- [MVCPagerFragment.DS Initialisation]" );
 				this._adapter.collaborateData(); // Call the ds to generate the root contents.
@@ -174,26 +175,28 @@ public abstract class MVCPagerFragment extends MVCFragment {
 	/**
 	 * At this point on the Fragment life cycle we are sure that the fragment is already constructed and that the flow is
 	 * ready to get and process the model data. The model data is going to be feed directly to the rendering layout while
-	 * it is being generated so the experience is more close to real time data presentation. INstead waiting for all the
+	 * it is being generated so the experience is more close to real time data presentation. Instead waiting for all the
 	 * model generation and model transformation processed to complete we will be streaming the data since the first
 	 * moment we have something to show.
+	 *
+	 * Because the model generation is running on a background thread we should synchronize to the model generation termination before invalidating
+	 * the views and forcing the rendering. At the same time this should remove the spinner and show the list views. So even the task to be run is
+	 * on the UI thread we should encapsulate that on a new background job to be posted after the current model generation job.
 	 */
 	@Override
 	public void onStart() {
 		logger.info( ">> [MVCPagerFragment.onStart]" );
 		super.onStart();
 		try {
-			if (null != this._adapter) { // Cehck that view creation complete successfully.
+			if (null != this._adapter) { // Check that view creation complete successfully.
 				// Start counting the elapsed time while we generate and load the  model.
 				this.initializeProgressIndicator();
 				// We use another thread to perform the data source generation that is a long time action.
 				MVCScheduler.backgroundExecutor.submit( () -> {
 					logger.info( "-- [MVCPagerFragment.Render data section]" );
-//				handler.post(() -> { // After the model is created used the UI thread to render the collaboration to view.
 					this.getActivityContext().runOnUiThread( () -> {
-						this._adapter.notifyDataSetChanged();
-						this.headerDataSectionContainer.notifyDataSetChanged();
 						this.hideProgressIndicator(); // Hide the waiting indicator after the model is generated and the view populated.
+						this.updateDisplay();
 					} );
 				} );
 			}

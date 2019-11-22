@@ -8,10 +8,8 @@ import androidx.fragment.app.Fragment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
-import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 
 public abstract class MVCFragment extends Fragment implements IPagerFragment {
@@ -19,7 +17,7 @@ public abstract class MVCFragment extends Fragment implements IPagerFragment {
 	/**
 	 * Task handler to manage execution of code that should be done on the main loop thread.
 	 */
-	@Deprecated
+//	@Deprecated
 //	protected static final Handler handler = new Handler(Looper.getMainLooper());
 
 	// - A P I   F I E L D S
@@ -160,11 +158,11 @@ public abstract class MVCFragment extends Fragment implements IPagerFragment {
 	 */
 	public View generateActionBarView() {return null;}
 
-	protected View convertActionBarView( final IAndroidController controller ) {
-		final IRender holder = controller.buildRender(this.getActivityContext());
-		final View actionBarView = holder.getView();
-		holder.updateContent();
-		actionBarView.setTag(controller);
-		return actionBarView;
-	}
+//	protected View convertActionBarView( final IAndroidController controller ) {
+//		final IRender holder = controller.buildRender(this.getActivityContext());
+//		final View actionBarView = holder.getView();
+//		holder.updateContent();
+//		actionBarView.setTag(controller);
+//		return actionBarView;
+//	}
 }

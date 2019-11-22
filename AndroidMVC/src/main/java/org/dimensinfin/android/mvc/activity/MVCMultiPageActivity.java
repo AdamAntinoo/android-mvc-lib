@@ -5,19 +5,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.exception.MVCException;
-import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
+import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
+import org.dimensinfin.android.mvc.R;
+import org.dimensinfin.android.mvc.exception.MVCException;
+import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
+
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -86,9 +87,6 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 		if (null == frag) {
 			_pageAdapter.addPage(newFrag);
 		} else {
-//			if (null == newFrag)
-//				throw new RuntimeException(
-//						"RTEX [MVCMultiPageActivity.addPage]> The fragment defined is null and cannot be used.");
 			// We need to update the fragment cached on the Fragment Manager
 			if (frag instanceof MVCPagerFragment) {
 				logger.info("-- [MVCMultiPageActivity.addPage]> Reusing available fragment. {}"
@@ -177,7 +175,7 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 			_pageContainer.setAdapter(_pageAdapter);
 			// Cleat the indicator from the view until more than one page is added.
 			this.disableIndicator();
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			this.lastException = ex;
 			this.showException(ex); // Show any exception data on the empty page.
 		} finally {
