@@ -43,8 +43,8 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 		EXTRA_EXCEPTIONMESSAGE, EXTRA_VARIANT
 	}
 
-	protected static Logger logger = LoggerFactory.getLogger(MVCMultiPageActivity.class);
-	private final MVCFragmentPagerAdapter _pageAdapter = new MVCFragmentPagerAdapter(this.getSupportFragmentManager());
+	protected static Logger logger = LoggerFactory.getLogger( MVCMultiPageActivity.class );
+	private final MVCFragmentPagerAdapter _pageAdapter = new MVCFragmentPagerAdapter( this.getSupportFragmentManager() );
 	// - F I E L D - S E C T I O N
 	protected Bundle extras;
 	protected ActionBar _actionBar;
@@ -79,69 +79,75 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 	 *                discard the new received fragment and use the already instance at the <code>FragmentManager</code>.
 	 */
 	public void addPage( @NonNull final IPagerFragment newFrag ) {
-		logger.info(">> [MVCMultiPageActivity.addPage]");
-		Objects.requireNonNull(newFrag);
-		// Before checking if we have already this fragment we should get its unique identifier.
-		final Fragment frag = this.getSupportFragmentManager().findFragmentByTag(
-				_pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
-		if (null == frag) {
-			_pageAdapter.addPage(newFrag);
-		} else {
-			// We need to update the fragment cached on the Fragment Manager
-			if (frag instanceof MVCPagerFragment) {
-				logger.info("-- [MVCMultiPageActivity.addPage]> Reusing available fragment. {}"
-						, _pageAdapter.getFragmentId(_pageAdapter.getNextFreePosition()));
-				// Reuse a previous created Fragment. Copy all fields accessible.
-				((MVCFragment) frag)
-						.setVariant(newFrag.getVariant())
-						.setExtras(newFrag.getExtras())
-						.setActivityContext(newFrag.getActivityContext())
-						.setListCallback(newFrag.getListCallback());
-				_pageAdapter.addPage(newFrag);
-			} else
-				throw new RuntimeException(
-						"The fragment located does not inherit the required functionality. Does not extend MVCPagerFragment.");
+		logger.info( ">> [MVCMultiPageActivity.addPage]" );
+		try {
+			Objects.requireNonNull( newFrag );
+			// Before checking if we have already this fragment we should get its unique identifier.
+			final Fragment frag = this.getSupportFragmentManager().findFragmentByTag(
+					_pageAdapter.getFragmentId( _pageAdapter.getNextFreePosition() ) );
+			if (null == frag) {
+				_pageAdapter.addPage( newFrag );
+			} else {
+				// We need to update the fragment cached on the Fragment Manager
+				if (frag instanceof MVCPagerFragment) {
+					logger.info( "-- [MVCMultiPageActivity.addPage]> Reusing available fragment. {}"
+							, _pageAdapter.getFragmentId( _pageAdapter.getNextFreePosition() ) );
+					// Reuse a previous created Fragment. Copy all fields accessible.
+					((MVCFragment) frag)
+							.setVariant( newFrag.getVariant() )
+							.setExtras( newFrag.getExtras() )
+							.setActivityContext( newFrag.getActivityContext() )
+							.setListCallback( newFrag.getListCallback() );
+					_pageAdapter.addPage( newFrag );
+				} else
+					throw new RuntimeException(
+							"The fragment located does not inherit the required functionality. Does not extend MVCPagerFragment." );
+			}
+			// Be sure the Fragment context points to a valid context.
+			newFrag.setActivityContext( this );
+			// Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
+			newFrag.setExtras( this.getExtras() );
+			// Check the number of pages to activate the indicator when more the one.
+			if (_pageAdapter.getCount() > 1) {
+				this.activateIndicator();
+			}
+			((Fragment) newFrag).onAttach( this );
+		} catch (final Exception ex) {
+			this.lastException = ex;
+			this.showException( ex ); // Show any exception data on the empty page.
+		} finally {
+			logger.info( "<< [MVCMultiPageActivity.addPage]" ); //$NON-NLS-1$
 		}
-		// Be sure the Fragment context points to a valid context.
-		newFrag.setActivityContext(this);
-		// Copy the Activity extras to the Fragment. This avoids forgetting to set this by the developer.
-		newFrag.setExtras(this.getExtras());
-		// Check the number of pages to activate the indicator when more the one.
-		if (_pageAdapter.getCount() > 1) {
-			this.activateIndicator();
-		}
-		((Fragment) newFrag).onAttach(this);
-		logger.info("<< [MVCMultiPageActivity.addPage]"); //$NON-NLS-1$
 	}
 
 	public IPagerFragment setPage( final int pageNumber ) {
 		if ((pageNumber < 0) || (pageNumber > this._pageAdapter.getCount() - 1))
-			return (IPagerFragment) this._pageAdapter.getItem(this._pageContainer.getCurrentItem());
-		this._pageContainer.setCurrentItem(pageNumber, true);
-		return (IPagerFragment) this._pageAdapter.getItem(this._pageContainer.getCurrentItem());
+			return (IPagerFragment) this._pageAdapter.getItem( this._pageContainer.getCurrentItem() );
+		this._pageContainer.setCurrentItem( pageNumber, true );
+		return (IPagerFragment) this._pageAdapter.getItem( this._pageContainer.getCurrentItem() );
 	}
 
 	protected void activateIndicator() {
 		// If the Indicator is active then set the listener.
 		if (null != _indicator) {
-			_indicator.setVisibility(View.VISIBLE);
-			_indicator.setViewPager(_pageContainer);
+			_indicator.setVisibility( View.VISIBLE );
+			_indicator.setViewPager( _pageContainer );
 		}
-		_pageContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+		_pageContainer.addOnPageChangeListener( new ViewPager.OnPageChangeListener() {
 
 			public void onPageScrolled( final int arg0, final float arg1, final int arg2 ) {}
 
 			public void onPageSelected( final int position ) {
-				activateActionBar(((IPagerFragment) _pageAdapter.getItem(position)).generateActionBarView());
+				activateActionBar( ((IPagerFragment) _pageAdapter.getItem( position )).generateActionBarView() );
 			}
 
 			public void onPageScrollStateChanged( final int arg0 ) {}
-		});
+		} );
 	}
 
 	private void disableIndicator() {
 		if (null != _indicator) {
-			_indicator.setVisibility(View.GONE);
+			_indicator.setVisibility( View.GONE );
 		}
 	}
 
@@ -157,29 +163,29 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 	 */
 	@Override
 	protected void onCreate( final Bundle savedInstanceState ) {
-		logger.info(">> [MVCMultiPageActivity.onCreate]");
-		super.onCreate(savedInstanceState);
+		logger.info( ">> [MVCMultiPageActivity.onCreate]" );
+		super.onCreate( savedInstanceState );
 		try {
-			this.extractExtras(savedInstanceState);
-			this.setContentView(R.layout.activity_pager); // Set the layout to the core context
+			this.extractExtras( savedInstanceState );
+			this.setContentView( R.layout.activity_pager ); // Set the layout to the core context
 			this.deactivateActionBar();
 			// Locate the elements of the page and store in global data.
-			_pageContainer = this.findViewById(R.id.pager);
-			background = this.findViewById(R.id.backgroundFrame);
-			_indicator = this.findViewById(R.id.indicator);
+			_pageContainer = this.findViewById( R.id.pager );
+			background = this.findViewById( R.id.backgroundFrame );
+			_indicator = this.findViewById( R.id.indicator );
 			// Check page structure.
 			if (null == _pageContainer)
-				throw new MVCException("Expected UI element not found.");
+				throw new MVCException( "Expected UI element not found." );
 			if (null == background)
-				throw new MVCException("Expected UI element not found.");
-			_pageContainer.setAdapter(_pageAdapter);
+				throw new MVCException( "Expected UI element not found." );
+			_pageContainer.setAdapter( _pageAdapter );
 			// Cleat the indicator from the view until more than one page is added.
 			this.disableIndicator();
 		} catch (final Exception ex) {
 			this.lastException = ex;
-			this.showException(ex); // Show any exception data on the empty page.
+			this.showException( ex ); // Show any exception data on the empty page.
 		} finally {
-			logger.info("<< [MVCMultiPageActivity.onCreate]");
+			logger.info( "<< [MVCMultiPageActivity.onCreate]" );
 		}
 	}
 
@@ -194,14 +200,14 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 
 	@Override
 	public void onAttachFragment( final Fragment fragment ) {
-		super.onAttachFragment(fragment);
+		super.onAttachFragment( fragment );
 	}
 
 	protected void showException( final Exception exception ) {
-		final ViewGroup exceptionContainer = this.findViewById(R.id.exceptionContainer);
+		final ViewGroup exceptionContainer = this.findViewById( R.id.exceptionContainer );
 		exceptionContainer.removeAllViews();
-		exceptionContainer.addView(new MVCExceptionHandler(this).getExceptionView(exception));
-		exceptionContainer.setVisibility(View.VISIBLE);
+		exceptionContainer.addView( new MVCExceptionHandler( this ).getExceptionView( exception ) );
+		exceptionContainer.setVisibility( View.VISIBLE );
 	}
 
 	protected void extractExtras( final Bundle savedInstanceState ) {
@@ -212,41 +218,41 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 	}
 
 	protected void activateActionBar( final View actionBarView ) {
-		logger.info(">> [MVCMultiPageActivity.activateActionBar]");
+		logger.info( ">> [MVCMultiPageActivity.activateActionBar]" );
 		try {
 			if (null != actionBarView) {
 				ActionBar actionbar = this.getActionBar();
 				if (null != actionbar) {
 					// Activate the custom ActionBar
-					actionbar.setDisplayShowCustomEnabled(true);
-					actionbar.setDisplayShowTitleEnabled(false);
-					this.getActionBar().setCustomView(actionBarView);
+					actionbar.setDisplayShowCustomEnabled( true );
+					actionbar.setDisplayShowTitleEnabled( false );
+					this.getActionBar().setCustomView( actionBarView );
 					this.getActionBar().show();
 				}
 			} else this.activateDefaultActionbar();
 		} catch (RuntimeException rtex) {
 			logger.info(
-					"EX [MVCMultiPageActivity.activateActionBar]> Exception changing Android ActionBar: {}. Returning to default setup.");
+					"EX [MVCMultiPageActivity.activateActionBar]> Exception changing Android ActionBar: {}. Returning to default setup." );
 			this.activateDefaultActionbar();
 		}
-		logger.info("<< [MVCMultiPageActivity.activateActionBar]");
+		logger.info( "<< [MVCMultiPageActivity.activateActionBar]" );
 	}
 
 	protected void deactivateActionBar() {
 		if (null != this.getActionBar()) {
 			_actionBar = this.getActionBar();
 			_actionBar.hide();
-			_actionBar.setDisplayHomeAsUpEnabled(true);
+			_actionBar.setDisplayHomeAsUpEnabled( true );
 		}
 	}
 
 	protected void activateDefaultActionbar() {
 		if (null != this.getActionBar()) {
 			_actionBar = this.getActionBar();
-			_actionBar.setDisplayShowCustomEnabled(false);
-			_actionBar.setDisplayShowTitleEnabled(true);
+			_actionBar.setDisplayShowCustomEnabled( false );
+			_actionBar.setDisplayShowTitleEnabled( true );
 			_actionBar.show();
-			_actionBar.setDisplayHomeAsUpEnabled(true);
+			_actionBar.setDisplayHomeAsUpEnabled( true );
 		}
 	}
 
@@ -254,7 +260,7 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 		Fragment firstFragment = _pageAdapter.getInitialPage();
 		// REFACTOR This IF can be removed once this code works.
 		if (firstFragment instanceof IPagerFragment)
-			this.activateActionBar(((IPagerFragment) firstFragment).generateActionBarView());
+			this.activateActionBar( ((IPagerFragment) firstFragment).generateActionBarView() );
 		else this.activateDefaultActionbar();
 	}
 }
