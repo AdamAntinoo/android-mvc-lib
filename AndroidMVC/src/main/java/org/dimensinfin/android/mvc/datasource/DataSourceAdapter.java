@@ -149,7 +149,7 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 				convertView.setClickable( true );
 				convertView.setOnLongClickListener( (OnLongClickListener) item );
 			}
-			item.addEventListener(dataSource); // Add the DataSource as an event listener for the Controllers.
+//			item.addEventListener(dataSource); // Add the DataSource as an event listener for the Controllers.
 			if (LOG_ALLOWED) {
 				// Filter out the spinner.
 				if (!exitMessage.contains( "OnLoadSpinnerController" )) {
@@ -259,6 +259,8 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 		if (event.getPropertyName().equalsIgnoreCase( EEvents.EVENT_NEWDATA.name() ))
 			handler.post( this::notifyDataSetChanged );
 		if (event.getPropertyName().equalsIgnoreCase( EEvents.EVENT_ACTIONEXPANDCOLLAPSE.name() ))
+			handler.post( this::notifyDataSetChanged );
+		if (event.getPropertyName().equalsIgnoreCase( EEvents.EVENT_REFRESHDATA.name() ))
 			handler.post( this::notifyDataSetChanged );
 		// Be sure to run graphical changes on the UI thread. If we already are on it this has no effect.
 		if (event.getPropertyName().equalsIgnoreCase( EEvents.EVENT_ADAPTER_REQUESTNOTIFYCHANGES.name() ))
