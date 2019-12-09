@@ -16,17 +16,17 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.domain.SpacerType;
-import org.dimensinfin.android.mvc.domain.IRender;
+import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
+import org.dimensinfin.android.mvc.R;
+import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.domain.IRender;
+import org.dimensinfin.android.mvc.domain.SpacerType;
 
 /**
  * This class encapsulates the core definition for a component render. It is transparent to the Model type that is
@@ -68,7 +68,7 @@ public abstract class MVCRender implements IRender {
 	 */
 	protected void createView() {
 		this.convertView = this.inflateView(this.accessLayoutReference());
-		this.convertView.setTag(this);
+		// this.convertView.setTag(this);
 	}
 
 	protected void setNewView( final View newView ) {

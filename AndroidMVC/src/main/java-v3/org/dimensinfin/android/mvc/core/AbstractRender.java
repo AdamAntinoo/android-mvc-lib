@@ -92,7 +92,7 @@ public abstract class AbstractRender implements IRender {
 	 */
 	protected void createView() {
 		_convertView = inflateView(accessLayoutReference());
-		_convertView.setTag(this);
+		// _convertView.setTag(this);
 	}
 
 	protected Drawable getDrawable( final int resourceid ) {
