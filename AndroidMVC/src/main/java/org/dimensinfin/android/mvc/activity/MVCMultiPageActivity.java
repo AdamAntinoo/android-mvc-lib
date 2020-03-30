@@ -198,10 +198,10 @@ public abstract class MVCMultiPageActivity extends FragmentActivity {
 		this.updateInitialTitle();
 	}
 
-	@Override
-	public void onAttachFragment( final Fragment fragment ) {
-		super.onAttachFragment( fragment );
-	}
+//	@Override
+//	public void onAttachFragment( final Fragment fragment ) {
+//		super.onAttachFragment( fragment );
+//	}
 
 	protected void showException( final Exception exception ) {
 		final ViewGroup exceptionContainer = this.findViewById( R.id.exceptionContainer );
