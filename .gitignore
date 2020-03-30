@@ -1,17 +1,20 @@
+# - IntelliJ ignorable files from tool configuration
 *.iml
-*.odt#
-
 .idea/modules.xml
 .idea/workspace.xml
 .idea/sonarIssues.xml
-.idea/modules.xml
 .idea/caches/
 .idea/libraries/
 .idea/sonarlint/
+
+# - Filed on edition mode that can be ignored
+*.odt#
+*.db
+
+# - Compilation ignorable directories
 .gradle/
-
 build/
+out/
 
-# - C O D E   C O V E R A G E
-/javadoc
-/Documentation/Reports
+# - Code coverage
+javadoc/

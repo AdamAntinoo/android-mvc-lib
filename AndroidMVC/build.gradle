@@ -45,11 +45,12 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 31
-        versionName "5.18.1"
-        project.archivesBaseName = "AndroidMVC"
+        versionCode 300
+        versionName "3.0.0"
+        project.archivesBaseName = "Android.MVC"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
     }
     buildTypes {
         release {
@@ -84,6 +85,7 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+    buildToolsVersion = '29.0.3'
 }
 
 // - M A V E N   P U B L I S H   I N F O
