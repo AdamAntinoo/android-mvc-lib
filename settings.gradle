@@ -1,5 +1,3 @@
+rootProject.name='Android-MVC'
 include ':app'
-include ':AndroidMVC'
-//include ':AndroidAnnotations'
-//include ':AndroidMVC.InstrumentationTest'
-//include ':AndroidMVC.AcceptanceTest'
+include ':mvcannotations'
