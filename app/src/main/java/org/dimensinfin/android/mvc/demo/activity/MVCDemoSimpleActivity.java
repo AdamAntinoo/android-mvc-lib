@@ -3,7 +3,6 @@ package org.dimensinfin.android.mvc.demo.activity;
 import android.os.Bundle;
 
 import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
-import org.dimensinfin.eveonline.neocom.annotation.LogEnterExit;
 
 public class AndroidMVCDemoActivity extends MVCMultiPageActivity {
 	/**
@@ -11,10 +10,10 @@ public class AndroidMVCDemoActivity extends MVCMultiPageActivity {
 	 * am going to use variants to change the result render but reusing the code to the limit. So even there are two pages
 	 * we only have a Fragment class because the <code>variant</code> will define the <code>DataSource</code> to use.
 	 */
-	@LogEnterExit
+//	@LogEnterExit
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
-		logger.info(">> [AndroidMVCDemoActivity.onCreate]"); //$NON-NLS-1$
+		LoggerWra.info(">> [AndroidMVCDemoActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate(savedInstanceState);
 		// Process the parameters into the context. This initial Activity is the only one with no parameters.
 		this.addPage(new AndroidMVCDemoFragment().setVariant(PageDefinitions.MVCDEMOLIST_ITEMS.name()));
