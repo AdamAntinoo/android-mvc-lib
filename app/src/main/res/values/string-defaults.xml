@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!--A P P L I C A T I O N   D E F A U L T S-->
+	<string name="defaultlabelname">Sample Label Name</string>
+</resources>

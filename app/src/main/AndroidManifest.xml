@@ -1,55 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.dimensinfin.android.mvc.demo"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:versionCode="400"
-    android:versionName="AndroidMVC v4.0.0">
+	package="org.dimensinfin.android.mvc">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <application tools:replace="android:appComponentFactory"
-        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
-        android:allowBackup="true"
-        android:description="@string/AppDescription"
-        android:icon="@mipmap/ic_launcher_round"
-        android:label="@string/appversionname"
-        android:largeHeap="true"
-        android:logo="@mipmap/ic_launcher_round"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-
-        <!-- S T A R T U P    A C T I V I T Y -->
-        <activity
-            android:name=".activity.AndroidMVCDemoActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:icon="@mipmap/ic_launcher_round"
-            android:label="@string/activity_title_AndroidMVCDemoActivity"
-            android:screenOrientation="sensor">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <!-- S E R V I C E S -->
-        <!-- You don't need to include android:required="false" if your app's
-     minSdkVersion is 28 or higher. -->
-        <uses-library android:name="android.test.base"
-                      android:required="false" />
-        <uses-library android:name="android.test.mock"
-                      android:required="false" />
-        <uses-library android:name="android.test.runner"
-                      android:required="false" />
-    </application>
-    <!--<instrumentation-->
-            <!--android:name="android.support.test.runner.AndroidJUnitRunner"-->
-            <!--android:targetPackage="org.dimensinfin.android.mvc.demo">-->
-        <!--<meta-data-->
-                <!--android:name="listener"-->
-                <!--android:value="com.foo.Listener,com.foo.Listener2" />-->
-    <!--</instrumentation>-->
+	<application
+		android:allowBackup="true"
+		android:icon="@mipmap/ic_launcher"
+		android:label="@string/app_name"
+		android:roundIcon="@mipmap/ic_launcher_round"
+		android:supportsRtl="true"
+		android:theme="@style/AppTheme" >
+	<!-- S T A R T U P    A C T I V I T Y -->
+	<activity
+		android:name=".demo.activity.MVCDemoSimpleActivity"
+		android:configChanges="orientation|keyboardHidden|screenSize"
+		android:icon="@mipmap/ic_launcher_round"
+		android:label="@string/activity_title_MVCDemoSimpleActivity"
+		android:screenOrientation="sensor">
+		<intent-filter>
+			<action android:name="android.intent.action.MAIN" />
+			<category android:name="android.intent.category.LAUNCHER" />
+		</intent-filter>
+	</activity>
+	</application>
+	<instrumentation
+		android:label="Acceptance Test: AndroidMVC"
+		android:name="android.app.Instrumentation"
+		android:targetPackage="org.dimensinfin.android.mvc"/>
 </manifest>
