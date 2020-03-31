@@ -1,10 +1,22 @@
 package org.dimensinfin.android.mvc.demo.domain;
 
-public class ApplicationHeaderTitle {
+import java.util.Objects;
+
+import org.dimensinfin.android.mvc.core.domain.MVCNode;
+
+public class ApplicationHeaderTitle extends MVCNode {
 	private String name;
 	private String version;
 
 	private ApplicationHeaderTitle() {}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public String getVersion() {
+		return this.version;
+	}
 
 	// - B U I L D E R
 	public static class Builder {
@@ -12,6 +24,18 @@ public class ApplicationHeaderTitle {
 
 		public Builder() {
 			this.onConstruction = new ApplicationHeaderTitle();
+		}
+
+		public ApplicationHeaderTitle.Builder withApplicationName( final String applicationName ) {
+			Objects.requireNonNull( applicationName );
+			this.onConstruction.name = applicationName;
+			return this;
+		}
+
+		public ApplicationHeaderTitle.Builder withApplicationVersion( final String applicationVersion ) {
+			Objects.requireNonNull( applicationVersion );
+			this.onConstruction.version = applicationVersion;
+			return this;
 		}
 
 		public ApplicationHeaderTitle build() {

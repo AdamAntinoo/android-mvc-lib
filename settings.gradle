@@ -1,4 +1,2 @@
 rootProject.name='Android-MVC'
 include ':app'
-include ':mvcannotationprocessor'
-include ':mvcannotations'

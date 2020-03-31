@@ -19,15 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
-
-#-keep com.viewpagerindicator.TitlePageIndicator
-#-keep com.viewpagerindicator.TabPageIndicator
-#-keep org.joda.time.tz.NameProvider
-
 -printmapping app.map
 -optimizationpasses 3
 -overloadaggressively
--repackageclasses ''
 -allowaccessmodification
 
 ## Joda Time 2.3
