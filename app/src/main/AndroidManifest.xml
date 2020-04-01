@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="org.dimensinfin.android.mvc">
+	package="org.dimensinfin.mvc.demo">
 
 	<application
 		android:allowBackup="true"
@@ -10,7 +10,7 @@
 		android:theme="@style/AppTheme" >
 	<!-- S T A R T U P    A C T I V I T Y -->
 	<activity
-		android:name=".demo.activity.MVCDemoSimpleActivity"
+		android:name=".activity.MVCDemoSimpleActivity"
 		android:configChanges="orientation|keyboardHidden|screenSize"
 		android:icon="@mipmap/ic_launcher_round"
 		android:label="@string/activity_title_MVCDemoSimpleActivity"
@@ -24,5 +24,5 @@
 	<instrumentation
 		android:label="Acceptance Test: AndroidMVC"
 		android:name="android.app.Instrumentation"
-		android:targetPackage="org.dimensinfin.android.mvc"/>
+		android:targetPackage="org.dimensinfin.mvc.demo"/>
 </manifest>
