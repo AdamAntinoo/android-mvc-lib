@@ -23,7 +23,7 @@
         android:visibility="visible" />
 
     <ListView
-        android:id="@+id/listContainer"
+        android:id="@+id/dataContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="top"

@@ -2,23 +2,23 @@ package org.dimensinfin.android.mvc.datasource;
 
 import android.os.Bundle;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
+import org.dimensinfin.android.mvc.domain.Spacer;
+import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
 import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.core.domain.EventEmitter;
 import org.dimensinfin.core.domain.IntercommunicationEvent;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IEventEmitter;
 import org.dimensinfin.core.interfaces.IEventReceiver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * This class is the abstract implementation for a source of the model elements that should be rendered on an special
@@ -30,18 +30,19 @@ import java.util.Objects;
  * all the event processing required to update that list to be rendered when the underlying model changes.
  *
  * @author Adam Antinoo
+ * @since 1.0.0
  */
 public abstract class MVCDataSource implements IDataSource, IEventEmitter {
-	protected static final Logger logger = LoggerFactory.getLogger(MVCDataSource.class);
 	/**
-	 * This was a node where to deal with the list of core nodes located at the root of the model graph. This has be
-	 * removed and converted into a simple array of model generic items. The matching controller has also been replaced by
-	 * a list.
+	 * This field contains the list of nodes that were provided by the data source and that are at the first level. From this list of nodes the MVC
+	 * will generate the complete model hierarchy and from it the list of views to be rendered.
 	 */
 	protected final List<ICollaboration> dataModelRoot = new ArrayList<>();
+	/**
+	 * This field has the same purpose but for the header section that is a linear container without scrolling.
+	 */
 	protected final List<ICollaboration> headerModelRoot = new ArrayList<>();
-	// - F I E L D - S E C T I O N
-	protected Boolean monitor = Boolean.TRUE; // Synchronization monitor to serialize model generation.
+//	protected Boolean monitor = Boolean.TRUE; // Synchronization monitor to serialize model generation.
 	/**
 	 * Unique DataSource string identifier to locate this instance on the <code>DataSourceManager</code> in case the
 	 * instances should be cached.
@@ -68,6 +69,7 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	 * ()</code> method on every fragment instantiation. If the model is suitable for caching we can speed up the turn of
 	 * the device because we have not to generate again the DataSource and its model data structure.
 	 */
+	@Deprecated
 	private boolean canBeCached = false;
 	/**
 	 * This is the delegate to process inter node events. The data source will receive events from the controllers that
@@ -79,7 +81,7 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	 * visualization changes by relaying the events to the DataSourceAdapter listener.
 	 */
 	private IEventEmitter eventController = new EventEmitter();
-	private boolean dirty = false; // This is the flag for model changes.
+	private boolean dirty = false; // This is the flag to detect model changes.
 	/**
 	 * This field now contains the list of controllers resulting from the model list that is also stored into one array
 	 * and not inside a specific model node. This simplifies the code for Root nodes than now have disappeared.
@@ -93,10 +95,10 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	 */
 	private List<IAndroidController> controllerHeaderSectionRoot = new ArrayList<>();
 
-	// - C O N S T R U C T O R - S E C T I O N
-	protected MVCDataSource() {
-	}
+	// - C O N S T R U C T O R S
+	protected MVCDataSource() { }
 
+	@Deprecated
 	private MVCDataSource( final DataSourceLocator locator, final IControllerFactory controllerFactory ) {
 		this.locator = locator;
 		this.controllerFactory = controllerFactory;
@@ -112,28 +114,49 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	}
 
 	// - G E T T E R S   &   S E T T E R S
-	protected IControllerFactory getControllerFactory() {
-		return controllerFactory;
-	}
-
-	public MVCDataSource canBeCached( final boolean shouldBeCached ) {
-		this.canBeCached = shouldBeCached;
-		return this;
-	}
+//	protected IControllerFactory getControllerFactory() {
+//		return this.controllerFactory;
+//	}
+//
+//	public MVCDataSource canBeCached( final boolean shouldBeCached ) {
+//		this.canBeCached = shouldBeCached;
+//		return this;
+//	}
 
 	// - I D A T A S O U R C E   I N T E R F A C E
 	@Override
 	public DataSourceLocator getDataSourceLocator() {
-		return locator;
+		return this.locator;
 	}
 
+	@Deprecated
+	@Override
 	public boolean isCacheable() {
 		return this.canBeCached;
 	}
 
+	@Override
 	public IDataSource addHeaderContents( final ICollaboration newModel ) {
-		logger.info(">< [MVCDataSource.addHeaderContents]> Adding model: {}", newModel.getClass().getSimpleName());
-		this.headerModelRoot.add(newModel);
+		LoggerWrapper.info( "Adding model >Header: {}", newModel.getClass().getSimpleName() );
+		this.headerModelRoot.add( newModel );
+		return this;
+	}
+	/**
+	 * This is the single way to add more content to the DataSource internal model representation. Encapsulating this
+	 * functionality on this method we make sure that the right events are generated and the model is properly updated and
+	 * the render process will work as expected.
+	 * <p>
+	 * Any change to the model should report the data source on a dirty state. When the updates are completed then we
+	 * should generate the new contents with a simple call to the adapter's <code>notifyDataSetChanged</code>. With this
+	 * notification we should start the list view content generation from the bottom up.
+	 *
+	 * @param newModel a new node to be added to the contents of the root point of the model.
+	 * @return this IDataSource instance to allow flow coding.
+	 */
+	public IDataSource addModelContents( final ICollaboration newModel ) {
+		LoggerWrapper.info( "Adding model >Data: {}", newModel.getClass().getSimpleName() );
+		this.dataModelRoot.add( newModel );
+		this.dirty = true; // Signal the model change
 		return this;
 	}
 
@@ -145,11 +168,15 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	 */
 	@Override
 	public List<IAndroidController> getHeaderSectionContents() {
-		logger.info(">< [MVCDataSource.getHeaderSectionContents]");
-		this.refreshHeaderSection();
+		LoggerWrapper.enter();
 		final List<IAndroidController> controllers = new ArrayList<>();
-		for (IAndroidController controller : this.controllerHeaderSectionRoot) {
-			controller.collaborate2View(controllers);
+		try {
+			this.refreshHeaderSection();
+			for (IAndroidController controller : this.controllerHeaderSectionRoot) {
+				controller.collaborate2View( controllers );
+			}
+		} finally {
+			LoggerWrapper.exit( "Header Contents count: {}", Integer.toString( controllers.size() ) );
 		}
 		return controllers;
 	}
@@ -166,43 +193,45 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	 * @return the list of controllers that collaborate to the view list this time.
 	 */
 	public List<IAndroidController> getDataSectionContents() {
+		LoggerWrapper.enter();
 		final List<IAndroidController> controllers = new ArrayList<>();
 		try {
 			// Check if the model needs update (dirty flag) or we can jump directly to the view collaboration.
 			if (this.isDirty()) {
+				LoggerWrapper.info("Data contents dirty. Refreshing model.");
 				this.refreshDataSection();
 				this.cleanDirty();
 			}
 			for (IAndroidController controller : this.controllerDataSectionRoot) {
-				controller.collaborate2View(controllers);
+				controller.collaborate2View( controllers );
 			}
 		} finally {
-			logger.info(">< [MVCDataSource.getDataSectionContents]> Contents count: {}", controllers.size());
-			return controllers;
+			LoggerWrapper.exit( "Data Contents count: {}", Integer.toString( controllers.size() ) );
 		}
+		return controllers;
 	}
 
 	// - D E L E G A T E - I E V E N T E M I T T E R
 	@Override
-	public void addEventListener( final IEventReceiver listener ) {this.eventController.addEventListener(listener);}
+	public void addEventListener( final IEventReceiver listener ) {this.eventController.addEventListener( listener );}
 
 	@Override
-	public void removeEventListener( final IEventReceiver listener ) {this.eventController.removeEventListener(listener);}
+	public void removeEventListener( final IEventReceiver listener ) {this.eventController.removeEventListener( listener );}
 
 	@Override
-	public boolean sendChangeEvent( final IntercommunicationEvent event ) {return this.eventController.sendChangeEvent(event);}
+	public boolean sendChangeEvent( final IntercommunicationEvent event ) {return this.eventController.sendChangeEvent( event );}
 
 	@Override
-	public boolean sendChangeEvent( final String eventName ) {return this.eventController.sendChangeEvent(eventName);}
+	public boolean sendChangeEvent( final String eventName ) {return this.eventController.sendChangeEvent( eventName );}
 
 	@Override
 	public boolean sendChangeEvent( final String eventName, final Object origin ) {
-		return this.eventController.sendChangeEvent(eventName, origin);
+		return this.eventController.sendChangeEvent( eventName, origin );
 	}
 
 	@Override
 	public boolean sendChangeEvent( final String eventName, final Object origin, final Object oldValue, final Object newValue ) {
-		return this.eventController.sendChangeEvent(eventName, origin, oldValue, newValue);
+		return this.eventController.sendChangeEvent( eventName, origin, oldValue, newValue );
 	}
 
 	public Bundle getExtras() {
@@ -232,75 +261,55 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	}
 
 	private void refreshHeaderSection() {
-		logger.info(">> [AMVCdataSource.refreshHeaderSection]");
+		LoggerWrapper.enter();
 		this.controllerHeaderSectionRoot.clear();
 		synchronized (this.headerModelRoot) {
 			for (ICollaboration modelNode : this.headerModelRoot) {
 				try {
-					final IAndroidController newController = this.controllerFactory.createController(modelNode);
-					this.controllerHeaderSectionRoot.add(newController);
-					newController.setDataSource(this); // Connect the controller to the originator data source
+					final IAndroidController newController = this.controllerFactory.createController( modelNode );
+					this.controllerHeaderSectionRoot.add( newController );
+					newController.setDataSource( this ); // Connect the controller to the originator data source
 					newController.refreshChildren();
 				} catch (final ClassCastException cce) {
 					this.controllerDataSectionRoot.add(
-							this.controllerFactory.createController(new Spacer.Builder()
-									                                        .withLabel(cce.getMessage())
-									                                        .build()));
+							this.controllerFactory.createController( new Spacer.Builder()
+									                                         .withLabel( cce.getMessage() )
+									                                         .build() ) );
 				} catch (final RuntimeException rte) {
 					this.controllerDataSectionRoot.add(
-							this.controllerFactory.createController(new Spacer.Builder()
-									                                        .withLabel(rte.getMessage())
-									                                        .build()));
+							this.controllerFactory.createController( new Spacer.Builder()
+									                                         .withLabel( rte.getMessage() )
+									                                         .build() ) );
 				}
 			}
 		}
-		logger.info("<< [AMVCdataSource.refreshHeaderSection]> Contents: {}", this.controllerHeaderSectionRoot.size());
+		LoggerWrapper.exit( "Contents: {}", Integer.toString( this.controllerHeaderSectionRoot.size() ) );
 	}
 
 	private void refreshDataSection() {
-		logger.info(">> [AMVCdataSource.refreshDataSection]");
+		LoggerWrapper.enter();
 		this.controllerDataSectionRoot.clear();
 		synchronized (this.dataModelRoot) {
 			for (ICollaboration modelNode : this.dataModelRoot) {
 				try {
-					final IAndroidController newController = this.controllerFactory.createController(modelNode);
-					this.controllerDataSectionRoot.add(newController);
-					newController.setDataSource(this); // Connect the controller to the originator data source
+					final IAndroidController newController = this.controllerFactory.createController( modelNode );
+					this.controllerDataSectionRoot.add( newController );
+					newController.setDataSource( this ); // Connect the controller to the originator data source
 					newController.refreshChildren();
 				} catch (final ClassCastException cce) {
 					this.controllerDataSectionRoot.add(
-							this.controllerFactory.createController(new Spacer.Builder()
-									                                        .withLabel(cce.getMessage())
-									                                        .build()));
+							this.controllerFactory.createController( new Spacer.Builder()
+									                                         .withLabel( cce.getMessage() )
+									                                         .build() ) );
 				} catch (final RuntimeException rte) {
 					this.controllerDataSectionRoot.add(
-							this.controllerFactory.createController(new Spacer.Builder()
-									                                        .withLabel(rte.getMessage())
-									                                        .build()));
+							this.controllerFactory.createController( new Spacer.Builder()
+									                                         .withLabel( rte.getMessage() )
+									                                         .build() ) );
 				}
 			}
 		}
-		logger.info("<< [AMVCdataSource.refreshDataSection]> Contents: {}", this.controllerDataSectionRoot.size());
-	}
-
-	/**
-	 * This is the single way to add more content to the DataSource internal model representation. Encapsulating this
-	 * functionality on this method we make sure that the right events are generated and the model is properly updated and
-	 * the render process will work as expected.
-	 * <p>
-	 * Any change to the model should report the data source on a dirty state. When the updates are completed then we
-	 * should generate the new contents with a simple call to the adapter's <code>notifyDataSetChanged</code>. With this
-	 * notification we should start the list view content generation from the bottom up.
-	 *
-	 * @param newModel a new node to be added to the contents of the root point of the model.
-	 * @return this IDataSource instance to allow flow coding.
-	 */
-	public IDataSource addModelContents( final ICollaboration newModel ) {
-		logger.info(">< [MVCDataSource.addModelContents]> Adding model: {}", newModel.getClass().getSimpleName());
-		this.dataModelRoot.add(newModel);
-//		this.controllerDataSectionRoot.add(this.controllerFactory.createController(newModel));
-		this.dirty = true; // Signal the model change
-		return this;
+		LoggerWrapper.exit( "Contents: {}", Integer.toString( this.controllerDataSectionRoot.size() ) );
 	}
 
 	/**
@@ -348,30 +357,30 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	 */
 	@Override
 	public synchronized void receiveEvent( final IntercommunicationEvent event ) {
-		logger.info(">< [MVCDataSource.propertyChange]> Processing Event: {}", event.getPropertyName());
+		LoggerWrapper.info( "Processing Event: {}", event.getPropertyName() );
 		// - C O N T E N T   E V E N T S
 		// The expand/collapse state has changed.
-		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_NEWDATA.name())) {
-			logger.info(">< [MVCDataSource.propertyChange]> Event: {} processed.", event.getPropertyName());
-			this.sendChangeEvent(event.getPropertyName());
+		if (event.getPropertyName().equalsIgnoreCase( EEvents.EVENT_NEWDATA.name() )) {
+			LoggerWrapper.info( "Event: {} processed.", event.getPropertyName() );
+			this.sendChangeEvent( event.getPropertyName() );
 			return;
 		}
-		if (event.getPropertyName().equalsIgnoreCase(EEvents.EVENT_REFRESHDATA.name())) {
-			logger.info(">< [MVCDataSource.propertyChange]> Event: {} processed.", event.getPropertyName());
-			this.sendChangeEvent(event.getPropertyName());
+		if (event.getPropertyName().equalsIgnoreCase( EEvents.EVENT_REFRESHDATA.name() )) {
+			LoggerWrapper.info( "Event: {} processed.", event.getPropertyName() );
+			this.sendChangeEvent( event.getPropertyName() );
 			return;
 		}
-		this.sendChangeEvent(event.getPropertyName()); // Pass the event to the Adapter
+		this.sendChangeEvent( event.getPropertyName() ); // Pass the event to the Adapter
 	}
 
 	// - C O R E
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
-				       .append("locator", this.locator)
-				       .append("variant", this.variant)
-				       .append("canBeCached", this.canBeCached)
-				       .append("dirty", this.dirty)
+		return new ToStringBuilder( this, ToStringStyle.JSON_STYLE )
+				       .append( "locator", this.locator )
+				       .append( "variant", this.variant )
+				       .append( "canBeCached", this.canBeCached )
+				       .append( "dirty", this.dirty )
 				       .toString();
 	}
 
@@ -390,17 +399,17 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 		protected abstract B getActualBuilder();
 
 		public B addIdentifier( final int identifier ) {
-			this.identifier.addIdentifier(Integer.valueOf(identifier).toString());
+			this.identifier.addIdentifier( Integer.valueOf( identifier ).toString() );
 			return this.actualClassBuilder;
 		}
 
 		public B addIdentifier( final long identifier ) {
-			this.identifier.addIdentifier(Long.valueOf(identifier).toString());
+			this.identifier.addIdentifier( Long.valueOf( identifier ).toString() );
 			return this.actualClassBuilder;
 		}
 
 		public B addIdentifier( final String identifier ) {
-			if (null != identifier) this.identifier.addIdentifier(identifier);
+			if (null != identifier) this.identifier.addIdentifier( identifier );
 			return this.actualClassBuilder;
 		}
 
@@ -410,13 +419,13 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 		}
 
 		public B withVariant( final String variant ) {
-			if (null != variant) this.getActual().setVariant(variant);
+			if (null != variant) this.getActual().setVariant( variant );
 			return this.actualClassBuilder;
 		}
 
 		public B withExtras( final Bundle extras ) {
-			if (null != extras) this.getActual().setExtras(extras);
-			else this.getActual().setExtras(new Bundle());
+			if (null != extras) this.getActual().setExtras( extras );
+			else this.getActual().setExtras( new Bundle() );
 			return this.actualClassBuilder;
 		}
 
@@ -424,8 +433,8 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 			// Register the identifier and create the data source.
 			this.getActual().locator = this.identifier;
 			// Do any other validations. If failed then launch an exception.
-			Objects.requireNonNull(this.getActual().locator);
-			Objects.requireNonNull(this.getActual().controllerFactory);
+			Objects.requireNonNull( this.getActual().locator );
+			Objects.requireNonNull( this.getActual().controllerFactory );
 			return this.getActual();
 		}
 	}

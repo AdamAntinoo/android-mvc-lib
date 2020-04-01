@@ -5,7 +5,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
+import java.util.Objects;
+
+import org.apache.commons.lang3.ObjectUtils;
+
 import org.dimensinfin.android.mvc.activity.IPagerFragment;
+import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
 
 public class HeaderDataSourceAdapter extends DataSourceAdapter {
 	private ViewGroup headerContainer;
@@ -21,51 +26,27 @@ public class HeaderDataSourceAdapter extends DataSourceAdapter {
 
 	@Override
 	public void collaborateData() {
-		logger.info(">> [HeaderDataSourceAdapter.collaborateData]");
+		LoggerWrapper.enter();
 		this.headerContainer.removeAllViews();
-		logger.info("<< [HeaderDataSourceAdapter.collaborateData]");
+		LoggerWrapper.exit();
 	}
 
+	/**
+	 * Will clean the current content for the header linear layout and then generate a new list of views from the current list of controllers.
+	 * During the refill of the layout if we found any null pointer exception we skip that view but leave a trace of that fact.
+	 * This method should be used whenever the model list has any change.
+	 */
 	@Override
 	public void notifyDataSetChanged() {
 		this.contentControllerList.clear();
 		this.contentControllerList.addAll(dataSource.getHeaderSectionContents());
 		this.headerContainer.removeAllViews();
-		for (int i = 0; i < this.contentControllerList.size(); i++) {
-			final View view = this.getView(i, null, this.headerContainer);
-			this.headerContainer.addView(view);
-		}
+		for (int i = 0; i < this.contentControllerList.size(); i++)
+			try {
+				this.headerContainer.addView( Objects.requireNonNull( this.getView( i, null, this.headerContainer ) ) );
+			} catch ( final NullPointerException npe){
+				LoggerWrapper.error(npe);
+			}
 		this.headerContainer.setVisibility(View.VISIBLE);
 	}
-
-//	/**
-//	 * This method extracts the view from the parameter controller and generates the final View element that it is able to
-//	 * be inserted on the ui ViewGroup container.
-//	 *
-//	 * @param target the AndroidController to render to a View.
-//	 */
-//	private void addView2Header( final IAndroidController target ) {
-//		logger.info(">> [MVCPagerFragment.addView2Header]");
-//		try {
-//			final IRender holder = target.buildRender(this.getActivityContext());
-//			final View hv = holder.getView();
-//			holder.updateContent();
-//			_headerContainer.addView(hv);
-//			// Add the connection to the click listener
-//			if (target instanceof View.OnClickListener) {
-//				hv.setClickable(true);
-//				hv.setOnClickListener((View.OnClickListener) target);
-//			}
-//			_headerContainer.setVisibility(View.VISIBLE);
-//		} catch (final RuntimeException rtex) {
-//			logger.info("RTEX [MVCPagerFragment.addView2Header]> Problem generating view for: {}",
-//			            target.getClass().getCanonicalName());
-//			logger.info("RTEX [MVCPagerFragment.addView2Header]> RuntimeException. {}", rtex.getMessage());
-//			rtex.printStackTrace();
-//			Toast.makeText(this.getActivityContext()
-//					, "RTEX [MVCPagerFragment.addView2Header]> RuntimeException. " + rtex.getMessage()
-//					, Toast.LENGTH_LONG).show();
-//		}
-//		logger.info("<< [MVCPagerFragment.addView2Header]");
-//	}
 }

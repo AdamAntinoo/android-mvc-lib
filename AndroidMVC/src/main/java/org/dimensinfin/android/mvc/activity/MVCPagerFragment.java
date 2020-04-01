@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.List;
@@ -30,6 +31,7 @@ import org.dimensinfin.android.mvc.datasource.HeaderDataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.exception.ExceptionRenderGenerator;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
+import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
 
 /**
  * @author Adam Antinoo
@@ -45,50 +47,50 @@ public abstract class MVCPagerFragment extends MVCFragment {
 	/**
 	 * The view that handles the non scrolling header. It accepts a list of Views but has no scroll capabilities.
 	 */
-	protected ViewGroup _headerContainer;
+	protected ViewGroup headerContainer;
 	/** The adapter to transform the model list to the view contents for the header section or a page. */
-	private HeaderDataSourceAdapter headerDataSectionContainer;
+	private HeaderDataSourceAdapter headerSectionAdapter;
+	/** The view that represent the list view and the space managed though the adapter.*/
+	private ListView dataSectionContainer;
 	/**
 	 * Evolved adapter to connect the source of data in the form of a <b>AndroidController</b> list to the
 	 * <code>ListView</code> that contains the displayed render.
 	 */
-	private DataSourceAdapter _adapter;
-	/**
-	 * The view that represent the list view and the space managed though the adapter.
-	 */
-	private ListView _dataSectionContainer;
+	private DataSourceAdapter dataAdapter;
 	/**
 	 * The UI graphical element that defines the loading progress spinner layout.
 	 */
+	@Deprecated
 	private ViewGroup _progressLayout;
 	/**
 	 * This is a text field defined inside the loading progress spinner that will show the time elapsed waiting for the
 	 * completion of the loading process.
 	 */
+	@Deprecated
 	private TextView _progressElapsedCounter;
 
 	// - A C C E P T A N C E
 	public ViewGroup accessHeaderContainer() {
-		return this._headerContainer;
+		return this.headerContainer;
 	}
 
 	public List<IAndroidController> accessHeaderContents() {
-		return this.headerDataSectionContainer.accessContents();
+		return this.headerSectionAdapter.accessContents();
 	}
 
 	public List<IAndroidController> accessDataContents() {
-		return this._adapter.accessContents();
+		return this.dataAdapter.accessContents();
 	}
 
 	public ListView accessDataSectionContainer() {
-		return this._dataSectionContainer;
+		return this.dataSectionContainer;
 	}
 
 	public void updateDisplay() {
-		this._adapter.notifyDataSetChanged();
-		this._dataSectionContainer.invalidate();
-		this.headerDataSectionContainer.notifyDataSetChanged();
-		this._headerContainer.invalidate();
+		this.dataAdapter.notifyDataSetChanged();
+		this.dataSectionContainer.invalidate();
+		this.headerSectionAdapter.notifyDataSetChanged();
+		this.headerContainer.invalidate();
 	}
 
 	// - F R A G M E N T   L I F E C Y C L E
@@ -118,49 +120,58 @@ public abstract class MVCPagerFragment extends MVCFragment {
 	 * @return the view that represents the fragment ui layout structure.
 	 */
 	@Override
-	public View onCreateView( final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState ) {
-		logger.info( ">> [MVCPagerFragment.onCreateView]" );
+	public View onCreateView( @NonNull final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState ) {
+		LoggerWrapper.enter();
 		super.onCreateView( inflater, container, savedInstanceState );
 		// TODO analyze what is returned by the savedInstanceState when recovering the application. That will help to recover the
 		// functional state of the application.
 		// - S E C T I O N   1. Where we get access to the UI elements.
-		_container = (ViewGroup) inflater.inflate( R.layout.fragment_base, container, false );
-		_headerContainer = Objects.requireNonNull( _container.findViewById( R.id.headerContainer ) );
-		_dataSectionContainer = Objects.requireNonNull( _container.findViewById( R.id.listContainer ) );
-		_progressLayout = Objects.requireNonNull( _container.findViewById( R.id.progressLayout ) );
-		_progressElapsedCounter = Objects.requireNonNull( _container.findViewById( R.id.progressCounter ) );
-
+		try {
+			this._container = Objects.requireNonNull( (ViewGroup) inflater.inflate( R.layout.fragment_base, container, false ) );
+			this.headerContainer = Objects.requireNonNull( _container.findViewById( R.id.headerContainer ) );
+			this.dataSectionContainer = Objects.requireNonNull( _container.findViewById( R.id.dataContainer ) );
+			// TODO - Remove this and replace by an spinner at the header.
+			this._progressLayout = Objects.requireNonNull( _container.findViewById( R.id.progressLayout ) );
+			this._progressElapsedCounter = Objects.requireNonNull( _container.findViewById( R.id.progressCounter ) );
+		} catch (final NullPointerException npe) {
+			// The view is not properly created because the layout does not match or there is a unrecoverable error.
+			LoggerWrapper.error( npe );
+			this.lastException = npe;
+			this.showException( npe ); // Show any exception data on the empty page.
+			return container;
+		}
 		// Set the visual state of all items.
 		_progressLayout.setVisibility( View.VISIBLE );
-		_dataSectionContainer.setVisibility( View.VISIBLE );
+		dataSectionContainer.setVisibility( View.VISIBLE );
 		_progressElapsedCounter.setVisibility( View.VISIBLE );
 		// Prepare the structures for the context menu.
 		// TODO Check if the menus can be tied to the Parts independently and not to the whole Header.
 		//			this.registerForContextMenu(_headerContainer);
-		this.registerForContextMenu( _dataSectionContainer );
+		this.registerForContextMenu( dataSectionContainer );
 
-		// - S E C T I O N   2. Where we setup the data sources for the adapters. Only include no timing operations.
+		// - S E C T I O N   2. Where we setup the data sources for the adapters. Only include no long time operations.
 		try {
 			// Install the adapter before any data request or model generation.
-			final IDataSource ds = DataSourceManager.registerDataSource( this.createDS() );
-			this._adapter = Objects.requireNonNull( new DataSourceAdapter( this, ds ) );
-			logger.info( "-- [MVCPagerFragment.DS Initialisation]> Adapter set: {}", _adapter.toString() );
-			_dataSectionContainer.setAdapter( _adapter );
-			this.headerDataSectionContainer = Objects.requireNonNull( new HeaderDataSourceAdapter( this, ds )
-					                                                          .setHeaderContainer( this._headerContainer ) );
+			final IDataSource ds = DataSourceManager.registerDataSource( Objects.requireNonNull( this.createDS() ) );
+			this.dataAdapter = Objects.requireNonNull( new DataSourceAdapter( this, ds ) );
+			LoggerWrapper.info( "Adapter set: {}", this.dataAdapter.toString() );
+			this.dataSectionContainer.setAdapter( this.dataAdapter );
+			this.headerSectionAdapter = Objects.requireNonNull( new HeaderDataSourceAdapter( this, ds )
+					                                                          .setHeaderContainer( this.headerContainer ) );
 
 			// - S E C T I O N   3. Post the task to generate the header and the data contents to be rendered.
 			MVCScheduler.backgroundExecutor.submit( () -> {
 				logger.info( "-- [MVCPagerFragment.DS Initialisation]" );
-				this._adapter.collaborateData(); // Call the ds to generate the root contents.
-				this.headerDataSectionContainer.collaborateData();
+				this.dataAdapter.collaborateData(); // Call the ds to generate the root contents.
+//				this.headerDataSectionContainer.collaborateData();
 			} );
-		} catch (RuntimeException rtex) {
-			logger.info( "RX [MVCPagerFragment.onCreateView]> Intercepted exception: {}", rtex.getMessage() );
+		} catch (final RuntimeException rtex) {
+			LoggerWrapper.error( rtex );
 			this.lastException = rtex;
 			this.showException( rtex ); // Show any exception data on the empty page.
+		} finally {
+			LoggerWrapper.exit();
 		}
-		logger.info( "<< [MVCPagerFragment.onCreateView]" );
 		return _container;
 	}
 
@@ -188,7 +199,7 @@ public abstract class MVCPagerFragment extends MVCFragment {
 		logger.info( ">> [MVCPagerFragment.onStart]" );
 		super.onStart();
 		try {
-			if (null != this._adapter) { // Check that view creation complete successfully.
+			if (null != this.dataAdapter) { // Check that view creation complete successfully.
 				// Start counting the elapsed time while we generate and load the  model.
 				this.initializeProgressIndicator();
 				// We use another thread to perform the data source generation that is a long time action.
@@ -259,8 +270,8 @@ public abstract class MVCPagerFragment extends MVCFragment {
 
 	protected void showException( final Exception exception ) {
 		// Hide standard elements.
-		this._headerContainer.setVisibility( View.GONE );
-		this._dataSectionContainer.setVisibility( View.GONE );
+		this.headerContainer.setVisibility( View.GONE );
+		this.dataSectionContainer.setVisibility( View.GONE );
 		final ViewGroup exceptionContainer = _container.findViewById( R.id.exceptionContainer );
 		exceptionContainer.removeAllViews();
 		exceptionContainer.addView( new ExceptionRenderGenerator.Builder( exception )
@@ -272,7 +283,7 @@ public abstract class MVCPagerFragment extends MVCFragment {
 
 	private void hideProgressIndicator() {
 		_progressLayout.setVisibility( View.GONE );
-		_dataSectionContainer.setVisibility( View.VISIBLE );
+		dataSectionContainer.setVisibility( View.VISIBLE );
 		_progressElapsedCounter.setVisibility( View.GONE );
 	}
 
