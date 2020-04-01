@@ -2,6 +2,8 @@ package org.dimensinfin.android.mvc.demo.domain;
 
 import androidx.annotation.NonNull;
 
+import java.util.Objects;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -13,10 +15,9 @@ import org.dimensinfin.android.mvc.core.domain.MVCNode;
  * @author Adam Antinoo
  */
 public class DemoLabel extends MVCNode {
-	// - F I E L D - S E C T I O N
 	public String title = "-TITLE-";
 
-	// - C O N S T R U C T O R - S E C T I O N
+	// - C O N S T R U C T O R S
 	public DemoLabel() {
 		super();
 	}
@@ -26,8 +27,6 @@ public class DemoLabel extends MVCNode {
 		title = newTitle;
 	}
 
-	// - M E T H O D - S E C T I O N
-	// - G E T T E R S   &   S E T T E R S
 	public String getTitle() {
 		return title;
 	}
@@ -68,5 +67,24 @@ public class DemoLabel extends MVCNode {
 		return new ToStringBuilder( this, ToStringStyle.JSON_STYLE )
 				       .append( "title", this.title )
 				       .toString();
+	}
+
+	// - B U I L D E R
+	public static class Builder {
+		private DemoLabel onConstruction;
+
+		public Builder() {
+			this.onConstruction = new DemoLabel();
+		}
+
+		public DemoLabel.Builder withTitle( final String title ) {
+			Objects.requireNonNull( title );
+			this.onConstruction.title = title;
+			return this;
+		}
+
+		public DemoLabel build() {
+			return this.onConstruction;
+		}
 	}
 }

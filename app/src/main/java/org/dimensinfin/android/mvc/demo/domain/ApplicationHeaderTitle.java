@@ -5,6 +5,10 @@ import java.util.Objects;
 import org.dimensinfin.android.mvc.core.domain.MVCNode;
 
 public class ApplicationHeaderTitle extends MVCNode {
+//	public static ApplicationHeaderTitle provideApplicationHeaderTitle() {
+//		return new ApplicationHeaderTitle.Builder().build();
+//	}
+
 	private String name;
 	private String version;
 

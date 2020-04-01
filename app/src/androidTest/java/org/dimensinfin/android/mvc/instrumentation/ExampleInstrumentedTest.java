@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc;
+package org.dimensinfin.android.mvc.instrumentation;
 
 import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -16,11 +16,11 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
-    @Test
-    public void useAppContext() {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+	@Test
+	public void useAppContext() {
+		// Context of the app under test.
+		Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("org.dimensinfin.android.mvc.test", appContext.getPackageName());
-    }
+		assertEquals( "org.dimensinfin.android.mvc", appContext.getPackageName() );
+	}
 }

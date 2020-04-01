@@ -1,9 +1,8 @@
-package org.dimensinfin.android.mvc.activity;
+package org.dimensinfin.android.mvc.demo.activity;
 
 import android.os.Bundle;
 
-import org.dimensinfin.android.mvc.demo.activity.AndroidMVCDemoFragment;
-import org.dimensinfin.android.mvc.demo.activity.PageDefinitions;
+import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
 import org.dimensinfin.android.mvc.demo.services.DaggerLabelGeneratorMaker;
 import org.dimensinfin.android.mvc.demo.services.LabelGenerator;
 import org.dimensinfin.android.mvc.demo.services.LabelGeneratorModule;
@@ -21,9 +20,9 @@ public class MVCDemoSimpleActivity extends MVCMultiPageActivity {
 	protected void onCreate( final Bundle savedInstanceState ) {
 //		LoggerWrapper.info(">> [AndroidMVCDemoActivity.onCreate]"); //$NON-NLS-1$
 		super.onCreate( savedInstanceState );
-		this.createComponents();
+//		this.createComponents();
 		// Process the parameters into the context. This initial Activity is the only one with no parameters.
-		this.addPage( new AndroidMVCDemoFragment().setVariant( PageDefinitions.MVCDEMOLIST_ITEMS.name() ) );
+		this.addPage( new MVCDemoSimpleFragment().setVariant( PageDefinitions.MVCDEMOLIST_ITEMS.name() ) );
 //		LoggerWrapper.info("<< [AndroidMVCDemoActivity.onCreate]"); //$NON-NLS-1$
 	}
 

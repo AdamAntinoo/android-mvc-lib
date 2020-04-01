@@ -1,18 +1,12 @@
 package org.dimensinfin.android.mvc.demo.services;
 
+import dagger.Module;
+import dagger.Provides;
+
+@Module
 public class LabelGeneratorModule {
-	private LabelGeneratorModule() {}
-
-	// - B U I L D E R
-	public static class Builder {
-		private LabelGeneratorModule onConstruction;
-
-		public Builder() {
-			this.onConstruction = new LabelGeneratorModule();
-		}
-
-		public LabelGeneratorModule build() {
-			return this.onConstruction;
-		}
+	@Provides
+	public  LabelGenerator provideLabelGenerator() {
+		return new LabelGenerator.Builder().build();
 	}
 }

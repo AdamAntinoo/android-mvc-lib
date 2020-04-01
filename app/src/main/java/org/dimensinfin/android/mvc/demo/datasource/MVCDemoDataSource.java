@@ -1,28 +1,41 @@
 package org.dimensinfin.android.mvc.demo.datasource;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import javax.inject.Inject;
 
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.android.mvc.demo.R;
 import org.dimensinfin.android.mvc.demo.activity.PageDefinitions;
 import org.dimensinfin.android.mvc.demo.domain.ApplicationHeaderTitle;
+import org.dimensinfin.android.mvc.demo.domain.DemoLabel;
+import org.dimensinfin.android.mvc.demo.domain.TitleLabel;
+import org.dimensinfin.android.mvc.demo.services.LabelGenerator;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 
 public class MVCDemoDataSource extends MVCDataSource {
 	private String applicationName;
 	private String applicationVersion;
+	public LabelGenerator labelGenerator=new LabelGenerator.Builder().build();
+	private List<String> labels = new ArrayList<>();
 
 	// - I D A T A S O U R C E
 	@Override
 	public void prepareModel() {
+		this.labels = this.labelGenerator.generateLabels( 20);
 	}
 
 	@Override
 	public void collaborate2Model() {
 		// - H E A D E R
-		this.addHeaderContents( new ApplicationHeaderTitle( this.applicationName,this.applicationVersion ) );
-		this.addHeaderContents( new TitleLabel( "NON EXPANDABLE SECTION" ) );
+//		this.addHeaderContents( new ApplicationHeaderTitle.Builder()
+//				                        .withApplicationName( this.applicationName )
+//				                        .withApplicationVersion( this.applicationVersion )
+//				                        .build() );
+		this.addHeaderContents( new TitleLabel.Builder()
+				                        .withTitle( "NON EXPANDABLE SECTION" )
+				                        .build() );
 
 		// - D A T A S E C T I O N
 		if (this.getVariant() == PageDefinitions.MVCDEMOLIST_ITEMS.name()) {
@@ -31,16 +44,8 @@ public class MVCDemoDataSource extends MVCDataSource {
 				Thread.sleep( TimeUnit.SECONDS.toMillis( 2 ) );
 			} catch (final InterruptedException ex) {
 			}
-			// Add manually each of the demo model nodes.
-			addModelContents( new DemoLabelCounter()
-//					.setIcon(R.drawable.criticalstate)
-					                  .setTitle( "STOP" ) );
-			addModelContents( new DemoItem()
-					                  .setIcon( R.drawable.corpmap )
-					                  .setTitle( "Maps" ) );
-			addModelContents( new DemoItem()
-					                  .setIcon( R.drawable.industry )
-					                  .setTitle( "Industry" ) );
+			for (String label : this.labels)
+				this.addModelContents( new DemoLabel.Builder().withTitle( label ).build() );
 		}
 	}
 
@@ -50,8 +55,8 @@ public class MVCDemoDataSource extends MVCDataSource {
 
 		public Builder( final IControllerFactory factory ) {
 			Objects.requireNonNull( factory );
-			this.withFactory( factory );
 			this.onConstruction = new MVCDemoDataSource();
+			this.withFactory( factory );
 		}
 
 		@Override
@@ -66,6 +71,7 @@ public class MVCDemoDataSource extends MVCDataSource {
 		}
 
 		public MVCDemoDataSource build() {
+			super.build();
 			return this.onConstruction;
 		}
 
@@ -74,6 +80,7 @@ public class MVCDemoDataSource extends MVCDataSource {
 			this.onConstruction.applicationName = applicationName;
 			return this;
 		}
+
 		public MVCDemoDataSource.Builder withApplicationVersion( final String applicationVersion ) {
 			Objects.requireNonNull( applicationVersion );
 			this.onConstruction.applicationVersion = applicationVersion;
