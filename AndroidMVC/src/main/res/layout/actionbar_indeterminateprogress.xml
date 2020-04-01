@@ -9,11 +9,11 @@
         android:layout_height="32dp"
         android:layout_gravity="center|center_horizontal"
         android:gravity="center"
-        android:indeterminateDrawable="@drawable/progressspinner"
+        android:indeterminateDrawable="@drawable/progress_spinner_orange"
         android:visibility="visible" >
     </ProgressBar>
 
-    <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
+    <TextView
         android:id="@+id/progressCounter"
         style="@style/AppTheme.Progress"
         android:layout_width="wrap_content"

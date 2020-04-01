@@ -17,4 +17,6 @@
     <dimen name="panelborderwidth">2px</dimen>
     <dimen name="panelcornerwidth">4px</dimen>
     <dimen name="panelcornersize">12px</dimen>
+
+    <dimen name="standardmargin">2dp</dimen>
 </resources>

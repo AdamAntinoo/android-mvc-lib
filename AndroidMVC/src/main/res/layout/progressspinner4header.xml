@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:background="@drawable/blacktraslucent80">
+
+	<TextView
+		android:id="@+id/taskName"
+		style="@style/AppTheme.TextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/standardmargin"
+		android:layout_gravity="left|center_vertical"
+		android:textSize="12sp"
+		android:visibility="gone" />
+
+	<Chronometer
+		android:id="@+id/elapsedTime"
+		style="@style/AppTheme.Progress"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center|center_horizontal"
+		android:visibility="visible"
+		android:textStyle="bold"
+		android:textColor="@color/appwhite" />
+
+	<ImageView
+		android:id="@+id/spinner"
+		style="@style/AppTheme.NodeIcon.NoBorder"
+		android:layout_width="20dp"
+		android:layout_height="20dp"
+		android:layout_gravity="center|center_horizontal"
+		android:src="@drawable/progress70_orange"
+		android:visibility="visible" />
+
+</FrameLayout>

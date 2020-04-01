@@ -142,9 +142,10 @@ public abstract class MVCPagerFragment extends MVCFragment {
 			return container;
 		}
 		// Set the visual state of all items.
-		_progressLayout.setVisibility( View.VISIBLE );
-		dataSectionContainer.setVisibility( View.VISIBLE );
-		_progressElapsedCounter.setVisibility( View.VISIBLE );
+		_progressLayout.setVisibility( View.INVISIBLE );
+		this.headerContainer.setVisibility( View.VISIBLE );
+		this.dataSectionContainer.setVisibility( View.VISIBLE );
+		_progressElapsedCounter.setVisibility( View.INVISIBLE );
 		// Prepare the structures for the context menu.
 		// TODO Check if the menus can be tied to the Parts independently and not to the whole Header.
 		//			this.registerForContextMenu(_headerContainer);
@@ -203,11 +204,21 @@ public abstract class MVCPagerFragment extends MVCFragment {
 		try {
 			if (null != this.dataAdapter) { // Check that view creation completed successfully.
 				// Start counting the elapsed time while we generate and load the  model.
-				this.initializeProgressIndicator();
+//				this.initializeProgressIndicator();
+//				MVCScheduler.backgroundExecutor.submit( () -> {
+//					LoggerWrapper.info( "SECTION 3. Wait" );
+//					try {
+//						Thread.sleep( TimeUnit.SECONDS.toMillis( 5 ) );
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//					}
+////				this.headerDataSectionContainer.collaborateData(); // This call was issued for mirror completion
+//				} );
 
 				// - S E C T I O N   3. Post the task to generate the header and the data contents to be rendered.
 				MVCScheduler.backgroundExecutor.submit( () -> {
 					LoggerWrapper.info( "SECTION 3. Model Initialization" );
+					this.headerSectionAdapter.clean(); // Clear the contents from the previous spinner
 					this.dataAdapter.requestDataModel(); // Call the ds to generate the root contents.
 //				this.headerDataSectionContainer.collaborateData(); // This call was issued for mirror completion
 				} );

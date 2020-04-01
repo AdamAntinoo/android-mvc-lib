@@ -321,6 +321,9 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 		this.dirty = true; // Signal the model change
 		return this;
 	}
+	public void cleanHeaderModel(){
+		this.headerModelRoot.clear();
+	}
 
 	// - I E V E N T R E C E I V E R   I N T E R F A C E
 

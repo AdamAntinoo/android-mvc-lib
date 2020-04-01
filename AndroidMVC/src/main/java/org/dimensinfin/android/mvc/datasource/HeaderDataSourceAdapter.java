@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import java.util.Objects;
 
 import org.dimensinfin.android.mvc.activity.IPagerFragment;
+import org.dimensinfin.android.mvc.core.domain.MVCNode;
 import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
 
 public class HeaderDataSourceAdapter extends DataSourceAdapter {
@@ -17,7 +18,8 @@ public class HeaderDataSourceAdapter extends DataSourceAdapter {
 	}
 
 	public HeaderDataSourceAdapter setHeaderContainer( final ViewGroup headerContainer ) {
-		this.headerContainer = headerContainer;
+		this.headerContainer = Objects.requireNonNull( headerContainer );
+		this.activateCounterSpinner(); // Insert the spinner on the header and start counting the time.
 		return this;
 	}
 
@@ -37,7 +39,7 @@ public class HeaderDataSourceAdapter extends DataSourceAdapter {
 	@Override
 	public void notifyDataSetChanged() {
 		this.contentControllerList.clear();
-		this.contentControllerList.addAll( dataSource.getHeaderSectionContents() );
+		this.contentControllerList.addAll( this.dataSource.getHeaderSectionContents() );
 		this.headerContainer.removeAllViews();
 		for (int i = 0; i < this.contentControllerList.size(); i++)
 			try {
@@ -46,5 +48,15 @@ public class HeaderDataSourceAdapter extends DataSourceAdapter {
 				LoggerWrapper.error( npe );
 			}
 		this.headerContainer.setVisibility( View.VISIBLE );
+	}
+
+	public void clean() {
+		this.dataSource.cleanHeaderModel();
+	}
+
+	private void activateCounterSpinner() {
+		this.clean();
+		this.dataSource.addHeaderContents( new MVCNode.Builder().build() );
+		this.notifyDataSetChanged();
 	}
 }
