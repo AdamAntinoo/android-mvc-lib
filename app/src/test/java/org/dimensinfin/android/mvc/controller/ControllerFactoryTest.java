@@ -2,7 +2,7 @@ package org.dimensinfin.android.mvc.controller;
 
 import android.content.Context;
 
-import org.dimensinfin.android.mvc.acceptance.activity.AcceptanceActivity01;
+import org.dimensinfin.mvc.demo.acceptance.activity.AcceptanceActivity01;
 import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
 import org.dimensinfin.android.mvc.support.Container;
