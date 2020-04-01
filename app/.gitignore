@@ -1,1 +1,5 @@
-/build
+# - Compilation ignorable directories
+build/
+out/
+libs/
+
