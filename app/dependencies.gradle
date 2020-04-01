@@ -1,0 +1,59 @@
+// - P R O D U C T   V E R S I O N S
+ext {
+    cucumberJavaVersion = '4.3.1'
+    slf4j = '1.7.26'
+    jodaTimeVersion = '2.3'
+}
+
+// - A P P L I C A T I O N
+dependencies {
+    // - ANDROID
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.fragment:fragment:1.2.3'
+    implementation 'androidx.viewpager:viewpager:1.0.0'
+    // - CORE
+    implementation 'org.apache.commons:commons-lang3:3.9'
+    implementation "org.slf4j:slf4j-api:$slf4j"
+    implementation "org.slf4j:slf4j-android:$slf4j"
+    implementation "joda-time:joda-time:$jodaTimeVersion"
+    // - MVC
+    implementation "org.dimensinfin:CoreBase.core:3.2.0"
+//    implementation "org.dimensinfin:AndroidMVC:5.18.2@aar"
+    implementation project(path: ':AndroidMVC')
+    implementation 'me.relex:circleindicator:2.1.0'
+    implementation 'org.dimensinfin.android.mvc:MVC.Annotations:0.1.0'
+}
+// - D A G G E R
+dependencies {
+    api 'com.google.dagger:dagger-android:2.27'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.27'
+}
+
+// - T E S T I N G
+dependencies {
+    testImplementation 'junit:junit:4.13'
+}
+// - A C C E P T A N C E
+dependencies {
+    // - ANDROID
+    androidTestImplementation 'androidx.appcompat:appcompat:1.1.0'
+    androidTestImplementation 'androidx.fragment:fragment:1.2.3'
+    androidTestImplementation 'androidx.viewpager:viewpager:1.0.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestUtil 'androidx.test:orchestrator:1.2.0'
+}
+// - C U C U M B E R
+dependencies {
+    androidTestImplementation "io.cucumber:cucumber-android:$cucumberJavaVersion"
+    androidTestImplementation "io.cucumber:cucumber-picocontainer:$cucumberJavaVersion"
+}
+dependencies {
+    androidTestImplementation 'org.dimensinfin.android.mvc:MVC.Annotations:0.1.0'
+    androidTestImplementation 'org.mockito:mockito-android:2.23.4'
+    androidTestImplementation('org.awaitility:awaitility:4.0.2') {
+        exclude group: 'org.hamcrest', module: 'hamcrest'
+    }
+}

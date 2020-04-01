@@ -54,7 +54,7 @@ public class DataSourceAdapterTest {
 		final MVCDataSource dataSource = Mockito.mock(MVCDataSource.class);
 		final DataSourceAdapter adapter = new DataSourceAdapter(fragment, dataSource);
 		Assert.assertNotNull(adapter);
-		adapter.collaborateData();
+		adapter.requestDataModel();
 		Mockito.verify(dataSource, times(1)).collaborate2Model();
 	}
 

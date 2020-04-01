@@ -2,12 +2,9 @@ package org.dimensinfin.android.mvc.datasource;
 
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 
 import java.util.Objects;
-
-import org.apache.commons.lang3.ObjectUtils;
 
 import org.dimensinfin.android.mvc.activity.IPagerFragment;
 import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
@@ -16,7 +13,7 @@ public class HeaderDataSourceAdapter extends DataSourceAdapter {
 	private ViewGroup headerContainer;
 
 	public HeaderDataSourceAdapter( @NonNull final IPagerFragment fragment, @NonNull final IDataSource datasource ) {
-		super(fragment, datasource);
+		super( fragment, datasource );
 	}
 
 	public HeaderDataSourceAdapter setHeaderContainer( final ViewGroup headerContainer ) {
@@ -24,8 +21,9 @@ public class HeaderDataSourceAdapter extends DataSourceAdapter {
 		return this;
 	}
 
+	@Deprecated
 	@Override
-	public void collaborateData() {
+	public void requestDataModel() {
 		LoggerWrapper.enter();
 		this.headerContainer.removeAllViews();
 		LoggerWrapper.exit();
@@ -39,14 +37,14 @@ public class HeaderDataSourceAdapter extends DataSourceAdapter {
 	@Override
 	public void notifyDataSetChanged() {
 		this.contentControllerList.clear();
-		this.contentControllerList.addAll(dataSource.getHeaderSectionContents());
+		this.contentControllerList.addAll( dataSource.getHeaderSectionContents() );
 		this.headerContainer.removeAllViews();
 		for (int i = 0; i < this.contentControllerList.size(); i++)
 			try {
 				this.headerContainer.addView( Objects.requireNonNull( this.getView( i, null, this.headerContainer ) ) );
-			} catch ( final NullPointerException npe){
-				LoggerWrapper.error(npe);
+			} catch (final NullPointerException npe) {
+				LoggerWrapper.error( npe );
 			}
-		this.headerContainer.setVisibility(View.VISIBLE);
+		this.headerContainer.setVisibility( View.VISIBLE );
 	}
 }

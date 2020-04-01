@@ -1,0 +1,20 @@
+// - P R O D U C T   V E R S I O N S
+ext {
+    slf4j = '1.7.26'
+    jodaTimeVersion = '2.3'
+}
+
+// - A P P L I C A T I O N
+dependencies {
+    // - ANDROID
+    implementation 'androidx.fragment:fragment:1.2.3'
+    // - CORE
+    implementation 'org.apache.commons:commons-lang3:3.9'
+    compileOnly "org.slf4j:slf4j-api:$slf4j"
+    compileOnly "org.slf4j:slf4j-android:$slf4j"
+    implementation "joda-time:joda-time:$jodaTimeVersion" // Because API 21 still has not defined the java.time
+    // - MVC
+    implementation "org.dimensinfin:CoreBase.core:3.2.0"
+    implementation 'me.relex:circleindicator:2.1.0'
+    implementation 'org.dimensinfin.android.mvc:MVC.Annotations:0.1.0'
+}

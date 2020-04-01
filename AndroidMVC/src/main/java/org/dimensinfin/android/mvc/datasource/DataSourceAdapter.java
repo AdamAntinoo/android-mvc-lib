@@ -81,7 +81,7 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 	}
 
 	// - M E T H O D - S E C T I O N
-	public void collaborateData() {
+	public void requestDataModel() {
 		if (null != this.dataSource) this.dataSource.collaborate2Model();
 	}
 
