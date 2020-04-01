@@ -3,9 +3,7 @@ package org.dimensinfin.mvc.demo.activity;
 import android.os.Bundle;
 
 import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
-import org.dimensinfin.mvc.demo.services.DaggerLabelGeneratorMaker;
-import org.dimensinfin.mvc.demo.services.LabelGenerator;
-import org.dimensinfin.mvc.demo.services.LabelGeneratorModule;
+import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
 
 public class MVCDemoSimpleActivity extends MVCMultiPageActivity {
 	/**
@@ -15,20 +13,12 @@ public class MVCDemoSimpleActivity extends MVCMultiPageActivity {
 	 * The list is populated with enough elements to be able to show scrolling but only when the page layout is horizontal.
 	 * The activity has a single page so the multipage indicator is not visible.
 	 */
-//	@LogEnterExit
 	@Override
 	protected void onCreate( final Bundle savedInstanceState ) {
-//		LoggerWrapper.info(">> [AndroidMVCDemoActivity.onCreate]"); //$NON-NLS-1$
+		LoggerWrapper.info( ">> [AndroidMVCDemoActivity.onCreate]" ); //$NON-NLS-1$
 		super.onCreate( savedInstanceState );
-//		this.createComponents();
 		// Process the parameters into the context. This initial Activity is the only one with no parameters.
 		this.addPage( new MVCDemoSimpleFragment().setVariant( PageDefinitions.MVCDEMOLIST_ITEMS.name() ) );
-//		LoggerWrapper.info("<< [AndroidMVCDemoActivity.onCreate]"); //$NON-NLS-1$
-	}
-
-	private void createComponents() {
-		LabelGenerator labelGenerator = DaggerLabelGeneratorMaker.builder()
-				                                .labelGeneratorModule( new LabelGeneratorModule() )
-				                                .build().maker();
+		LoggerWrapper.info( "<< [AndroidMVCDemoActivity.onCreate]" ); //$NON-NLS-1$
 	}
 }

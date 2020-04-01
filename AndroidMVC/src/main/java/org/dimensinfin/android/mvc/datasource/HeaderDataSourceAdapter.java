@@ -1,35 +1,35 @@
 package org.dimensinfin.android.mvc.datasource;
 
-import android.view.View;
-import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.dimensinfin.android.mvc.activity.IPagerFragment;
+import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.core.domain.MVCNode;
-import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
+import org.dimensinfin.android.mvc.ui.HeaderListLayout;
 
 public class HeaderDataSourceAdapter extends DataSourceAdapter {
-	private ViewGroup headerContainer;
+	private HeaderListLayout headerContainer;
 
 	public HeaderDataSourceAdapter( @NonNull final IPagerFragment fragment, @NonNull final IDataSource datasource ) {
 		super( fragment, datasource );
 	}
 
-	public HeaderDataSourceAdapter setHeaderContainer( final ViewGroup headerContainer ) {
-		this.headerContainer = Objects.requireNonNull( headerContainer );
-		this.activateCounterSpinner(); // Insert the spinner on the header and start counting the time.
-		return this;
-	}
+//	public HeaderDataSourceAdapter setHeaderContainer( final ViewGroup headerContainer ) {
+//		this.headerContainer = Objects.requireNonNull( headerContainer );
+//		this.activateCounterSpinner(); // Insert the spinner on the header and start counting the time.
+//		return this;
+//	}
 
-	@Deprecated
-	@Override
-	public void requestDataModel() {
-		LoggerWrapper.enter();
-		this.headerContainer.removeAllViews();
-		LoggerWrapper.exit();
-	}
+//	@Deprecated
+//	@Override
+//	public void requestDataModel() {
+//		LoggerWrapper.enter();
+//		this.headerContainer.removeAllViews();
+//		LoggerWrapper.exit();
+//	}
 
 	/**
 	 * Will clean the current content for the header linear layout and then generate a new list of views from the current list of controllers.
@@ -40,18 +40,21 @@ public class HeaderDataSourceAdapter extends DataSourceAdapter {
 	public void notifyDataSetChanged() {
 		this.contentControllerList.clear();
 		this.contentControllerList.addAll( this.dataSource.getHeaderSectionContents() );
-		this.headerContainer.removeAllViews();
-		for (int i = 0; i < this.contentControllerList.size(); i++)
-			try {
-				this.headerContainer.addView( Objects.requireNonNull( this.getView( i, null, this.headerContainer ) ) );
-			} catch (final NullPointerException npe) {
-				LoggerWrapper.error( npe );
-			}
-		this.headerContainer.setVisibility( View.VISIBLE );
+		if (null != this.headerContainer) this.headerContainer.notifyDataSetChanged();
+		super.notifyDataSetChanged();
+	}
+
+	public List<IAndroidController> getControllerList() {
+		return this.contentControllerList;
 	}
 
 	public void clean() {
 		this.dataSource.cleanHeaderModel();
+	}
+
+	public void registerLayout( final HeaderListLayout headerContainer ) {
+		this.headerContainer = Objects.requireNonNull( headerContainer );
+		this.activateCounterSpinner(); // Insert the spinner on the header and start counting the time.
 	}
 
 	private void activateCounterSpinner() {

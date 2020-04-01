@@ -5,12 +5,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
+    <org.dimensinfin.android.mvc.ui.HeaderListLayout
         android:id="@+id/headerContainer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone"></LinearLayout>
+        android:visibility="gone" />
 
     <include
         android:id="@+id/progressLayout"
@@ -20,7 +20,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:padding="2dp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <ListView
         android:id="@+id/dataContainer"
@@ -35,6 +35,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone"></LinearLayout>
+        android:visibility="gone" />
 
 </LinearLayout>

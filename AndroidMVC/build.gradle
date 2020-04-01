@@ -1,63 +1,31 @@
-// - G R A D L E - M E T R I C S
-apply plugin: 'checkstyle'
-apply plugin: 'pmd'
-
-checkstyle {
-    toolVersion = '8.1' // optionally specify tool version
-}
-
-pmd {
-    toolVersion = '5.8.1' // optionally specify tool version
-}
-
-tasks.withType(Checkstyle) {
-    ignoreFailures = true
-    // REQUIRED because the plugin will report only up to the point the first issue if this is not set
-    showViolations = false
-
-    reports {
-        xml.enabled = true  // REQUIRED the plugin parses xml reports so this is essential
-        html.enabled = true
-        html.stylesheet = resources.text.fromFile('config/xsl/checkstyle-custom.xsl')
-    }
-
-    include '**/*.java'
-}
-
-tasks.withType(Pmd) {
-    ignoreFailures = true
-    // REQUIRED because the plugin will report only up to the point the first issue if this is not set
-
-    reports {
-        xml.enabled = true  // REQUIRED the plugin parses xml reports so this is essential
-    }
-
-    include '**/*.java'
-}
-
-// - A N D R O I D
 apply plugin: 'com.android.library'
 apply plugin: 'project-report'
 apply plugin: 'maven'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 28
+        minSdkVersion 21
+        targetSdkVersion 29
         versionCode 300
         versionName "3.0.0"
         project.archivesBaseName = "Android.MVC"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
         multiDexEnabled = true
     }
+
     buildTypes {
         release {
             signingConfig debug.signingConfig
             debuggable false
+            minifyEnabled false
             useProguard true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
             resValue "bool", "CACHE_MVC_VIEWS_ON_CONTROLLER", "true"
         }
         debug {
@@ -68,27 +36,37 @@ android {
         }
     }
     sourceSets {
-        main {
-            res.srcDirs += 'src/main/res-ui'
-            res.srcDirs += 'src/main/res-dynamic'
-            res.srcDirs += 'src/main/res-v3'
+        main.res {
+            srcDirs += 'src/main/res-ui'
+            srcDirs += 'src/main/res-dynamic'
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
     }
     lintOptions {
         abortOnError false
         quiet true
     }
-    testOptions {
-        unitTests.returnDefaultValues = true
+    dexOptions {
+        javaMaxHeapSize "4G"
+        jumboMode true
+        preDexLibraries true
     }
-    buildToolsVersion = '29.0.3'
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+        }
+        animationsDisabled true
+    }
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
 }
 
-// - M A V E N   P U B L I S H   I N F O
+// - P U B L I S H I N G
 group = 'org.dimensinfin'
 version = project.version
 uploadArchives {
@@ -96,7 +74,6 @@ uploadArchives {
         mavenLocal()
     }
 }
-
 // - B U I L D   T A S K S
 task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
@@ -124,62 +101,4 @@ artifacts {
 configurations {
     deployerJars
 }
-
-// - P R O D U C T   V E R S I O N S
-ext {
-    supportLibraryVersion = '28.0.0'
-    jodaTimeVersion = '2.3'
-    slf4j = '1.7.26'
-    jacksonVersion = '2.9.4'
-    fasterxmlJackson = '2.9.4'
-    ormliteVersion = '4.48'
-    retrofitVersion = '2.3.0'
-}
-
-// - A N D R O I D    S U P P O R T
-dependencies {
-    compileOnly 'androidx.fragment:fragment:1.0.0'
-    compileOnly 'androidx.viewpager:viewpager:1.0.0'
-}
-
-// - L I B R A R Y   D E P E N D E N C I E S
-dependencies {
-    compileOnly "org.slf4j:slf4j-api:$slf4j"
-    implementation "joda-time:joda-time:$jodaTimeVersion"
-    implementation 'org.apache.commons:commons-lang3:3.7'
-
-    implementation 'me.relex:circleindicator:2.1.0'
-    implementation 'org.dimensinfin:CoreBase.core:3.1.0'
-}
-
-// - T E S T I N G
-//dependencies {
-//    testImplementation 'androidx.annotation:annotation:1.1.0'
-////    testImplementation 'androidx.arch.core:core-testing:2.0.1'
-//    testImplementation 'androidx.fragment:fragment:1.0.0'
-//    testImplementation 'junit:junit:4.12'
-//    testImplementation "org.slf4j:slf4j-simple:$slf4j"
-//    testImplementation 'joda-time:joda-time:2.9.9'
-//    testImplementation 'com.openpojo:openpojo:0.8.12'
-//    testImplementation 'org.mockito:mockito-core:2.23.4'
-//    testImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'
-////    testImplementation "org.robolectric:robolectric:4.3-alpha-2"
-//}
-//
-//// - A N D R O I D   T E S T I N G
-//dependencies {
-//    androidTestImplementation 'androidx.test:runner:1.2.0'
-//    androidTestImplementation 'androidx.test:rules:1.2.0'
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-//    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
-//    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
-//
-//    androidTestImplementation 'androidx.fragment:fragment:1.0.0'
-//
-//    androidTestImplementation 'org.mockito:mockito-core:2.23.4'
-//    androidTestImplementation 'org.mockito:mockito-android:2.23.0'
-////    androidTestImplementation('com.github.tmurakami:dexopener:1.0.2') {
-////        exclude group: 'com.android.support.test', module: 'runner'
-////    }
-//}
+apply from: './dependencies.gradle'

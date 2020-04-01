@@ -27,8 +27,8 @@
 	<ImageView
 		android:id="@+id/spinner"
 		style="@style/AppTheme.NodeIcon.NoBorder"
-		android:layout_width="20dp"
-		android:layout_height="20dp"
+		android:layout_width="@dimen/nodeiconsize"
+		android:layout_height="@dimen/nodeiconsize"
 		android:layout_gravity="center|center_horizontal"
 		android:src="@drawable/progress70_orange"
 		android:visibility="visible" />

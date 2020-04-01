@@ -74,9 +74,8 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 	 */
 	public DataSourceAdapter( @NonNull final IPagerFragment fragment, @NonNull final IDataSource dataSource ) {
 		Objects.requireNonNull( fragment );
-		Objects.requireNonNull( dataSource );
 		this.context = fragment.getActivityContext();
-		this.dataSource = (MVCDataSource) dataSource;
+		this.dataSource = Objects.requireNonNull((MVCDataSource) dataSource);
 		this.dataSource.addEventListener( this ); // Connect the Adapter to the DataSource
 	}
 

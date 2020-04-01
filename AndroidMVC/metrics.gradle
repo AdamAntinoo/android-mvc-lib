@@ -1,0 +1,35 @@
+// - G R A D L E - M E T R I C S
+apply plugin: 'checkstyle'
+apply plugin: 'pmd'
+
+checkstyle {
+    toolVersion = '8.1' // optionally specify tool version
+}
+
+pmd {
+    toolVersion = '5.8.1' // optionally specify tool version
+}
+
+tasks.withType(Checkstyle) {
+    ignoreFailures = true
+    // REQUIRED because the plugin will report only up to the point the first issue if this is not set
+    showViolations = false
+
+    reports {
+        xml.enabled = true  // REQUIRED the plugin parses xml reports so this is essential
+        html.enabled = true
+        html.stylesheet = resources.text.fromFile('config/xsl/checkstyle-custom.xsl')
+    }
+
+    include '**/*.java'
+}
+
+tasks.withType(Pmd) {
+    ignoreFailures = true
+    // REQUIRED because the plugin will report only up to the point the first issue if this is not set
+    reports {
+        xml.enabled = true  // REQUIRED the plugin parses xml reports so this is essential
+    }
+
+    include '**/*.java'
+}

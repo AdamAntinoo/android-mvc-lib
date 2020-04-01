@@ -2,7 +2,6 @@ package org.dimensinfin.android.mvc.activity;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -10,16 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
-import org.joda.time.Instant;
-import org.joda.time.format.DateTimeFormatterBuilder;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AndroidController;
@@ -31,6 +25,7 @@ import org.dimensinfin.android.mvc.datasource.HeaderDataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.exception.ExceptionRenderGenerator;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
+import org.dimensinfin.android.mvc.ui.HeaderListLayout;
 import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
 
 /**
@@ -47,7 +42,7 @@ public abstract class MVCPagerFragment extends MVCFragment {
 	/**
 	 * The view that handles the non scrolling header. It accepts a list of Views but has no scroll capabilities.
 	 */
-	protected ViewGroup headerContainer;
+	protected HeaderListLayout headerContainer;
 	/** The adapter to transform the model list to the view contents for the header section or a page. */
 	private HeaderDataSourceAdapter headerSectionAdapter;
 	/** The view that represent the list view and the space managed though the adapter. */
@@ -57,20 +52,20 @@ public abstract class MVCPagerFragment extends MVCFragment {
 	 * <code>ListView</code> that contains the displayed render.
 	 */
 	private DataSourceAdapter dataAdapter;
-	/**
-	 * The UI graphical element that defines the loading progress spinner layout.
-	 */
-	@Deprecated
-	private ViewGroup _progressLayout;
-	/**
-	 * This is a text field defined inside the loading progress spinner that will show the time elapsed waiting for the
-	 * completion of the loading process.
-	 */
-	@Deprecated
-	private TextView _progressElapsedCounter;
+//	/**
+//	 * The UI graphical element that defines the loading progress spinner layout.
+//	 */
+//	@Deprecated
+//	private ViewGroup _progressLayout;
+//	/**
+//	 * This is a text field defined inside the loading progress spinner that will show the time elapsed waiting for the
+//	 * completion of the loading process.
+//	 */
+//	@Deprecated
+//	private TextView _progressElapsedCounter;
 
 	// - A C C E P T A N C E
-	public ViewGroup accessHeaderContainer() {
+	public HeaderListLayout accessHeaderContainer() {
 		return this.headerContainer;
 	}
 
@@ -87,10 +82,10 @@ public abstract class MVCPagerFragment extends MVCFragment {
 	}
 
 	public void updateDisplay() {
-		this.dataAdapter.notifyDataSetChanged();
 		this.dataSectionContainer.invalidate();
-		this.headerSectionAdapter.notifyDataSetChanged();
 		this.headerContainer.invalidate();
+		this.dataAdapter.notifyDataSetChanged();
+		this.headerSectionAdapter.notifyDataSetChanged();
 	}
 
 	// - F R A G M E N T   L I F E C Y C L E
@@ -129,11 +124,11 @@ public abstract class MVCPagerFragment extends MVCFragment {
 		LoggerWrapper.info( "SECTION 1. UI linking." );
 		try {
 			this._container = Objects.requireNonNull( (ViewGroup) inflater.inflate( R.layout.fragment_base, container, false ) );
-			this.headerContainer = Objects.requireNonNull( _container.findViewById( R.id.headerContainer ) );
-			this.dataSectionContainer = Objects.requireNonNull( _container.findViewById( R.id.dataContainer ) );
+			this.dataSectionContainer = Objects.requireNonNull( this._container.findViewById( R.id.dataContainer ) );
+			this.headerContainer = Objects.requireNonNull( this._container.findViewById( R.id.headerContainer ) );
 			// TODO - Remove this and replace by an spinner at the header.
-			this._progressLayout = Objects.requireNonNull( _container.findViewById( R.id.progressLayout ) );
-			this._progressElapsedCounter = Objects.requireNonNull( _container.findViewById( R.id.progressCounter ) );
+//			this._progressLayout = Objects.requireNonNull( this._container.findViewById( R.id.progressLayout ) );
+//			this._progressElapsedCounter = Objects.requireNonNull( this._container.findViewById( R.id.progressCounter ) );
 		} catch (final NullPointerException npe) {
 			// The view is not properly created because the layout does not match or there is a unrecoverable error.
 			LoggerWrapper.error( npe );
@@ -142,10 +137,10 @@ public abstract class MVCPagerFragment extends MVCFragment {
 			return container;
 		}
 		// Set the visual state of all items.
-		_progressLayout.setVisibility( View.INVISIBLE );
+//		_progressLayout.setVisibility( View.INVISIBLE );
 		this.headerContainer.setVisibility( View.VISIBLE );
 		this.dataSectionContainer.setVisibility( View.VISIBLE );
-		_progressElapsedCounter.setVisibility( View.INVISIBLE );
+//		_progressElapsedCounter.setVisibility( View.INVISIBLE );
 		// Prepare the structures for the context menu.
 		// TODO Check if the menus can be tied to the Parts independently and not to the whole Header.
 		//			this.registerForContextMenu(_headerContainer);
@@ -159,15 +154,8 @@ public abstract class MVCPagerFragment extends MVCFragment {
 			this.dataAdapter = Objects.requireNonNull( new DataSourceAdapter( this, ds ) );
 			LoggerWrapper.info( "Adapter set: {}", this.dataAdapter.toString() );
 			this.dataSectionContainer.setAdapter( this.dataAdapter );
-			this.headerSectionAdapter = Objects.requireNonNull( new HeaderDataSourceAdapter( this, ds )
-					                                                    .setHeaderContainer( this.headerContainer ) );
-
-//			// - S E C T I O N   3. Post the task to generate the header and the data contents to be rendered.
-//			MVCScheduler.backgroundExecutor.submit( () -> {
-//				LoggerWrapper.info( "DS Initialisation" );
-//				this.dataAdapter.requestDataModel(); // Call the ds to generate the root contents.
-////				this.headerDataSectionContainer.collaborateData(); // This call was issued for mirror completion
-//			} );
+			this.headerSectionAdapter = Objects.requireNonNull( new HeaderDataSourceAdapter( this, ds ) );
+			this.headerContainer.setAdapter( this.headerSectionAdapter );
 		} catch (final RuntimeException rtex) {
 			LoggerWrapper.error( rtex );
 			this.lastException = rtex;
@@ -180,9 +168,9 @@ public abstract class MVCPagerFragment extends MVCFragment {
 
 	@Override
 	public void onViewStateRestored( Bundle savedInstanceState ) {
-		// restore the variant name.
+		// Restore the variant name.
 		if (null != savedInstanceState)
-			setVariant( savedInstanceState.getString( MVCMultiPageActivity.EMVCExtras.EXTRA_VARIANT.name() ) );
+			this.setVariant( savedInstanceState.getString( MVCMultiPageActivity.EMVCExtras.EXTRA_VARIANT.name() ) );
 		super.onViewStateRestored( savedInstanceState );
 	}
 
@@ -203,24 +191,11 @@ public abstract class MVCPagerFragment extends MVCFragment {
 		super.onStart();
 		try {
 			if (null != this.dataAdapter) { // Check that view creation completed successfully.
-				// Start counting the elapsed time while we generate and load the  model.
-//				this.initializeProgressIndicator();
-//				MVCScheduler.backgroundExecutor.submit( () -> {
-//					LoggerWrapper.info( "SECTION 3. Wait" );
-//					try {
-//						Thread.sleep( TimeUnit.SECONDS.toMillis( 5 ) );
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//					}
-////				this.headerDataSectionContainer.collaborateData(); // This call was issued for mirror completion
-//				} );
-
 				// - S E C T I O N   3. Post the task to generate the header and the data contents to be rendered.
 				MVCScheduler.backgroundExecutor.submit( () -> {
 					LoggerWrapper.info( "SECTION 3. Model Initialization" );
 					this.headerSectionAdapter.clean(); // Clear the contents from the previous spinner
 					this.dataAdapter.requestDataModel(); // Call the ds to generate the root contents.
-//				this.headerDataSectionContainer.collaborateData(); // This call was issued for mirror completion
 				} );
 
 				// - S E C T I O N   4. Post to the thread runner another task to be done after all data is generated
@@ -228,7 +203,7 @@ public abstract class MVCPagerFragment extends MVCFragment {
 				MVCScheduler.backgroundExecutor.submit( () -> {
 					LoggerWrapper.info( "SECTION 4. Display redraw." );
 					this.getActivityContext().runOnUiThread( () -> {
-						this.hideProgressIndicator(); // Hide the waiting indicator after the model is generated and the view populated.
+//						this.hideProgressIndicator(); // Hide the waiting indicator after the model is generated and the view populated.
 						this.updateDisplay();
 					} );
 				} );
@@ -303,45 +278,45 @@ public abstract class MVCPagerFragment extends MVCFragment {
 		exceptionContainer.setVisibility( View.VISIBLE );
 	}
 
-	@Deprecated
-	private void hideProgressIndicator() {
-		_progressLayout.setVisibility( View.GONE );
-		dataSectionContainer.setVisibility( View.VISIBLE );
-		_progressElapsedCounter.setVisibility( View.GONE );
-	}
+//	@Deprecated
+//	private void hideProgressIndicator() {
+//		_progressLayout.setVisibility( View.GONE );
+//		dataSectionContainer.setVisibility( View.VISIBLE );
+//		_progressElapsedCounter.setVisibility( View.GONE );
+//	}
 
 	// - U T I L I T I E S
-	private void initializeProgressIndicator() {
-		_progressElapsedCounter = Objects.requireNonNull( _container.findViewById( R.id.progressCounter ) );
-		final Instant _elapsedTimer = Instant.now();
-		new CountDownTimer( TimeUnit.DAYS.toMillis( 1 ), TimeUnit.MILLISECONDS.toMillis( 10 ) ) {
-			@Override
-			public void onTick( final long millisUntilFinished ) {
-				_progressElapsedCounter.setText( generateTimeString( _elapsedTimer.getMillis() ) );
-				_progressElapsedCounter.invalidate();
-			}
+//	private void initializeProgressIndicator() {
+//		_progressElapsedCounter = Objects.requireNonNull( _container.findViewById( R.id.progressCounter ) );
+//		final Instant _elapsedTimer = Instant.now();
+//		new CountDownTimer( TimeUnit.DAYS.toMillis( 1 ), TimeUnit.MILLISECONDS.toMillis( 10 ) ) {
+//			@Override
+//			public void onTick( final long millisUntilFinished ) {
+//				_progressElapsedCounter.setText( generateTimeString( _elapsedTimer.getMillis() ) );
+//				_progressElapsedCounter.invalidate();
+//			}
+//
+//			@Override
+//			public void onFinish() {
+//				_progressElapsedCounter.setText( generateTimeString( _elapsedTimer.getMillis() ) );
+//				_progressElapsedCounter.invalidate();
+//			}
+//		}.start();
+//	}
 
-			@Override
-			public void onFinish() {
-				_progressElapsedCounter.setText( generateTimeString( _elapsedTimer.getMillis() ) );
-				_progressElapsedCounter.invalidate();
-			}
-		}.start();
-	}
-
-	private String generateTimeString( final long millis ) {
-		try {
-			final long elapsed = Instant.now().getMillis() - millis;
-			final DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
-			if (elapsed > TimeUnit.HOURS.toMillis( 1 )) {
-				timeFormatter.appendHourOfDay( 2 ).appendLiteral( "h " );
-			}
-			if (elapsed > TimeUnit.MINUTES.toMillis( 1 )) {
-				timeFormatter.appendMinuteOfHour( 2 ).appendLiteral( "m " ).appendSecondOfMinute( 2 ).appendLiteral( "s" );
-			} else timeFormatter.appendSecondOfMinute( 2 ).appendLiteral( "s" );
-			return timeFormatter.toFormatter().print( new Instant( elapsed ) );
-		} catch (final RuntimeException rtex) {
-			return "0m 00s";
-		}
-	}
+//	private String generateTimeString( final long millis ) {
+//		try {
+//			final long elapsed = Instant.now().getMillis() - millis;
+//			final DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
+//			if (elapsed > TimeUnit.HOURS.toMillis( 1 )) {
+//				timeFormatter.appendHourOfDay( 2 ).appendLiteral( "h " );
+//			}
+//			if (elapsed > TimeUnit.MINUTES.toMillis( 1 )) {
+//				timeFormatter.appendMinuteOfHour( 2 ).appendLiteral( "m " ).appendSecondOfMinute( 2 ).appendLiteral( "s" );
+//			} else timeFormatter.appendSecondOfMinute( 2 ).appendLiteral( "s" );
+//			return timeFormatter.toFormatter().print( new Instant( elapsed ) );
+//		} catch (final RuntimeException rtex) {
+//			return "0m 00s";
+//		}
+//	}
 }
