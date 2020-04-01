@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/panelborderwhite">
+    android:background="@drawable/uipanelborderwhite">
 
     <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
         android:id="@+id/applicationName"
@@ -38,7 +38,7 @@
         android:layout_marginRight="2dp"
         android:layout_marginTop="2dp"
         android:gravity="right"
-        android:text="(c) Dimensinfin Industries 2017"
+        android:text="(c) Dimensinfin Industries 2020"
         android:textColor="@color/appwhite"
         android:textSize="8sp"
         android:textStyle="bold" />
