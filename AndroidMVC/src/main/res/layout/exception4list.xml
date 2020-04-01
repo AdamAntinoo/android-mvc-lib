@@ -4,7 +4,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/separatorborderorange">
 
-	<org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
+	<TextView
 			android:id="@+id/exceptionCode"
 			style="@style/AppTheme.TextView"
 			android:layout_width="wrap_content"
@@ -15,15 +15,17 @@
 			android:layout_marginLeft="2dp"
 			android:layout_marginRight="2dp"
 			android:layout_marginTop="2dp"
+		android:textStyle="bold"
 			android:singleLine="true"
 			android:text="@string/default_exceptionMessage"
 			android:textColor="@color/apporangebrilliant"
 			android:textSize="14sp"/>
 
-	<org.dimensinfin.android.mvc.fonts.Din1451BoldTextView
+	<TextView
 			android:id="@+id/exceptionType"
 			style="@style/AppTheme.TextView"
 			android:layout_width="wrap_content"
+		android:textStyle="bold"
 			android:layout_height="wrap_content"
 			android:layout_alignParentRight="true"
 			android:layout_alignParentTop="true"
@@ -37,7 +39,7 @@
 			android:textColor="@color/appbluepurple"
 			android:textSize="12sp"/>
 
-	<org.dimensinfin.android.mvc.fonts.ProximaNovaRegularTextView
+	<TextView
 			android:id="@+id/exceptionMessage"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -61,7 +63,7 @@
 			android:layout_below="@+id/exceptionMessage"
 			android:gravity="right">
 
-		<org.dimensinfin.android.mvc.fonts.Din1451TextView
+		<TextView
 				android:id="@+id/exceptionClassName"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -78,7 +80,7 @@
 				android:textColor="@android:color/white"
 				android:textSize="11sp"/>
 
-		<org.dimensinfin.android.mvc.fonts.Din1451TextView
+		<TextView
 				android:id="@+id/exceptionMethodName"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"

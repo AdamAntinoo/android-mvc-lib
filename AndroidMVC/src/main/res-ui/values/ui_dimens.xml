@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Android Common UI dimensions. Icon and Grapical components -->
+    <dimen name="nodeiconsize">36dp</dimen>
+    <dimen name="arrowsize">28dp</dimen>
+
+    <!-- Android Common UI dimensions. Separators -->
+    <dimen name="separatorwidth">2dp</dimen>
+    <dimen name="separatorradius">2dp</dimen>
+    <dimen name="topbottomlinemargin">-2px</dimen>
+
+    <!-- Android Common UI dimensions. Progress Bar -->
+    <dimen name="progressbarsize">48dp</dimen>
+
     <!-- Android Common UI dimensions. Panel characteristics -->
-    <dimen name="panelborderwidth">1px</dimen>
-    <dimen name="panelcornerwidth">2px</dimen>
+    <dimen name="panelborderwidth">2px</dimen>
+    <dimen name="panelcornerwidth">4px</dimen>
     <dimen name="panelcornersize">12px</dimen>
 </resources>

@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc.acceptance.test.steps;
+package org.dimensinfin.mvc.demo.acceptance.test.steps;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +9,11 @@ import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.util.HumanReadables;
 import androidx.test.rule.ActivityTestRule;
 
-import org.dimensinfin.android.mvc.acceptance.R;
-import org.dimensinfin.android.mvc.acceptance.activity.AcceptanceActivity02;
-import org.dimensinfin.android.mvc.acceptance.activity.AcceptanceActivity04;
-import org.dimensinfin.android.mvc.acceptance.activity.MVC02Fragment;
-import org.dimensinfin.android.mvc.acceptance.test.support.MVCWorld;
+import org.dimensinfin.mvc.demo.acceptance.R;
+import org.dimensinfin.mvc.demo.acceptance.activity.AcceptanceActivity02;
+import org.dimensinfin.mvc.demo.acceptance.activity.AcceptanceActivity04;
+import org.dimensinfin.mvc.demo.acceptance.activity.MVC02Fragment;
+import org.dimensinfin.mvc.demo.acceptance.test.support.MVCWorld;
 import org.junit.Assert;
 
 import cucumber.api.java.After;

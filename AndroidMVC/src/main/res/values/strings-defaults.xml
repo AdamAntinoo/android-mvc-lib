@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">AndroidMVC</string>
-
     <!-- D E F A U L T   V A L U E S   F O R   C O N S T R U C T I O N   G U I -->
     <!--<string name="imageview_defaultcontent">ImageView Content Description</string>-->
     <string name="default_description">ImageView Content Description</string>

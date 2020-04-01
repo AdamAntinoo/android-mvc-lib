@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc.acceptance.test.steps;
+package org.dimensinfin.mvc.demo.acceptance.test.steps;
 
 import android.view.View;
 import android.widget.ListView;
@@ -6,9 +6,9 @@ import android.widget.TextView;
 
 import androidx.test.rule.ActivityTestRule;
 
-import org.dimensinfin.android.mvc.acceptance.R;
-import org.dimensinfin.android.mvc.acceptance.activity.AcceptanceActivity01;
-import org.dimensinfin.android.mvc.acceptance.activity.MVC01Fragment;
+import org.dimensinfin.mvc.demo.acceptance.R;
+import org.dimensinfin.mvc.demo.acceptance.activity.AcceptanceActivity01;
+import org.dimensinfin.mvc.demo.acceptance.activity.MVC01Fragment;
 import org.junit.Assert;
 
 import java.util.List;

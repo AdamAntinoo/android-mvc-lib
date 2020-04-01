@@ -1,12 +1,11 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-
     <ImageView
         android:id="@+id/nodeIcon"
         style="@style/AppTheme.NodeIcon"
         android:layout_width="@dimen/nodeiconsize"
         android:layout_height="@dimen/nodeiconsize"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:src="@drawable/defaulticonplaceholder" />
 
@@ -15,16 +14,16 @@
         style="@style/AppTheme.Arrow"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:visibility="gone" />
 
     <ImageView
         android:id="@+id/separator"
         android:layout_width="5dp"
         android:layout_height="1dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/rightArrow"
-        android:src="@color/panelbackgroundblack"
+        android:layout_toStartOf="@+id/rightArrow"
+        android:src="@color/uipanelbackground"
         android:visibility="visible" />
 </merge>

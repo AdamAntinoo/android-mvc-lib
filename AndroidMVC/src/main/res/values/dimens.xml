@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- Android Common UI dimensions. Icon and Grapical components -->
-    <dimen name="nodeiconsize">36dp</dimen>
-    <dimen name="arrowsize">28dp</dimen>
-
-    <!-- Android Common UI dimensions. Separators -->
-    <dimen name="separatorwidth">2dp</dimen>
-    <dimen name="separatorradius">2dp</dimen>
-
-    <!-- Android Common UI dimensions. Progress Bar -->
-    <dimen name="progressbarsize">48dp</dimen>
-
     <!-- Android Common UI dimensions. Circle page Indicator -->
     <dimen name="circlemargin">6dp</dimen>
     <dimen name="circleradius">5dp</dimen>
@@ -21,9 +9,4 @@
     <dimen name="activity_vertical_margin">16dip</dimen>
     <dimen name="menuIconWidth">34dip</dimen>
     <dimen name="menuIconHeight">32dip</dimen>
-
-    <!-- NeoCom default dimensions for UI objects. -->
-    <dimen name="pilotavatarsize">96dip</dimen>
-    <dimen name="topbottomlinemargin">-2px</dimen>
-
 </resources>

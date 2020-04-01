@@ -15,9 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.joda.time.Instant;
-import org.joda.time.Period;
-import org.joda.time.PeriodType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +43,7 @@ import org.dimensinfin.core.interfaces.IEventReceiver;
 public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 	/** Task handler to manage execution of code that should be done on the main loop thread. */
 	private static final Handler handler = new Handler( Looper.getMainLooper() );
+	private static final long NANOSECONDS = 1000000;
 	private static final boolean LOG_ALLOWED = true;
 	private static final String GETTING_VIEW = "-- [DataSourceAdapter.getView]> Getting view [";
 	protected static Logger logger = LoggerFactory.getLogger( DataSourceAdapter.class );
@@ -113,7 +111,7 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 	 * times.
 	 */
 	public View getView( final int position, View convertView, final ViewGroup parent ) {
-		final Instant chrono = Instant.now();
+		final long chrono = System.nanoTime();
 		String exitMessage;
 		try {
 			// If the request is new we are sure this has to be created.
@@ -121,7 +119,7 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 			if (null == convertView) {
 				exitMessage = GETTING_VIEW + position + "] - " + item.getClass().getSimpleName();
 				// At this point we have access to the Context. Create the view, initialize the fields and connect it to the controller.
-				convertView = this.constructRender( context, item );
+				convertView = Objects.requireNonNull( this.constructRender( context, item ));
 			} else {
 				View cachedView = item.getViewCache();
 				if (null == cachedView) {
@@ -136,8 +134,8 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 							              + item.getClass().getSimpleName() + " CACHED";
 				}
 			}
-			if (null == convertView)
-				exitMessage = GETTING_VIEW + position + "] - " + item.getClass().getSimpleName() + " NOT FOUND";
+//			if (null == convertView)
+//				exitMessage = GETTING_VIEW + position + "] - " + item.getClass().getSimpleName() + " NOT FOUND";
 			// Activate listeners if the AndroidController supports that feature.
 			convertView.setClickable( false );
 			convertView.setLongClickable( true );
@@ -153,8 +151,7 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 			if (LOG_ALLOWED) {
 				// Filter out the spinner.
 				if (!exitMessage.contains( "OnLoadSpinnerController" )) {
-					final Period elapsedPeriod = new Period( chrono, Instant.now(), PeriodType.millis() );
-					final String elapsedMs = MessageFormat.format( "{0,number}ms", elapsedPeriod.getMillis() );
+					final String elapsedMs = MessageFormat.format( "{0,number}ms", (System.nanoTime() - chrono) / NANOSECONDS );
 					logger.info( "{} - Rendering time: {}", exitMessage, elapsedMs );
 				}
 			}

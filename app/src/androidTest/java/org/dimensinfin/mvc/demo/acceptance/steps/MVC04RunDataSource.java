@@ -1,14 +1,14 @@
-package org.dimensinfin.android.mvc.acceptance.test.steps;
+package org.dimensinfin.mvc.demo.acceptance.test.steps;
 
 import androidx.test.rule.ActivityTestRule;
 
-import org.dimensinfin.android.mvc.acceptance.activity.AcceptanceActivity01;
-import org.dimensinfin.android.mvc.acceptance.activity.AcceptanceActivity04;
-import org.dimensinfin.android.mvc.acceptance.activity.AcceptanceControllerFactory;
-import org.dimensinfin.android.mvc.acceptance.activity.MVC01Fragment;
-import org.dimensinfin.android.mvc.acceptance.activity.MVC04Fragment;
-import org.dimensinfin.android.mvc.acceptance.datasource.MVC04DataSource;
-import org.dimensinfin.android.mvc.acceptance.test.support.MVCWorld;
+import org.dimensinfin.mvc.demo.acceptance.activity.AcceptanceActivity01;
+import org.dimensinfin.mvc.demo.acceptance.activity.AcceptanceActivity04;
+import org.dimensinfin.mvc.demo.acceptance.activity.AcceptanceControllerFactory;
+import org.dimensinfin.mvc.demo.acceptance.activity.MVC01Fragment;
+import org.dimensinfin.mvc.demo.acceptance.activity.MVC04Fragment;
+import org.dimensinfin.mvc.demo.acceptance.datasource.MVC04DataSource;
+import org.dimensinfin.mvc.demo.acceptance.test.support.MVCWorld;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.IDataSource;

@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|center_horizontal"
         android:gravity="center"
-        android:text="@string/default_duration"
+        android:text="--s"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:textColor="@color/appwhite"

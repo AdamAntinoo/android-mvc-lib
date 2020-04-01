@@ -67,7 +67,7 @@ public abstract class CanvasPagerFragment extends MVCFragment {
 		Thread.setDefaultUncaughtExceptionHandler(new MVCExceptionHandler(this.getActivityContext()));
 		super.onCreateView(inflater, container, savedInstanceState);
 		// - S E C T I O N   1. Where we get access to the UI elements.
-		_container = (ViewGroup) inflater.inflate(R.layout.fragment_map, container, false);
+		_container = (ViewGroup) inflater.inflate(R.layout.fragment_canvas, container, false);
 		_headerContainer = Objects.requireNonNull(_container.findViewById(R.id.headerContainer));
 		_mapContainer = Objects.requireNonNull(_container.findViewById(R.id.mapCanvas));
 		_headerContainer.setVisibility(View.VISIBLE);
