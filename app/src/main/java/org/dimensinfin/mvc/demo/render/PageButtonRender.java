@@ -29,7 +29,7 @@ public class PageButtonRender extends TypedRender<PageButtonController> {
 	public void initializeViews() {
 		this.buttonIcon = Objects.requireNonNull( this.getView().findViewById( R.id.buttonIcon ) );
 		this.buttonLabel = Objects.requireNonNull( this.getView().findViewById( R.id.buttonLabel ) );
-		this.buttonIcon.setVisibility( View.VISIBLE );
+		this.buttonIcon.setVisibility( View.GONE );
 		this.buttonLabel.setVisibility( View.VISIBLE );
 	}
 

@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc.fonts;
+package org.dimensinfin.mvc.demo.fonts;
 
 import android.content.Context;
 import android.graphics.Typeface;

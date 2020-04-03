@@ -10,9 +10,9 @@ import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.ExceptionReportController;
 import org.dimensinfin.android.mvc.render.TypedRender;
 
-public class ExceptionReportRender   extends TypedRender<ExceptionReportController> {
+public class ExceptionReportRender extends TypedRender<ExceptionReportController> {
 	private TextView exceptionCode;
-//	private TextView exceptionType;
+	//	private TextView exceptionType;
 	private TextView exceptionMessage;
 	private TextView exceptionClassName;
 	private TextView exceptionMethodName;
@@ -29,26 +29,27 @@ public class ExceptionReportRender   extends TypedRender<ExceptionReportControll
 
 	@Override
 	public void initializeViews() {
-		this.exceptionCode = Objects.requireNonNull(this.getView().findViewById(R.id.exceptionCode));
+		this.exceptionCode = Objects.requireNonNull( this.getView().findViewById( R.id.exceptionCode ) );
 //		this.exceptionType = this.getView().findViewById(R.id.exceptionType);
-		this.exceptionMessage = Objects.requireNonNull(this.getView().findViewById(R.id.exceptionMessage));
-		this.exceptionClassName = Objects.requireNonNull(this.getView().findViewById(R.id.exceptionClassName));
-		this.exceptionMethodName = Objects.requireNonNull(this.getView().findViewById(R.id.exceptionMethodName));
+		this.exceptionMessage = Objects.requireNonNull( this.getView().findViewById( R.id.exceptionMessage ) );
+		this.exceptionClassName = Objects.requireNonNull( this.getView().findViewById( R.id.exceptionClassName ) );
+		this.exceptionMethodName = Objects.requireNonNull( this.getView().findViewById( R.id.exceptionMethodName ) );
 	}
 
 	@Override
 	public void updateContent() {
-		this.exceptionCode.setText(this.getController().getModel().getExceptionCode());
-		this.exceptionMessage.setText(this.getController().getModel().getMessage());
+		this.exceptionCode.setText( this.getController().getModel().getExceptionCode() );
+		this.exceptionMessage.setText( this.getController().getModel().getMessage() );
 //			this.exceptionClassName.setText(this.accessExceptionClass());
-		this.exceptionMethodName.setText(this.accessExceptionMethodName());
+		this.exceptionMethodName.setText( this.accessExceptionMethodName() );
 	}
+
 	//		private String accessExceptionClass(){
 //			final String longName = this.getController().getModel().getExceptionClass();
 //			return longName.substring (longName.lastIndexOf ('.'));
 //		}
-	private String accessExceptionMethodName ( ){
+	private String accessExceptionMethodName() {
 		final String longName = this.getController().getModel().getExceptionClass();
-		return longName+"."+ this.getController().getModel().getExceptionMethodName();
+		return longName + "." + this.getController().getModel().getExceptionMethodName();
 	}
 }
