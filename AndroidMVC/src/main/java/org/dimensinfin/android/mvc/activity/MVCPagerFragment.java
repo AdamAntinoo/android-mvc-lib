@@ -24,6 +24,7 @@ import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.HeaderDataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.exception.ExceptionRenderGenerator;
+import org.dimensinfin.android.mvc.exception.ExceptionToExceptionReportConverter;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.ui.HeaderListLayout;
 import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
@@ -271,9 +272,10 @@ public abstract class MVCPagerFragment extends MVCFragment {
 		this.dataSectionContainer.setVisibility( View.GONE );
 		final ViewGroup exceptionContainer = _container.findViewById( R.id.exceptionContainer );
 		exceptionContainer.removeAllViews();
-		exceptionContainer.addView( new ExceptionRenderGenerator.Builder( exception )
+		exceptionContainer.addView( new ExceptionRenderGenerator.Builder()
 				                            .withContext( this.getContext() )
 				                            .withFactory( this.getFactory() )
+				                            .withExceptionReport( new ExceptionToExceptionReportConverter().convert( exception ) )
 				                            .build().getView() );
 		exceptionContainer.setVisibility( View.VISIBLE );
 	}

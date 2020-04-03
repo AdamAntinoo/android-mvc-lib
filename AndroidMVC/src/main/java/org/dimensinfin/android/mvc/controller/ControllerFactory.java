@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import org.dimensinfin.android.mvc.core.domain.MVCNode;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
+import org.dimensinfin.android.mvc.domain.MVCNode;
 import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
 import org.dimensinfin.android.mvc.support.SpacerController;
@@ -40,7 +40,7 @@ public class ControllerFactory implements IControllerFactory {
 					       .setRenderMode( this.getVariant() );
 		}
 		if (node instanceof ExceptionReport) {
-			return new ExceptionController( (ExceptionReport) node, this );
+			return new ExceptionReportController( (ExceptionReport) node, this );
 		}
 		if (node instanceof MVCNode) { // This is used solely during page creation to show the spinner while the model is calculated.
 			return new ProgressSpinnerController( (MVCNode) node, this );

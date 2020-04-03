@@ -1,18 +1,15 @@
 package org.dimensinfin.android.mvc.exception;
 
-public class ExceptionToExceptionReportConverter {
-	private ExceptionToExceptionReportConverter() {}
+import org.dimensinfin.android.mvc.core.Converter;
 
-	// - B U I L D E R
-	public static class Builder {
-		private ExceptionToExceptionReportConverter onConstruction;
+public class ExceptionToExceptionReportConverter implements Converter<Exception, ExceptionReport> {
 
-		public Builder() {
-			this.onConstruction = new ExceptionToExceptionReportConverter();
-		}
-
-		public ExceptionToExceptionReportConverter build() {
-			return this.onConstruction;
+	@Override
+	public ExceptionReport convert( final Exception input ) {
+		try {
+			return new ExceptionReport.Builder( input ).build();
+		} catch (final NullPointerException npe) { // Intercept tha case where the original exception generates another exception.
+			return new ExceptionReport.Builder( npe ).build();
 		}
 	}
 }

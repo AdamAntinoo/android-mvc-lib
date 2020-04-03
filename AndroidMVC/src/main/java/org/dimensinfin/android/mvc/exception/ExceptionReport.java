@@ -2,16 +2,16 @@ package org.dimensinfin.android.mvc.exception;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 
 public class ExceptionReport implements ICollaboration {
 	private Exception exceptionDelegate;
-	private StackTraceElement element;
 	private String exceptionClass;
 	private String exceptionMethodName;
 
-	public ExceptionReport( final Exception exceptionDelegate ) {
+	private ExceptionReport( final Exception exceptionDelegate ) {
 		this.exceptionDelegate = exceptionDelegate;
 	}
 
@@ -31,14 +31,17 @@ public class ExceptionReport implements ICollaboration {
 		return this.exceptionMethodName;
 	}
 
+	// - I C O L L A B O R A T I O N
 	@Override
 	public List<ICollaboration> collaborate2Model( final String variation ) {
 		return new ArrayList<>();
 	}
 
 	@Override
-	public int compareTo( final Object o ) {
-		return 0;
+	public int compareTo( final Object target ) {
+		if (target instanceof ExceptionReport)
+			return this.exceptionClass.compareTo( ((ExceptionReport) target).exceptionClass );
+		else return 0;
 	}
 
 	// - B U I L D E R
@@ -46,15 +49,23 @@ public class ExceptionReport implements ICollaboration {
 		private ExceptionReport onConstruction;
 
 		public Builder( final Exception exception ) {
-			this.onConstruction = new ExceptionReport(exception);
+			this.onConstruction = new ExceptionReport( exception );
 		}
 
 		public ExceptionReport build() {
-			// Expand the report.
-			this.onConstruction.element = this.onConstruction.exceptionDelegate.getStackTrace()[0];
-			this.onConstruction.exceptionClass = this.onConstruction.element.getClassName();
-			this.onConstruction.exceptionMethodName = this.onConstruction.element.getMethodName();
+			Objects.requireNonNull( this.onConstruction.exceptionDelegate );
+			final StackTraceElement element = this.getCallerDataFromStack( this.onConstruction.exceptionDelegate );
+			this.onConstruction.exceptionClass = element.getClassName();
+			this.onConstruction.exceptionMethodName = element.getMethodName();
 			return this.onConstruction;
+		}
+
+		private StackTraceElement getCallerDataFromStack( final Exception exception ) {
+			final StackTraceElement[] stack = exception.getStackTrace();
+			if (stack.length > 0) return stack[0];
+			else return new StackTraceElement( "ExceptionReport",
+					"getCallerDataFromStack",
+					"ExceptionReport", 1 );
 		}
 	}
 }

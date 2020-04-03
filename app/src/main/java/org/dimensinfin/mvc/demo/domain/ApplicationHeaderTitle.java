@@ -2,7 +2,7 @@ package org.dimensinfin.mvc.demo.domain;
 
 import java.util.Objects;
 
-import org.dimensinfin.android.mvc.core.domain.MVCNode;
+import org.dimensinfin.android.mvc.domain.MVCNode;
 
 public class ApplicationHeaderTitle extends MVCNode {
 //	public static ApplicationHeaderTitle provideApplicationHeaderTitle() {
