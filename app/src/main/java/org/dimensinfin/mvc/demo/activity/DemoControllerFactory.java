@@ -6,9 +6,11 @@ import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.mvc.demo.controller.ApplicationHeaderTitleController;
 import org.dimensinfin.mvc.demo.controller.DemoItemController;
+import org.dimensinfin.mvc.demo.controller.PageButtonController;
 import org.dimensinfin.mvc.demo.controller.TitleLabelController;
 import org.dimensinfin.mvc.demo.domain.ApplicationHeaderTitle;
 import org.dimensinfin.mvc.demo.domain.DemoLabel;
+import org.dimensinfin.mvc.demo.domain.PageButton;
 import org.dimensinfin.mvc.demo.domain.TitleLabel;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;
@@ -28,6 +30,10 @@ public class DemoControllerFactory extends ControllerFactory implements IControl
 	 */
 	@Override
 	public IAndroidController createController( final ICollaboration node) {
+		if (node instanceof PageButton) {
+			// These shows the selected Separator but with another rendering.
+			return new PageButtonController((PageButton) node, this).setRenderMode(this.getVariant());
+		}
 		if (node instanceof DemoLabel) {
 			// These shows the selected Separator but with another rendering.
 			return new DemoItemController((DemoLabel) node, this).setRenderMode(this.getVariant());

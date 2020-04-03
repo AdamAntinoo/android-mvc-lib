@@ -17,7 +17,7 @@
         android:layout_marginTop="2dp"
         android:src="@drawable/defaulticonplaceholder" />
 
-    <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
+    <org.dimensinfin.mvc.demo.fonts.ProximaNovaBoldTextView
         android:id="@+id/nodeName"
         style="@style/AppTheme.TextView.Glow.White"
         android:layout_width="wrap_content"

@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/uipanelborderwhite">
 
-    <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
+    <org.dimensinfin.mvc.demo.fonts.ElementalEndTextView
         android:id="@+id/applicationName"
         style="@style/AppTheme.TextView.Glow.White"
         android:layout_width="wrap_content"
@@ -17,7 +17,7 @@
         android:text="@string/appname"
         android:textSize="30sp" />
 
-    <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
+    <org.dimensinfin.mvc.demo.fonts.ElementalEndTextView
         android:id="@+id/applicationVersion"
         style="@style/AppTheme.TextView.Glow.Orange"
         android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <org.dimensinfin.android.mvc.fonts.ElementalEndTextView
+    <org.dimensinfin.mvc.demo.fonts.ElementalEndTextView
         android:id="@+id/copyright"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

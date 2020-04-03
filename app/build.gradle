@@ -4,6 +4,9 @@ apply plugin: 'project-report'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.0'
+    }
 
     defaultConfig {
         applicationId "org.dimensinfin.mvc.demo"

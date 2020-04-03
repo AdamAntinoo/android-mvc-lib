@@ -16,6 +16,7 @@ dependencies {
     implementation "org.slf4j:slf4j-api:$slf4j"
     implementation "org.slf4j:slf4j-android:$slf4j"
     implementation "joda-time:joda-time:$jodaTimeVersion"
+    implementation 'com.google.code.gson:gson:2.8.6' // Required by the LoggerWrapper
     // - MVC
     implementation "org.dimensinfin:CoreBase.core:3.2.0"
 //    implementation "org.dimensinfin:AndroidMVC:5.18.2@aar"

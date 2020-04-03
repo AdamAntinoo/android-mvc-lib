@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/uipanelborderblack">
+
+    <ImageView
+        android:id="@+id/buttonIcon"
+        style="@style/AppTheme.NodeIcon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/standardmargin"
+        android:layout_marginStart="@dimen/standardmargin"
+        android:layout_marginEnd="@dimen/standardmargin"
+        android:layout_marginTop="@dimen/standardmargin"
+        android:src="@drawable/defaulticonplaceholder"
+        android:contentDescription="@string/default_description" />
+
+    <org.dimensinfin.mvc.demo.fonts.ElementalEndTextView
+        android:id="@+id/buttonLabel"
+        style="@style/AppTheme.TextView.Glow.White"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/buttonIcon"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/defaultlabelname"
+        android:textSize="20sp" />
+</RelativeLayout>

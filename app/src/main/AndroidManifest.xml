@@ -7,22 +7,28 @@
 		android:label="@string/appname"
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
-		android:theme="@style/AppTheme" >
-	<!-- S T A R T U P    A C T I V I T Y -->
-	<activity
-		android:name=".activity.MVCDemoSimpleActivity"
-		android:configChanges="orientation|keyboardHidden|screenSize"
-		android:icon="@mipmap/ic_launcher_round"
-		android:label="@string/activity_title_MVCDemoSimpleActivity"
-		android:screenOrientation="sensor">
-		<intent-filter>
-			<action android:name="android.intent.action.MAIN" />
-			<category android:name="android.intent.category.LAUNCHER" />
-		</intent-filter>
-	</activity>
+		android:theme="@style/AppTheme">
+		<!-- S T A R T U P    A C T I V I T Y -->
+		<activity
+			android:name=".activity.PageSelectionDashboardActivity"
+			android:configChanges="orientation|keyboardHidden|screenSize"
+			android:icon="@mipmap/ic_launcher_round"
+			android:label="@string/activity_title_PageSelectionDashboardActivity"
+			android:screenOrientation="sensor">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<!-- A C T I V I T I E S-->
+		<activity
+			android:name=".activity.MVCDemoSimpleActivity"
+			android:configChanges="orientation|keyboardHidden|screenSize"
+			android:label="@string/activity_title_MVCDemoSimpleActivity"
+			android:screenOrientation="sensor"></activity>
 	</application>
 	<instrumentation
-		android:label="Acceptance Test: AndroidMVC"
 		android:name="android.app.Instrumentation"
-		android:targetPackage="org.dimensinfin.mvc.demo"/>
+		android:label="Acceptance Test: AndroidMVC"
+		android:targetPackage="org.dimensinfin.mvc.demo" />
 </manifest>

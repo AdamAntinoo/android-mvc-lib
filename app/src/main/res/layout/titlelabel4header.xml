@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/uipanelborderred">
 
-    <org.dimensinfin.android.mvc.fonts.ProximaNovaBoldTextView
+    <org.dimensinfin.mvc.demo.fonts.ProximaNovaBoldTextView
             android:id="@+id/title"
             style="@style/AppTheme.TextView.Glow.White"
             android:layout_width="fill_parent"
