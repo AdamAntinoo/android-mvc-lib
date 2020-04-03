@@ -23,6 +23,7 @@ import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.android.mvc.exception.ExceptionRenderGenerator;
+import org.dimensinfin.android.mvc.exception.ExceptionToExceptionReportConverter;
 import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
 import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.core.domain.IntercommunicationEvent;
@@ -156,23 +157,29 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 				}
 			}
 		} catch (final RuntimeException rtex) {
-			try {
-				Exception exception;
-				String message = rtex.getMessage();
-				if (null == message)
-					exception = new NullPointerException( "Detected a null pointer exception while generating a new render view." );
-				else exception = rtex;
-				convertView = new ExceptionRenderGenerator.Builder( exception )
+			LoggerWrapper.error( rtex );
+			if (rtex instanceof NullPointerException)
+				convertView = this.newNullPointerExceptionReport(); // Report the special case for a NullPointerException
+			else
+				convertView = new ExceptionRenderGenerator.Builder()
 						              .withContext( this.getContext() )
-						              .withFactory( new ControllerFactory( "-DEFAULT-" ) )
-						              .build().getView();
-				DataSourceAdapter.logger.error( "RTEX [DataSourceAdapter.getView]> Runtime Exception: {}", exception.getMessage() );
-				rtex.printStackTrace();
-			} catch (final RuntimeException rte) {
-				LoggerWrapper.error( rte );
-			}
+									  .withFactory( new ControllerFactory( "-DEFAULT-" ) )
+						              .withExceptionReport( new ExceptionToExceptionReportConverter().convert( rtex ) )
+						              .build()
+						              .getView();
 		}
 		return convertView;
+	}
+
+	private View newNullPointerExceptionReport() {
+		return new ExceptionRenderGenerator.Builder()
+				       .withContext( this.getContext() )
+				       .withExceptionReport( new ExceptionToExceptionReportConverter().convert(
+						       new NullPointerException( "Detected a null pointer exception while generating a new render view." )
+						       )
+				       )
+				       .build()
+				       .getView();
 	}
 
 	@Override
