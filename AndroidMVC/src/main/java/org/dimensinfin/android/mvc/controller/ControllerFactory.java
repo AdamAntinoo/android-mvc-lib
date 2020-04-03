@@ -2,13 +2,12 @@ package org.dimensinfin.android.mvc.controller;
 
 import android.content.Context;
 import android.content.Intent;
+import androidx.annotation.NonNull;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.core.domain.MVCNode;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
@@ -18,7 +17,11 @@ import org.dimensinfin.android.mvc.support.SpacerController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
 public class ControllerFactory implements IControllerFactory {
-	protected static final Logger logger = LoggerFactory.getLogger( ControllerFactory.class );
+	/**
+	 * This field contains the list of pages that can be launched from a panel interaction. Each page destination should be registered on the
+	 * factory before it can be accessed from the <code>onClick()</code> interaction to jump to another page.
+	 * The list is shared by all the factories so a registration with the same page name will replace any previous registration.
+	 */
 	private static final Map<String, Class> activityRegistry = new HashMap<>();
 
 	// - F I E L D - S E C T I O N
@@ -26,7 +29,7 @@ public class ControllerFactory implements IControllerFactory {
 
 	// - C O N S T R U C T O R - S E C T I O N
 	public ControllerFactory( final String selectedVariant ) {
-		this.variant = selectedVariant;
+		this.variant = Objects.requireNonNull( selectedVariant );
 	}
 
 	// - M E T H O D - S E C T I O N
@@ -39,17 +42,35 @@ public class ControllerFactory implements IControllerFactory {
 		if (node instanceof ExceptionReport) {
 			return new ExceptionController( (ExceptionReport) node, this );
 		}
-		if (node instanceof MVCNode) {
+		if (node instanceof MVCNode) { // This is used solely during page creation to show the spinner while the model is calculated.
 			return new ProgressSpinnerController( (MVCNode) node, this );
 		}
 
-		// If no part is trapped then result a NOT FOUND mark
+		// If no model class is trapped then result a NOT FOUND mark
+		final String message = MessageFormat.format( "-No Model-Controller match-[{0}]-", node.getClass().getSimpleName() );
 		return new SpacerController( new Spacer.Builder()
-				                             .withLabel( "-NO Model-Controller match-[" +
-						                                         node.getClass().getSimpleName() +
-						                                         "]-" )
-				                             .build()
-				, this );
+				                             .withLabel( message )
+				                             .build(),
+				this );
+	}
+
+	public IControllerFactory registerActivity( @NonNull final String activityCode, @NonNull final Class activityClass ) {
+		activityRegistry.put( Objects.requireNonNull( activityCode ), Objects.requireNonNull( activityClass ) );
+		return this;
+	}
+
+	public boolean isRegistered( final String activityCode ) {
+		if (null != activityCode) return activityRegistry.containsKey( activityCode );
+		else return false;
+	}
+
+	public Intent prepareActivity( @NonNull final String activityCode, @NonNull final Context context ) {
+		Objects.requireNonNull( activityCode );
+		return new Intent( Objects.requireNonNull( context ), Objects.requireNonNull(activityRegistry.get( activityCode )) );
+	}
+
+	public void cleanRegistry() {
+		activityRegistry.clear();
 	}
 
 	// - G E T T E R S   &   S E T T E R S
@@ -57,20 +78,4 @@ public class ControllerFactory implements IControllerFactory {
 		return variant;
 	}
 
-	public IControllerFactory registerActivity( final String activityCode, final Class activityClass ) {
-		activityRegistry.put( activityCode, activityClass );
-		return this;
-	}
-
-	public Intent prepareActivity( final String activityCode, final Context context ) {
-		Objects.requireNonNull( activityCode );
-		Objects.requireNonNull( context );
-		final Class activity = activityRegistry.get( activityCode );
-		Objects.requireNonNull( activity );
-		return new Intent( context, activity );
-	}
-
-	public void cleanRegistry() {
-		activityRegistry.clear();
-	}
 }

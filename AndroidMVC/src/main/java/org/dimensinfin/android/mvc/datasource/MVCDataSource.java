@@ -57,13 +57,13 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	/**
 	 * Copy of the extras bundle received by the Activity.
 	 */
-	private Bundle extras = new Bundle();
+	protected Bundle extras = new Bundle();
 	/**
 	 * This is the Fragment or Activity code used to differentiate between different model generations. It is stored on
 	 * the String format to be independent from any of the enumerated structures in the different modules. Anyway it
 	 * should be a conversion from closed list of values.
 	 */
-	private String variant = "-DEFAULT-VARIANT-";
+	protected String variant = "-DEFAULT-VARIANT-";
 	/**
 	 * Flag to indicate if the model contents generated can be cached and we can avoid running the <code>collaborate2Model
 	 * ()</code> method on every fragment instantiation. If the model is suitable for caching we can speed up the turn of
@@ -141,6 +141,7 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 		this.headerModelRoot.add( newModel );
 		return this;
 	}
+
 	/**
 	 * This is the single way to add more content to the DataSource internal model representation. Encapsulating this
 	 * functionality on this method we make sure that the right events are generated and the model is properly updated and
@@ -198,7 +199,7 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 		try {
 			// Check if the model needs update (dirty flag) or we can jump directly to the view collaboration.
 			if (this.isDirty()) {
-				LoggerWrapper.info("Data contents dirty. Refreshing model.");
+				LoggerWrapper.info( "Data contents dirty. Refreshing model." );
 				this.refreshDataSection();
 				this.cleanDirty();
 			}
@@ -238,6 +239,7 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 		return extras;
 	}
 
+	@Deprecated
 	public MVCDataSource setExtras( final Bundle extras ) {
 		this.extras = extras;
 		return this;
@@ -247,6 +249,7 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 		return variant;
 	}
 
+	@Deprecated
 	public MVCDataSource setVariant( final String variant ) {
 		this.variant = variant;
 		return this;
@@ -321,7 +324,8 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 		this.dirty = true; // Signal the model change
 		return this;
 	}
-	public void cleanHeaderModel(){
+
+	public void cleanHeaderModel() {
 		this.headerModelRoot.clear();
 	}
 
@@ -417,18 +421,18 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 		}
 
 		public B withFactory( final IControllerFactory factory ) {
-			if (null != factory) this.getActual().controllerFactory = factory;
+			this.getActual().controllerFactory = Objects.requireNonNull( factory );
 			return this.actualClassBuilder;
 		}
 
 		public B withVariant( final String variant ) {
-			if (null != variant) this.getActual().setVariant( variant );
+			this.getActual().variant = Objects.requireNonNull( variant );
 			return this.actualClassBuilder;
 		}
 
 		public B withExtras( final Bundle extras ) {
-			if (null != extras) this.getActual().setExtras( extras );
-			else this.getActual().setExtras( new Bundle() );
+			if (null != extras) this.getActual().extras = extras;
+			else this.getActual().extras = new Bundle();
 			return this.actualClassBuilder;
 		}
 

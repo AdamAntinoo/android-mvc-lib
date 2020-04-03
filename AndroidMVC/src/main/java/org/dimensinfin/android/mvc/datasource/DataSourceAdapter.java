@@ -23,6 +23,7 @@ import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.android.mvc.exception.ExceptionRenderGenerator;
+import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
 import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.core.domain.IntercommunicationEvent;
 import org.dimensinfin.core.interfaces.IEventReceiver;
@@ -75,7 +76,7 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 	public DataSourceAdapter( @NonNull final IPagerFragment fragment, @NonNull final IDataSource dataSource ) {
 		Objects.requireNonNull( fragment );
 		this.context = fragment.getActivityContext();
-		this.dataSource = Objects.requireNonNull((MVCDataSource) dataSource);
+		this.dataSource = Objects.requireNonNull( (MVCDataSource) dataSource );
 		this.dataSource.addEventListener( this ); // Connect the Adapter to the DataSource
 	}
 
@@ -118,7 +119,7 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 			if (null == convertView) {
 				exitMessage = GETTING_VIEW + position + "] - " + item.getClass().getSimpleName();
 				// At this point we have access to the Context. Create the view, initialize the fields and connect it to the controller.
-				convertView = Objects.requireNonNull( this.constructRender( context, item ));
+				convertView = Objects.requireNonNull( this.constructRender( context, item ) );
 			} else {
 				View cachedView = item.getViewCache();
 				if (null == cachedView) {
@@ -154,18 +155,22 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 					logger.info( "{} - Rendering time: {}", exitMessage, elapsedMs );
 				}
 			}
-		} catch (RuntimeException rtex) {
-			Exception exception;
-			String message = rtex.getMessage();
-			if (null == message)
-				exception = new NullPointerException( "Detected a null pointer exception while generating a new render view." );
-			else exception = rtex;
-			convertView = new ExceptionRenderGenerator.Builder( exception )
-					              .withContext( this.getContext() )
-					              .withFactory( new ControllerFactory( "-DEFAULT-" ) )
-					              .build().getView();
-			DataSourceAdapter.logger.error( "RTEX [DataSourceAdapter.getView]> Runtime Exception: {}", exception.getMessage() );
-			rtex.printStackTrace();
+		} catch (final RuntimeException rtex) {
+			try {
+				Exception exception;
+				String message = rtex.getMessage();
+				if (null == message)
+					exception = new NullPointerException( "Detected a null pointer exception while generating a new render view." );
+				else exception = rtex;
+				convertView = new ExceptionRenderGenerator.Builder( exception )
+						              .withContext( this.getContext() )
+						              .withFactory( new ControllerFactory( "-DEFAULT-" ) )
+						              .build().getView();
+				DataSourceAdapter.logger.error( "RTEX [DataSourceAdapter.getView]> Runtime Exception: {}", exception.getMessage() );
+				rtex.printStackTrace();
+			} catch (final RuntimeException rte) {
+				LoggerWrapper.error( rte );
+			}
 		}
 		return convertView;
 	}

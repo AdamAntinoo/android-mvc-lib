@@ -1,1 +1,4 @@
-/build
+# - Ignore compilation and other generated data
+build/
+coverage/
+

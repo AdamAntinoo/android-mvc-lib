@@ -7,7 +7,7 @@ import java.util.Objects;
 
 import org.dimensinfin.android.mvc.activity.IPagerFragment;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.core.domain.MVCNode;
+import org.dimensinfin.android.mvc.domain.MVCNode;
 import org.dimensinfin.android.mvc.ui.HeaderListLayout;
 
 public class HeaderDataSourceAdapter extends DataSourceAdapter {
@@ -52,6 +52,10 @@ public class HeaderDataSourceAdapter extends DataSourceAdapter {
 		this.dataSource.cleanHeaderModel();
 	}
 
+	/**
+	 * When registering the graphical layout we can then start sowing the spinner.
+	 * @param headerContainer the graphical element where to render the adapter contents.
+	 */
 	public void registerLayout( final HeaderListLayout headerContainer ) {
 		this.headerContainer = Objects.requireNonNull( headerContainer );
 		this.activateCounterSpinner(); // Insert the spinner on the header and start counting the time.

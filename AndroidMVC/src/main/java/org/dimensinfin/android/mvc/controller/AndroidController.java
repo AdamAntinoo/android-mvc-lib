@@ -58,10 +58,8 @@ public abstract class AndroidController<M extends ICollaboration> implements IAn
 
 	// - C O N S T R U C T O R S
 	private AndroidController( @NonNull final ControllerAdapter<M> delegate, @NonNull final IControllerFactory factory ) {
-		Objects.requireNonNull(delegate);
-		Objects.requireNonNull(factory);
-		this.delegatedController = delegate;
-		this.factory = factory;
+		this.delegatedController = Objects.requireNonNull(delegate);
+		this.factory = Objects.requireNonNull(factory);
 	}
 
 	public AndroidController( @NonNull final M model, @NonNull final IControllerFactory factory ) {

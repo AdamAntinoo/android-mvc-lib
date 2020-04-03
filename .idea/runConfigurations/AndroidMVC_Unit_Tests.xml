@@ -1,0 +1,54 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="AndroidMVC-Unit Tests" type="AndroidJUnit" factoryName="Android JUnit">
+    <module name="AndroidMVC" />
+    <extension name="coverage" runner="jacoco">
+      <pattern>
+        <option name="PATTERN" value="org.dimensinfin.android.mvc.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.dimensinfin.mvc.demo.activity.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.dimensinfin.android.mvc.render.*" />
+        <option name="ENABLED" value="true" />
+        <option name="INCLUDE" value="false" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.dimensinfin.android.mvc.support.*" />
+        <option name="ENABLED" value="true" />
+        <option name="INCLUDE" value="false" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.dimensinfin.android.mvc.test.*" />
+        <option name="ENABLED" value="true" />
+        <option name="INCLUDE" value="false" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.dimensinfin.android.mvc.controller.ControllerFactoryTest" />
+        <option name="ENABLED" value="true" />
+        <option name="INCLUDE" value="false" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.dimensinfin.android.mvc.datasource.DataSourceAdapterTest" />
+        <option name="ENABLED" value="true" />
+        <option name="INCLUDE" value="false" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.dimensinfin.android.mvc.datasource.DataSourceLocatorTest" />
+        <option name="ENABLED" value="true" />
+        <option name="INCLUDE" value="false" />
+      </pattern>
+    </extension>
+    <option name="PACKAGE_NAME" value="org.dimensinfin.android.mvc" />
+    <option name="MAIN_CLASS_NAME" value="" />
+    <option name="METHOD_NAME" value="" />
+    <option name="TEST_OBJECT" value="package" />
+    <option name="PARAMETERS" value="" />
+    <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+    <method v="2">
+      <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+    </method>
+  </configuration>
+</component>
