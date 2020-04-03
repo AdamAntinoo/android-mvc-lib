@@ -1,4 +1,8 @@
 package org.dimensinfin.android.mvc.support;
 
-public class TestContainerNode extends Container<TestNode> {
+import org.dimensinfin.android.mvc.domain.MVCNode;
+
+public class TestContainerNode extends Container<MVCNode> {
+	public TestContainerNode() {
+	}
 }
