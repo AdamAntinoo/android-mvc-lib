@@ -9,12 +9,12 @@ import java.util.Objects;
 
 import org.awaitility.Awaitility;
 
-import org.dimensinfin.mvc.demo.acceptance.support.core.AcceptanceNeoComLogger;
-import org.dimensinfin.mvc.demo.acceptance.support.core.World;
 import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.core.MVCScheduler;
+import org.dimensinfin.mvc.demo.acceptance.support.core.AcceptanceNeoComLogger;
+import org.dimensinfin.mvc.demo.acceptance.support.core.World;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -94,12 +94,17 @@ public class Ristretto {
 				results.add( controller );
 		return results;
 	}
-	public static List<IAndroidController> withTypex<T>( final List<IAndroidController> controllers, final Class type ) {
-		final List<IAndroidController> results = new ArrayList<>();
-		for (IAndroidController controller : controllers)
-			if (type.isInstance( controller ))
-				results.add( controller );
-		return results;
+
+	public static List<?> withTypex( final List<IAndroidController> controllers, final TypeMatcher matcher ) {
+		return matcher.match( controllers );
+//		new TypeMatcher<type>(final List<IAndroidController> controllers, final Class type);
+//
+//
+//		final List<IAndroidController> results = new ArrayList<>();
+//		for (IAndroidController controller : controllers)
+//			if (type.isInstance( controller ))
+//				results.add( controller );
+//		return results;
 	}
 
 	// - S Y N C H R O N I Z A T I O N

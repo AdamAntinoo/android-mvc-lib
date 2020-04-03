@@ -9,6 +9,7 @@ import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.mvc.demo.acceptance.support.PanelTypes;
 import org.dimensinfin.mvc.demo.acceptance.support.core.MVCWorld;
 import org.dimensinfin.mvc.demo.acceptance.support.ristretto.Ristretto;
+import org.dimensinfin.mvc.demo.acceptance.support.ristretto.TypeMatcher;
 import org.dimensinfin.mvc.demo.acceptance.validators.ValidatePageButtonPanels;
 import org.dimensinfin.mvc.demo.controller.PageButtonController;
 
@@ -26,9 +27,13 @@ public class AndValidateAListOfPanelsWithTheNextContents extends SupportStepPare
 			final PanelTypes panelType = PanelTypes.from( panelTypeName );
 			switch (panelType) {
 				case PAGE_BUTTON_PANEL:
-					final List<IAndroidController> pageButtonPanelsMatching = Ristretto.withType(
+//					new TypeMatcher<PageButtonController>().match( controllers, PageButtonController.class );
+//					final List<IAndroidController> controllers = Ristretto.accessHeaderPanels( this.world.getSelectedPage() );
+//					final TypeMatcher<PageButtonController> matcher = new TypeMatcher<PageButtonController>( PageButtonController.class );
+					final List<PageButtonController> pageButtonPanelsMatching = (List<PageButtonController>) Ristretto.withTypex(
 							Ristretto.accessHeaderPanels( this.world.getSelectedPage() ),
-							PageButtonController.class );
+							new TypeMatcher<>( PageButtonController.class )
+					);
 					Assert.assertNotNull( pageButtonPanelsMatching );
 					Assert.assertTrue( pageButtonPanelsMatching.size() > 0 );
 					Assert.assertTrue( new ValidatePageButtonPanels<PageButtonController>( this.world )

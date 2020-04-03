@@ -1,4 +1,4 @@
-@MVC03
+@MVC03B
 Feature: [MVC03] Verify rendering for Action Bar.
 
   Each fragment may set an specific action bar with the contents relevant to the selected page. Or it cannot define any
