@@ -3,11 +3,13 @@ package org.dimensinfin.mvc.demo.acceptance.support;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import org.junit.Assert;
 
+import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.mvc.demo.R;
 import org.dimensinfin.mvc.demo.acceptance.support.core.AcceptanceNeoComLogger;
 import org.dimensinfin.mvc.demo.acceptance.support.core.World;
@@ -75,5 +77,23 @@ public class MVCValidators {
 			}
 		}
 		return value;
+	}
+
+	public static boolean validateTitledActionBar( final Map<String, String> expectedData, final View targetView ) {
+		final String TITLE = "title";
+
+		final TextView pageTitle = Objects.requireNonNull( targetView.findViewById( R.id.title ) );
+		AcceptanceNeoComLogger.info( "[THEN] title: {}", pageTitle.getText().toString() );
+		Assert.assertEquals( decodePredefinedValue( expectedData.get( TITLE ) ), pageTitle.getText().toString() );
+		return true;
+	}
+
+	public static boolean validateMultiPageActionBar( final Map<String, String> expectedData, final View targetView ) {
+		final String TITLE = "title";
+
+		final TextView pageTitle = Objects.requireNonNull( targetView.findViewById( R.id.title ) );
+		AcceptanceNeoComLogger.info( "[THEN] title: {}", pageTitle.getText().toString() );
+		Assert.assertEquals( decodePredefinedValue( expectedData.get( TITLE ) ), pageTitle.getText().toString() );
+		return true;
 	}
 }

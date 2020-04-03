@@ -94,6 +94,13 @@ public class Ristretto {
 				results.add( controller );
 		return results;
 	}
+	public static List<IAndroidController> withTypex<T>( final List<IAndroidController> controllers, final Class type ) {
+		final List<IAndroidController> results = new ArrayList<>();
+		for (IAndroidController controller : controllers)
+			if (type.isInstance( controller ))
+				results.add( controller );
+		return results;
+	}
 
 	// - S Y N C H R O N I Z A T I O N
 	public static void waitForCompletion( final Runnable callback ) {

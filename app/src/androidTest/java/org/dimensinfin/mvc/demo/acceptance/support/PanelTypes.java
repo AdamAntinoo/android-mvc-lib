@@ -5,9 +5,10 @@ import java.util.Arrays;
 import org.apache.commons.lang3.NotImplementedException;
 
 public enum PanelTypes {
+	PAGE_BUTTON_PANEL( "PageButton" ),
 	APPLICATION_HEADER_TITLE( "ApplicationHeaderTitle" ),
 	TITLE_LABEL( "TitleLabel" ),
-	DEMO_LABEL("DemoLabel");
+	DEMO_LABEL( "DemoLabel" );
 
 	String panelLabel;
 

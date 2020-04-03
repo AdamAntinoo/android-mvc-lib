@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.apache.commons.lang3.NotImplementedException;
 
 public enum ActionBarTypes {
+	TITLED_ACTIONBAR( "TitledActionBar" ),
 	APP_VERSION( "AppVersion" );
 
 	String actionBarLabel;

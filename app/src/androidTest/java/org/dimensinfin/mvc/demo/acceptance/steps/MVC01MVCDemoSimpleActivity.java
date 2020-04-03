@@ -43,7 +43,7 @@ public class MVC01MVCDemoSimpleActivity {
 		);
 		Assert.assertNotNull( scenario );
 		AcceptanceNeoComLogger.info( "Store the scenario..." );
-		this.world.setsMVCDemoSimpleActivityScenario( scenario );
+		this.world.setMvcDemoSimpleActivityScenario( scenario );
 		scenario.onActivity( ( activity ) -> {
 			AcceptanceNeoComLogger.info( "Verify the activity starts without exceptions..." );
 			Assert.assertNotNull( activity );

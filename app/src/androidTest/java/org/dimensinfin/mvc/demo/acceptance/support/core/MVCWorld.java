@@ -6,22 +6,45 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 
 import org.dimensinfin.mvc.demo.activity.MVCDemoSimpleActivity;
+import org.dimensinfin.mvc.demo.activity.PageSelectionDashboardActivity;
 
-public class MVCWorld  extends World{
-private ActivityScenario<MVCDemoSimpleActivity> sMVCDemoSimpleActivityScenario;
+public class MVCWorld extends World {
+	private ActivityScenario<PageSelectionDashboardActivity> pageSelectionDashboardActivityScenario;
+
+	public ActivityScenario<PageSelectionDashboardActivity> getPageSelectionDashboardActivityScenario() {
+		return this.pageSelectionDashboardActivityScenario;
+	}
+
+	public MVCWorld setPageSelectionDashboardActivityScenario( final ActivityScenario<PageSelectionDashboardActivity> pageSelectionDashboardActivityScenario ) {
+		this.pageSelectionDashboardActivityScenario = pageSelectionDashboardActivityScenario;
+		return this;
+	}
+//	private ActivityScenario<DemoMultiPageActivity> demoMultiPageActivityScenario;
+//
+//	public ActivityScenario<DemoMultiPageActivity> getDemoMultiPageActivityScenario() {
+//		return this.demoMultiPageActivityScenario;
+//	}
+//
+//	public MVCWorld setDemoMultiPageActivityScenario( final ActivityScenario<DemoMultiPageActivity> demoMultiPageActivityScenario ) {
+//		this.demoMultiPageActivityScenario = demoMultiPageActivityScenario;
+//		return this;
+//	}
+
+	private ActivityScenario<MVCDemoSimpleActivity> mvcDemoSimpleActivityScenario;
+
+	public ActivityScenario<MVCDemoSimpleActivity> getMvcDemoSimpleActivityScenario() {
+		return this.mvcDemoSimpleActivityScenario;
+	}
+
+	public MVCWorld setMvcDemoSimpleActivityScenario( final ActivityScenario<MVCDemoSimpleActivity> mvcDemoSimpleActivityScenario ) {
+		this.mvcDemoSimpleActivityScenario = mvcDemoSimpleActivityScenario;
+		return this;
+	}
+
 	public Intent generateIntent( final Class destinationActivity ) {
 		final Intent requestIntent = new Intent( ApplicationProvider.getApplicationContext(), destinationActivity );
 		Bundle bundle = new Bundle();
 		requestIntent.putExtras( bundle );
 		return requestIntent;
-	}
-
-	public ActivityScenario<MVCDemoSimpleActivity> getsMVCDemoSimpleActivityScenario() {
-		return this.sMVCDemoSimpleActivityScenario;
-	}
-
-	public MVCWorld setsMVCDemoSimpleActivityScenario( final ActivityScenario<MVCDemoSimpleActivity> sMVCDemoSimpleActivityScenario ) {
-		this.sMVCDemoSimpleActivityScenario = sMVCDemoSimpleActivityScenario;
-		return this;
 	}
 }
