@@ -4,24 +4,26 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.domain.IControllerFactory;
+import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.mvc.demo.controller.ApplicationHeaderTitleController;
 import org.dimensinfin.mvc.demo.controller.DemoItemController;
 import org.dimensinfin.mvc.demo.controller.PageButtonController;
 import org.dimensinfin.mvc.demo.controller.TitleLabelController;
+import org.dimensinfin.mvc.demo.controller.TitledActionBarController;
 import org.dimensinfin.mvc.demo.domain.ApplicationHeaderTitle;
 import org.dimensinfin.mvc.demo.domain.DemoLabel;
 import org.dimensinfin.mvc.demo.domain.PageButton;
 import org.dimensinfin.mvc.demo.domain.TitleLabel;
-import org.dimensinfin.android.mvc.domain.IControllerFactory;
-import org.dimensinfin.core.interfaces.ICollaboration;
+import org.dimensinfin.mvc.demo.ui.TitledActionBar;
 
 /**
  * @author Adam Antinoo
  */
 public class DemoControllerFactory extends ControllerFactory implements IControllerFactory {
 	// - C O N S T R U C T O R S
-	public DemoControllerFactory(@NonNull final String selectedVariant) {
-		super(selectedVariant);
+	public DemoControllerFactory( @NonNull final String selectedVariant ) {
+		super( selectedVariant );
 	}
 
 	/**
@@ -29,22 +31,26 @@ public class DemoControllerFactory extends ControllerFactory implements IControl
 	 * creation time the controller or to replace controllers when required.
 	 */
 	@Override
-	public IAndroidController createController( final ICollaboration node) {
+	public IAndroidController createController( final ICollaboration node ) {
 		if (node instanceof PageButton) {
 			// These shows the selected Separator but with another rendering.
-			return new PageButtonController((PageButton) node, this).setRenderMode(this.getVariant());
+			return new PageButtonController( (PageButton) node, this ).setRenderMode( this.getVariant() );
+		}
+		if (node instanceof TitledActionBar) {
+			// These shows the selected Separator but with another rendering.
+			return new TitledActionBarController( (TitledActionBar) node, this ).setRenderMode( this.getVariant() );
 		}
 		if (node instanceof DemoLabel) {
 			// These shows the selected Separator but with another rendering.
-			return new DemoItemController((DemoLabel) node, this).setRenderMode(this.getVariant());
+			return new DemoItemController( (DemoLabel) node, this ).setRenderMode( this.getVariant() );
 		}
 		if (node instanceof ApplicationHeaderTitle) {
 			// These shows the selected Separator but with another rendering.
-			return new ApplicationHeaderTitleController((ApplicationHeaderTitle) node, this).setRenderMode(this.getVariant());
+			return new ApplicationHeaderTitleController( (ApplicationHeaderTitle) node, this ).setRenderMode( this.getVariant() );
 		}
 		if (node instanceof TitleLabel) {
 			// These shows the selected Separator but with another rendering.
-			return new TitleLabelController((TitleLabel) node, this).setRenderMode(this.getVariant());
+			return new TitleLabelController( (TitleLabel) node, this ).setRenderMode( this.getVariant() );
 		}
 //		LoggerW.info("-- [DemoControllerFactory.createController]> Node class: " + node.getClass().getSimpleName());
 //		if (node instanceof ApplicationHeaderTitle) {
@@ -75,6 +81,6 @@ public class DemoControllerFactory extends ControllerFactory implements IControl
 //			return new DemoItemAndroidController((DemoLabel) node, this).setRenderMode("-LABEL-");
 //		}
 		// If no part is trapped then call the parent chain until one is found.
-		return super.createController(node);
+		return super.createController( node );
 	}
 }

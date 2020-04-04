@@ -10,11 +10,12 @@ import java.util.Objects;
 import org.dimensinfin.android.mvc.render.TypedRender;
 import org.dimensinfin.mvc.demo.R;
 import org.dimensinfin.mvc.demo.controller.TitleLabelController;
+import org.dimensinfin.mvc.demo.controller.TitledActionBarController;
 
-public class TitleLabelRender extends TypedRender<TitleLabelController> {
+public class TitledActionBarRender extends TypedRender<TitledActionBarController> {
 	private TextView title = null;
 
-	public TitleLabelRender( @NonNull final TitleLabelController controller, @NonNull final Context context ) {
+	public TitledActionBarRender( @NonNull final TitledActionBarController controller, @NonNull final Context context ) {
 		super( controller, context );
 	}
 

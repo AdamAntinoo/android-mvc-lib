@@ -7,7 +7,7 @@
 		android:label="@string/appname"
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
-		android:theme="@style/AppTheme">
+		android:theme="@style/AppTheme.NoActionBar">
 		<!-- S T A R T U P    A C T I V I T Y -->
 		<activity
 			android:name=".activity.PageSelectionDashboardActivity"
