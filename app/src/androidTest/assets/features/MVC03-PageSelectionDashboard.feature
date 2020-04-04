@@ -20,6 +20,6 @@ Feature: [MVC03]-Check the number and contents for the page selection buttons.
 	  | ONE PAGE SIMPLE LABEL LIST        | MVCDEMOLIST_ITEMS |
 	  | MULTI PAGE DIFFERENT AGGREGATIONS | BYGROUP           |
 
-  @MVC03 @MVC03.02
-  Scenario: [MVC03.02]-When there is a click on the first button we move to the DemoSimpleActivity.
-	When there is a click on "PageButton" panel "0" we move to activity "MVCDemoSimpleActivity"
+#  @MVC03 @MVC03.02
+#  Scenario: [MVC03.02]-When there is a click on the first button we move to the DemoSimpleActivity.
+#	When there is a click on "PageButton" panel "0" we move to activity "MVCDemoSimpleActivity"

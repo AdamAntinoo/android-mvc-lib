@@ -3,15 +3,13 @@ package org.dimensinfin.mvc.demo.acceptance.support;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import org.junit.Assert;
 
-import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.mvc.demo.R;
-import org.dimensinfin.mvc.demo.acceptance.support.core.AcceptanceNeoComLogger;
+import org.dimensinfin.mvc.demo.acceptance.support.core.LoggerWrapper;
 import org.dimensinfin.mvc.demo.acceptance.support.core.World;
 
 public class MVCValidators {
@@ -26,10 +24,10 @@ public class MVCValidators {
 		final String APP_VERSION = "AppVersion";
 
 		final TextView appName = Objects.requireNonNull( targetView.findViewById( R.id.applicationName ) );
-		AcceptanceNeoComLogger.info( "[THEN] appName: {}", appName.getText().toString() );
+		LoggerWrapper.info( "[THEN] appName: {}", appName.getText().toString() );
 		Assert.assertEquals( decodePredefinedValue( expectedData.get( APP_NAME ) ), appName.getText().toString() );
 		final TextView appVersion = Objects.requireNonNull( targetView.findViewById( R.id.applicationVersion ) );
-		AcceptanceNeoComLogger.info( "[THEN] appVersion: {}", appVersion.getText().toString() );
+		LoggerWrapper.info( "[THEN] appVersion: {}", appVersion.getText().toString() );
 		Assert.assertEquals( decodePredefinedValue( expectedData.get( APP_NAME ) ), appVersion.getText().toString() );
 		return true;
 	}
@@ -42,10 +40,10 @@ public class MVCValidators {
 //		view.check(matches(withText(decodePredefinedValue( expectedData.get( APPLICATION_NAME ) ))));
 
 		final TextView appName = Objects.requireNonNull( targetView.findViewById( R.id.applicationName ) );
-		AcceptanceNeoComLogger.info( "[THEN] applicationName: {}", appName.getText().toString() );
+		LoggerWrapper.info( "[THEN] applicationName: {}", appName.getText().toString() );
 		Assert.assertEquals( decodePredefinedValue( expectedData.get( APPLICATION_NAME ) ), appName.getText().toString() );
 		final TextView appVersion = Objects.requireNonNull( targetView.findViewById( R.id.applicationVersion ) );
-		AcceptanceNeoComLogger.info( "[THEN] applicationVersion: {}", appVersion.getText().toString() );
+		LoggerWrapper.info( "[THEN] applicationVersion: {}", appVersion.getText().toString() );
 		Assert.assertEquals( decodePredefinedValue( expectedData.get( APPLICATION_VERSION ) ), appVersion.getText().toString() );
 		return true;
 	}
@@ -54,7 +52,7 @@ public class MVCValidators {
 		final String TITLE = "title";
 
 		final TextView appName = Objects.requireNonNull( targetView.findViewById( R.id.title ) );
-		AcceptanceNeoComLogger.info( "[THEN] title: {}", appName.getText().toString() );
+		LoggerWrapper.info( "[THEN] title: {}", appName.getText().toString() );
 		Assert.assertEquals( decodePredefinedValue( expectedData.get( TITLE ) ), appName.getText().toString() );
 		return true;
 	}
@@ -63,7 +61,7 @@ public class MVCValidators {
 		final String TITLE = "title";
 
 		final TextView appName = Objects.requireNonNull( targetView.findViewById( R.id.nodeName ) );
-		AcceptanceNeoComLogger.info( "[THEN] title: {}", appName.getText().toString() );
+		LoggerWrapper.info( "[THEN] title: {}", appName.getText().toString() );
 		Assert.assertEquals( decodePredefinedValue( expectedData.get( TITLE ) ), appName.getText().toString() );
 		return true;
 	}
@@ -79,20 +77,11 @@ public class MVCValidators {
 		return value;
 	}
 
-	public static boolean validateTitledActionBar( final Map<String, String> expectedData, final View targetView ) {
-		final String TITLE = "title";
-
-		final TextView pageTitle = Objects.requireNonNull( targetView.findViewById( R.id.title ) );
-		AcceptanceNeoComLogger.info( "[THEN] title: {}", pageTitle.getText().toString() );
-		Assert.assertEquals( decodePredefinedValue( expectedData.get( TITLE ) ), pageTitle.getText().toString() );
-		return true;
-	}
-
 	public static boolean validateMultiPageActionBar( final Map<String, String> expectedData, final View targetView ) {
 		final String TITLE = "title";
 
 		final TextView pageTitle = Objects.requireNonNull( targetView.findViewById( R.id.title ) );
-		AcceptanceNeoComLogger.info( "[THEN] title: {}", pageTitle.getText().toString() );
+		LoggerWrapper.info( "[THEN] title: {}", pageTitle.getText().toString() );
 		Assert.assertEquals( decodePredefinedValue( expectedData.get( TITLE ) ), pageTitle.getText().toString() );
 		return true;
 	}

@@ -17,20 +17,6 @@ public class HeaderDataSourceAdapter extends DataSourceAdapter {
 		super( fragment, datasource );
 	}
 
-//	public HeaderDataSourceAdapter setHeaderContainer( final ViewGroup headerContainer ) {
-//		this.headerContainer = Objects.requireNonNull( headerContainer );
-//		this.activateCounterSpinner(); // Insert the spinner on the header and start counting the time.
-//		return this;
-//	}
-
-//	@Deprecated
-//	@Override
-//	public void requestDataModel() {
-//		LoggerWrapper.enter();
-//		this.headerContainer.removeAllViews();
-//		LoggerWrapper.exit();
-//	}
-
 	/**
 	 * Will clean the current content for the header linear layout and then generate a new list of views from the current list of controllers.
 	 * During the refill of the layout if we found any null pointer exception we skip that view but leave a trace of that fact.

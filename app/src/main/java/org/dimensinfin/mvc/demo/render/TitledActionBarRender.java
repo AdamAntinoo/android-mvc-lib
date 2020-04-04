@@ -22,7 +22,7 @@ public class TitledActionBarRender extends TypedRender<TitledActionBarController
 	// - I R E N D E R
 	@Override
 	public int accessLayoutReference() {
-		return R.layout.titlelabel4header;
+		return R.layout.titled4actionbar;
 	}
 
 	@Override

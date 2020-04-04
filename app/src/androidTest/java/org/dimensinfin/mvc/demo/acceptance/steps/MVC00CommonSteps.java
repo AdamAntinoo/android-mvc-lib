@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Assert;
 
 import org.dimensinfin.mvc.demo.acceptance.support.ristretto.Ristretto;
-import org.dimensinfin.mvc.demo.acceptance.support.core.AcceptanceNeoComLogger;
+import org.dimensinfin.mvc.demo.acceptance.support.core.LoggerWrapper;
 import org.dimensinfin.mvc.demo.acceptance.support.core.MVCWorld;
 
 import cucumber.api.java.en.Then;
@@ -19,7 +19,7 @@ public class MVC00CommonSteps {
 	}
 	@Then("{string} panels on the {string}")
 	public void panels_on_the( final String numberOfPanels, final String section ) {
-		AcceptanceNeoComLogger.info( "[THEN] {string} panels on the {string}" );
+		LoggerWrapper.info( "[THEN] {string} panels on the {string}" );
 		switch (section) {
 			case "HeaderSection":
 				Assert.assertEquals( Integer.parseInt( numberOfPanels ), Ristretto.headerContentsCount( this.world.getSelectedPage() ) );
@@ -34,7 +34,7 @@ public class MVC00CommonSteps {
 	public void stop_on_debug_point() throws InterruptedException {
 		Ristretto.waitForBackground( () -> {
 			Ristretto.waitForCompletion( () -> {
-				AcceptanceNeoComLogger.info( "Invalidate all the display and wait termination..." );
+				LoggerWrapper.info( "Invalidate all the display and wait termination..." );
 				Ristretto.updateDisplay();
 			} );
 		} );

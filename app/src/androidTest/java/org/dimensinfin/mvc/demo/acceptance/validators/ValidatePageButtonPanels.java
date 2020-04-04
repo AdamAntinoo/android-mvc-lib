@@ -21,7 +21,7 @@ public class ValidatePageButtonPanels<C extends IAndroidController> extends Vali
 		int index = 0;
 		for (Map<String, String> row : dataTable) {
 			final C panel = panelsMatching.get( index );
-			Assert.assertTrue( this.validatePanelFieldContents( panel.getViewCache(), row, R.id.title, TITLE ) );
+			Assert.assertTrue( this.validatePanelFieldContents( row, panel.getViewCache(), R.id.title, TITLE ) );
 		}
 		return true;
 	}

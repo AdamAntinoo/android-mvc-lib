@@ -74,12 +74,12 @@ public abstract class MVCPagerFragment extends MVCFragment {
 		return this.headerSectionAdapter.accessContents();
 	}
 
-	public List<IAndroidController> accessDataContents() {
-		return this.dataAdapter.accessContents();
-	}
-
 	public ListView accessDataSectionContainer() {
 		return this.dataSectionContainer;
+	}
+
+	public List<IAndroidController> accessDataContents() {
+		return this.dataAdapter.accessContents();
 	}
 
 	public void updateDisplay() {

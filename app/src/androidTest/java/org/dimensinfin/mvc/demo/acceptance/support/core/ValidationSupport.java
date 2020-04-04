@@ -17,13 +17,22 @@ public class ValidationSupport extends SupportStepParent {
 		super( world );
 	}
 
-	protected boolean validatePanelFieldContents( final View targetView, final Map<String, String> row,
+	protected boolean validatePanelFieldContents( final Map<String, String> row, final View targetView,
 	                                              final int fieldIdentifier, final String fieldName ) {
 		final TextView viewField = Objects.requireNonNull( targetView.findViewById( fieldIdentifier ) );
 		final String fieldValue = viewField.getText().toString();
-		AcceptanceNeoComLogger.info( "[THEN] {}: {}", fieldName, fieldValue );
+		LoggerWrapper.info( "[THEN] {}: {}", fieldName, fieldValue );
 		Assert.assertEquals( this.decodePredefinedValue( row.get( fieldName ) ), fieldValue );
 		return this.decodePredefinedValue( row.get( fieldName ) ).equals( fieldValue );
+	}
+
+	protected boolean validatePanelFieldContentsNoCaps( final Map<String, String> row, final View targetView,
+	                                                    final int fieldIdentifier, final String fieldName ) {
+		final TextView viewField = Objects.requireNonNull( targetView.findViewById( fieldIdentifier ) );
+		final String fieldValue = viewField.getText().toString();
+		LoggerWrapper.info( "[THEN] {}: {}", fieldName, fieldValue );
+		Assert.assertEquals( this.decodePredefinedValue( row.get( fieldName ) ).toUpperCase(), fieldValue.toUpperCase() );
+		return this.decodePredefinedValue( row.get( fieldName ) ).toUpperCase().equals( fieldValue.toUpperCase() );
 	}
 
 	protected String decodePredefinedValue( final String value ) {

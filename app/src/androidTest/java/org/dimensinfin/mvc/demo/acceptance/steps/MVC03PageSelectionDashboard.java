@@ -4,7 +4,7 @@ import androidx.test.core.app.ActivityScenario;
 
 import org.junit.Assert;
 
-import org.dimensinfin.mvc.demo.acceptance.support.core.AcceptanceNeoComLogger;
+import org.dimensinfin.mvc.demo.acceptance.support.core.LoggerWrapper;
 import org.dimensinfin.mvc.demo.acceptance.support.core.MVCWorld;
 import org.dimensinfin.mvc.demo.acceptance.support.ristretto.Ristretto;
 import org.dimensinfin.mvc.demo.activity.PageSelectionDashboardActivity;
@@ -20,18 +20,18 @@ public class MVC03PageSelectionDashboard extends SupportStepParent {
 
 	@Given("the PageSelectionDashboardActivity")
 	public void the_PageSelectionDashboardActivity() {
-		AcceptanceNeoComLogger.info( "[GIVEN] the PageSelectionDashboardActivity" );
+		LoggerWrapper.info( "[GIVEN] the PageSelectionDashboardActivity" );
 	}
 
 	@When("the PageSelectionDashboardActivity activity lifecycle completes")
 	public void the_PageSelectionDashboardActivity_activity_lifecycle_completes() {
-		AcceptanceNeoComLogger.info( "[WHEN] the PageSelectionDashboardActivity activity lifecycle completes" );
-		AcceptanceNeoComLogger.info( "Going to launch the scenario with the PageSelectionDashboardActivity..." );
+		LoggerWrapper.info( "[WHEN] the PageSelectionDashboardActivity activity lifecycle completes" );
+		LoggerWrapper.info( "Going to launch the scenario with the PageSelectionDashboardActivity..." );
 		final ActivityScenario<PageSelectionDashboardActivity> scenario = ActivityScenario.launch(
 				this.world.generateIntent( PageSelectionDashboardActivity.class )
 		);
 		Assert.assertNotNull( scenario );
-		AcceptanceNeoComLogger.info( "Store the scenario..." );
+		LoggerWrapper.info( "Store the scenario..." );
 		this.world.setPageSelectionDashboardActivityScenario( scenario );
 		this.verifyActivityLifecycleCompletion( scenario, 0 );
 	}

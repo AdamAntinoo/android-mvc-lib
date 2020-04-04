@@ -13,7 +13,7 @@ import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.core.MVCScheduler;
-import org.dimensinfin.mvc.demo.acceptance.support.core.AcceptanceNeoComLogger;
+import org.dimensinfin.mvc.demo.acceptance.support.core.LoggerWrapper;
 import org.dimensinfin.mvc.demo.acceptance.support.core.World;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -109,23 +109,23 @@ public class Ristretto {
 
 	// - S Y N C H R O N I Z A T I O N
 	public static void waitForCompletion( final Runnable callback ) {
-		AcceptanceNeoComLogger.enter();
+		LoggerWrapper.enter();
 		// Add the callback behind the latest scheduler run and ui run.
 		final Monitor monitor = new Monitor();
 		world.getActiveActivity().runOnUiThread( callback );
 		world.getActiveActivity().runOnUiThread( monitor::activateTrigger );
 		Awaitility.await().atMost( WAIT_TIMEOUT, SECONDS ).until( () -> monitor.isTriggered() );
-		AcceptanceNeoComLogger.exit();
+		LoggerWrapper.exit();
 	}
 
 	public static void waitForBackground( final Runnable callback ) {
-		AcceptanceNeoComLogger.enter();
+		LoggerWrapper.enter();
 		// Add the callback behind the latest scheduler run and ui run.
 		final Monitor monitor = new Monitor();
 		MVCScheduler.backgroundExecutor.submit( callback );
 		MVCScheduler.backgroundExecutor.submit( monitor::activateTrigger );
 		Awaitility.await().atMost( WAIT_TIMEOUT, SECONDS ).until( () -> monitor.isTriggered() );
-		AcceptanceNeoComLogger.exit();
+		LoggerWrapper.exit();
 	}
 
 	@Deprecated
@@ -145,7 +145,7 @@ public class Ristretto {
 		private boolean trigger = false;
 
 		public void activateTrigger() {
-			AcceptanceNeoComLogger.enter();
+			LoggerWrapper.enter();
 			this.trigger = true;
 		}
 
