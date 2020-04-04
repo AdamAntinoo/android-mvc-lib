@@ -8,8 +8,8 @@ import androidx.test.runner.lifecycle.Stage;
 
 import org.junit.Assert;
 
+import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
 import org.dimensinfin.mvc.demo.acceptance.support.MVCValidators;
-import org.dimensinfin.mvc.demo.acceptance.support.core.LoggerWrapper;
 import org.dimensinfin.mvc.demo.acceptance.support.core.MVCWorld;
 import org.dimensinfin.mvc.demo.acceptance.support.ristretto.Ristretto;
 
@@ -43,6 +43,8 @@ public class SupportStepParent {
 			Ristretto.waitForCompletion( () -> {
 				LoggerWrapper.info( "Invalidate all the display and wait termination..." );
 				Ristretto.updateDisplay();
+				final int headersCount = Ristretto.headerContentsCount( this.world.getSelectedPage() );
+				final int dataCount = Ristretto.dataContentsCount( this.world.getSelectedPage() );
 			} );
 		} );
 	}

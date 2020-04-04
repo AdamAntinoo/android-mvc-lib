@@ -4,7 +4,7 @@ import androidx.test.core.app.ActivityScenario;
 
 import org.junit.Assert;
 
-import org.dimensinfin.mvc.demo.acceptance.support.core.LoggerWrapper;
+import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
 import org.dimensinfin.mvc.demo.acceptance.support.core.MVCWorld;
 import org.dimensinfin.mvc.demo.acceptance.support.ristretto.Ristretto;
 import org.dimensinfin.mvc.demo.activity.PageSelectionDashboardActivity;

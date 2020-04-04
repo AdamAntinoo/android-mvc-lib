@@ -4,8 +4,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 
+import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
 import org.dimensinfin.mvc.demo.acceptance.support.ristretto.Ristretto;
-import org.dimensinfin.mvc.demo.acceptance.support.core.LoggerWrapper;
 import org.dimensinfin.mvc.demo.acceptance.support.core.MVCWorld;
 
 import cucumber.api.java.en.Then;

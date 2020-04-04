@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import org.junit.Assert;
 
+import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
 import org.dimensinfin.mvc.demo.R;
 import org.dimensinfin.mvc.demo.acceptance.steps.SupportStepParent;
 

@@ -17,6 +17,24 @@ public class HeaderDataSourceAdapter extends DataSourceAdapter {
 		super( fragment, datasource );
 	}
 
+	public List<IAndroidController> getControllerList() {
+		return this.contentControllerList;
+	}
+
+	public void clean() {
+		this.dataSource.cleanHeaderModel();
+	}
+
+	/**
+	 * This method should fix the bug when requesting the controller list. That list is virtual and created when required from the model data and
+	 * it is not stored on the adapter differently than the other adapters. The contents come from the data source ever.
+	 * @return
+	 */
+	@Override
+	public List<IAndroidController> accessContents() {
+		return this.dataSource.getHeaderSectionContents();
+	}
+
 	/**
 	 * Will clean the current content for the header linear layout and then generate a new list of views from the current list of controllers.
 	 * During the refill of the layout if we found any null pointer exception we skip that view but leave a trace of that fact.
@@ -30,16 +48,9 @@ public class HeaderDataSourceAdapter extends DataSourceAdapter {
 		super.notifyDataSetChanged();
 	}
 
-	public List<IAndroidController> getControllerList() {
-		return this.contentControllerList;
-	}
-
-	public void clean() {
-		this.dataSource.cleanHeaderModel();
-	}
-
 	/**
 	 * When registering the graphical layout we can then start sowing the spinner.
+	 *
 	 * @param headerContainer the graphical element where to render the adapter contents.
 	 */
 	public void registerLayout( final HeaderListLayout headerContainer ) {

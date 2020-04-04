@@ -10,8 +10,8 @@ import java.util.Objects;
 import org.apache.commons.lang3.NotImplementedException;
 import org.junit.Assert;
 
+import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
 import org.dimensinfin.mvc.demo.acceptance.support.ActionBarTypes;
-import org.dimensinfin.mvc.demo.acceptance.support.core.LoggerWrapper;
 import org.dimensinfin.mvc.demo.acceptance.support.core.MVCWorld;
 import org.dimensinfin.mvc.demo.acceptance.validators.ValidateTitledActionBar;
 

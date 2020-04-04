@@ -202,8 +202,8 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 	 */
 	@Override
 	public void notifyDataSetChanged() {
-		contentControllerList.clear();
-		contentControllerList.addAll( dataSource.getDataSectionContents() );
+		this.contentControllerList.clear();
+		this.contentControllerList.addAll( this.dataSource.getDataSectionContents() );
 		super.notifyDataSetChanged();
 	}
 

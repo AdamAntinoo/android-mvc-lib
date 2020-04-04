@@ -13,7 +13,7 @@ import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.core.MVCScheduler;
-import org.dimensinfin.mvc.demo.acceptance.support.core.LoggerWrapper;
+import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
 import org.dimensinfin.mvc.demo.acceptance.support.core.World;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
