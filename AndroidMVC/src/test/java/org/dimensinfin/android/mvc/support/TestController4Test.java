@@ -6,9 +6,9 @@ import androidx.annotation.NonNull;
 import org.mockito.Mockito;
 
 import org.dimensinfin.android.mvc.controller.AndroidController;
-import org.dimensinfin.android.mvc.core.domain.MVCNode;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
+import org.dimensinfin.android.mvc.domain.MVCNode;
 
 public class TestController4Test extends AndroidController<MVCNode> {
 

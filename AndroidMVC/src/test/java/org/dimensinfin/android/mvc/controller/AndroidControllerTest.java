@@ -12,11 +12,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import org.dimensinfin.android.mvc.core.domain.MVCNode;
 import org.dimensinfin.android.mvc.domain.Container;
 import org.dimensinfin.android.mvc.domain.IContainer;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
+import org.dimensinfin.android.mvc.domain.MVCNode;
 import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.support.TestContainerNode;
 import org.dimensinfin.android.mvc.support.TestContainerNodeController;

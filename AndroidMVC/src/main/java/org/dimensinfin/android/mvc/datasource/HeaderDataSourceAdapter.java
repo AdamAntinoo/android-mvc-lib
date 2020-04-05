@@ -9,16 +9,13 @@ import org.dimensinfin.android.mvc.activity.IPagerFragment;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.domain.MVCNode;
 import org.dimensinfin.android.mvc.ui.HeaderListLayout;
+import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
 
 public class HeaderDataSourceAdapter extends DataSourceAdapter {
 	private HeaderListLayout headerContainer;
 
 	public HeaderDataSourceAdapter( @NonNull final IPagerFragment fragment, @NonNull final IDataSource datasource ) {
 		super( fragment, datasource );
-	}
-
-	public List<IAndroidController> getControllerList() {
-		return this.contentControllerList;
 	}
 
 	public void clean() {
@@ -28,11 +25,10 @@ public class HeaderDataSourceAdapter extends DataSourceAdapter {
 	/**
 	 * This method should fix the bug when requesting the controller list. That list is virtual and created when required from the model data and
 	 * it is not stored on the adapter differently than the other adapters. The contents come from the data source ever.
-	 * @return
 	 */
 	@Override
 	public List<IAndroidController> accessContents() {
-		return this.dataSource.getHeaderSectionContents();
+		return this.contentControllerList;
 	}
 
 	/**
@@ -42,10 +38,12 @@ public class HeaderDataSourceAdapter extends DataSourceAdapter {
 	 */
 	@Override
 	public void notifyDataSetChanged() {
+		LoggerWrapper.enter();
+		super.notifyDataSetChanged(); // Teh parent code is wrong because it will clear the controller list.
 		this.contentControllerList.clear();
 		this.contentControllerList.addAll( this.dataSource.getHeaderSectionContents() );
 		if (null != this.headerContainer) this.headerContainer.notifyDataSetChanged();
-		super.notifyDataSetChanged();
+		LoggerWrapper.exit();
 	}
 
 	/**

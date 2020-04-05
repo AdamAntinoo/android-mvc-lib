@@ -42,7 +42,7 @@ public class HeaderListLayout extends LinearLayout {
 	 * to be rendered.
 	 */
 	public void notifyDataSetChanged(  ) {
-		final List<IAndroidController> contentControllerList = this.headerSectionAdapter.getControllerList();
+		final List<IAndroidController> contentControllerList = this.headerSectionAdapter.accessContents();
 		this.removeAllViews();
 		for (int i = 0; i < contentControllerList.size(); i++)
 			try {

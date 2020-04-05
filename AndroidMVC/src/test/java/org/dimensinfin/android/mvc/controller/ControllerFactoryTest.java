@@ -39,7 +39,7 @@ public class ControllerFactoryTest {
 		final ControllerFactory factory = new ControllerFactory( TEST_VARIANT );
 		IAndroidController obtained = factory.createController( new Spacer.Builder().build() );
 		Assertions.assertTrue( obtained instanceof SpacerController );
-		obtained = factory.createController( new ExceptionReport( new NullPointerException( "Test exception" ) ) );
+		obtained = factory.createController( new ExceptionReport.Builder( new NullPointerException( "Test exception" ) ).build() );
 		Assertions.assertTrue( obtained instanceof ExceptionReportController );
 		obtained = factory.createController( new MVCNode.Builder().build() );
 		Assertions.assertTrue( obtained instanceof ProgressSpinnerController );
