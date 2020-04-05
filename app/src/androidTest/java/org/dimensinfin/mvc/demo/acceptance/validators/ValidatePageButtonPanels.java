@@ -17,11 +17,11 @@ public class ValidatePageButtonPanels<C extends IAndroidController> extends Vali
 	}
 
 	public boolean validatePageButtonPanels( final List<Map<String, String>> dataTable, final List<C> panelsMatching ) {
-		final String TITLE = "title";
+		final String LABEL = "label";
 		int index = 0;
 		for (Map<String, String> row : dataTable) {
-			final C panel = panelsMatching.get( index );
-			Assert.assertTrue( this.validatePanelFieldContents( row, panel.getViewCache(), R.id.title, TITLE ) );
+			final C panel = panelsMatching.get( index++ );
+			Assert.assertTrue( this.validatePanelFieldContentsNoCaps( row, panel.getViewCache(), R.id.buttonLabel, LABEL ) );
 		}
 		return true;
 	}

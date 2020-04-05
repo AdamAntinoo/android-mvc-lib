@@ -43,8 +43,6 @@ public class SupportStepParent {
 			Ristretto.waitForCompletion( () -> {
 				LoggerWrapper.info( "Invalidate all the display and wait termination..." );
 				Ristretto.updateDisplay();
-				final int headersCount = Ristretto.headerContentsCount( this.world.getSelectedPage() );
-				final int dataCount = Ristretto.dataContentsCount( this.world.getSelectedPage() );
 			} );
 		} );
 	}
