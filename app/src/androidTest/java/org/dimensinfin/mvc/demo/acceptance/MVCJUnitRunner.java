@@ -22,7 +22,7 @@ import cucumber.api.junit.Cucumber;
 		plugin = { "html:target/cucumber-html-report",
 				"json:target/cucumber-dry.json", "pretty:target/cucumber-pretty-dry.txt",
 				"usage:target/cucumber-usage-dry.json", "junit:target/cucumber-results-dry.xml" },
-		tags = { "not @skip_scenario", "not @front", "not @duplication", "@MVC03" })
+		tags = { "not @skip_scenario", "not @front", "not @duplication", "@MVC03.02" })
 public class MVCJUnitRunner extends CucumberAndroidJUnitRunner {
 
 	@Override

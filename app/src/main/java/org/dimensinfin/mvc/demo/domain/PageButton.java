@@ -11,7 +11,11 @@ public class PageButton extends MVCNode {
 	private PageButton() {}
 
 	public String getLabel() {
-		return label;
+		return this.label;
+	}
+
+	public String getPageName() {
+		return this.pageName;
 	}
 
 	// - B U I L D E R

@@ -1,10 +1,15 @@
 package org.dimensinfin.mvc.demo.acceptance.steps;
 
+import android.app.Activity;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitor;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import androidx.test.runner.lifecycle.Stage;
+
+import java.util.Collection;
+import java.util.Iterator;
 
 import org.junit.Assert;
 
@@ -24,6 +29,20 @@ public class SupportStepParent {
 		this.world = world;
 		Ristretto.setWorld( this.world );
 		MVCValidators.setWorld( this.world );
+	}
+
+	protected Activity getActivityInstance() {
+		final Activity[] currentActivity = { null };
+
+		InstrumentationRegistry.getInstrumentation().runOnMainSync( new Runnable() {
+			public void run() {
+				Collection<Activity> resumedActivity = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage( Stage.RESUMED );
+				Iterator<Activity> it = resumedActivity.iterator();
+				currentActivity[0] = it.next();
+			}
+		} );
+
+		return currentActivity[0];
 	}
 
 	protected void verifyActivityLifecycleCompletion( final ActivityScenario<?> scenario, final int pageNumber ) {
