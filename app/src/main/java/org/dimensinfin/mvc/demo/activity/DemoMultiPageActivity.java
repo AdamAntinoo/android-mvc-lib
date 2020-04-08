@@ -8,6 +8,7 @@ public class DemoMultiPageActivity extends MVCMultiPageActivity {
 	@Override
 	protected void onCreate( final Bundle savedInstanceState ) {
 		super.onCreate( savedInstanceState );
-		this.addPage( new GroupFragment() );
+		this.addPage( new MultiPageFragment().setVariant( PageDefinitions.BYCOLOUR.name() ) );
+		this.addPage( new MultiPageFragment().setVariant( PageDefinitions.BYSIDES.name() ) );
 	}
 }

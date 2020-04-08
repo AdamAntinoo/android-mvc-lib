@@ -7,20 +7,20 @@ import java.util.Objects;
 import org.dimensinfin.android.mvc.domain.Container;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.mvc.demo.domain.ColorfulFigure;
-import org.dimensinfin.mvc.demo.domain.Colours;
+import org.dimensinfin.mvc.demo.domain.Figures;
 
-public class ColourDataSource extends FigureColorDataSource {
-	private Map<Colours, Container<ColorfulFigure>> groups = new HashMap<>();
+public class SidesDataSource extends FigureColorDataSource {
+	private Map<Figures, Container<ColorfulFigure>> groups = new HashMap<>();
 
 	// - I D A T A S O U R C E
 	@Override
 	public void collaborate2Model() {
 		for (ColorfulFigure figure : this.elements) {
-			final Colours color = figure.getColor();
-			Container<ColorfulFigure> hit = this.groups.get( color );
+			final Figures figureType = figure.getFigure();
+			Container<ColorfulFigure> hit = this.groups.get( figureType );
 			if (null == hit) {
 				hit = new Container<>();
-				this.groups.put(color,hit);
+				this.groups.put( figureType, hit );
 			}
 			hit.addContent( figure );
 		}
@@ -29,27 +29,27 @@ public class ColourDataSource extends FigureColorDataSource {
 	}
 
 	// - B U I L D E R
-	public static class Builder extends FigureColorDataSource.Builder<ColourDataSource, ColourDataSource.Builder> {
-		private ColourDataSource onConstruction;
+	public static class Builder extends FigureColorDataSource.Builder<SidesDataSource, SidesDataSource.Builder> {
+		private SidesDataSource onConstruction;
 
 		public Builder( final IControllerFactory factory ) {
 			Objects.requireNonNull( factory );
-			this.onConstruction = new ColourDataSource();
+			this.onConstruction = new SidesDataSource();
 			this.withFactory( factory );
 		}
 
 		@Override
-		protected ColourDataSource getActual() {
-			if (null == this.onConstruction) this.onConstruction = new ColourDataSource();
+		protected SidesDataSource getActual() {
+			if (null == this.onConstruction) this.onConstruction = new SidesDataSource();
 			return this.onConstruction;
 		}
 
 		@Override
-		protected ColourDataSource.Builder getActualBuilder() {
+		protected SidesDataSource.Builder getActualBuilder() {
 			return this;
 		}
 
-		public ColourDataSource build() {
+		public SidesDataSource build() {
 			super.build();
 			return this.onConstruction;
 		}

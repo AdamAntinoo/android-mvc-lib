@@ -2,9 +2,9 @@ package org.dimensinfin.mvc.demo.activity;
 
 public enum PageDefinitions {
 	MVCDEMOLIST_ITEMS( "Simple List of Items" ),
-	BYGROUP( "Items classified by Group" ),
-	BYCATEGORY( "Items classified by Category" ),
-	PAGE_SELECTION( "Test Page Selection");
+	BYCOLOUR( "Items by Colour" ),
+	BYSIDES( "Items by Number of Sides" ),
+	PAGE_SELECTION( "Test Page Selection" );
 
 	String pageTitle;
 

@@ -8,7 +8,7 @@ import org.dimensinfin.core.interfaces.IExpandable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Container<M> extends Spacer implements IExpandable {
+public class Container<M> extends MVCNode implements IExpandable {
 	private static final long serialVersionUID = -957283664928489030L;
 
 	// - F I E L D - S E C T I O N
@@ -20,10 +20,10 @@ public class Container<M> extends Spacer implements IExpandable {
 		super();
 	}
 
-	@Deprecated
-	public Container( final String title ) {
-		this.setLabel(title);
-	}
+//	@Deprecated
+//	public Container( final String title ) {
+//		this.setLabel(title);
+//	}
 
 	// - M E T H O D - S E C T I O N
 	public int addContent( final M node ) {

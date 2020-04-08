@@ -19,7 +19,7 @@ public class PageSelectionDataSource extends MVCDataSource {
 				                        .build() );
 		this.addHeaderContents( new PageButton.Builder()
 				                        .withLabel( "Multi Page Different Aggregations" )
-				                        .withPageName( PageDefinitions.BYGROUP.name() )
+				                        .withPageName( PageDefinitions.BYCOLOUR.name() )
 				                        .build() );
 	}
 
