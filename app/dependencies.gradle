@@ -18,6 +18,7 @@ dependencies {
     implementation "joda-time:joda-time:$jodaTimeVersion"
     implementation 'com.google.code.gson:gson:2.8.6' // Required by the LoggerWrapper
     // - MVC
+    implementation "org.dimensinfin.android.mvc:AndroidMVC.core:0.1.0"
     implementation "org.dimensinfin:CoreBase.core:3.2.0"
 //    implementation "org.dimensinfin:AndroidMVC:5.18.2@aar"
     implementation project(path: ':AndroidMVC')

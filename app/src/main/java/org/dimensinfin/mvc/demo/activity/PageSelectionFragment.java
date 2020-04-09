@@ -7,7 +7,6 @@ import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.render.RenderViewGenerator;
 import org.dimensinfin.mvc.demo.datasource.PageSelectionDataSource;
-import org.dimensinfin.mvc.demo.ui.MultiPageActionBar;
 import org.dimensinfin.mvc.demo.ui.TitledActionBar;
 
 public class PageSelectionFragment extends MVCPagerFragment {

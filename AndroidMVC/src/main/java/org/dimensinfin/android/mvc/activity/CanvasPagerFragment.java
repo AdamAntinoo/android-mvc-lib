@@ -20,11 +20,11 @@ import org.joda.time.format.DateTimeFormatterBuilder;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AndroidController;
-import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.core.IAndroidController;
+import org.dimensinfin.android.mvc.core.IDataSource;
+import org.dimensinfin.android.mvc.core.IRender;
 import org.dimensinfin.android.mvc.core.MVCScheduler;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
-import org.dimensinfin.android.mvc.datasource.IDataSource;
-import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.android.mvc.exception.MVCExceptionHandler;
 import org.dimensinfin.android.mvc.exception.ToastExceptionHandler;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;

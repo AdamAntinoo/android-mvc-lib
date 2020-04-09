@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc.domain;
+package org.dimensinfin.android.mvc.core;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;

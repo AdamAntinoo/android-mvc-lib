@@ -11,6 +11,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/AndroidMVC" />
+            <option value="$PROJECT_DIR$/AndroidMVCCore" />
+            <option value="$PROJECT_DIR$/AndroidMock" />
             <option value="$PROJECT_DIR$/app" />
           </set>
         </option>

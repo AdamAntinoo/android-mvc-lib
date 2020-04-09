@@ -1,0 +1,54 @@
+// - P L U G I N S
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply plugin: 'project-report'
+
+// - P R O J E C T   D E F I N I T I O N
+group = 'org.dimensinfin.android.mvc'
+version = '0.1.0'
+archivesBaseName = 'AndroidMock'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+// - B U I L D   T A S K S
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+artifacts {
+    archives jar
+    archives sourcesJar
+//    archives javadocJar
+}
+publishing {
+    publications {
+        jar(MavenPublication) {
+            groupId project.group
+            version project.version
+            artifactId project.archivesBaseName
+            artifact("$buildDir/libs/${archivesBaseName}-${version}.jar")
+            artifact(sourcesJar)
+        }
+    }
+    repositories {
+        mavenLocal()
+        maven {
+            url "$buildDir/repo"
+        }
+        maven {
+            url "production"
+        }
+    }
+}
+
+// - P R O D U C T   V E R S I O N S
+ext {
+}
+
+// - C O R E
+dependencies {
+}
+// - D E P E N D E N C I E S
+dependencies {
+}

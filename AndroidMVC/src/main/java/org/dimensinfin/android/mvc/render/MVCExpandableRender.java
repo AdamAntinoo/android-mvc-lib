@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.ExpandAndroidController;
-import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.core.IAndroidController;
 import org.dimensinfin.core.interfaces.IExpandable;
 import org.dimensinfin.core.interfaces.ICollaboration;
 

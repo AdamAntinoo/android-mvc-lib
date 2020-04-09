@@ -18,8 +18,8 @@ import android.widget.Toast;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.ControllerFactory;
-import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.domain.IRender;
+import org.dimensinfin.android.mvc.core.IAndroidController;
+import org.dimensinfin.android.mvc.core.IRender;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
 import org.slf4j.Logger;

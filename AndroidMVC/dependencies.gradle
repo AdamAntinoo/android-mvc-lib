@@ -7,7 +7,7 @@ ext {
 // - A P P L I C A T I O N
 dependencies {
     // - ANDROID
-    implementation 'androidx.fragment:fragment:1.2.3'
+    implementation 'androidx.fragment:fragment:1.2.4'
     // - CORE
     implementation 'org.apache.commons:commons-lang3:3.9'
     compileOnly "org.slf4j:slf4j-api:$slf4j"
@@ -16,7 +16,8 @@ dependencies {
     // - MVC
     implementation "org.dimensinfin:CoreBase.core:3.2.0"
     implementation 'me.relex:circleindicator:2.1.0'
-    implementation 'org.dimensinfin.android.mvc:MVC.Annotations:0.1.0'
+    implementation 'org.dimensinfin.android.mvc:MVC.Annotations:0.2.0'
+    implementation 'org.dimensinfin.android.mvc:AndroidMVC.core:0.1.0'
 }
 // - T E S T I N G
 dependencies {

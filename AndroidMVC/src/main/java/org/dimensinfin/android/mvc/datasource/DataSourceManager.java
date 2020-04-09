@@ -7,9 +7,11 @@ import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.dimensinfin.android.mvc.annotations.logging.LoggerWrapper;
+import org.dimensinfin.android.mvc.core.DataSourceLocator;
+import org.dimensinfin.android.mvc.core.IDataSource;
 import org.dimensinfin.android.mvc.core.MVCScheduler;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
-import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
 
 /**
  * Controls and caches all DataSources in use that are allowed to be cacheable. Will use a single multifield Locator to

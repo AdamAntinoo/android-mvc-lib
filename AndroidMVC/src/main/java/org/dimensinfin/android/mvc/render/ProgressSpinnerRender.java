@@ -1,7 +1,6 @@
 package org.dimensinfin.android.mvc.render;
 
 import android.content.Context;
-import android.os.CountDownTimer;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -11,10 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
-import org.joda.time.Instant;
-import org.joda.time.format.DateTimeFormatterBuilder;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.ProgressSpinnerController;

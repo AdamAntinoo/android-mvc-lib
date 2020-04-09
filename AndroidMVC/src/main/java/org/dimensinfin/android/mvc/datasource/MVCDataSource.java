@@ -9,10 +9,12 @@ import java.util.Objects;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.core.DataSourceLocator;
+import org.dimensinfin.android.mvc.core.IAndroidController;
+import org.dimensinfin.android.mvc.core.IDataSource;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.Spacer;
-import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
+import org.dimensinfin.android.mvc.annotations.logging.LoggerWrapper;
 import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.core.domain.EventEmitter;
 import org.dimensinfin.core.domain.IntercommunicationEvent;

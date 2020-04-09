@@ -9,14 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.datasource.IDataSource;
-import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.android.mvc.domain.IRender;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
 
+import org.dimensinfin.android.mvc.core.IAndroidController;
+import org.dimensinfin.android.mvc.core.IDataSource;
+import org.dimensinfin.android.mvc.core.IRender;
+import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.core.domain.IntercommunicationEvent;
 import org.dimensinfin.core.interfaces.IEventReceiver;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public class MapContentAdapter implements IEventReceiver {
 	private ViewGroup mapContainer;
 
 	// - C O N S T R U C T O R S
-	public MapContentAdapter(@NonNull  final IPagerFragment fragment, @NonNull final IDataSource datasource, @NonNull final ViewGroup container) {
+	public MapContentAdapter( @NonNull  final IPagerFragment fragment, @NonNull final IDataSource datasource, @NonNull final ViewGroup container) {
 		this.context = fragment.getActivityContext();
 		this.datasource = (MVCDataSource) datasource;
 		this.datasource.addEventListener(this); // Connect the listener to the data source events.

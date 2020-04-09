@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc.domain;
+package org.dimensinfin.android.mvc.core;
 
 import java.util.ArrayList;
 import java.util.List;

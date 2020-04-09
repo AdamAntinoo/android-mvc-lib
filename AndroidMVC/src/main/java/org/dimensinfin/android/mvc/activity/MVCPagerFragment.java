@@ -17,17 +17,17 @@ import java.util.Objects;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AndroidController;
-import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.core.IAndroidController;
+import org.dimensinfin.android.mvc.core.IDataSource;
 import org.dimensinfin.android.mvc.core.MVCScheduler;
 import org.dimensinfin.android.mvc.datasource.DataSourceAdapter;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.HeaderDataSourceAdapter;
-import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.exception.ExceptionRenderGenerator;
 import org.dimensinfin.android.mvc.exception.ExceptionToExceptionReportConverter;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.ui.HeaderListLayout;
-import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
+import org.dimensinfin.android.mvc.annotations.logging.LoggerWrapper;
 
 /**
  * @author Adam Antinoo

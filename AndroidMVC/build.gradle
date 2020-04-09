@@ -14,7 +14,7 @@ android {
         targetSdkVersion 29
         versionCode 300
         versionName "3.0.0"
-        project.archivesBaseName = "Android.MVC"
+        project.archivesBaseName = "AndroidMVC"
         project.version = android.defaultConfig.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'

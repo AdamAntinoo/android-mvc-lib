@@ -1,8 +1,7 @@
-package org.dimensinfin.android.mvc.datasource;
+package org.dimensinfin.android.mvc.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 /**
  * Allows to set multiple identifiers to generate a single an unique String identifier to locate a single

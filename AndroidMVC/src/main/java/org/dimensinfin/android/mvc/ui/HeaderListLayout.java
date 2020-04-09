@@ -9,9 +9,9 @@ import androidx.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.core.IAndroidController;
 import org.dimensinfin.android.mvc.datasource.HeaderDataSourceAdapter;
-import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
+import org.dimensinfin.android.mvc.annotations.logging.LoggerWrapper;
 
 public class HeaderListLayout extends LinearLayout {
 	private HeaderDataSourceAdapter headerSectionAdapter;

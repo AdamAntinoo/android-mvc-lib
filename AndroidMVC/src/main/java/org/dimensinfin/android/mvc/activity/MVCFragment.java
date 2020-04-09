@@ -8,12 +8,12 @@ import androidx.fragment.app.Fragment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.dimensinfin.android.mvc.datasource.IDataSource;
+import org.dimensinfin.android.mvc.core.IDataSource;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 
 public abstract class MVCFragment extends Fragment implements IPagerFragment {
-	protected static Logger logger = LoggerFactory.getLogger(MVCFragment.class);
+	protected static Logger logger = LoggerFactory.getLogger( MVCFragment.class );
 	/**
 	 * Task handler to manage execution of code that should be done on the main loop thread.
 	 */
@@ -26,11 +26,6 @@ public abstract class MVCFragment extends Fragment implements IPagerFragment {
 	 */
 	protected IControllerFactory _factory = null;
 	/**
-	 * The variant is an optional field that should be set by the developer. Because it will choose not to fill it should
-	 * have a valid default value.
-	 */
-	private String _variant = "-DEFAULT-";
-	/**
 	 * Copy of the extras bundle received by the Activity.
 	 */
 	protected Bundle _extras = new Bundle();
@@ -41,13 +36,34 @@ public abstract class MVCFragment extends Fragment implements IPagerFragment {
 	 * context. We get a reference to the long term singleton for the Application context.
 	 */
 	protected Activity activity;
-	private IMenuActionTarget listCallback = null;
 	protected Exception lastException;
+	/**
+	 * The variant is an optional field that should be set by the developer. Because it will choose not to fill it should
+	 * have a valid default value.
+	 */
+	private String _variant = "-DEFAULT-";
+	private IMenuActionTarget listCallback = null;
 
 	/** This constructor is required to create the fragments from the xml layouts. */
 	public MVCFragment() { }
 
 	// - G E T T E R S   &   S E T T E R S
+
+	public Activity getActivityContext() {
+		return this.activity;
+	}
+
+	/**
+	 * During initialization of the Fragment we install the long term singleton for the Application context This is done
+	 * from the owner activity that connects the Fragment but also added when the fragment is reconnected..
+	 *
+	 * @param activity the Application singleton context.
+	 * @return this instance to allow for functional constructive statements.
+	 */
+	public MVCFragment setActivityContext( final Activity activity ) {
+		this.activity = activity;
+		return this;
+	}
 
 	/**
 	 * Sets the variant code to differentiate this instance form any other Fragment instances. This field should be set on
@@ -95,21 +111,23 @@ public abstract class MVCFragment extends Fragment implements IPagerFragment {
 		return this;
 	}
 
-	public Activity getActivityContext() {
-		return this.activity;
+	public IMenuActionTarget getListCallback() {
+		return this.listCallback;
+	}
+
+	public void setListCallback( final IMenuActionTarget callback ) {
+		if (null != callback) {
+			listCallback = callback;
+		}
 	}
 
 	/**
-	 * During initialization of the Fragment we install the long term singleton for the Application context This is done
-	 * from the owner activity that connects the Fragment but also added when the fragment is reconnected..
+	 * This method generates a view through a model and a controller for a component to be used as an ActionBar.
+	 * By default a <code>null</code> will use the standard style or manifest title definition.
 	 *
-	 * @param activity the Application singleton context.
-	 * @return this instance to allow for functional constructive statements.
+	 * @return the action bar view.
 	 */
-	public MVCFragment setActivityContext( final Activity activity ) {
-		this.activity = activity;
-		return this;
-	}
+	public View generateActionBarView() {return null;}
 
 	/**
 	 * Returns the <b>ControllerFactory</b> associated with this Fragment instance. If the factory is still undefined then
@@ -121,16 +139,6 @@ public abstract class MVCFragment extends Fragment implements IPagerFragment {
 			_factory = this.createFactory();
 		}
 		return _factory;
-	}
-
-	public IMenuActionTarget getListCallback() {
-		return this.listCallback;
-	}
-
-	public void setListCallback( final IMenuActionTarget callback ) {
-		if (null != callback) {
-			listCallback = callback;
-		}
 	}
 
 	public Exception getLastException() {
@@ -149,14 +157,6 @@ public abstract class MVCFragment extends Fragment implements IPagerFragment {
 	 * render. This single instance should be able to produce the data for the header panel and for the view list.
 	 */
 	public abstract IDataSource createDS();
-
-	/**
-	 * This method generates a view through a model and a controller for a component to be used as an ActionBar.
-	 * By default a <code>null</code> will use the standard style or manifest title definition.
-	 *
-	 * @return the action bar view.
-	 */
-	public View generateActionBarView() {return null;}
 
 //	protected View convertActionBarView( final IAndroidController controller ) {
 //		final IRender holder = controller.buildRender(this.getActivityContext());

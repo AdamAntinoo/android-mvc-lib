@@ -1,9 +1,8 @@
-package org.dimensinfin.android.mvc.domain;
+package org.dimensinfin.android.mvc.core;
 
 import android.content.Context;
 import android.content.Intent;
 
-import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
 public interface IControllerFactory {

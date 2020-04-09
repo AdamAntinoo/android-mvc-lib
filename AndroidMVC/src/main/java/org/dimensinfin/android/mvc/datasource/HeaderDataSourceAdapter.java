@@ -6,10 +6,11 @@ import java.util.List;
 import java.util.Objects;
 
 import org.dimensinfin.android.mvc.activity.IPagerFragment;
-import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.domain.MVCNode;
+import org.dimensinfin.android.mvc.core.IAndroidController;
+import org.dimensinfin.android.mvc.core.IDataSource;
+import org.dimensinfin.android.mvc.core.MVCNode;
 import org.dimensinfin.android.mvc.ui.HeaderListLayout;
-import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
+import org.dimensinfin.android.mvc.annotations.logging.LoggerWrapper;
 
 public class HeaderDataSourceAdapter extends DataSourceAdapter {
 	private HeaderListLayout headerContainer;

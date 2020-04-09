@@ -1,12 +1,10 @@
-package org.dimensinfin.android.mvc.controller;
+package org.dimensinfin.android.mvc.core;
 
 import android.content.Context;
 import android.view.View;
 
 import java.util.List;
 
-import org.dimensinfin.android.mvc.datasource.IDataSource;
-import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.core.interfaces.IEventEmitter;
 
 public interface IAndroidController<M> extends IEventEmitter, Comparable {
@@ -16,23 +14,23 @@ public interface IAndroidController<M> extends IEventEmitter, Comparable {
 
 	IAndroidController setViewCache( final View targetView );
 
+	long getModelId();
+
+	String getRenderMode();
+
+	IAndroidController setRenderMode( final String renderMode );
+
 	boolean isOrderedActive();
 
 	IAndroidController setOrderedActive( final boolean orderedActive );
 
-	String getRenderMode();
-
-	AndroidController setRenderMode( final String renderMode );
+	boolean isVisible();
 
 	void collaborate2View( final List<IAndroidController> contentCollector );
 
 	List<IAndroidController> orderingFeature( final List<IAndroidController> children );
 
-	boolean isVisible();
-
 	void refreshChildren();
-
-	long getModelId();
 
 	IAndroidController setDataSource( IDataSource dataSource );
 
