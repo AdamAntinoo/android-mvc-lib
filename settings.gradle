@@ -1,5 +1,3 @@
-rootProject.name='Android-MVC'
+rootProject.name='android-mvc'
 include ':app'
 include ':AndroidMVC'
-include ':AndroidMVCCore'
-include ':AndroidMock'

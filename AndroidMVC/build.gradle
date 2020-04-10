@@ -39,6 +39,9 @@ android {
         }
     }
     sourceSets {
+        main.java {
+            srcDirs += 'src/main/java-additional'
+        }
         main.res {
             srcDirs += 'src/main/res-ui'
             srcDirs += 'src/main/res-dynamic'
