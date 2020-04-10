@@ -1,8 +1,0 @@
-package org.dimensinfin.core.domain;
-
-public enum EEvents {
-	EVENT_NEWDATA,
-	EVENT_REFRESHDATA,
-	EVENT_ACTIONEXPANDCOLLAPSE,
-	EVENT_ADAPTER_REQUESTNOTIFYCHANGES
-}

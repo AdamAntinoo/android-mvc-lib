@@ -4,7 +4,7 @@ import org.apache.commons.lang3.NotImplementedException;
 
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
-import org.dimensinfin.android.mvc.domain.IControllerFactory;
+import org.dimensinfin.android.mvc.factory.IControllerFactory;
 import org.dimensinfin.mvc.demo.datasource.ColourDataSource;
 import org.dimensinfin.mvc.demo.datasource.SidesDataSource;
 

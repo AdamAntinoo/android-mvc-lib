@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
-import org.dimensinfin.android.mvc.domain.IControllerFactory;
+import org.dimensinfin.android.mvc.factory.IControllerFactory;
 import org.dimensinfin.mvc.demo.activity.PageDefinitions;
 import org.dimensinfin.mvc.demo.domain.ApplicationHeaderTitle;
 import org.dimensinfin.mvc.demo.domain.DemoLabel;

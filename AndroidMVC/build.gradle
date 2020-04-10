@@ -40,8 +40,8 @@ android {
     }
     sourceSets {
         main.java {
-            srcDirs += 'src/main/java-additional'
-            srcDirs += 'src/main/java-common'
+//            srcDirs += 'src/main/java-additional'
+//            srcDirs += 'src/main/java-common'
         }
         main.res {
             srcDirs += 'src/main/res-ui'

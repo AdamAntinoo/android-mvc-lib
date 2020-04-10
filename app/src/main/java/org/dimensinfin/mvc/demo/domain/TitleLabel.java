@@ -2,9 +2,9 @@ package org.dimensinfin.mvc.demo.domain;
 
 import java.util.Objects;
 
-import org.dimensinfin.android.mvc.domain.MVCNode;
+import org.dimensinfin.core.domain.Node;
 
-public class TitleLabel extends MVCNode {
+public class TitleLabel extends Node {
 	private String title;
 
 	private TitleLabel() {super();}

@@ -3,7 +3,7 @@ package org.dimensinfin.mvc.demo.activity;
 import android.os.Bundle;
 
 import org.dimensinfin.android.mvc.activity.MVCMultiPageActivity;
-import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
+import org.dimensinfin.logging.LogWrapper;
 
 public class MVCDemoSimpleActivity extends MVCMultiPageActivity {
 	/**
@@ -15,10 +15,10 @@ public class MVCDemoSimpleActivity extends MVCMultiPageActivity {
 	 */
 	@Override
 	protected void onCreate( final Bundle savedInstanceState ) {
-		LoggerWrapper.info( ">> [AndroidMVCDemoActivity.onCreate]" ); //$NON-NLS-1$
+		LogWrapper.info( ">> [AndroidMVCDemoActivity.onCreate]" ); //$NON-NLS-1$
 		super.onCreate( savedInstanceState );
 		// Process the parameters into the context. This initial Activity is the only one with no parameters.
 		this.addPage( new MVCDemoSimpleFragment().setVariant( PageDefinitions.MVCDEMOLIST_ITEMS.name() ) );
-		LoggerWrapper.info( "<< [AndroidMVCDemoActivity.onCreate]" ); //$NON-NLS-1$
+		LogWrapper.info( "<< [AndroidMVCDemoActivity.onCreate]" ); //$NON-NLS-1$
 	}
 }

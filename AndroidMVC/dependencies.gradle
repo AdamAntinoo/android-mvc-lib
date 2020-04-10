@@ -24,7 +24,9 @@ dependencies {
     implementation 'me.relex:circleindicator:2.1.0'
     implementation 'org.dimensinfin:annotation:0.3.0'
     implementation 'org.dimensinfin.android.mvc:mvc-annotation:0.3.0'
-    annotationProcessor 'org.dimensinfin.android.mvc:mvc-processor:0.1.0'
+    annotationProcessor 'org.dimensinfin.android.mvc:mvc-processor:0.1.1'
+    implementation 'com.squareup:javapoet:1.12.1'
+    implementation 'org.dimensinfin:core:1.0.0'
 }
 // - T E S T I N G
 dependencies {

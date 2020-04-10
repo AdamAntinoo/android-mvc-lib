@@ -10,8 +10,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.Spacer;
+import org.dimensinfin.android.mvc.factory.IControllerFactory;
 import org.dimensinfin.logging.LogWrapper;
 import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.core.domain.EventEmitter;

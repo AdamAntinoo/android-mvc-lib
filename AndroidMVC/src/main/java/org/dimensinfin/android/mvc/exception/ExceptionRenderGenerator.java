@@ -6,7 +6,7 @@ import android.view.View;
 import java.util.Objects;
 
 import org.dimensinfin.android.mvc.controller.ExceptionReportController;
-import org.dimensinfin.android.mvc.domain.IControllerFactory;
+import org.dimensinfin.android.mvc.factory.IControllerFactory;
 
 public class ExceptionRenderGenerator {
 	private Context context;

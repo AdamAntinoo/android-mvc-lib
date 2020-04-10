@@ -4,8 +4,8 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.AndroidController;
-import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
+import org.dimensinfin.android.mvc.factory.IControllerFactory;
 import org.dimensinfin.mvc.demo.render.TitledActionBarRender;
 import org.dimensinfin.mvc.demo.ui.TitledActionBar;
 

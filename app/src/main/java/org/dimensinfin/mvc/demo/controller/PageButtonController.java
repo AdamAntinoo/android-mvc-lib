@@ -6,9 +6,9 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.AndroidController;
-import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
-import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
+import org.dimensinfin.android.mvc.factory.IControllerFactory;
+import org.dimensinfin.logging.LogWrapper;
 import org.dimensinfin.mvc.demo.domain.PageButton;
 import org.dimensinfin.mvc.demo.render.PageButtonRender;
 
@@ -25,9 +25,9 @@ public class PageButtonController extends AndroidController<PageButton> implemen
 
 	@Override
 	public void onClick( final View v ) {
-		LoggerWrapper.enter();
+		LogWrapper.enter();
 		final Intent destination = this.getControllerFactory().prepareActivity( this.getModel().getPageName(), v.getContext() );
 		v.getContext().startActivity( destination );
-		LoggerWrapper.exit();
+		LogWrapper.exit();
 	}
 }

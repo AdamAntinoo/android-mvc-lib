@@ -2,9 +2,9 @@ package org.dimensinfin.mvc.demo.activity;
 
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
+import org.dimensinfin.android.mvc.factory.IControllerFactory;
 import org.dimensinfin.mvc.demo.R;
 import org.dimensinfin.mvc.demo.datasource.MVCDemoDataSource;
-import org.dimensinfin.android.mvc.domain.IControllerFactory;
 
 public class MVCDemoSimpleFragment extends MVCPagerFragment {
 	// - M V C F R A G M E N T

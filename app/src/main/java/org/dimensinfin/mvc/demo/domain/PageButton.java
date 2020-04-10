@@ -2,9 +2,9 @@ package org.dimensinfin.mvc.demo.domain;
 
 import java.util.Objects;
 
-import org.dimensinfin.android.mvc.domain.MVCNode;
+import org.dimensinfin.core.domain.Node;
 
-public class PageButton extends MVCNode {
+public class PageButton extends Node {
 	private String label;
 	private String pageName;
 

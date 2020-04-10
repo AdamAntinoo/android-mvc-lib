@@ -5,11 +5,11 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AndroidController;
+import org.dimensinfin.android.mvc.factory.IControllerFactory;
 import org.dimensinfin.mvc.demo.domain.DemoItem;
 import org.dimensinfin.mvc.demo.domain.DemoLabel;
 import org.dimensinfin.mvc.demo.render.DemoItemRender;
 import org.dimensinfin.mvc.demo.render.DemoLabelRender;
-import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
 
 /**

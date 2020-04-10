@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.dimensinfin.android.mvc.domain.Container;
-import org.dimensinfin.android.mvc.domain.IControllerFactory;
+import org.dimensinfin.android.mvc.factory.IControllerFactory;
 import org.dimensinfin.mvc.demo.domain.ColorfulFigure;
 import org.dimensinfin.mvc.demo.domain.Figures;
 

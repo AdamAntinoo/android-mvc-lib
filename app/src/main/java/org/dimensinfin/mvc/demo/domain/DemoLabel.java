@@ -9,12 +9,12 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import org.dimensinfin.android.mvc.domain.MVCNode;
+import org.dimensinfin.core.domain.Node;
 
 /**
  * @author Adam Antinoo
  */
-public class DemoLabel extends MVCNode {
+public class DemoLabel extends Node {
 	public String title = "-TITLE-";
 
 	// - C O N S T R U C T O R S

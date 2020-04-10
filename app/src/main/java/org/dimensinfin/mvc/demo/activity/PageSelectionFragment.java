@@ -4,7 +4,7 @@ import android.view.View;
 
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
 import org.dimensinfin.android.mvc.datasource.IDataSource;
-import org.dimensinfin.android.mvc.domain.IControllerFactory;
+import org.dimensinfin.android.mvc.factory.IControllerFactory;
 import org.dimensinfin.android.mvc.render.RenderViewGenerator;
 import org.dimensinfin.mvc.demo.datasource.PageSelectionDataSource;
 import org.dimensinfin.mvc.demo.ui.TitledActionBar;

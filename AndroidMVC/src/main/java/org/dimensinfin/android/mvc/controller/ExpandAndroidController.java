@@ -7,7 +7,8 @@ import android.view.View;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.dimensinfin.android.mvc.domain.IControllerFactory;
+
+import org.dimensinfin.android.mvc.factory.IControllerFactory;
 import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.core.interfaces.IExpandable;
 

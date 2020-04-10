@@ -8,9 +8,9 @@ import android.widget.Toast;
 
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.controller.AndroidController;
+import org.dimensinfin.android.mvc.factory.IControllerFactory;
 import org.dimensinfin.mvc.demo.domain.ApplicationHeaderTitle;
 import org.dimensinfin.mvc.demo.render.ApplicationHeaderTitleRender;
-import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 

@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.datasource.IDataSource;
-import org.dimensinfin.android.mvc.domain.IControllerFactory;
+import org.dimensinfin.android.mvc.factory.IControllerFactory;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 
 public abstract class MVCFragment extends Fragment implements IPagerFragment {
