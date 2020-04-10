@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc.controller;
+package org.dimensinfin.android.mvc.factory;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,9 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import org.dimensinfin.android.mvc.core.IAndroidController;
+import org.dimensinfin.android.mvc.controller.ExceptionReportController;
+import org.dimensinfin.android.mvc.controller.ProgressSpinnerController;
+import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.domain.Node;
-import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
 import org.dimensinfin.android.mvc.support.SpacerController;

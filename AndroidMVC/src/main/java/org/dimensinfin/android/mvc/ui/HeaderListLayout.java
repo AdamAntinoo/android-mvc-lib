@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-import org.dimensinfin.android.mvc.core.IAndroidController;
+import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.datasource.HeaderDataSourceAdapter;
 import org.dimensinfin.logging.LogWrapper;
 

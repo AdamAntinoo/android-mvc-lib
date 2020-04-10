@@ -19,10 +19,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.android.mvc.activity.IPagerFragment;
-import org.dimensinfin.android.mvc.controller.ControllerFactory;
-import org.dimensinfin.android.mvc.core.IAndroidController;
-import org.dimensinfin.android.mvc.core.IDataSource;
-import org.dimensinfin.android.mvc.core.IRender;
+import org.dimensinfin.android.mvc.factory.ControllerFactory;
+import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.android.mvc.exception.ExceptionRenderGenerator;
 import org.dimensinfin.android.mvc.exception.ExceptionToExceptionReportConverter;
 import org.dimensinfin.logging.LogWrapper;

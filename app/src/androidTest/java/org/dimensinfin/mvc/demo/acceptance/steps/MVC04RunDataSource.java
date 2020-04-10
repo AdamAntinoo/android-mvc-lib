@@ -6,7 +6,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.mockito.Mockito;
 
-import org.dimensinfin.android.mvc.controller.ControllerFactory;
+import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.datasource.DataSourceManager;
 import org.dimensinfin.android.mvc.datasource.IDataSource;

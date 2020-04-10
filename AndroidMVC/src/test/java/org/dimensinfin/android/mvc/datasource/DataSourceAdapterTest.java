@@ -13,7 +13,7 @@ import org.mockito.Mockito;
 
 import org.dimensinfin.android.mvc.activity.MVCFragment;
 import org.dimensinfin.android.mvc.activity.MVCPagerFragment;
-import org.dimensinfin.android.mvc.controller.ControllerFactory;
+import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.support.SpacerController;

@@ -13,9 +13,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
 
-import org.dimensinfin.android.mvc.core.IAndroidController;
-import org.dimensinfin.android.mvc.core.IDataSource;
-import org.dimensinfin.android.mvc.core.IRender;
+import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.datasource.IDataSource;
+import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.dimensinfin.core.domain.IntercommunicationEvent;
 import org.dimensinfin.core.interfaces.IEventReceiver;

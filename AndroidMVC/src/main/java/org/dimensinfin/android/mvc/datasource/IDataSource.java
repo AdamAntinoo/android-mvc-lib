@@ -1,6 +1,6 @@
-package org.dimensinfin.android.mvc.core;
+package org.dimensinfin.android.mvc.datasource;
 
-import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
+import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IEventReceiver;
 

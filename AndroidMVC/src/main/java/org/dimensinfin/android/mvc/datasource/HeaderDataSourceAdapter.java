@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.dimensinfin.android.mvc.activity.IPagerFragment;
-import org.dimensinfin.android.mvc.core.IAndroidController;
-import org.dimensinfin.android.mvc.core.IDataSource;
+import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.core.domain.Node;
 import org.dimensinfin.android.mvc.ui.HeaderListLayout;
 import org.dimensinfin.logging.LogWrapper;

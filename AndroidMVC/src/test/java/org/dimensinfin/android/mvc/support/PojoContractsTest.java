@@ -1,7 +1,7 @@
 package org.dimensinfin.android.mvc.support;
 
 import org.dimensinfin.android.mvc.controller.AndroidController;
-import org.dimensinfin.android.mvc.controller.ControllerFactory;
+import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.datasource.DataSourceLocator;
 import org.dimensinfin.android.mvc.datasource.MVCDataSource;
 import org.mockito.Mockito;

@@ -4,9 +4,9 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.core.IRender;
+import org.dimensinfin.android.mvc.domain.IRender;
+import org.dimensinfin.android.mvc.factory.IControllerFactory;
 import org.dimensinfin.core.domain.Node;
-import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.render.ProgressSpinnerRender;
 
 public class ProgressSpinnerController extends AndroidController<Node> {

@@ -2,7 +2,7 @@ package org.dimensinfin.mvc.demo.activity;
 
 import androidx.annotation.NonNull;
 
-import org.dimensinfin.android.mvc.controller.ControllerFactory;
+import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.core.interfaces.ICollaboration;

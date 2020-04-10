@@ -14,6 +14,7 @@ import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.MVCNode;
 import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
+import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.support.SpacerController;
 import org.dimensinfin.android.mvc.support.Test4ModelFailure;
 

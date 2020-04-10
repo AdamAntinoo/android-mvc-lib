@@ -18,6 +18,7 @@ import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
 import org.dimensinfin.android.mvc.domain.MVCNode;
 import org.dimensinfin.android.mvc.domain.Spacer;
+import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.support.TestContainerNode;
 import org.dimensinfin.android.mvc.support.TestContainerNodeController;
 import org.dimensinfin.android.mvc.support.TestController4Test;
