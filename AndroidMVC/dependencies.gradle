@@ -4,10 +4,11 @@ ext {
     jodaTimeVersion = '2.3'
 }
 
-// - A P P L I C A T I O N
+// - A N D R O I D
 dependencies {
     // - ANDROID
     implementation 'androidx.fragment:fragment:1.2.4'
+    implementation 'androidx.annotation:annotation:1.1.0'
     // - CORE
     implementation 'org.apache.commons:commons-lang3:3.9'
     compileOnly "org.slf4j:slf4j-api:$slf4j"
@@ -15,9 +16,15 @@ dependencies {
     implementation "joda-time:joda-time:$jodaTimeVersion" // Because API 21 still has not defined the java.time
     // - MVC
 //    implementation "org.dimensinfin:CoreBase.core:3.2.0"
-    implementation 'me.relex:circleindicator:2.1.0'
 //    implementation 'org.dimensinfin.android.mvc:MVC.Annotations:0.2.0'
 //    implementation 'org.dimensinfin.android.mvc:AndroidMVC.core:0.1.0'
+}
+// - P R O J E C T
+dependencies {
+    implementation 'me.relex:circleindicator:2.1.0'
+    implementation 'org.dimensinfin:annotation:0.3.0'
+    implementation 'org.dimensinfin.android.mvc:mvc-annotation:0.3.0'
+    annotationProcessor 'org.dimensinfin.android.mvc:mvc-processor:0.1.0'
 }
 // - T E S T I N G
 dependencies {

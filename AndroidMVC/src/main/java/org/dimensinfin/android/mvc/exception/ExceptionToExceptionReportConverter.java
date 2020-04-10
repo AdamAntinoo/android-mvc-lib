@@ -1,6 +1,6 @@
 package org.dimensinfin.android.mvc.exception;
 
-import org.dimensinfin.android.mvc.core.Converter;
+import org.dimensinfin.core.interfaces.Converter;
 
 public class ExceptionToExceptionReportConverter implements Converter<Exception, ExceptionReport> {
 

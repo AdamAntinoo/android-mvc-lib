@@ -5,25 +5,28 @@ ext {
     jodaTimeVersion = '2.3'
 }
 
-// - A P P L I C A T I O N
+// - A N D R O I D
 dependencies {
     // - ANDROID
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.fragment:fragment:1.2.3'
+    implementation 'androidx.fragment:fragment:1.2.4'
     implementation 'androidx.viewpager:viewpager:1.0.0'
+    implementation 'androidx.annotation:annotation:1.1.0'
     // - CORE
     implementation 'org.apache.commons:commons-lang3:3.9'
     implementation "org.slf4j:slf4j-api:$slf4j"
     implementation "org.slf4j:slf4j-android:$slf4j"
     implementation "joda-time:joda-time:$jodaTimeVersion"
     implementation 'com.google.code.gson:gson:2.8.6' // Required by the LoggerWrapper
-    // - MVC
-    implementation "org.dimensinfin.android.mvc:AndroidMVC.core:0.1.0"
-    implementation "org.dimensinfin:CoreBase.core:3.2.0"
-//    implementation "org.dimensinfin:AndroidMVC:5.18.2@aar"
-    implementation project(path: ':AndroidMVC')
+}
+// - A P P L I C A T I O N
+dependencies {
     implementation 'me.relex:circleindicator:2.1.0'
-    implementation 'org.dimensinfin.android.mvc:MVC.Annotations:0.1.0'
+    implementation project(path: ':AndroidMVC')
+//    implementation "org.dimensinfin:AndroidMVC:5.18.2@aar"
+    implementation 'org.dimensinfin:annotation:0.3.0'
+    implementation 'org.dimensinfin.android.mvc:mvc-annotation:0.3.0'
+    annotationProcessor 'org.dimensinfin.android.mvc:mvc-processor:0.1.0'
 }
 // - D A G G E R
 //dependencies {
@@ -41,7 +44,7 @@ dependencies {
 dependencies {
     // - ANDROID
     androidTestImplementation 'androidx.appcompat:appcompat:1.1.0'
-    androidTestImplementation 'androidx.fragment:fragment:1.2.3'
+    androidTestImplementation 'androidx.fragment:fragment:1.2.4'
     androidTestImplementation 'androidx.viewpager:viewpager:1.0.0'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
@@ -56,7 +59,7 @@ dependencies {
 }
 // - C O R E
 dependencies {
-    androidTestImplementation 'org.dimensinfin.android.mvc:MVC.Annotations:0.1.0'
+//    androidTestImplementation 'org.dimensinfin.android.mvc:MVC.Annotations:0.1.0'
     androidTestImplementation 'org.mockito:mockito-core:3.3.3'
     androidTestImplementation 'org.mockito:mockito-android:2.23.4'
     androidTestImplementation('org.awaitility:awaitility:4.0.2') {
