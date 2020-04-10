@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.dimensinfin.logging.LogWrapper;
-import org.dimensinfin.android.mvc.core.DataSourceLocator;
 import org.dimensinfin.android.mvc.core.IDataSource;
 import org.dimensinfin.android.mvc.core.MVCScheduler;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;

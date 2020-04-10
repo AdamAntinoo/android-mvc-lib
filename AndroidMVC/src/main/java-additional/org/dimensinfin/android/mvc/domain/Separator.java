@@ -6,7 +6,7 @@
 //									Model-View-Controller. Code is as neutral as possible and made to be reused
 //									on all Java development projects.
 //                  Added more generic code to develop other Model-View-Controller patterns.
-package org.dimensinfin.core.model;
+package org.dimensinfin.android.mvc.domain;
 
 import java.util.List;
 import java.util.Vector;

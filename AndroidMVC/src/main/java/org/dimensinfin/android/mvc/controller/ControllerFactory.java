@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.dimensinfin.android.mvc.core.IAndroidController;
-import org.dimensinfin.android.mvc.core.MVCNode;
+import org.dimensinfin.core.domain.Node;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
@@ -43,8 +43,8 @@ public class ControllerFactory implements IControllerFactory {
 		if (node instanceof ExceptionReport) {
 			return new ExceptionReportController( (ExceptionReport) node, this );
 		}
-		if (node instanceof MVCNode) { // This is used solely during page creation to show the spinner while the model is calculated.
-			return new ProgressSpinnerController( (MVCNode) node, this );
+		if (node instanceof Node) { // This is used solely during page creation to show the spinner while the model is calculated.
+			return new ProgressSpinnerController( (Node) node, this );
 		}
 
 		// If no model class is trapped then result a NOT FOUND mark

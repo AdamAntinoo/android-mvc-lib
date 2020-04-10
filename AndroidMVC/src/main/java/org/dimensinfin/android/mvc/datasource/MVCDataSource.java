@@ -9,7 +9,6 @@ import java.util.Objects;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import org.dimensinfin.android.mvc.core.DataSourceLocator;
 import org.dimensinfin.android.mvc.core.IAndroidController;
 import org.dimensinfin.android.mvc.core.IDataSource;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;

@@ -1,12 +1,12 @@
-package org.dimensinfin.android.mvc.core;
+package org.dimensinfin.core.domain;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.dimensinfin.core.interfaces.ICollaboration;
 
-public class MVCNode implements ICollaboration {
-	protected MVCNode() {}
+public class Node implements ICollaboration {
+	protected Node() {}
 
 	public String getJsonClass() {
 		return this.getClass().getSimpleName();
@@ -29,13 +29,13 @@ public class MVCNode implements ICollaboration {
 
 	// - B U I L D E R
 	public static class Builder {
-		private MVCNode onConstruction;
+		private Node onConstruction;
 
 		public Builder() {
-			this.onConstruction = new MVCNode();
+			this.onConstruction = new Node();
 		}
 
-		public MVCNode build() {
+		public Node build() {
 			return this.onConstruction;
 		}
 	}

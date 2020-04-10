@@ -1,29 +1,26 @@
-package org.dimensinfin.android.mvc.core;
+package org.dimensinfin.android.mvc.domain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import org.dimensinfin.core.domain.Node;
 import org.dimensinfin.core.interfaces.ICollaboration;
 import org.dimensinfin.core.interfaces.IExpandable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Container<M> extends MVCNode implements IExpandable {
+public class Container<M> extends Node implements IExpandable {
 	private static final long serialVersionUID = -957283664928489030L;
 
 	// - F I E L D - S E C T I O N
 	private final List<M> contents = new ArrayList<>();
 	private boolean expanded = false;
 
-	// - C O N S T R U C T O R - S E C T I O N
+	// - C O N S T R U C T O R S
 	public Container() {
 		super();
 	}
-
-//	@Deprecated
-//	public Container( final String title ) {
-//		this.setLabel(title);
-//	}
 
 	// - M E T H O D - S E C T I O N
 	public int addContent( final M node ) {
