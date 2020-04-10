@@ -27,7 +27,7 @@ import org.dimensinfin.android.mvc.exception.ExceptionRenderGenerator;
 import org.dimensinfin.android.mvc.exception.ExceptionToExceptionReportConverter;
 import org.dimensinfin.android.mvc.interfaces.IMenuActionTarget;
 import org.dimensinfin.android.mvc.ui.HeaderListLayout;
-import org.dimensinfin.android.mvc.annotations.logging.LoggerWrapper;
+import org.dimensinfin.logging.LogWrapper;
 
 /**
  * @author Adam Antinoo
@@ -117,12 +117,12 @@ public abstract class MVCPagerFragment extends MVCFragment {
 	 */
 	@Override
 	public View onCreateView( @NonNull final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState ) {
-		LoggerWrapper.enter();
+		LogWrapper.enter();
 		super.onCreateView( inflater, container, savedInstanceState );
 		// TODO analyze what is returned by the savedInstanceState when recovering the application. That will help to recover the
 		// functional state of the application.
 		// - S E C T I O N   1. Where we get access to the UI elements.
-		LoggerWrapper.info( "SECTION 1. UI linking." );
+		LogWrapper.info( "SECTION 1. UI linking." );
 		try {
 			this._container = Objects.requireNonNull( (ViewGroup) inflater.inflate( R.layout.fragment_base, container, false ) );
 			this.dataSectionContainer = Objects.requireNonNull( this._container.findViewById( R.id.dataContainer ) );
@@ -132,7 +132,7 @@ public abstract class MVCPagerFragment extends MVCFragment {
 //			this._progressElapsedCounter = Objects.requireNonNull( this._container.findViewById( R.id.progressCounter ) );
 		} catch (final NullPointerException npe) {
 			// The view is not properly created because the layout does not match or there is a unrecoverable error.
-			LoggerWrapper.error( npe );
+			LogWrapper.error( npe );
 			this.lastException = npe;
 			this.showException( npe ); // Show any exception data on the empty page.
 			return container;
@@ -148,21 +148,21 @@ public abstract class MVCPagerFragment extends MVCFragment {
 		this.registerForContextMenu( dataSectionContainer );
 
 		// - S E C T I O N   2. Where we setup the data sources for the adapters. Only include no long time operations.
-		LoggerWrapper.info( "SECTION 2. Adapters and data sources creation and connection." );
+		LogWrapper.info( "SECTION 2. Adapters and data sources creation and connection." );
 		try {
 			// Install the adapter before any data request or model generation.
 			final IDataSource ds = DataSourceManager.registerDataSource( Objects.requireNonNull( this.createDS() ) );
 			this.dataAdapter = Objects.requireNonNull( new DataSourceAdapter( this, ds ) );
-			LoggerWrapper.info( "Adapter set: {}", this.dataAdapter.toString() );
+			LogWrapper.info( "Adapter set: {}", this.dataAdapter.toString() );
 			this.dataSectionContainer.setAdapter( this.dataAdapter );
 			this.headerSectionAdapter = Objects.requireNonNull( new HeaderDataSourceAdapter( this, ds ) );
 			this.headerContainer.setAdapter( this.headerSectionAdapter );
 		} catch (final RuntimeException rtex) {
-			LoggerWrapper.error( rtex );
+			LogWrapper.error( rtex );
 			this.lastException = rtex;
 			this.showException( rtex ); // Show any exception data on the empty page.
 		} finally {
-			LoggerWrapper.exit();
+			LogWrapper.exit();
 		}
 		return _container;
 	}
@@ -188,13 +188,13 @@ public abstract class MVCPagerFragment extends MVCFragment {
 	 */
 	@Override
 	public void onStart() {
-		LoggerWrapper.enter();
+		LogWrapper.enter();
 		super.onStart();
 		try {
 			if (null != this.dataAdapter) { // Check that view creation completed successfully.
 				// - S E C T I O N   3. Post the task to generate the header and the data contents to be rendered.
 				MVCScheduler.backgroundExecutor.submit( () -> {
-					LoggerWrapper.info( "SECTION 3. Model Initialization" );
+					LogWrapper.info( "SECTION 3. Model Initialization" );
 					this.headerSectionAdapter.clean(); // Clear the contents from the previous spinner
 					this.dataAdapter.requestDataModel(); // Call the ds to generate the root contents.
 				} );
@@ -202,7 +202,7 @@ public abstract class MVCPagerFragment extends MVCFragment {
 				// - S E C T I O N   4. Post to the thread runner another task to be done after all data is generated
 				// We use another thread to perform the data source generation that is a long time action.
 				MVCScheduler.backgroundExecutor.submit( () -> {
-					LoggerWrapper.info( "SECTION 4. Display redraw." );
+					LogWrapper.info( "SECTION 4. Display redraw." );
 					this.getActivityContext().runOnUiThread( () -> {
 //						this.hideProgressIndicator(); // Hide the waiting indicator after the model is generated and the view populated.
 						this.updateDisplay();
@@ -210,11 +210,11 @@ public abstract class MVCPagerFragment extends MVCFragment {
 				} );
 			}
 		} catch (final RuntimeException rtex) {
-			LoggerWrapper.error( rtex );
+			LogWrapper.error( rtex );
 			this.lastException = rtex;
 			this.showException( rtex ); // Show any exception data on the empty page.
 		}
-		LoggerWrapper.exit();
+		LogWrapper.exit();
 	}
 
 	@Override

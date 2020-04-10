@@ -25,7 +25,7 @@ import org.dimensinfin.android.mvc.core.IDataSource;
 import org.dimensinfin.android.mvc.core.IRender;
 import org.dimensinfin.android.mvc.exception.ExceptionRenderGenerator;
 import org.dimensinfin.android.mvc.exception.ExceptionToExceptionReportConverter;
-import org.dimensinfin.android.mvc.annotations.logging.LoggerWrapper;
+import org.dimensinfin.logging.LogWrapper;
 import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.core.domain.IntercommunicationEvent;
 import org.dimensinfin.core.interfaces.IEventReceiver;
@@ -158,7 +158,7 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 				}
 			}
 		} catch (final RuntimeException rtex) {
-			LoggerWrapper.error( rtex );
+			LogWrapper.error( rtex );
 			if (rtex instanceof NullPointerException)
 				convertView = this.newNullPointerExceptionReport(); // Report the special case for a NullPointerException
 			else

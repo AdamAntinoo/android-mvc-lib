@@ -11,7 +11,7 @@ import java.util.Objects;
 
 import org.dimensinfin.android.mvc.core.IAndroidController;
 import org.dimensinfin.android.mvc.datasource.HeaderDataSourceAdapter;
-import org.dimensinfin.android.mvc.annotations.logging.LoggerWrapper;
+import org.dimensinfin.logging.LogWrapper;
 
 public class HeaderListLayout extends LinearLayout {
 	private HeaderDataSourceAdapter headerSectionAdapter;
@@ -48,7 +48,7 @@ public class HeaderListLayout extends LinearLayout {
 			try {
 				this.addView( Objects.requireNonNull( this.headerSectionAdapter.getView( i, null, this ) ) );
 			} catch (final NullPointerException npe) {
-				LoggerWrapper.error( npe );
+				LogWrapper.error( npe );
 			}
 		this.setVisibility( View.VISIBLE );
 			this.invalidate();

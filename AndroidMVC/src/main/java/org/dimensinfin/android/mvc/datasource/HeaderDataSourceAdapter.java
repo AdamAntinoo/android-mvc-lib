@@ -10,7 +10,7 @@ import org.dimensinfin.android.mvc.core.IAndroidController;
 import org.dimensinfin.android.mvc.core.IDataSource;
 import org.dimensinfin.android.mvc.core.MVCNode;
 import org.dimensinfin.android.mvc.ui.HeaderListLayout;
-import org.dimensinfin.android.mvc.annotations.logging.LoggerWrapper;
+import org.dimensinfin.logging.LogWrapper;
 
 public class HeaderDataSourceAdapter extends DataSourceAdapter {
 	private HeaderListLayout headerContainer;
@@ -39,12 +39,12 @@ public class HeaderDataSourceAdapter extends DataSourceAdapter {
 	 */
 	@Override
 	public void notifyDataSetChanged() {
-		LoggerWrapper.enter();
+		LogWrapper.enter();
 		super.notifyDataSetChanged(); // Teh parent code is wrong because it will clear the controller list.
 		this.contentControllerList.clear();
 		this.contentControllerList.addAll( this.dataSource.getHeaderSectionContents() );
 		if (null != this.headerContainer) this.headerContainer.notifyDataSetChanged();
-		LoggerWrapper.exit();
+		LogWrapper.exit();
 	}
 
 	/**

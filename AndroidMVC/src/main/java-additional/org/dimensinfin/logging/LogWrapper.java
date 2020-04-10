@@ -1,10 +1,10 @@
-package org.dimensinfin.android.mvc.annotations.logging;
+package org.dimensinfin.logging;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LoggerWrapper {
-	private static final Logger logger = LoggerFactory.getLogger( LoggerWrapper.class );
+public class LogWrapper {
+	private static final Logger logger = LoggerFactory.getLogger( LogWrapper.class );
 
 	public static void info( final String message ) {
 		final String header = header();
@@ -17,12 +17,14 @@ public class LoggerWrapper {
 		logger.info( "-- {}> {}-{}", header, message, exceptionMessage );
 	}
 
+	@Deprecated
 	public static void info( final String message, String... arguments ) {
-		logger.info( "-- " + header() + "> " + message, arguments );
+		final String headerMessage = header();
+		logger.info( "-- {}> {}", headerMessage, message, arguments );
 	}
 
 	public static void enter() {
-		logger.info( ">> " + header() );
+		logger.info( ">> {}", header() );
 	}
 
 	public static void enter( final String message, String... arguments ) {
@@ -30,7 +32,7 @@ public class LoggerWrapper {
 	}
 
 	public static void exit() {
-		logger.info( "<< " + header() );
+		logger.info( "<< {}", header() );
 	}
 
 	public static void exit( final String message, String... arguments ) {
@@ -38,21 +40,21 @@ public class LoggerWrapper {
 	}
 
 	public static void error( final Exception exception ) {
-		logger.error( ">E " + header() + exception.getMessage() );
-		logger.debug( defaultExceptionLogAction( exception ) );
+		final String headerMessage = header();
+		logger.error( ">E {}x {}", headerMessage, exception.getMessage() );
+		final String trace = defaultExceptionLogAction( exception );
+		logger.debug( trace );
 	}
 
 	public static void error( final String message, final Exception exception ) {
-		logger.error( ">E " + header() + message + "-" + exception.getMessage() );
-		logger.debug( defaultExceptionLogAction( exception ) );
+		final String headerMessage = header();
+		logger.error( ">E {}x {}-{}", headerMessage, message, exception.getMessage() );
+		final String trace = defaultExceptionLogAction( exception );
+		logger.debug( trace );
 	}
 
-//	public static String toJSON( final Object target ) {
-//		return new Gson().toJson( target );
-//	}
-
 	public static String defaultExceptionLogAction( final Exception exception ) {
-		final StackTraceElement elements[] = exception.getStackTrace();
+		final StackTraceElement[] elements = exception.getStackTrace();
 		String stack = "";
 		for (int i = 0; i < elements.length; i++) {
 			stack = stack.concat( "className: " ).concat( elements[i].getClassName() );
@@ -79,8 +81,8 @@ public class LoggerWrapper {
 			androidDisplacement = 1;
 		final StackTraceElement element = traceElements[4 + androidDisplacement];
 		return element.getClassName().substring( element.getClassName().lastIndexOf( '.' ) + 1 ) + "." +
-				element.getMethodName();
+				       element.getMethodName();
 	}
 
-	protected LoggerWrapper() {}
+	protected LogWrapper() {}
 }

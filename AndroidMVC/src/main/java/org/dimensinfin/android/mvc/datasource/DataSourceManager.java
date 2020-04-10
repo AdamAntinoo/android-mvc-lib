@@ -7,7 +7,7 @@ import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.dimensinfin.android.mvc.annotations.logging.LoggerWrapper;
+import org.dimensinfin.logging.LogWrapper;
 import org.dimensinfin.android.mvc.core.DataSourceLocator;
 import org.dimensinfin.android.mvc.core.IDataSource;
 import org.dimensinfin.android.mvc.core.MVCScheduler;
@@ -53,7 +53,7 @@ public class DataSourceManager {
 			try {
 				newSource.prepareModel();
 			} catch (final Exception ex) {
-				LoggerWrapper.info( "Exception while preparing data source data.", ex );
+				LogWrapper.info( "Exception while preparing data source data.", ex );
 				// Put this exception on the header contents so the developer can see the message.
 				newSource.addHeaderContents( new ExceptionReport.Builder( ex ).build() );
 			}

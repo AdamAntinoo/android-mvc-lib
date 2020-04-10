@@ -14,7 +14,7 @@ import org.dimensinfin.android.mvc.core.IAndroidController;
 import org.dimensinfin.android.mvc.core.IDataSource;
 import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.Spacer;
-import org.dimensinfin.android.mvc.annotations.logging.LoggerWrapper;
+import org.dimensinfin.logging.LogWrapper;
 import org.dimensinfin.core.domain.EEvents;
 import org.dimensinfin.core.domain.EventEmitter;
 import org.dimensinfin.core.domain.IntercommunicationEvent;
@@ -139,7 +139,7 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 
 	@Override
 	public IDataSource addHeaderContents( final ICollaboration newModel ) {
-		LoggerWrapper.info( "Adding model >Header: {}", newModel.getClass().getSimpleName() );
+		LogWrapper.info( "Adding model >Header: {}", newModel.getClass().getSimpleName() );
 		this.headerModelRoot.add( newModel );
 		return this;
 	}
@@ -157,7 +157,7 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	 * @return this IDataSource instance to allow flow coding.
 	 */
 	public IDataSource addModelContents( final ICollaboration newModel ) {
-		LoggerWrapper.info( "Adding model >Data: {}", newModel.getClass().getSimpleName() );
+		LogWrapper.info( "Adding model >Data: {}", newModel.getClass().getSimpleName() );
 		this.dataModelRoot.add( newModel );
 		this.dirty = true; // Signal the model change
 		return this;
@@ -171,7 +171,7 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	 */
 	@Override
 	public List<IAndroidController> getHeaderSectionContents() {
-		LoggerWrapper.enter();
+		LogWrapper.enter();
 		final List<IAndroidController> controllers = new ArrayList<>();
 		try {
 			this.refreshHeaderSection();
@@ -179,7 +179,7 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 				controller.collaborate2View( controllers );
 			}
 		} finally {
-			LoggerWrapper.exit( "Header Contents count: {}", Integer.toString( controllers.size() ) );
+			LogWrapper.exit( "Header Contents count: {}", Integer.toString( controllers.size() ) );
 		}
 		return controllers;
 	}
@@ -196,12 +196,12 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	 * @return the list of controllers that collaborate to the view list this time.
 	 */
 	public List<IAndroidController> getDataSectionContents() {
-		LoggerWrapper.enter();
+		LogWrapper.enter();
 		final List<IAndroidController> controllers = new ArrayList<>();
 		try {
 			// Check if the model needs update (dirty flag) or we can jump directly to the view collaboration.
 			if (this.isDirty()) {
-				LoggerWrapper.info( "Data contents dirty. Refreshing model." );
+				LogWrapper.info( "Data contents dirty. Refreshing model." );
 				this.refreshDataSection();
 				this.cleanDirty();
 			}
@@ -209,7 +209,7 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 				controller.collaborate2View( controllers );
 			}
 		} finally {
-			LoggerWrapper.exit( "Data Contents count: {}", Integer.toString( controllers.size() ) );
+			LogWrapper.exit( "Data Contents count: {}", Integer.toString( controllers.size() ) );
 		}
 		return controllers;
 	}
@@ -266,7 +266,7 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	}
 
 	private void refreshHeaderSection() {
-		LoggerWrapper.enter();
+		LogWrapper.enter();
 		this.controllerHeaderSectionRoot.clear();
 		synchronized (this.headerModelRoot) {
 			for (ICollaboration modelNode : this.headerModelRoot) {
@@ -288,11 +288,11 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 				}
 			}
 		}
-		LoggerWrapper.exit( "Contents: {}", Integer.toString( this.controllerHeaderSectionRoot.size() ) );
+		LogWrapper.exit( "Contents: {}", Integer.toString( this.controllerHeaderSectionRoot.size() ) );
 	}
 
 	private void refreshDataSection() {
-		LoggerWrapper.enter();
+		LogWrapper.enter();
 		this.controllerDataSectionRoot.clear();
 		synchronized (this.dataModelRoot) {
 			for (ICollaboration modelNode : this.dataModelRoot) {
@@ -314,7 +314,7 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 				}
 			}
 		}
-		LoggerWrapper.exit( "Contents: {}", Integer.toString( this.controllerDataSectionRoot.size() ) );
+		LogWrapper.exit( "Contents: {}", Integer.toString( this.controllerDataSectionRoot.size() ) );
 	}
 
 	/**
@@ -366,16 +366,16 @@ public abstract class MVCDataSource implements IDataSource, IEventEmitter {
 	 */
 	@Override
 	public synchronized void receiveEvent( final IntercommunicationEvent event ) {
-		LoggerWrapper.info( "Processing Event: {}", event.getPropertyName() );
+		LogWrapper.info( "Processing Event: {}", event.getPropertyName() );
 		// - C O N T E N T   E V E N T S
 		// The expand/collapse state has changed.
 		if (event.getPropertyName().equalsIgnoreCase( EEvents.EVENT_NEWDATA.name() )) {
-			LoggerWrapper.info( "Event: {} processed.", event.getPropertyName() );
+			LogWrapper.info( "Event: {} processed.", event.getPropertyName() );
 			this.sendChangeEvent( event.getPropertyName() );
 			return;
 		}
 		if (event.getPropertyName().equalsIgnoreCase( EEvents.EVENT_REFRESHDATA.name() )) {
-			LoggerWrapper.info( "Event: {} processed.", event.getPropertyName() );
+			LogWrapper.info( "Event: {} processed.", event.getPropertyName() );
 			this.sendChangeEvent( event.getPropertyName() );
 			return;
 		}
