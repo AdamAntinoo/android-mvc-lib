@@ -10,7 +10,7 @@ import org.dimensinfin.core.interfaces.IExpandable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Container<M> extends Node implements IExpandable {
+public class Container<M> extends Label implements IExpandable {
 	private static final long serialVersionUID = -957283664928489030L;
 
 	// - F I E L D - S E C T I O N

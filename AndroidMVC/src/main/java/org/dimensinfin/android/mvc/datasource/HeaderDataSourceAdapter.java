@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import org.dimensinfin.android.mvc.activity.IPagerFragment;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.domain.Spinner;
 import org.dimensinfin.core.domain.Node;
 import org.dimensinfin.android.mvc.ui.HeaderListLayout;
 import org.dimensinfin.logging.LogWrapper;
@@ -58,7 +59,7 @@ public class HeaderDataSourceAdapter extends DataSourceAdapter {
 
 	private void activateCounterSpinner() {
 		this.clean();
-		this.dataSource.addHeaderContents( new Node.Builder().build() );
+		this.dataSource.addHeaderContents( new Spinner.Builder().build() );
 		this.notifyDataSetChanged();
 	}
 }

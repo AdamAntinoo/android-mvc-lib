@@ -7,13 +7,14 @@ import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.factory.IControllerFactory;
 import org.dimensinfin.mvc.demo.datasource.ColourDataSource;
 import org.dimensinfin.mvc.demo.datasource.SidesDataSource;
+import org.dimensinfin.mvc.demo.factory.ColourControllerFactory;
 import org.dimensinfin.mvc.demo.factory.DemoControllerFactory;
 
 public class MultiPageFragment extends MVCPagerFragment {
 	// - M V C F R A G M E N T
 	@Override
 	public IControllerFactory createFactory() {
-		return new DemoControllerFactory( this.getVariant() );
+		return new ColourControllerFactory( this.getVariant() );
 	}
 
 	@Override

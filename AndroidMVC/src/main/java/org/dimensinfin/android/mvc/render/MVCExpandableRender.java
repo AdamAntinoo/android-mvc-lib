@@ -17,9 +17,9 @@ import androidx.annotation.NonNull;
 
 /**
  * @author Adam Antinoo
+ * @since 2.0.0
  */
 public abstract class MVCExpandableRender extends MVCRender {
-    // - F I E L D - S E C T I O N
     // - L A Y O U T   F I E L D S
     protected ImageView _rightArrow = null;
 
@@ -32,11 +32,11 @@ public abstract class MVCExpandableRender extends MVCRender {
     protected TextView categoryLabel = null;
 
     // - C O N S T R U C T O R - S E C T I O N
-    public MVCExpandableRender( @NonNull final IAndroidController controller, @NonNull final Context context) {
+    public MVCExpandableRender( @NonNull final ExpandAndroidController controller, @NonNull final Context context) {
         super(controller, context);
     }
 
-    public ExpandAndroidController getController() {
+    private ExpandAndroidController getExpandController() {
         return (ExpandAndroidController) super.getController();
     }
 
@@ -73,7 +73,7 @@ public abstract class MVCExpandableRender extends MVCRender {
                 }
 
                 // Check if the click is running and then replace the right arrow by an spinner.
-                if (getController().clickRunning()) {
+                if (this.getExpandController().clickRunning()) {
                     if (null != _rightArrow) {
                         logger.info("-- [MVCExpandableRender.updateContent]> Activating spinner animation.");
                         _rightArrow.setImageDrawable(getDrawable(R.drawable.progress_spinner_orange));

@@ -18,22 +18,16 @@ import androidx.annotation.NonNull;
 
 /**
  * @author Adam Antinoo
+ * @since 2.0.0
  */
 public abstract class ExpandAndroidController<M extends IExpandable> extends AndroidController<M> implements View.OnClickListener {
 	protected static final Handler _handler = new Handler(Looper.getMainLooper());
 
-	// - F I E L D - S E C T I O N
-	// - C O M P O S I T I O N S
 	private ClickSupporter clickSupporter = new ClickSupporter(false);
 
 	public ExpandAndroidController( @NonNull final M model, @NonNull final IControllerFactory factory ) {
 		super(model, factory);
 	}
-
-	// - C O N S T R U C T O R - S E C T I O N
-//	public ExpandAndroidController( @NonNull final ControllerAdapter<M> delegate, @NonNull final IControllerFactory factory) {
-//		super(delegate, factory);
-//	}
 
 	public boolean clickRunning () {
 		return this.clickSupporter.isClickRunning();

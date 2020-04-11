@@ -54,10 +54,6 @@ public class DemoControllerFactory extends ControllerFactory implements IControl
 			// These shows the selected Separator but with another rendering.
 			return new TitleLabelController( (TitleLabel) node, this ).setRenderMode( this.getVariant() );
 		}
-		if (node instanceof ColorfulFigure) {
-			// These shows the selected Separator but with another rendering.
-			return new ColorfulFigureController$Base( (ColorfulFigure) node, this ).setRenderMode( this.getVariant() );
-		}
 		// If no part is trapped then call the parent chain until one is found.
 		return super.createController( node );
 	}
