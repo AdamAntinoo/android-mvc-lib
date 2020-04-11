@@ -6,13 +6,14 @@ import androidx.annotation.NonNull;
 import org.mockito.Mockito;
 
 import org.dimensinfin.android.mvc.controller.AndroidController;
-import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
-import org.dimensinfin.android.mvc.domain.MVCNode;
+import org.dimensinfin.android.mvc.factory.IControllerFactory;
+import org.dimensinfin.core.domain.Node;
 
-public class TestController4Test extends AndroidController<MVCNode> {
 
-	public TestController4Test( @NonNull final MVCNode model, @NonNull final IControllerFactory factory ) {
+public class TestController4Test extends AndroidController<Node> {
+
+	public TestController4Test( @NonNull final Node model, @NonNull final IControllerFactory factory ) {
 		super( model, factory );
 	}
 

@@ -14,17 +14,17 @@ import org.mockito.Mockito;
 
 import org.dimensinfin.android.mvc.domain.Container;
 import org.dimensinfin.android.mvc.domain.IContainer;
-import org.dimensinfin.android.mvc.domain.IControllerFactory;
 import org.dimensinfin.android.mvc.domain.IRender;
-import org.dimensinfin.android.mvc.domain.MVCNode;
 import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
+import org.dimensinfin.android.mvc.factory.IControllerFactory;
 import org.dimensinfin.android.mvc.support.TestContainerNode;
 import org.dimensinfin.android.mvc.support.TestContainerNodeController;
 import org.dimensinfin.android.mvc.support.TestController4Test;
 import org.dimensinfin.android.mvc.support.TestControllerFactory;
 import org.dimensinfin.android.mvc.support.TestNode;
 import org.dimensinfin.android.mvc.support.TestNodeController;
+import org.dimensinfin.core.domain.Node;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -62,35 +62,18 @@ public class AndroidControllerTest {
 	}
 
 	@Test
-	void constructorContract() {
-		final AndroidController controller = new TestController4Test( new MVCNode.Builder().build(), factory );
-		Assertions.assertNotNull( controller );
-	}
-
-	@Test
-	void constructorFailure() {
-		final ControllerFactory factory = Mockito.mock( ControllerFactory.class );
-		Assertions.assertThrows( NullPointerException.class, () -> {
-			final AndroidController controller = new TestController4Test( null, factory );
-		} );
-		Assertions.assertThrows( NullPointerException.class, () -> {
-			final AndroidController controller = new TestController4Test( new MVCNode.Builder().build(), null );
-		} );
-	}
-
-	@Test
 	public void collaborate2ViewSimple() {
 		final TestNodeController controller = new TestNodeController( model, factory );
 		final List<IAndroidController> collector = new ArrayList<>();
 		controller.collaborate2View( collector );
-		Assertions.assertEquals(  1, collector.size() ,"The number of elements should be 1.");
-		Assertions.assertEquals(  controller, collector.get( 0 ) ,"The contents should be the controller.");
+		Assertions.assertEquals( 1, collector.size(), "The number of elements should be 1." );
+		Assertions.assertEquals( controller, collector.get( 0 ), "The contents should be the controller." );
 	}
 
 	@Test
 	public void collaborate2ViewExpandable() {
 		// COMPRESSED
-		final Container expandableModel = new Container( "Title" );
+		final Container expandableModel = new Container();
 		expandableModel.addContent( new TestNode( "TEST" ) );
 		final MockExpandableController controller = new MockExpandableController( expandableModel, factory );
 		final List<IAndroidController> collector = new ArrayList<>();
@@ -182,8 +165,8 @@ public class AndroidControllerTest {
 		// Test
 		controller.addChildren( data );
 		// Assertions
-		Assertions.assertEquals(  0, initial,"The number of initial children is 0." );
-		Assertions.assertEquals(  9, controller.getChildren().size(),"The number of child is 1." );
+		Assertions.assertEquals( 0, initial, "The number of initial children is 0." );
+		Assertions.assertEquals( 9, controller.getChildren().size(), "The number of child is 1." );
 	}
 
 	@Test
@@ -193,9 +176,9 @@ public class AndroidControllerTest {
 		// Test
 		controller.addChildren( data );
 		// Assertions
-		Assertions.assertEquals(  9, controller.getChildren().size() );
+		Assertions.assertEquals( 9, controller.getChildren().size() );
 		controller.clean();
-		Assertions.assertEquals(  0, controller.getChildren().size() );
+		Assertions.assertEquals( 0, controller.getChildren().size() );
 	}
 
 	//	@Test
@@ -206,7 +189,7 @@ public class AndroidControllerTest {
 		controller.addChildren( data );
 		controller.collaborate2View( collector );
 		// Asserts
-		Assertions.assertEquals(  10, collector.size(),"The collaboration should be 9+1 elements." );
+		Assertions.assertEquals( 10, collector.size(), "The collaboration should be 9+1 elements." );
 	}
 
 	//	@Test
@@ -218,7 +201,7 @@ public class AndroidControllerTest {
 		//		controller.setVisible(false);
 		controller.collaborate2View( collector );
 		// Asserts
-		Assertions.assertEquals(  9, collector.size() ,"The collaboration should be 9 elements.");
+		Assertions.assertEquals( 9, collector.size(), "The collaboration should be 9 elements." );
 	}
 
 	@Test
@@ -231,10 +214,10 @@ public class AndroidControllerTest {
 		controller.orderingFeature( controller.getChildren() );
 		// Asserts
 		final List c = controller.getChildren();
-		Assertions.assertEquals(  "First", ((TestNodeController) controller.getChildren().get( 0 ))
-				                                                               .getModel().getName() );
-		Assertions.assertEquals(  "Last", ((TestNodeController) controller.getChildren().get( 1 )).getModel()
-				                                                             .getName() );
+		Assertions.assertEquals( "First", ((TestNodeController) controller.getChildren().get( 0 ))
+				                                  .getModel().getName() );
+		Assertions.assertEquals( "Last", ((TestNodeController) controller.getChildren().get( 1 )).getModel()
+				                                 .getName() );
 	}
 
 	@Test
@@ -265,18 +248,18 @@ public class AndroidControllerTest {
 		when( factory.getVariant() ).thenReturn( "TEST" );
 
 		// Asserts
-		Assertions.assertEquals(  0, mockController.getChildren().size() );
+		Assertions.assertEquals( 0, mockController.getChildren().size() );
 
 		// Test
 		mockController.refreshChildren();
 		final List<IAndroidController> endList = mockController.getChildren();
 
 		// Asserts
-		Assertions.assertEquals(  2, mockController.getChildren().size() );
+		Assertions.assertEquals( 2, mockController.getChildren().size() );
 		Mockito.verify( factory, times( 2 ) ).createController( any( TestNode.class ) );
 	}
 
-//	@Test
+	//	@Test
 	public void refreshChildrenWithContents() {
 		final IControllerFactory factory = new TestControllerFactory( TEST_VARIANT );
 		final TestContainerNode container = new TestContainerNode();
@@ -293,28 +276,28 @@ public class AndroidControllerTest {
 
 	@Test
 	public void getModel() {
-		Assertions.assertNotNull(  controller.getModel() );
+		Assertions.assertNotNull( controller.getModel() );
 		Assertions.assertEquals( model, controller.getModel() );
 	}
 
 	@Test
 	public void getRenderMode_default() {
 		final String obtained = controller.getRenderMode();
-		Assertions.assertEquals(  "-DEFAULT-", obtained );
+		Assertions.assertEquals( "-DEFAULT-", obtained );
 	}
 
 	@Test
 	public void getRenderMode_set() {
 		controller.setRenderMode( "TEST MODE" );
 		final String obtained = controller.getRenderMode();
-		Assertions.assertEquals(  "TEST MODE", obtained );
+		Assertions.assertEquals( "TEST MODE", obtained );
 	}
 
 	@Test
 	public void getModelId() {
 		final int expected = model.hashCode();
 		final long obtained = controller.getModelId();
-		Assertions.assertEquals(  expected, obtained );
+		Assertions.assertEquals( expected, obtained );
 	}
 
 	@Test
@@ -323,7 +306,24 @@ public class AndroidControllerTest {
 		final TestNodeController controller = new TestNodeController( new TestNode( "-UNIQUE-TEST-" ), factory );
 		final int expected = 100;
 		final long obtained = controller.getModelId();
-		Assertions.assertEquals(  expected, obtained );
+		Assertions.assertEquals( expected, obtained );
+	}
+
+	@Test
+	void constructorContract() {
+		final AndroidController controller = new TestController4Test( new Node.Builder().build(), factory );
+		Assertions.assertNotNull( controller );
+	}
+
+	@Test
+	void constructorFailure() {
+		final ControllerFactory factory = Mockito.mock( ControllerFactory.class );
+		Assertions.assertThrows( NullPointerException.class, () -> {
+			final AndroidController controller = new TestController4Test( null, factory );
+		} );
+		Assertions.assertThrows( NullPointerException.class, () -> {
+			final AndroidController controller = new TestController4Test( new Node.Builder().build(), null );
+		} );
 	}
 }
 

@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import org.dimensinfin.android.mvc.domain.IControllerFactory;
-import org.dimensinfin.android.mvc.domain.MVCNode;
 import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
+import org.dimensinfin.android.mvc.factory.IControllerFactory;
 import org.dimensinfin.android.mvc.support.SpacerController;
 import org.dimensinfin.android.mvc.support.Test4ModelFailure;
+import org.dimensinfin.core.domain.Node;
 
 public class ControllerFactoryTest {
 	private static final String TEST_VARIANT = "-TAG-";
@@ -42,7 +42,7 @@ public class ControllerFactoryTest {
 		Assertions.assertTrue( obtained instanceof SpacerController );
 		obtained = factory.createController( new ExceptionReport.Builder( new NullPointerException( "Test exception" ) ).build() );
 		Assertions.assertTrue( obtained instanceof ExceptionReportController );
-		obtained = factory.createController( new MVCNode.Builder().build() );
+		obtained = factory.createController( new Node.Builder().build() );
 		Assertions.assertTrue( obtained instanceof ProgressSpinnerController );
 	}
 

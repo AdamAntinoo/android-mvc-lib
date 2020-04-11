@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import org.dimensinfin.android.mvc.controller.AndroidController;
 import org.dimensinfin.android.mvc.domain.IRender;
+import org.dimensinfin.android.mvc.exception.MVCException;
 import org.dimensinfin.android.mvc.factory.IControllerFactory;
 import org.dimensinfin.logging.LogWrapper;
 import org.dimensinfin.mvc.demo.domain.PageButton;
@@ -26,8 +27,13 @@ public class PageButtonController extends AndroidController<PageButton> implemen
 	@Override
 	public void onClick( final View v ) {
 		LogWrapper.enter();
-		final Intent destination = this.getControllerFactory().prepareActivity( this.getModel().getPageName(), v.getContext() );
-		v.getContext().startActivity( destination );
+		final Intent destination;
+		try {
+			destination = this.getControllerFactory().prepareActivity( this.getModel().getPageName(), v.getContext() );
+			v.getContext().startActivity( destination );
+		} catch (final MVCException mvce) {
+			LogWrapper.error( mvce );
+		}
 		LogWrapper.exit();
 	}
 }
