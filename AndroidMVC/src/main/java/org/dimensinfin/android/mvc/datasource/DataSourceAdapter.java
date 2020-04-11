@@ -178,6 +178,7 @@ public class DataSourceAdapter extends BaseAdapter implements IEventReceiver {
 						       new NullPointerException( "Detected a null pointer exception while generating a new render view." )
 						       )
 				       )
+					   .withFactory( new ControllerFactory( "-DEFAULT-" ) )
 				       .build()
 				       .getView();
 	}
