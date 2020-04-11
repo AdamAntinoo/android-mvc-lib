@@ -41,47 +41,17 @@ public class ProgressSpinnerRender extends TypedRender<ProgressSpinnerController
 
 	@Override
 	public void updateContent() {
-//		this.taskName.setText(this.getController().getModel().getTaskName());
-//		this.taskName.setText(this.getController().getModel().getTaskName());
-//		final InitialisationTask.ETaskStatus status = this.getController().getModel().getStatus();
-//		if ( status == InitialisationTask.ETaskStatus.SCHEDULED)
-//			spinner.setVisibility(View.VISIBLE);
-//		if ( status == InitialisationTask.ETaskStatus.EXECUTING) {
-//			spinner.setVisibility(View.VISIBLE);
 		Animation rotation = AnimationUtils.loadAnimation( getContext(), org.dimensinfin.android.mvc.R.anim.clockwise_rotation );
 		rotation.setRepeatCount( Animation.INFINITE );
-		spinner.startAnimation( rotation );
+		this.spinner.startAnimation( rotation );
 		this.elapsedTime.start();
-//		final Instant elapsedTimer = Instant.now();
-//		new CountDownTimer( TimeUnit.DAYS.toMillis( 1 ), TimeUnit.MILLISECONDS.toMillis( 10 ) ) {
-//			@Override
-//			public void onTick( final long millisUntilFinished ) {
-//				elapsedTime.setText( generateTimeString( elapsedTimer.getMillis() ) );
-////				_progressElapsedCounter.invalidate();
-//			}
-//
-//			@Override
-//			public void onFinish() {
-//				elapsedTime.setText( generateTimeString( elapsedTimer.getMillis() ) );
-////				_progressElapsedCounter.invalidate();
-//			}
-//		}.start();
-//		}
+		this.showLabel();
 	}
 
-//	private String generateTimeString( final long millis ) {
-//		try {
-//			final long elapsed = Instant.now().getMillis() - millis;
-//			final DateTimeFormatterBuilder timeFormatter = new DateTimeFormatterBuilder();
-//			if (elapsed > TimeUnit.HOURS.toMillis( 1 )) {
-//				timeFormatter.appendHourOfDay( 2 ).appendLiteral( "h " );
-//			}
-//			if (elapsed > TimeUnit.MINUTES.toMillis( 1 )) {
-//				timeFormatter.appendMinuteOfHour( 2 ).appendLiteral( "m " ).appendSecondOfMinute( 2 ).appendLiteral( "s" );
-//			} else timeFormatter.appendSecondOfMinute( 2 ).appendLiteral( "s" );
-//			return timeFormatter.toFormatter().print( new Instant( elapsed ) );
-//		} catch (final RuntimeException rtex) {
-//			return "0m 00s";
-//		}
-//	}
+	private void showLabel() {
+		if (null != this.getController().getModel().getLabel()) {
+			this.taskName.setText( this.getController().getModel().getLabel() );
+			this.taskName.setVisibility( View.VISIBLE );
+		}
+	}
 }
