@@ -5,8 +5,8 @@
     android:background="@drawable/uipanelbordergreen">
 
     <ImageView
-        android:id="@+id/nodeIcon"
-        style="@style/AppTheme.NodeIcon"
+        android:id="@+id/figure"
+        style="@style/AppTheme.NodeIcon.NoBorder"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_alignParentLeft="true"
@@ -15,19 +15,19 @@
         android:layout_marginLeft="3dp"
         android:layout_marginRight="2dp"
         android:layout_marginTop="2dp"
-        android:src="@drawable/defaulticonplaceholder" />
+        android:padding="5dp"
+        android:src="@drawable/triangle" />
 
     <org.dimensinfin.mvc.demo.fonts.ProtomoleculeRegularTextView
-        android:id="@+id/nodeName"
-        style="@style/AppTheme.TextView"
+        android:id="@+id/label"
+        style="@style/AppTheme.TextView.Glow.White"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/nodeIcon"
+        android:layout_toRightOf="@+id/figure"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:textColor="@color/appwhite"
         android:text="@string/defaultlabelname"
         android:textSize="16sp" />
 </RelativeLayout>

@@ -2,9 +2,18 @@ package org.dimensinfin.mvc.demo.domain;
 
 import java.util.Objects;
 
-public class ColorfulFigure {
+import org.dimensinfin.android.mvc.annotations.BindField;
+import org.dimensinfin.android.mvc.annotations.GenerateMVC;
+import org.dimensinfin.core.domain.Node;
+import org.dimensinfin.mvc.demo.R;
+
+@GenerateMVC(layout = R.layout.colorfulfigure4list, onClickFeature = false)
+public class ColorfulFigure extends Node {
 	private Colours color = Colours.WHITE;
+//	@BindField(R.id.figure)
 	private Figures figure = Figures.TRIANGLE;
+	@BindField(R.id.label)
+	private String label;
 
 	private ColorfulFigure() {}
 
@@ -14,6 +23,10 @@ public class ColorfulFigure {
 
 	public Figures getFigure() {
 		return this.figure;
+	}
+
+	public String getLabel() {
+		return label;
 	}
 
 	// - B U I L D E R
@@ -28,6 +41,12 @@ public class ColorfulFigure {
 			this.onConstruction.color = Objects.requireNonNull( color );
 			return this;
 		}
+
+		public ColorfulFigure.Builder withLabel( final String label ) {
+			this.onConstruction.label = Objects.requireNonNull( label );
+			return this;
+		}
+
 		public ColorfulFigure.Builder withFigure( final Figures figure ) {
 			this.onConstruction.figure = Objects.requireNonNull( figure );
 			return this;
