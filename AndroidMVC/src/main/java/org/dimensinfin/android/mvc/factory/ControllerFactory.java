@@ -10,12 +10,14 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.dimensinfin.android.mvc.controller.ExceptionReportController;
-import org.dimensinfin.android.mvc.controller.ProgressSpinnerController;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
-import org.dimensinfin.core.domain.Node;
+import org.dimensinfin.android.mvc.controller.ProgressSpinnerController;
 import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
+import org.dimensinfin.android.mvc.exception.MVCErrorInfo;
+import org.dimensinfin.android.mvc.exception.MVCException;
 import org.dimensinfin.android.mvc.support.SpacerController;
+import org.dimensinfin.core.domain.Node;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
 public class ControllerFactory implements IControllerFactory {
@@ -56,9 +58,26 @@ public class ControllerFactory implements IControllerFactory {
 				this );
 	}
 
+	// - G E T T E R S   &   S E T T E R S
+	@Override
+	public String getVariant() {
+		return variant;
+	}
+
+	@Override
 	public IControllerFactory registerActivity( @NonNull final String activityCode, @NonNull final Class activityClass ) {
 		activityRegistry.put( Objects.requireNonNull( activityCode ), Objects.requireNonNull( activityClass ) );
 		return this;
+	}
+
+	@Override
+	public Intent prepareActivity( @NonNull final String activityCode, @NonNull final Context context ) throws MVCException {
+		if (null == activityCode) throw MVCErrorInfo.NULL_PARAMETER_EXCEPTION.generateException( "activityCode" );
+		if (null == context) throw MVCErrorInfo.NULL_PARAMETER_EXCEPTION.generateException( "context" );
+		// Check if target exists
+		final Class target = activityRegistry.get( activityCode );
+		if (null == target) throw MVCErrorInfo.UNREGISTERED_TARGET_ACTIVITY.generateException( activityCode );
+		return new Intent( context, target );
 	}
 
 	public boolean isRegistered( final String activityCode ) {
@@ -66,18 +85,8 @@ public class ControllerFactory implements IControllerFactory {
 		else return false;
 	}
 
-	public Intent prepareActivity( @NonNull final String activityCode, @NonNull final Context context ) {
-		Objects.requireNonNull( activityCode );
-		return new Intent( Objects.requireNonNull( context ), Objects.requireNonNull(activityRegistry.get( activityCode )) );
-	}
-
 	public void cleanRegistry() {
 		activityRegistry.clear();
-	}
-
-	// - G E T T E R S   &   S E T T E R S
-	public String getVariant() {
-		return variant;
 	}
 
 }

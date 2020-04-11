@@ -7,6 +7,7 @@ import org.dimensinfin.android.mvc.datasource.IDataSource;
 import org.dimensinfin.android.mvc.factory.IControllerFactory;
 import org.dimensinfin.mvc.demo.datasource.ColourDataSource;
 import org.dimensinfin.mvc.demo.datasource.SidesDataSource;
+import org.dimensinfin.mvc.demo.factory.DemoControllerFactory;
 
 public class MultiPageFragment extends MVCPagerFragment {
 	// - M V C F R A G M E N T

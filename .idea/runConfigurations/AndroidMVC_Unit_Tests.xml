@@ -7,7 +7,7 @@
         <option name="ENABLED" value="true" />
       </pattern>
       <pattern>
-        <option name="PATTERN" value="org.dimensinfin.mvc.demo.activity.*" />
+        <option name="PATTERN" value="org.dimensinfin.mvc.demo.factory.*" />
         <option name="ENABLED" value="true" />
       </pattern>
       <pattern>

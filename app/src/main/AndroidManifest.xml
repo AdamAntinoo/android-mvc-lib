@@ -20,12 +20,17 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<!-- A C T I V I T I E S-->
+		<!-- A C T I V I T I E S -->
 		<activity
 			android:name=".activity.MVCDemoSimpleActivity"
 			android:configChanges="orientation|keyboardHidden|screenSize"
 			android:label="@string/activity_title_MVCDemoSimpleActivity"
-			android:screenOrientation="sensor"></activity>
+			android:screenOrientation="sensor" />
+		<activity
+			android:name=".activity.DemoMultiPageActivity"
+			android:configChanges="orientation|keyboardHidden|screenSize"
+			android:label="@string/activity_title_MVCDemoSimpleActivity"
+			android:screenOrientation="sensor" />
 	</application>
 	<instrumentation
 		android:name="android.app.Instrumentation"

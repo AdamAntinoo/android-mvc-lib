@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.exception.MVCException;
 import org.dimensinfin.core.interfaces.ICollaboration;
 
 public interface IControllerFactory {
@@ -13,5 +14,5 @@ public interface IControllerFactory {
 
 	IControllerFactory registerActivity( final String activityCode, final Class activityClass );
 
-	Intent prepareActivity( String planet_facilities, Context context );
+	Intent prepareActivity( final String activityCode, final Context context ) throws MVCException;
 }
