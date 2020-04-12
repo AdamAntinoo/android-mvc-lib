@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc.controller;
+package org.dimensinfin.android.mvc.factory;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,8 +10,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import org.dimensinfin.android.mvc.controller.ExceptionReportController;
+import org.dimensinfin.android.mvc.controller.IAndroidController;
+import org.dimensinfin.android.mvc.controller.ProgressSpinnerController;
 import org.dimensinfin.android.mvc.domain.Spacer;
 import org.dimensinfin.android.mvc.exception.ExceptionReport;
+import org.dimensinfin.android.mvc.exception.MVCException;
 import org.dimensinfin.android.mvc.factory.ControllerFactory;
 import org.dimensinfin.android.mvc.factory.IControllerFactory;
 import org.dimensinfin.android.mvc.support.SpacerController;
@@ -122,7 +126,7 @@ public class ControllerFactoryTest {
 	}
 
 	@Test
-	void prepareActivitySuccess() {
+	void prepareActivitySuccess() throws MVCException {
 		// Given
 		final String activityCode = "-TEST-PAGE-ACTIVITY-CODE-";
 		final Context context = Mockito.mock( Context.class );

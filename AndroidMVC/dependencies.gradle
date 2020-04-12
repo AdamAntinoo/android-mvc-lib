@@ -14,10 +14,6 @@ dependencies {
     compileOnly "org.slf4j:slf4j-api:$slf4j"
     compileOnly "org.slf4j:slf4j-android:$slf4j"
     implementation "joda-time:joda-time:$jodaTimeVersion" // Because API 21 still has not defined the java.time
-    // - MVC
-//    implementation "org.dimensinfin:CoreBase.core:3.2.0"
-//    implementation 'org.dimensinfin.android.mvc:MVC.Annotations:0.2.0'
-//    implementation 'org.dimensinfin.android.mvc:AndroidMVC.core:0.1.0'
 }
 // - P R O J E C T
 dependencies {
@@ -30,15 +26,21 @@ dependencies {
 }
 // - T E S T I N G
 dependencies {
+    testImplementation 'junit:junit:4.13'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.6.1'
     testImplementation 'org.mockito:mockito-core:3.3.3'
     testImplementation 'com.openpojo:openpojo:0.8.13'
 }
 // - A N D R O I D   T E S T I N G
 dependencies {
-    androidTestImplementation 'org.junit.jupiter:junit-jupiter:5.6.1'
-    androidTestImplementation 'org.mockito:mockito-core:3.3.3'
-    androidTestImplementation 'com.openpojo:openpojo:0.8.13'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'org.mockito:mockito-core:3.3.3'
+    androidTestImplementation 'com.openpojo:openpojo:0.8.13'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+//    androidTestImplementation 'org.dimensinfin:annotation:0.3.0'
+//    androidTestImplementation 'org.dimensinfin.android.mvc:mvc-annotation:0.3.0'
+//    androidTestAnnotationProcessor 'org.dimensinfin.android.mvc:mvc-processor:0.1.1'
 }

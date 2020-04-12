@@ -8,7 +8,12 @@ public class Spinner extends Node {
 	private Spinner() {}
 
 	public String getLabel() {
-		return label;
+		return this.label;
+	}
+
+	public Spinner setLabel( final String label ) {
+		this.label = label;
+		return this;
 	}
 
 	// - B U I L D E R

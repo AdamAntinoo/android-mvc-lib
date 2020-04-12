@@ -6,9 +6,9 @@ import androidx.annotation.NonNull;
 import org.dimensinfin.android.mvc.controller.IAndroidController;
 import org.dimensinfin.android.mvc.render.MVCRender;
 
-public class TestRender4Render extends MVCRender {
+public class TestModel4RenderRender extends MVCRender {
 
-	public TestRender4Render( @NonNull final IAndroidController controller, @NonNull final Context context ) {
+	public TestModel4RenderRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
 		super( controller, context );
 	}
 
@@ -19,7 +19,6 @@ public class TestRender4Render extends MVCRender {
 
 	@Override
 	public void initializeViews() {
-
 	}
 
 	@Override

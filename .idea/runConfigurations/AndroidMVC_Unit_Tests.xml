@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="AndroidMVC-Unit Tests" type="AndroidJUnit" factoryName="Android JUnit">
     <module name="AndroidMVC" />
-    <extension name="coverage" runner="jacoco">
+    <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="org.dimensinfin.android.mvc.*" />
         <option name="ENABLED" value="true" />

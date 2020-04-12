@@ -1,15 +1,10 @@
 package org.dimensinfin.android.mvc.domain;
 
-import org.dimensinfin.android.mvc.R;
-import org.dimensinfin.android.mvc.annotations.BindField;
-import org.dimensinfin.android.mvc.annotations.GenerateMVC;
+import java.util.Objects;
+
 import org.dimensinfin.core.domain.Node;
 
-import static org.dimensinfin.android.mvc.R.layout.label4list;
-
-//@GenerateMVC(layout = R.layout.label4list, onClickFeature = false)
 public class Label extends Node {
-//	@BindField(R.id.label)
 	private String label;
 
 	public Label() {}
@@ -32,11 +27,12 @@ public class Label extends Node {
 		}
 
 		public Label.Builder withLabel( final String label ) {
-			this.onConstruction.label = label;
+			this.onConstruction.label = Objects.requireNonNull( label );
 			return this;
 		}
 
 		public Label build() {
+			Objects.requireNonNull( this.onConstruction.label );
 			return this.onConstruction;
 		}
 	}

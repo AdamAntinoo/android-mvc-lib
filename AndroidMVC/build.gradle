@@ -26,7 +26,7 @@ android {
             signingConfig debug.signingConfig
             debuggable false
             minifyEnabled false
-            useProguard true
+//            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             resValue "bool", "CACHE_MVC_VIEWS_ON_CONTROLLER", "true"
@@ -34,7 +34,7 @@ android {
         debug {
             initWith release
             debuggable true
-            useProguard false
+//            useProguard false
             testCoverageEnabled true
         }
     }
@@ -70,6 +70,8 @@ android {
     }
     packagingOptions {
         exclude 'LICENSE.txt'
+        exclude 'META-INF/LICENSE.md'
+        exclude 'META-INF/LICENSE-notice.md'
     }
 }
 

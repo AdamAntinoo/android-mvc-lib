@@ -44,19 +44,17 @@ public abstract class MVCRender implements IRender {
 	// - L A Y O U T   F I E L D S
 	// - C O N S T R U C T O R S
 	public MVCRender( @NonNull final IAndroidController controller, @NonNull final Context context ) {
-		Objects.requireNonNull(controller);
-		Objects.requireNonNull(context);
-		this.controller = controller;
-		this.context = context;
+		this.controller = Objects.requireNonNull(controller);
+		this.context = Objects.requireNonNull(context);
 	}
 
 	// - G E T T E R S   &   S E T T E R S
 	public Context getContext() {
-		return context;
+		return this.context;
 	}
 
 	public IAndroidController getController() {
-		return controller;
+		return this.controller;
 	}
 
 	// - P R O T E C T E D   I N T E R F A C E
@@ -68,12 +66,11 @@ public abstract class MVCRender implements IRender {
 	 */
 	protected void createView() {
 		this.convertView = this.inflateView(this.accessLayoutReference());
-		// this.convertView.setTag(this);
 	}
 
-	protected void setNewView( final View newView ) {
-		this.convertView = newView;
-	}
+//	protected void setNewView( final View newView ) {
+//		this.convertView = newView;
+//	}
 
 	private LayoutInflater getInflater() {
 		return (LayoutInflater) getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
@@ -84,9 +81,7 @@ public abstract class MVCRender implements IRender {
 	}
 
 	protected Drawable getDrawable( final int resourceId ) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-			return getContext().getResources().getDrawable(resourceId);
-		} else return getContext().getResources().getDrawable(resourceId, getContext().getTheme());
+		return getContext().getResources().getDrawable(resourceId, getContext().getTheme());
 	}
 
 	protected void setPanelBorderColor( final SpacerType panelTheme ) {

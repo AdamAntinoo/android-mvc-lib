@@ -1,5 +1,7 @@
 package org.dimensinfin.android.mvc.domain;
 
+import java.util.Objects;
+
 import org.dimensinfin.android.mvc.R;
 import org.dimensinfin.android.mvc.interfaces.IIconReference;
 
@@ -22,5 +24,23 @@ public class AndroidIconResource implements IIconReference {
 
 	public int getIdentifier() {
 		return this.resourceId;
+	}
+
+	// - B U I L D E R
+	public static class Builder {
+		private AndroidIconResource onConstruction;
+
+		public Builder() {
+			this.onConstruction = new AndroidIconResource();
+		}
+
+		public AndroidIconResource.Builder withResourceId( final Integer resourceId ) {
+			this.onConstruction.resourceId = Objects.requireNonNull( resourceId );
+			return this;
+		}
+
+		public AndroidIconResource build() {
+			return this.onConstruction;
+		}
 	}
 }
