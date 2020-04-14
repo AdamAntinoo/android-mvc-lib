@@ -33,12 +33,20 @@ dependencies {
 }
 // - A N D R O I D   T E S T I N G
 dependencies {
+    androidTestImplementation "org.slf4j:slf4j-api:$slf4j"
+    androidTestImplementation "org.slf4j:slf4j-android:$slf4j"
+
+    androidTestImplementation 'androidx.appcompat:appcompat:1.1.0'
+    androidTestImplementation 'androidx.fragment:fragment:1.2.4'
+    androidTestImplementation 'androidx.annotation:annotation:1.1.0'
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation 'org.mockito:mockito-core:3.3.3'
     androidTestImplementation 'com.openpojo:openpojo:0.8.13'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
 
 //    androidTestImplementation 'org.dimensinfin:annotation:0.3.0'
 //    androidTestImplementation 'org.dimensinfin.android.mvc:mvc-annotation:0.3.0'

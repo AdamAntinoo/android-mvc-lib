@@ -1,4 +1,6 @@
-package org.dimensinfin.android.mvc.support;
+package org.dimensinfin.android.mvc.instrumentation.support;
+
+import java.util.Objects;
 
 import org.dimensinfin.android.mvc.annotations.BindField;
 import org.dimensinfin.android.mvc.annotations.GenerateMVC;
@@ -28,6 +30,11 @@ public class TestModel4Render extends Node {
 
 		public Builder() {
 			this.onConstruction = new TestModel4Render();
+		}
+
+		public TestModel4Render.Builder withName( final String name ) {
+			this.onConstruction.name = Objects.requireNonNull( name );
+			return this;
 		}
 
 		public TestModel4Render build() {

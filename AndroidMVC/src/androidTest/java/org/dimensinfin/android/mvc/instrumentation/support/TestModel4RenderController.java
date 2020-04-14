@@ -1,4 +1,4 @@
-package org.dimensinfin.android.mvc.support;
+package org.dimensinfin.android.mvc.instrumentation.support;
 
 import android.content.Context;
 import androidx.annotation.NonNull;

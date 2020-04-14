@@ -46,6 +46,7 @@ android {
         main.res {
             srcDirs += 'src/main/res-ui'
             srcDirs += 'src/main/res-dynamic'
+            srcDirs += 'src/main/res-androidTest'
         }
     }
     compileOptions {

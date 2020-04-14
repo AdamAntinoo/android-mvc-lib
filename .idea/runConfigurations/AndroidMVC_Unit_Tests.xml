@@ -11,12 +11,11 @@
         <option name="ENABLED" value="true" />
       </pattern>
       <pattern>
-        <option name="PATTERN" value="org.dimensinfin.android.mvc.render.*" />
+        <option name="PATTERN" value="org.dimensinfin.android.mvc.instrumentation.render.*" />
         <option name="ENABLED" value="true" />
-        <option name="INCLUDE" value="false" />
       </pattern>
       <pattern>
-        <option name="PATTERN" value="org.dimensinfin.android.mvc.support.*" />
+        <option name="PATTERN" value="org.dimensinfin.android.mvc.instrumentation.support.*" />
         <option name="ENABLED" value="true" />
       </pattern>
       <pattern>

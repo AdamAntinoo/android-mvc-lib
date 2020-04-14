@@ -9,7 +9,6 @@ import java.util.Objects;
 
 import org.dimensinfin.android.mvc.render.TypedRender;
 import org.dimensinfin.mvc.demo.R;
-import org.dimensinfin.mvc.demo.controller.TitleLabelController;
 import org.dimensinfin.mvc.demo.controller.TitledActionBarController;
 
 public class TitledActionBarRender extends TypedRender<TitledActionBarController> {
