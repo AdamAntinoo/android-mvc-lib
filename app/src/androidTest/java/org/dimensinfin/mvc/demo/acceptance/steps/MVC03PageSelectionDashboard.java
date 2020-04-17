@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.Assert;
 
 import org.dimensinfin.android.mvc.core.MVCScheduler;
-import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
+import org.dimensinfin.logging.LogWrapper;
 import org.dimensinfin.mvc.demo.acceptance.support.core.MVCWorld;
 import org.dimensinfin.mvc.demo.acceptance.support.ristretto.Ristretto;
 import org.dimensinfin.mvc.demo.acceptance.support.ristretto.TypeMatcher;
@@ -26,18 +26,18 @@ public class MVC03PageSelectionDashboard extends SupportStepParent {
 
 	@Given("the PageSelectionDashboardActivity")
 	public void the_PageSelectionDashboardActivity() {
-		LoggerWrapper.info( "[GIVEN] the PageSelectionDashboardActivity" );
+		LogWrapper.info( "[GIVEN] the PageSelectionDashboardActivity" );
 	}
 
 	@When("the PageSelectionDashboardActivity activity lifecycle completes")
 	public void the_PageSelectionDashboardActivity_activity_lifecycle_completes() {
-		LoggerWrapper.info( "[WHEN] the PageSelectionDashboardActivity activity lifecycle completes" );
-		LoggerWrapper.info( "Going to launch the scenario with the PageSelectionDashboardActivity..." );
+		LogWrapper.info( "[WHEN] the PageSelectionDashboardActivity activity lifecycle completes" );
+		LogWrapper.info( "Going to launch the scenario with the PageSelectionDashboardActivity..." );
 		final ActivityScenario<PageSelectionDashboardActivity> scenario = ActivityScenario.launch(
 				this.world.generateIntent( PageSelectionDashboardActivity.class )
 		);
 		Assert.assertNotNull( scenario );
-		LoggerWrapper.info( "Store the scenario..." );
+		LogWrapper.info( "Store the scenario..." );
 		this.world.setPageSelectionDashboardActivityScenario( scenario );
 		this.verifyActivityLifecycleCompletion( scenario, 0 );
 	}
@@ -60,7 +60,7 @@ public class MVC03PageSelectionDashboard extends SupportStepParent {
 		target.onClick( target.getViewCache() );
 		Ristretto.waitForCompletion( () -> {
 			MVCScheduler.backgroundExecutor.submit( () -> {
-				LoggerWrapper.info( "Detect destination activity..." );
+				LogWrapper.info( "Detect destination activity..." );
 				final Activity currentActivity = this.getActivityInstance();
 				Assert.assertNotNull( currentActivity );
 				Assert.assertEquals( destinationActivityName, currentActivity.getClass().getSimpleName() );

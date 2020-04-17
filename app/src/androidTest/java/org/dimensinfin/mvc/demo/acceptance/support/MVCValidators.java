@@ -8,7 +8,7 @@ import java.util.Objects;
 
 import org.junit.Assert;
 
-import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
+import org.dimensinfin.logging.LogWrapper;
 import org.dimensinfin.mvc.demo.R;
 import org.dimensinfin.mvc.demo.acceptance.support.core.World;
 
@@ -24,10 +24,10 @@ public class MVCValidators {
 		final String APP_VERSION = "AppVersion";
 
 		final TextView appName = Objects.requireNonNull( targetView.findViewById( R.id.applicationName ) );
-		LoggerWrapper.info( "[THEN] appName: {}", appName.getText().toString() );
+		LogWrapper.info( "[THEN] appName: {}", appName.getText().toString() );
 		Assert.assertEquals( decodePredefinedValue( expectedData.get( APP_NAME ) ), appName.getText().toString() );
 		final TextView appVersion = Objects.requireNonNull( targetView.findViewById( R.id.applicationVersion ) );
-		LoggerWrapper.info( "[THEN] appVersion: {}", appVersion.getText().toString() );
+		LogWrapper.info( "[THEN] appVersion: {}", appVersion.getText().toString() );
 		Assert.assertEquals( decodePredefinedValue( expectedData.get( APP_NAME ) ), appVersion.getText().toString() );
 		return true;
 	}
@@ -40,10 +40,10 @@ public class MVCValidators {
 //		view.check(matches(withText(decodePredefinedValue( expectedData.get( APPLICATION_NAME ) ))));
 
 		final TextView appName = Objects.requireNonNull( targetView.findViewById( R.id.applicationName ) );
-		LoggerWrapper.info( "[THEN] applicationName: {}", appName.getText().toString() );
+		LogWrapper.info( "[THEN] applicationName: {}", appName.getText().toString() );
 		Assert.assertEquals( decodePredefinedValue( expectedData.get( APPLICATION_NAME ) ), appName.getText().toString() );
 		final TextView appVersion = Objects.requireNonNull( targetView.findViewById( R.id.applicationVersion ) );
-		LoggerWrapper.info( "[THEN] applicationVersion: {}", appVersion.getText().toString() );
+		LogWrapper.info( "[THEN] applicationVersion: {}", appVersion.getText().toString() );
 		Assert.assertEquals( decodePredefinedValue( expectedData.get( APPLICATION_VERSION ) ), appVersion.getText().toString() );
 		return true;
 	}
@@ -52,7 +52,7 @@ public class MVCValidators {
 		final String TITLE = "title";
 
 		final TextView appName = Objects.requireNonNull( targetView.findViewById( R.id.title ) );
-		LoggerWrapper.info( "[THEN] title: {}", appName.getText().toString() );
+		LogWrapper.info( "[THEN] title: {}", appName.getText().toString() );
 		Assert.assertEquals( decodePredefinedValue( expectedData.get( TITLE ) ), appName.getText().toString() );
 		return true;
 	}
@@ -61,7 +61,7 @@ public class MVCValidators {
 		final String TITLE = "title";
 
 		final TextView appName = Objects.requireNonNull( targetView.findViewById( R.id.nodeName ) );
-		LoggerWrapper.info( "[THEN] title: {}", appName.getText().toString() );
+		LogWrapper.info( "[THEN] title: {}", appName.getText().toString() );
 		Assert.assertEquals( decodePredefinedValue( expectedData.get( TITLE ) ), appName.getText().toString() );
 		return true;
 	}
@@ -81,7 +81,7 @@ public class MVCValidators {
 		final String TITLE = "title";
 
 		final TextView pageTitle = Objects.requireNonNull( targetView.findViewById( R.id.title ) );
-		LoggerWrapper.info( "[THEN] title: {}", pageTitle.getText().toString() );
+		LogWrapper.info( "[THEN] title: {}", pageTitle.getText().toString() );
 		Assert.assertEquals( decodePredefinedValue( expectedData.get( TITLE ) ), pageTitle.getText().toString() );
 		return true;
 	}

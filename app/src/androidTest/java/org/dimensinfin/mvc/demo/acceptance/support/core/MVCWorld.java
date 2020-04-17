@@ -5,32 +5,23 @@ import android.os.Bundle;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 
+import org.dimensinfin.mvc.demo.activity.DemoMultiPageActivity;
 import org.dimensinfin.mvc.demo.activity.MVCDemoSimpleActivity;
 import org.dimensinfin.mvc.demo.activity.PageSelectionDashboardActivity;
 
 public class MVCWorld extends World {
 	private ActivityScenario<PageSelectionDashboardActivity> pageSelectionDashboardActivityScenario;
+	private ActivityScenario<DemoMultiPageActivity> demoMultiPageActivityScenario;
+	private ActivityScenario<MVCDemoSimpleActivity> mvcDemoSimpleActivityScenario;
 
-	public ActivityScenario<PageSelectionDashboardActivity> getPageSelectionDashboardActivityScenario() {
-		return this.pageSelectionDashboardActivityScenario;
+	public ActivityScenario<DemoMultiPageActivity> getDemoMultiPageActivityScenario() {
+		return this.demoMultiPageActivityScenario;
 	}
 
-	public MVCWorld setPageSelectionDashboardActivityScenario( final ActivityScenario<PageSelectionDashboardActivity> pageSelectionDashboardActivityScenario ) {
-		this.pageSelectionDashboardActivityScenario = pageSelectionDashboardActivityScenario;
+	public MVCWorld setDemoMultiPageActivityScenario( final ActivityScenario<DemoMultiPageActivity> demoMultiPageActivityScenario ) {
+		this.demoMultiPageActivityScenario = demoMultiPageActivityScenario;
 		return this;
 	}
-//	private ActivityScenario<DemoMultiPageActivity> demoMultiPageActivityScenario;
-//
-//	public ActivityScenario<DemoMultiPageActivity> getDemoMultiPageActivityScenario() {
-//		return this.demoMultiPageActivityScenario;
-//	}
-//
-//	public MVCWorld setDemoMultiPageActivityScenario( final ActivityScenario<DemoMultiPageActivity> demoMultiPageActivityScenario ) {
-//		this.demoMultiPageActivityScenario = demoMultiPageActivityScenario;
-//		return this;
-//	}
-
-	private ActivityScenario<MVCDemoSimpleActivity> mvcDemoSimpleActivityScenario;
 
 	public ActivityScenario<MVCDemoSimpleActivity> getMvcDemoSimpleActivityScenario() {
 		return this.mvcDemoSimpleActivityScenario;
@@ -38,6 +29,15 @@ public class MVCWorld extends World {
 
 	public MVCWorld setMvcDemoSimpleActivityScenario( final ActivityScenario<MVCDemoSimpleActivity> mvcDemoSimpleActivityScenario ) {
 		this.mvcDemoSimpleActivityScenario = mvcDemoSimpleActivityScenario;
+		return this;
+	}
+
+	public ActivityScenario<PageSelectionDashboardActivity> getPageSelectionDashboardActivityScenario() {
+		return this.pageSelectionDashboardActivityScenario;
+	}
+
+	public MVCWorld setPageSelectionDashboardActivityScenario( final ActivityScenario<PageSelectionDashboardActivity> pageSelectionDashboardActivityScenario ) {
+		this.pageSelectionDashboardActivityScenario = pageSelectionDashboardActivityScenario;
 		return this;
 	}
 

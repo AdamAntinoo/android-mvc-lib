@@ -8,7 +8,7 @@ import androidx.test.runner.lifecycle.Stage;
 
 import org.junit.Assert;
 
-import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
+import org.dimensinfin.logging.LogWrapper;
 import org.dimensinfin.mvc.demo.acceptance.support.ristretto.Ristretto;
 import org.dimensinfin.mvc.demo.acceptance.support.core.MVCWorld;
 import org.dimensinfin.mvc.demo.activity.MVCDemoSimpleActivity;
@@ -31,41 +31,41 @@ public class MVC01MVCDemoSimpleActivity {
 
 	@Given("the MVCDemoSimpleActivity")
 	public void theMVCDemoSimpleActivity() {
-		LoggerWrapper.info( "[GIVEN] the MVCDemoSimpleActivity" );
+		LogWrapper.info( "[GIVEN] the MVCDemoSimpleActivity" );
 	}
 
 	@When("the MVCDemoSimpleActivity activity lifecycle completes for page {string}")
 	public void the_MVCDemoSimpleActivity_activity_lifecycle_completes_for_page( final String pageNumber ) {
-		LoggerWrapper.info( "[WHEN] the MVCDemoSimpleActivity activity lifecycle completes for page {string}" );
-		LoggerWrapper.info( "Going to launch the scenario with the MVCDemoSimpleActivity..." );
+		LogWrapper.info( "[WHEN] the MVCDemoSimpleActivity activity lifecycle completes for page {string}" );
+		LogWrapper.info( "Going to launch the scenario with the MVCDemoSimpleActivity..." );
 		final ActivityScenario<MVCDemoSimpleActivity> scenario = ActivityScenario.launch(
 				this.world.generateIntent( MVCDemoSimpleActivity.class )
 		);
 		Assert.assertNotNull( scenario );
-		LoggerWrapper.info( "Store the scenario..." );
+		LogWrapper.info( "Store the scenario..." );
 		this.world.setMvcDemoSimpleActivityScenario( scenario );
 		scenario.onActivity( ( activity ) -> {
-			LoggerWrapper.info( "Verify the activity starts without exceptions..." );
+			LogWrapper.info( "Verify the activity starts without exceptions..." );
 			Assert.assertNotNull( activity );
-			LoggerWrapper.info( "Store the activity..." + activity.getClass().getSimpleName() );
+			LogWrapper.info( "Store the activity..." + activity.getClass().getSimpleName() );
 			this.world.setActiveActivity( activity );
-			LoggerWrapper.info( "Set the configured page..." + pageNumber );
+			LogWrapper.info( "Set the configured page..." + pageNumber );
 			this.world.setSelectedPage( Integer.parseInt( pageNumber ) );
-			LoggerWrapper.info( "Verify the current activity state..." );
+			LogWrapper.info( "Verify the current activity state..." );
 			final ActivityLifecycleMonitor registry = ActivityLifecycleMonitorRegistry.getInstance();
 			final Stage stage = registry.getLifecycleStageOf( activity );
 			Assert.assertEquals( Stage.RESUMED, stage );
 		} );
 		Ristretto.waitForBackground( () -> {
 			Ristretto.waitForCompletion( () -> {
-				LoggerWrapper.info( "Invalidate all the display and wait termination..." );
+				LogWrapper.info( "Invalidate all the display and wait termination..." );
 				Ristretto.updateDisplay();
 			} );
 		} );
 	}
 		@Then("the MVCDemoSimpleActivity has {string} pages")
 	public void the_MVCDemoSimpleActivity_has_pages( final String expectedPageCount ) {
-		LoggerWrapper.info( "[THEN] the MVCDemoSimpleActivity has {string} pages" );
+		LogWrapper.info( "[THEN] the MVCDemoSimpleActivity has {string} pages" );
 		Assert.assertEquals( Integer.parseInt( expectedPageCount ), Ristretto.activityPageCount() );
 	}
 }

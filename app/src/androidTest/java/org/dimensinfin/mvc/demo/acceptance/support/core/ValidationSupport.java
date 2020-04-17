@@ -8,7 +8,7 @@ import java.util.Objects;
 
 import org.junit.Assert;
 
-import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
+import org.dimensinfin.logging.LogWrapper;
 import org.dimensinfin.mvc.demo.R;
 import org.dimensinfin.mvc.demo.acceptance.steps.SupportStepParent;
 
@@ -22,7 +22,7 @@ public class ValidationSupport extends SupportStepParent {
 	                                              final int fieldIdentifier, final String fieldName ) {
 		final TextView viewField = Objects.requireNonNull( targetView.findViewById( fieldIdentifier ) );
 		final String fieldValue = viewField.getText().toString();
-		LoggerWrapper.info( "[THEN] {}: {}", fieldName, fieldValue );
+		LogWrapper.info( "[THEN] {}: {}", fieldName, fieldValue );
 		Assert.assertEquals( this.decodePredefinedValue( row.get( fieldName ) ), fieldValue );
 		return this.decodePredefinedValue( row.get( fieldName ) ).equals( fieldValue );
 	}
@@ -31,7 +31,7 @@ public class ValidationSupport extends SupportStepParent {
 	                                                    final int fieldIdentifier, final String fieldName ) {
 		final TextView viewField = Objects.requireNonNull( targetView.findViewById( fieldIdentifier ) );
 		final String fieldValue = viewField.getText().toString();
-		LoggerWrapper.info( "[THEN] {}: {}", fieldName, fieldValue );
+		LogWrapper.info( "[THEN] {}: {}", fieldName, fieldValue );
 		Assert.assertEquals( this.decodePredefinedValue( row.get( fieldName ) ).toUpperCase(), fieldValue.toUpperCase() );
 		return this.decodePredefinedValue( row.get( fieldName ) ).toUpperCase().equals( fieldValue.toUpperCase() );
 	}

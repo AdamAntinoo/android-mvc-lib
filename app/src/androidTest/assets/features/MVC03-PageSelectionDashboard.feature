@@ -6,8 +6,8 @@ Feature: [MVC03]-Check the number and contents for the page selection buttons.
   Background:
 	Given the PageSelectionDashboardActivity
 	When the PageSelectionDashboardActivity activity lifecycle completes
-	And the page "0" is the active page
 	And the PageSelectionDashboardActivity has "1" pages
+	And the page "0" is the active page
 
   @MVC03 @MVC03.01
   Scenario: [MVC03.01]-Verify the number and layout for the page selection buttons.

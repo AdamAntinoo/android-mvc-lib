@@ -64,7 +64,7 @@ dependencies {
 //    androidTestImplementation 'org.dimensinfin.android.mvc:MVC.Annotations:0.1.0'
     androidTestImplementation 'org.mockito:mockito-core:3.3.3'
     androidTestImplementation 'org.mockito:mockito-android:2.23.4'
-    androidTestImplementation('org.awaitility:awaitility:4.0.2') {
+    androidTestImplementation('org.awaitility:awaitility:3.1.6') { // Version should be compatible with API 21
         exclude group: 'org.hamcrest', module: 'hamcrest'
     }
 }

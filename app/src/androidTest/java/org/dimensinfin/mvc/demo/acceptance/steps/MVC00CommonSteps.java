@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 
-import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
+import org.dimensinfin.logging.LogWrapper;
 import org.dimensinfin.mvc.demo.acceptance.support.ristretto.Ristretto;
 import org.dimensinfin.mvc.demo.acceptance.support.core.MVCWorld;
 
@@ -19,7 +19,7 @@ public class MVC00CommonSteps {
 	}
 	@Then("{string} panels on the {string}")
 	public void panels_on_the( final String numberOfPanels, final String section ) {
-		LoggerWrapper.info( "[THEN] {string} panels on the {string}" );
+		LogWrapper.info( "[THEN] {string} panels on the {string}" );
 		switch (section) {
 			case "HeaderSection":
 				Assert.assertEquals( Integer.parseInt( numberOfPanels ), Ristretto.headerContentsCount( this.world.getSelectedPage() ) );
@@ -34,7 +34,7 @@ public class MVC00CommonSteps {
 	public void stop_on_debug_point() throws InterruptedException {
 		Ristretto.waitForBackground( () -> {
 			Ristretto.waitForCompletion( () -> {
-				LoggerWrapper.info( "Invalidate all the display and wait termination..." );
+				LogWrapper.info( "Invalidate all the display and wait termination..." );
 				Ristretto.updateDisplay();
 			} );
 		} );

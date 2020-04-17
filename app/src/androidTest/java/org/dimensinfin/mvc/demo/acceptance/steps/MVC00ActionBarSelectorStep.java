@@ -10,7 +10,7 @@ import java.util.Objects;
 import org.apache.commons.lang3.NotImplementedException;
 import org.junit.Assert;
 
-import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
+import org.dimensinfin.logging.LogWrapper;
 import org.dimensinfin.mvc.demo.acceptance.support.ActionBarTypes;
 import org.dimensinfin.mvc.demo.acceptance.support.core.MVCWorld;
 import org.dimensinfin.mvc.demo.acceptance.validators.ValidateTitledActionBar;
@@ -25,7 +25,7 @@ public class MVC00ActionBarSelectorStep extends SupportStepParent {
 	@Then("there is an action bar of type {string} with the next fields")
 	public void there_is_an_action_bar_of_type_with_the_next_fields( final String actionBarName,
 	                                                                 final List<Map<String, String>> dataTable ) {
-		LoggerWrapper.info( "[THEN] there is a action bar of type {string} with the next fields" );
+		LogWrapper.info( "[THEN] there is a action bar of type {string} with the next fields" );
 		final ActionBarTypes actionBarType = ActionBarTypes.from( actionBarName );
 		final ActionBar actionBar = Objects.requireNonNull(
 				Objects.requireNonNull( this.world.getActiveActivity() )

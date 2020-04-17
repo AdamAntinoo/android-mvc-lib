@@ -5,7 +5,9 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Assert;
 import org.junit.Test;
 
-import org.dimensinfin.android.mvcannotations.logging.LoggerWrapper;
+import org.dimensinfin.core.domain.MassUnit;
+import org.dimensinfin.core.domain.SpeedUnit;
+import org.dimensinfin.logging.LogWrapper;
 
 public class SpaceCalculationsTest {
 	private static double earthOrbitRadius_km = 149598261.0;
@@ -19,10 +21,10 @@ public class SpaceCalculationsTest {
 	public void orbitDistance() {
 		// Add for additional travel by not using synchronization
 		final double earthMarsDistance_km = (marsOrbitRadius_km - earthOrbitRadius_km) * 1.16;
-		LoggerWrapper.info( "earthMarsDistance_km={}", Double.toString( earthMarsDistance_km ) );
+		LogWrapper.info( "earthMarsDistance_km={}", Double.toString( earthMarsDistance_km ) );
 		// Only 4 of 5 segments are done with acceleration (two for acceleration and two for deceleration)
 		this.accelerationSegment_km = earthMarsDistance_km / 5.0;
-		LoggerWrapper.info( "accelerationSegment_km={}", Double.toString( this.accelerationSegment_km ) );
+		LogWrapper.info( "accelerationSegment_km={}", Double.toString( this.accelerationSegment_km ) );
 	}
 
 	@Test
@@ -30,7 +32,7 @@ public class SpaceCalculationsTest {
 		final double requiredShipSpeed_cms = new Double( SpeedUnit.CMS.toCMS( 10.0 ) );
 		// mass * speed == gas mass * gas speed;
 		final double gasMass_g = MassUnit.KG.toGrams( shipMass_kg ) * requiredShipSpeed_cms / SpeedUnit.KMS.toCMS( gasSpeed_kms );
-		LoggerWrapper.info( "gasMass_g={}", Double.toString( gasMass_g ) );
+		LogWrapper.info( "gasMass_g={}", Double.toString( gasMass_g ) );
 		Assert.assertEquals( 100.0, gasMass_g, 0.1 );
 	}
 
